@@ -1,0 +1,354 @@
+{
+    "id": "fbd81e76-fb4b-44f4-98dd-96f78b654f47",
+    "parties": [
+        {
+            "address": "tp1p3h3asels6nl3grksv0nxmlfmn5nyjp58hygjt",
+            "role": 1
+        }
+    ],
+    "record_groups": [
+        {
+            "class_name": "io.p8e.contracts.origination.RecordAutoLoanContract",
+            "group_id": "65e29950-4655-4f77-aff8-ed0a4be38a3a",
+            "parties": [
+                {
+                    "address": "tp1p3h3asels6nl3grksv0nxmlfmn5nyjp58hygjt",
+                    "role": 1
+                }
+            ],
+            "records": [
+                {
+                    "class_name": "io.provenance.proto.loan.LoanProtos$PartiesList",
+                    "hash": "deCz06RWKA6dRwH8nXG+EIs9uTxx++YmmCjfHdSmZ43C+krip8IaxxAIlHIrUHEsZBV0ZInvBrW5obDbrhPUIA==",
+                    "inputs": [
+                        {
+                            "class_name": "io.p8e.proto.Common$BooleanResult",
+                            "hash": "IEMjS35lfhIjmdLCpDCbk5j/QmxrorZr6Pua2MaULLEkzGoye51oewwl2yDplvi0HWuzieH/1wGfglhLGe7iTw==",
+                            "input_type": 0,
+                            "name": "perform_input_checks"
+                        },
+                        {
+                            "class_name": "io.provenance.proto.loan.LoanProtos$PartiesList",
+                            "hash": "8h1v35wzsrAPdi8Vxy3/xTQVKMRpKOgVGmdaiwQVqH4W8Fq3u0VwbIB/dVkDT3hdM6POskCBzHS1rN1OEFiU+A==",
+                            "input_type": 0,
+                            "name": "additional_parties"
+                        }
+                    ],
+                    "name": "additionalParties",
+                    "result_hash": "8h1v35wzsrAPdi8Vxy3/xTQVKMRpKOgVGmdaiwQVqH4W8Fq3u0VwbIB/dVkDT3hdM6POskCBzHS1rN1OEFiU+A==",
+                    "result_name": "additional_parties",
+                    "result_type": 1
+                },
+                {
+                    "class_name": "io.provenance.proto.loan.auto.AutomobileProtos$Automobile",
+                    "hash": "deCz06RWKA6dRwH8nXG+EIs9uTxx++YmmCjfHdSmZ43C+krip8IaxxAIlHIrUHEsZBV0ZInvBrW5obDbrhPUIA==",
+                    "inputs": [
+                        {
+                            "class_name": "io.p8e.proto.Common$BooleanResult",
+                            "hash": "IEMjS35lfhIjmdLCpDCbk5j/QmxrorZr6Pua2MaULLEkzGoye51oewwl2yDplvi0HWuzieH/1wGfglhLGe7iTw==",
+                            "input_type": 1,
+                            "name": "perform_input_checks"
+                        },
+                        {
+                            "class_name": "io.provenance.proto.loan.auto.AutomobileProtos$Automobile",
+                            "hash": "lh9e1lJjHP4aA/7sLz6uo9cfxFuXaeWCk0XUDcpS/ju8/wGpLUf2+3ktp6g3yG/XknITzovFdsalbJEtOagJcw==",
+                            "input_type": 1,
+                            "name": "automobile"
+                        }
+                    ],
+                    "name": "automobile",
+                    "result_hash": "lh9e1lJjHP4aA/7sLz6uo9cfxFuXaeWCk0XUDcpS/ju8/wGpLUf2+3ktp6g3yG/XknITzovFdsalbJEtOagJcw==",
+                    "result_name": "automobile",
+                    "result_type": 1
+                },
+                {
+                    "class_name": "io.provenance.proto.loan.LoanProtos$BlockchainCustody",
+                    "hash": "deCz06RWKA6dRwH8nXG+EIs9uTxx++YmmCjfHdSmZ43C+krip8IaxxAIlHIrUHEsZBV0ZInvBrW5obDbrhPUIA==",
+                    "inputs": [
+                        {
+                            "class_name": "io.p8e.proto.Common$BooleanResult",
+                            "hash": "IEMjS35lfhIjmdLCpDCbk5j/QmxrorZr6Pua2MaULLEkzGoye51oewwl2yDplvi0HWuzieH/1wGfglhLGe7iTw==",
+                            "input_type": 0,
+                            "name": "perform_input_checks"
+                        },
+                        {
+                            "class_name": "io.provenance.proto.loan.LoanProtos$BlockchainCustody",
+                            "hash": "y5X8TGgn+Vg7I5fUL63OQVRjMSZPI+b59KlbsftAUQ8a01a3QjfiZ66+i346HsxhyrhvH61Ro1Gra+0f1CiNVg==",
+                            "input_type": 0,
+                            "name": "blockchain_custody"
+                        }
+                    ],
+                    "name": "blockchainCustody",
+                    "result_hash": "y5X8TGgn+Vg7I5fUL63OQVRjMSZPI+b59KlbsftAUQ8a01a3QjfiZ66+i346HsxhyrhvH61Ro1Gra+0f1CiNVg==",
+                    "result_name": "blockchain_custody",
+                    "result_type": 1
+                },
+                {
+                    "class_name": "io.provenance.proto.loan.LoanProtos$CreditReportsList",
+                    "hash": "deCz06RWKA6dRwH8nXG+EIs9uTxx++YmmCjfHdSmZ43C+krip8IaxxAIlHIrUHEsZBV0ZInvBrW5obDbrhPUIA==",
+                    "inputs": [
+                        {
+                            "class_name": "io.p8e.proto.Common$BooleanResult",
+                            "hash": "IEMjS35lfhIjmdLCpDCbk5j/QmxrorZr6Pua2MaULLEkzGoye51oewwl2yDplvi0HWuzieH/1wGfglhLGe7iTw==",
+                            "input_type": 0,
+                            "name": "perform_input_checks"
+                        },
+                        {
+                            "class_name": "io.provenance.proto.loan.LoanProtos$CreditReportsList",
+                            "hash": "z4PhNX7vuL3xVChQ1m2AB9Yg5AULVxXcg/SpIdNs6c5H0NE8XYXysP+DGNKHfuwvY7kxvUdBeoGlODJ6+SfaPg==",
+                            "input_type": 0,
+                            "name": "credit_reports"
+                        }
+                    ],
+                    "name": "cleaCreditReports",
+                    "result_hash": "z4PhNX7vuL3xVChQ1m2AB9Yg5AULVxXcg/SpIdNs6c5H0NE8XYXysP+DGNKHfuwvY7kxvUdBeoGlODJ6+SfaPg==",
+                    "result_name": "credit_reports_clean",
+                    "result_type": 1
+                },
+                {
+                    "class_name": "io.provenance.proto.loan.LoanProtos$CreditReportsList",
+                    "hash": "deCz06RWKA6dRwH8nXG+EIs9uTxx++YmmCjfHdSmZ43C+krip8IaxxAIlHIrUHEsZBV0ZInvBrW5obDbrhPUIA==",
+                    "inputs": [
+                        {
+                            "class_name": "io.p8e.proto.Common$BooleanResult",
+                            "hash": "IEMjS35lfhIjmdLCpDCbk5j/QmxrorZr6Pua2MaULLEkzGoye51oewwl2yDplvi0HWuzieH/1wGfglhLGe7iTw==",
+                            "input_type": 0,
+                            "name": "perform_input_checks"
+                        },
+                        {
+                            "class_name": "io.provenance.proto.loan.LoanProtos$CreditReportsList",
+                            "hash": "z4PhNX7vuL3xVChQ1m2AB9Yg5AULVxXcg/SpIdNs6c5H0NE8XYXysP+DGNKHfuwvY7kxvUdBeoGlODJ6+SfaPg==",
+                            "input_type": 0,
+                            "name": "credit_reports"
+                        }
+                    ],
+                    "name": "creditReports",
+                    "result_hash": "z4PhNX7vuL3xVChQ1m2AB9Yg5AULVxXcg/SpIdNs6c5H0NE8XYXysP+DGNKHfuwvY7kxvUdBeoGlODJ6+SfaPg==",
+                    "result_name": "credit_reports",
+                    "result_type": 1
+                },
+                {
+                    "class_name": "io.provenance.proto.common.DocumentProtos$DocumentWithDataList",
+                    "hash": "deCz06RWKA6dRwH8nXG+EIs9uTxx++YmmCjfHdSmZ43C+krip8IaxxAIlHIrUHEsZBV0ZInvBrW5obDbrhPUIA==",
+                    "inputs": [
+                        {
+                            "class_name": "io.p8e.proto.Common$BooleanResult",
+                            "hash": "IEMjS35lfhIjmdLCpDCbk5j/QmxrorZr6Pua2MaULLEkzGoye51oewwl2yDplvi0HWuzieH/1wGfglhLGe7iTw==",
+                            "input_type": 0,
+                            "name": "perform_input_checks"
+                        },
+                        {
+                            "class_name": "io.provenance.proto.common.DocumentProtos$DocumentWithDataList",
+                            "hash": "z4PhNX7vuL3xVChQ1m2AB9Yg5AULVxXcg/SpIdNs6c5H0NE8XYXysP+DGNKHfuwvY7kxvUdBeoGlODJ6+SfaPg==",
+                            "input_type": 0,
+                            "name": "digital_signature_packets"
+                        }
+                    ],
+                    "name": "digitalSignaturePackets",
+                    "result_hash": "z4PhNX7vuL3xVChQ1m2AB9Yg5AULVxXcg/SpIdNs6c5H0NE8XYXysP+DGNKHfuwvY7kxvUdBeoGlODJ6+SfaPg==",
+                    "result_name": "digital_signature_packets",
+                    "result_type": 1
+                },
+                {
+                    "class_name": "io.provenance.proto.common.DocumentProtos$DocumentList",
+                    "hash": "deCz06RWKA6dRwH8nXG+EIs9uTxx++YmmCjfHdSmZ43C+krip8IaxxAIlHIrUHEsZBV0ZInvBrW5obDbrhPUIA==",
+                    "inputs": [
+                        {
+                            "class_name": "io.p8e.proto.Common$BooleanResult",
+                            "hash": "IEMjS35lfhIjmdLCpDCbk5j/QmxrorZr6Pua2MaULLEkzGoye51oewwl2yDplvi0HWuzieH/1wGfglhLGe7iTw==",
+                            "input_type": 1,
+                            "name": "perform_input_checks"
+                        },
+                        {
+                            "class_name": "io.provenance.proto.common.DocumentProtos$DocumentList",
+                            "hash": "z4PhNX7vuL3xVChQ1m2AB9Yg5AULVxXcg/SpIdNs6c5H0NE8XYXysP+DGNKHfuwvY7kxvUdBeoGlODJ6+SfaPg==",
+                            "input_type": 1,
+                            "name": "documents"
+                        }
+                    ],
+                    "name": "documents",
+                    "result_hash": "z4PhNX7vuL3xVChQ1m2AB9Yg5AULVxXcg/SpIdNs6c5H0NE8XYXysP+DGNKHfuwvY7kxvUdBeoGlODJ6+SfaPg==",
+                    "result_name": "documents",
+                    "result_type": 1
+                },
+                {
+                    "class_name": "io.provenance.proto.loan.LoanProtos$Funding",
+                    "hash": "deCz06RWKA6dRwH8nXG+EIs9uTxx++YmmCjfHdSmZ43C+krip8IaxxAIlHIrUHEsZBV0ZInvBrW5obDbrhPUIA==",
+                    "inputs": [
+                        {
+                            "class_name": "io.p8e.proto.Common$BooleanResult",
+                            "hash": "IEMjS35lfhIjmdLCpDCbk5j/QmxrorZr6Pua2MaULLEkzGoye51oewwl2yDplvi0HWuzieH/1wGfglhLGe7iTw==",
+                            "input_type": 1,
+                            "name": "perform_input_checks"
+                        },
+                        {
+                            "class_name": "io.provenance.proto.loan.LoanProtos$Funding",
+                            "hash": "EQ6mClWdMX4TB2/6FVajRw7S2NJVAdt2LFszBZl4GfGg4/kIsCCTgyj90gRgHqsPK6aEyEDP8uNhtps/VTa2Bg==",
+                            "input_type": 1,
+                            "name": "funding"
+                        }
+                    ],
+                    "name": "funding",
+                    "result_hash": "EQ6mClWdMX4TB2/6FVajRw7S2NJVAdt2LFszBZl4GfGg4/kIsCCTgyj90gRgHqsPK6aEyEDP8uNhtps/VTa2Bg==",
+                    "result_name": "funding",
+                    "result_type": 1
+                },
+                {
+                    "class_name": "io.provenance.proto.loan.LoanProtos$IncomeRecordsList",
+                    "hash": "deCz06RWKA6dRwH8nXG+EIs9uTxx++YmmCjfHdSmZ43C+krip8IaxxAIlHIrUHEsZBV0ZInvBrW5obDbrhPUIA==",
+                    "inputs": [
+                        {
+                            "class_name": "io.p8e.proto.Common$BooleanResult",
+                            "hash": "IEMjS35lfhIjmdLCpDCbk5j/QmxrorZr6Pua2MaULLEkzGoye51oewwl2yDplvi0HWuzieH/1wGfglhLGe7iTw==",
+                            "input_type": 0,
+                            "name": "perform_input_checks"
+                        },
+                        {
+                            "class_name": "io.provenance.proto.loan.LoanProtos$IncomeRecordsList",
+                            "hash": "z4PhNX7vuL3xVChQ1m2AB9Yg5AULVxXcg/SpIdNs6c5H0NE8XYXysP+DGNKHfuwvY7kxvUdBeoGlODJ6+SfaPg==",
+                            "input_type": 0,
+                            "name": "income_records"
+                        }
+                    ],
+                    "name": "incomeRecords",
+                    "result_hash": "z4PhNX7vuL3xVChQ1m2AB9Yg5AULVxXcg/SpIdNs6c5H0NE8XYXysP+DGNKHfuwvY7kxvUdBeoGlODJ6+SfaPg==",
+                    "result_name": "income_records",
+                    "result_type": 1
+                },
+                {
+                    "class_name": "io.provenance.proto.loan.LoanProtos$Loan",
+                    "hash": "deCz06RWKA6dRwH8nXG+EIs9uTxx++YmmCjfHdSmZ43C+krip8IaxxAIlHIrUHEsZBV0ZInvBrW5obDbrhPUIA==",
+                    "inputs": [
+                        {
+                            "class_name": "io.p8e.proto.Common$BooleanResult",
+                            "hash": "IEMjS35lfhIjmdLCpDCbk5j/QmxrorZr6Pua2MaULLEkzGoye51oewwl2yDplvi0HWuzieH/1wGfglhLGe7iTw==",
+                            "input_type": 1,
+                            "name": "perform_input_checks"
+                        },
+                        {
+                            "class_name": "io.provenance.proto.loan.LoanProtos$Loan",
+                            "hash": "8hNJPE2Py5LMzgXChwf3RJYQOJC0IMoqcLIZT24ggHCWsESlOkRGB1P1WFEXYvQSHQ8DwWZlGgtPvqwuhayHDg==",
+                            "input_type": 1,
+                            "name": "loan"
+                        }
+                    ],
+                    "name": "loan",
+                    "result_hash": "8hNJPE2Py5LMzgXChwf3RJYQOJC0IMoqcLIZT24ggHCWsESlOkRGB1P1WFEXYvQSHQ8DwWZlGgtPvqwuhayHDg==",
+                    "result_name": "loan",
+                    "result_type": 1
+                },
+                {
+                    "class_name": "io.provenance.proto.CustomerProtos$Party",
+                    "hash": "deCz06RWKA6dRwH8nXG+EIs9uTxx++YmmCjfHdSmZ43C+krip8IaxxAIlHIrUHEsZBV0ZInvBrW5obDbrhPUIA==",
+                    "inputs": [
+                        {
+                            "class_name": "io.p8e.proto.Common$BooleanResult",
+                            "hash": "IEMjS35lfhIjmdLCpDCbk5j/QmxrorZr6Pua2MaULLEkzGoye51oewwl2yDplvi0HWuzieH/1wGfglhLGe7iTw==",
+                            "input_type": 0,
+                            "name": "perform_input_checks"
+                        },
+                        {
+                            "class_name": "io.provenance.proto.CustomerProtos$Party",
+                            "hash": "j3tQ13BE7sJ4yhzXBuAZSRseYDWPJ3bXo5dXEJVvjhIhSSvKObhY/HHsBWLwyXoicNd9azDrKFeRWdSuDGHFHw==",
+                            "input_type": 0,
+                            "name": "primary_party"
+                        }
+                    ],
+                    "name": "primaryParty",
+                    "result_hash": "j3tQ13BE7sJ4yhzXBuAZSRseYDWPJ3bXo5dXEJVvjhIhSSvKObhY/HHsBWLwyXoicNd9azDrKFeRWdSuDGHFHw==",
+                    "result_name": "primary_party",
+                    "result_type": 1
+                },
+                {
+                    "class_name": "io.provenance.proto.asset.LoanProtos$LoanServicing",
+                    "hash": "deCz06RWKA6dRwH8nXG+EIs9uTxx++YmmCjfHdSmZ43C+krip8IaxxAIlHIrUHEsZBV0ZInvBrW5obDbrhPUIA==",
+                    "inputs": [
+                        {
+                            "class_name": "io.p8e.proto.Common$BooleanResult",
+                            "hash": "IEMjS35lfhIjmdLCpDCbk5j/QmxrorZr6Pua2MaULLEkzGoye51oewwl2yDplvi0HWuzieH/1wGfglhLGe7iTw==",
+                            "input_type": 1,
+                            "name": "perform_input_checks"
+                        },
+                        {
+                            "class_name": "io.provenance.proto.asset.LoanProtos$LoanServicing",
+                            "hash": "Y0PjXSBypOMIUmP6S4aHZtDv5lEGrIBS/TuoDHIuM0Cmh8zEpaHs28cnMtRu/cE2CIoj5/85LEWvC0T7o4DgDg==",
+                            "input_type": 1,
+                            "name": "servicing"
+                        }
+                    ],
+                    "name": "servicing",
+                    "result_hash": "Y0PjXSBypOMIUmP6S4aHZtDv5lEGrIBS/TuoDHIuM0Cmh8zEpaHs28cnMtRu/cE2CIoj5/85LEWvC0T7o4DgDg==",
+                    "result_name": "servicing",
+                    "result_type": 1
+                },
+                {
+                    "class_name": "io.provenance.proto.common.DocumentProtos$Disclosure",
+                    "hash": "deCz06RWKA6dRwH8nXG+EIs9uTxx++YmmCjfHdSmZ43C+krip8IaxxAIlHIrUHEsZBV0ZInvBrW5obDbrhPUIA==",
+                    "inputs": [
+                        {
+                            "class_name": "io.p8e.proto.Common$BooleanResult",
+                            "hash": "IEMjS35lfhIjmdLCpDCbk5j/QmxrorZr6Pua2MaULLEkzGoye51oewwl2yDplvi0HWuzieH/1wGfglhLGe7iTw==",
+                            "input_type": 0,
+                            "name": "perform_input_checks"
+                        },
+                        {
+                            "class_name": "io.provenance.proto.common.DocumentProtos$Disclosure",
+                            "hash": "z4PhNX7vuL3xVChQ1m2AB9Yg5AULVxXcg/SpIdNs6c5H0NE8XYXysP+DGNKHfuwvY7kxvUdBeoGlODJ6+SfaPg==",
+                            "input_type": 0,
+                            "name": "signed_prom_note"
+                        }
+                    ],
+                    "name": "signedPromNote",
+                    "result_hash": "z4PhNX7vuL3xVChQ1m2AB9Yg5AULVxXcg/SpIdNs6c5H0NE8XYXysP+DGNKHfuwvY7kxvUdBeoGlODJ6+SfaPg==",
+                    "result_name": "signed_prom_note",
+                    "result_type": 1
+                },
+                {
+                    "class_name": "io.provenance.proto.loan.LoanProtos$TriMergeReportsList",
+                    "hash": "deCz06RWKA6dRwH8nXG+EIs9uTxx++YmmCjfHdSmZ43C+krip8IaxxAIlHIrUHEsZBV0ZInvBrW5obDbrhPUIA==",
+                    "inputs": [
+                        {
+                            "class_name": "io.p8e.proto.Common$BooleanResult",
+                            "hash": "IEMjS35lfhIjmdLCpDCbk5j/QmxrorZr6Pua2MaULLEkzGoye51oewwl2yDplvi0HWuzieH/1wGfglhLGe7iTw==",
+                            "input_type": 0,
+                            "name": "perform_input_checks"
+                        },
+                        {
+                            "class_name": "io.provenance.proto.loan.LoanProtos$TriMergeReportsList",
+                            "hash": "z4PhNX7vuL3xVChQ1m2AB9Yg5AULVxXcg/SpIdNs6c5H0NE8XYXysP+DGNKHfuwvY7kxvUdBeoGlODJ6+SfaPg==",
+                            "input_type": 0,
+                            "name": "tri_merge_reports"
+                        }
+                    ],
+                    "name": "triMergeReports",
+                    "result_hash": "z4PhNX7vuL3xVChQ1m2AB9Yg5AULVxXcg/SpIdNs6c5H0NE8XYXysP+DGNKHfuwvY7kxvUdBeoGlODJ6+SfaPg==",
+                    "result_name": "tri_merge_reports",
+                    "result_type": 1
+                },
+                {
+                    "class_name": "io.provenance.proto.UnderwritingProtos$UnderwritingPacket",
+                    "hash": "deCz06RWKA6dRwH8nXG+EIs9uTxx++YmmCjfHdSmZ43C+krip8IaxxAIlHIrUHEsZBV0ZInvBrW5obDbrhPUIA==",
+                    "inputs": [
+                        {
+                            "class_name": "io.p8e.proto.Common$BooleanResult",
+                            "hash": "IEMjS35lfhIjmdLCpDCbk5j/QmxrorZr6Pua2MaULLEkzGoye51oewwl2yDplvi0HWuzieH/1wGfglhLGe7iTw==",
+                            "input_type": 0,
+                            "name": "perform_input_checks"
+                        },
+                        {
+                            "class_name": "io.provenance.proto.UnderwritingProtos$UnderwritingPacket",
+                            "hash": "5Fe0J3L1E6FN/JsLD9zEdLe7Zc46PekcMTU0Ok+NWo4louLhcNZoalDucCoIhRLyJWBPhMIIj8tYKFG6xH+Jww==",
+                            "input_type": 0,
+                            "name": "underwriting_packet"
+                        }
+                    ],
+                    "name": "underwritingPacket",
+                    "result_hash": "5Fe0J3L1E6FN/JsLD9zEdLe7Zc46PekcMTU0Ok+NWo4louLhcNZoalDucCoIhRLyJWBPhMIIj8tYKFG6xH+Jww==",
+                    "result_name": "underwriting_packet",
+                    "result_type": 1
+                }
+            ],
+            "specification": "bpKybvrqVWyuY1MZayRcl8ILfhYzKZ1hblOlk+lhp+NZVYOmBItzV6B8kj2kez9KAT+3FohKF+jzARWbvpRMZA=="
+        }
+    ]
+}

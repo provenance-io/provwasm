@@ -1,0 +1,41 @@
+[package]
+name = "marker"
+version = "0.3.0"
+authors = ["Phil Story <pstory@figure.com>", "David Pederson <dpederson@figure.com>"]
+edition = "2018"
+
+exclude = [
+  "marker.wasm",
+  "checksums.txt",
+]
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[profile.release]
+opt-level = 3
+debug = false
+rpath = false
+lto = true
+debug-assertions = false
+codegen-units = 1
+panic = 'abort'
+incremental = false
+overflow-checks = true
+
+[features]
+# for more explicit tests, cargo test --features=backtraces
+backtraces = []
+
+[dependencies]
+provwasm-std = { path = "../../packages/bindings", version = "0.12.2" }
+cosmwasm-std = { version = "0.12.2" }
+cosmwasm-storage = { version = "0.12.2" }
+schemars = "0.7"
+serde = { version = "1.0.103", default-features = false, features = ["derive"] }
+thiserror = { version = "1.0.20" }
+
+
+[dev-dependencies]
+provwasm-mocks = { path = "../../packages/mocks", version = "0.12.2" }
+cosmwasm-schema = { version = "0.12.2" }

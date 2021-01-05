@@ -1,0 +1,128 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Marker",
+  "type": "object",
+  "required": [
+    "account_number",
+    "address",
+    "denom",
+    "marker_type",
+    "sequence",
+    "status",
+    "total_supply"
+  ],
+  "properties": {
+    "account_number": {
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0.0
+    },
+    "address": {
+      "$ref": "#/definitions/HumanAddr"
+    },
+    "coins": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Coin"
+      }
+    },
+    "denom": {
+      "type": "string"
+    },
+    "manager": {
+      "default": "",
+      "allOf": [
+        {
+          "$ref": "#/definitions/HumanAddr"
+        }
+      ]
+    },
+    "marker_type": {
+      "type": "string"
+    },
+    "permissions": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/AccessGrant"
+      }
+    },
+    "public_key": {
+      "default": "",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Binary"
+        }
+      ]
+    },
+    "sequence": {
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0.0
+    },
+    "status": {
+      "type": "string"
+    },
+    "total_supply": {
+      "type": "string"
+    }
+  },
+  "definitions": {
+    "AccessGrant": {
+      "type": "object",
+      "required": [
+        "address",
+        "permissions"
+      ],
+      "properties": {
+        "address": {
+          "$ref": "#/definitions/HumanAddr"
+        },
+        "permissions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MarkerPermission"
+          }
+        }
+      }
+    },
+    "Binary": {
+      "description": "Binary is a wrapper around Vec<u8> to add base64 de/serialization with serde. It also adds some helper methods to help encode inline.\n\nThis is only needed as serde-json-{core,wasm} has a horrible encoding for Vec<u8>",
+      "type": "string"
+    },
+    "Coin": {
+      "type": "object",
+      "required": [
+        "amount",
+        "denom"
+      ],
+      "properties": {
+        "amount": {
+          "$ref": "#/definitions/Uint128"
+        },
+        "denom": {
+          "type": "string"
+        }
+      }
+    },
+    "HumanAddr": {
+      "type": "string"
+    },
+    "MarkerPermission": {
+      "description": "Marker permission types.",
+      "type": "string",
+      "enum": [
+        "burn",
+        "deposit",
+        "delete",
+        "grant",
+        "mint",
+        "withdraw"
+      ]
+    },
+    "Uint128": {
+      "type": "string"
+    }
+  }
+}

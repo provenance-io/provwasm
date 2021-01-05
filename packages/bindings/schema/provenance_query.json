@@ -1,0 +1,227 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ProvenanceQuery",
+  "description": "Represents a request to query a custom provenance module.",
+  "type": "object",
+  "required": [
+    "params",
+    "route",
+    "version"
+  ],
+  "properties": {
+    "params": {
+      "$ref": "#/definitions/ProvenanceQueryParams"
+    },
+    "route": {
+      "$ref": "#/definitions/ProvenanceRoute"
+    },
+    "version": {
+      "type": "string"
+    }
+  },
+  "definitions": {
+    "AttributeQueryParams": {
+      "description": "Params for attribute queries.",
+      "anyOf": [
+        {
+          "type": "object",
+          "required": [
+            "get_attributes"
+          ],
+          "properties": {
+            "get_attributes": {
+              "type": "object",
+              "required": [
+                "address",
+                "name"
+              ],
+              "properties": {
+                "address": {
+                  "$ref": "#/definitions/HumanAddr"
+                },
+                "name": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "get_all_attributes"
+          ],
+          "properties": {
+            "get_all_attributes": {
+              "type": "object",
+              "required": [
+                "address"
+              ],
+              "properties": {
+                "address": {
+                  "$ref": "#/definitions/HumanAddr"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "HumanAddr": {
+      "type": "string"
+    },
+    "MarkerQueryParams": {
+      "description": "Params for marker queries.",
+      "anyOf": [
+        {
+          "type": "object",
+          "required": [
+            "get_marker"
+          ],
+          "properties": {
+            "get_marker": {
+              "type": "object",
+              "required": [
+                "address",
+                "denom"
+              ],
+              "properties": {
+                "address": {
+                  "$ref": "#/definitions/HumanAddr"
+                },
+                "denom": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "NameQueryParams": {
+      "description": "Params for name queries.",
+      "anyOf": [
+        {
+          "type": "object",
+          "required": [
+            "resolve"
+          ],
+          "properties": {
+            "resolve": {
+              "type": "object",
+              "required": [
+                "name"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "lookup"
+          ],
+          "properties": {
+            "lookup": {
+              "type": "object",
+              "required": [
+                "address"
+              ],
+              "properties": {
+                "address": {
+                  "$ref": "#/definitions/HumanAddr"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "ProvenanceQueryParams": {
+      "description": "Input params for custom provenance queriers.",
+      "anyOf": [
+        {
+          "type": "object",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "name": {
+              "$ref": "#/definitions/NameQueryParams"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "attribute"
+          ],
+          "properties": {
+            "attribute": {
+              "$ref": "#/definitions/AttributeQueryParams"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "scope"
+          ],
+          "properties": {
+            "scope": {
+              "$ref": "#/definitions/ScopeQueryParams"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "marker"
+          ],
+          "properties": {
+            "marker": {
+              "$ref": "#/definitions/MarkerQueryParams"
+            }
+          }
+        }
+      ]
+    },
+    "ProvenanceRoute": {
+      "description": "Supported provenance module router keys.",
+      "type": "string",
+      "enum": [
+        "name",
+        "marker",
+        "metadata"
+      ]
+    },
+    "ScopeQueryParams": {
+      "description": "Params for querying scopes.",
+      "anyOf": [
+        {
+          "type": "object",
+          "required": [
+            "get_scope"
+          ],
+          "properties": {
+            "get_scope": {
+              "type": "object",
+              "required": [
+                "id"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

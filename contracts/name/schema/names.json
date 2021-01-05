@@ -1,0 +1,42 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Names",
+  "description": "A collection of bound names.",
+  "type": "object",
+  "required": [
+    "records"
+  ],
+  "properties": {
+    "records": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Name"
+      }
+    }
+  },
+  "definitions": {
+    "HumanAddr": {
+      "type": "string"
+    },
+    "Name": {
+      "description": "A name bound to an address.",
+      "type": "object",
+      "required": [
+        "address",
+        "name",
+        "restricted"
+      ],
+      "properties": {
+        "address": {
+          "$ref": "#/definitions/HumanAddr"
+        },
+        "name": {
+          "type": "string"
+        },
+        "restricted": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

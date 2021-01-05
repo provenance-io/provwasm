@@ -1,0 +1,16 @@
+[package]
+name = "provwasm-std"
+version = "0.12.2"
+authors = ["David Pederson <dpederson@figure.com>"]
+edition = "2018"
+
+[features]
+backtraces = []
+
+[dependencies]
+cosmwasm-std = { version = "0.12.2", features = ["staking"] }
+schemars = "0.7"
+serde = { version = "1.0.103", default-features = false, features = ["derive"] }
+
+[dev-dependencies]
+cosmwasm-schema = { version = "0.12.2" }

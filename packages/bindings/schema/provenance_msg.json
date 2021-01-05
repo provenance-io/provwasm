@@ -1,0 +1,446 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ProvenanceMsg",
+  "description": "Represents a request to encode custom provenance messages.",
+  "type": "object",
+  "required": [
+    "params",
+    "route",
+    "version"
+  ],
+  "properties": {
+    "params": {
+      "$ref": "#/definitions/ProvenanceMsgParams"
+    },
+    "route": {
+      "$ref": "#/definitions/ProvenanceRoute"
+    },
+    "version": {
+      "type": "string"
+    }
+  },
+  "definitions": {
+    "AttributeValueType": {
+      "description": "Allowed attribute value types.",
+      "type": "string",
+      "enum": [
+        "uuid",
+        "json",
+        "string",
+        "bytes"
+      ]
+    },
+    "Binary": {
+      "description": "Binary is a wrapper around Vec<u8> to add base64 de/serialization with serde. It also adds some helper methods to help encode inline.\n\nThis is only needed as serde-json-{core,wasm} has a horrible encoding for Vec<u8>",
+      "type": "string"
+    },
+    "Coin": {
+      "type": "object",
+      "required": [
+        "amount",
+        "denom"
+      ],
+      "properties": {
+        "amount": {
+          "$ref": "#/definitions/Uint128"
+        },
+        "denom": {
+          "type": "string"
+        }
+      }
+    },
+    "HumanAddr": {
+      "type": "string"
+    },
+    "MarkerMsgParams": {
+      "description": "Input params for creating marker module messages.",
+      "anyOf": [
+        {
+          "type": "object",
+          "required": [
+            "create_marker"
+          ],
+          "properties": {
+            "create_marker": {
+              "type": "object",
+              "required": [
+                "coin",
+                "marker_type"
+              ],
+              "properties": {
+                "coin": {
+                  "$ref": "#/definitions/Coin"
+                },
+                "marker_type": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "grant_marker_access"
+          ],
+          "properties": {
+            "grant_marker_access": {
+              "type": "object",
+              "required": [
+                "address",
+                "denom",
+                "permissions"
+              ],
+              "properties": {
+                "address": {
+                  "$ref": "#/definitions/HumanAddr"
+                },
+                "denom": {
+                  "type": "string"
+                },
+                "permissions": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/MarkerPermission"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "revoke_marker_access"
+          ],
+          "properties": {
+            "revoke_marker_access": {
+              "type": "object",
+              "required": [
+                "address",
+                "denom"
+              ],
+              "properties": {
+                "address": {
+                  "$ref": "#/definitions/HumanAddr"
+                },
+                "denom": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "finalize_marker"
+          ],
+          "properties": {
+            "finalize_marker": {
+              "type": "object",
+              "required": [
+                "denom"
+              ],
+              "properties": {
+                "denom": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "activate_marker"
+          ],
+          "properties": {
+            "activate_marker": {
+              "type": "object",
+              "required": [
+                "denom"
+              ],
+              "properties": {
+                "denom": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "cancel_marker"
+          ],
+          "properties": {
+            "cancel_marker": {
+              "type": "object",
+              "required": [
+                "denom"
+              ],
+              "properties": {
+                "denom": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "destroy_marker"
+          ],
+          "properties": {
+            "destroy_marker": {
+              "type": "object",
+              "required": [
+                "denom"
+              ],
+              "properties": {
+                "denom": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "mint_marker_supply"
+          ],
+          "properties": {
+            "mint_marker_supply": {
+              "type": "object",
+              "required": [
+                "coin"
+              ],
+              "properties": {
+                "coin": {
+                  "$ref": "#/definitions/Coin"
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "burn_marker_supply"
+          ],
+          "properties": {
+            "burn_marker_supply": {
+              "type": "object",
+              "required": [
+                "coin"
+              ],
+              "properties": {
+                "coin": {
+                  "$ref": "#/definitions/Coin"
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "withdraw_marker_coins"
+          ],
+          "properties": {
+            "withdraw_marker_coins": {
+              "type": "object",
+              "required": [
+                "coin",
+                "recipient"
+              ],
+              "properties": {
+                "coin": {
+                  "$ref": "#/definitions/Coin"
+                },
+                "recipient": {
+                  "$ref": "#/definitions/HumanAddr"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "MarkerPermission": {
+      "description": "Marker permission types.",
+      "type": "string",
+      "enum": [
+        "burn",
+        "deposit",
+        "delete",
+        "grant",
+        "mint",
+        "withdraw"
+      ]
+    },
+    "MetadataMsgParams": {
+      "description": "Input params for creating metadata module messages.",
+      "anyOf": [
+        {
+          "type": "object",
+          "required": [
+            "add_attribute"
+          ],
+          "properties": {
+            "add_attribute": {
+              "type": "object",
+              "required": [
+                "address",
+                "name",
+                "value",
+                "value_type"
+              ],
+              "properties": {
+                "address": {
+                  "$ref": "#/definitions/HumanAddr"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "value": {
+                  "$ref": "#/definitions/Binary"
+                },
+                "value_type": {
+                  "$ref": "#/definitions/AttributeValueType"
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "delete_attribute"
+          ],
+          "properties": {
+            "delete_attribute": {
+              "type": "object",
+              "required": [
+                "address",
+                "name"
+              ],
+              "properties": {
+                "address": {
+                  "$ref": "#/definitions/HumanAddr"
+                },
+                "name": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "NameMsgParams": {
+      "description": "Input params for creating name module messages.",
+      "anyOf": [
+        {
+          "type": "object",
+          "required": [
+            "bind_name"
+          ],
+          "properties": {
+            "bind_name": {
+              "type": "object",
+              "required": [
+                "address",
+                "name",
+                "restrict"
+              ],
+              "properties": {
+                "address": {
+                  "$ref": "#/definitions/HumanAddr"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "restrict": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "delete_name"
+          ],
+          "properties": {
+            "delete_name": {
+              "type": "object",
+              "required": [
+                "name"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "ProvenanceMsgParams": {
+      "description": "Input params for custom provenance message encoders.",
+      "anyOf": [
+        {
+          "type": "object",
+          "required": [
+            "Name"
+          ],
+          "properties": {
+            "Name": {
+              "$ref": "#/definitions/NameMsgParams"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "Metadata"
+          ],
+          "properties": {
+            "Metadata": {
+              "$ref": "#/definitions/MetadataMsgParams"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "Marker"
+          ],
+          "properties": {
+            "Marker": {
+              "$ref": "#/definitions/MarkerMsgParams"
+            }
+          }
+        }
+      ]
+    },
+    "ProvenanceRoute": {
+      "description": "Supported provenance module router keys.",
+      "type": "string",
+      "enum": [
+        "name",
+        "marker",
+        "metadata"
+      ]
+    },
+    "Uint128": {
+      "type": "string"
+    }
+  }
+}

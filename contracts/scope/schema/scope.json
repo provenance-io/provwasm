@@ -1,0 +1,146 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Scope",
+  "description": "Metadata from the provenance execution environment.",
+  "type": "object",
+  "required": [
+    "id",
+    "parties",
+    "record_groups"
+  ],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "parties": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Party"
+      }
+    },
+    "record_groups": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/RecordGroup"
+      }
+    }
+  },
+  "definitions": {
+    "Party": {
+      "description": "A party on a scope.",
+      "type": "object",
+      "required": [
+        "address",
+        "role"
+      ],
+      "properties": {
+        "address": {
+          "type": "string"
+        },
+        "role": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "Record": {
+      "description": "A record in a record group.",
+      "type": "object",
+      "required": [
+        "class_name",
+        "hash",
+        "inputs",
+        "name",
+        "result_hash",
+        "result_name",
+        "result_type"
+      ],
+      "properties": {
+        "class_name": {
+          "type": "string"
+        },
+        "hash": {
+          "type": "string"
+        },
+        "inputs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RecordInput"
+          }
+        },
+        "name": {
+          "type": "string"
+        },
+        "result_hash": {
+          "type": "string"
+        },
+        "result_name": {
+          "type": "string"
+        },
+        "result_type": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "RecordGroup": {
+      "description": "A group of records on a scope.",
+      "type": "object",
+      "required": [
+        "class_name",
+        "group_id",
+        "parties",
+        "records",
+        "specification"
+      ],
+      "properties": {
+        "class_name": {
+          "type": "string"
+        },
+        "group_id": {
+          "type": "string"
+        },
+        "parties": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Party"
+          }
+        },
+        "records": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Record"
+          }
+        },
+        "specification": {
+          "type": "string"
+        }
+      }
+    },
+    "RecordInput": {
+      "description": "An input that produced a record.",
+      "type": "object",
+      "required": [
+        "class_name",
+        "hash",
+        "input_type",
+        "name"
+      ],
+      "properties": {
+        "class_name": {
+          "type": "string"
+        },
+        "hash": {
+          "type": "string"
+        },
+        "input_type": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

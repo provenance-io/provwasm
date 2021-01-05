@@ -1,0 +1,60 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Attributes",
+  "description": "A collection of attributes associated with an account address.",
+  "type": "object",
+  "required": [
+    "address"
+  ],
+  "properties": {
+    "address": {
+      "$ref": "#/definitions/HumanAddr"
+    },
+    "attributes": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Attribute"
+      }
+    }
+  },
+  "definitions": {
+    "Attribute": {
+      "description": "A typed key-value pair.",
+      "type": "object",
+      "required": [
+        "name",
+        "type",
+        "value"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "$ref": "#/definitions/AttributeValueType"
+        },
+        "value": {
+          "$ref": "#/definitions/Binary"
+        }
+      }
+    },
+    "AttributeValueType": {
+      "description": "Allowed attribute value types.",
+      "type": "string",
+      "enum": [
+        "uuid",
+        "json",
+        "string",
+        "bytes"
+      ]
+    },
+    "Binary": {
+      "description": "Binary is a wrapper around Vec<u8> to add base64 de/serialization with serde. It also adds some helper methods to help encode inline.\n\nThis is only needed as serde-json-{core,wasm} has a horrible encoding for Vec<u8>",
+      "type": "string"
+    },
+    "HumanAddr": {
+      "type": "string"
+    }
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "LabelsResponse",
+  "type": "object",
+  "required": [
+    "labels"
+  ],
+  "properties": {
+    "labels": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Label"
+      }
+    }
+  },
+  "definitions": {
+    "Label": {
+      "type": "object",
+      "required": [
+        "text",
+        "timestamp"
+      ],
+      "properties": {
+        "text": {
+          "type": "string"
+        },
+        "timestamp": {
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0.0
+        }
+      }
+    }
+  }
+}
