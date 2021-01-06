@@ -16,7 +16,7 @@ For detailed information, please see the following references.
 - [CosmWasm GitHub](https://github.com/CosmWasm/cosmwasm)
 - [Cosmos SDK](https://cosmos.network/sdk)
 - [Provenance](https://provenance.io/)
-- [Provenance Blockchain](https://github.com/FigureTechnologies/provenance-blockchain)
+- [Provenance Blockchain](https://github.com/provenance-io/blockchain)
 - [Rust](https://www.rust-lang.org/)
 - [Web Assembly](https://webassembly.org/)
 

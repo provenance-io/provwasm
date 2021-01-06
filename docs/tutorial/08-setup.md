@@ -13,22 +13,15 @@ installation instructions.
 If not already available, clone the provenance blockchain project.
 
 ```bash
-mkdir -p $GOPATH/src/github.com/FigureTechnologies
-cd $GOPATH/src/github.com/FigureTechnologies
-git clone git@github.com:FigureTechnologies/provenance-blockchain.git
+mkdir -p $GOPATH/src/github.com/provenance-io
+cd $GOPATH/src/github.com/provenance-io
+git clone git@github.com:provenance-io/blockchain.git
 ```
 
-Navigate to the project checkout the tutorial version tag
+Navigate to the blockchain project
 
 ```bash
-cd ./provenance-blockchain
-```
-
-Then, confirm ~/.gitconfig has this setting added.
-
-```bash
-[url "git@github.com:"]
-    insteadOf = https://github.com/
+cd ./blockchain
 ```
 
 Install commands and start a provenance localnet cluster.
@@ -37,9 +30,6 @@ Install commands and start a provenance localnet cluster.
 make install
 make localnet-start
 ```
-
-Once built, the previous ~/.gitconfig entry should be commented out or removed - it is known
-to cause Rust build issues, but is initially required to build the blockchain.
 
 ## Accounts
 

@@ -7,19 +7,19 @@ In this section we will upload the optimized smart contract WASM to the provenan
 For this tutorial, it is assumed that the fee collection address represents network ownership
 (why they get paid fees), thus they must be the uploader of the contract WASM.
 
-Copy the optimized WASM file to the `provenance-blockchain` project. From the tutorial project dir,
+Copy the optimized WASM file to the provenance blockchain project. From the tutorial project dir,
 run
 
 ```bash
-cp artifacts/tutorial.wasm $GOPATH/src/github.com/FigureTechnologies/provenance-blockchain
+cp artifacts/tutorial.wasm $GOPATH/src/github.com/provenance-io/blockchain
 ```
 
-Then, from the `provenance-blockchain` directory, store the optimized smart contract WASM in
+Then, from the provenance blockchain directory, store the optimized smart contract WASM in
 provenance
 
 ```bash
 provenance tx wasm store tutorial.wasm \
-    --source "https://github.com/FigureTechnologies/provwasm/tree/master/contracts/tutorial" \
+    --source "https://github.com/provenance-io/provwasm/tree/main/contracts/tutorial" \
     --builder "cosmwasm/rust-optimizer:0.10.7" \
     --instantiate-only-address $(provenance keys show -a feebucket --keyring-backend test --home build/node0/provenance) \
     --from feebucket \
@@ -46,7 +46,7 @@ Should produce output that resembles (field values may differ) the following.
     "id": 1,
     "creator": "tp1clx2v0ze5wmckerm3wx9c2r7wcaf05ktwyaedj",
     "data_hash": "ACB50FFA4AED7D5230C6ED5D26EA1707A97C1B2B6F84D485DCC8154DD94C5B7A",
-    "source": "https://github.com/FigureTechnologies/provwasm/tree/master/contracts/tutorial",
+    "source": "https://github.com/provenance-io/provwasm/tree/main/contracts/tutorial",
     "builder": "cosmwasm/rust-optimizer:0.10.3"
   }
 ]

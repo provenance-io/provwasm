@@ -6,7 +6,7 @@ For the time being, we need to develop within the `provwasm` project. Once it is
 to [crates.io](https://crates.io), this restriction will no longer apply.
 
 ```bash
-git clone git@github.com:FigureTechnologies/provwasm.git
+git clone git@github.com:provenance-io/provwasm.git
 ```
 
 After cloning the project, navigate to the contracts directory

@@ -109,7 +109,7 @@ To store the new version, re-run the store command
 
 ```bash
 provenance tx wasm store tutorial.wasm \
-    --source "https://github.com/FigureTechnologies/provwasm/tree/master/contracts/tutorial-migrate" \
+    --source "https://github.com/provenance-io/provwasm/tree/main/contracts/tutorial-migrate" \
     --builder "cosmwasm/rust-optimizer:0.10.7" \
     --instantiate-only-address $(provenance keys show -a feebucket --keyring-backend test --home build/node0/provenance) \
     --from feebucket \
@@ -138,14 +138,14 @@ Should output JSON similar to
     "id": 1,
     "creator": "tp10vy2n34wgysds98fmj44jvhm5ugepd4w3pz9s9",
     "data_hash": "B2C5A7BC76D636BEAD7FC4EB51EC77E3F73955B1C8A756AE1FEA5AAFE804912A",
-    "source": "https://github.com/FigureTechnologies/provwasm/tree/master/contracts/tutorial",
+    "source": "https://github.com/provenance-io/provwasm/tree/main/contracts/tutorial",
     "builder": "cosmwasm/rust-optimizer:0.10.7"
   },
   {
     "id": 2,
     "creator": "tp10vy2n34wgysds98fmj44jvhm5ugepd4w3pz9s9",
     "data_hash": "EC22D0FEA3BA5D5368259E34234265EB4A767941212E48CDBD00C5460363C379",
-    "source": "https://github.com/FigureTechnologies/provwasm/tree/master/contracts/tutorial-migrate",
+    "source": "https://github.com/provenance-io/provwasm/tree/main/contracts/tutorial-migrate",
     "builder": "cosmwasm/rust-optimizer:0.10.7"
   }
 ]

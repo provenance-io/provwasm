@@ -40,7 +40,7 @@ Store the name integration test smart contract WASM in provenance
 
 ```bash
 provenance tx wasm store artifacts/marker.wasm \
-    --source "https://github.com/FigureTechnologies/provwasm/tree/master/contracts/marker" \
+    --source "https://github.com/provenance-io/provwasm/tree/main/contracts/marker" \
     --builder "cosmwasm/rust-optimizer:0.10.7" \
     --instantiate-only-address $(provenance keys show -a provenance --keyring-backend test) \
     --from provenance \

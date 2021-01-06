@@ -44,7 +44,7 @@ instantiate contracts.
 
 ```bash
 provenance tx wasm store artifacts/attrs.wasm \
-    --source "https://github.com/FigureTechnologies/provwasm/tree/master/contracts/attrs" \
+    --source "https://github.com/provenance-io/provwasm/tree/main/contracts/attrs" \
     --builder "cosmwasm/rust-optimizer:0.10.7" \
     --instantiate-only-address $(provenance keys show -a provenance --keyring-backend test) \
     --from provenance \
