@@ -2,10 +2,6 @@ use cosmwasm_std::{Binary, Coin, HumanAddr};
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
-//
-// Base types
-//
-
 /// Supported provenance module router keys.
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
