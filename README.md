@@ -22,6 +22,7 @@ contract development and testing.
 | provwasm | cosmos-sdk  | provenance | release | localnet | testnet | mainnet |
 | -------- | ----------- | ---------- | ------- | -------- | ------- | ------- |
 | v0.12.2  | v0.40.0-rc3 | -          | -       | -        | -       | -       |
+| v0.13.0  | v0.40.0-rc3 | -          | -       | -        | -       | -       |
 
 ## Getting Started
 
