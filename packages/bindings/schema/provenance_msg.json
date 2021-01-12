@@ -434,6 +434,7 @@
       "description": "Supported provenance module router keys.",
       "type": "string",
       "enum": [
+        "attribute",
         "name",
         "marker",
         "metadata"

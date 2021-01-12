@@ -48,7 +48,7 @@ impl<'a> ProvenanceQuerier<'a> {
     // Execute a metadata module attribute query.
     fn query_attributes(&self, params: AttributeQueryParams) -> StdResult<Attributes> {
         let request = ProvenanceQuery {
-            route: ProvenanceRoute::Metadata,
+            route: ProvenanceRoute::Attribute,
             params: params.into(),
             version: String::from(QUERY_DATAFMT_VERSION),
         };
