@@ -41,16 +41,16 @@ Set contract dependencies
 
 ```toml
 [dependencies]
-provwasm-std = { path = "../../packages/bindings", version = "0.12.2" }
-cosmwasm-std = { version = "0.12.2" }
-cosmwasm-storage = { version = "0.12.2" }
+provwasm-std = { path = "../../packages/bindings", version = "0.13.2" }
+cosmwasm-std = { version = "0.13.2" }
+cosmwasm-storage = { version = "0.13.2" }
 schemars = "0.7"
 serde = { version = "1.0.103", default-features = false, features = ["derive"] }
 thiserror = { version = "1.0.21" }
 
 [dev-dependencies]
-provwasm-mocks = { path = "../../packages/mocks", version = "0.12.2" }
-cosmwasm-schema = { version = "0.12.2" }
+provwasm-mocks = { path = "../../packages/mocks", version = "0.13.2" }
+cosmwasm-schema = { version = "0.13.2" }
 ```
 
 Reset the README and clear out the current JSON schema artifacts.
