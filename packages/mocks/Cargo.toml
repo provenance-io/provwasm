@@ -1,12 +1,12 @@
 [package]
 name = "provwasm-mocks"
-version = "0.13.0"
+version = "0.13.2"
 authors = ["David Pederson <dpederson@figure.com>"]
 edition = "2018"
 
 [dependencies]
-provwasm-std = { path = "../bindings", version = "0.13.0" }
-cosmwasm-std = { version = "0.13.0", features = ["staking"] }
+provwasm-std = { path = "../bindings", version = "0.13.2" }
+cosmwasm-std = { version = "0.13.2", features = ["staking"] }
 schemars = "0.7"
 serde = { version = "1.0.103", default-features = false, features = ["derive"] }
 
