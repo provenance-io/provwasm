@@ -36,75 +36,79 @@ _NOTE: Address bech32 values and other params may vary._
 Store the name integration test smart contract WASM in provenance
 
 ```bash
-provenance tx wasm store artifacts/name.wasm \
+build/provenanced tx wasm store artifacts/name.wasm \
     --source "https://github.com/provenance-io/provwasm/tree/main/contracts/name" \
     --builder "cosmwasm/rust-optimizer:0.10.7" \
-    --instantiate-only-address $(provenance keys show -a provenance --keyring-backend test) \
-    --from provenance \
+    --instantiate-only-address $(build/provenanced keys show -a validator --keyring-backend test --home build/run/provenanced) \
+    --from validator \
     --keyring-backend test \
-    --chain-id pio-dev-chain \
+    --home build/run/provenanced \
+    --chain-id testing \
     --gas auto \
-    --fees 25000vspn \
+    --fees 25000nhash \
     --broadcast-mode block \
-    -y -o json | jq
+    --yes | jq
 ```
 
 Instantiate the contract and bind the name `name-itv2.pb` to it's address
 
 ```bash
-provenance tx wasm instantiate 1 '{"name": "name-itv2.pb"}' \
-    --admin $(provenance keys show -a provenance --keyring-backend test) \
-    --from provenance \
+build/provenanced tx wasm instantiate 1 '{"name": "name-itv2.pb"}' \
+    --admin $(build/provenanced keys show -a validator --keyring-backend test --home build/run/provenanced) \
+    --from validator \
     --keyring-backend test \
-    --chain-id pio-dev-chain \
+    --home build/run/provenanced \
+    --chain-id testing \
     --label name_module_integration_test_v1 \
     --gas auto \
-    --fees 3200vspn \
+    --fees 5000nhash \
     --broadcast-mode block \
-    -y -o json | jq
+    --yes | jq
 ```
 
 Execute a name resolve query
 
 ```bash
-provenance query wasm contract-state smart \
-    tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz '{"resolve":{"name":"name-itv2.pb"}}' | jq
+build/provenanced query wasm contract-state smart \
+    pb18vd8fpwxzck93qlwghaj6arh4p7c5n894vnu5g '{"resolve":{"name":"name-itv2.pb"}}' -o json | jq
  ```
 
 Execute a name lookup query
 
 ```bash
-provenance query wasm contract-state smart \
-    tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
-    '{"lookup":{"address":"tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz"}}' | jq
+build/provenanced query wasm contract-state smart \
+    pb18vd8fpwxzck93qlwghaj6arh4p7c5n894vnu5g \
+    '{"lookup":{"address":"pb18vd8fpwxzck93qlwghaj6arh4p7c5n894vnu5g"}}' -o json  | jq
 ```
 
 Execute the contract, sending a prefix to bind under the contract root name.
 
 ```bash
-pio tx wasm execute \
-    tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
+build/provenanced tx wasm execute \
+    pb18vd8fpwxzck93qlwghaj6arh4p7c5n894vnu5g \
     '{"bind_prefix":{"prefix":"nm"}}' \
-    --from provenance \
+    --from validator \
     --keyring-backend test \
-    --chain-id pio-dev-chain \
+    --home build/run/provenanced \
+    --chain-id testing \
     --gas auto \
-    --fees 3500vspn \
+    --fees 5000nhash \
     --broadcast-mode block \
-    -o json -y | jq
+    --yes | jq
 ```
 
 To unbind the prefix
 
 ```bash
-pio tx wasm execute \
-    tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
+build/provenanced tx wasm execute \
+    pb18vd8fpwxzck93qlwghaj6arh4p7c5n894vnu5g \
     '{"unbind_prefix":{"prefix":"nm"}}' \
-    --from provenance \
+    --from validator \
     --keyring-backend test \
-    --chain-id pio-dev-chain \
+    --home build/run/provenanced \
+    --chain-id testing \
     --gas auto \
-    --fees 3500vspn \
+    --fees 5000nhash \
     --broadcast-mode block \
-    -o json -y | jq
+    --yes | jq
 ```

@@ -43,104 +43,110 @@ Store the `attrs` integration test WASM, requiring that only the `provenance` ac
 instantiate contracts.
 
 ```bash
-provenance tx wasm store artifacts/attrs.wasm \
+build/provenanced tx wasm store artifacts/attrs.wasm \
     --source "https://github.com/provenance-io/provwasm/tree/main/contracts/attrs" \
     --builder "cosmwasm/rust-optimizer:0.10.7" \
-    --instantiate-only-address $(provenance keys show -a provenance --keyring-backend test) \
-    --from provenance \
+    --instantiate-only-address $(build/provenanced keys show -a validator --keyring-backend test --home build/run/provenanced) \
+    --from validator \
     --keyring-backend test \
-    --chain-id pio-dev-chain \
+    --home build/run/provenanced \
+    --chain-id testing \
     --gas auto \
-    --fees 25000vspn \
+    --fees 26000nhash \
     --broadcast-mode block \
-    -y -o json | jq
+    --yes | jq
 ```
 
 Instantiate the contract, binding the name `attrs-itv2.pb` to the contract address.
 
 ```bash
-provenance tx wasm instantiate 1 '{"name": "attrs-itv2.pb"}' \
-    --admin $(provenance keys show -a provenance --keyring-backend test) \
-    --from provenance \
+build/provenanced tx wasm instantiate 2 '{"name": "attrs-itv2.pb"}' \
+    --admin $(build/provenanced keys show -a validator --keyring-backend test --home build/run/provenanced) \
+    --from validator \
     --keyring-backend test \
-    --chain-id pio-dev-chain \
+    --home build/run/provenanced \
+    --chain-id testing \
     --label account_module_integration_test_v1 \
     --gas auto \
-    --fees 3200vspn \
+    --fees 5000nhash \
     --broadcast-mode block \
-    -y -o json | jq
+    --yes | jq
 ```
 
 Bind the label attribute name under the contract root name. This establishes ownership so label
 attributes can be added and deleted in later operations.
 
 ```bash
-pio tx wasm execute \
-    tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
+build/provenanced tx wasm execute \
+    pb10pyejy66429refv3g35g2t7am0was7ya3un0jf \
     '{"bind_label_name":{}}' \
-    --from provenance \
+    --from validator \
     --keyring-backend test \
-    --chain-id pio-dev-chain \
+    --home build/run/provenanced \
+    --chain-id testing \
     --gas auto \
-    --fees 3000vspn \
+    --fees 5000nhash \
     --broadcast-mode block \
-    -o json -y | jq
+    --yes | jq
 ```
 
 Query for the label name just bound.
 
 ```bash
-provenance query wasm contract-state smart \
-    tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz '{"get_label_name":{}}' | jq
+build/provenanced query wasm contract-state smart \
+    pb10pyejy66429refv3g35g2t7am0was7ya3un0jf '{"get_label_name":{}}' -o json | jq
 ```
 
 Add labels to an account.
 
 ```bash
-pio tx wasm execute \
-    tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
+build/provenanced tx wasm execute \
+    pb10pyejy66429refv3g35g2t7am0was7ya3un0jf \
     '{"add_label":{"text":"hello"}}' \
-    --from provenance \
+    --from validator \
     --keyring-backend test \
-    --chain-id pio-dev-chain \
+    --home build/run/provenanced \
+    --chain-id testing \
     --gas auto \
-    --fees 3000vspn \
+    --fees 5000nhash \
     --broadcast-mode block \
-    -o json -y | jq
+    --yes | jq
 ```
 
 ```bash
-pio tx wasm execute \
-    tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
+build/provenanced tx wasm execute \
+    pb10pyejy66429refv3g35g2t7am0was7ya3un0jf \
     '{"add_label":{"text":"wasm"}}' \
-    --from provenance \
+    --from validator \
     --keyring-backend test \
-    --chain-id pio-dev-chain \
+    --home build/run/provenanced \
+    --chain-id testing \
     --gas auto \
-    --fees 3000vspn \
+    --fees 5000nhash \
     --broadcast-mode block \
-    -o json -y | jq
+    --yes | jq
 ```
 
 Query for the labels set on an account.
 
 ```bash
-provenance query wasm contract-state smart \
-    tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
-    '{"get_labels":{}}' | jq
+build/provenanced query wasm contract-state smart \
+    pb10pyejy66429refv3g35g2t7am0was7ya3un0jf \
+    '{"get_labels":{}}' -o json | jq
 ```
 
 Delete the labels from an account.
 
 ```bash
-pio tx wasm execute \
-    tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
+build/provenanced tx wasm execute \
+    pb10pyejy66429refv3g35g2t7am0was7ya3un0jf \
     '{"delete_labels":{}}' \
-    --from provenance \
+    --from validator \
     --keyring-backend test \
-    --chain-id pio-dev-chain \
+    --home build/run/provenanced \
+    --chain-id testing \
     --gas auto \
-    --fees 3000vspn \
+    --fees 5000nhash \
     --broadcast-mode block \
-    -o json -y | jq
+    --yes | jq
 ```

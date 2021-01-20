@@ -9,7 +9,7 @@ pub use msg::{
     create_marker, create_marker_with_type, delete_attributes, destroy_marker, finalize_marker,
     grant_marker_access, grant_marker_access_all, grant_marker_access_asset,
     grant_marker_access_supply, mint_marker_supply, revoke_marker_access, unbind_name,
-    withdraw_marker_coins, MarkerMsgParams, MetadataMsgParams, NameMsgParams, ProvenanceMsg,
+    withdraw_marker_coins, AttributeMsgParams, MarkerMsgParams, NameMsgParams, ProvenanceMsg,
     ProvenanceMsgParams,
 };
 pub use querier::ProvenanceQuerier;

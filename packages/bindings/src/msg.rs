@@ -27,7 +27,7 @@ impl Into<CosmosMsg<ProvenanceMsg>> for ProvenanceMsg {
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 pub enum ProvenanceMsgParams {
     Name(NameMsgParams),
-    Metadata(MetadataMsgParams),
+    Attribute(AttributeMsgParams),
     Marker(MarkerMsgParams),
 }
 
@@ -89,7 +89,7 @@ pub fn unbind_name(name: String) -> CosmosMsg<ProvenanceMsg> {
 /// Input params for creating metadata module messages.
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
-pub enum MetadataMsgParams {
+pub enum AttributeMsgParams {
     AddAttribute {
         address: HumanAddr,
         name: String,
@@ -103,16 +103,16 @@ pub enum MetadataMsgParams {
 }
 
 /// A helper method to simplify creating messages.
-impl Into<ProvenanceMsgParams> for MetadataMsgParams {
+impl Into<ProvenanceMsgParams> for AttributeMsgParams {
     fn into(self) -> ProvenanceMsgParams {
-        ProvenanceMsgParams::Metadata(self)
+        ProvenanceMsgParams::Attribute(self)
     }
 }
 
 // Create a custom cosmos message using metadata module params.
-fn create_metadata_msg(params: MetadataMsgParams) -> CosmosMsg<ProvenanceMsg> {
+fn create_metadata_msg(params: AttributeMsgParams) -> CosmosMsg<ProvenanceMsg> {
     ProvenanceMsg {
-        route: ProvenanceRoute::Metadata,
+        route: ProvenanceRoute::Attribute,
         params: params.into(),
         version: String::from(MSG_DATAFMT_VERSION),
     }
@@ -126,7 +126,7 @@ pub fn add_attribute(
     value: Binary,
     value_type: AttributeValueType,
 ) -> CosmosMsg<ProvenanceMsg> {
-    create_metadata_msg(MetadataMsgParams::AddAttribute {
+    create_metadata_msg(AttributeMsgParams::AddAttribute {
         address,
         name,
         value,
@@ -191,7 +191,7 @@ pub fn add_json_attribute<T: Serialize + ?Sized>(
 
 /// Create a message that will remove all attributes with the given name from an account.
 pub fn delete_attributes(name: String, address: HumanAddr) -> CosmosMsg<ProvenanceMsg> {
-    create_metadata_msg(MetadataMsgParams::DeleteAttribute { name, address })
+    create_metadata_msg(AttributeMsgParams::DeleteAttribute { name, address })
 }
 
 /// Input params for creating marker module messages.

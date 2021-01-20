@@ -152,7 +152,9 @@ mod tests {
     use cosmwasm_std::testing::{mock_env, mock_info, MOCK_CONTRACT_ADDR};
     use cosmwasm_std::{from_binary, CosmosMsg};
     use provwasm_mocks::mock_dependencies;
-    use provwasm_std::{AttributeValueType, MetadataMsgParams, NameMsgParams, ProvenanceMsgParams};
+    use provwasm_std::{
+        AttributeMsgParams, AttributeValueType, NameMsgParams, ProvenanceMsgParams,
+    };
 
     #[test]
     fn init_test() {
@@ -286,14 +288,14 @@ mod tests {
         assert_eq!(1, res.messages.len());
         match &res.messages[0] {
             CosmosMsg::Custom(msg) => match &msg.params {
-                ProvenanceMsgParams::Metadata(p) => match &p {
-                    MetadataMsgParams::AddAttribute {
+                ProvenanceMsgParams::Attribute(p) => match &p {
+                    AttributeMsgParams::AddAttribute {
                         name, value_type, ..
                     } => {
                         assert_eq!(name, "label.contract.pb");
                         assert_eq!(value_type, &AttributeValueType::Json);
                     }
-                    _ => panic!("unexpected metadata params"),
+                    _ => panic!("unexpected attribute params"),
                 },
                 _ => panic!("unexpected provenance params"),
             },
@@ -364,11 +366,11 @@ mod tests {
         assert_eq!(1, res.messages.len());
         match &res.messages[0] {
             CosmosMsg::Custom(msg) => match &msg.params {
-                ProvenanceMsgParams::Metadata(p) => match &p {
-                    MetadataMsgParams::DeleteAttribute { name, .. } => {
+                ProvenanceMsgParams::Attribute(p) => match &p {
+                    AttributeMsgParams::DeleteAttribute { name, .. } => {
                         assert_eq!(name, "label.contract.pb");
                     }
-                    _ => panic!("unexpected metadata params"),
+                    _ => panic!("unexpected attribute params"),
                 },
                 _ => panic!("unexpected provenance params"),
             },
