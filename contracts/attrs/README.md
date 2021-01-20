@@ -60,7 +60,7 @@ build/provenanced tx wasm store artifacts/attrs.wasm \
 Instantiate the contract, binding the name `attrs-itv2.pb` to the contract address.
 
 ```bash
-build/provenanced tx wasm instantiate 2 '{"name": "attrs-itv2.pb"}' \
+build/provenanced tx wasm instantiate 1 '{"name": "attrs-itv2.pb"}' \
     --admin $(build/provenanced keys show -a validator --keyring-backend test --home build/run/provenanced) \
     --from validator \
     --keyring-backend test \
@@ -78,7 +78,7 @@ attributes can be added and deleted in later operations.
 
 ```bash
 build/provenanced tx wasm execute \
-    pb10pyejy66429refv3g35g2t7am0was7ya3un0jf \
+    pb18vd8fpwxzck93qlwghaj6arh4p7c5n894vnu5g \
     '{"bind_label_name":{}}' \
     --from validator \
     --keyring-backend test \
@@ -94,14 +94,14 @@ Query for the label name just bound.
 
 ```bash
 build/provenanced query wasm contract-state smart \
-    pb10pyejy66429refv3g35g2t7am0was7ya3un0jf '{"get_label_name":{}}' -o json | jq
+    pb18vd8fpwxzck93qlwghaj6arh4p7c5n894vnu5g '{"get_label_name":{}}' -o json | jq
 ```
 
 Add labels to an account.
 
 ```bash
 build/provenanced tx wasm execute \
-    pb10pyejy66429refv3g35g2t7am0was7ya3un0jf \
+    pb18vd8fpwxzck93qlwghaj6arh4p7c5n894vnu5g \
     '{"add_label":{"text":"hello"}}' \
     --from validator \
     --keyring-backend test \
@@ -115,7 +115,7 @@ build/provenanced tx wasm execute \
 
 ```bash
 build/provenanced tx wasm execute \
-    pb10pyejy66429refv3g35g2t7am0was7ya3un0jf \
+    pb18vd8fpwxzck93qlwghaj6arh4p7c5n894vnu5g \
     '{"add_label":{"text":"wasm"}}' \
     --from validator \
     --keyring-backend test \
@@ -131,7 +131,7 @@ Query for the labels set on an account.
 
 ```bash
 build/provenanced query wasm contract-state smart \
-    pb10pyejy66429refv3g35g2t7am0was7ya3un0jf \
+    pb18vd8fpwxzck93qlwghaj6arh4p7c5n894vnu5g \
     '{"get_labels":{}}' -o json | jq
 ```
 
@@ -139,7 +139,7 @@ Delete the labels from an account.
 
 ```bash
 build/provenanced tx wasm execute \
-    pb10pyejy66429refv3g35g2t7am0was7ya3un0jf \
+    pb18vd8fpwxzck93qlwghaj6arh4p7c5n894vnu5g \
     '{"delete_labels":{}}' \
     --from validator \
     --keyring-backend test \
