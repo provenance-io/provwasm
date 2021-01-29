@@ -21,7 +21,7 @@ contract development and testing.
 
 | provwasm | wasmd | cosmos-sdk | provenance | release | localnet | testnet | mainnet |
 | -------- | ----- | ---------- | ---------- | ------- | -------- | ------- | ------- |
-| v0.13.2  | 0.14  | v0.40.0    | -          | -       | -        | -       | -       |
+| v0.13.2  | 0.14  | v0.40.1    | -          | -       | -        | -       | -       |
 
 ## Getting Started
 
