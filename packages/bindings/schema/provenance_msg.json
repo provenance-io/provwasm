@@ -20,6 +20,65 @@
     }
   },
   "definitions": {
+    "AttributeMsgParams": {
+      "description": "Input params for creating metadata module messages.",
+      "anyOf": [
+        {
+          "type": "object",
+          "required": [
+            "add_attribute"
+          ],
+          "properties": {
+            "add_attribute": {
+              "type": "object",
+              "required": [
+                "address",
+                "name",
+                "value",
+                "value_type"
+              ],
+              "properties": {
+                "address": {
+                  "$ref": "#/definitions/HumanAddr"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "value": {
+                  "$ref": "#/definitions/Binary"
+                },
+                "value_type": {
+                  "$ref": "#/definitions/AttributeValueType"
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "delete_attribute"
+          ],
+          "properties": {
+            "delete_attribute": {
+              "type": "object",
+              "required": [
+                "address",
+                "name"
+              ],
+              "properties": {
+                "address": {
+                  "$ref": "#/definitions/HumanAddr"
+                },
+                "name": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
     "AttributeValueType": {
       "description": "Allowed attribute value types.",
       "type": "string",
@@ -72,7 +131,7 @@
                   "$ref": "#/definitions/Coin"
                 },
                 "marker_type": {
-                  "type": "string"
+                  "$ref": "#/definitions/MarkerType"
                 }
               }
             }
@@ -282,63 +341,14 @@
         "withdraw"
       ]
     },
-    "MetadataMsgParams": {
-      "description": "Input params for creating metadata module messages.",
-      "anyOf": [
-        {
-          "type": "object",
-          "required": [
-            "add_attribute"
-          ],
-          "properties": {
-            "add_attribute": {
-              "type": "object",
-              "required": [
-                "address",
-                "name",
-                "value",
-                "value_type"
-              ],
-              "properties": {
-                "address": {
-                  "$ref": "#/definitions/HumanAddr"
-                },
-                "name": {
-                  "type": "string"
-                },
-                "value": {
-                  "$ref": "#/definitions/Binary"
-                },
-                "value_type": {
-                  "$ref": "#/definitions/AttributeValueType"
-                }
-              }
-            }
-          }
-        },
-        {
-          "type": "object",
-          "required": [
-            "delete_attribute"
-          ],
-          "properties": {
-            "delete_attribute": {
-              "type": "object",
-              "required": [
-                "address",
-                "name"
-              ],
-              "properties": {
-                "address": {
-                  "$ref": "#/definitions/HumanAddr"
-                },
-                "name": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
+    "MarkerType": {
+      "description": "Marker types.",
+      "type": "string",
+      "enum": [
+        "coin",
+        "pool",
+        "restrictedcoin",
+        "restricted"
       ]
     },
     "NameMsgParams": {
@@ -409,11 +419,11 @@
         {
           "type": "object",
           "required": [
-            "Metadata"
+            "Attribute"
           ],
           "properties": {
-            "Metadata": {
-              "$ref": "#/definitions/MetadataMsgParams"
+            "Attribute": {
+              "$ref": "#/definitions/AttributeMsgParams"
             }
           }
         },

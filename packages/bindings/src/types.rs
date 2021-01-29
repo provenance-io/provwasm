@@ -123,10 +123,10 @@ pub struct Marker {
     pub manager: HumanAddr,
     #[serde(default)]
     pub permissions: Vec<AccessGrant>,
-    pub status: String,
+    pub status: MarkerStatus,
     pub denom: String,
     pub total_supply: String,
-    pub marker_type: String,
+    pub marker_type: MarkerType,
 }
 
 // Marker permissions granted to another account.
@@ -147,4 +147,33 @@ pub enum MarkerPermission {
     Grant,
     Mint,
     Withdraw,
+}
+
+/// Marker types.
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[serde(rename_all = "snake_case")]
+pub enum MarkerType {
+    Coin,
+    Pool,
+    Restrictedcoin, // Equivalent to 'Restricted'
+    Restricted,
+}
+
+// Define the default for marker type
+impl Default for MarkerType {
+    fn default() -> MarkerType {
+        MarkerType::Coin
+    }
+}
+
+/// Marker status types.
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[serde(rename_all = "snake_case")]
+pub enum MarkerStatus {
+    Active,
+    Cancelled,
+    Destroyed,
+    Finalized,
+    Proposed,
+    Undefined,
 }

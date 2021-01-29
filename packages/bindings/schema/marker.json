@@ -39,7 +39,7 @@
       ]
     },
     "marker_type": {
-      "type": "string"
+      "$ref": "#/definitions/MarkerType"
     },
     "permissions": {
       "default": [],
@@ -62,7 +62,7 @@
       "minimum": 0.0
     },
     "status": {
-      "type": "string"
+      "$ref": "#/definitions/MarkerStatus"
     },
     "total_supply": {
       "type": "string"
@@ -119,6 +119,28 @@
         "grant",
         "mint",
         "withdraw"
+      ]
+    },
+    "MarkerStatus": {
+      "description": "Marker status types.",
+      "type": "string",
+      "enum": [
+        "active",
+        "cancelled",
+        "destroyed",
+        "finalized",
+        "proposed",
+        "undefined"
+      ]
+    },
+    "MarkerType": {
+      "description": "Marker types.",
+      "type": "string",
+      "enum": [
+        "coin",
+        "pool",
+        "restrictedcoin",
+        "restricted"
       ]
     },
     "Uint128": {

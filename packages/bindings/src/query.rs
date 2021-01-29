@@ -75,7 +75,8 @@ impl Into<ProvenanceQueryParams> for ScopeQueryParams {
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum MarkerQueryParams {
-    GetMarker { address: HumanAddr, denom: String },
+    GetMarkerByAddress { address: HumanAddr },
+    GetMarkerByDenom { denom: String },
 }
 
 /// A helper that wraps MarkerQueryParams in ProvenanceQueryParams.

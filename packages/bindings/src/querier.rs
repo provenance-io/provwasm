@@ -106,9 +106,9 @@ impl<'a> ProvenanceQuerier<'a> {
     // Execute a marker module query.
     fn query_marker(&self, params: MarkerQueryParams) -> StdResult<Marker> {
         let request = ProvenanceQuery {
-            version: String::from(QUERY_DATAFMT_VERSION),
             route: ProvenanceRoute::Marker,
             params: params.into(),
+            version: String::from(QUERY_DATAFMT_VERSION),
         };
         let res: Marker = self.querier.custom_query(&request.into())?;
         Ok(res)
@@ -116,17 +116,11 @@ impl<'a> ProvenanceQuerier<'a> {
 
     /// Get a marker by address.
     pub fn get_marker_by_address(&self, address: HumanAddr) -> StdResult<Marker> {
-        self.query_marker(MarkerQueryParams::GetMarker {
-            address,
-            denom: "".into(),
-        })
+        self.query_marker(MarkerQueryParams::GetMarkerByAddress { address })
     }
 
     /// Get a marker by denomination.
     pub fn get_marker_by_denom(&self, denom: String) -> StdResult<Marker> {
-        self.query_marker(MarkerQueryParams::GetMarker {
-            address: "".into(),
-            denom,
-        })
+        self.query_marker(MarkerQueryParams::GetMarkerByDenom { denom })
     }
 }

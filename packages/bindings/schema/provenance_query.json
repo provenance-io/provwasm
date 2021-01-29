@@ -76,19 +76,34 @@
         {
           "type": "object",
           "required": [
-            "get_marker"
+            "get_marker_by_address"
           ],
           "properties": {
-            "get_marker": {
+            "get_marker_by_address": {
               "type": "object",
               "required": [
-                "address",
-                "denom"
+                "address"
               ],
               "properties": {
                 "address": {
                   "$ref": "#/definitions/HumanAddr"
-                },
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "get_marker_by_denom"
+          ],
+          "properties": {
+            "get_marker_by_denom": {
+              "type": "object",
+              "required": [
+                "denom"
+              ],
+              "properties": {
                 "denom": {
                   "type": "string"
                 }

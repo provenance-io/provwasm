@@ -52,18 +52,15 @@ impl MarkerQuerier {
     }
 
     pub fn query(&self, params: &MarkerQueryParams) -> QuerierResult {
-        match params {
-            MarkerQueryParams::GetMarker { denom, address } => {
-                let maybe_marker = if denom.is_empty() {
-                    self.get_marker_by_address(address)
-                } else {
-                    self.get_marker_by_denom(denom)
-                };
-                match maybe_marker {
-                    Some(r) => r,
-                    None => self.query_error("marker not found".into(), to_binary(params)),
-                }
+        let maybe_marker = match params {
+            MarkerQueryParams::GetMarkerByAddress { address } => {
+                self.get_marker_by_address(address)
             }
+            MarkerQueryParams::GetMarkerByDenom { denom } => self.get_marker_by_denom(denom),
+        };
+        match maybe_marker {
+            Some(r) => r,
+            None => self.query_error("marker not found".into(), to_binary(params)),
         }
     }
 }
@@ -96,9 +93,8 @@ mod test {
         let expected_marker: Marker = from_binary(&bin).unwrap();
         let querier = MarkerQuerier::new(vec![expected_marker.clone()]);
 
-        let params = MarkerQueryParams::GetMarker {
+        let params = MarkerQueryParams::GetMarkerByDenom {
             denom: "nugz".into(),
-            address: "".into(),
         };
         let bin = querier.query(&params).unwrap().unwrap();
         let marker: Marker = from_binary(&bin).unwrap();
@@ -112,8 +108,7 @@ mod test {
         let expected_marker: Marker = from_binary(&bin).unwrap();
         let querier = MarkerQuerier::new(vec![expected_marker.clone()]);
 
-        let params = MarkerQueryParams::GetMarker {
-            denom: "".into(),
+        let params = MarkerQueryParams::GetMarkerByAddress {
             address: HumanAddr::from("tp18vmzryrvwaeykmdtu6cfrz5sau3dhc5c73ms0u"),
         };
         let bin = querier.query(&params).unwrap().unwrap();
@@ -125,9 +120,8 @@ mod test {
     #[test]
     fn get_marker_not_found() {
         let querier = MarkerQuerier::default();
-        let params = MarkerQueryParams::GetMarker {
+        let params = MarkerQueryParams::GetMarkerByDenom {
             denom: "budz".into(),
-            address: "".into(),
         };
         let err = querier.query(&params).unwrap_err();
         match err {
