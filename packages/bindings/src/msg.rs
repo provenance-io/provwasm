@@ -233,7 +233,7 @@ pub enum MarkerMsgParams {
         coin: Coin,
         recipient: HumanAddr,
     },
-    Transfer {
+    TransferMarkerCoins {
         coin: Coin,
         to: HumanAddr,
         from: HumanAddr,
@@ -286,11 +286,12 @@ pub fn grant_marker_access_all(denom: String, address: HumanAddr) -> CosmosMsg<P
         denom,
         address,
         vec![
+            MarkerPermission::Admin,
             MarkerPermission::Burn,
             MarkerPermission::Delete,
             MarkerPermission::Deposit,
-            MarkerPermission::Grant,
             MarkerPermission::Mint,
+            MarkerPermission::Transfer,
             MarkerPermission::Withdraw,
         ],
     )
@@ -360,5 +361,5 @@ pub fn transfer_marker_coins(
     to: HumanAddr,
     from: HumanAddr,
 ) -> CosmosMsg<ProvenanceMsg> {
-    create_marker_msg(MarkerMsgParams::Transfer { coin, to, from })
+    create_marker_msg(MarkerMsgParams::TransferMarkerCoins { coin, to, from })
 }

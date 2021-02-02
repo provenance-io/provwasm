@@ -141,11 +141,13 @@ pub struct AccessGrant {
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum MarkerPermission {
+    Admin,
     Burn,
     Deposit,
     Delete,
-    Grant,
     Mint,
+    Transfer,
+    Unspecified,
     Withdraw,
 }
 
@@ -154,9 +156,7 @@ pub enum MarkerPermission {
 #[serde(rename_all = "snake_case")]
 pub enum MarkerType {
     Coin,
-    Pool,
-    Restrictedcoin, // Equivalent to 'Restricted'
-    Restricted,
+    Restricted, // Means "restricted coin"
 }
 
 // Define the default for marker type
