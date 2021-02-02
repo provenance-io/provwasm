@@ -3,6 +3,9 @@ name = "provwasm-std"
 version = "0.13.2"
 authors = ["David Pederson <dpederson@figure.com>"]
 edition = "2018"
+license = "Apache-2.0"
+repository = "https://github.com/provenance-io/provwasm/tree/main/packages/bindings"
+description = "Rust bindings that enable CosmWasm smart contracts to interact with custom modules in the Provenance Blockchain"
 
 [features]
 backtraces = []

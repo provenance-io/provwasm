@@ -3,6 +3,9 @@ name = "provwasm-mocks"
 version = "0.13.2"
 authors = ["David Pederson <dpederson@figure.com>"]
 edition = "2018"
+license = "Apache-2.0"
+repository = "https://github.com/provenance-io/provwasm/tree/main/packages/mocks"
+description = "Rust mocks that enable unit testing of CosmWasm smart contracts that interact with custom modules in the Provenance Blockchain"
 
 [dependencies]
 provwasm-std = { path = "../bindings", version = "0.13.2" }

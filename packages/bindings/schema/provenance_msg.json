@@ -326,6 +326,33 @@
               }
             }
           }
+        },
+        {
+          "type": "object",
+          "required": [
+            "transfer"
+          ],
+          "properties": {
+            "transfer": {
+              "type": "object",
+              "required": [
+                "coin",
+                "from",
+                "to"
+              ],
+              "properties": {
+                "coin": {
+                  "$ref": "#/definitions/Coin"
+                },
+                "from": {
+                  "$ref": "#/definitions/HumanAddr"
+                },
+                "to": {
+                  "$ref": "#/definitions/HumanAddr"
+                }
+              }
+            }
+          }
         }
       ]
     },
