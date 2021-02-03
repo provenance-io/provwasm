@@ -113,11 +113,13 @@
       "description": "Marker permission types.",
       "type": "string",
       "enum": [
+        "admin",
         "burn",
         "deposit",
         "delete",
-        "grant",
         "mint",
+        "transfer",
+        "unspecified",
         "withdraw"
       ]
     },
@@ -138,8 +140,6 @@
       "type": "string",
       "enum": [
         "coin",
-        "pool",
-        "restrictedcoin",
         "restricted"
       ]
     },

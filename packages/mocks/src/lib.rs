@@ -1,3 +1,4 @@
+#[allow(clippy::all)]
 mod attribute;
 mod marker;
 mod name;

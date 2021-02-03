@@ -15,7 +15,7 @@
         "burn",
         "delete",
         "deposit",
-        "grant",
+        "admin",
         "mint",
         "withdraw"
       ],
