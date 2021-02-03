@@ -18,38 +18,42 @@ Then, from the provenance blockchain directory, store the optimized smart contra
 provenance
 
 ```bash
-provenance tx wasm store tutorial.wasm \
+provenanced tx wasm store tutorial.wasm \
     --source "https://github.com/provenance-io/provwasm/tree/main/contracts/tutorial" \
     --builder "cosmwasm/rust-optimizer:0.10.7" \
-    --instantiate-only-address $(provenance keys show -a feebucket --keyring-backend test --home build/node0/provenance) \
+    --instantiate-only-address $(provenanced keys show -a feebucket --keyring-backend test --home build/node0 --testnet) \
     --from feebucket \
     --keyring-backend test \
-    --home build/node0/provenance \
+    --home build/node0 \
     --chain-id chain-local \
     --gas auto \
-    --fees 25000vspn \
+    --fees 25000nhash \
     --broadcast-mode block \
-    --yes
+    --yes \
+    --testnet
 ```
 
 To query the stored code (NOTE: The wasm module query commands only produces JSON output).
 
 ```bash
-provenance query wasm list-code -o json | jq
+provenanced query wasm list-code -o json | jq
 ```
 
 Should produce output that resembles (field values may differ) the following.
 
 ```json
-[
-  {
-    "id": 1,
-    "creator": "tp1clx2v0ze5wmckerm3wx9c2r7wcaf05ktwyaedj",
-    "data_hash": "ACB50FFA4AED7D5230C6ED5D26EA1707A97C1B2B6F84D485DCC8154DD94C5B7A",
-    "source": "https://github.com/provenance-io/provwasm/tree/main/contracts/tutorial",
-    "builder": "cosmwasm/rust-optimizer:0.10.3"
-  }
-]
+{
+  "code_infos": [
+    {
+      "id": 1,
+      "creator": "tp18ef6kll9ffpz06ergm6v9xyqtn7pzg9vux8e0z",
+      "data_hash": "9BAE475D812850DF789ACB8252582FDCFB6627593BC44234D75F6002E48DFFD5",
+      "source": "https://github.com/provenance-io/provwasm/tree/main/contracts/tutorial",
+      "builder": "cosmwasm/rust-optimizer:0.10.7"
+    }
+  ],
+  "pagination": {}
+}
 ```
 
 When storing contracts, it is important to set the `--source` and `--builder` fields. 3rd parties

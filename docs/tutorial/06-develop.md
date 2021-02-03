@@ -47,7 +47,7 @@ NOTE: A few of these cargo commands are aliases. The full commands can be seen i
 ```toml
 [alias]
 wasm = "build --release --target wasm32-unknown-unknown"
-unit-test = "test --lib --features backtraces"
+unit-test = "test --lib"
 schema = "run --example schema"
 ```
 
@@ -86,6 +86,8 @@ pub enum ContractError {
 
     #[error("Unauthorized")]
     Unauthorized {},
+    // Add any other custom errors you like here.
+    // Look at https://docs.rs/thiserror/1.0.21/thiserror/ for details.
 }
 ```
 
@@ -96,15 +98,13 @@ File: `src/state.rs`
 Defines a singleton (one key, one value) configuration state for the smart contract.
 
 ```rust
+use cosmwasm_std::{Decimal, HumanAddr, Storage};
+use cosmwasm_storage::{singleton, singleton_read, ReadonlySingleton, Singleton};
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
-use cosmwasm_std::{Decimal, HumanAddr, Storage};
-use cosmwasm_storage::{singleton, singleton_read, ReadonlySingleton, Singleton};
-
 pub static CONFIG_KEY: &[u8] = b"config";
 
-/// Fields that comprise the smart contract state
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 pub struct State {
     // The contract name
@@ -141,7 +141,6 @@ use serde::{Deserialize, Serialize};
 
 use crate::state::State;
 
-/// A message sent to initialize the contract state.
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 pub struct InitMsg {
     pub contract_name: String,
@@ -150,21 +149,19 @@ pub struct InitMsg {
     pub fee_percent: Decimal,
 }
 
-/// A message sent to transfer funds and collect fees for a purchase.
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum HandleMsg {
     Purchase { id: String },
 }
 
-/// A message sent to query contract config state.
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum QueryMsg {
+    // GetCount returns the current count as a json-encoded number
     QueryRequest {},
 }
 
-/// A type alias for contract state.
 pub type QueryResponse = State;
 ```
 
@@ -204,12 +201,13 @@ File: `src/contract.rs`
 The following imports are required for the init, query and handle functions.
 
 ```rust
+use std::ops::Mul;
+
 use cosmwasm_std::{
     attr, coin, to_binary, BankMsg, Binary, CosmosMsg, Decimal, Deps, DepsMut, Env, HandleResponse,
     InitResponse, MessageInfo, StdError, StdResult,
 };
 use provwasm_std::{bind_name, ProvenanceMsg};
-use std::ops::Mul;
 
 use crate::error::ContractError;
 use crate::msg::{HandleMsg, InitMsg, QueryMsg};
@@ -221,31 +219,31 @@ use crate::state::{config, config_read, State};
 Handler code for contract instantiation.
 
 ```rust
-/// Initialize the contract
+// initialize the contract
 pub fn init(
     deps: DepsMut,
     env: Env,
     info: MessageInfo,
     msg: InitMsg,
-) -> Result<InitResponse<ProvenanceMsg>, StdError> {
+) -> Result<InitResponse<ProvenanceMsg>, ContractError> {
     // Ensure no funds were sent with the message
     if !info.sent_funds.is_empty() {
         let errm = "purchase funds are not allowed to be sent during init";
-        return Err(StdError::generic_err(errm));
+        return Err(ContractError::Std(StdError::generic_err(errm)));
     }
 
     // Ensure there are limits on fees.
     if msg.fee_percent.is_zero() || msg.fee_percent > Decimal::percent(25) {
-        return Err(StdError::generic_err(
+        return Err(ContractError::Std(StdError::generic_err(
             "fee percent must be > 0.0 and <= 0.25",
-        ));
+        )));
     }
 
     // Ensure the merchant address is not also the fee collection address
     if msg.merchant_address == info.sender {
-        return Err(StdError::generic_err(
+        return Err(ContractError::Std(StdError::generic_err(
             "merchant address can't be the fee collection address",
-        ));
+        )));
     }
 
     // Create and save contract config state. The fee collection address represents the network
@@ -377,238 +375,220 @@ Add an inner module with imports for contract unit tests
 ```rust
 #[cfg(test)]
 mod tests {
-    use super::*;
-    use crate::msg::QueryResponse;
     use cosmwasm_std::testing::{mock_env, mock_info};
-    use cosmwasm_std::{from_binary, HumanAddr};
+    use cosmwasm_std::{coin, from_binary, BankMsg, CosmosMsg, Decimal, HumanAddr, StdError};
     use provwasm_mocks::mock_dependencies;
 
-    // tests here...
-}
-```
+    use crate::contract::{handle, init, query};
+    use crate::error::ContractError;
+    use crate::msg::{HandleMsg, InitMsg, QueryMsg, QueryResponse};
 
-Add a unit test that establishes a valid init call works
+    // test contract initialization with valid data
+    #[test]
+    fn valid_init() {
+        // Create mocks
+        let mut deps = mock_dependencies(&[]);
+        let env = mock_env();
+        let info = mock_info("feebucket", &[]);
 
-```rust
-#[test]
-fn valid_init() {
-    // Create mocks
-    let mut deps = mock_dependencies(&[]);
-    let env = mock_env();
-    let info = mock_info("feebucket", &[]);
+        // Create a valid init message
+        let msg = InitMsg {
+            contract_name: "tutorial.sc.pb".into(),
+            purchase_denom: "fpcoin".into(),
+            merchant_address: HumanAddr::from("merchant"),
+            fee_percent: Decimal::percent(10),
+        };
 
-    // Create a valid init message
-    let msg = InitMsg {
-        contract_name: "tutorial.sc.pb".into(),
-        purchase_denom: "fpcoin".into(),
-        merchant_address: HumanAddr::from("merchant"),
-        fee_percent: Decimal::percent(10),
-    };
-
-    // Ensure a message was created to bind the name to the contract address.
-    let res = init(deps.as_mut(), env, info, msg).unwrap();
-    assert_eq!(res.messages.len(), 1);
-}
-```
-
-Add a unit test to ensure an invalid merchant address sent to `init` causes an error
-
-```rust
-#[test]
-fn invalid_merchant_init() {
-    // Create mocks
-    let mut deps = mock_dependencies(&[]);
-    let env = mock_env();
-    let info = mock_info("merchant", &[]); // error: merchant can't be fee collector
-
-    // Create an invalid init message
-    let msg = InitMsg {
-        contract_name: "tutorial.sc.pb".into(),
-        purchase_denom: "fpcoin".into(),
-        merchant_address: HumanAddr::from("merchant"),
-        fee_percent: Decimal::percent(10),
-    };
-
-    // Ensure the expected error was returned.
-    let err = init(deps.as_mut(), env, info, msg).unwrap_err();
-    match err {
-        StdError::GenericErr { msg, .. } => {
-            assert_eq!(msg, "merchant address can't be the fee collection address")
-        }
-        _ => panic!("unexpected init error"),
+        // Ensure a message was created to bind the name to the contract address.
+        let res = init(deps.as_mut(), env, info, msg).unwrap();
+        assert_eq!(res.messages.len(), 1);
     }
-}
-```
 
-Add a unit test to ensure an invalid fee percentage sent to `init` causes an error
+    // test contract initialization with invalid merchant
+    #[test]
+    fn invalid_merchant_init() {
+        // Create mocks
+        let mut deps = mock_dependencies(&[]);
+        let env = mock_env();
+        let info = mock_info("merchant", &[]); // error: merchant can't be fee collector
 
-```rust
-#[test]
-fn invalid_fee_percent_init() {
-    // Create mocks
-    let mut deps = mock_dependencies(&[]);
-    let env = mock_env();
-    let info = mock_info("feebucket", &[]);
+        // Create an invalid init message
+        let msg = InitMsg {
+            contract_name: "tutorial.sc.pb".into(),
+            purchase_denom: "fpcoin".into(),
+            merchant_address: HumanAddr::from("merchant"),
+            fee_percent: Decimal::percent(10),
+        };
 
-    // Create an invalid init message
-    let msg = InitMsg {
-        contract_name: "tutorial.sc.pb".into(),
-        purchase_denom: "fpcoin".into(),
-        merchant_address: HumanAddr::from("merchant"),
-        fee_percent: Decimal::percent(37), // error: > 25%
-    };
-
-    // Ensure the expected error was returned.
-    let err = init(deps.as_mut(), env, info, msg).unwrap_err();
-    match err {
-        StdError::GenericErr { msg, .. } => {
-            assert_eq!(msg, "fee percent must be > 0.0 and <= 0.25")
-        }
-        _ => panic!("unexpected init error"),
-    }
-}
-```
-
-Add a test to ensure state set during init can be queried.
-
-```rust
-#[test]
-fn query_test() {
-    // Create mocks
-    let mut deps = mock_dependencies(&[]);
-    let env = mock_env();
-    let info = mock_info("feebucket", &[]);
-
-    // Create a valid init message to store contract state.
-    let msg = InitMsg {
-        contract_name: "tutorial.sc.pb".into(),
-        purchase_denom: "fpcoin".into(),
-        merchant_address: HumanAddr::from("merchant"),
-        fee_percent: Decimal::percent(10),
-    };
-    let _ = init(deps.as_mut(), env, info, msg).unwrap(); // Panics on error
-
-    // Call the smart contract query function to get stored state.
-    let msg = QueryMsg::QueryRequest {};
-    let bin = query(deps.as_ref(), mock_env(), msg).unwrap();
-    let resp: QueryResponse = from_binary(&bin).unwrap();
-
-    // Ensure the expected init fields were properly stored.
-    assert_eq!(resp.contract_name, "tutorial.sc.pb");
-    assert_eq!(resp.merchant_address, HumanAddr::from("merchant"));
-    assert_eq!(resp.purchase_denom, "fpcoin");
-    assert_eq!(resp.fee_collection_address, HumanAddr::from("feebucket"));
-    assert_eq!(resp.fee_percent, Decimal::percent(10));
-}
-```
-
-Add a unit test that establishes a valid purchase handle call works
-
-```rust
-#[test]
-fn handle_valid_purchase() {
-    // Init contract state
-    let mut deps = mock_dependencies(&[]);
-    let env = mock_env();
-    let info = mock_info("feebucket", &[]);
-    let msg = InitMsg {
-        contract_name: "tutorial.sc.pb".into(),
-        purchase_denom: "fpcoin".into(),
-        merchant_address: HumanAddr::from("merchant"),
-        fee_percent: Decimal::percent(10),
-    };
-    let _ = init(deps.as_mut(), env, info, msg).unwrap();
-
-    // Send a valid purchase message of 100fpcoin
-    let msg = HandleMsg::Purchase {
-        id: "a7918172-ac09-43f6-bc4b-7ac2fbad17e9".into(),
-    };
-    let info = mock_info("consumer", &[coin(100, "fpcoin")]);
-    let res = handle(deps.as_mut(), mock_env(), info, msg).unwrap();
-
-    // Ensure we have the merchant transfer and fee collection bank messages
-    assert_eq!(res.messages.len(), 2);
-
-    // Ensure we got the proper bank transfer values.
-    // 10% fees on 100 fpcoin => 90 fpcoin for the merchant and 10 fpcoin for the fee bucket.
-    let expected_transfer = coin(90, "fpcoin");
-    let expected_fees = coin(10, "fpcoin");
-    res.messages.into_iter().for_each(|msg| match msg {
-        CosmosMsg::Bank(BankMsg::Send {
-            amount, to_address, ..
-        }) => {
-            assert_eq!(amount.len(), 1);
-            if to_address == HumanAddr::from("merchant") {
-                assert_eq!(amount[0], expected_transfer)
-            } else if to_address == HumanAddr::from("feebucket") {
-                assert_eq!(amount[0], expected_fees)
-            } else {
-                panic!("unexpected to_address in bank message")
+        // Ensure the expected error was returned.
+        let err = init(deps.as_mut(), env, info, msg).unwrap_err();
+        match err {
+            ContractError::Std(StdError::GenericErr { msg, .. }) => {
+                assert_eq!(msg, "merchant address can't be the fee collection address")
             }
+            _ => panic!("unexpected init error"),
         }
-        _ => panic!("unexpected message type"),
-    });
-
-    // Ensure we got the purchase ID event attribute value
-    let expected_purchase_id = "a7918172-ac09-43f6-bc4b-7ac2fbad17e9";
-    res.attributes.into_iter().for_each(|atr| {
-        if atr.key == "purchase_id" {
-            assert_eq!(atr.value, expected_purchase_id)
-        }
-    })
-}
-```
-
-Add a unit test to ensure invalid purchase messages cause errors
-
-```rust
-#[test]
-fn handle_invalid_funds() {
-    // Init contract state
-    let mut deps = mock_dependencies(&[]);
-    let env = mock_env();
-    let info = mock_info("feebucket", &[]);
-    let msg = InitMsg {
-        contract_name: "tutorial.sc.pb".into(),
-        purchase_denom: "fpcoin".into(),
-        merchant_address: HumanAddr::from("merchant"),
-        fee_percent: Decimal::percent(10),
-    };
-    let _ = init(deps.as_mut(), env, info, msg).unwrap();
-
-    // Test purchase message
-    let msg = HandleMsg::Purchase {
-        id: "a7918172-ac09-43f6-bc4b-7ac2fbad17e9".into(),
-    };
-
-    // Don't send any funds
-    let info = mock_info("consumer", &[]);
-    let err = handle(deps.as_mut(), mock_env(), info, msg.clone()).unwrap_err();
-    match err {
-        ContractError::Std(StdError::GenericErr { msg, .. }) => {
-            assert_eq!(msg, "no purchase funds sent")
-        }
-        _ => panic!("unexpected handle error"),
     }
 
-    // Send zero amount for a valid denom
-    let info = mock_info("consumer", &[coin(0, "fpcoin")]);
-    let err = handle(deps.as_mut(), mock_env(), info, msg.clone()).unwrap_err();
-    match err {
-        ContractError::Std(StdError::GenericErr { msg, .. }) => {
-            assert_eq!(msg, "invalid purchase funds: 0fpcoin")
+    // test contract initialization with invalid fee rate
+    #[test]
+    fn invalid_fee_percent_init() {
+        // Create mocks
+        let mut deps = mock_dependencies(&[]);
+        let env = mock_env();
+        let info = mock_info("feebucket", &[]);
+
+        // Create an invalid init message
+        let msg = InitMsg {
+            contract_name: "tutorial.sc.pb".into(),
+            purchase_denom: "fpcoin".into(),
+            merchant_address: HumanAddr::from("merchant"),
+            fee_percent: Decimal::percent(37), // error: > 25%
+        };
+
+        // Ensure the expected error was returned.
+        let err = init(deps.as_mut(), env, info, msg).unwrap_err();
+        match err {
+            ContractError::Std(StdError::GenericErr { msg, .. }) => {
+                assert_eq!(msg, "fee percent must be > 0.0 and <= 0.25")
+            }
+            _ => panic!("unexpected init error"),
         }
-        _ => panic!("unexpected handle error"),
     }
 
-    // Send invalid denom
-    let info = mock_info("consumer", &[coin(100, "fakecoin")]);
-    let err = handle(deps.as_mut(), mock_env(), info, msg).unwrap_err();
-    match err {
-        ContractError::Std(StdError::GenericErr { msg, .. }) => {
-            assert_eq!(msg, "invalid purchase funds: 100fakecoin")
+    // test contract query with valid data
+    #[test]
+    fn query_test() {
+        // Create mocks
+        let mut deps = mock_dependencies(&[]);
+        let env = mock_env();
+        let info = mock_info("feebucket", &[]);
+
+        // Create a valid init message to store contract state.
+        let msg = InitMsg {
+            contract_name: "tutorial.sc.pb".into(),
+            purchase_denom: "fpcoin".into(),
+            merchant_address: HumanAddr::from("merchant"),
+            fee_percent: Decimal::percent(10),
+        };
+        let _ = init(deps.as_mut(), env, info, msg).unwrap(); // Panics on error
+
+        // Call the smart contract query function to get stored state.
+        let msg = QueryMsg::QueryRequest {};
+        let bin = query(deps.as_ref(), mock_env(), msg).unwrap();
+        let resp: QueryResponse = from_binary(&bin).unwrap();
+
+        // Ensure the expected init fields were properly stored.
+        assert_eq!(resp.contract_name, "tutorial.sc.pb");
+        assert_eq!(resp.merchant_address, HumanAddr::from("merchant"));
+        assert_eq!(resp.purchase_denom, "fpcoin");
+        assert_eq!(resp.fee_collection_address, HumanAddr::from("feebucket"));
+        assert_eq!(resp.fee_percent, Decimal::percent(10));
+    }
+
+    // test contract execution (purchase) with valid data
+    #[test]
+    fn handle_valid_purchase() {
+        // Init contract state
+        let mut deps = mock_dependencies(&[]);
+        let env = mock_env();
+        let info = mock_info("feebucket", &[]);
+        let msg = InitMsg {
+            contract_name: "tutorial.sc.pb".into(),
+            purchase_denom: "fpcoin".into(),
+            merchant_address: HumanAddr::from("merchant"),
+            fee_percent: Decimal::percent(10),
+        };
+        let _ = init(deps.as_mut(), env, info, msg).unwrap();
+
+        // Send a valid purchase message of 100fpcoin
+        let msg = HandleMsg::Purchase {
+            id: "a7918172-ac09-43f6-bc4b-7ac2fbad17e9".into(),
+        };
+        let info = mock_info("consumer", &[coin(100, "fpcoin")]);
+        let res = handle(deps.as_mut(), mock_env(), info, msg).unwrap();
+
+        // Ensure we have the merchant transfer and fee collection bank messages
+        assert_eq!(res.messages.len(), 2);
+
+        // Ensure we got the proper bank transfer values.
+        // 10% fees on 100 fpcoin => 90 fpcoin for the merchant and 10 fpcoin for the fee bucket.
+        let expected_transfer = coin(90, "fpcoin");
+        let expected_fees = coin(10, "fpcoin");
+        res.messages.into_iter().for_each(|msg| match msg {
+            CosmosMsg::Bank(BankMsg::Send {
+                amount, to_address, ..
+            }) => {
+                assert_eq!(amount.len(), 1);
+                if to_address == HumanAddr::from("merchant") {
+                    assert_eq!(amount[0], expected_transfer)
+                } else if to_address == HumanAddr::from("feebucket") {
+                    assert_eq!(amount[0], expected_fees)
+                } else {
+                    panic!("unexpected to_address in bank message")
+                }
+            }
+            _ => panic!("unexpected message type"),
+        });
+
+        // Ensure we got the purchase ID event attribute value
+        let expected_purchase_id = "a7918172-ac09-43f6-bc4b-7ac2fbad17e9";
+        res.attributes.into_iter().for_each(|atr| {
+            if atr.key == "purchase_id" {
+                assert_eq!(atr.value, expected_purchase_id)
+            }
+        })
+    }
+
+    // test contract execution (purchase) with invalid/insufficient funds
+    #[test]
+    fn handle_invalid_funds() {
+        // Init contract state
+        let mut deps = mock_dependencies(&[]);
+        let env = mock_env();
+        let info = mock_info("feebucket", &[]);
+        let msg = InitMsg {
+            contract_name: "tutorial.sc.pb".into(),
+            purchase_denom: "fpcoin".into(),
+            merchant_address: HumanAddr::from("merchant"),
+            fee_percent: Decimal::percent(10),
+        };
+        let _ = init(deps.as_mut(), env, info, msg).unwrap();
+
+        // Test purchase message
+        let msg = HandleMsg::Purchase {
+            id: "a7918172-ac09-43f6-bc4b-7ac2fbad17e9".into(),
+        };
+
+        // Don't send any funds
+        let info = mock_info("consumer", &[]);
+        let err = handle(deps.as_mut(), mock_env(), info, msg.clone()).unwrap_err();
+        match err {
+            ContractError::Std(StdError::GenericErr { msg, .. }) => {
+                assert_eq!(msg, "no purchase funds sent")
+            }
+            _ => panic!("unexpected handle error"),
         }
-        _ => panic!("unexpected handle error"),
+
+        // Send zero amount for a valid denom
+        let info = mock_info("consumer", &[coin(0, "fpcoin")]);
+        let err = handle(deps.as_mut(), mock_env(), info, msg.clone()).unwrap_err();
+        match err {
+            ContractError::Std(StdError::GenericErr { msg, .. }) => {
+                assert_eq!(msg, "invalid purchase funds: 0fpcoin")
+            }
+            _ => panic!("unexpected handle error"),
+        }
+
+        // Send invalid denom
+        let info = mock_info("consumer", &[coin(100, "fakecoin")]);
+        let err = handle(deps.as_mut(), mock_env(), info, msg).unwrap_err();
+        match err {
+            ContractError::Std(StdError::GenericErr { msg, .. }) => {
+                assert_eq!(msg, "invalid purchase funds: 100fakecoin")
+            }
+            _ => panic!("unexpected handle error"),
+        }
     }
 }
 ```
