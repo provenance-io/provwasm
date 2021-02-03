@@ -15,13 +15,13 @@ If not already available, clone the provenance blockchain project.
 ```bash
 mkdir -p $GOPATH/src/github.com/provenance-io
 cd $GOPATH/src/github.com/provenance-io
-git clone git@github.com:provenance-io/blockchain.git
+git clone git@github.com:provenance-io/provenance.git
 ```
 
 Navigate to the blockchain project
 
 ```bash
-cd ./blockchain
+cd ./provenance
 ```
 
 Install commands and start a provenance localnet cluster.
@@ -39,70 +39,73 @@ and transfer fee bucket.
 Create `merchant` account keys
 
 ```bash
-provenance keys add merchant --home build/node0/provenance --keyring-backend test
+provenanced keys add merchant --home build/node0 --keyring-backend test --testnet
 ```
 
 Create `feebucket` account keys
 
 ```bash
-provenance keys add feebucket --home build/node0/provenance --keyring-backend test
+provenanced keys add feebucket --home build/node0 --keyring-backend test --testnet
 ```
 
 Create `consumer` account keys
 
 ```bash
-provenance keys add consumer --home build/node0/provenance --keyring-backend test
+provenanced keys add consumer --home build/node0 --keyring-backend test --testnet
 ```
 
-Fund a `merchant` account with `vspn`, creating it on chain.
+Fund a `merchant` account with `nhash`, creating it on chain.
 
 ```bash
-provenance tx send \
-    $(provenance keys show -a node0 --home build/node0/provenance --keyring-backend test) \
-    $(provenance keys show -a merchant --home build/node0/provenance --keyring-backend test) \
-    100000vspn \
+provenanced tx bank send \
+    $(provenanced keys show -a node0 --home build/node0 --keyring-backend test --testnet) \
+    $(provenanced keys show -a merchant --home build/node0 --keyring-backend test --testnet) \
+    100000nhash \
     --from node0 \
     --keyring-backend test \
-    --home build/node0/provenance \
+    --home build/node0 \
     --chain-id chain-local \
     --gas auto \
-    --fees 2000vspn \
+    --fees 2000nhash \
     --broadcast-mode block \
-    --yes
+    --yes \
+    --testnet
 ```
 
-Fund a `feebucket` account with `vspn`, creating it on chain.
+Fund a `feebucket` account with `nhash`, creating it on chain.
 
 ```bash
-provenance tx send \
-    $(provenance keys show -a node0 --home build/node0/provenance --keyring-backend test) \
-    $(provenance keys show -a feebucket --home build/node0/provenance --keyring-backend test) \
-    100000vspn \
+provenanced tx bank send \
+    $(provenanced keys show -a node0 --home build/node0 --keyring-backend test --testnet) \
+    $(provenanced keys show -a feebucket --home build/node0 --keyring-backend test --testnet) \
+    100000nhash \
     --from node0 \
     --keyring-backend test \
-    --home build/node0/provenance \
+    --home build/node0 \
     --chain-id chain-local \
     --gas auto \
-    --fees 2000vspn \
+    --fees 2000nhash \
     --broadcast-mode block \
-    --yes
+    --yes \
+    --testnet
 ```
 
-Fund a `consumer` account with `vspn`, creating it on chain.
+Fund a `consumer` account with `nhash`, creating it on chain.
 
 ```bash
-provenance tx send \
-    $(provenance keys show -a node0 --home build/node0/provenance --keyring-backend test) \
-    $(provenance keys show -a consumer --home build/node0/provenance --keyring-backend test) \
-    100000vspn \
+provenanced tx bank send \
+    $(provenanced keys show -a node0 --home build/node0 --keyring-backend test --testnet) \
+    $(provenanced keys show -a consumer --home build/node0 --keyring-backend test --testnet) \
+    100000nhash \
     --from node0 \
     --keyring-backend test \
-    --home build/node0/provenance \
+    --home build/node0 \
     --chain-id chain-local \
     --gas auto \
-    --fees 2000vspn \
+    --fees 2000nhash \
     --broadcast-mode block \
-    --yes
+    --yes \
+    --testnet
 ```
 
 ## Name
@@ -111,18 +114,19 @@ An unrestricted name, `sc.pb`, must be created so the smart contract can bind a 
 address.
 
 ```bash
-provenance tx name bind \
+provenanced tx name bind \
     "sc" \
-    $(provenance keys show -a node0 --home build/node0/provenance --keyring-backend test) \
+    $(provenanced keys show -a node0 --home build/node0 --keyring-backend test --testnet) \
     "pb" \
     --restrict=false \
     --from node0 \
     --keyring-backend test \
-    --home build/node0/provenance \
+    --home build/node0 \
     --chain-id chain-local \
-    --fees 5000vspn \
+    --fees 5000nhash \
     --broadcast-mode block \
-    --yes
+    --yes \
+    --testnet
 ```
 
 ## Marker
@@ -130,61 +134,65 @@ provenance tx name bind \
 A marker must be created in order to mint coins required for purchase transfers.
 
 ```bash
-provenance tx marker new 1000000000fpcoin \
+provenanced tx marker new 1000000000fpcoin \
     --type COIN \
     --from node0 \
     --keyring-backend test \
-    --home build/node0/provenance \
+    --home build/node0 \
     --chain-id chain-local \
     --gas auto \
-    --fees 5000vspn \
+    --fees 5000nhash \
     --broadcast-mode block \
-    --yes
+    --yes \
+    --testnet
 ```
 
 Grant withdraw access on the marker to the `node0` marker admin account
 
 ```bash
-provenance tx marker grant \
-    $(provenance keys show -a node0 --home build/node0/provenance --keyring-backend test) \
+provenanced tx marker grant \
+    $(provenanced keys show -a node0 --home build/node0 --keyring-backend test --testnet) \
     fpcoin \
     withdraw \
     --from node0 \
     --keyring-backend test \
-    --home build/node0/provenance \
+    --home build/node0 \
     --chain-id chain-local \
     --gas auto \
-    --fees 5000vspn \
+    --fees 5000nhash \
     --broadcast-mode block \
-    --yes
+    --yes \
+    --testnet
 ```
 
 Finalize the marker
 
 ```bash
-provenance tx marker finalize fpcoin \
+provenanced tx marker finalize fpcoin \
     --from node0 \
     --keyring-backend test \
-    --home build/node0/provenance \
+    --home build/node0 \
     --chain-id chain-local \
     --gas auto \
-    --fees 5000vspn \
+    --fees 5000nhash \
     --broadcast-mode block \
-    --yes
+    --yes \
+    --testnet
 ```
 
 Activate the marker, minting the `fpcoin` supply
 
 ```bash
-provenance tx marker activate fpcoin \
+provenanced tx marker activate fpcoin \
     --from node0 \
     --keyring-backend test \
-    --home build/node0/provenance \
+    --home build/node0 \
     --chain-id chain-local \
     --gas auto \
-    --fees 5000vspn \
+    --fees 5000nhash \
     --broadcast-mode block \
-    --yes
+    --yes \
+    --testnet
 ```
 
 ## Withdraw
@@ -192,39 +200,40 @@ provenance tx marker activate fpcoin \
 Coins must be withdrawn into the `consumer` account in order to send purchase transfers.
 
 ```bash
-provenance tx marker withdraw fpcoin \
+provenanced tx marker withdraw fpcoin \
     100000fpcoin \
-    $(provenance keys show -a consumer --home build/node0/provenance --keyring-backend test) \
+    $(provenanced keys show -a consumer --home build/node0 --keyring-backend test --testnet) \
     --from node0 \
     --keyring-backend test \
-    --home build/node0/provenance \
+    --home build/node0 \
     --chain-id chain-local \
     --gas auto \
-    --fees 5000vspn \
+    --fees 5000nhash \
     --broadcast-mode block \
-    --yes
+    --yes \
+    --testnet
 ```
 
-The `consumer` account should now have `vspn` to pay network fees, and `fpcoin` for purchases with
+The `consumer` account should now have `nhash` to pay network fees, and `fpcoin` for purchases with
 the merchant.
 
 ```bash
-provenance q auth account \
-    $(provenance keys show -a consumer --home build/node0/provenance --keyring-backend test)
+provenanced q bank balances \
+    $(provenanced keys show -a consumer --home build/node0 --keyring-backend test --testnet) \
+    --testnet
 ```
 
 Example account query output
 
 ```yaml
-address: tp1s2nzrmekarkeckerxnmc6p2pd90yh2spzej0vg
-coins:
-- denom: fpcoin
-  amount: "100000"
-- denom: vspn
-  amount: "100000"
-public_key: ""
-account_number: 14
-sequence: 0
+balances:
+  - amount: "100000"
+    denom: fpcoin
+  - amount: "100000"
+    denom: nhash
+pagination:
+  next_key: null
+  total: "0"
 ```
 
 ## Up Next
