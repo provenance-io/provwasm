@@ -11,7 +11,7 @@ tutorial `Makefile`.
 ```Makefile
 .PHONY: optimize
 optimize:
-	@docker run -it --rm -v $(CURDIR):/code -v "$(CURDIR)/../../packages":/packages \
+    @docker run --rm -v $(CURDIR):/code -v "$(CURDIR)/../../packages":/packages \
 		--mount type=volume,source=tutorial_cache,target=/code/target \
 		--mount type=volume,source=registry_cache,target=/usr/local/cargo/registry \
 		cosmwasm/rust-optimizer:0.10.7
