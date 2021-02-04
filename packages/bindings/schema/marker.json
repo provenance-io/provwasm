@@ -9,6 +9,7 @@
     "marker_type",
     "sequence",
     "status",
+    "supply_fixed",
     "total_supply"
   ],
   "properties": {
@@ -48,14 +49,6 @@
         "$ref": "#/definitions/AccessGrant"
       }
     },
-    "public_key": {
-      "default": "",
-      "allOf": [
-        {
-          "$ref": "#/definitions/Binary"
-        }
-      ]
-    },
     "sequence": {
       "type": "integer",
       "format": "uint64",
@@ -64,8 +57,11 @@
     "status": {
       "$ref": "#/definitions/MarkerStatus"
     },
+    "supply_fixed": {
+      "type": "boolean"
+    },
     "total_supply": {
-      "type": "string"
+      "$ref": "#/definitions/Decimal"
     }
   },
   "definitions": {
@@ -87,10 +83,6 @@
         }
       }
     },
-    "Binary": {
-      "description": "Binary is a wrapper around Vec<u8> to add base64 de/serialization with serde. It also adds some helper methods to help encode inline.\n\nThis is only needed as serde-json-{core,wasm} has a horrible encoding for Vec<u8>",
-      "type": "string"
-    },
     "Coin": {
       "type": "object",
       "required": [
@@ -105,6 +97,10 @@
           "type": "string"
         }
       }
+    },
+    "Decimal": {
+      "description": "A fixed-point decimal value with 18 fractional digits, i.e. Decimal(1_000_000_000_000_000_000) == 1.0\n\nThe greatest possible value that can be represented is 340282366920938463463.374607431768211455 (which is (2^128 - 1) / 10^18)",
+      "type": "string"
     },
     "HumanAddr": {
       "type": "string"
@@ -132,7 +128,7 @@
         "destroyed",
         "finalized",
         "proposed",
-        "undefined"
+        "unspecified"
       ]
     },
     "MarkerType": {
@@ -140,7 +136,8 @@
       "type": "string",
       "enum": [
         "coin",
-        "restricted"
+        "restricted",
+        "unspecified"
       ]
     },
     "Uint128": {

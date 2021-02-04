@@ -375,7 +375,8 @@
       "type": "string",
       "enum": [
         "coin",
-        "restricted"
+        "restricted",
+        "unspecified"
       ]
     },
     "NameMsgParams": {

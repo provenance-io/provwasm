@@ -1,5 +1,5 @@
 #![allow(clippy::field_reassign_with_default)]
-use cosmwasm_std::{Binary, Coin, HumanAddr};
+use cosmwasm_std::{Binary, Coin, Decimal, HumanAddr};
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
@@ -116,8 +116,6 @@ pub struct Marker {
     pub address: HumanAddr,
     #[serde(default)]
     pub coins: Vec<Coin>,
-    #[serde(default)]
-    pub public_key: Binary,
     pub account_number: u64,
     pub sequence: u64,
     #[serde(default)]
@@ -126,8 +124,9 @@ pub struct Marker {
     pub permissions: Vec<AccessGrant>,
     pub status: MarkerStatus,
     pub denom: String,
-    pub total_supply: String,
+    pub total_supply: Decimal,
     pub marker_type: MarkerType,
+    pub supply_fixed: bool,
 }
 
 // Marker permissions granted to another account.
@@ -148,7 +147,7 @@ pub enum MarkerPermission {
     Delete,
     Mint,
     Transfer,
-    Unspecified,
+    Unspecified, // Query only
     Withdraw,
 }
 
@@ -157,14 +156,8 @@ pub enum MarkerPermission {
 #[serde(rename_all = "snake_case")]
 pub enum MarkerType {
     Coin,
-    Restricted, // Means "restricted coin"
-}
-
-// Define the default for marker type
-impl Default for MarkerType {
-    fn default() -> MarkerType {
-        MarkerType::Coin
-    }
+    Restricted,  // Means "restricted coin"
+    Unspecified, // Query only
 }
 
 /// Marker status types.
@@ -176,5 +169,5 @@ pub enum MarkerStatus {
     Destroyed,
     Finalized,
     Proposed,
-    Undefined,
+    Unspecified, // Query only
 }

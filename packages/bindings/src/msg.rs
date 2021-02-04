@@ -260,11 +260,16 @@ fn create_marker_msg(params: MarkerMsgParams) -> CosmosMsg<ProvenanceMsg> {
 
 /// Create a message that will propose a new marker with the default type.
 pub fn create_marker(coin: Coin) -> CosmosMsg<ProvenanceMsg> {
-    create_marker_with_type(coin, MarkerType::default())
+    create_marker_with_type(coin, MarkerType::Coin)
 }
 
-/// Create a message that will propose a new marker with a given type.
-pub fn create_marker_with_type(coin: Coin, marker_type: MarkerType) -> CosmosMsg<ProvenanceMsg> {
+/// Create a message that will propose a new marker with the type set to restricted.
+pub fn create_restricted_marker(coin: Coin) -> CosmosMsg<ProvenanceMsg> {
+    create_marker_with_type(coin, MarkerType::Restricted)
+}
+
+// Create a message that will propose a new marker with a given type.
+fn create_marker_with_type(coin: Coin, marker_type: MarkerType) -> CosmosMsg<ProvenanceMsg> {
     create_marker_msg(MarkerMsgParams::CreateMarker { coin, marker_type })
 }
 
