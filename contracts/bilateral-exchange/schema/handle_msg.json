@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "HandleMsg",
+  "anyOf": [
+    {
+      "type": "object",
+      "required": [
+        "offer"
+      ],
+      "properties": {
+        "offer": {
+          "type": "object"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "required": [
+        "cancel"
+      ],
+      "properties": {
+        "cancel": {
+          "type": "object"
+        }
+      }
+    }
+  ]
+}
