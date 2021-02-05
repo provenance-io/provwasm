@@ -58,57 +58,6 @@ pub struct Attribute {
     pub value_type: AttributeValueType,
 }
 
-/// Metadata from the provenance execution environment.
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
-#[serde(rename_all = "snake_case")]
-pub struct Scope {
-    pub id: String,
-    pub parties: Vec<Party>,
-    pub record_groups: Vec<RecordGroup>,
-}
-
-/// A party on a scope.
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
-#[serde(rename_all = "snake_case")]
-pub struct Party {
-    pub address: String,
-    pub role: i64,
-}
-
-/// A group of records on a scope.
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
-#[serde(rename_all = "snake_case")]
-pub struct RecordGroup {
-    pub class_name: String,
-    pub group_id: String,
-    pub parties: Vec<Party>,
-    pub records: Vec<Record>,
-    pub specification: String,
-}
-
-/// A record in a record group.
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
-#[serde(rename_all = "snake_case")]
-pub struct Record {
-    pub class_name: String,
-    pub hash: String,
-    pub inputs: Vec<RecordInput>,
-    pub name: String,
-    pub result_hash: String,
-    pub result_name: String,
-    pub result_type: i64,
-}
-
-/// An input that produced a record.
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
-#[serde(rename_all = "snake_case")]
-pub struct RecordInput {
-    pub class_name: String,
-    pub hash: String,
-    pub input_type: i64,
-    pub name: String,
-}
-
 // A marker account
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]

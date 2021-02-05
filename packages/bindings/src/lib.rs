@@ -16,11 +16,11 @@ pub use msg::{
 pub use querier::ProvenanceQuerier;
 pub use query::{
     AttributeQueryParams, MarkerQueryParams, NameQueryParams, ProvenanceQuery,
-    ProvenanceQueryParams, ScopeQueryParams,
+    ProvenanceQueryParams,
 };
 pub use types::{
-    Attribute, AttributeValueType, Attributes, Marker, MarkerPermission, Name, Names, Party,
-    ProvenanceRoute, Record, RecordGroup, RecordInput, Scope,
+    Attribute, AttributeValueType, Attributes, Marker, MarkerPermission, Name, Names,
+    ProvenanceRoute,
 };
 
 // Indicate that smart contracts that use this lib can only be run on the provenance blockchain.

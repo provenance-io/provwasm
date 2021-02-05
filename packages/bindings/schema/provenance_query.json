@@ -184,17 +184,6 @@
         {
           "type": "object",
           "required": [
-            "scope"
-          ],
-          "properties": {
-            "scope": {
-              "$ref": "#/definitions/ScopeQueryParams"
-            }
-          }
-        },
-        {
-          "type": "object",
-          "required": [
             "marker"
           ],
           "properties": {
@@ -213,30 +202,6 @@
         "name",
         "marker",
         "metadata"
-      ]
-    },
-    "ScopeQueryParams": {
-      "description": "Params for querying scopes.",
-      "anyOf": [
-        {
-          "type": "object",
-          "required": [
-            "get_scope"
-          ],
-          "properties": {
-            "get_scope": {
-              "type": "object",
-              "required": [
-                "id"
-              ],
-              "properties": {
-                "id": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
       ]
     }
   }

@@ -24,7 +24,6 @@ impl CustomQuery for ProvenanceQuery {}
 pub enum ProvenanceQueryParams {
     Name(NameQueryParams),
     Attribute(AttributeQueryParams),
-    Scope(ScopeQueryParams),
     Marker(MarkerQueryParams),
 }
 
@@ -55,20 +54,6 @@ pub enum AttributeQueryParams {
 impl Into<ProvenanceQueryParams> for AttributeQueryParams {
     fn into(self) -> ProvenanceQueryParams {
         ProvenanceQueryParams::Attribute(self)
-    }
-}
-
-/// Params for querying scopes.
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
-#[serde(rename_all = "snake_case")]
-pub enum ScopeQueryParams {
-    GetScope { id: String },
-}
-
-/// A helper that wraps MetadataQueryParams in ProvenanceQueryParams.
-impl Into<ProvenanceQueryParams> for ScopeQueryParams {
-    fn into(self) -> ProvenanceQueryParams {
-        ProvenanceQueryParams::Scope(self)
     }
 }
 

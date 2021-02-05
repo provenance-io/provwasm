@@ -16,9 +16,9 @@ blockchain modules.
 The following table shows provwasm version compatibility and network availability for smart
 contract development and testing.
 
-| provwasm | wasmd | cosmos-sdk | provenance | localnet | testnet | mainnet | module support        |
-| -------- | ----- | ---------- | ---------- | -------- | ------- | ------- | --------------------- |
-| v0.13.2  | 0.14  | v0.40.1    | v0.1.x     | yes      | yes     | N/A     | attribute,marker,name |
+| provwasm | wasmd   | cosmos  | provenance | localnet | testnet | mainnet | module support        |
+| -------- | ------- | ------- | ---------- | -------- | ------- | ------- | --------------------- |
+| v0.13.2  | v0.15.0 | v0.41.0 | v0.1.x     | yes      | yes     | N/A     | attribute,marker,name |
 
 ## Getting Started
 
@@ -41,9 +41,7 @@ In addition to the core CosmWasm functionality, the provenance bindings include
 - Account Metadata
   - Get all attributes for an account.
   - Get attributes for an account by name.
-- Scope Metadata
-  - Get scope by ID.
-- Markers (in progress)
+- Markers
   - Get marker by denom.
   - Get marker by address.
 
@@ -55,7 +53,7 @@ In addition to the core CosmWasm functionality, the provenance bindings include
 - Account Metadata
   - Add attribute
   - Delete attributes
-- Markers (in progress)
+- Markers
   - Create
   - Grant access
   - Revoke access

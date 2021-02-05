@@ -2,7 +2,7 @@ use cosmwasm_std::{from_binary, HumanAddr, QuerierWrapper, StdError, StdResult};
 use serde::de::DeserializeOwned;
 
 use crate::query::*;
-use crate::types::{AttributeValueType, Attributes, Marker, Name, Names, ProvenanceRoute, Scope};
+use crate::types::{AttributeValueType, Attributes, Marker, Name, Names, ProvenanceRoute};
 
 // The data format version to pass into provenance for queries.
 static QUERY_DATAFMT_VERSION: &str = "2.0.0";
@@ -85,22 +85,6 @@ impl<'a> ProvenanceQuerier<'a> {
             .filter(|a| a.value_type == AttributeValueType::Json)
             .map(|a| from_binary(&a.value))
             .collect()
-    }
-
-    // Execute a metadata module scope query.
-    fn query_scope(&self, params: ScopeQueryParams) -> StdResult<Scope> {
-        let request = ProvenanceQuery {
-            route: ProvenanceRoute::Metadata,
-            params: params.into(),
-            version: String::from(QUERY_DATAFMT_VERSION),
-        };
-        let res: Scope = self.querier.custom_query(&request.into())?;
-        Ok(res)
-    }
-
-    /// Get scope by ID
-    pub fn get_scope(&self, id: String) -> StdResult<Scope> {
-        self.query_scope(ScopeQueryParams::GetScope { id })
     }
 
     // Execute a marker module query.
