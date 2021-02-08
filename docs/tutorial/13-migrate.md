@@ -213,8 +213,3 @@ Should output JSON simimlar to
   }
 ]
 ```
-
-## Up Next
-
-This concludes Part 2 of the tutorial. Proceed to Part 3 to see how to [Integrate](14-integration.md)
-Kotlin applications.
