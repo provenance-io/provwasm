@@ -5,13 +5,13 @@ will then peform bank transfers to the merchant and fee collection accounts.
 
 ## Execute Contract
 
-To execute a `100fpcoin` purchase with an ID of `12345`, run
+To execute a `100pcoin` purchase with an ID of `12345`, run
 
 ```bash
 provenanced tx wasm execute \
     tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
     '{"purchase":{"id":"12345"}}' \
-    --amount 100fpcoin \
+    --amount 100pcoin \
     --from consumer \
     --keyring-backend test \
     --home build/node0 \
@@ -31,12 +31,12 @@ provenanced query bank balances \
     --testnet
 ```
 
-This should show that the merchant has increased by `90fpcoin`
+This should show that the merchant has increased by `90pcoin`
 
 ```yaml
 balances:
   - amount: "90"
-    denom: fpcoin
+    denom: pcoin
   - amount: "100000"
     denom: nhash
 pagination:
@@ -52,12 +52,12 @@ provenanced query bank balances \
     --testnet
 ```
 
-This should show that the feebucket account has increased by `10fpcoin`
+This should show that the feebucket account has increased by `10pcoin`
 
 ```yaml
 balances:
   - amount: "10"
-    denom: fpcoin
+    denom: pcoin
   - amount: "46500"
     denom: nhash
 pagination:
@@ -73,12 +73,12 @@ provenanced query bank balances \
     --testnet
 ```
 
-This should show that it has decreased by `100fpcoin`
+This should show that it has decreased by `100pcoin`
 
 ```yaml
 balances:
   - amount: "99900"
-    denom: fpcoin
+    denom: pcoin
   - amount: "92000"
     denom: nhash
 pagination:
@@ -88,6 +88,6 @@ pagination:
 
 ## Up Next
 
-The smart contract has been verified to be deployed and working. Proceed to the
-[Migrate](13-migrate.md) section for notes on how to upgrade smart contracts. Or, proceed to Part 3
-to see how to [Integrate](14-integration) Kotlin applications.
+The smart contract has been verified to be deployed and working. This concludes Part 2 of the
+tutorial. Proceed to the [Migrate](13-migrate.md) section for information on how to upgrade smart
+contracts.

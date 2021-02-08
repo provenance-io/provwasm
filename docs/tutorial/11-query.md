@@ -22,7 +22,7 @@ data:
   fee_collection_address: tp18ef6kll9ffpz06ergm6v9xyqtn7pzg9vux8e0z
   fee_percent: "0.1"
   merchant_address: tp1u3zw79zhzxv8znpkdy35u6npe7aa45szt2ccge
-  purchase_denom: fpcoin
+  purchase_denom: pcoin
 ```
 
 Nothing too complex here. Other contracts will most likely require multiple types of query requests.

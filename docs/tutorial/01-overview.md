@@ -12,10 +12,8 @@ web assembly smart contract to the provenance blockchain.
 
 ## Overview
 
-This tutorial is broken out into three parts. The first will cover developing smart contracts.
+This tutorial is broken out into two parts. The first will cover developing smart contracts.
 The second will deal with deploying smart contracts to the provenance blockchain.
-The final part will show how to execute and query smart contracts from Kotlin using the
-provenance blockchain simple-client.
 
 ### Part 1: Development
 
@@ -28,16 +26,12 @@ provenance blockchain simple-client.
 
 ### Part 2: Deployment
 
-- [Setup](08-setup.md) - Start a provenance localnet cluster, create accounts and mint fpcoin.
+- [Setup](08-setup.md) - Start a provenance localnet cluster, create accounts and a marker.
 - [Store](09-store.md) - Upload optimized contract WASM.
 - [Instantiate](10-instantiate.md) - Create an instance of the contract.
 - [Query](11-query.md) - Get the smart contract configuration state.
 - [Execute](12-execute.md) - Execute the contract, sending funds and collecting fees.
 - [Migrate](13-migrate.md) - Notes on upgrading smart contracts.
-
-### Part 3: Integration
-
-- [Integration](14-integration.md): Use the Kotlin simple client to execute the contract.
 
 ### Up Next
 

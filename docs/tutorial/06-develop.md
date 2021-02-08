@@ -394,7 +394,7 @@ mod tests {
         // Create a valid init message
         let msg = InitMsg {
             contract_name: "tutorial.sc.pb".into(),
-            purchase_denom: "fpcoin".into(),
+            purchase_denom: "pcoin".into(),
             merchant_address: HumanAddr::from("merchant"),
             fee_percent: Decimal::percent(10),
         };
@@ -415,7 +415,7 @@ mod tests {
         // Create an invalid init message
         let msg = InitMsg {
             contract_name: "tutorial.sc.pb".into(),
-            purchase_denom: "fpcoin".into(),
+            purchase_denom: "pcoin".into(),
             merchant_address: HumanAddr::from("merchant"),
             fee_percent: Decimal::percent(10),
         };
@@ -441,7 +441,7 @@ mod tests {
         // Create an invalid init message
         let msg = InitMsg {
             contract_name: "tutorial.sc.pb".into(),
-            purchase_denom: "fpcoin".into(),
+            purchase_denom: "pcoin".into(),
             merchant_address: HumanAddr::from("merchant"),
             fee_percent: Decimal::percent(37), // error: > 25%
         };
@@ -467,7 +467,7 @@ mod tests {
         // Create a valid init message to store contract state.
         let msg = InitMsg {
             contract_name: "tutorial.sc.pb".into(),
-            purchase_denom: "fpcoin".into(),
+            purchase_denom: "pcoin".into(),
             merchant_address: HumanAddr::from("merchant"),
             fee_percent: Decimal::percent(10),
         };
@@ -481,7 +481,7 @@ mod tests {
         // Ensure the expected init fields were properly stored.
         assert_eq!(resp.contract_name, "tutorial.sc.pb");
         assert_eq!(resp.merchant_address, HumanAddr::from("merchant"));
-        assert_eq!(resp.purchase_denom, "fpcoin");
+        assert_eq!(resp.purchase_denom, "pcoin");
         assert_eq!(resp.fee_collection_address, HumanAddr::from("feebucket"));
         assert_eq!(resp.fee_percent, Decimal::percent(10));
     }
@@ -495,26 +495,26 @@ mod tests {
         let info = mock_info("feebucket", &[]);
         let msg = InitMsg {
             contract_name: "tutorial.sc.pb".into(),
-            purchase_denom: "fpcoin".into(),
+            purchase_denom: "pcoin".into(),
             merchant_address: HumanAddr::from("merchant"),
             fee_percent: Decimal::percent(10),
         };
         let _ = init(deps.as_mut(), env, info, msg).unwrap();
 
-        // Send a valid purchase message of 100fpcoin
+        // Send a valid purchase message of 100pcoin
         let msg = HandleMsg::Purchase {
             id: "a7918172-ac09-43f6-bc4b-7ac2fbad17e9".into(),
         };
-        let info = mock_info("consumer", &[coin(100, "fpcoin")]);
+        let info = mock_info("consumer", &[coin(100, "pcoin")]);
         let res = handle(deps.as_mut(), mock_env(), info, msg).unwrap();
 
         // Ensure we have the merchant transfer and fee collection bank messages
         assert_eq!(res.messages.len(), 2);
 
         // Ensure we got the proper bank transfer values.
-        // 10% fees on 100 fpcoin => 90 fpcoin for the merchant and 10 fpcoin for the fee bucket.
-        let expected_transfer = coin(90, "fpcoin");
-        let expected_fees = coin(10, "fpcoin");
+        // 10% fees on 100 pcoin => 90 pcoin for the merchant and 10 pcoin for the fee bucket.
+        let expected_transfer = coin(90, "pcoin");
+        let expected_fees = coin(10, "pcoin");
         res.messages.into_iter().for_each(|msg| match msg {
             CosmosMsg::Bank(BankMsg::Send {
                 amount, to_address, ..
@@ -549,7 +549,7 @@ mod tests {
         let info = mock_info("feebucket", &[]);
         let msg = InitMsg {
             contract_name: "tutorial.sc.pb".into(),
-            purchase_denom: "fpcoin".into(),
+            purchase_denom: "pcoin".into(),
             merchant_address: HumanAddr::from("merchant"),
             fee_percent: Decimal::percent(10),
         };
@@ -571,11 +571,11 @@ mod tests {
         }
 
         // Send zero amount for a valid denom
-        let info = mock_info("consumer", &[coin(0, "fpcoin")]);
+        let info = mock_info("consumer", &[coin(0, "pcoin")]);
         let err = handle(deps.as_mut(), mock_env(), info, msg.clone()).unwrap_err();
         match err {
             ContractError::Std(StdError::GenericErr { msg, .. }) => {
-                assert_eq!(msg, "invalid purchase funds: 0fpcoin")
+                assert_eq!(msg, "invalid purchase funds: 0pcoin")
             }
             _ => panic!("unexpected handle error"),
         }
