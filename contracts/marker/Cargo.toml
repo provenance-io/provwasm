@@ -1,7 +1,7 @@
 [package]
 name = "marker"
 version = "0.3.1"
-authors = ["Phil Story <pstory@figure.com>", "David Pederson <dpederson@figure.com>"]
+authors = ["Phil Story <pstory@figure.com>", "David Pederson <dpederson@figure.com>", "Ken Talley <ktalley@figure.com"]
 edition = "2018"
 
 exclude = [

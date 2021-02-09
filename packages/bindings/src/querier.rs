@@ -2,7 +2,7 @@ use cosmwasm_std::{from_binary, HumanAddr, QuerierWrapper, StdError, StdResult};
 use serde::de::DeserializeOwned;
 
 use crate::query::*;
-use crate::types::{AttributeValueType, Attributes, Marker, Name, Names, ProvenanceRoute, Scope};
+use crate::types::{AttributeValueType, Attributes, Marker, Name, Names, ProvenanceRoute};
 
 // The data format version to pass into provenance for queries.
 static QUERY_DATAFMT_VERSION: &str = "2.0.0";
@@ -87,28 +87,12 @@ impl<'a> ProvenanceQuerier<'a> {
             .collect()
     }
 
-    // Execute a metadata module scope query.
-    fn query_scope(&self, params: ScopeQueryParams) -> StdResult<Scope> {
-        let request = ProvenanceQuery {
-            route: ProvenanceRoute::Metadata,
-            params: params.into(),
-            version: String::from(QUERY_DATAFMT_VERSION),
-        };
-        let res: Scope = self.querier.custom_query(&request.into())?;
-        Ok(res)
-    }
-
-    /// Get scope by ID
-    pub fn get_scope(&self, id: String) -> StdResult<Scope> {
-        self.query_scope(ScopeQueryParams::GetScope { id })
-    }
-
     // Execute a marker module query.
     fn query_marker(&self, params: MarkerQueryParams) -> StdResult<Marker> {
         let request = ProvenanceQuery {
-            version: String::from(QUERY_DATAFMT_VERSION),
             route: ProvenanceRoute::Marker,
             params: params.into(),
+            version: String::from(QUERY_DATAFMT_VERSION),
         };
         let res: Marker = self.querier.custom_query(&request.into())?;
         Ok(res)
@@ -116,17 +100,11 @@ impl<'a> ProvenanceQuerier<'a> {
 
     /// Get a marker by address.
     pub fn get_marker_by_address(&self, address: HumanAddr) -> StdResult<Marker> {
-        self.query_marker(MarkerQueryParams::GetMarker {
-            address,
-            denom: "".into(),
-        })
+        self.query_marker(MarkerQueryParams::GetMarkerByAddress { address })
     }
 
     /// Get a marker by denomination.
     pub fn get_marker_by_denom(&self, denom: String) -> StdResult<Marker> {
-        self.query_marker(MarkerQueryParams::GetMarker {
-            address: "".into(),
-            denom,
-        })
+        self.query_marker(MarkerQueryParams::GetMarkerByDenom { denom })
     }
 }

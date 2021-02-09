@@ -15,7 +15,7 @@
         "burn",
         "delete",
         "deposit",
-        "grant",
+        "admin",
         "mint",
         "withdraw"
       ],
@@ -25,5 +25,6 @@
   "status": "active",
   "denom": "nugz",
   "total_supply": "420",
-  "marker_type": "COIN"
+  "marker_type": "coin",
+  "supply_fixed": false
 }

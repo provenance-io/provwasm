@@ -11,9 +11,9 @@ Imports use for marker examples
 use cosmwasm_std::{to_binary, Coin, Deps, HandleResponse, HumanAddr, QueryResponse, StdError};
 use provwasm_std::{
     activate_marker, burn_marker_supply, cancel_marker, create_marker, destroy_marker,
-	finalize_marker, grant_marker_access, grant_marker_access_all, grant_marker_access_asset,
-	grant_marker_access_supply, mint_marker_supply, withdraw_marker_coins, Marker, ProvenanceMsg,
-	ProvenanceQuerier,
+    finalize_marker, grant_marker_access, grant_marker_access_all, grant_marker_access_asset,
+    grant_marker_access_supply, mint_marker_supply, withdraw_marker_coins, Marker, ProvenanceMsg,
+    ProvenanceQuerier,
 };
 use create::error::ContractError;
 ```

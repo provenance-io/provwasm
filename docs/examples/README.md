@@ -15,4 +15,3 @@ modules.
 - [Account Attributes](attributes.md)
 - [Markers](markers.md)
 - [Names](name.md)
-- [Scope Query](scope.md)

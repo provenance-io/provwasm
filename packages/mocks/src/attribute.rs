@@ -1,17 +1,15 @@
-use cosmwasm_std::{
-    to_binary, Binary, ContractResult, HumanAddr, QuerierResult, StdResult, SystemResult,
-};
+use crate::common::query_result;
+use cosmwasm_std::{to_binary, Binary, HumanAddr, QuerierResult};
 use provwasm_std::{Attribute, AttributeQueryParams, AttributeValueType, Attributes};
-
 use std::collections::HashMap;
 
-/// A mock for testing provenance account metadata queries.
+/// A mock for testing provenance account attribute queries.
 #[derive(Clone, Default)]
 pub struct AttributeQuerier {
     records: HashMap<HumanAddr, Vec<Attribute>>,
 }
 
-// Helper function to convert stringt to attribute value type.
+// Helper function to convert string to attribute value type.
 fn determine_attr_type(typ: &str) -> AttributeValueType {
     if typ == "json" {
         AttributeValueType::Json
@@ -41,39 +39,38 @@ impl AttributeQuerier {
         AttributeQuerier { records }
     }
 
-    fn query_result(&self, bin: StdResult<Binary>) -> QuerierResult {
-        SystemResult::Ok(ContractResult::Ok(bin.unwrap()))
+    fn get_attributes_by_name(&self, address: &HumanAddr, name: &str) -> Attributes {
+        Attributes {
+            address: address.clone(),
+            attributes: self
+                .records
+                .get(address)
+                .map(|attrs| {
+                    attrs
+                        .iter()
+                        .filter(|r| r.name.to_lowercase() == *name.to_lowercase())
+                        .cloned()
+                        .collect()
+                })
+                .unwrap_or_else(Vec::new),
+        }
     }
 
-    fn query_attributes(&self, address: &HumanAddr, name: &str) -> Vec<Attribute> {
-        self.records
-            .get(address)
-            .map(|attrs| {
-                attrs
-                    .iter()
-                    .filter(|r| r.name.to_lowercase() == *name.to_lowercase())
-                    .cloned()
-                    .collect()
-            })
-            .unwrap_or_else(Vec::new)
+    fn get_attributes(&self, address: &HumanAddr) -> Attributes {
+        Attributes {
+            address: address.clone(),
+            attributes: self.records.get(address).unwrap_or(&vec![]).to_vec(),
+        }
     }
 
     pub fn query(&self, params: &AttributeQueryParams) -> QuerierResult {
-        match params {
+        let attributes = match params {
             AttributeQueryParams::GetAttributes { address, name } => {
-                self.query_result(to_binary(&Attributes {
-                    address: address.to_owned(),
-                    attributes: self.query_attributes(address, name),
-                }))
+                self.get_attributes_by_name(address, name)
             }
-            AttributeQueryParams::GetAllAttributes { address } => {
-                let empty: Vec<Attribute> = vec![];
-                self.query_result(to_binary(&Attributes {
-                    address: address.to_owned(),
-                    attributes: self.records.get(address).unwrap_or(&empty).to_vec(),
-                }))
-            }
-        }
+            AttributeQueryParams::GetAllAttributes { address } => self.get_attributes(address),
+        };
+        query_result(to_binary(&attributes))
     }
 }
 

@@ -1,10 +1,10 @@
-use crate::{AttributeQuerier, MarkerQuerier, NameQuerier, ScopeQuerier};
+use crate::{AttributeQuerier, MarkerQuerier, NameQuerier};
 use cosmwasm_std::testing::{MockApi, MockQuerier, MockStorage};
 use cosmwasm_std::{
     from_slice, to_binary, Coin, HumanAddr, OwnedDeps, Querier, QuerierResult, QueryRequest,
     StdResult, SystemError, SystemResult,
 };
-use provwasm_std::{Marker, ProvenanceQuery, ProvenanceQueryParams, Scope};
+use provwasm_std::{Marker, ProvenanceQuery, ProvenanceQueryParams};
 
 /// A drop-in replacement for cosmwasm_std::testing::mock_dependencies that uses the mock
 /// provenance querier.
@@ -24,7 +24,6 @@ pub struct ProvenanceMockQuerier {
     base: MockQuerier,
     name: NameQuerier,
     attribute: AttributeQuerier,
-    scope: ScopeQuerier,
     marker: MarkerQuerier,
 }
 
@@ -43,9 +42,8 @@ impl ProvenanceMockQuerier {
         match &request {
             QueryRequest::Custom(custom) => match &custom.params {
                 ProvenanceQueryParams::Attribute(p) => self.attribute.query(&p),
-                ProvenanceQueryParams::Name(p) => self.name.query(&p),
-                ProvenanceQueryParams::Scope(p) => self.scope.query(&p),
                 ProvenanceQueryParams::Marker(p) => self.marker.query(&p),
+                ProvenanceQueryParams::Name(p) => self.name.query(&p),
             },
             _ => SystemResult::Err(SystemError::InvalidRequest {
                 error: "invalid query request type".into(),
@@ -61,7 +59,6 @@ impl ProvenanceMockQuerier {
             base,
             attribute: AttributeQuerier::default(),
             name: NameQuerier::default(),
-            scope: ScopeQuerier::default(),
             marker: MarkerQuerier::default(),
         }
     }
@@ -72,10 +69,6 @@ impl ProvenanceMockQuerier {
 
     pub fn with_attributes(&mut self, address: &str, inputs: &[(&str, &str, &str)]) {
         self.attribute = AttributeQuerier::new(address, inputs);
-    }
-
-    pub fn with_scopes(&mut self, inputs: Vec<Scope>) {
-        self.scope = ScopeQuerier::new(inputs);
     }
 
     pub fn with_markers(&mut self, inputs: Vec<Marker>) {

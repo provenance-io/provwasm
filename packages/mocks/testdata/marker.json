@@ -1,7 +1,7 @@
 {
     "address": "tp18vmzryrvwaeykmdtu6cfrz5sau3dhc5c73ms0u",
     "coins": [],
-    "public_key": "",
+    "permissions": [],
     "account_number": 19,
     "sequence": 0,
     "manager": "tp15rrl3qjafxzlzguu5x29xh29pam35uetkpnnph",
@@ -9,5 +9,6 @@
     "status": "proposed",
     "denom": "nugz",
     "total_supply": "420",
-    "marker_type": "COIN"
+    "marker_type": "coin",
+    "supply_fixed": true
 }

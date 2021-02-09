@@ -1,3 +1,4 @@
+#![allow(clippy::field_reassign_with_default)]
 use cosmwasm_std::{CustomQuery, HumanAddr};
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
@@ -23,7 +24,6 @@ impl CustomQuery for ProvenanceQuery {}
 pub enum ProvenanceQueryParams {
     Name(NameQueryParams),
     Attribute(AttributeQueryParams),
-    Scope(ScopeQueryParams),
     Marker(MarkerQueryParams),
 }
 
@@ -36,9 +36,9 @@ pub enum NameQueryParams {
 }
 
 /// A helper that wraps NameQueryParams in ProvenanceQueryParams.
-impl Into<ProvenanceQueryParams> for NameQueryParams {
-    fn into(self) -> ProvenanceQueryParams {
-        ProvenanceQueryParams::Name(self)
+impl From<NameQueryParams> for ProvenanceQueryParams {
+    fn from(params: NameQueryParams) -> ProvenanceQueryParams {
+        ProvenanceQueryParams::Name(params)
     }
 }
 
@@ -51,23 +51,9 @@ pub enum AttributeQueryParams {
 }
 
 /// A helper that wraps AttributeQueryParams in ProvenanceQueryParams.
-impl Into<ProvenanceQueryParams> for AttributeQueryParams {
-    fn into(self) -> ProvenanceQueryParams {
-        ProvenanceQueryParams::Attribute(self)
-    }
-}
-
-/// Params for querying scopes.
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
-#[serde(rename_all = "snake_case")]
-pub enum ScopeQueryParams {
-    GetScope { id: String },
-}
-
-/// A helper that wraps MetadataQueryParams in ProvenanceQueryParams.
-impl Into<ProvenanceQueryParams> for ScopeQueryParams {
-    fn into(self) -> ProvenanceQueryParams {
-        ProvenanceQueryParams::Scope(self)
+impl From<AttributeQueryParams> for ProvenanceQueryParams {
+    fn from(params: AttributeQueryParams) -> ProvenanceQueryParams {
+        ProvenanceQueryParams::Attribute(params)
     }
 }
 
@@ -75,12 +61,13 @@ impl Into<ProvenanceQueryParams> for ScopeQueryParams {
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum MarkerQueryParams {
-    GetMarker { address: HumanAddr, denom: String },
+    GetMarkerByAddress { address: HumanAddr },
+    GetMarkerByDenom { denom: String },
 }
 
 /// A helper that wraps MarkerQueryParams in ProvenanceQueryParams.
-impl Into<ProvenanceQueryParams> for MarkerQueryParams {
-    fn into(self) -> ProvenanceQueryParams {
-        ProvenanceQueryParams::Marker(self)
+impl From<MarkerQueryParams> for ProvenanceQueryParams {
+    fn from(params: MarkerQueryParams) -> ProvenanceQueryParams {
+        ProvenanceQueryParams::Marker(params)
     }
 }

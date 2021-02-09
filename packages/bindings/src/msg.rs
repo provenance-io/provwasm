@@ -1,8 +1,9 @@
+#![allow(clippy::field_reassign_with_default)]
 use cosmwasm_std::{to_binary, Binary, Coin, CosmosMsg, HumanAddr, StdResult};
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
-use crate::types::{AttributeValueType, MarkerPermission, ProvenanceRoute};
+use crate::types::{AttributeValueType, MarkerAccess, MarkerType, ProvenanceRoute};
 
 // The data format version to pass into provenance for message encoding
 static MSG_DATAFMT_VERSION: &str = "2.0.0";
@@ -200,12 +201,12 @@ pub fn delete_attributes(name: String, address: HumanAddr) -> CosmosMsg<Provenan
 pub enum MarkerMsgParams {
     CreateMarker {
         coin: Coin,
-        marker_type: String,
+        marker_type: MarkerType,
     },
     GrantMarkerAccess {
         denom: String,
         address: HumanAddr,
-        permissions: Vec<MarkerPermission>,
+        permissions: Vec<MarkerAccess>,
     },
     RevokeMarkerAccess {
         denom: String,
@@ -233,6 +234,11 @@ pub enum MarkerMsgParams {
         coin: Coin,
         recipient: HumanAddr,
     },
+    TransferMarkerCoins {
+        coin: Coin,
+        to: HumanAddr,
+        from: HumanAddr,
+    },
 }
 
 /// A helper method to simplify creating messages.
@@ -254,11 +260,16 @@ fn create_marker_msg(params: MarkerMsgParams) -> CosmosMsg<ProvenanceMsg> {
 
 /// Create a message that will propose a new marker with the default type.
 pub fn create_marker(coin: Coin) -> CosmosMsg<ProvenanceMsg> {
-    create_marker_with_type(coin, String::default()) // Type will be set by encoder
+    create_marker_with_type(coin, MarkerType::Coin)
 }
 
-/// Create a message that will propose a new marker with a given type.
-pub fn create_marker_with_type(coin: Coin, marker_type: String) -> CosmosMsg<ProvenanceMsg> {
+/// Create a message that will propose a new marker with the type set to restricted.
+pub fn create_restricted_marker(coin: Coin) -> CosmosMsg<ProvenanceMsg> {
+    create_marker_with_type(coin, MarkerType::Restricted)
+}
+
+// Create a message that will propose a new marker with a given type.
+fn create_marker_with_type(coin: Coin, marker_type: MarkerType) -> CosmosMsg<ProvenanceMsg> {
     create_marker_msg(MarkerMsgParams::CreateMarker { coin, marker_type })
 }
 
@@ -266,7 +277,7 @@ pub fn create_marker_with_type(coin: Coin, marker_type: String) -> CosmosMsg<Pro
 pub fn grant_marker_access(
     denom: String,
     address: HumanAddr,
-    permissions: Vec<MarkerPermission>,
+    permissions: Vec<MarkerAccess>,
 ) -> CosmosMsg<ProvenanceMsg> {
     create_marker_msg(MarkerMsgParams::GrantMarkerAccess {
         denom,
@@ -281,23 +292,20 @@ pub fn grant_marker_access_all(denom: String, address: HumanAddr) -> CosmosMsg<P
         denom,
         address,
         vec![
-            MarkerPermission::Burn,
-            MarkerPermission::Delete,
-            MarkerPermission::Deposit,
-            MarkerPermission::Grant,
-            MarkerPermission::Mint,
-            MarkerPermission::Withdraw,
+            MarkerAccess::Admin,
+            MarkerAccess::Burn,
+            MarkerAccess::Delete,
+            MarkerAccess::Deposit,
+            MarkerAccess::Mint,
+            MarkerAccess::Transfer,
+            MarkerAccess::Withdraw,
         ],
     )
 }
 
 /// Create a message that will grant supply permissions to a marker.
 pub fn grant_marker_access_supply(denom: String, address: HumanAddr) -> CosmosMsg<ProvenanceMsg> {
-    grant_marker_access(
-        denom,
-        address,
-        vec![MarkerPermission::Burn, MarkerPermission::Mint],
-    )
+    grant_marker_access(denom, address, vec![MarkerAccess::Burn, MarkerAccess::Mint])
 }
 
 /// Create a message that will grant asset permissions to a marker.
@@ -305,7 +313,7 @@ pub fn grant_marker_access_asset(denom: String, address: HumanAddr) -> CosmosMsg
     grant_marker_access(
         denom,
         address,
-        vec![MarkerPermission::Deposit, MarkerPermission::Withdraw],
+        vec![MarkerAccess::Deposit, MarkerAccess::Withdraw],
     )
 }
 
@@ -347,4 +355,13 @@ pub fn burn_marker_supply(coin: Coin) -> CosmosMsg<ProvenanceMsg> {
 /// Create a message that will transfer marker coins to a recipient account.
 pub fn withdraw_marker_coins(coin: Coin, recipient: HumanAddr) -> CosmosMsg<ProvenanceMsg> {
     create_marker_msg(MarkerMsgParams::WithdrawMarkerCoins { coin, recipient })
+}
+
+/// Create a message that will transfer a marker amount from one account to another.
+pub fn transfer_marker_coins(
+    coin: Coin,
+    to: HumanAddr,
+    from: HumanAddr,
+) -> CosmosMsg<ProvenanceMsg> {
+    create_marker_msg(MarkerMsgParams::TransferMarkerCoins { coin, to, from })
 }

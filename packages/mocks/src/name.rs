@@ -1,7 +1,5 @@
-use cosmwasm_std::{
-    to_binary, Binary, ContractResult, HumanAddr, QuerierResult, StdResult, SystemError,
-    SystemResult,
-};
+use crate::common::{query_error, query_result};
+use cosmwasm_std::{to_binary, HumanAddr, QuerierResult};
 use provwasm_std::{Name, NameQueryParams, Names};
 use std::collections::HashMap;
 
@@ -17,7 +15,7 @@ impl NameQuerier {
         for (n, a, r) in inputs.iter() {
             let name = (*n).to_string();
             records.insert(
-                name.to_owned(),
+                name.clone(),
                 Name {
                     name,
                     address: HumanAddr::from(*a),
@@ -28,38 +26,33 @@ impl NameQuerier {
         NameQuerier { records }
     }
 
-    fn query_result(&self, bin: StdResult<Binary>) -> QuerierResult {
-        SystemResult::Ok(ContractResult::Ok(bin.unwrap()))
+    fn get_names(&self, name: &str) -> Option<Names> {
+        self.records.get(name).map(|record| Names {
+            records: vec![record.to_owned()],
+        })
     }
 
-    fn query_error(&self, error: &str, bin: StdResult<Binary>) -> QuerierResult {
-        SystemResult::Err(SystemError::InvalidRequest {
-            error: error.into(),
-            request: bin.unwrap(),
-        })
+    fn lookup_names(&self, address: &HumanAddr) -> Names {
+        Names {
+            records: self
+                .records
+                .values()
+                .cloned()
+                .filter(|r| !r.address.is_empty() && r.address == *address)
+                .collect(),
+        }
     }
 
     pub fn query(&self, params: &NameQueryParams) -> QuerierResult {
         match params {
-            NameQueryParams::Resolve { name } => {
-                let maybe_resolved = self.records.get(name).map(|record| {
-                    self.query_result(to_binary(&Names {
-                        records: vec![record.to_owned()],
-                    }))
-                });
-                match maybe_resolved {
-                    Some(r) => r,
-                    None => self.query_error("no address bound to name", to_binary(params)),
-                }
+            NameQueryParams::Resolve { name } => match self.get_names(name) {
+                Some(names) => query_result(to_binary(&names)),
+                None => query_error("no address bound to name", to_binary(params)),
+            },
+            NameQueryParams::Lookup { address } => {
+                let names = self.lookup_names(address);
+                query_result(to_binary(&names))
             }
-            NameQueryParams::Lookup { address } => self.query_result(to_binary(&Names {
-                records: self
-                    .records
-                    .values()
-                    .cloned()
-                    .filter(|r| !r.address.is_empty() && r.address == *address)
-                    .collect(),
-            })),
         }
     }
 }
@@ -67,7 +60,7 @@ impl NameQuerier {
 #[cfg(test)]
 mod test {
     use super::*;
-    use cosmwasm_std::from_binary;
+    use cosmwasm_std::{from_binary, SystemError};
 
     #[test]
     fn resolve() {
