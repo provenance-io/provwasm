@@ -111,6 +111,20 @@
     "HumanAddr": {
       "type": "string"
     },
+    "MarkerAccess": {
+      "description": "Marker permission types.",
+      "type": "string",
+      "enum": [
+        "admin",
+        "burn",
+        "deposit",
+        "delete",
+        "mint",
+        "transfer",
+        "unspecified",
+        "withdraw"
+      ]
+    },
     "MarkerMsgParams": {
       "description": "Input params for creating marker module messages.",
       "anyOf": [
@@ -160,7 +174,7 @@
                 "permissions": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/definitions/MarkerPermission"
+                    "$ref": "#/definitions/MarkerAccess"
                   }
                 }
               }
@@ -354,20 +368,6 @@
             }
           }
         }
-      ]
-    },
-    "MarkerPermission": {
-      "description": "Marker permission types.",
-      "type": "string",
-      "enum": [
-        "access_admin",
-        "access_burn",
-        "access_deposit",
-        "access_delete",
-        "access_mint",
-        "access_transfer",
-        "access_unspecified",
-        "access_withdraw"
       ]
     },
     "MarkerType": {

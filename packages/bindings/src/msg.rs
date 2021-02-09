@@ -3,7 +3,7 @@ use cosmwasm_std::{to_binary, Binary, Coin, CosmosMsg, HumanAddr, StdResult};
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
-use crate::types::{AttributeValueType, MarkerPermission, MarkerType, ProvenanceRoute};
+use crate::types::{AttributeValueType, MarkerAccess, MarkerType, ProvenanceRoute};
 
 // The data format version to pass into provenance for message encoding
 static MSG_DATAFMT_VERSION: &str = "2.0.0";
@@ -206,7 +206,7 @@ pub enum MarkerMsgParams {
     GrantMarkerAccess {
         denom: String,
         address: HumanAddr,
-        permissions: Vec<MarkerPermission>,
+        permissions: Vec<MarkerAccess>,
     },
     RevokeMarkerAccess {
         denom: String,
@@ -277,7 +277,7 @@ fn create_marker_with_type(coin: Coin, marker_type: MarkerType) -> CosmosMsg<Pro
 pub fn grant_marker_access(
     denom: String,
     address: HumanAddr,
-    permissions: Vec<MarkerPermission>,
+    permissions: Vec<MarkerAccess>,
 ) -> CosmosMsg<ProvenanceMsg> {
     create_marker_msg(MarkerMsgParams::GrantMarkerAccess {
         denom,
@@ -292,24 +292,20 @@ pub fn grant_marker_access_all(denom: String, address: HumanAddr) -> CosmosMsg<P
         denom,
         address,
         vec![
-            MarkerPermission::AccessAdmin,
-            MarkerPermission::AccessBurn,
-            MarkerPermission::AccessDelete,
-            MarkerPermission::AccessDeposit,
-            MarkerPermission::AccessMint,
-            MarkerPermission::AccessTransfer,
-            MarkerPermission::AccessWithdraw,
+            MarkerAccess::Admin,
+            MarkerAccess::Burn,
+            MarkerAccess::Delete,
+            MarkerAccess::Deposit,
+            MarkerAccess::Mint,
+            MarkerAccess::Transfer,
+            MarkerAccess::Withdraw,
         ],
     )
 }
 
 /// Create a message that will grant supply permissions to a marker.
 pub fn grant_marker_access_supply(denom: String, address: HumanAddr) -> CosmosMsg<ProvenanceMsg> {
-    grant_marker_access(
-        denom,
-        address,
-        vec![MarkerPermission::AccessBurn, MarkerPermission::AccessMint],
-    )
+    grant_marker_access(denom, address, vec![MarkerAccess::Burn, MarkerAccess::Mint])
 }
 
 /// Create a message that will grant asset permissions to a marker.
@@ -317,10 +313,7 @@ pub fn grant_marker_access_asset(denom: String, address: HumanAddr) -> CosmosMsg
     grant_marker_access(
         denom,
         address,
-        vec![
-            MarkerPermission::AccessDeposit,
-            MarkerPermission::AccessWithdraw,
-        ],
+        vec![MarkerAccess::Deposit, MarkerAccess::Withdraw],
     )
 }
 

@@ -78,7 +78,7 @@
         "permissions": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/MarkerPermission"
+            "$ref": "#/definitions/MarkerAccess"
           }
         }
       }
@@ -105,18 +105,18 @@
     "HumanAddr": {
       "type": "string"
     },
-    "MarkerPermission": {
+    "MarkerAccess": {
       "description": "Marker permission types.",
       "type": "string",
       "enum": [
-        "access_admin",
-        "access_burn",
-        "access_deposit",
-        "access_delete",
-        "access_mint",
-        "access_transfer",
-        "access_unspecified",
-        "access_withdraw"
+        "admin",
+        "burn",
+        "deposit",
+        "delete",
+        "mint",
+        "transfer",
+        "unspecified",
+        "withdraw"
       ]
     },
     "MarkerStatus": {

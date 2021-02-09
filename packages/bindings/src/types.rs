@@ -83,23 +83,23 @@ pub struct Marker {
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub struct AccessGrant {
-    pub permissions: Vec<MarkerPermission>,
+    pub permissions: Vec<MarkerAccess>,
     pub address: HumanAddr,
 }
 
 /// Marker permission types.
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
-pub enum MarkerPermission {
-    AccessAdmin,
-    AccessBurn,
-    AccessDeposit,
-    AccessDelete,
-    AccessMint,
-    AccessTransfer,
+pub enum MarkerAccess {
+    Admin,
+    Burn,
+    Deposit,
+    Delete,
+    Mint,
+    Transfer,
     // Query only
-    AccessUnspecified,
-    AccessWithdraw,
+    Unspecified,
+    Withdraw,
 }
 
 /// Marker types.
