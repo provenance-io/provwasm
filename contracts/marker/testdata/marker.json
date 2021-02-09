@@ -12,12 +12,12 @@
   "permissions": [
     {
       "permissions": [
-        "burn",
-        "delete",
-        "deposit",
-        "admin",
-        "mint",
-        "withdraw"
+        "access_burn",
+        "access_delete",
+        "access_deposit",
+        "access_admin",
+        "access_mint",
+        "access_withdraw"
       ],
       "address": "tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz"
     }
@@ -25,5 +25,6 @@
   "status": "active",
   "denom": "nugz",
   "total_supply": "420",
-  "marker_type": "coin"
+  "marker_type": "coin",
+  "supply_fixed": false
 }

@@ -36,9 +36,9 @@ pub enum NameQueryParams {
 }
 
 /// A helper that wraps NameQueryParams in ProvenanceQueryParams.
-impl Into<ProvenanceQueryParams> for NameQueryParams {
-    fn into(self) -> ProvenanceQueryParams {
-        ProvenanceQueryParams::Name(self)
+impl From<NameQueryParams> for ProvenanceQueryParams {
+    fn from(params: NameQueryParams) -> ProvenanceQueryParams {
+        ProvenanceQueryParams::Name(params)
     }
 }
 
@@ -51,9 +51,9 @@ pub enum AttributeQueryParams {
 }
 
 /// A helper that wraps AttributeQueryParams in ProvenanceQueryParams.
-impl Into<ProvenanceQueryParams> for AttributeQueryParams {
-    fn into(self) -> ProvenanceQueryParams {
-        ProvenanceQueryParams::Attribute(self)
+impl From<AttributeQueryParams> for ProvenanceQueryParams {
+    fn from(params: AttributeQueryParams) -> ProvenanceQueryParams {
+        ProvenanceQueryParams::Attribute(params)
     }
 }
 
@@ -66,8 +66,8 @@ pub enum MarkerQueryParams {
 }
 
 /// A helper that wraps MarkerQueryParams in ProvenanceQueryParams.
-impl Into<ProvenanceQueryParams> for MarkerQueryParams {
-    fn into(self) -> ProvenanceQueryParams {
-        ProvenanceQueryParams::Marker(self)
+impl From<MarkerQueryParams> for ProvenanceQueryParams {
+    fn from(params: MarkerQueryParams) -> ProvenanceQueryParams {
+        ProvenanceQueryParams::Marker(params)
     }
 }

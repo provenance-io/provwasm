@@ -36,124 +36,158 @@ TODO: Change the commands below to work against a provenance localnet.
 
 _NOTE: Address bech32 values and other params may vary._
 
+_OPTIONAL_: Create a root name binding for smart contracts
+
+```bash
+provenanced tx name bind \
+    "sc" \
+    $(provenanced keys show -a node0 --home build/node0 --keyring-backend test --testnet) \
+    "pb" \
+    --restrict=false \
+    --from node0 \
+    --keyring-backend test \
+    --home build/node0 \
+    --chain-id chain-local \
+    --fees 5000nhash \
+    --broadcast-mode block \
+    --yes \
+    --testnet | jq
+```
+
 Store the name integration test smart contract WASM in provenance
 
 ```bash
-provenance tx wasm store artifacts/marker.wasm \
+provenanced tx wasm store marker.wasm \
     --source "https://github.com/provenance-io/provwasm/tree/main/contracts/marker" \
     --builder "cosmwasm/rust-optimizer:0.10.7" \
-    --instantiate-only-address $(provenance keys show -a provenance --keyring-backend test) \
-    --from provenance \
+    --instantiate-only-address $(provenanced keys show -a node0 --keyring-backend test --home build/node0 --testnet) \
+    --from node0 \
     --keyring-backend test \
-    --chain-id pio-dev-chain \
+    --home build/node0 \
+    --chain-id chain-local \
     --gas auto \
-    --fees 25000vspn \
+    --fees 25000nhash \
     --broadcast-mode block \
-    -y -o json | jq
+    --yes \
+    --testnet | jq
 ```
 
 Instantiate the contract and bind the name `marker-itv2.pb` to it's address
 
 ```bash
-provenance tx wasm instantiate 1 '{"name":"marker-itv2.pb"}' \
-    --admin $(provenance keys show -a provenance --keyring-backend test) \
-    --from provenance \
+provenanced tx wasm instantiate 1 '{"name":"marker-itv2.sc.pb"}' \
+    --admin $(provenanced keys show -a node0 --keyring-backend test --home build/node0 --testnet) \
+    --from node0 \
     --keyring-backend test \
-    --chain-id pio-dev-chain \
+    --home build/node0 \
+    --chain-id chain-local \
     --label marker_module_integration_test_v1 \
     --gas auto \
-    --fees 3500vspn \
+    --fees 3500nhash \
     --broadcast-mode block \
-    -y -o json | jq
+    --yes \
+    --testnet | jq
 ```
 
 Execute the contract, creating a marker in a 'proposed' state.
 
 ```bash
-provenance tx wasm execute \
+provenanced tx wasm execute \
     tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
-    '{"create_marker":{"coin":{"denom":"nugz","amount":"420"}}}' \
-    --from provenance \
+    '{"create_marker":{"coin":{"denom":"nugz","amount":"420"}, "marker_type":"coin"}}' \
+    --from node0 \
     --keyring-backend test \
-    --chain-id pio-dev-chain \
+    --home build/node0 \
+    --chain-id chain-local \
     --gas auto \
-    --fees 3500vspn \
+    --fees 3500nhash \
     --broadcast-mode block \
-    -o json -y | jq
+    --yes \
+    --testnet | jq
 ```
 
 Query the marker by denom
 
 ```bash
-provenance q wasm contract-state smart \
+provenanced q wasm contract-state smart \
     tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
-    '{"get_by_denom":{"denom":"nugz"}}' | jq
+    '{"get_by_denom":{"denom":"nugz"}}' \
+    --testnet
  ```
 
 Query the marker by address
 
 ```bash
-provenance q wasm contract-state smart \
+provenanced q wasm contract-state smart \
     tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
-    '{"get_by_address": { "address": "tp18vmzryrvwaeykmdtu6cfrz5sau3dhc5c73ms0u"}}' | jq
+    '{"get_by_address": { "address": "tp1085qhetuel3vxwk7k345w4g4t5qves9tkfcjht"}}' \
+    --testnet
 ```
 
 Grant access to the marker, so the contract can withdraw funds in a later step
 
 ```bash
-provenance tx wasm execute \
+provenanced tx wasm execute \
     tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
     '{"grant_access":{"denom":"nugz","address":"tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz"}}' \
-    --from provenance \
+    --from node0 \
     --keyring-backend test \
-    --chain-id pio-dev-chain \
+    --home build/node0 \
+    --chain-id chain-local \
     --gas auto \
-    --fees 3500vspn \
+    --fees 3500nhash \
     --broadcast-mode block \
-    -o json -y | jq
+    --yes \
+    --testnet | jq
 ```
 
 Finalize the marker
 
 ```bash
-provenance tx wasm execute \
+provenanced tx wasm execute \
     tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
     '{"finalize":{"denom":"nugz"}}' \
-    --from provenance \
+    --from node0 \
     --keyring-backend test \
-    --chain-id pio-dev-chain \
+    --home build/node0 \
+    --chain-id chain-local \
     --gas auto \
-    --fees 3500vspn \
+    --fees 3500nhash \
     --broadcast-mode block \
-    -o json -y | jq
+    --yes \
+    --testnet | jq
 ```
 
 Activate the marker
 
 ```bash
-provenance tx wasm execute \
+provenanced tx wasm execute \
     tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
     '{"activate":{"denom":"nugz"}}' \
-    --from provenance \
+    --from node0 \
     --keyring-backend test \
-    --chain-id pio-dev-chain \
+    --home build/node0 \
+    --chain-id chain-local \
     --gas auto \
-    --fees 3600vspn \
+    --fees 3600nhash \
     --broadcast-mode block \
-    -o json -y | jq
+    --yes \
+    --testnet | jq
 ```
 
 Withdraw coins from the marker
 
 ```bash
-provenance tx wasm execute \
+provenanced tx wasm execute \
     tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
     '{"withdraw":{"coin":{"denom":"nugz","amount":"400"},"recipient":"tp1ugdl868dpz9lt02u5pdv2lr6ql0qjj62fdh6e8"}}' \
-    --from provenance \
+    --from node0 \
     --keyring-backend test \
-    --chain-id pio-dev-chain \
+    --home build/node0 \
+    --chain-id chain-local \
     --gas auto \
-    --fees 3500vspn \
+    --fees 3500nhash \
     --broadcast-mode block \
-    -o json -y | jq
+    --yes \
+    --testnet | jq
 ```

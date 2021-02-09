@@ -360,14 +360,14 @@
       "description": "Marker permission types.",
       "type": "string",
       "enum": [
-        "admin",
-        "burn",
-        "deposit",
-        "delete",
-        "mint",
-        "transfer",
-        "unspecified",
-        "withdraw"
+        "access_admin",
+        "access_burn",
+        "access_deposit",
+        "access_delete",
+        "access_mint",
+        "access_transfer",
+        "access_unspecified",
+        "access_withdraw"
       ]
     },
     "MarkerType": {

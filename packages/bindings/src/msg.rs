@@ -292,13 +292,13 @@ pub fn grant_marker_access_all(denom: String, address: HumanAddr) -> CosmosMsg<P
         denom,
         address,
         vec![
-            MarkerPermission::Admin,
-            MarkerPermission::Burn,
-            MarkerPermission::Delete,
-            MarkerPermission::Deposit,
-            MarkerPermission::Mint,
-            MarkerPermission::Transfer,
-            MarkerPermission::Withdraw,
+            MarkerPermission::AccessAdmin,
+            MarkerPermission::AccessBurn,
+            MarkerPermission::AccessDelete,
+            MarkerPermission::AccessDeposit,
+            MarkerPermission::AccessMint,
+            MarkerPermission::AccessTransfer,
+            MarkerPermission::AccessWithdraw,
         ],
     )
 }
@@ -308,7 +308,7 @@ pub fn grant_marker_access_supply(denom: String, address: HumanAddr) -> CosmosMs
     grant_marker_access(
         denom,
         address,
-        vec![MarkerPermission::Burn, MarkerPermission::Mint],
+        vec![MarkerPermission::AccessBurn, MarkerPermission::AccessMint],
     )
 }
 
@@ -317,7 +317,10 @@ pub fn grant_marker_access_asset(denom: String, address: HumanAddr) -> CosmosMsg
     grant_marker_access(
         denom,
         address,
-        vec![MarkerPermission::Deposit, MarkerPermission::Withdraw],
+        vec![
+            MarkerPermission::AccessDeposit,
+            MarkerPermission::AccessWithdraw,
+        ],
     )
 }
 

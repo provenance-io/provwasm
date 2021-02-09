@@ -1,4 +1,5 @@
 #![allow(clippy::field_reassign_with_default)]
+
 use cosmwasm_std::{Binary, Coin, Decimal, HumanAddr};
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
@@ -90,14 +91,15 @@ pub struct AccessGrant {
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum MarkerPermission {
-    Admin,
-    Burn,
-    Deposit,
-    Delete,
-    Mint,
-    Transfer,
-    Unspecified, // Query only
-    Withdraw,
+    AccessAdmin,
+    AccessBurn,
+    AccessDeposit,
+    AccessDelete,
+    AccessMint,
+    AccessTransfer,
+    // Query only
+    AccessUnspecified,
+    AccessWithdraw,
 }
 
 /// Marker types.
@@ -105,8 +107,10 @@ pub enum MarkerPermission {
 #[serde(rename_all = "snake_case")]
 pub enum MarkerType {
     Coin,
-    Restricted,  // Means "restricted coin"
-    Unspecified, // Query only
+    // Means "restricted coin"
+    Restricted,
+    // Query only
+    Unspecified,
 }
 
 /// Marker status types.
@@ -118,5 +122,6 @@ pub enum MarkerStatus {
     Destroyed,
     Finalized,
     Proposed,
-    Unspecified, // Query only
+    // Query only
+    Unspecified,
 }
