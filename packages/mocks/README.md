@@ -18,36 +18,32 @@ pub enum QueryMsg {
 
 // ref: contracts/name/src/contract.rs
 
-use super::*;
+use cosmwasm_std::testing::mock_env;
 use cosmwasm_std::from_binary;
 use provwasm_mocks::mock_dependencies;
-use provwasm_std::NameQueryResponse;
+use provwasm_std::Name;
 
 #[test]
 fn query_resolve() {
     // Create provenance mock deps with a single bound name.
-    let mut deps = mock_dependencies(20, &[]);
-    deps.querier.with_names(&[(
-        "alice.pb",
-        "tp1y0txdp3sqmxjvfdaa8hfvwcljl8ugcfv26uync",
-        false,
-        "",
-    )]);
+    let mut deps = mock_dependencies(&[]);
+    deps.querier
+        .with_names(&[("a.pb", "tp1y0txdp3sqmxjvfdaa8hfvwcljl8ugcfv26uync", false)]);
 
     // Call the smart contract query function to resolve the address for our test name.
     let bin = query(
-        &deps,
+        deps.as_ref(),
+        mock_env(),
         QueryMsg::Resolve {
-            name: "alice.pb".into(),
+            name: "a.pb".into(),
         },
     )
     .unwrap();
 
     // Ensure that we got the expected address.
-    let rep: NameQueryResponse = from_binary(&bin).unwrap();
-    assert_eq!(rep.records.len(), 1);
+    let rep: Name = from_binary(&bin).unwrap();
     assert_eq!(
-        rep.records[0].address.as_str(),
+        rep.address.as_str(),
         "tp1y0txdp3sqmxjvfdaa8hfvwcljl8ugcfv26uync"
     )
 }
