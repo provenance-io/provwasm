@@ -18,25 +18,26 @@ This contract has the following functionality.
 
 ## Build
 
-Set the install location for the optimized wasm, for example
+Compile and optimize the smart contract WASM.
 
 ```bash
-export PROVWASM_INSTALL_DIR="$PIO_HOME/artifacts"
-```
-
-Compile and install
-
-```bash
-make && make install
+make && make optimize
 ```
 
 ## Example Usage
 
-TODO: Change the commands below to work against a provenance localnet.
-
 _NOTE: Address bech32 values and other params may vary._
 
-_OPTIONAL_: Create a root name binding for smart contracts
+First, copy the optimized WASM to your provenance blockchain project root.
+Then, install the `provenanced` command and genesis a localnet.
+
+```bash
+make clean
+make install
+make localnet-start
+```
+
+Create a root name binding for smart contracts (required once per localnet genesis).
 
 ```bash
 provenanced tx name bind \
@@ -72,16 +73,16 @@ provenanced tx wasm store marker.wasm \
     --testnet | jq
 ```
 
-Instantiate the contract and bind the name `marker-itv2.pb` to it's address
+Instantiate the contract and bind the name `marker-itv2.sc.pb` to it's address
 
 ```bash
 provenanced tx wasm instantiate 1 '{"name":"marker-itv2.sc.pb"}' \
     --admin $(provenanced keys show -a node0 --keyring-backend test --home build/node0 --testnet) \
+    --label marker_module_integration_test_v2 \
     --from node0 \
     --keyring-backend test \
     --home build/node0 \
     --chain-id chain-local \
-    --label marker_module_integration_test_v1 \
     --gas auto \
     --fees 3500nhash \
     --broadcast-mode block \
@@ -112,7 +113,7 @@ Query the marker by denom
 provenanced q wasm contract-state smart \
     tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
     '{"get_by_denom":{"denom":"nugz"}}' \
-    --testnet
+    --testnet -o json | jq
  ```
 
 Query the marker by address
@@ -121,7 +122,7 @@ Query the marker by address
 provenanced q wasm contract-state smart \
     tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
     '{"get_by_address": { "address": "tp1085qhetuel3vxwk7k345w4g4t5qves9tkfcjht"}}' \
-    --testnet
+    --testnet -o json | jq
 ```
 
 Grant access to the marker, so the contract can withdraw funds in a later step
@@ -175,12 +176,12 @@ provenanced tx wasm execute \
     --testnet | jq
 ```
 
-Withdraw coins from the marker
+Withdraw coins from the marker to the smart contract instance
 
 ```bash
 provenanced tx wasm execute \
     tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
-    '{"withdraw":{"coin":{"denom":"nugz","amount":"400"},"recipient":"tp1ugdl868dpz9lt02u5pdv2lr6ql0qjj62fdh6e8"}}' \
+    '{"withdraw":{"coin":{"denom":"nugz","amount":"400"},"recipient":"tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz"}}' \
     --from node0 \
     --keyring-backend test \
     --home build/node0 \

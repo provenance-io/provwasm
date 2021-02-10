@@ -3,15 +3,12 @@
 ## Account Attributes
 
 This a CosmWasm smart contract that tests the Rust bindings and mocks for managing account
-attributes in the provenance `metadata` module.
-
-This contract binds a contract root name, then child name to establish that the contract owns the
-name used for `Label` attributes. After this setup, labels can be added, deleted, or queried.
+attributes in the provenance `attribute` module.
 
 This smart contract tests the following functionality
 
 - Messages
-  - Bind contract root name to contract address
+  - Bind a name to the contract address
   - Bind label attribute name to contract address (must be done after init, but before add/delete)
   - Add label attribute
   - Delete label attributes
@@ -21,132 +18,156 @@ This smart contract tests the following functionality
 
 ## Build
 
-Set the install location for the compiled wasm, for example
+Compile and optimize the smart contract WASM.
 
 ```bash
-export PROVWASM_INSTALL_DIR="$PIO_HOME/artifacts"
-```
-
-Compile and install
-
-```bash
-make && make install
+make && make optimize
 ```
 
 ## Example Usage
 
-TODO: Change the commands below to work against a provenance localnet.
-
 _NOTE: Address bech32 values and other params may vary._
 
-Store the `attrs` integration test WASM, requiring that only the `provenance` account can
+First, copy the optimized WASM to your provenance blockchain project root.
+Then, install the `provenanced` command and genesis a localnet.
+
+```bash
+make clean
+make install
+make localnet-start
+```
+
+Create a root name binding for smart contracts (required once per localnet genesis).
+
+```bash
+provenanced tx name bind \
+    "sc" \
+    $(provenanced keys show -a node0 --home build/node0 --keyring-backend test --testnet) \
+    "pb" \
+    --restrict=false \
+    --from node0 \
+    --keyring-backend test \
+    --home build/node0 \
+    --chain-id chain-local \
+    --fees 5000nhash \
+    --broadcast-mode block \
+    --yes \
+    --testnet | jq
+```
+
+Store the `attrs` integration test WASM, requiring that only the `node0` account can
 instantiate contracts.
 
 ```bash
-build/provenanced tx wasm store artifacts/attrs.wasm \
+provenanced tx wasm store attrs.wasm \
     --source "https://github.com/provenance-io/provwasm/tree/main/contracts/attrs" \
     --builder "cosmwasm/rust-optimizer:0.10.7" \
-    --instantiate-only-address $(build/provenanced keys show -a validator --keyring-backend test --home build/run/provenanced) \
-    --from validator \
+    --instantiate-only-address $(provenanced keys show -a node0 --home build/node0 --keyring-backend test --testnet) \
+    --from node0 \
     --keyring-backend test \
-    --home build/run/provenanced \
-    --chain-id testing \
+    --home build/node0 \
+    --chain-id chain-local \
     --gas auto \
-    --fees 26000nhash \
+    --fees 25000nhash \
     --broadcast-mode block \
-    --yes | jq
+    --yes \
+    --testnet | jq
 ```
 
-Instantiate the contract, binding the name `attrs-itv2.pb` to the contract address.
+Instantiate the contract, binding the name `attrs-itv2.sc.pb` to the contract address.
 
 ```bash
-build/provenanced tx wasm instantiate 1 '{"name": "attrs-itv2.pb"}' \
-    --admin $(build/provenanced keys show -a validator --keyring-backend test --home build/run/provenanced) \
-    --from validator \
+provenanced tx wasm instantiate 1 '{"name": "attrs-itv2.sc.pb"}' \
+    --admin $(provenanced keys show -a node0 --home build/node0 --keyring-backend test --testnet) \
+    --label attribute_module_integration_test_v2 \
+    --from node0 \
     --keyring-backend test \
-    --home build/run/provenanced \
-    --chain-id testing \
-    --label account_module_integration_test_v1 \
+    --home build/node0 \
+    --chain-id chain-local \
     --gas auto \
     --fees 5000nhash \
     --broadcast-mode block \
-    --yes | jq
+    --yes \
+    --testnet | jq
 ```
 
 Bind the label attribute name under the contract root name. This establishes ownership so label
 attributes can be added and deleted in later operations.
 
 ```bash
-build/provenanced tx wasm execute \
-    pb18vd8fpwxzck93qlwghaj6arh4p7c5n894vnu5g \
+provenanced tx wasm execute \
+    tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
     '{"bind_label_name":{}}' \
-    --from validator \
+     --from node0 \
     --keyring-backend test \
-    --home build/run/provenanced \
-    --chain-id testing \
+    --home build/node0 \
+    --chain-id chain-local \
     --gas auto \
     --fees 5000nhash \
     --broadcast-mode block \
-    --yes | jq
+    --yes \
+    --testnet | jq
 ```
 
 Query for the label name just bound.
 
 ```bash
-build/provenanced query wasm contract-state smart \
-    pb18vd8fpwxzck93qlwghaj6arh4p7c5n894vnu5g '{"get_label_name":{}}' -o json | jq
+provenanced query wasm contract-state smart \
+    tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz '{"get_label_name":{}}' -t -o json | jq
 ```
 
 Add labels to an account.
 
 ```bash
-build/provenanced tx wasm execute \
-    pb18vd8fpwxzck93qlwghaj6arh4p7c5n894vnu5g \
+provenanced tx wasm execute \
+    tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
     '{"add_label":{"text":"hello"}}' \
-    --from validator \
+     --from node0 \
     --keyring-backend test \
-    --home build/run/provenanced \
-    --chain-id testing \
+    --home build/node0 \
+    --chain-id chain-local \
     --gas auto \
     --fees 5000nhash \
     --broadcast-mode block \
-    --yes | jq
+    --yes \
+    --testnet | jq
 ```
 
 ```bash
-build/provenanced tx wasm execute \
-    pb18vd8fpwxzck93qlwghaj6arh4p7c5n894vnu5g \
+provenanced tx wasm execute \
+    tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
     '{"add_label":{"text":"wasm"}}' \
-    --from validator \
+     --from node0 \
     --keyring-backend test \
-    --home build/run/provenanced \
-    --chain-id testing \
+    --home build/node0 \
+    --chain-id chain-local \
     --gas auto \
     --fees 5000nhash \
     --broadcast-mode block \
-    --yes | jq
+    --yes \
+    --testnet | jq
 ```
 
 Query for the labels set on an account.
 
 ```bash
-build/provenanced query wasm contract-state smart \
-    pb18vd8fpwxzck93qlwghaj6arh4p7c5n894vnu5g \
-    '{"get_labels":{}}' -o json | jq
+provenanced query wasm contract-state smart \
+    tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz '{"get_labels":{}}' -t -o json | jq
 ```
 
 Delete the labels from an account.
 
 ```bash
-build/provenanced tx wasm execute \
-    pb18vd8fpwxzck93qlwghaj6arh4p7c5n894vnu5g \
+provenanced tx wasm execute \
+    tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
     '{"delete_labels":{}}' \
-    --from validator \
+     --from node0 \
     --keyring-backend test \
-    --home build/run/provenanced \
-    --chain-id testing \
+    --home build/node0 \
+    --chain-id chain-local \
     --gas auto \
     --fees 5000nhash \
     --broadcast-mode block \
-    --yes | jq
-```
+    --yes \
+    --testnet | jq
+``
