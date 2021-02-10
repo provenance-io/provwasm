@@ -1,6 +1,6 @@
 # Provenance Smart Contract Tutorial
 
-In this section we will execute a purchase by sending funds to the contract account. The contract
+In this section we will execute a purchase by sending funds to the contract instance. The contract
 will then peform bank transfers to the merchant and fee collection accounts.
 
 ## Execute Contract

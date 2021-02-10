@@ -11,7 +11,7 @@ tutorial `Makefile`.
 ```Makefile
 .PHONY: optimize
 optimize:
-    @docker run --rm -v $(CURDIR):/code -v "$(CURDIR)/../../packages":/packages \
+    @docker run --rm -v $(CURDIR):/code \
 		--mount type=volume,source=tutorial_cache,target=/code/target \
 		--mount type=volume,source=registry_cache,target=/usr/local/cargo/registry \
 		cosmwasm/rust-optimizer:0.10.7
@@ -42,7 +42,7 @@ ls -lh target/wasm32-unknown-unknown/release/tutorial.wasm
 NOTE: Optimized smart contract size must be smaller than `500K`
 
 This concludes Part 1 of the tutorial. The optimized smart contract WASM is ready to deploy to
-the provenance blockchain.
+the Provenance Blockchain.
 
 ## Up Next
 

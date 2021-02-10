@@ -8,8 +8,6 @@ template with the the code listed in this section. The best way to learn is to t
 code. But, it is completely acceptable to copy and paste as well (if time is an issue or, like the
 author, the reader is just lazy).
 
-All file locations are referenced from the project root: `.../provwasm/contracts/tutorial`
-
 ### Setup
 
 Add a Makefile to combine development build steps into a single `make` command
@@ -158,7 +156,6 @@ pub enum HandleMsg {
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum QueryMsg {
-    // GetCount returns the current count as a json-encoded number
     QueryRequest {},
 }
 

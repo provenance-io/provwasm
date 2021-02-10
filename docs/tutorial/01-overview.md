@@ -1,19 +1,12 @@
 # Provenance Smart Contract Tutorial
 
-## NOTICE
-
-This tutorial is a work in progress. All sections are subject to frequent change without further
-notice.
-
---
-
 This tutorial will walk developers through a step-by-step process of creating and deploying a
-web assembly smart contract to the provenance blockchain.
+web assembly smart contract to the Provenance Blockchain.
 
 ## Overview
 
 This tutorial is broken out into two parts. The first will cover developing smart contracts.
-The second will deal with deploying smart contracts to the provenance blockchain.
+The second will deal with deploying smart contracts to the Provenance Blockchain.
 
 ### Part 1: Development
 

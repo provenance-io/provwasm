@@ -3,14 +3,14 @@
 ## Setup
 
 In this section, we will set up everything required to deploy the tutorial smart contract to a
-provenance blockchain localnet cluster.
+Provenance Blockchain localnet cluster.
 
 It is assumed that Go 1.15 is installed. See [here](https://golang.org/doc/install) for
 installation instructions.
 
 ## Blockchain
 
-If not already available, clone the provenance blockchain project.
+If not already available, clone the Provenance Blockchain project.
 
 ```bash
 mkdir -p $GOPATH/src/github.com/provenance-io

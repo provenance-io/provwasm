@@ -28,7 +28,7 @@ make && make optimize
 
 _NOTE: Address bech32 values and other params may vary._
 
-First, copy the optimized WASM to your provenance blockchain project root.
+First, copy the optimized WASM to your Provenance Blockchain project root.
 Then, install the `provenanced` command and genesis a localnet.
 
 ```bash

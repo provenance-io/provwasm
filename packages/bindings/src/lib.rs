@@ -22,6 +22,6 @@ pub use types::{
     Attribute, AttributeValueType, Attributes, Marker, MarkerAccess, Name, Names, ProvenanceRoute,
 };
 
-// Indicate that smart contracts that use this lib can only be run on the provenance blockchain.
+// Indicate that smart contracts that use this lib can only be run on the Provenance Blockchain.
 #[no_mangle]
 extern "C" fn requires_provenance() {}

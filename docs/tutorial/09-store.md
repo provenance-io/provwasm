@@ -1,21 +1,20 @@
 # Provenance Smart Contract Tutorial
 
-In this section we will upload the optimized smart contract WASM to the provenance blockchain.
+In this section we will upload the optimized smart contract WASM to the Provenance Blockchain.
 
 ## Store Code
 
 For this tutorial, it is assumed that the fee collection address represents network ownership
 (why they get paid fees), thus they must be the uploader of the contract WASM.
 
-Copy the optimized WASM file to the provenance blockchain project. From the tutorial project dir,
+Copy the optimized WASM file to the Provenance Blockchain project. From the tutorial project dir,
 run
 
 ```bash
-cp artifacts/tutorial.wasm $GOPATH/src/github.com/provenance-io/blockchain
+cp artifacts/tutorial.wasm $GOPATH/src/github.com/provenance-io/provenance
 ```
 
-Then, from the provenance blockchain directory, store the optimized smart contract WASM in
-provenance
+Then, from the provenance directory, store the optimized smart contract WASM in the blockchain
 
 ```bash
 provenanced tx wasm store tutorial.wasm \
