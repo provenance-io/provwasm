@@ -6,10 +6,12 @@ edition = "2018"
 license = "Apache-2.0"
 repository = "https://github.com/provenance-io/provwasm/tree/main/packages/mocks"
 description = "Rust mocks that enable unit testing of CosmWasm smart contracts that interact with custom modules in the Provenance Blockchain"
+readme = "README.md"
+keywords = ["provenance", "blockchain", "smart-contracts", "defi", "finance"]
+categories = ["development-tools::testing", "cryptography::cryptocurrencies", "wasm"]
 
 [dependencies]
 provwasm-std = { path = "../bindings", version = "0.13.2" }
 cosmwasm-std = { version = "0.13.2", features = ["staking"] }
 schemars = "0.7"
 serde = { version = "1.0.103", default-features = false, features = ["derive"] }
-
