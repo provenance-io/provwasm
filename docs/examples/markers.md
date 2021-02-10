@@ -129,6 +129,25 @@ fn try_grant_marker_access(
 }
 ```
 
+## Revoke
+
+To revoke all permissions from an account.
+
+```rust
+// Create and dispatch a message that will revoke all permissions from a marker for an address.
+fn try_revoke_marker_access(
+    denom: String,
+    address: HumanAddr,
+) -> Result<HandleResponse<ProvenanceMsg>, ContractError> {
+    let msg = revoke_marker_access(denom, address);
+    Ok(HandleResponse {
+        messages: vec![msg],
+        attributes: vec![],
+        data: None,
+    })
+}
+```
+
 ## Finalize
 
 To set marker status to finalized
@@ -153,25 +172,6 @@ To set marker status to active (mints supply)
 // Create and dispatch a message that will activate a finalized marker.
 fn try_activate_marker(denom: String) -> Result<HandleResponse<ProvenanceMsg>, ContractError> {
     let msg = activate_marker(denom);
-    Ok(HandleResponse {
-        messages: vec![msg],
-        attributes: vec![],
-        data: None,
-    })
-}
-```
-
-## Withdraw
-
-To withdraw marker coins to a recipient address
-
-```rust
-// Create and dispatch a message that will withdraw coins from a marker.
-fn try_withdraw_marker_coins(
-    coin: Coin,
-    recipient: HumanAddr,
-) -> Result<HandleResponse<ProvenanceMsg>, ContractError> {
-    let msg = withdraw_marker_coins(coin, recipient);
     Ok(HandleResponse {
         messages: vec![msg],
         attributes: vec![],
@@ -236,6 +236,46 @@ To destroy a marker
 // Create and dispatch a message that will destroy a marker.
 fn try_destroy_marker(denom: String) -> Result<HandleResponse<ProvenanceMsg>, ContractError> {
     let msg = destroy_marker(denom);
+    Ok(HandleResponse {
+        messages: vec![msg],
+        attributes: vec![],
+        data: None,
+    })
+}
+```
+
+## Transfer
+
+To transfer marker coins between addresses
+
+```rust
+
+// Create and dispatch a message that will transfer marker coins from one account to another .
+fn try_transfer_marker_coins(
+    coin: Coin,
+    to: HumanAddr,
+    from: HumanAddr,
+) -> Result<HandleResponse<ProvenanceMsg>, ContractError> {
+    let msg = transfer_marker_coins(coin, to, from);
+    Ok(HandleResponse {
+        messages: vec![msg],
+        attributes: vec![],
+        data: None,
+    })
+}
+```
+
+## Withdraw
+
+To withdraw marker coins to a recipient address
+
+```rust
+// Create and dispatch a message that will withdraw coins from a marker.
+fn try_withdraw_marker_coins(
+    coin: Coin,
+    recipient: HumanAddr,
+) -> Result<HandleResponse<ProvenanceMsg>, ContractError> {
+    let msg = withdraw_marker_coins(coin, recipient);
     Ok(HandleResponse {
         messages: vec![msg],
         attributes: vec![],
