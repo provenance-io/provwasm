@@ -35,11 +35,11 @@ enforced by the fact that only the `feebucket` account is allowed to instantiate
 provenanced tx wasm instantiate 1 \
     '{"contract_name":"tutorial-v2.sc.pb","purchase_denom":"pcoin","merchant_address":"FIXME","fee_percent":"0.1"}' \
     --admin $(provenanced keys show -a feebucket --home build/node0 --keyring-backend test --testnet) \
+    --label tutorial-v2 \
     --from feebucket \
     --keyring-backend test \
     --home build/node0 \
     --chain-id chain-local \
-    --label tutorial-v2 \
     --gas auto \
     --fees 3500nhash \
     --broadcast-mode block \

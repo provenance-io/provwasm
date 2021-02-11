@@ -23,7 +23,7 @@ contract development and testing.
 ## Getting Started
 
 Start with the [tutorial](docs/tutorial/01-overview.md) for a complete guide to developing
-smart contracts for the provenance blockchain.
+smart contracts for the Provenance Blockchain.
 
 ## Example Usage
 
