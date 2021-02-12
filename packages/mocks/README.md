@@ -1,12 +1,18 @@
-# Mocks
+# provwasm-mocks
 
-This project contains mocks that allow smart contract developers to write robust unit tests that
-include native provenance module functionality.
+This crate provides mocks that enable unit testing of CosmWasm smart contracts that interact with
+custom modules in the Provenance Blockchain.
+
+## License
+
+This crate is part of the provwasm repository, licensed under the Apache License 2.0
+(see the [LICENSE](https://github.com/provenance-io/provwasm/blob/main/LICENSE)).
 
 ## Example Usage
 
 ```rust
-// Example unit test that uses provwasm mocks for a resolve name query.
+// Example unit test:
+// Uses provwasm mocks to test a resolve query against the provenance name module.
 
 // ref: contracts/name/src/msg.rs
 

@@ -1,15 +1,12 @@
 # Provenance CosmWasm Bindings
 
-## NOTICE
-
-This is currently the development repo for provwasm on the stargate(0.40.x) release of the Provenance Blockchain.
-
-All code is subject to frequent change without further notice.
-
---
-
 This crate provides bindings to enable CosmWasm smart contracts to interact with custom provenance
 blockchain modules.
+
+| Crate          | Download | Docs |
+| -------------- | -------- | ---- |
+| provwasm-std   | [![provwasm-std on crates.io](https://img.shields.io/crates/v/provwasm-std.svg)](https://crates.io/crates/provwasm-std) |  [![Docs](https://docs.rs/provwasm-std/badge.svg)](https://docs.rs/provwasm-std) |
+| provwasm-mocks | [![provwasm-mocks on crates.io](https://img.shields.io/crates/v/provwasm-mocks.svg)](https://crates.io/crates/provwasm-mocks) | [![Docs](https://docs.rs/provwasm-mocks/badge.svg)](https://docs.rs/provwasm-mocks) |
 
 ## Compatibility
 
@@ -18,12 +15,12 @@ contract development and testing.
 
 | provwasm | wasmd   | cosmos  | provenance | localnet | testnet | mainnet | module support        |
 | -------- | ------- | ------- | ---------- | -------- | ------- | ------- | --------------------- |
-| v0.13.2  | v0.15.0 | v0.41.0 | v0.1.x     | yes      | yes     | N/A     | attribute,marker,name |
+| v0.13.x  | v0.15.0 | v0.41.0 | v0.1.x     | yes      | yes     | N/A     | attribute,marker,name |
 
 ## Getting Started
 
-Start with the [tutorial](docs/tutorial/01-overview.md) for a complete guide to developing
-smart contracts for the Provenance Blockchain.
+Start with the [tutorial](docs/tutorial/01-overview.md) for a complete guide to developing smart
+contracts for the Provenance Blockchain.
 
 ## Example Usage
 
