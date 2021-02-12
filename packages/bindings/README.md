@@ -1,6 +1,6 @@
 # provwasm-std
 
-This create provides bindings that enable CosmWasm smart contracts to interact with custom modules
+This crate provides bindings that enable CosmWasm smart contracts to interact with custom modules
 in the Provenance Blockchain.
 
 ## License
