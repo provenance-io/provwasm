@@ -80,8 +80,8 @@ pub struct Marker {
 }
 
 impl Marker {
-    /// Determines whether a marker requires restricted transfers (ie bank sends disabled).
-    pub fn requires_marker_transfer(&self) -> bool {
+    /// Determines whether a marker requires restricted transfers.
+    pub fn bank_sends_disabled(&self) -> bool {
         matches!(self.marker_type, MarkerType::Restricted)
     }
 }

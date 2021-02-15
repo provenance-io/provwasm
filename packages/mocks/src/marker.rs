@@ -99,4 +99,12 @@ mod test {
             _ => panic!("unexpected error type"),
         }
     }
+
+    #[test]
+    fn restricted_marker() {
+        // Assert that bank sends are disabled for restricted markers
+        let bin = must_read_binary_file("testdata/marker_restricted.json");
+        let marker: Marker = from_binary(&bin).unwrap();
+        assert_eq!(marker.bank_sends_disabled(), true)
+    }
 }
