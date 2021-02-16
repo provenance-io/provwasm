@@ -79,6 +79,13 @@ pub struct Marker {
     pub supply_fixed: bool,
 }
 
+impl Marker {
+    /// Determines whether a marker requires restricted transfers.
+    pub fn bank_sends_disabled(&self) -> bool {
+        matches!(self.marker_type, MarkerType::Restricted)
+    }
+}
+
 // Marker permissions granted to another account.
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
