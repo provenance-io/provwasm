@@ -9,9 +9,8 @@ use serde::{Deserialize, Serialize};
 #[serde(rename_all = "snake_case")]
 pub enum ProvenanceRoute {
     Attribute,
-    Name,
     Marker,
-    Metadata,
+    Name,
 }
 
 /// A collection of bound names.

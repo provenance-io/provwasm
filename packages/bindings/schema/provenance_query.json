@@ -199,9 +199,8 @@
       "type": "string",
       "enum": [
         "attribute",
-        "name",
         "marker",
-        "metadata"
+        "name"
       ]
     }
   }

@@ -18,9 +18,9 @@ pub struct ProvenanceMsg {
 }
 
 /// A helper method to simplify creating messages.
-impl Into<CosmosMsg<ProvenanceMsg>> for ProvenanceMsg {
-    fn into(self) -> CosmosMsg<ProvenanceMsg> {
-        CosmosMsg::Custom(self)
+impl From<ProvenanceMsg> for CosmosMsg<ProvenanceMsg> {
+    fn from(msg: ProvenanceMsg) -> CosmosMsg<ProvenanceMsg> {
+        CosmosMsg::Custom(msg)
     }
 }
 
@@ -47,9 +47,9 @@ pub enum NameMsgParams {
 }
 
 /// A helper method to simplify creating messages.
-impl Into<ProvenanceMsgParams> for NameMsgParams {
-    fn into(self) -> ProvenanceMsgParams {
-        ProvenanceMsgParams::Name(self)
+impl From<NameMsgParams> for ProvenanceMsgParams {
+    fn from(params: NameMsgParams) -> ProvenanceMsgParams {
+        ProvenanceMsgParams::Name(params)
     }
 }
 
@@ -82,12 +82,11 @@ pub fn bind_name_unrestricted(name: String, address: HumanAddr) -> CosmosMsg<Pro
 }
 
 /// Create a message that will un-bind a name from an address.
-/// NOTE: This functionality is new in provwasm v0.12.1.
 pub fn unbind_name(name: String) -> CosmosMsg<ProvenanceMsg> {
     create_name_msg(NameMsgParams::DeleteName { name })
 }
 
-/// Input params for creating metadata module messages.
+/// Input params for creating attribute module messages.
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum AttributeMsgParams {
@@ -104,14 +103,14 @@ pub enum AttributeMsgParams {
 }
 
 /// A helper method to simplify creating messages.
-impl Into<ProvenanceMsgParams> for AttributeMsgParams {
-    fn into(self) -> ProvenanceMsgParams {
-        ProvenanceMsgParams::Attribute(self)
+impl From<AttributeMsgParams> for ProvenanceMsgParams {
+    fn from(params: AttributeMsgParams) -> ProvenanceMsgParams {
+        ProvenanceMsgParams::Attribute(params)
     }
 }
 
-// Create a custom cosmos message using metadata module params.
-fn create_metadata_msg(params: AttributeMsgParams) -> CosmosMsg<ProvenanceMsg> {
+// Create a custom cosmos message using attribute module params.
+fn create_attribute_msg(params: AttributeMsgParams) -> CosmosMsg<ProvenanceMsg> {
     ProvenanceMsg {
         route: ProvenanceRoute::Attribute,
         params: params.into(),
@@ -120,14 +119,14 @@ fn create_metadata_msg(params: AttributeMsgParams) -> CosmosMsg<ProvenanceMsg> {
     .into()
 }
 
-/// Create a message that will add a metadata attribute to an account.
+/// Create a message that will add a an attribute to an account.
 pub fn add_attribute(
     address: HumanAddr,
     name: String,
     value: Binary,
     value_type: AttributeValueType,
 ) -> CosmosMsg<ProvenanceMsg> {
-    create_metadata_msg(AttributeMsgParams::AddAttribute {
+    create_attribute_msg(AttributeMsgParams::AddAttribute {
         address,
         name,
         value,
@@ -192,7 +191,7 @@ pub fn add_json_attribute<T: Serialize + ?Sized>(
 
 /// Create a message that will remove all attributes with the given name from an account.
 pub fn delete_attributes(name: String, address: HumanAddr) -> CosmosMsg<ProvenanceMsg> {
-    create_metadata_msg(AttributeMsgParams::DeleteAttribute { name, address })
+    create_attribute_msg(AttributeMsgParams::DeleteAttribute { name, address })
 }
 
 /// Input params for creating marker module messages.
@@ -242,9 +241,9 @@ pub enum MarkerMsgParams {
 }
 
 /// A helper method to simplify creating messages.
-impl Into<ProvenanceMsgParams> for MarkerMsgParams {
-    fn into(self) -> ProvenanceMsgParams {
-        ProvenanceMsgParams::Marker(self)
+impl From<MarkerMsgParams> for ProvenanceMsgParams {
+    fn from(params: MarkerMsgParams) -> ProvenanceMsgParams {
+        ProvenanceMsgParams::Marker(params)
     }
 }
 

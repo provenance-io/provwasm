@@ -21,7 +21,7 @@
   },
   "definitions": {
     "AttributeMsgParams": {
-      "description": "Input params for creating metadata module messages.",
+      "description": "Input params for creating attribute module messages.",
       "anyOf": [
         {
           "type": "object",
@@ -473,9 +473,8 @@
       "type": "string",
       "enum": [
         "attribute",
-        "name",
         "marker",
-        "metadata"
+        "name"
       ]
     },
     "Uint128": {
