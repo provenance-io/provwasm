@@ -80,7 +80,7 @@ dependencies = [
 
 [[package]]
 name = "provwasm-mocks"
-version = "0.13.2"
+version = "0.13.3"
 dependencies = [
  "cosmwasm-std",
  "provwasm-std",
@@ -90,7 +90,7 @@ dependencies = [
 
 [[package]]
 name = "provwasm-std"
-version = "0.13.2"
+version = "0.13.3"
 dependencies = [
  "cosmwasm-std",
  "schemars",

@@ -1,6 +1,6 @@
 [package]
 name = "marker"
-version = "0.3.1"
+version = "0.3.3"
 authors = ["Phil Story <pstory@figure.com>", "David Pederson <dpederson@figure.com>", "Ken Talley <ktalley@figure.com"]
 edition = "2018"
 
@@ -28,7 +28,7 @@ overflow-checks = true
 backtraces = []
 
 [dependencies]
-provwasm-std = { path = "../../packages/bindings", version = "0.13.2" }
+provwasm-std = { path = "../../packages/bindings", version = "0.13.3" }
 cosmwasm-std = { version = "0.13.2" }
 cosmwasm-storage = { version = "0.13.2" }
 schemars = "0.7"
@@ -36,5 +36,5 @@ serde = { version = "1.0.103", default-features = false, features = ["derive"] }
 thiserror = { version = "1.0.20" }
 
 [dev-dependencies]
-provwasm-mocks = { path = "../../packages/mocks", version = "0.13.2" }
+provwasm-mocks = { path = "../../packages/mocks", version = "0.13.3" }
 cosmwasm-schema = { version = "0.13.2" }

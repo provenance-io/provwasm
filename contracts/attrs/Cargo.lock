@@ -2,7 +2,7 @@
 # It is not intended for manual editing.
 [[package]]
 name = "attrs"
-version = "0.3.2"
+version = "0.3.3"
 dependencies = [
  "cosmwasm-schema",
  "cosmwasm-std",
@@ -80,7 +80,7 @@ dependencies = [
 
 [[package]]
 name = "provwasm-mocks"
-version = "0.13.2"
+version = "0.13.3"
 dependencies = [
  "cosmwasm-std",
  "provwasm-std",
@@ -90,7 +90,7 @@ dependencies = [
 
 [[package]]
 name = "provwasm-std"
-version = "0.13.2"
+version = "0.13.3"
 dependencies = [
  "cosmwasm-std",
  "schemars",
