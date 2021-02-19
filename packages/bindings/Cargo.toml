@@ -1,6 +1,6 @@
 [package]
 name = "provwasm-std"
-version = "0.13.2"
+version = "0.13.3"
 authors = ["David Pederson <dpederson@figure.com>", "Ken Talley <ktalley@figure.com>"]
 edition = "2018"
 license = "Apache-2.0"

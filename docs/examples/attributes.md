@@ -1,9 +1,9 @@
-# Module: Metadata
+# Module: Attribute
 
 ## Account Attributes
 
 This document contains example code snippets for smart contract integration with the provenance
-metadata module, specifically for managing account attributes.
+attribute module.
 
 These bindings allow for Rust structs to be stored under an account (identified by address), with
 type of `json`, as long as they derive the `Serialize` and `Deserialize` traits from the `serde`

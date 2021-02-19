@@ -45,7 +45,7 @@ impl<'a> ProvenanceQuerier<'a> {
         self.query_name_module(NameQueryParams::Lookup { address })
     }
 
-    // Execute a metadata module attribute query.
+    // Execute a attribute module query.
     fn query_attributes(&self, params: AttributeQueryParams) -> StdResult<Attributes> {
         let request = ProvenanceQuery {
             route: ProvenanceRoute::Attribute,

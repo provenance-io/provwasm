@@ -119,7 +119,7 @@ fn try_delete_labels(
     // Delete label attributes from an account.
     let delete_label_msg = delete_attributes(attr_name.clone(), env.contract.address);
 
-    // Issue a response that will dispatch the messages to the metadata module handler.
+    // Issue a response that will dispatch the messages to the attribute module handler.
     Ok(HandleResponse {
         messages: vec![delete_label_msg],
         attributes: vec![

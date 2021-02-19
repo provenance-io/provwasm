@@ -5,6 +5,6 @@ Rust bindings.
 
 ## Listing
 
-- [Attributes](attrs/README.md) - manage account metadata.
+- [Attributes](attrs/README.md) - manage account attributes.
 - [Markers](marker/README.md) - manage marker accounts.
 - [Names](name/README.md) - bind names to addresses.
