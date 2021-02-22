@@ -3,7 +3,7 @@ all: fmt build test lint
 
 .PHONY: fmt
 fmt:
-	@cargo fmt
+	@cargo fmt --all -- --check
 
 .PHONY: build
 build:
