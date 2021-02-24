@@ -89,6 +89,38 @@
         "bytes"
       ]
     },
+    "BankMsgParams": {
+      "description": "Input params for creating bank messages.",
+      "anyOf": [
+        {
+          "type": "object",
+          "required": [
+            "send"
+          ],
+          "properties": {
+            "send": {
+              "type": "object",
+              "required": [
+                "coin",
+                "from",
+                "to"
+              ],
+              "properties": {
+                "coin": {
+                  "$ref": "#/definitions/Coin"
+                },
+                "from": {
+                  "$ref": "#/definitions/HumanAddr"
+                },
+                "to": {
+                  "$ref": "#/definitions/HumanAddr"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
     "Binary": {
       "description": "Binary is a wrapper around Vec<u8> to add base64 de/serialization with serde. It also adds some helper methods to help encode inline.\n\nThis is only needed as serde-json-{core,wasm} has a horrible encoding for Vec<u8>",
       "type": "string"
@@ -465,6 +497,17 @@
               "$ref": "#/definitions/MarkerMsgParams"
             }
           }
+        },
+        {
+          "type": "object",
+          "required": [
+            "Bank"
+          ],
+          "properties": {
+            "Bank": {
+              "$ref": "#/definitions/BankMsgParams"
+            }
+          }
         }
       ]
     },
@@ -473,6 +516,7 @@
       "type": "string",
       "enum": [
         "attribute",
+        "bank",
         "marker",
         "name"
       ]

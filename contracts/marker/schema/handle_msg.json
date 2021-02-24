@@ -30,13 +30,9 @@
         "grant_access": {
           "type": "object",
           "required": [
-            "address",
             "denom"
           ],
           "properties": {
-            "address": {
-              "$ref": "#/definitions/HumanAddr"
-            },
             "denom": {
               "type": "string"
             }
@@ -91,14 +87,33 @@
         "withdraw": {
           "type": "object",
           "required": [
+            "coin"
+          ],
+          "properties": {
+            "coin": {
+              "$ref": "#/definitions/Coin"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "object",
+      "required": [
+        "send"
+      ],
+      "properties": {
+        "send": {
+          "type": "object",
+          "required": [
             "coin",
-            "recipient"
+            "to"
           ],
           "properties": {
             "coin": {
               "$ref": "#/definitions/Coin"
             },
-            "recipient": {
+            "to": {
               "$ref": "#/definitions/HumanAddr"
             }
           }

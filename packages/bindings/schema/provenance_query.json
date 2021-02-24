@@ -199,6 +199,7 @@
       "type": "string",
       "enum": [
         "attribute",
+        "bank",
         "marker",
         "name"
       ]

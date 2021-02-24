@@ -12,6 +12,7 @@ This contract has the following functionality.
   - Finalize a marker
   - Activate a marker
   - Withdraw coins from a marker
+  - Send coins to an account (custom bank send)
 - Queries
   - Get marker by address
   - Get marker by denom
@@ -130,7 +131,7 @@ Grant access to the marker, so the contract can withdraw funds in a later step
 ```bash
 provenanced tx wasm execute \
     tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
-    '{"grant_access":{"denom":"nugz","address":"tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz"}}' \
+    '{"grant_access":{"denom":"nugz"}}' \
     --from node0 \
     --keyring-backend test \
     --home build/node0 \
@@ -181,7 +182,24 @@ Withdraw coins from the marker to the smart contract instance
 ```bash
 provenanced tx wasm execute \
     tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
-    '{"withdraw":{"coin":{"denom":"nugz","amount":"400"},"recipient":"tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz"}}' \
+    '{"withdraw":{"coin":{"denom":"nugz","amount":"400"}}}' \
+    --from node0 \
+    --keyring-backend test \
+    --home build/node0 \
+    --chain-id chain-local \
+    --gas auto \
+    --fees 3500nhash \
+    --broadcast-mode block \
+    --yes \
+    --testnet | jq
+```
+
+Send coins from the the smart contract instance to an account
+
+```bash
+provenanced tx wasm execute \
+    tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
+    '{"send":{"coin":{"denom":"nugz","amount":"100"},"to":"FIXME"}}' \
     --from node0 \
     --keyring-backend test \
     --home build/node0 \

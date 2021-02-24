@@ -9,9 +9,9 @@ pub use msg::{
     add_uuid_attribute, bind_name, bind_name_unrestricted, burn_marker_supply, cancel_marker,
     create_marker, create_restricted_marker, delete_attributes, destroy_marker, finalize_marker,
     grant_marker_access, grant_marker_access_all, grant_marker_access_asset,
-    grant_marker_access_supply, mint_marker_supply, revoke_marker_access, transfer_marker_coins,
-    unbind_name, withdraw_marker_coins, AttributeMsgParams, MarkerMsgParams, NameMsgParams,
-    ProvenanceMsg, ProvenanceMsgParams,
+    grant_marker_access_supply, mint_marker_supply, revoke_marker_access, send_coins,
+    transfer_marker_coins, unbind_name, withdraw_marker_coins, AttributeMsgParams, MarkerMsgParams,
+    NameMsgParams, ProvenanceMsg, ProvenanceMsgParams,
 };
 pub use querier::ProvenanceQuerier;
 pub use query::{

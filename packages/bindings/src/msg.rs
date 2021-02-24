@@ -30,6 +30,7 @@ pub enum ProvenanceMsgParams {
     Name(NameMsgParams),
     Attribute(AttributeMsgParams),
     Marker(MarkerMsgParams),
+    Bank(BankMsgParams),
 }
 
 /// Input params for creating name module messages.
@@ -363,4 +364,34 @@ pub fn transfer_marker_coins(
     from: HumanAddr,
 ) -> CosmosMsg<ProvenanceMsg> {
     create_marker_msg(MarkerMsgParams::TransferMarkerCoins { coin, to, from })
+}
+
+/// Input params for creating bank messages.
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[serde(rename_all = "snake_case")]
+pub enum BankMsgParams {
+    Send {
+        coins: Vec<Coin>,
+        to: HumanAddr,
+        from: HumanAddr,
+    },
+}
+
+/// A helper method to simplify creating messages.
+impl From<BankMsgParams> for ProvenanceMsgParams {
+    fn from(params: BankMsgParams) -> ProvenanceMsgParams {
+        ProvenanceMsgParams::Bank(params)
+    }
+}
+
+/// This function exists so provenance smart contracts can issue bank sends and restricted
+/// marker transfers in the same handle function.
+pub fn send_coins(coins: Vec<Coin>, to: HumanAddr, from: HumanAddr) -> CosmosMsg<ProvenanceMsg> {
+    let params = BankMsgParams::Send { coins, to, from };
+    ProvenanceMsg {
+        route: ProvenanceRoute::Bank,
+        params: params.into(),
+        version: String::from(MSG_DATAFMT_VERSION),
+    }
+    .into()
 }

@@ -4,7 +4,7 @@ use cosmwasm_std::{
 };
 use provwasm_std::{
     activate_marker, bind_name, create_marker, finalize_marker, grant_marker_access_all,
-    withdraw_marker_coins, ProvenanceMsg, ProvenanceQuerier,
+    send_coins, withdraw_marker_coins, ProvenanceMsg, ProvenanceQuerier,
 };
 
 use crate::error::ContractError;
@@ -41,56 +41,55 @@ pub fn init(
 /// Handle messages that create and interact with with native provenance markers.
 pub fn handle(
     _deps: DepsMut,
-    _env: Env,
+    env: Env,
     _info: MessageInfo,
     msg: HandleMsg,
 ) -> Result<HandleResponse<ProvenanceMsg>, ContractError> {
-    match msg {
+    let res = match msg {
         HandleMsg::CreateMarker { coin } => try_create_marker(coin),
-        HandleMsg::GrantAccess { denom, address } => try_grant_marker_access(denom, address),
+        HandleMsg::GrantAccess { denom } => try_grant_marker_access(denom, env.contract.address),
         HandleMsg::Finalize { denom } => try_finalize_marker(denom),
         HandleMsg::Activate { denom } => try_activate_marker(denom),
-        HandleMsg::Withdraw { coin, recipient } => try_withdraw_marker_coins(coin, recipient),
-    }
+        HandleMsg::Withdraw { coin } => try_withdraw_marker_coins(coin, env.contract.address),
+        HandleMsg::Send { coin, to } => try_send_coins(coin, to, env.contract.address),
+    };
+    Ok(res)
 }
 
 // Create and dispatch a message that will create a new proposed marker.
-fn try_create_marker(coin: Coin) -> Result<HandleResponse<ProvenanceMsg>, ContractError> {
+fn try_create_marker(coin: Coin) -> HandleResponse<ProvenanceMsg> {
     let msg = create_marker(coin.clone());
-    Ok(HandleResponse {
+    HandleResponse {
         messages: vec![msg],
         attributes: vec![
             attr("action", "provwasm.contracts.marker.create"),
             attr("integration_test", "v2"),
             attr("marker_denom", coin.denom),
-            attr("marker_supply", coin.amount.to_string()),
+            attr("marker_supply", coin.amount),
         ],
         data: None,
-    })
+    }
 }
 
 // Create and dispatch a message that will grant all permissions to a marker for an address.
-fn try_grant_marker_access(
-    denom: String,
-    address: HumanAddr,
-) -> Result<HandleResponse<ProvenanceMsg>, ContractError> {
+fn try_grant_marker_access(denom: String, address: HumanAddr) -> HandleResponse<ProvenanceMsg> {
     let msg = grant_marker_access_all(denom.clone(), address.clone());
-    Ok(HandleResponse {
+    HandleResponse {
         messages: vec![msg],
         attributes: vec![
             attr("action", "provwasm.contracts.marker.grant_access"),
             attr("integration_test", "v2"),
             attr("marker_denom", denom),
-            attr("marker_addr", address.to_string()),
+            attr("marker_addr", address),
         ],
         data: None,
-    })
+    }
 }
 
 // Create and dispatch a message that will finalize a proposed marker.
-fn try_finalize_marker(denom: String) -> Result<HandleResponse<ProvenanceMsg>, ContractError> {
+fn try_finalize_marker(denom: String) -> HandleResponse<ProvenanceMsg> {
     let msg = finalize_marker(denom.clone());
-    Ok(HandleResponse {
+    HandleResponse {
         messages: vec![msg],
         attributes: vec![
             attr("action", "provwasm.contracts.marker.finalize"),
@@ -98,13 +97,13 @@ fn try_finalize_marker(denom: String) -> Result<HandleResponse<ProvenanceMsg>, C
             attr("marker_denom", denom),
         ],
         data: None,
-    })
+    }
 }
 
 // Create and dispatch a message that will activate a finalized marker.
-fn try_activate_marker(denom: String) -> Result<HandleResponse<ProvenanceMsg>, ContractError> {
+fn try_activate_marker(denom: String) -> HandleResponse<ProvenanceMsg> {
     let msg = activate_marker(denom.clone());
-    Ok(HandleResponse {
+    HandleResponse {
         messages: vec![msg],
         attributes: vec![
             attr("action", "provwasm.contracts.marker.activate"),
@@ -112,26 +111,40 @@ fn try_activate_marker(denom: String) -> Result<HandleResponse<ProvenanceMsg>, C
             attr("marker_denom", denom),
         ],
         data: None,
-    })
+    }
 }
 
 // Create and dispatch a message that will withdraw coins from a marker.
-fn try_withdraw_marker_coins(
-    coin: Coin,
-    recipient: HumanAddr,
-) -> Result<HandleResponse<ProvenanceMsg>, ContractError> {
+fn try_withdraw_marker_coins(coin: Coin, recipient: HumanAddr) -> HandleResponse<ProvenanceMsg> {
     let msg = withdraw_marker_coins(coin.clone(), recipient.clone());
-    Ok(HandleResponse {
+    HandleResponse {
         messages: vec![msg],
         attributes: vec![
             attr("action", "provwasm.contracts.marker.withdraw"),
             attr("integration_test", "v2"),
             attr("marker_denom", coin.denom),
-            attr("marker_amount", coin.amount.to_string()),
-            attr("marker_recipient", recipient.to_string()),
+            attr("marker_amount", coin.amount),
+            attr("marker_recipient", recipient),
         ],
         data: None,
-    })
+    }
+}
+
+// Create and dispatch a message that send coins to a recipient.
+fn try_send_coins(coin: Coin, to: HumanAddr, from: HumanAddr) -> HandleResponse<ProvenanceMsg> {
+    let msg = send_coins(vec![coin.clone()], to.clone(), from.clone());
+    HandleResponse {
+        messages: vec![msg],
+        attributes: vec![
+            attr("action", "provwasm.contracts.marker.send"),
+            attr("integration_test", "v2"),
+            attr("send_denom", coin.denom),
+            attr("send_amount", coin.amount),
+            attr("send_to", to),
+            attr("send_from", from),
+        ],
+        data: None,
+    }
 }
 
 /// Handle query requests for the provenance marker module.
@@ -160,25 +173,11 @@ fn try_get_marker_by_denom(deps: Deps, denom: String) -> Result<QueryResponse, S
 mod tests {
     use super::*;
     use cosmwasm_std::testing::{mock_env, mock_info};
-    use cosmwasm_std::{coin, from_binary, Binary};
-    use provwasm_mocks::mock_dependencies;
+    use cosmwasm_std::{coin, from_binary};
+    use provwasm_mocks::{mock_dependencies, must_read_binary_file};
     use provwasm_std::Marker;
-    use std::fs::File;
-    use std::io::Read;
 
-    fn read_test_marker_from_file() -> Binary {
-        let filename = "testdata/marker.json";
-        match File::open(filename) {
-            Ok(mut file) => {
-                let mut content = String::new();
-                file.read_to_string(&mut content).unwrap();
-                Binary::from(content.as_bytes())
-            }
-            Err(error) => {
-                panic!("Error opening file {}: {}", filename, error);
-            }
-        }
-    }
+    // TODO: Add assertions for the expected message params dispatched in each test
 
     #[test]
     fn valid_init() {
@@ -219,10 +218,9 @@ mod tests {
         let mut deps = mock_dependencies(&[]);
         let env = mock_env();
         let info = mock_info("sender", &[]);
-        // Create a marker
+        // Create test handler message
         let msg = HandleMsg::GrantAccess {
             denom: "budz".into(),
-            address: HumanAddr::from("tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz"),
         };
         // Ensure message was created
         let res = handle(deps.as_mut(), env, info, msg).unwrap();
@@ -235,7 +233,7 @@ mod tests {
         let mut deps = mock_dependencies(&[]);
         let env = mock_env();
         let info = mock_info("sender", &[]);
-        // Create a marker
+        // Create test handler message
         let msg = HandleMsg::Finalize {
             denom: "budz".into(),
         };
@@ -250,7 +248,7 @@ mod tests {
         let mut deps = mock_dependencies(&[]);
         let env = mock_env();
         let info = mock_info("sender", &[]);
-        // Create a marker
+        // Create test handler message
         let msg = HandleMsg::Activate {
             denom: "budz".into(),
         };
@@ -265,10 +263,26 @@ mod tests {
         let mut deps = mock_dependencies(&[]);
         let env = mock_env();
         let info = mock_info("sender", &[]);
-        // Create a marker
+        // Create test handler message
         let msg = HandleMsg::Withdraw {
             coin: coin(20, "budz"),
-            recipient: HumanAddr::from("tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz"),
+        };
+        // Ensure message was created
+        let res = handle(deps.as_mut(), env, info, msg).unwrap();
+        assert_eq!(1, res.messages.len());
+    }
+
+    #[test]
+    fn send_coins() {
+        // Create default provenance mocks.
+        let balance = coin(100, "budz");
+        let mut deps = mock_dependencies(&[balance]);
+        let env = mock_env();
+        let info = mock_info("sender", &[]);
+        // Create test handler message
+        let msg = HandleMsg::Send {
+            coin: coin(20, "budz"),
+            to: HumanAddr::from("recipient"),
         };
         // Ensure message was created
         let res = handle(deps.as_mut(), env, info, msg).unwrap();
@@ -278,7 +292,7 @@ mod tests {
     #[test]
     fn query_marker() {
         // Create a mock querier with our expected marker.
-        let bin = read_test_marker_from_file();
+        let bin = must_read_binary_file("testdata/marker.json");
         let expected_marker: Marker = from_binary(&bin).unwrap();
         let mut deps = mock_dependencies(&[]);
         deps.querier.with_markers(vec![expected_marker.clone()]);
@@ -289,6 +303,5 @@ mod tests {
         let bin = query(deps.as_ref(), mock_env(), req).unwrap();
         let marker: Marker = from_binary(&bin).unwrap();
         assert_eq!(marker, expected_marker);
-        assert_eq!(marker.address, "tp18vmzryrvwaeykmdtu6cfrz5sau3dhc5c73ms0u")
     }
 }

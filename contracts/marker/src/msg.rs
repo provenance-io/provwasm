@@ -12,10 +12,11 @@ pub struct InitMsg {
 #[serde(rename_all = "snake_case")]
 pub enum HandleMsg {
     CreateMarker { coin: Coin },
-    GrantAccess { denom: String, address: HumanAddr },
+    GrantAccess { denom: String },
     Finalize { denom: String },
     Activate { denom: String },
-    Withdraw { coin: Coin, recipient: HumanAddr },
+    Withdraw { coin: Coin },
+    Send { coin: Coin, to: HumanAddr },
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
