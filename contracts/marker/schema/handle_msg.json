@@ -30,13 +30,9 @@
         "grant_access": {
           "type": "object",
           "required": [
-            "address",
             "denom"
           ],
           "properties": {
-            "address": {
-              "$ref": "#/definitions/HumanAddr"
-            },
             "denom": {
               "type": "string"
             }
@@ -91,15 +87,11 @@
         "withdraw": {
           "type": "object",
           "required": [
-            "coin",
-            "recipient"
+            "coin"
           ],
           "properties": {
             "coin": {
               "$ref": "#/definitions/Coin"
-            },
-            "recipient": {
-              "$ref": "#/definitions/HumanAddr"
             }
           }
         }
@@ -121,9 +113,6 @@
           "type": "string"
         }
       }
-    },
-    "HumanAddr": {
-      "type": "string"
     },
     "Uint128": {
       "type": "string"

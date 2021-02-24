@@ -22,7 +22,7 @@ impl<'a> ProvenanceQuerier<'a> {
     fn query_name_module(&self, params: NameQueryParams) -> StdResult<Names> {
         let request = ProvenanceQuery {
             route: ProvenanceRoute::Name,
-            params: params.into(),
+            params: ProvenanceQueryParams::Name(params),
             version: String::from(QUERY_DATAFMT_VERSION),
         };
         let res: Names = self.querier.custom_query(&request.into())?;
@@ -30,8 +30,8 @@ impl<'a> ProvenanceQuerier<'a> {
     }
 
     /// Resolve the address for a name.
-    pub fn resolve_name(&self, name: String) -> StdResult<Name> {
-        let res = self.query_name_module(NameQueryParams::Resolve { name })?;
+    pub fn resolve_name<S: Into<String>>(&self, name: S) -> StdResult<Name> {
+        let res = self.query_name_module(NameQueryParams::Resolve { name: name.into() })?;
         if res.records.len() != 1 {
             return Err(StdError::generic_err(
                 "expected only one address bound to name",
@@ -41,15 +41,17 @@ impl<'a> ProvenanceQuerier<'a> {
     }
 
     /// Lookup all names bound to the given address.
-    pub fn lookup_names(&self, address: HumanAddr) -> StdResult<Names> {
-        self.query_name_module(NameQueryParams::Lookup { address })
+    pub fn lookup_names(&self, address: &HumanAddr) -> StdResult<Names> {
+        self.query_name_module(NameQueryParams::Lookup {
+            address: address.clone(),
+        })
     }
 
     // Execute a attribute module query.
     fn query_attributes(&self, params: AttributeQueryParams) -> StdResult<Attributes> {
         let request = ProvenanceQuery {
             route: ProvenanceRoute::Attribute,
-            params: params.into(),
+            params: ProvenanceQueryParams::Attribute(params),
             version: String::from(QUERY_DATAFMT_VERSION),
         };
         let res: Attributes = self.querier.custom_query(&request.into())?;
@@ -57,28 +59,34 @@ impl<'a> ProvenanceQuerier<'a> {
     }
 
     /// Get attributes for an account. If the name parameter is empty, all attributes are returned.
-    pub fn get_attributes(
+    pub fn get_attributes<S: Into<String>>(
         &self,
-        address: HumanAddr,
-        name: Option<String>,
+        address: &HumanAddr,
+        name: Option<S>,
     ) -> StdResult<Attributes> {
         match name {
-            None => self.query_attributes(AttributeQueryParams::GetAllAttributes { address }),
-            Some(name) => {
-                self.query_attributes(AttributeQueryParams::GetAttributes { address, name })
-            }
+            None => self.query_attributes(AttributeQueryParams::GetAllAttributes {
+                address: address.clone(),
+            }),
+            Some(name) => self.query_attributes(AttributeQueryParams::GetAttributes {
+                address: address.clone(),
+                name: name.into(),
+            }),
         }
     }
 
     /// Get named JSON attributes from an account and deserialize the values.
     /// Attribute values with the same name must be able to be deserialized to the same type.
-    pub fn get_json_attributes<T: DeserializeOwned>(
+    pub fn get_json_attributes<S: Into<String>, U: DeserializeOwned>(
         &self,
-        address: HumanAddr,
-        name: String,
-    ) -> StdResult<Vec<T>> {
+        address: &HumanAddr,
+        name: S,
+    ) -> StdResult<Vec<U>> {
         // Gather results
-        let resp = self.query_attributes(AttributeQueryParams::GetAttributes { address, name })?;
+        let resp = self.query_attributes(AttributeQueryParams::GetAttributes {
+            address: address.clone(),
+            name: name.into(),
+        })?;
         // Map deserialize, returning values or failure.
         resp.attributes
             .iter()
@@ -91,7 +99,7 @@ impl<'a> ProvenanceQuerier<'a> {
     fn query_marker(&self, params: MarkerQueryParams) -> StdResult<Marker> {
         let request = ProvenanceQuery {
             route: ProvenanceRoute::Marker,
-            params: params.into(),
+            params: ProvenanceQueryParams::Marker(params),
             version: String::from(QUERY_DATAFMT_VERSION),
         };
         let res: Marker = self.querier.custom_query(&request.into())?;
@@ -99,12 +107,16 @@ impl<'a> ProvenanceQuerier<'a> {
     }
 
     /// Get a marker by address.
-    pub fn get_marker_by_address(&self, address: HumanAddr) -> StdResult<Marker> {
-        self.query_marker(MarkerQueryParams::GetMarkerByAddress { address })
+    pub fn get_marker_by_address(&self, address: &HumanAddr) -> StdResult<Marker> {
+        self.query_marker(MarkerQueryParams::GetMarkerByAddress {
+            address: address.clone(),
+        })
     }
 
     /// Get a marker by denomination.
-    pub fn get_marker_by_denom(&self, denom: String) -> StdResult<Marker> {
-        self.query_marker(MarkerQueryParams::GetMarkerByDenom { denom })
+    pub fn get_marker_by_denom<S: Into<String>>(&self, denom: S) -> StdResult<Marker> {
+        self.query_marker(MarkerQueryParams::GetMarkerByDenom {
+            denom: denom.into(),
+        })
     }
 }

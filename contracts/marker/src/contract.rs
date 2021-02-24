@@ -19,21 +19,20 @@ pub fn init(
     msg: InitMsg,
 ) -> Result<InitResponse<ProvenanceMsg>, ContractError> {
     // Create and save state
-    let name = &msg.name;
     config(deps.storage).save(&State {
-        contract_name: String::from(name),
+        contract_name: msg.name.clone(),
     })?;
 
     // Create a name for the contract
-    let msg = bind_name(name.clone(), env.contract.address);
+    let bind_name_msg = bind_name(&msg.name, &env.contract.address);
 
     // Dispatch messages to the name module handler and emit an event.
     Ok(InitResponse {
-        messages: vec![msg],
+        messages: vec![bind_name_msg],
         attributes: vec![
             attr("action", "provwasm.contracts.marker.init"),
             attr("integration_test", "v2"),
-            attr("contract_name", name),
+            attr("contract_name", msg.name),
         ],
     })
 }
@@ -41,56 +40,54 @@ pub fn init(
 /// Handle messages that create and interact with with native provenance markers.
 pub fn handle(
     _deps: DepsMut,
-    _env: Env,
+    env: Env,
     _info: MessageInfo,
     msg: HandleMsg,
 ) -> Result<HandleResponse<ProvenanceMsg>, ContractError> {
-    match msg {
+    let res = match msg {
         HandleMsg::CreateMarker { coin } => try_create_marker(coin),
-        HandleMsg::GrantAccess { denom, address } => try_grant_marker_access(denom, address),
+        HandleMsg::GrantAccess { denom } => try_grant_marker_access(denom, env.contract.address),
         HandleMsg::Finalize { denom } => try_finalize_marker(denom),
         HandleMsg::Activate { denom } => try_activate_marker(denom),
-        HandleMsg::Withdraw { coin, recipient } => try_withdraw_marker_coins(coin, recipient),
-    }
+        HandleMsg::Withdraw { coin } => try_withdraw_marker_coins(coin, env.contract.address),
+    };
+    Ok(res)
 }
 
 // Create and dispatch a message that will create a new proposed marker.
-fn try_create_marker(coin: Coin) -> Result<HandleResponse<ProvenanceMsg>, ContractError> {
-    let msg = create_marker(coin.clone());
-    Ok(HandleResponse {
+fn try_create_marker(coin: Coin) -> HandleResponse<ProvenanceMsg> {
+    let msg = create_marker(&coin);
+    HandleResponse {
         messages: vec![msg],
         attributes: vec![
             attr("action", "provwasm.contracts.marker.create"),
             attr("integration_test", "v2"),
             attr("marker_denom", coin.denom),
-            attr("marker_supply", coin.amount.to_string()),
+            attr("marker_supply", coin.amount),
         ],
         data: None,
-    })
+    }
 }
 
 // Create and dispatch a message that will grant all permissions to a marker for an address.
-fn try_grant_marker_access(
-    denom: String,
-    address: HumanAddr,
-) -> Result<HandleResponse<ProvenanceMsg>, ContractError> {
-    let msg = grant_marker_access_all(denom.clone(), address.clone());
-    Ok(HandleResponse {
+fn try_grant_marker_access(denom: String, address: HumanAddr) -> HandleResponse<ProvenanceMsg> {
+    let msg = grant_marker_access_all(&denom, &address);
+    HandleResponse {
         messages: vec![msg],
         attributes: vec![
             attr("action", "provwasm.contracts.marker.grant_access"),
             attr("integration_test", "v2"),
             attr("marker_denom", denom),
-            attr("marker_addr", address.to_string()),
+            attr("marker_addr", address),
         ],
         data: None,
-    })
+    }
 }
 
 // Create and dispatch a message that will finalize a proposed marker.
-fn try_finalize_marker(denom: String) -> Result<HandleResponse<ProvenanceMsg>, ContractError> {
-    let msg = finalize_marker(denom.clone());
-    Ok(HandleResponse {
+fn try_finalize_marker(denom: String) -> HandleResponse<ProvenanceMsg> {
+    let msg = finalize_marker(&denom);
+    HandleResponse {
         messages: vec![msg],
         attributes: vec![
             attr("action", "provwasm.contracts.marker.finalize"),
@@ -98,13 +95,13 @@ fn try_finalize_marker(denom: String) -> Result<HandleResponse<ProvenanceMsg>, C
             attr("marker_denom", denom),
         ],
         data: None,
-    })
+    }
 }
 
 // Create and dispatch a message that will activate a finalized marker.
-fn try_activate_marker(denom: String) -> Result<HandleResponse<ProvenanceMsg>, ContractError> {
-    let msg = activate_marker(denom.clone());
-    Ok(HandleResponse {
+fn try_activate_marker(denom: String) -> HandleResponse<ProvenanceMsg> {
+    let msg = activate_marker(&denom);
+    HandleResponse {
         messages: vec![msg],
         attributes: vec![
             attr("action", "provwasm.contracts.marker.activate"),
@@ -112,38 +109,35 @@ fn try_activate_marker(denom: String) -> Result<HandleResponse<ProvenanceMsg>, C
             attr("marker_denom", denom),
         ],
         data: None,
-    })
+    }
 }
 
 // Create and dispatch a message that will withdraw coins from a marker.
-fn try_withdraw_marker_coins(
-    coin: Coin,
-    recipient: HumanAddr,
-) -> Result<HandleResponse<ProvenanceMsg>, ContractError> {
-    let msg = withdraw_marker_coins(coin.clone(), recipient.clone());
-    Ok(HandleResponse {
+fn try_withdraw_marker_coins(coin: Coin, recipient: HumanAddr) -> HandleResponse<ProvenanceMsg> {
+    let msg = withdraw_marker_coins(&coin, &recipient);
+    HandleResponse {
         messages: vec![msg],
         attributes: vec![
             attr("action", "provwasm.contracts.marker.withdraw"),
             attr("integration_test", "v2"),
-            attr("marker_denom", coin.denom),
-            attr("marker_amount", coin.amount.to_string()),
-            attr("marker_recipient", recipient.to_string()),
+            attr("withdraw_denom", coin.denom),
+            attr("withdraw_amount", coin.amount),
+            attr("withdraw_recipient", recipient),
         ],
         data: None,
-    })
+    }
 }
 
 /// Handle query requests for the provenance marker module.
 pub fn query(deps: Deps, _env: Env, msg: QueryMsg) -> Result<QueryResponse, StdError> {
     match msg {
-        QueryMsg::GetByAddress { address } => try_get_marker_by_address(deps, address),
+        QueryMsg::GetByAddress { address } => try_get_marker_by_address(deps, &address),
         QueryMsg::GetByDenom { denom } => try_get_marker_by_denom(deps, denom),
     }
 }
 
 // Query a marker by address.
-fn try_get_marker_by_address(deps: Deps, address: HumanAddr) -> Result<QueryResponse, StdError> {
+fn try_get_marker_by_address(deps: Deps, address: &HumanAddr) -> Result<QueryResponse, StdError> {
     let querier = ProvenanceQuerier::new(&deps.querier);
     let marker = querier.get_marker_by_address(address)?;
     to_binary(&marker)
@@ -152,7 +146,7 @@ fn try_get_marker_by_address(deps: Deps, address: HumanAddr) -> Result<QueryResp
 // Query a marker by denom.
 fn try_get_marker_by_denom(deps: Deps, denom: String) -> Result<QueryResponse, StdError> {
     let querier = ProvenanceQuerier::new(&deps.querier);
-    let marker = querier.get_marker_by_denom(denom)?;
+    let marker = querier.get_marker_by_denom(&denom)?;
     to_binary(&marker)
 }
 
@@ -160,25 +154,9 @@ fn try_get_marker_by_denom(deps: Deps, denom: String) -> Result<QueryResponse, S
 mod tests {
     use super::*;
     use cosmwasm_std::testing::{mock_env, mock_info};
-    use cosmwasm_std::{coin, from_binary, Binary};
-    use provwasm_mocks::mock_dependencies;
+    use cosmwasm_std::{coin, from_binary};
+    use provwasm_mocks::{mock_dependencies, must_read_binary_file};
     use provwasm_std::Marker;
-    use std::fs::File;
-    use std::io::Read;
-
-    fn read_test_marker_from_file() -> Binary {
-        let filename = "testdata/marker.json";
-        match File::open(filename) {
-            Ok(mut file) => {
-                let mut content = String::new();
-                file.read_to_string(&mut content).unwrap();
-                Binary::from(content.as_bytes())
-            }
-            Err(error) => {
-                panic!("Error opening file {}: {}", filename, error);
-            }
-        }
-    }
 
     #[test]
     fn valid_init() {
@@ -222,7 +200,6 @@ mod tests {
         // Create a marker
         let msg = HandleMsg::GrantAccess {
             denom: "budz".into(),
-            address: HumanAddr::from("tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz"),
         };
         // Ensure message was created
         let res = handle(deps.as_mut(), env, info, msg).unwrap();
@@ -268,7 +245,6 @@ mod tests {
         // Create a marker
         let msg = HandleMsg::Withdraw {
             coin: coin(20, "budz"),
-            recipient: HumanAddr::from("tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz"),
         };
         // Ensure message was created
         let res = handle(deps.as_mut(), env, info, msg).unwrap();
@@ -278,7 +254,7 @@ mod tests {
     #[test]
     fn query_marker() {
         // Create a mock querier with our expected marker.
-        let bin = read_test_marker_from_file();
+        let bin = must_read_binary_file("testdata/marker.json");
         let expected_marker: Marker = from_binary(&bin).unwrap();
         let mut deps = mock_dependencies(&[]);
         deps.querier.with_markers(vec![expected_marker.clone()]);

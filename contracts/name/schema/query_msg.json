@@ -34,11 +34,16 @@
           ],
           "properties": {
             "address": {
-              "type": "string"
+              "$ref": "#/definitions/HumanAddr"
             }
           }
         }
       }
     }
-  ]
+  ],
+  "definitions": {
+    "HumanAddr": {
+      "type": "string"
+    }
+  }
 }

@@ -50,7 +50,7 @@ fn handle_add_label(
     let attr_name = String::from("label.my-contract.sc.pb");
     let timestamp = env.block.time;
     let label = Label { text, timestamp };
-    let msg = add_json_attribute(address, attr_name, &label)?;
+    let msg = add_json_attribute(&address, &attr_name, &label)?;
     Ok(HandleResponse {
         messages: vec![msg],
         attributes: vec![],
@@ -72,7 +72,7 @@ use crate::msg::{Label, Labels};
 pub fn query_labels(deps: Deps, address: HumanAddr) -> Result<QueryResponse, StdError> {
     let attr_name = String::from("label.my-contract.sc.pb");
     let querier = ProvenanceQuerier::new(&deps.querier);
-    let labels: Vec<Label> = querier.get_json_attributes(address, attr_name)?;
+    let labels: Vec<Label> = querier.get_json_attributes(&address, &attr_name)?;
     to_binary(&Labels { labels })
 }
 ```
@@ -89,7 +89,7 @@ fn handle_delete_labels(
     address: HumanAddr,
 ) -> Result<HandleResponse<ProvenanceMsg>, ContractError> {
     let attr_name = String::from("label.my-contract.sc.pb");
-    let msg = delete_attributes(attr_name, address);
+    let msg = delete_attributes(&attr_name, &address);
     Ok(HandleResponse {
         messages: vec![msg],
         attributes: vec![],

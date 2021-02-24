@@ -130,7 +130,7 @@ Grant access to the marker, so the contract can withdraw funds in a later step
 ```bash
 provenanced tx wasm execute \
     tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
-    '{"grant_access":{"denom":"nugz","address":"tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz"}}' \
+    '{"grant_access":{"denom":"nugz"}}' \
     --from node0 \
     --keyring-backend test \
     --home build/node0 \
@@ -181,7 +181,7 @@ Withdraw coins from the marker to the smart contract instance
 ```bash
 provenanced tx wasm execute \
     tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
-    '{"withdraw":{"coin":{"denom":"nugz","amount":"400"},"recipient":"tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz"}}' \
+    '{"withdraw":{"coin":{"denom":"nugz","amount":"400"}}}' \
     --from node0 \
     --keyring-backend test \
     --home build/node0 \
