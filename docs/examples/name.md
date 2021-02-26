@@ -17,7 +17,7 @@ fn handle_bind_name(
     name: String,
     address: HumanAddr,
 ) -> HandleResponse<ProvenanceMsg> {
-    let msg = bind_name(&name, &address);
+    let msg = bind_name(&name, address);
     HandleResponse {
         messages: vec![msg], // Will be dispatched to name module handler
         attributes: vec![],

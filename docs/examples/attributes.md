@@ -50,7 +50,7 @@ fn handle_add_label(
     let attr_name = String::from("label.my-contract.sc.pb"); // NOTE: Name must resolve to contract address.
     let timestamp = env.block.time;
     let label = Label { text, timestamp };
-    let msg = add_json_attribute(&address, &attr_name, &label)?;
+    let msg = add_json_attribute(address, &attr_name, &label)?;
     Ok(HandleResponse {
         messages: vec![msg],
         attributes: vec![],
@@ -89,7 +89,7 @@ fn handle_delete_labels(
     address: HumanAddr,
 ) -> Result<HandleResponse<ProvenanceMsg>, ContractError> {
     let attr_name = String::from("label.my-contract.sc.pb"); // NOTE: Name must resolve to contract address.
-    let msg = delete_attributes(&address, &attr_name);
+    let msg = delete_attributes(address, &attr_name);
     Ok(HandleResponse {
         messages: vec![msg],
         attributes: vec![],
