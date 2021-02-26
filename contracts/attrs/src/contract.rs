@@ -28,7 +28,7 @@ pub fn init(
     config(deps.storage).save(&state)?;
 
     // Create bind name messages
-    let bind_name_msg = bind_name(&msg.name, &env.contract.address);
+    let bind_name_msg = bind_name(&msg.name, env.contract.address);
 
     // Dispatch message to handler and emit events
     Ok(InitResponse {
@@ -71,7 +71,7 @@ pub fn handle(
 // Bind the label attibute name to the contract address.
 fn try_bind_label_name(env: Env, attr_name: String) -> HandleResponse<ProvenanceMsg> {
     // Bind the label name to the contract address.
-    let bind_name_msg = bind_name(&attr_name, &env.contract.address);
+    let bind_name_msg = bind_name(&attr_name, env.contract.address);
 
     // Issue a response that will dispatch the messages to the name module handler.
     HandleResponse {
@@ -94,7 +94,7 @@ fn try_add_label(
     // Init then pass a label struct to create a JSON attribute message.
     let timestamp = env.block.time;
     let label = Label { text, timestamp };
-    let msg = add_json_attribute(&env.contract.address, &attr_name, &label)?;
+    let msg = add_json_attribute(env.contract.address, &attr_name, &label)?;
 
     // Issue a response that will dispatch the message to the account module handler.
     Ok(HandleResponse {
@@ -111,7 +111,7 @@ fn try_add_label(
 // Delete all label attributes.
 fn try_delete_labels(env: Env, attr_name: String) -> HandleResponse<ProvenanceMsg> {
     // Delete label attributes from an account.
-    let delete_label_msg = delete_attributes(&env.contract.address, &attr_name);
+    let delete_label_msg = delete_attributes(env.contract.address, &attr_name);
 
     // Issue a response that will dispatch the messages to the attribute module handler.
     HandleResponse {
@@ -134,7 +134,7 @@ pub fn query(deps: Deps, env: Env, msg: QueryMsg) -> Result<QueryResponse, StdEr
         QueryMsg::GetLabels {} => {
             let querier = ProvenanceQuerier::new(&deps.querier);
             let labels: Vec<Label> =
-                querier.get_json_attributes(&env.contract.address, &attr_name)?;
+                querier.get_json_attributes(env.contract.address, &attr_name)?;
             to_binary(&LabelsResponse { labels })
         }
     }

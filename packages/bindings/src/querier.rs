@@ -41,10 +41,8 @@ impl<'a> ProvenanceQuerier<'a> {
     }
 
     /// Lookup all names bound to the given address.
-    pub fn lookup_names(&self, address: &HumanAddr) -> StdResult<Names> {
-        self.query_name_module(NameQueryParams::Lookup {
-            address: address.clone(),
-        })
+    pub fn lookup_names(&self, address: HumanAddr) -> StdResult<Names> {
+        self.query_name_module(NameQueryParams::Lookup { address })
     }
 
     // Execute a attribute module query.
@@ -61,15 +59,13 @@ impl<'a> ProvenanceQuerier<'a> {
     /// Get attributes for an account. If the name parameter is empty, all attributes are returned.
     pub fn get_attributes<S: Into<String>>(
         &self,
-        address: &HumanAddr,
+        address: HumanAddr,
         name: Option<S>,
     ) -> StdResult<Attributes> {
         match name {
-            None => self.query_attributes(AttributeQueryParams::GetAllAttributes {
-                address: address.clone(),
-            }),
+            None => self.query_attributes(AttributeQueryParams::GetAllAttributes { address }),
             Some(name) => self.query_attributes(AttributeQueryParams::GetAttributes {
-                address: address.clone(),
+                address,
                 name: name.into(),
             }),
         }
@@ -79,12 +75,12 @@ impl<'a> ProvenanceQuerier<'a> {
     /// Attribute values with the same name must be able to be deserialized to the same type.
     pub fn get_json_attributes<S: Into<String>, T: DeserializeOwned>(
         &self,
-        address: &HumanAddr,
+        address: HumanAddr,
         name: S,
     ) -> StdResult<Vec<T>> {
         // Gather results
         let resp = self.query_attributes(AttributeQueryParams::GetAttributes {
-            address: address.clone(),
+            address,
             name: name.into(),
         })?;
         // Map deserialize, returning values or failure.
@@ -107,10 +103,8 @@ impl<'a> ProvenanceQuerier<'a> {
     }
 
     /// Get a marker by address.
-    pub fn get_marker_by_address(&self, address: &HumanAddr) -> StdResult<Marker> {
-        self.query_marker(MarkerQueryParams::GetMarkerByAddress {
-            address: address.clone(),
-        })
+    pub fn get_marker_by_address(&self, address: HumanAddr) -> StdResult<Marker> {
+        self.query_marker(MarkerQueryParams::GetMarkerByAddress { address })
     }
 
     /// Get a marker by denomination.

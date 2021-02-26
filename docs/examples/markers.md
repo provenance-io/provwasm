@@ -35,7 +35,7 @@ To query a marker by address
 // Query a marker by address.
 fn try_get_marker_by_address(deps: Deps, address: HumanAddr) -> Result<QueryResponse, StdError> {
     let querier = ProvenanceQuerier::new(&deps.querier);
-    let marker: Marker = querier.get_marker_by_address(&address)?;
+    let marker: Marker = querier.get_marker_by_address(address)?;
     to_binary(&marker)
 }
 ```

@@ -72,7 +72,7 @@ use crate::msg::{Label, Labels};
 pub fn query_labels(deps: Deps, address: HumanAddr) -> Result<QueryResponse, StdError> {
     let attr_name = String::from("label.my-contract.sc.pb");
     let querier = ProvenanceQuerier::new(&deps.querier);
-    let labels: Vec<Label> = querier.get_json_attributes(&address, &attr_name)?;
+    let labels: Vec<Label> = querier.get_json_attributes(address, &attr_name)?;
     to_binary(&Labels { labels })
 }
 ```

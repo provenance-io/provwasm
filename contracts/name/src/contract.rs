@@ -26,7 +26,7 @@ pub fn init(
     config(deps.storage).save(&state)?;
 
     // Create a bind name message
-    let bind_name_msg = bind_name(&msg.name, &env.contract.address);
+    let bind_name_msg = bind_name(&msg.name, env.contract.address);
 
     // Dispatch message to handler and emit events
     Ok(InitResponse {
@@ -72,7 +72,7 @@ pub fn try_bind_prefix(
     let name = format!("{}.{}", prefix, state.contract_name);
 
     // Create a message that will set the marker pointer.
-    let bind_name_msg = bind_name(&name, &env.contract.address);
+    let bind_name_msg = bind_name(&name, env.contract.address.clone());
 
     // Dispatch message to handler and emit events
     Ok(HandleResponse {
@@ -138,7 +138,7 @@ fn try_resolve(deps: Deps, name: String) -> Result<QueryResponse, StdError> {
 // Use a ProvenanceQuerier to lookup all names bound to the contract address.
 fn try_lookup(deps: Deps, address: HumanAddr) -> Result<QueryResponse, StdError> {
     let querier = ProvenanceQuerier::new(&deps.querier);
-    let names: Names = querier.lookup_names(&address)?;
+    let names: Names = querier.lookup_names(address)?;
     to_binary(&names)
 }
 

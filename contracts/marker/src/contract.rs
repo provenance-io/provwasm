@@ -24,7 +24,7 @@ pub fn init(
     })?;
 
     // Create a name for the contract
-    let bind_name_msg = bind_name(&msg.name, &env.contract.address);
+    let bind_name_msg = bind_name(&msg.name, env.contract.address);
 
     // Dispatch messages to the name module handler and emit an event.
     Ok(InitResponse {
@@ -56,7 +56,7 @@ pub fn handle(
 
 // Create and dispatch a message that will create a new proposed marker.
 fn try_create_marker(coin: Coin) -> HandleResponse<ProvenanceMsg> {
-    let msg = create_marker(&coin);
+    let msg = create_marker(coin.clone());
     HandleResponse {
         messages: vec![msg],
         attributes: vec![
@@ -71,7 +71,7 @@ fn try_create_marker(coin: Coin) -> HandleResponse<ProvenanceMsg> {
 
 // Create and dispatch a message that will grant all permissions to a marker for an address.
 fn try_grant_marker_access(denom: String, address: HumanAddr) -> HandleResponse<ProvenanceMsg> {
-    let msg = grant_marker_access_all(&denom, &address);
+    let msg = grant_marker_access_all(&denom, address.clone());
     HandleResponse {
         messages: vec![msg],
         attributes: vec![
@@ -114,7 +114,7 @@ fn try_activate_marker(denom: String) -> HandleResponse<ProvenanceMsg> {
 
 // Create and dispatch a message that will withdraw coins from a marker.
 fn try_withdraw_marker_coins(coin: Coin, recipient: HumanAddr) -> HandleResponse<ProvenanceMsg> {
-    let msg = withdraw_marker_coins(&coin, &recipient);
+    let msg = withdraw_marker_coins(coin.clone(), recipient.clone());
     HandleResponse {
         messages: vec![msg],
         attributes: vec![
@@ -131,13 +131,13 @@ fn try_withdraw_marker_coins(coin: Coin, recipient: HumanAddr) -> HandleResponse
 /// Handle query requests for the provenance marker module.
 pub fn query(deps: Deps, _env: Env, msg: QueryMsg) -> Result<QueryResponse, StdError> {
     match msg {
-        QueryMsg::GetByAddress { address } => try_get_marker_by_address(deps, &address),
+        QueryMsg::GetByAddress { address } => try_get_marker_by_address(deps, address),
         QueryMsg::GetByDenom { denom } => try_get_marker_by_denom(deps, denom),
     }
 }
 
 // Query a marker by address.
-fn try_get_marker_by_address(deps: Deps, address: &HumanAddr) -> Result<QueryResponse, StdError> {
+fn try_get_marker_by_address(deps: Deps, address: HumanAddr) -> Result<QueryResponse, StdError> {
     let querier = ProvenanceQuerier::new(&deps.querier);
     let marker = querier.get_marker_by_address(address)?;
     to_binary(&marker)
