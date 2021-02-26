@@ -16,13 +16,13 @@ use crate::error::ContractError;
 fn handle_bind_name(
     name: String,
     address: HumanAddr,
-) -> Result<HandleResponse<ProvenanceMsg>, ContractError> {
+) -> HandleResponse<ProvenanceMsg> {
     let msg = bind_name(&name, &address);
-    Ok(HandleResponse {
+    HandleResponse {
         messages: vec![msg], // Will be dispatched to name module handler
         attributes: vec![],
         data: None,
-    })
+    }
 }
 ```
 
@@ -36,13 +36,13 @@ use provwasm_std::{bind_name, ProvenanceMsg};
 use crate::error::ContractError;
 
 // Unbind a name from an address
-fn handle_bind_name(name: String) -> Result<HandleResponse<ProvenanceMsg>, ContractError> {
+fn handle_bind_name(name: String) -> HandleResponse<ProvenanceMsg> {
     let msg = unbind_name(&name);
-    Ok(HandleResponse {
+    HandleResponse {
         messages: vec![msg], // Will be dispatched to name module handler
         attributes: vec![],
         data: None,
-    })
+    }
 }
 ```
 

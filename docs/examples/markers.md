@@ -5,17 +5,15 @@ marker module.
 
 ## Imports
 
-Imports use for marker examples
+Imports for marker examples
 
 ```rust
 use cosmwasm_std::{to_binary, Coin, Deps, HandleResponse, HumanAddr, QueryResponse, StdError};
 use provwasm_std::{
     activate_marker, burn_marker_supply, cancel_marker, create_marker, destroy_marker,
-    finalize_marker, grant_marker_access, grant_marker_access_all, grant_marker_access_asset,
-    grant_marker_access_supply, mint_marker_supply, withdraw_marker_coins, Marker, ProvenanceMsg,
-    ProvenanceQuerier,
+    finalize_marker, grant_marker_access, grant_marker_access_all, mint_marker_supply,
+    transfer_marker_coins, withdraw_marker_coins, Marker, ProvenanceMsg, ProvenanceQuerier,
 };
-use create::error::ContractError;
 ```
 
 ## Query
@@ -48,84 +46,50 @@ To create a new proposed marker
 
 ```rust
 // Create and dispatch a message that will create a new proposed marker.
-fn try_create_marker(coin: Coin) -> Result<HandleResponse<ProvenanceMsg>, ContractError> {
+fn try_create_marker(coin: Coin) -> HandleResponse<ProvenanceMsg> {
     let msg = create_marker(&coin);
-    Ok(HandleResponse {
+    HandleResponse {
         messages: vec![msg],
         attributes: vec![],
         data: None,
-    })
+    }
 }
 ```
 
 ## Grant
 
-To add all permissions (burn, delete, deposit, grant, mint, withdraw) to an account.
+To add all permissions (admin, burn, delete, deposit, mint, transfer, withdraw) to an account.
 
 ```rust
 // Create and dispatch a message that will grant all permissions to a marker for an address.
 fn try_grant_marker_access(
     denom: String,
     address: HumanAddr,
-) -> Result<HandleResponse<ProvenanceMsg>, ContractError> {
+) -> HandleResponse<ProvenanceMsg> {
     let msg = grant_marker_access_all(&denom, &address);
-    Ok(HandleResponse {
+    HandleResponse {
         messages: vec![msg],
         attributes: vec![],
         data: None,
-    })
-}
-```
-
-To add supply permissions (mint, burn) to an account.
-
-```rust
-// Create and dispatch a message that will grant supply permissions to a marker for an address.
-fn try_grant_marker_access(
-    denom: String,
-    address: HumanAddr,
-) -> Result<HandleResponse<ProvenanceMsg>, ContractError> {
-    let msg = grant_marker_access_supply(&denom, &address);
-    Ok(HandleResponse {
-        messages: vec![msg],
-        attributes: vec![],
-        data: None,
-    })
-}
-```
-
-To add asset permissions (deposit, withdraw) to an account.
-
-```rust
-// Create and dispatch a message that will grant asset permissions to a marker for an address.
-fn try_grant_marker_access(
-    denom: String,
-    address: HumanAddr,
-) -> Result<HandleResponse<ProvenanceMsg>, ContractError> {
-    let msg = grant_marker_access_asset(&denom, &address);
-    Ok(HandleResponse {
-        messages: vec![msg],
-        attributes: vec![],
-        data: None,
-    })
+    }
 }
 ```
 
 To add custom permissions to an account.
 
 ```rust
-// Create and dispatch a message that will grant custom permissions to a marker for an address.
+// Create and dispatch a message that will grant specific permissions to a marker for an address.
 fn try_grant_marker_access(
     denom: String,
     address: HumanAddr,
-) -> Result<HandleResponse<ProvenanceMsg>, ContractError> {
-    let permissions = vec![MarkerPermission::Deposit, MarkerPermission::Mint];
+) -> HandleResponse<ProvenanceMsg> {
+    let permissions = vec![MarkerPermission::Burn, MarkerPermission::Mint];
     let msg = grant_marker_access(&denom, &address, permissions);
-    Ok(HandleResponse {
+    HandleResponse {
         messages: vec![msg],
         attributes: vec![],
         data: None,
-    })
+    }
 }
 ```
 
@@ -138,13 +102,13 @@ To revoke all permissions from an account.
 fn try_revoke_marker_access(
     denom: String,
     address: HumanAddr,
-) -> Result<HandleResponse<ProvenanceMsg>, ContractError> {
+) -> HandleResponse<ProvenanceMsg> {
     let msg = revoke_marker_access(&denom, &address);
-    Ok(HandleResponse {
+    HandleResponse {
         messages: vec![msg],
         attributes: vec![],
         data: None,
-    })
+    }
 }
 ```
 
@@ -154,13 +118,13 @@ To set marker status to finalized
 
 ```rust
 // Create and dispatch a message that will finalize a proposed marker.
-fn try_finalize_marker(denom: String) -> Result<HandleResponse<ProvenanceMsg>, ContractError> {
+fn try_finalize_marker(denom: String) -> HandleResponse<ProvenanceMsg> {
     let msg = finalize_marker(&denom);
-    Ok(HandleResponse {
+    HandleResponse {
         messages: vec![msg],
         attributes: vec![],
         data: None,
-    })
+    }
 }
 ```
 
@@ -170,13 +134,13 @@ To set marker status to active (mints supply)
 
 ```rust
 // Create and dispatch a message that will activate a finalized marker.
-fn try_activate_marker(denom: String) -> Result<HandleResponse<ProvenanceMsg>, ContractError> {
+fn try_activate_marker(denom: String) -> HandleResponse<ProvenanceMsg> {
     let msg = activate_marker(&denom);
-    Ok(HandleResponse {
+    HandleResponse {
         messages: vec![msg],
         attributes: vec![],
         data: None,
-    })
+    }
 }
 ```
 
@@ -186,13 +150,13 @@ To mint marker supply
 
 ```rust
 // Create and dispatch a message that will mint marker supply.
-fn try_mint_marker(coin: Coin) -> Result<HandleResponse<ProvenanceMsg>, ContractError> {
+fn try_mint_marker(coin: Coin) -> HandleResponse<ProvenanceMsg> {
     let msg = mint_marker_supply(&coin);
-    Ok(HandleResponse {
+    HandleResponse {
         messages: vec![msg],
         attributes: vec![],
         data: None,
-    })
+    }
 }
 ```
 
@@ -202,13 +166,13 @@ To burn marker supply
 
 ```rust
 // Create and dispatch a message that will burn marker supply.
-fn try_burn_marker(coin: Coin) -> Result<HandleResponse<ProvenanceMsg>, ContractError> {
+fn try_burn_marker(coin: Coin) -> HandleResponse<ProvenanceMsg> {
     let msg = burn_marker_supply(&coin);
-    Ok(HandleResponse {
+    HandleResponse {
         messages: vec![msg],
         attributes: vec![],
         data: None,
-    })
+    }
 }
 ```
 
@@ -218,13 +182,13 @@ To cancel a marker
 
 ```rust
 // Create and dispatch a message that will cancel a marker.
-fn try_cancel_marker(denom: String) -> Result<HandleResponse<ProvenanceMsg>, ContractError> {
+fn try_cancel_marker(denom: String) -> HandleResponse<ProvenanceMsg> {
     let msg = cancel_marker(&denom);
-    Ok(HandleResponse {
+    HandleResponse {
         messages: vec![msg],
         attributes: vec![],
         data: None,
-    })
+    }
 }
 ```
 
@@ -234,13 +198,13 @@ To destroy a marker
 
 ```rust
 // Create and dispatch a message that will destroy a marker.
-fn try_destroy_marker(denom: String) -> Result<HandleResponse<ProvenanceMsg>, ContractError> {
+fn try_destroy_marker(denom: String) -> HandleResponse<ProvenanceMsg> {
     let msg = destroy_marker(&denom);
-    Ok(HandleResponse {
+    HandleResponse {
         messages: vec![msg],
         attributes: vec![],
         data: None,
-    })
+    }
 }
 ```
 
@@ -250,18 +214,19 @@ To transfer marker coins between addresses
 
 ```rust
 
-// Create and dispatch a message that will transfer marker coins from one account to another .
+// Create and dispatch a message that will transfer marker coins from one account to another.
+// NOTE: Transfer is only enabled for restricted markers.
 fn try_transfer_marker_coins(
     coin: Coin,
     to: HumanAddr,
     from: HumanAddr,
-) -> Result<HandleResponse<ProvenanceMsg>, ContractError> {
+) -> HandleResponse<ProvenanceMsg> {
     let msg = transfer_marker_coins(&coin, &to, &from);
-    Ok(HandleResponse {
+    HandleResponse {
         messages: vec![msg],
         attributes: vec![],
         data: None,
-    })
+    }
 }
 ```
 
@@ -274,12 +239,12 @@ To withdraw marker coins to a recipient address
 fn try_withdraw_marker_coins(
     coin: Coin,
     recipient: HumanAddr,
-) -> Result<HandleResponse<ProvenanceMsg>, ContractError> {
+) -> HandleResponse<ProvenanceMsg> {
     let msg = withdraw_marker_coins(&coin, &recipient);
-    Ok(HandleResponse {
+    HandleResponse {
         messages: vec![msg],
         attributes: vec![],
         data: None,
-    })
+    }
 }
 ```

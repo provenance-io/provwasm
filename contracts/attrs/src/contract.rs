@@ -111,7 +111,7 @@ fn try_add_label(
 // Delete all label attributes.
 fn try_delete_labels(env: Env, attr_name: String) -> HandleResponse<ProvenanceMsg> {
     // Delete label attributes from an account.
-    let delete_label_msg = delete_attributes(&attr_name, &env.contract.address);
+    let delete_label_msg = delete_attributes(&env.contract.address, &attr_name);
 
     // Issue a response that will dispatch the messages to the attribute module handler.
     HandleResponse {

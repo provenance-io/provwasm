@@ -15,7 +15,7 @@ contract development and testing.
 
 | provwasm | wasmd   | cosmos  | provenance | localnet | testnet | mainnet | module support        |
 | -------- | ------- | ------- | ---------- | -------- | ------- | ------- | --------------------- |
-| v0.13.x  | v0.15.0 | v0.41.0 | v0.1.x     | yes      | yes     | N/A     | attribute,marker,name |
+| v0.13.x  | v0.15.x | v0.41.x | v0.1.x     | yes      | yes     | N/A     | attribute,marker,name |
 
 ## Getting Started
 

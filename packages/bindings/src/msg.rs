@@ -85,8 +85,8 @@ pub enum AttributeMsgParams {
         value_type: AttributeValueType,
     },
     DeleteAttribute {
-        name: String,
         address: HumanAddr,
+        name: String,
     },
 }
 
@@ -100,55 +100,18 @@ fn create_attribute_msg(params: AttributeMsgParams) -> CosmosMsg<ProvenanceMsg> 
 }
 
 /// Create a message that will add a an attribute to an account.
-pub fn add_attribute<S: Into<String>>(
+pub fn add_attribute<S: Into<String>, B: Into<Binary>>(
     address: &HumanAddr,
     name: S,
-    value: Binary,
+    value: B,
     value_type: AttributeValueType,
 ) -> CosmosMsg<ProvenanceMsg> {
     create_attribute_msg(AttributeMsgParams::AddAttribute {
         address: address.clone(),
         name: name.into(),
-        value,
+        value: value.into(),
         value_type,
     })
-}
-
-/// Create a message that will add a UUID attribute to an account.
-pub fn add_uuid_attribute<S: Into<String>>(
-    address: &HumanAddr,
-    name: S,
-    uuid: S,
-) -> CosmosMsg<ProvenanceMsg> {
-    add_attribute(
-        address,
-        name,
-        Binary::from(uuid.into().as_bytes()),
-        AttributeValueType::Uuid,
-    )
-}
-
-/// Create a message that will add a binary attribute to an account.
-pub fn add_binary_attribute<S: Into<String>>(
-    address: &HumanAddr,
-    name: S,
-    value: Binary,
-) -> CosmosMsg<ProvenanceMsg> {
-    add_attribute(address, name, value, AttributeValueType::Bytes)
-}
-
-/// Create a message that will add a string attribute to an account.
-pub fn add_string_attribute<S: Into<String>>(
-    address: &HumanAddr,
-    name: S,
-    value: S,
-) -> CosmosMsg<ProvenanceMsg> {
-    add_attribute(
-        address,
-        name,
-        Binary::from(value.into().as_bytes()),
-        AttributeValueType::String,
-    )
 }
 
 /// Create a message that will add a JSON attribute to an account. Serializable types can be passed
@@ -171,12 +134,12 @@ pub fn add_json_attribute<S: Into<String>, T: Serialize + ?Sized>(
 
 /// Create a message that will remove all attributes with the given name from an account.
 pub fn delete_attributes<S: Into<String>>(
-    name: S,
     address: &HumanAddr,
+    name: S,
 ) -> CosmosMsg<ProvenanceMsg> {
     create_attribute_msg(AttributeMsgParams::DeleteAttribute {
-        name: name.into(),
         address: address.clone(),
+        name: name.into(),
     })
 }
 
@@ -253,7 +216,7 @@ fn create_marker_with_type(coin: &Coin, marker_type: MarkerType) -> CosmosMsg<Pr
     })
 }
 
-/// Create a message that will grant permissions to a marker.
+/// Create a message that will grant permissions on a marker.
 pub fn grant_marker_access<S: Into<String>>(
     denom: S,
     address: &HumanAddr,
@@ -266,7 +229,7 @@ pub fn grant_marker_access<S: Into<String>>(
     })
 }
 
-/// Create a message that will grant all available permissions to a marker.
+/// Create a message that will grant all available permissions on a marker.
 pub fn grant_marker_access_all<S: Into<String>>(
     denom: S,
     address: &HumanAddr,
@@ -283,26 +246,6 @@ pub fn grant_marker_access_all<S: Into<String>>(
             MarkerAccess::Transfer,
             MarkerAccess::Withdraw,
         ],
-    )
-}
-
-/// Create a message that will grant supply permissions to a marker.
-pub fn grant_marker_access_supply<S: Into<String>>(
-    denom: S,
-    address: &HumanAddr,
-) -> CosmosMsg<ProvenanceMsg> {
-    grant_marker_access(denom, address, vec![MarkerAccess::Burn, MarkerAccess::Mint])
-}
-
-/// Create a message that will grant asset permissions to a marker.
-pub fn grant_marker_access_asset<S: Into<String>>(
-    denom: S,
-    address: &HumanAddr,
-) -> CosmosMsg<ProvenanceMsg> {
-    grant_marker_access(
-        denom,
-        address,
-        vec![MarkerAccess::Deposit, MarkerAccess::Withdraw],
     )
 }
 

@@ -47,7 +47,7 @@ fn handle_add_label(
     address: HumanAddr,
     text: String,
 ) -> Result<HandleResponse<ProvenanceMsg>, ContractError> {
-    let attr_name = String::from("label.my-contract.sc.pb");
+    let attr_name = String::from("label.my-contract.sc.pb"); // NOTE: Name must resolve to contract address.
     let timestamp = env.block.time;
     let label = Label { text, timestamp };
     let msg = add_json_attribute(&address, &attr_name, &label)?;
@@ -88,8 +88,8 @@ use crate::error::ContractError;
 fn handle_delete_labels(
     address: HumanAddr,
 ) -> Result<HandleResponse<ProvenanceMsg>, ContractError> {
-    let attr_name = String::from("label.my-contract.sc.pb");
-    let msg = delete_attributes(&attr_name, &address);
+    let attr_name = String::from("label.my-contract.sc.pb"); // NOTE: Name must resolve to contract address.
+    let msg = delete_attributes(&address, &attr_name);
     Ok(HandleResponse {
         messages: vec![msg],
         attributes: vec![],

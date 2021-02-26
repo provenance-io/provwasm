@@ -77,11 +77,11 @@ impl<'a> ProvenanceQuerier<'a> {
 
     /// Get named JSON attributes from an account and deserialize the values.
     /// Attribute values with the same name must be able to be deserialized to the same type.
-    pub fn get_json_attributes<S: Into<String>, U: DeserializeOwned>(
+    pub fn get_json_attributes<S: Into<String>, T: DeserializeOwned>(
         &self,
         address: &HumanAddr,
         name: S,
-    ) -> StdResult<Vec<U>> {
+    ) -> StdResult<Vec<T>> {
         // Gather results
         let resp = self.query_attributes(AttributeQueryParams::GetAttributes {
             address: address.clone(),
