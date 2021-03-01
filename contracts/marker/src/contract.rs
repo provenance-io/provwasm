@@ -71,7 +71,7 @@ fn try_create_marker(coin: Coin) -> HandleResponse<ProvenanceMsg> {
 
 // Create and dispatch a message that will grant all permissions to a marker for an address.
 fn try_grant_marker_access(denom: String, address: HumanAddr) -> HandleResponse<ProvenanceMsg> {
-    let msg = grant_marker_access_all(&denom, address.clone());
+    let msg = grant_marker_access_all(&denom, &address);
     HandleResponse {
         messages: vec![msg],
         attributes: vec![
@@ -114,7 +114,7 @@ fn try_activate_marker(denom: String) -> HandleResponse<ProvenanceMsg> {
 
 // Create and dispatch a message that will withdraw coins from a marker.
 fn try_withdraw_marker_coins(coin: Coin, recipient: HumanAddr) -> HandleResponse<ProvenanceMsg> {
-    let msg = withdraw_marker_coins(coin.clone(), recipient.clone());
+    let msg = withdraw_marker_coins(coin.clone(), &recipient);
     HandleResponse {
         messages: vec![msg],
         attributes: vec![

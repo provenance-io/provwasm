@@ -17,7 +17,7 @@ fn handle_bind_name(
     name: String,
     address: HumanAddr,
 ) -> HandleResponse<ProvenanceMsg> {
-    let msg = bind_name(&name, address);
+    let msg = bind_name(&name, &address);
     HandleResponse {
         messages: vec![msg], // Will be dispatched to name module handler
         attributes: vec![],
@@ -74,7 +74,7 @@ use provwasm_std::{Names, ProvenanceQuerier};
 // Use a ProvenanceQuerier to lookup all names bound to an address.
 fn query_lookup_names(deps: Deps, address: HumanAddr) -> Result<QueryResponse, StdError> {
     let querier = ProvenanceQuerier::new(&deps.querier);
-    let names: Names = querier.lookup_names(address)?;
+    let names: Names = querier.lookup_names(&address)?;
     // Do something with names...
     to_binary(&names)
 }

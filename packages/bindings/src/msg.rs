@@ -49,22 +49,25 @@ fn create_name_msg(params: NameMsgParams) -> CosmosMsg<ProvenanceMsg> {
 }
 
 /// Create a message that will bind a restricted name to an address.
-pub fn bind_name<S: Into<String>>(name: S, address: HumanAddr) -> CosmosMsg<ProvenanceMsg> {
+pub fn bind_name<S: Into<String>, H: Into<HumanAddr>>(
+    name: S,
+    address: H,
+) -> CosmosMsg<ProvenanceMsg> {
     create_name_msg(NameMsgParams::BindName {
         name: name.into(),
-        address,
+        address: address.into(),
         restrict: true,
     })
 }
 
 /// Create a message that will bind an unrestricted name to an address.
-pub fn bind_name_unrestricted<S: Into<String>>(
+pub fn bind_name_unrestricted<S: Into<String>, H: Into<HumanAddr>>(
     name: S,
-    address: HumanAddr,
+    address: H,
 ) -> CosmosMsg<ProvenanceMsg> {
     create_name_msg(NameMsgParams::BindName {
         name: name.into(),
-        address,
+        address: address.into(),
         restrict: false,
     })
 }
@@ -100,14 +103,14 @@ fn create_attribute_msg(params: AttributeMsgParams) -> CosmosMsg<ProvenanceMsg> 
 }
 
 /// Create a message that will add a an attribute to an account.
-pub fn add_attribute<S: Into<String>, B: Into<Binary>>(
-    address: HumanAddr,
+pub fn add_attribute<H: Into<HumanAddr>, S: Into<String>, B: Into<Binary>>(
+    address: H,
     name: S,
     value: B,
     value_type: AttributeValueType,
 ) -> CosmosMsg<ProvenanceMsg> {
     create_attribute_msg(AttributeMsgParams::AddAttribute {
-        address: address.clone(),
+        address: address.into(),
         name: name.into(),
         value: value.into(),
         value_type,
@@ -116,8 +119,8 @@ pub fn add_attribute<S: Into<String>, B: Into<Binary>>(
 
 /// Create a message that will add a JSON attribute to an account. Serializable types can be passed
 /// into this function, but it's up to the user to handle StdResult error case.
-pub fn add_json_attribute<S: Into<String>, T: Serialize + ?Sized>(
-    address: HumanAddr,
+pub fn add_json_attribute<H: Into<HumanAddr>, S: Into<String>, T: Serialize + ?Sized>(
+    address: H,
     name: S,
     data: &T,
 ) -> StdResult<CosmosMsg<ProvenanceMsg>> {
@@ -133,9 +136,12 @@ pub fn add_json_attribute<S: Into<String>, T: Serialize + ?Sized>(
 }
 
 /// Create a message that will remove all attributes with the given name from an account.
-pub fn delete_attributes<S: Into<String>>(address: HumanAddr, name: S) -> CosmosMsg<ProvenanceMsg> {
+pub fn delete_attributes<H: Into<HumanAddr>, S: Into<String>>(
+    address: H,
+    name: S,
+) -> CosmosMsg<ProvenanceMsg> {
     create_attribute_msg(AttributeMsgParams::DeleteAttribute {
-        address,
+        address: address.into(),
         name: name.into(),
     })
 }
@@ -211,22 +217,22 @@ fn create_marker_with_type(coin: Coin, marker_type: MarkerType) -> CosmosMsg<Pro
 }
 
 /// Create a message that will grant permissions on a marker.
-pub fn grant_marker_access<S: Into<String>>(
+pub fn grant_marker_access<S: Into<String>, H: Into<HumanAddr>>(
     denom: S,
-    address: HumanAddr,
+    address: H,
     permissions: Vec<MarkerAccess>,
 ) -> CosmosMsg<ProvenanceMsg> {
     create_marker_msg(MarkerMsgParams::GrantMarkerAccess {
         denom: denom.into(),
-        address,
+        address: address.into(),
         permissions,
     })
 }
 
 /// Create a message that will grant all available permissions on a marker.
-pub fn grant_marker_access_all<S: Into<String>>(
+pub fn grant_marker_access_all<S: Into<String>, H: Into<HumanAddr>>(
     denom: S,
-    address: HumanAddr,
+    address: H,
 ) -> CosmosMsg<ProvenanceMsg> {
     grant_marker_access(
         denom,
@@ -244,13 +250,13 @@ pub fn grant_marker_access_all<S: Into<String>>(
 }
 
 /// Create a message that will revoke marker permissions.
-pub fn revoke_marker_access<S: Into<String>>(
+pub fn revoke_marker_access<S: Into<String>, H: Into<HumanAddr>>(
     denom: S,
-    address: HumanAddr,
+    address: H,
 ) -> CosmosMsg<ProvenanceMsg> {
     create_marker_msg(MarkerMsgParams::RevokeMarkerAccess {
         denom: denom.into(),
-        address,
+        address: address.into(),
     })
 }
 
@@ -293,15 +299,25 @@ pub fn burn_marker_supply(coin: Coin) -> CosmosMsg<ProvenanceMsg> {
 }
 
 /// Create a message that will transfer marker coins to a recipient account.
-pub fn withdraw_marker_coins(coin: Coin, recipient: HumanAddr) -> CosmosMsg<ProvenanceMsg> {
-    create_marker_msg(MarkerMsgParams::WithdrawMarkerCoins { coin, recipient })
+pub fn withdraw_marker_coins<H: Into<HumanAddr>>(
+    coin: Coin,
+    recipient: H,
+) -> CosmosMsg<ProvenanceMsg> {
+    create_marker_msg(MarkerMsgParams::WithdrawMarkerCoins {
+        coin,
+        recipient: recipient.into(),
+    })
 }
 
 /// Create a message that will transfer a marker amount from one account to another.
-pub fn transfer_marker_coins(
+pub fn transfer_marker_coins<H: Into<HumanAddr>>(
     coin: Coin,
-    to: HumanAddr,
-    from: HumanAddr,
+    to: H,
+    from: H,
 ) -> CosmosMsg<ProvenanceMsg> {
-    create_marker_msg(MarkerMsgParams::TransferMarkerCoins { coin, to, from })
+    create_marker_msg(MarkerMsgParams::TransferMarkerCoins {
+        coin,
+        to: to.into(),
+        from: from.into(),
+    })
 }

@@ -35,7 +35,7 @@ To query a marker by address
 // Query a marker by address.
 fn try_get_marker_by_address(deps: Deps, address: HumanAddr) -> Result<QueryResponse, StdError> {
     let querier = ProvenanceQuerier::new(&deps.querier);
-    let marker: Marker = querier.get_marker_by_address(address)?;
+    let marker: Marker = querier.get_marker_by_address(&address)?;
     to_binary(&marker)
 }
 ```
@@ -66,7 +66,7 @@ fn try_grant_marker_access(
     denom: String,
     address: HumanAddr,
 ) -> HandleResponse<ProvenanceMsg> {
-    let msg = grant_marker_access_all(&denom, address);
+    let msg = grant_marker_access_all(&denom, &address);
     HandleResponse {
         messages: vec![msg],
         attributes: vec![],
@@ -84,7 +84,7 @@ fn try_grant_marker_access(
     address: HumanAddr,
 ) -> HandleResponse<ProvenanceMsg> {
     let permissions = vec![MarkerPermission::Burn, MarkerPermission::Mint];
-    let msg = grant_marker_access(&denom, address, permissions);
+    let msg = grant_marker_access(&denom, &address, permissions);
     HandleResponse {
         messages: vec![msg],
         attributes: vec![],
@@ -103,7 +103,7 @@ fn try_revoke_marker_access(
     denom: String,
     address: HumanAddr,
 ) -> HandleResponse<ProvenanceMsg> {
-    let msg = revoke_marker_access(&denom, address);
+    let msg = revoke_marker_access(&denom, &address);
     HandleResponse {
         messages: vec![msg],
         attributes: vec![],
@@ -221,7 +221,7 @@ fn try_transfer_marker_coins(
     to: HumanAddr,
     from: HumanAddr,
 ) -> HandleResponse<ProvenanceMsg> {
-    let msg = transfer_marker_coins(coin, to, from);
+    let msg = transfer_marker_coins(coin, &to, &from);
     HandleResponse {
         messages: vec![msg],
         attributes: vec![],
@@ -240,7 +240,7 @@ fn try_withdraw_marker_coins(
     coin: Coin,
     recipient: HumanAddr,
 ) -> HandleResponse<ProvenanceMsg> {
-    let msg = withdraw_marker_coins(coin, recipient);
+    let msg = withdraw_marker_coins(coin, &recipient);
     HandleResponse {
         messages: vec![msg],
         attributes: vec![],

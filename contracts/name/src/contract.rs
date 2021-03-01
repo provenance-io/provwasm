@@ -72,7 +72,7 @@ pub fn try_bind_prefix(
     let name = format!("{}.{}", prefix, state.contract_name);
 
     // Create a message that will set the marker pointer.
-    let bind_name_msg = bind_name(&name, env.contract.address.clone());
+    let bind_name_msg = bind_name(&name, &env.contract.address);
 
     // Dispatch message to handler and emit events
     Ok(HandleResponse {

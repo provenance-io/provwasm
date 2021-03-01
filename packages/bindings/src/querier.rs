@@ -41,8 +41,10 @@ impl<'a> ProvenanceQuerier<'a> {
     }
 
     /// Lookup all names bound to the given address.
-    pub fn lookup_names(&self, address: HumanAddr) -> StdResult<Names> {
-        self.query_name_module(NameQueryParams::Lookup { address })
+    pub fn lookup_names<H: Into<HumanAddr>>(&self, address: H) -> StdResult<Names> {
+        self.query_name_module(NameQueryParams::Lookup {
+            address: address.into(),
+        })
     }
 
     // Execute a attribute module query.
@@ -57,15 +59,17 @@ impl<'a> ProvenanceQuerier<'a> {
     }
 
     /// Get attributes for an account. If the name parameter is empty, all attributes are returned.
-    pub fn get_attributes<S: Into<String>>(
+    pub fn get_attributes<H: Into<HumanAddr>, S: Into<String>>(
         &self,
-        address: HumanAddr,
+        address: H,
         name: Option<S>,
     ) -> StdResult<Attributes> {
         match name {
-            None => self.query_attributes(AttributeQueryParams::GetAllAttributes { address }),
+            None => self.query_attributes(AttributeQueryParams::GetAllAttributes {
+                address: address.into(),
+            }),
             Some(name) => self.query_attributes(AttributeQueryParams::GetAttributes {
-                address,
+                address: address.into(),
                 name: name.into(),
             }),
         }
@@ -73,14 +77,14 @@ impl<'a> ProvenanceQuerier<'a> {
 
     /// Get named JSON attributes from an account and deserialize the values.
     /// Attribute values with the same name must be able to be deserialized to the same type.
-    pub fn get_json_attributes<S: Into<String>, T: DeserializeOwned>(
+    pub fn get_json_attributes<H: Into<HumanAddr>, S: Into<String>, T: DeserializeOwned>(
         &self,
-        address: HumanAddr,
+        address: H,
         name: S,
     ) -> StdResult<Vec<T>> {
         // Gather results
         let resp = self.query_attributes(AttributeQueryParams::GetAttributes {
-            address,
+            address: address.into(),
             name: name.into(),
         })?;
         // Map deserialize, returning values or failure.
@@ -103,8 +107,10 @@ impl<'a> ProvenanceQuerier<'a> {
     }
 
     /// Get a marker by address.
-    pub fn get_marker_by_address(&self, address: HumanAddr) -> StdResult<Marker> {
-        self.query_marker(MarkerQueryParams::GetMarkerByAddress { address })
+    pub fn get_marker_by_address<H: Into<HumanAddr>>(&self, address: H) -> StdResult<Marker> {
+        self.query_marker(MarkerQueryParams::GetMarkerByAddress {
+            address: address.into(),
+        })
     }
 
     /// Get a marker by denomination.
