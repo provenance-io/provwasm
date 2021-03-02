@@ -1,1 +1,1 @@
-48e30eca97267a1be52b40c95adf8123eba41fc9a6a9af4c0c1dc4133e6fb0a3  attrs.wasm
+c464db644acb6d91a61c9a4d342064cf7847d9aecd2e261c9ffb12fad2f8b8e4  attrs.wasm
