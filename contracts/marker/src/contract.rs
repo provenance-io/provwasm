@@ -1,6 +1,6 @@
 use cosmwasm_std::{
     attr, to_binary, Deps, DepsMut, Env, HandleResponse, HumanAddr, InitResponse, MessageInfo,
-    QueryResponse, StdError,
+    QueryResponse, StdError, Uint128,
 };
 use provwasm_std::{
     activate_marker, bind_name, create_marker, finalize_marker, grant_marker_access_all,
@@ -57,8 +57,8 @@ pub fn handle(
 }
 
 // Create and dispatch a message that will create a new proposed marker.
-fn try_create_marker(supply: u128, denom: String) -> HandleResponse<ProvenanceMsg> {
-    let msg = create_marker(supply, &denom);
+fn try_create_marker(supply: Uint128, denom: String) -> HandleResponse<ProvenanceMsg> {
+    let msg = create_marker(supply.u128(), &denom);
     HandleResponse {
         messages: vec![msg],
         attributes: vec![
@@ -116,11 +116,11 @@ fn try_activate_marker(denom: String) -> HandleResponse<ProvenanceMsg> {
 
 // Create and dispatch a message that will withdraw coins from a marker.
 fn try_withdraw_marker_coins(
-    amount: u128,
+    amount: Uint128,
     denom: String,
     recipient: HumanAddr,
 ) -> HandleResponse<ProvenanceMsg> {
-    let msg = withdraw_marker_coins(amount, &denom, &recipient);
+    let msg = withdraw_marker_coins(amount.u128(), &denom, &recipient);
     HandleResponse {
         messages: vec![msg],
         attributes: vec![
@@ -190,7 +190,7 @@ mod tests {
         let info = mock_info("sender", &[]);
         // Create a marker
         let msg = HandleMsg::CreateMarker {
-            supply: 420,
+            supply: Uint128(420),
             denom: "budz".into(),
         };
         // Ensure message was created
@@ -251,7 +251,7 @@ mod tests {
         let info = mock_info("sender", &[]);
         // Create a marker
         let msg = HandleMsg::Withdraw {
-            amount: 20,
+            amount: Uint128(20),
             denom: "budz".into(),
         };
         // Ensure message was created

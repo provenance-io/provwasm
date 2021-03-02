@@ -95,7 +95,7 @@ Execute the contract, creating a marker in a 'proposed' state.
 ```bash
 provenanced tx wasm execute \
     tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
-    '{"create_marker":{"coin":{"denom":"nugz","amount":"420"}, "marker_type":"coin"}}' \
+    '{"create_marker":{"supply":"420","denom":"nugz"}}' \
     --from node0 \
     --keyring-backend test \
     --home build/node0 \
@@ -181,7 +181,7 @@ Withdraw coins from the marker to the smart contract instance
 ```bash
 provenanced tx wasm execute \
     tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
-    '{"withdraw":{"coin":{"denom":"nugz","amount":"400"}}}' \
+    '{"withdraw":{"amount":"400","denom":"nugz"}}' \
     --from node0 \
     --keyring-backend test \
     --home build/node0 \

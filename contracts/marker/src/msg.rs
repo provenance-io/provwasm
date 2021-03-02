@@ -1,4 +1,4 @@
-use cosmwasm_std::HumanAddr;
+use cosmwasm_std::{HumanAddr, Uint128};
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
@@ -11,11 +11,11 @@ pub struct InitMsg {
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum HandleMsg {
-    CreateMarker { supply: u128, denom: String },
+    CreateMarker { supply: Uint128, denom: String },
     GrantAccess { denom: String },
     Finalize { denom: String },
     Activate { denom: String },
-    Withdraw { amount: u128, denom: String },
+    Withdraw { amount: Uint128, denom: String },
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
