@@ -1,6 +1,6 @@
 use cosmwasm_std::{
-    attr, to_binary, Coin, Deps, DepsMut, Env, HandleResponse, HumanAddr, InitResponse,
-    MessageInfo, QueryResponse, StdError,
+    attr, to_binary, Deps, DepsMut, Env, HandleResponse, HumanAddr, InitResponse, MessageInfo,
+    QueryResponse, StdError,
 };
 use provwasm_std::{
     activate_marker, bind_name, create_marker, finalize_marker, grant_marker_access_all,
@@ -45,25 +45,27 @@ pub fn handle(
     msg: HandleMsg,
 ) -> Result<HandleResponse<ProvenanceMsg>, ContractError> {
     let res = match msg {
-        HandleMsg::CreateMarker { coin } => try_create_marker(coin),
+        HandleMsg::CreateMarker { supply, denom } => try_create_marker(supply, denom),
         HandleMsg::GrantAccess { denom } => try_grant_marker_access(denom, env.contract.address),
         HandleMsg::Finalize { denom } => try_finalize_marker(denom),
         HandleMsg::Activate { denom } => try_activate_marker(denom),
-        HandleMsg::Withdraw { coin } => try_withdraw_marker_coins(coin, env.contract.address),
+        HandleMsg::Withdraw { amount, denom } => {
+            try_withdraw_marker_coins(amount, denom, env.contract.address)
+        }
     };
     Ok(res)
 }
 
 // Create and dispatch a message that will create a new proposed marker.
-fn try_create_marker(coin: Coin) -> HandleResponse<ProvenanceMsg> {
-    let msg = create_marker(coin.clone());
+fn try_create_marker(supply: u128, denom: String) -> HandleResponse<ProvenanceMsg> {
+    let msg = create_marker(supply, &denom);
     HandleResponse {
         messages: vec![msg],
         attributes: vec![
             attr("action", "provwasm.contracts.marker.create"),
             attr("integration_test", "v2"),
-            attr("marker_denom", coin.denom),
-            attr("marker_supply", coin.amount),
+            attr("marker_supply", supply),
+            attr("marker_denom", denom),
         ],
         data: None,
     }
@@ -113,15 +115,19 @@ fn try_activate_marker(denom: String) -> HandleResponse<ProvenanceMsg> {
 }
 
 // Create and dispatch a message that will withdraw coins from a marker.
-fn try_withdraw_marker_coins(coin: Coin, recipient: HumanAddr) -> HandleResponse<ProvenanceMsg> {
-    let msg = withdraw_marker_coins(coin.clone(), &recipient);
+fn try_withdraw_marker_coins(
+    amount: u128,
+    denom: String,
+    recipient: HumanAddr,
+) -> HandleResponse<ProvenanceMsg> {
+    let msg = withdraw_marker_coins(amount, &denom, &recipient);
     HandleResponse {
         messages: vec![msg],
         attributes: vec![
             attr("action", "provwasm.contracts.marker.withdraw"),
             attr("integration_test", "v2"),
-            attr("withdraw_denom", coin.denom),
-            attr("withdraw_amount", coin.amount),
+            attr("withdraw_amount", amount),
+            attr("withdraw_denom", denom),
             attr("withdraw_recipient", recipient),
         ],
         data: None,
@@ -153,8 +159,8 @@ fn try_get_marker_by_denom(deps: Deps, denom: String) -> Result<QueryResponse, S
 #[cfg(test)]
 mod tests {
     use super::*;
+    use cosmwasm_std::from_binary;
     use cosmwasm_std::testing::{mock_env, mock_info};
-    use cosmwasm_std::{coin, from_binary};
     use provwasm_mocks::{mock_dependencies, must_read_binary_file};
     use provwasm_std::Marker;
 
@@ -184,7 +190,8 @@ mod tests {
         let info = mock_info("sender", &[]);
         // Create a marker
         let msg = HandleMsg::CreateMarker {
-            coin: coin(420, "budz"),
+            supply: 420,
+            denom: "budz".into(),
         };
         // Ensure message was created
         let res = handle(deps.as_mut(), env, info, msg).unwrap();
@@ -244,7 +251,8 @@ mod tests {
         let info = mock_info("sender", &[]);
         // Create a marker
         let msg = HandleMsg::Withdraw {
-            coin: coin(20, "budz"),
+            amount: 20,
+            denom: "budz".into(),
         };
         // Ensure message was created
         let res = handle(deps.as_mut(), env, info, msg).unwrap();

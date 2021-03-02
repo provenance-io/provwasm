@@ -8,7 +8,7 @@ marker module.
 Imports for marker examples
 
 ```rust
-use cosmwasm_std::{to_binary, Coin, Deps, HandleResponse, HumanAddr, QueryResponse, StdError};
+use cosmwasm_std::{to_binary, Deps, HandleResponse, HumanAddr, QueryResponse, StdError};
 use provwasm_std::{
     activate_marker, burn_marker_supply, cancel_marker, create_marker, destroy_marker,
     finalize_marker, grant_marker_access, grant_marker_access_all, mint_marker_supply,
@@ -46,8 +46,8 @@ To create a new proposed marker
 
 ```rust
 // Create and dispatch a message that will create a new proposed marker.
-fn try_create_marker(coin: Coin) -> HandleResponse<ProvenanceMsg> {
-    let msg = create_marker(coin);
+fn try_create_marker(supply: u128, denom: String) -> HandleResponse<ProvenanceMsg> {
+    let msg = create_marker(supply, &denom);
     HandleResponse {
         messages: vec![msg],
         attributes: vec![],
@@ -150,8 +150,8 @@ To mint marker supply
 
 ```rust
 // Create and dispatch a message that will mint marker supply.
-fn try_mint_marker(coin: Coin) -> HandleResponse<ProvenanceMsg> {
-    let msg = mint_marker_supply(coin);
+fn try_mint_marker(amount: u128, denom: String) -> HandleResponse<ProvenanceMsg> {
+    let msg = mint_marker_supply(amount, &denom);
     HandleResponse {
         messages: vec![msg],
         attributes: vec![],
@@ -166,8 +166,8 @@ To burn marker supply
 
 ```rust
 // Create and dispatch a message that will burn marker supply.
-fn try_burn_marker(coin: Coin) -> HandleResponse<ProvenanceMsg> {
-    let msg = burn_marker_supply(coin);
+fn try_burn_marker(amount: u128, denom: String) -> HandleResponse<ProvenanceMsg> {
+    let msg = burn_marker_supply(amount, &denom);
     HandleResponse {
         messages: vec![msg],
         attributes: vec![],
@@ -217,11 +217,12 @@ To transfer marker coins between addresses
 // Create and dispatch a message that will transfer marker coins from one account to another.
 // NOTE: Transfer is only enabled for restricted markers.
 fn try_transfer_marker_coins(
-    coin: Coin,
+    amount: u128,
+    denom: String,
     to: HumanAddr,
     from: HumanAddr,
 ) -> HandleResponse<ProvenanceMsg> {
-    let msg = transfer_marker_coins(coin, &to, &from);
+    let msg = transfer_marker_coins(amount, &denom, &to, &from);
     HandleResponse {
         messages: vec![msg],
         attributes: vec![],
@@ -237,10 +238,11 @@ To withdraw marker coins to a recipient address
 ```rust
 // Create and dispatch a message that will withdraw coins from a marker.
 fn try_withdraw_marker_coins(
-    coin: Coin,
+    amount: u128,
+    denom: String,
     recipient: HumanAddr,
 ) -> HandleResponse<ProvenanceMsg> {
-    let msg = withdraw_marker_coins(coin, &recipient);
+    let msg = withdraw_marker_coins(amount, &denom, &recipient);
     HandleResponse {
         messages: vec![msg],
         attributes: vec![],

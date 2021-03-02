@@ -11,11 +11,17 @@
         "create_marker": {
           "type": "object",
           "required": [
-            "coin"
+            "denom",
+            "supply"
           ],
           "properties": {
-            "coin": {
-              "$ref": "#/definitions/Coin"
+            "denom": {
+              "type": "string"
+            },
+            "supply": {
+              "type": "integer",
+              "format": "uint128",
+              "minimum": 0.0
             }
           }
         }
@@ -87,35 +93,21 @@
         "withdraw": {
           "type": "object",
           "required": [
-            "coin"
+            "amount",
+            "denom"
           ],
           "properties": {
-            "coin": {
-              "$ref": "#/definitions/Coin"
+            "amount": {
+              "type": "integer",
+              "format": "uint128",
+              "minimum": 0.0
+            },
+            "denom": {
+              "type": "string"
             }
           }
         }
       }
     }
-  ],
-  "definitions": {
-    "Coin": {
-      "type": "object",
-      "required": [
-        "amount",
-        "denom"
-      ],
-      "properties": {
-        "amount": {
-          "$ref": "#/definitions/Uint128"
-        },
-        "denom": {
-          "type": "string"
-        }
-      }
-    },
-    "Uint128": {
-      "type": "string"
-    }
-  }
+  ]
 }

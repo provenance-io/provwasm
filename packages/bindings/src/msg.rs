@@ -1,5 +1,5 @@
 #![allow(clippy::field_reassign_with_default)]
-use cosmwasm_std::{to_binary, Binary, Coin, CosmosMsg, HumanAddr, StdResult};
+use cosmwasm_std::{coin, to_binary, Binary, Coin, CosmosMsg, HumanAddr, StdResult};
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
@@ -202,17 +202,25 @@ fn create_marker_msg(params: MarkerMsgParams) -> CosmosMsg<ProvenanceMsg> {
 }
 
 /// Create a message that will propose a new marker with the default type.
-pub fn create_marker(coin: Coin) -> CosmosMsg<ProvenanceMsg> {
-    create_marker_with_type(coin, MarkerType::Coin)
+pub fn create_marker<S: Into<String>>(amount: u128, denom: S) -> CosmosMsg<ProvenanceMsg> {
+    create_marker_with_type(amount, denom, MarkerType::Coin)
 }
 
 /// Create a message that will propose a new marker with the type set to restricted.
-pub fn create_restricted_marker(coin: Coin) -> CosmosMsg<ProvenanceMsg> {
-    create_marker_with_type(coin, MarkerType::Restricted)
+pub fn create_restricted_marker<S: Into<String>>(
+    amount: u128,
+    denom: S,
+) -> CosmosMsg<ProvenanceMsg> {
+    create_marker_with_type(amount, denom, MarkerType::Restricted)
 }
 
 // Create a message that will propose a new marker with a given type.
-fn create_marker_with_type(coin: Coin, marker_type: MarkerType) -> CosmosMsg<ProvenanceMsg> {
+fn create_marker_with_type<S: Into<String>>(
+    amount: u128,
+    denom: S,
+    marker_type: MarkerType,
+) -> CosmosMsg<ProvenanceMsg> {
+    let coin = coin(amount, denom);
     create_marker_msg(MarkerMsgParams::CreateMarker { coin, marker_type })
 }
 
@@ -289,20 +297,24 @@ pub fn destroy_marker<S: Into<String>>(denom: S) -> CosmosMsg<ProvenanceMsg> {
 }
 
 /// Create a message that will mint marker coins.
-pub fn mint_marker_supply(coin: Coin) -> CosmosMsg<ProvenanceMsg> {
+pub fn mint_marker_supply<S: Into<String>>(amount: u128, denom: S) -> CosmosMsg<ProvenanceMsg> {
+    let coin = coin(amount, denom);
     create_marker_msg(MarkerMsgParams::MintMarkerSupply { coin })
 }
 
 /// Create a message that will burn marker coins.
-pub fn burn_marker_supply(coin: Coin) -> CosmosMsg<ProvenanceMsg> {
+pub fn burn_marker_supply<S: Into<String>>(amount: u128, denom: S) -> CosmosMsg<ProvenanceMsg> {
+    let coin = coin(amount, denom);
     create_marker_msg(MarkerMsgParams::BurnMarkerSupply { coin })
 }
 
 /// Create a message that will transfer marker coins to a recipient account.
-pub fn withdraw_marker_coins<H: Into<HumanAddr>>(
-    coin: Coin,
+pub fn withdraw_marker_coins<S: Into<String>, H: Into<HumanAddr>>(
+    amount: u128,
+    denom: S,
     recipient: H,
 ) -> CosmosMsg<ProvenanceMsg> {
+    let coin = coin(amount, denom);
     create_marker_msg(MarkerMsgParams::WithdrawMarkerCoins {
         coin,
         recipient: recipient.into(),
@@ -310,11 +322,13 @@ pub fn withdraw_marker_coins<H: Into<HumanAddr>>(
 }
 
 /// Create a message that will transfer a marker amount from one account to another.
-pub fn transfer_marker_coins<H: Into<HumanAddr>>(
-    coin: Coin,
+pub fn transfer_marker_coins<S: Into<String>, H: Into<HumanAddr>>(
+    amount: u128,
+    denom: S,
     to: H,
     from: H,
 ) -> CosmosMsg<ProvenanceMsg> {
+    let coin = coin(amount, denom);
     create_marker_msg(MarkerMsgParams::TransferMarkerCoins {
         coin,
         to: to.into(),
