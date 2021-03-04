@@ -30,6 +30,20 @@ impl<'a> ProvenanceQuerier<'a> {
     }
 
     /// Resolve the address for a name.
+    ///
+    /// ### Example
+    ///
+    /// ```rust
+    /// # use cosmwasm_std::{Deps, QueryResponse, StdError};
+    /// # use provwasm_std::{Name, ProvenanceQuerier};
+    ///
+    /// fn query_resolve_name(deps: Deps, name: String) -> Result<QueryResponse, StdError> {
+    ///     let querier = ProvenanceQuerier::new(&deps.querier);
+    ///     let name: Name = querier.resolve_name(&name)?;
+    ///     // Do something with name...
+    ///     todo!()
+    /// }
+    /// ```
     pub fn resolve_name<S: Into<String>>(&self, name: S) -> StdResult<Name> {
         let res = self.query_name_module(NameQueryParams::Resolve { name: name.into() })?;
         if res.records.len() != 1 {
@@ -41,6 +55,20 @@ impl<'a> ProvenanceQuerier<'a> {
     }
 
     /// Lookup all names bound to the given address.
+    ///
+    /// ### Example
+    ///
+    /// ```rust
+    /// # use cosmwasm_std::{Deps, HumanAddr, QueryResponse, StdError};
+    /// # use provwasm_std::{Names, ProvenanceQuerier};
+    ///
+    /// fn query_lookup_names(deps: Deps, address: HumanAddr) -> Result<QueryResponse, StdError> {
+    ///     let querier = ProvenanceQuerier::new(&deps.querier);
+    ///     let names: Names = querier.lookup_names(&address)?;
+    ///     // Do something with names...
+    ///     todo!()
+    /// }
+    /// ```
     pub fn lookup_names<H: Into<HumanAddr>>(&self, address: H) -> StdResult<Names> {
         self.query_name_module(NameQueryParams::Lookup {
             address: address.into(),
@@ -58,7 +86,23 @@ impl<'a> ProvenanceQuerier<'a> {
         Ok(res)
     }
 
-    /// Get attributes for an account. If the name parameter is empty, all attributes are returned.
+    /// Get attributes for an account. If the name parameter is `None`, all attributes are returned.
+    ///
+    ///  ### Example
+    ///
+    /// ```rust
+    /// # use cosmwasm_std::{Deps, HumanAddr, QueryResponse, StdError};
+    /// # use provwasm_std::{Attributes, ProvenanceQuerier};
+    ///
+    /// // Query all label attributes added to an account.
+    /// pub fn try_query_attributes(deps: Deps, address: HumanAddr) -> Result<QueryResponse, StdError> {
+    ///     let querier = ProvenanceQuerier::new(&deps.querier);
+    ///     let none: Option<String> = None;
+    ///     let attrs: Attributes = querier.get_attributes(&address, none)?;
+    ///     // Do something with attrs...
+    ///     todo!()
+    /// }
+    /// ```
     pub fn get_attributes<H: Into<HumanAddr>, S: Into<String>>(
         &self,
         address: H,
@@ -77,6 +121,32 @@ impl<'a> ProvenanceQuerier<'a> {
 
     /// Get named JSON attributes from an account and deserialize the values.
     /// Attribute values with the same name must be able to be deserialized to the same type.
+    ///
+    /// ### Example
+    ///
+    /// ```rust
+    /// # use cosmwasm_std::{Deps, HumanAddr, QueryResponse, StdError};
+    /// # use provwasm_std::ProvenanceQuerier;
+    /// # use schemars::JsonSchema;
+    /// # use serde::{Deserialize, Serialize};
+    ///
+    /// // Query all label attributes added to an account.
+    /// pub fn query_labels(deps: Deps, address: HumanAddr) -> Result<QueryResponse, StdError> {
+    ///     let attr_name = String::from("label.my-contract.sc.pb");
+    ///     let querier = ProvenanceQuerier::new(&deps.querier);
+    ///     let labels: Vec<Label> = querier.get_json_attributes(&address, &attr_name)?;
+    ///     // Do something with labels...
+    ///     todo!()
+    /// }
+    ///
+    /// // Text with timestamp.
+    /// #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+    /// #[serde(rename_all = "snake_case")]
+    /// pub struct Label {
+    ///     pub text: String,
+    ///     pub timestamp: u64,
+    /// }
+    /// ```
     pub fn get_json_attributes<H: Into<HumanAddr>, S: Into<String>, T: DeserializeOwned>(
         &self,
         address: H,

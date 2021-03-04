@@ -49,6 +49,25 @@ fn create_name_msg(params: NameMsgParams) -> CosmosMsg<ProvenanceMsg> {
 }
 
 /// Create a message that will bind a restricted name to an address.
+///
+/// ### Example
+///
+/// ```rust
+/// # use cosmwasm_std::{HandleResponse, HumanAddr};
+/// # use provwasm_std::{bind_name, ProvenanceMsg};
+///
+/// fn handle_bind_name(
+///     name: String,
+///     address: HumanAddr,
+/// ) -> HandleResponse<ProvenanceMsg> {
+///    let msg = bind_name(&name, &address);
+///     HandleResponse {
+///         messages: vec![msg], // Dispatches to the provenance name module.
+///         attributes: vec![],
+///         data: None,
+///     }
+/// }
+/// ```
 pub fn bind_name<S: Into<String>, H: Into<HumanAddr>>(
     name: S,
     address: H,
@@ -61,6 +80,25 @@ pub fn bind_name<S: Into<String>, H: Into<HumanAddr>>(
 }
 
 /// Create a message that will bind an unrestricted name to an address.
+///
+/// ### Example
+///
+/// ```rust
+/// # use cosmwasm_std::{HandleResponse, HumanAddr};
+/// # use provwasm_std::{bind_name_unrestricted, ProvenanceMsg};
+///
+/// fn handle_bind_name(
+///     name: String,
+///     address: HumanAddr,
+/// ) -> HandleResponse<ProvenanceMsg> {
+///    let msg = bind_name_unrestricted(&name, &address);
+///     HandleResponse {
+///         messages: vec![msg], // Dispatches to the provenance name module.
+///         attributes: vec![],
+///         data: None,
+///     }
+/// }
+/// ```
 pub fn bind_name_unrestricted<S: Into<String>, H: Into<HumanAddr>>(
     name: S,
     address: H,
@@ -73,6 +111,22 @@ pub fn bind_name_unrestricted<S: Into<String>, H: Into<HumanAddr>>(
 }
 
 /// Create a message that will un-bind a name from an address.
+///
+/// ### Example
+///
+/// ```rust
+/// # use cosmwasm_std::HandleResponse;
+/// # use provwasm_std::{unbind_name, ProvenanceMsg};
+///
+/// fn handle_unbind_name(name: String) -> HandleResponse<ProvenanceMsg> {
+///     let msg = unbind_name(&name);
+///     HandleResponse {
+///         messages: vec![msg], // Dispatches to the provenance name module.
+///         attributes: vec![],
+///         data: None,
+///     }
+/// }
+/// ```
 pub fn unbind_name<S: Into<String>>(name: S) -> CosmosMsg<ProvenanceMsg> {
     create_name_msg(NameMsgParams::DeleteName { name: name.into() })
 }
@@ -102,7 +156,36 @@ fn create_attribute_msg(params: AttributeMsgParams) -> CosmosMsg<ProvenanceMsg> 
     })
 }
 
-/// Create a message that will add a an attribute to an account.
+/// Create a message that will add a an attribute (a typed key-value pair) to an account.
+///
+/// ### Example
+///
+/// ```rust
+/// # use cosmwasm_std::{Binary, Env, HandleResponse, HumanAddr};
+/// # use provwasm_std::{add_attribute, AttributeValueType, ProvenanceMsg};
+///
+/// // Add a greeting attribute to an account.
+/// // NOTE: The name below must resolve to the contract address.
+/// fn handle_add_greeting(
+///     env: Env,
+///     address: HumanAddr,
+///     text: String,
+/// ) -> HandleResponse<ProvenanceMsg> {
+///     let attr_name = String::from("greeting.my-contract.sc.pb");
+///     let greeting = String::from("hello");
+///     let msg = add_attribute(
+///         &address,
+///         &attr_name,
+///         Binary::from(greeting.as_bytes()),
+///         AttributeValueType::String,
+///     );
+///     HandleResponse {
+///         messages: vec![msg],
+///         attributes: vec![],
+///         data: None,
+///     }
+/// }
+/// ```
 pub fn add_attribute<H: Into<HumanAddr>, S: Into<String>, B: Into<Binary>>(
     address: H,
     name: S,
@@ -119,6 +202,41 @@ pub fn add_attribute<H: Into<HumanAddr>, S: Into<String>, B: Into<Binary>>(
 
 /// Create a message that will add a JSON attribute to an account. Serializable types can be passed
 /// into this function, but it's up to the user to handle StdResult error case.
+///
+/// ### Example
+///
+/// ```rust
+/// # use cosmwasm_std::{Env, HandleResponse, HumanAddr, StdError};
+/// # use provwasm_std::{add_json_attribute, ProvenanceMsg};
+/// # use schemars::JsonSchema;
+/// # use serde::{Deserialize, Serialize};
+///
+/// // Add a label attribute. NOTE: The name below must resolve to the contract address.
+/// fn handle_add_label(
+///     env: Env,
+///     address: HumanAddr,
+///     text: String,
+/// ) -> Result<HandleResponse<ProvenanceMsg>, StdError> {
+///     let attr_name = String::from("label.my-contract.sc.pb");
+///     let timestamp = env.block.time;
+///     let label = Label { text, timestamp };
+///     let msg = add_json_attribute(&address, &attr_name, &label)?;
+///     Ok(HandleResponse {
+///         messages: vec![msg],
+///         attributes: vec![],
+///         data: None,
+///     })
+/// }
+///
+/// // Text with a timestamp.
+/// #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+/// #[serde(rename_all = "snake_case")]
+/// pub struct Label {
+///     pub text: String,
+///     pub timestamp: u64,
+/// }
+///
+/// ```
 pub fn add_json_attribute<H: Into<HumanAddr>, S: Into<String>, T: Serialize + ?Sized>(
     address: H,
     name: S,
@@ -136,6 +254,26 @@ pub fn add_json_attribute<H: Into<HumanAddr>, S: Into<String>, T: Serialize + ?S
 }
 
 /// Create a message that will remove all attributes with the given name from an account.
+///
+/// ### Example
+///
+/// ```rust
+/// # use cosmwasm_std::{HandleResponse, HumanAddr};
+/// # use provwasm_std::{delete_attributes, ProvenanceMsg};
+///
+/// // Delete all label attributes. NOTE: The name below must resolve to the contract address.
+/// fn handle_delete_labels(
+///     address: HumanAddr,
+/// ) -> HandleResponse<ProvenanceMsg> {
+///     let attr_name = String::from("label.my-contract.sc.pb");
+///     let msg = delete_attributes(&address, &attr_name);
+///     HandleResponse {
+///         messages: vec![msg],
+///         attributes: vec![],
+///         data: None,
+///     }
+/// }
+/// ```
 pub fn delete_attributes<H: Into<HumanAddr>, S: Into<String>>(
     address: H,
     name: S,

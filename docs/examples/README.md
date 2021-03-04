@@ -3,12 +3,13 @@
 This directory contains example code snippets for smart contract integration with custom provenance
 modules.
 
-## TODO
-
-The examples below should be moved into the Rust docs.
+Deprecation Notice: The example snippets in this dir will be removed soon.
 
 ## Examples
 
-- [Account Attributes](attributes.md)
 - [Markers](markers.md)
-- [Names](name.md)
+
+## Moved
+
+- Account Attributes
+- Names
