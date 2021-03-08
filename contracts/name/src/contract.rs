@@ -1,12 +1,11 @@
 use cosmwasm_std::{
-    attr, to_binary, Deps, DepsMut, Env, HandleResponse, HumanAddr, InitResponse, MessageInfo,
-    QueryResponse, StdError,
+    attr, to_binary, Deps, DepsMut, Env, HumanAddr, MessageInfo, QueryResponse, Response, StdError,
 };
 
 use provwasm_std::{bind_name, unbind_name, Name, Names, ProvenanceMsg, ProvenanceQuerier};
 
 use crate::error::ContractError;
-use crate::msg::{HandleMsg, InitMsg, QueryMsg};
+use crate::msg::{ExecuteMsg, InitMsg, QueryMsg};
 use crate::state::{config, config_read, State};
 
 /// Initialize the smart contract config state and bind a name to the contract address.
@@ -15,7 +14,7 @@ pub fn init(
     env: Env,
     info: MessageInfo,
     msg: InitMsg,
-) -> Result<InitResponse<ProvenanceMsg>, ContractError> {
+) -> Result<Response<ProvenanceMsg>, ContractError> {
     // Create contract config state.
     let state = State {
         contract_owner: info.sender.clone(),
@@ -29,7 +28,8 @@ pub fn init(
     let bind_name_msg = bind_name(&msg.name, env.contract.address);
 
     // Dispatch message to handler and emit events
-    Ok(InitResponse {
+    Ok(Response {
+        submessages: vec![],
         messages: vec![bind_name_msg], // Routed to the name module handler
         attributes: vec![
             attr("integration_test", "v2"),
@@ -37,19 +37,20 @@ pub fn init(
             attr("contract_name", msg.name),
             attr("contract_owner", info.sender),
         ],
+        data: None,
     })
 }
 
 /// Handle messages that bind names under the contract root name.
-pub fn handle(
+pub fn execute(
     deps: DepsMut,
     env: Env,
     info: MessageInfo,
-    msg: HandleMsg,
-) -> Result<HandleResponse<ProvenanceMsg>, ContractError> {
+    msg: ExecuteMsg,
+) -> Result<Response<ProvenanceMsg>, ContractError> {
     match msg {
-        HandleMsg::BindPrefix { prefix } => try_bind_prefix(deps, env, info, prefix),
-        HandleMsg::UnbindPrefix { prefix } => try_unbind_prefix(deps, info, prefix),
+        ExecuteMsg::BindPrefix { prefix } => try_bind_prefix(deps, env, info, prefix),
+        ExecuteMsg::UnbindPrefix { prefix } => try_unbind_prefix(deps, info, prefix),
     }
 }
 
@@ -59,7 +60,7 @@ pub fn try_bind_prefix(
     env: Env,
     info: MessageInfo,
     prefix: String,
-) -> Result<HandleResponse<ProvenanceMsg>, ContractError> {
+) -> Result<Response<ProvenanceMsg>, ContractError> {
     // Load contract state
     let state = config_read(deps.storage).load()?;
 
@@ -75,7 +76,8 @@ pub fn try_bind_prefix(
     let bind_name_msg = bind_name(&name, &env.contract.address);
 
     // Dispatch message to handler and emit events
-    Ok(HandleResponse {
+    Ok(Response {
+        submessages: vec![],
         messages: vec![bind_name_msg],
         attributes: vec![
             attr("integration_test", "v2"),
@@ -92,7 +94,7 @@ pub fn try_unbind_prefix(
     deps: DepsMut,
     info: MessageInfo,
     prefix: String,
-) -> Result<HandleResponse<ProvenanceMsg>, ContractError> {
+) -> Result<Response<ProvenanceMsg>, ContractError> {
     // Load contract state
     let state = config_read(deps.storage).load()?;
 
@@ -108,7 +110,8 @@ pub fn try_unbind_prefix(
     let unbind_name_msg = unbind_name(&name);
 
     // Dispatch message to handler and emit events
-    Ok(HandleResponse {
+    Ok(Response {
+        submessages: vec![],
         messages: vec![unbind_name_msg],
         attributes: vec![
             attr("integration_test", "v2"),
@@ -191,10 +194,10 @@ mod tests {
         // Bind a name
         let env = mock_env();
         let info = mock_info("sender", &[]);
-        let msg = HandleMsg::BindPrefix {
+        let msg = ExecuteMsg::BindPrefix {
             prefix: "test".into(),
         };
-        let res = handle(deps.as_mut(), env, info, msg).unwrap();
+        let res = execute(deps.as_mut(), env, info, msg).unwrap();
 
         // Assert the correct message was created
         assert_eq!(1, res.messages.len());
@@ -223,10 +226,10 @@ mod tests {
         // Bind a name
         let env = mock_env();
         let info = mock_info("sender", &[]);
-        let msg = HandleMsg::UnbindPrefix {
+        let msg = ExecuteMsg::UnbindPrefix {
             prefix: "test".into(),
         };
-        let res = handle(deps.as_mut(), env, info, msg).unwrap();
+        let res = execute(deps.as_mut(), env, info, msg).unwrap();
 
         // Assert the correct message was created
         assert_eq!(1, res.messages.len());
@@ -256,10 +259,10 @@ mod tests {
         // Try to bind a name with some other sender address
         let env = mock_env();
         let info = mock_info("other", &[]); // error: not 'sender'
-        let msg = HandleMsg::BindPrefix {
+        let msg = ExecuteMsg::BindPrefix {
             prefix: "test".into(),
         };
-        let err = handle(deps.as_mut(), env, info, msg).unwrap_err();
+        let err = execute(deps.as_mut(), env, info, msg).unwrap_err();
 
         // Assert an unauthorized error was returned
         match err {
@@ -282,10 +285,10 @@ mod tests {
         // Try to bind a name with some other sender address
         let env = mock_env();
         let info = mock_info("other", &[]); // error: not 'sender'
-        let msg = HandleMsg::UnbindPrefix {
+        let msg = ExecuteMsg::UnbindPrefix {
             prefix: "test".into(),
         };
-        let err = handle(deps.as_mut(), env, info, msg).unwrap_err();
+        let err = execute(deps.as_mut(), env, info, msg).unwrap_err();
 
         // Assert an unauthorized error was returned
         match err {

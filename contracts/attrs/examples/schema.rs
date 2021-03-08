@@ -3,7 +3,7 @@ use std::fs::create_dir_all;
 
 use cosmwasm_schema::{export_schema, remove_schemas, schema_for};
 
-use attrs::msg::{HandleMsg, InitMsg, Label, LabelNameResponse, LabelsResponse, QueryMsg};
+use attrs::msg::{ExecuteMsg, InitMsg, Label, LabelNameResponse, LabelsResponse, QueryMsg};
 use attrs::state::State;
 
 fn main() {
@@ -17,7 +17,7 @@ fn main() {
     export_schema(&schema_for!(LabelsResponse), &out_dir);
 
     export_schema(&schema_for!(InitMsg), &out_dir);
-    export_schema(&schema_for!(HandleMsg), &out_dir);
+    export_schema(&schema_for!(ExecuteMsg), &out_dir);
     export_schema(&schema_for!(QueryMsg), &out_dir);
     export_schema(&schema_for!(State), &out_dir);
 }

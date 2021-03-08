@@ -55,7 +55,7 @@ mod test {
     use super::*;
     use crate::common::must_read_binary_file;
     use cosmwasm_std::{from_binary, SystemError};
-    use provwasm_std::MarkerQueryParams;
+    use provwasm_std::{MarkerQueryParams, MarkerStatus, MarkerType};
 
     #[test]
     fn get_marker_by_denom() {
@@ -70,6 +70,28 @@ mod test {
         let marker: Marker = from_binary(&bin).unwrap();
 
         assert_eq!(marker, expected_marker)
+    }
+
+    #[test]
+    fn get_manager() {
+        // Set up mocks
+        let bin = must_read_binary_file("testdata/marker.json");
+        let test_marker: Marker = from_binary(&bin).unwrap();
+        let querier = MarkerQuerier::new(vec![test_marker]);
+
+        // Query for marker
+        let res = querier
+            .query(&MarkerQueryParams::GetMarkerByDenom {
+                denom: "nugz".into(),
+            })
+            .unwrap();
+        let bin = res.unwrap();
+        let marker: Marker = from_binary(&bin).unwrap();
+
+        // Ensure the manager address is set on proposed marker.
+        assert_eq!(marker.status, MarkerStatus::Proposed);
+        let expected_manager = HumanAddr::from("tp15rrl3qjafxzlzguu5x29xh29pam35uetkpnnph");
+        assert_eq!(marker.get_manager(), Some(expected_manager))
     }
 
     #[test]
@@ -101,10 +123,14 @@ mod test {
     }
 
     #[test]
-    fn restricted_marker() {
+    fn get_active_restricted_marker() {
         // Assert that bank sends are disabled for restricted markers
         let bin = must_read_binary_file("testdata/marker_restricted.json");
         let marker: Marker = from_binary(&bin).unwrap();
-        assert_eq!(marker.bank_sends_disabled(), true)
+        assert_eq!(marker.marker_type, MarkerType::Restricted);
+        assert_eq!(marker.bank_sends_disabled(), true);
+        // Check manager is None for active markers
+        assert_eq!(marker.status, MarkerStatus::Active);
+        assert_eq!(marker.get_manager(), None);
     }
 }

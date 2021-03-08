@@ -10,7 +10,7 @@ pub struct InitMsg {
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
-pub enum HandleMsg {
+pub enum ExecuteMsg {
     CreateMarker { supply: Uint128, denom: String },
     GrantAccess { denom: String },
     Finalize { denom: String },

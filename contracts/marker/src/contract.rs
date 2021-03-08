@@ -1,6 +1,6 @@
 use cosmwasm_std::{
-    attr, to_binary, Deps, DepsMut, Env, HandleResponse, HumanAddr, InitResponse, MessageInfo,
-    QueryResponse, StdError, Uint128,
+    attr, to_binary, Deps, DepsMut, Env, HumanAddr, MessageInfo, QueryResponse, Response, StdError,
+    Uint128,
 };
 use provwasm_std::{
     activate_marker, bind_name, create_marker, finalize_marker, grant_marker_access_all,
@@ -8,7 +8,7 @@ use provwasm_std::{
 };
 
 use crate::error::ContractError;
-use crate::msg::{HandleMsg, InitMsg, QueryMsg};
+use crate::msg::{ExecuteMsg, InitMsg, QueryMsg};
 use crate::state::{config, State};
 
 /// Initialize the smart contract config state, then bind a name to the contract address.
@@ -17,7 +17,7 @@ pub fn init(
     env: Env,
     _info: MessageInfo,
     msg: InitMsg,
-) -> Result<InitResponse<ProvenanceMsg>, ContractError> {
+) -> Result<Response<ProvenanceMsg>, ContractError> {
     // Create and save state
     config(deps.storage).save(&State {
         contract_name: msg.name.clone(),
@@ -27,29 +27,31 @@ pub fn init(
     let bind_name_msg = bind_name(&msg.name, env.contract.address);
 
     // Dispatch messages to the name module handler and emit an event.
-    Ok(InitResponse {
+    Ok(Response {
+        submessages: vec![],
         messages: vec![bind_name_msg],
         attributes: vec![
             attr("action", "provwasm.contracts.marker.init"),
             attr("integration_test", "v2"),
             attr("contract_name", msg.name),
         ],
+        data: None,
     })
 }
 
 /// Handle messages that create and interact with with native provenance markers.
-pub fn handle(
+pub fn execute(
     _deps: DepsMut,
     env: Env,
     _info: MessageInfo,
-    msg: HandleMsg,
-) -> Result<HandleResponse<ProvenanceMsg>, ContractError> {
+    msg: ExecuteMsg,
+) -> Result<Response<ProvenanceMsg>, ContractError> {
     let res = match msg {
-        HandleMsg::CreateMarker { supply, denom } => try_create_marker(supply, denom),
-        HandleMsg::GrantAccess { denom } => try_grant_marker_access(denom, env.contract.address),
-        HandleMsg::Finalize { denom } => try_finalize_marker(denom),
-        HandleMsg::Activate { denom } => try_activate_marker(denom),
-        HandleMsg::Withdraw { amount, denom } => {
+        ExecuteMsg::CreateMarker { supply, denom } => try_create_marker(supply, denom),
+        ExecuteMsg::GrantAccess { denom } => try_grant_marker_access(denom, env.contract.address),
+        ExecuteMsg::Finalize { denom } => try_finalize_marker(denom),
+        ExecuteMsg::Activate { denom } => try_activate_marker(denom),
+        ExecuteMsg::Withdraw { amount, denom } => {
             try_withdraw_marker_coins(amount, denom, env.contract.address)
         }
     };
@@ -57,9 +59,10 @@ pub fn handle(
 }
 
 // Create and dispatch a message that will create a new proposed marker.
-fn try_create_marker(supply: Uint128, denom: String) -> HandleResponse<ProvenanceMsg> {
+fn try_create_marker(supply: Uint128, denom: String) -> Response<ProvenanceMsg> {
     let msg = create_marker(supply.u128(), &denom);
-    HandleResponse {
+    Response {
+        submessages: vec![],
         messages: vec![msg],
         attributes: vec![
             attr("action", "provwasm.contracts.marker.create"),
@@ -72,9 +75,10 @@ fn try_create_marker(supply: Uint128, denom: String) -> HandleResponse<Provenanc
 }
 
 // Create and dispatch a message that will grant all permissions to a marker for an address.
-fn try_grant_marker_access(denom: String, address: HumanAddr) -> HandleResponse<ProvenanceMsg> {
+fn try_grant_marker_access(denom: String, address: HumanAddr) -> Response<ProvenanceMsg> {
     let msg = grant_marker_access_all(&denom, &address);
-    HandleResponse {
+    Response {
+        submessages: vec![],
         messages: vec![msg],
         attributes: vec![
             attr("action", "provwasm.contracts.marker.grant_access"),
@@ -87,9 +91,10 @@ fn try_grant_marker_access(denom: String, address: HumanAddr) -> HandleResponse<
 }
 
 // Create and dispatch a message that will finalize a proposed marker.
-fn try_finalize_marker(denom: String) -> HandleResponse<ProvenanceMsg> {
+fn try_finalize_marker(denom: String) -> Response<ProvenanceMsg> {
     let msg = finalize_marker(&denom);
-    HandleResponse {
+    Response {
+        submessages: vec![],
         messages: vec![msg],
         attributes: vec![
             attr("action", "provwasm.contracts.marker.finalize"),
@@ -101,9 +106,10 @@ fn try_finalize_marker(denom: String) -> HandleResponse<ProvenanceMsg> {
 }
 
 // Create and dispatch a message that will activate a finalized marker.
-fn try_activate_marker(denom: String) -> HandleResponse<ProvenanceMsg> {
+fn try_activate_marker(denom: String) -> Response<ProvenanceMsg> {
     let msg = activate_marker(&denom);
-    HandleResponse {
+    Response {
+        submessages: vec![],
         messages: vec![msg],
         attributes: vec![
             attr("action", "provwasm.contracts.marker.activate"),
@@ -119,9 +125,10 @@ fn try_withdraw_marker_coins(
     amount: Uint128,
     denom: String,
     recipient: HumanAddr,
-) -> HandleResponse<ProvenanceMsg> {
+) -> Response<ProvenanceMsg> {
     let msg = withdraw_marker_coins(amount.u128(), &denom, &recipient);
-    HandleResponse {
+    Response {
+        submessages: vec![],
         messages: vec![msg],
         attributes: vec![
             attr("action", "provwasm.contracts.marker.withdraw"),
@@ -189,12 +196,12 @@ mod tests {
         let env = mock_env();
         let info = mock_info("sender", &[]);
         // Create a marker
-        let msg = HandleMsg::CreateMarker {
+        let msg = ExecuteMsg::CreateMarker {
             supply: Uint128(420),
             denom: "budz".into(),
         };
         // Ensure message was created
-        let res = handle(deps.as_mut(), env, info, msg).unwrap();
+        let res = execute(deps.as_mut(), env, info, msg).unwrap();
         assert_eq!(1, res.messages.len());
     }
 
@@ -205,11 +212,11 @@ mod tests {
         let env = mock_env();
         let info = mock_info("sender", &[]);
         // Create a marker
-        let msg = HandleMsg::GrantAccess {
+        let msg = ExecuteMsg::GrantAccess {
             denom: "budz".into(),
         };
         // Ensure message was created
-        let res = handle(deps.as_mut(), env, info, msg).unwrap();
+        let res = execute(deps.as_mut(), env, info, msg).unwrap();
         assert_eq!(1, res.messages.len());
     }
 
@@ -220,11 +227,11 @@ mod tests {
         let env = mock_env();
         let info = mock_info("sender", &[]);
         // Create a marker
-        let msg = HandleMsg::Finalize {
+        let msg = ExecuteMsg::Finalize {
             denom: "budz".into(),
         };
         // Ensure message was created
-        let res = handle(deps.as_mut(), env, info, msg).unwrap();
+        let res = execute(deps.as_mut(), env, info, msg).unwrap();
         assert_eq!(1, res.messages.len());
     }
 
@@ -235,11 +242,11 @@ mod tests {
         let env = mock_env();
         let info = mock_info("sender", &[]);
         // Create a marker
-        let msg = HandleMsg::Activate {
+        let msg = ExecuteMsg::Activate {
             denom: "budz".into(),
         };
         // Ensure message was created
-        let res = handle(deps.as_mut(), env, info, msg).unwrap();
+        let res = execute(deps.as_mut(), env, info, msg).unwrap();
         assert_eq!(1, res.messages.len());
     }
 
@@ -250,12 +257,12 @@ mod tests {
         let env = mock_env();
         let info = mock_info("sender", &[]);
         // Create a marker
-        let msg = HandleMsg::Withdraw {
+        let msg = ExecuteMsg::Withdraw {
             amount: Uint128(20),
             denom: "budz".into(),
         };
         // Ensure message was created
-        let res = handle(deps.as_mut(), env, info, msg).unwrap();
+        let res = execute(deps.as_mut(), env, info, msg).unwrap();
         assert_eq!(1, res.messages.len());
     }
 
