@@ -2,7 +2,7 @@ use cosmwasm_std::{from_binary, HumanAddr, QuerierWrapper, StdError, StdResult};
 use serde::de::DeserializeOwned;
 
 use crate::query::*;
-use crate::types::{AttributeValueType, Attributes, Marker, Name, Names, ProvenanceRoute};
+use crate::types::{Attributes, AttributeValueType, Marker, Name, Names, ProvenanceRoute};
 
 // The data format version to pass into provenance for queries.
 static QUERY_DATAFMT_VERSION: &str = "2.0.0";
@@ -177,6 +177,19 @@ impl<'a> ProvenanceQuerier<'a> {
     }
 
     /// Get a marker by address.
+    ///
+    /// ### Example
+    ///
+    /// ```rust
+    /// // Query a marker by address.
+    /// use provwasm_std::{ProvenanceQuerier, Marker};
+    /// use cosmwasm_std::{Deps, HumanAddr, QueryResponse, StdError, to_binary};
+    /// fn try_get_marker_by_address(deps: Deps, address: HumanAddr) -> Result<QueryResponse, StdError> {
+    ///     let querier = ProvenanceQuerier::new(&deps.querier);
+    ///     let marker: Marker = querier.get_marker_by_address(&address)?;
+    ///     to_binary(&marker)
+    /// }
+    /// ```
     pub fn get_marker_by_address<H: Into<HumanAddr>>(&self, address: H) -> StdResult<Marker> {
         self.query_marker(MarkerQueryParams::GetMarkerByAddress {
             address: address.into(),
@@ -184,6 +197,21 @@ impl<'a> ProvenanceQuerier<'a> {
     }
 
     /// Get a marker by denomination.
+    ///
+    /// ### Example
+    ///
+    /// To query a marker by denomination
+    ///
+    /// ```rust
+    /// // Query a marker by denom.
+    /// use cosmwasm_std::{Deps, QueryResponse, StdError, to_binary};
+    /// use provwasm_std::{ProvenanceQuerier, Marker};
+    /// fn try_get_marker_by_denom(deps: Deps, denom: String) -> Result<QueryResponse, StdError> {
+    ///     let querier = ProvenanceQuerier::new(&deps.querier);
+    ///     let marker: Marker = querier.get_marker_by_denom(&denom)?;
+    ///     to_binary(&marker)
+    /// }
+    /// ```
     pub fn get_marker_by_denom<S: Into<String>>(&self, denom: S) -> StdResult<Marker> {
         self.query_marker(MarkerQueryParams::GetMarkerByDenom {
             denom: denom.into(),
