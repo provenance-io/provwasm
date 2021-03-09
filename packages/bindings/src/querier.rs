@@ -2,7 +2,7 @@ use cosmwasm_std::{from_binary, HumanAddr, QuerierWrapper, StdError, StdResult};
 use serde::de::DeserializeOwned;
 
 use crate::query::*;
-use crate::types::{Attributes, AttributeValueType, Marker, Name, Names, ProvenanceRoute};
+use crate::types::{AttributeValueType, Attributes, Marker, Name, Names, ProvenanceRoute};
 
 // The data format version to pass into provenance for queries.
 static QUERY_DATAFMT_VERSION: &str = "2.0.0";
