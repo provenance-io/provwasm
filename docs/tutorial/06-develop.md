@@ -255,7 +255,7 @@ pub fn init(
     config(deps.storage).save(&state)?;
 
     // Issue a message that will bind a restricted name to the contract address and emit an event.
-    let bind_name_msg = bind_name(msg.contract_name, env.contract.address);
+    let bind_name_msg = bind_name(&msg.contract_name, &env.contract.address);
     Ok(InitResponse {
         messages: vec![bind_name_msg],
         attributes: vec![attr("tutorial-v2", ""), attr("action", "tutorial.init")],

@@ -1,5 +1,4 @@
 #![allow(clippy::field_reassign_with_default)]
-
 use cosmwasm_std::{Binary, Coin, Decimal, HumanAddr};
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};

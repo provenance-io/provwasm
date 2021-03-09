@@ -28,7 +28,7 @@ pub fn init(
     config(deps.storage).save(&state)?;
 
     // Create bind name messages
-    let bind_name_msg = bind_name(msg.name.clone(), env.contract.address);
+    let bind_name_msg = bind_name(&msg.name, env.contract.address);
 
     // Dispatch message to handler and emit events
     Ok(InitResponse {
@@ -62,22 +62,19 @@ pub fn handle(
 
     // Dispatch message to the appropriate handler
     match msg {
-        HandleMsg::BindLabelName {} => try_bind_label_name(env, attr_name),
+        HandleMsg::BindLabelName {} => Ok(try_bind_label_name(env, attr_name)),
         HandleMsg::AddLabel { text } => try_add_label(env, attr_name, text),
-        HandleMsg::DeleteLabels {} => try_delete_labels(env, attr_name),
+        HandleMsg::DeleteLabels {} => Ok(try_delete_labels(env, attr_name)),
     }
 }
 
 // Bind the label attibute name to the contract address.
-fn try_bind_label_name(
-    env: Env,
-    attr_name: String,
-) -> Result<HandleResponse<ProvenanceMsg>, ContractError> {
+fn try_bind_label_name(env: Env, attr_name: String) -> HandleResponse<ProvenanceMsg> {
     // Bind the label name to the contract address.
-    let bind_name_msg = bind_name(attr_name.clone(), env.contract.address);
+    let bind_name_msg = bind_name(&attr_name, env.contract.address);
 
     // Issue a response that will dispatch the messages to the name module handler.
-    Ok(HandleResponse {
+    HandleResponse {
         messages: vec![bind_name_msg],
         attributes: vec![
             attr("integration_test", "v2"),
@@ -85,7 +82,7 @@ fn try_bind_label_name(
             attr("attribute_name", attr_name),
         ],
         data: None,
-    })
+    }
 }
 
 // Add a label attribute.
@@ -97,7 +94,7 @@ fn try_add_label(
     // Init then pass a label struct to create a JSON attribute message.
     let timestamp = env.block.time;
     let label = Label { text, timestamp };
-    let msg = add_json_attribute(env.contract.address, attr_name.clone(), &label)?;
+    let msg = add_json_attribute(env.contract.address, &attr_name, &label)?;
 
     // Issue a response that will dispatch the message to the account module handler.
     Ok(HandleResponse {
@@ -112,15 +109,12 @@ fn try_add_label(
 }
 
 // Delete all label attributes.
-fn try_delete_labels(
-    env: Env,
-    attr_name: String,
-) -> Result<HandleResponse<ProvenanceMsg>, ContractError> {
+fn try_delete_labels(env: Env, attr_name: String) -> HandleResponse<ProvenanceMsg> {
     // Delete label attributes from an account.
-    let delete_label_msg = delete_attributes(attr_name.clone(), env.contract.address);
+    let delete_label_msg = delete_attributes(env.contract.address, &attr_name);
 
     // Issue a response that will dispatch the messages to the attribute module handler.
-    Ok(HandleResponse {
+    HandleResponse {
         messages: vec![delete_label_msg],
         attributes: vec![
             attr("integration_test", "v2"),
@@ -128,7 +122,7 @@ fn try_delete_labels(
             attr("attribute_name", attr_name),
         ],
         data: None,
-    })
+    }
 }
 
 /// Handle label query requests.
@@ -140,7 +134,7 @@ pub fn query(deps: Deps, env: Env, msg: QueryMsg) -> Result<QueryResponse, StdEr
         QueryMsg::GetLabels {} => {
             let querier = ProvenanceQuerier::new(&deps.querier);
             let labels: Vec<Label> =
-                querier.get_json_attributes(env.contract.address, attr_name)?;
+                querier.get_json_attributes(env.contract.address, &attr_name)?;
             to_binary(&LabelsResponse { labels })
         }
     }

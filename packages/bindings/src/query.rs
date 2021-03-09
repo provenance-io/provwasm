@@ -35,13 +35,6 @@ pub enum NameQueryParams {
     Lookup { address: HumanAddr },
 }
 
-/// A helper that wraps NameQueryParams in ProvenanceQueryParams.
-impl From<NameQueryParams> for ProvenanceQueryParams {
-    fn from(params: NameQueryParams) -> ProvenanceQueryParams {
-        ProvenanceQueryParams::Name(params)
-    }
-}
-
 /// Params for attribute queries.
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
@@ -50,24 +43,10 @@ pub enum AttributeQueryParams {
     GetAllAttributes { address: HumanAddr },
 }
 
-/// A helper that wraps AttributeQueryParams in ProvenanceQueryParams.
-impl From<AttributeQueryParams> for ProvenanceQueryParams {
-    fn from(params: AttributeQueryParams) -> ProvenanceQueryParams {
-        ProvenanceQueryParams::Attribute(params)
-    }
-}
-
 /// Params for marker queries.
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum MarkerQueryParams {
     GetMarkerByAddress { address: HumanAddr },
     GetMarkerByDenom { denom: String },
-}
-
-/// A helper that wraps MarkerQueryParams in ProvenanceQueryParams.
-impl From<MarkerQueryParams> for ProvenanceQueryParams {
-    fn from(params: MarkerQueryParams) -> ProvenanceQueryParams {
-        ProvenanceQueryParams::Marker(params)
-    }
 }

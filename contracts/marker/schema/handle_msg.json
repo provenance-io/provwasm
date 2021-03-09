@@ -11,11 +11,15 @@
         "create_marker": {
           "type": "object",
           "required": [
-            "coin"
+            "denom",
+            "supply"
           ],
           "properties": {
-            "coin": {
-              "$ref": "#/definitions/Coin"
+            "denom": {
+              "type": "string"
+            },
+            "supply": {
+              "$ref": "#/definitions/Uint128"
             }
           }
         }
@@ -30,13 +34,9 @@
         "grant_access": {
           "type": "object",
           "required": [
-            "address",
             "denom"
           ],
           "properties": {
-            "address": {
-              "$ref": "#/definitions/HumanAddr"
-            },
             "denom": {
               "type": "string"
             }
@@ -91,15 +91,15 @@
         "withdraw": {
           "type": "object",
           "required": [
-            "coin",
-            "recipient"
+            "amount",
+            "denom"
           ],
           "properties": {
-            "coin": {
-              "$ref": "#/definitions/Coin"
+            "amount": {
+              "$ref": "#/definitions/Uint128"
             },
-            "recipient": {
-              "$ref": "#/definitions/HumanAddr"
+            "denom": {
+              "type": "string"
             }
           }
         }
@@ -107,24 +107,6 @@
     }
   ],
   "definitions": {
-    "Coin": {
-      "type": "object",
-      "required": [
-        "amount",
-        "denom"
-      ],
-      "properties": {
-        "amount": {
-          "$ref": "#/definitions/Uint128"
-        },
-        "denom": {
-          "type": "string"
-        }
-      }
-    },
-    "HumanAddr": {
-      "type": "string"
-    },
     "Uint128": {
       "type": "string"
     }

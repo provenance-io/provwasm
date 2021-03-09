@@ -26,7 +26,7 @@ pub fn init(
     config(deps.storage).save(&state)?;
 
     // Create a bind name message
-    let bind_name_msg = bind_name(msg.name.clone(), env.contract.address);
+    let bind_name_msg = bind_name(&msg.name, env.contract.address);
 
     // Dispatch message to handler and emit events
     Ok(InitResponse {
@@ -72,7 +72,7 @@ pub fn try_bind_prefix(
     let name = format!("{}.{}", prefix, state.contract_name);
 
     // Create a message that will set the marker pointer.
-    let bind_name_msg = bind_name(name.clone(), env.contract.address.clone());
+    let bind_name_msg = bind_name(&name, &env.contract.address);
 
     // Dispatch message to handler and emit events
     Ok(HandleResponse {
@@ -105,7 +105,7 @@ pub fn try_unbind_prefix(
     let name = format!("{}.{}", prefix, state.contract_name);
 
     // Create a message that will set the marker pointer.
-    let unbind_name_msg = unbind_name(name.clone());
+    let unbind_name_msg = unbind_name(&name);
 
     // Dispatch message to handler and emit events
     Ok(HandleResponse {
@@ -131,14 +131,14 @@ pub fn query(deps: Deps, _env: Env, msg: QueryMsg) -> Result<QueryResponse, StdE
 // Use a ProvenanceQuerier to resolve the address for a name.
 fn try_resolve(deps: Deps, name: String) -> Result<QueryResponse, StdError> {
     let querier = ProvenanceQuerier::new(&deps.querier);
-    let name: Name = querier.resolve_name(name)?;
+    let name: Name = querier.resolve_name(&name)?;
     to_binary(&name)
 }
 
 // Use a ProvenanceQuerier to lookup all names bound to the contract address.
-fn try_lookup(deps: Deps, address: String) -> Result<QueryResponse, StdError> {
+fn try_lookup(deps: Deps, address: HumanAddr) -> Result<QueryResponse, StdError> {
     let querier = ProvenanceQuerier::new(&deps.querier);
-    let names: Names = querier.lookup_names(HumanAddr::from(address))?;
+    let names: Names = querier.lookup_names(address)?;
     to_binary(&names)
 }
 

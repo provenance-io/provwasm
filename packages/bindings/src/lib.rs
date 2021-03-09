@@ -5,13 +5,12 @@ mod query;
 mod types;
 
 pub use msg::{
-    activate_marker, add_attribute, add_binary_attribute, add_json_attribute, add_string_attribute,
-    add_uuid_attribute, bind_name, bind_name_unrestricted, burn_marker_supply, cancel_marker,
-    create_marker, create_restricted_marker, delete_attributes, destroy_marker, finalize_marker,
-    grant_marker_access, grant_marker_access_all, grant_marker_access_asset,
-    grant_marker_access_supply, mint_marker_supply, revoke_marker_access, transfer_marker_coins,
-    unbind_name, withdraw_marker_coins, AttributeMsgParams, MarkerMsgParams, NameMsgParams,
-    ProvenanceMsg, ProvenanceMsgParams,
+    activate_marker, add_attribute, add_json_attribute, bind_name, bind_name_unrestricted,
+    burn_marker_supply, cancel_marker, create_marker, create_restricted_marker, delete_attributes,
+    destroy_marker, finalize_marker, grant_marker_access, grant_marker_access_all,
+    mint_marker_supply, revoke_marker_access, transfer_marker_coins, unbind_name,
+    withdraw_marker_coins, AttributeMsgParams, MarkerMsgParams, NameMsgParams, ProvenanceMsg,
+    ProvenanceMsgParams,
 };
 pub use querier::ProvenanceQuerier;
 pub use query::{
