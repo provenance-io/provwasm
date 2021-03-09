@@ -385,12 +385,12 @@ fn create_marker_with_type<S: Into<String>>(
 /// ```rust
 /// // Create and dispatch a message that will grant specific permissions to a marker for an address.
 /// use cosmwasm_std::{HumanAddr, HandleResponse};
-/// use provwasm_std::{ProvenanceMsg, grant_marker_access};
+/// use provwasm_std::{grant_marker_access, MarkerAccess, ProvenanceMsg};
 /// fn try_grant_marker_access(
 ///     denom: String,
 ///     address: HumanAddr,
 /// ) -> HandleResponse<ProvenanceMsg> {
-///     let permissions = vec![MarkerPermission::Burn, MarkerPermission::Mint];
+///     let permissions = vec![MarkerAccess::Burn, MarkerAccess::Mint];
 ///     let msg = grant_marker_access(&denom, &address, permissions);
 ///     HandleResponse {
 ///         messages: vec![msg],
