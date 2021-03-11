@@ -9,7 +9,7 @@ use crate::msg::{ExecuteMsg, InitMsg, QueryMsg};
 use crate::state::{config, config_read, State};
 
 /// Initialize the smart contract config state and bind a name to the contract address.
-pub fn init(
+pub fn instantiate(
     deps: DepsMut,
     env: Env,
     info: MessageInfo,
@@ -166,7 +166,7 @@ mod tests {
         };
 
         // Ensure a message was created to bind the name to the contract address.
-        let res = init(deps.as_mut(), env, info, msg).unwrap();
+        let res = instantiate(deps.as_mut(), env, info, msg).unwrap();
         assert_eq!(1, res.messages.len());
         match &res.messages[0] {
             CosmosMsg::Custom(msg) => match &msg.params {
@@ -189,7 +189,7 @@ mod tests {
         let msg = InitMsg {
             name: "contract.pb".into(),
         };
-        let _ = init(deps.as_mut(), env, info, msg).unwrap(); // Panics on error
+        let _ = instantiate(deps.as_mut(), env, info, msg).unwrap(); // Panics on error
 
         // Bind a name
         let env = mock_env();
@@ -221,7 +221,7 @@ mod tests {
         let msg = InitMsg {
             name: "contract.pb".into(),
         };
-        let _ = init(deps.as_mut(), env, info, msg).unwrap(); // Panics on error
+        let _ = instantiate(deps.as_mut(), env, info, msg).unwrap(); // Panics on error
 
         // Bind a name
         let env = mock_env();
@@ -254,7 +254,7 @@ mod tests {
         let msg = InitMsg {
             name: "contract.pb".into(),
         };
-        let _ = init(deps.as_mut(), env, info, msg).unwrap(); // Panics on error
+        let _ = instantiate(deps.as_mut(), env, info, msg).unwrap(); // Panics on error
 
         // Try to bind a name with some other sender address
         let env = mock_env();
@@ -280,7 +280,7 @@ mod tests {
         let msg = InitMsg {
             name: "contract.pb".into(),
         };
-        let _ = init(deps.as_mut(), env, info, msg).unwrap(); // Panics on error
+        let _ = instantiate(deps.as_mut(), env, info, msg).unwrap(); // Panics on error
 
         // Try to bind a name with some other sender address
         let env = mock_env();

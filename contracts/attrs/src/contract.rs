@@ -11,7 +11,7 @@ use crate::msg::{ExecuteMsg, InitMsg, Label, LabelNameResponse, LabelsResponse, 
 use crate::state::{config, config_read, State};
 
 /// Initialize the smart contract config state and bind a name to the contract address.
-pub fn init(
+pub fn instantiate(
     deps: DepsMut,
     env: Env,
     info: MessageInfo,
@@ -160,7 +160,7 @@ mod tests {
         let mut deps = mock_dependencies(&[]);
 
         // Call init
-        let res = init(
+        let res = instantiate(
             deps.as_mut(),
             mock_env(),
             mock_info("sender", &[]),
@@ -190,7 +190,7 @@ mod tests {
         let mut deps = mock_dependencies(&[]);
 
         // Init so we have state
-        let _ = init(
+        let _ = instantiate(
             deps.as_mut(),
             mock_env(),
             mock_info("sender", &[]),
@@ -229,7 +229,7 @@ mod tests {
         let mut deps = mock_dependencies(&[]);
 
         // Init so we have state
-        let _ = init(
+        let _ = instantiate(
             deps.as_mut(),
             mock_env(),
             mock_info("sender", &[]),
@@ -261,7 +261,7 @@ mod tests {
         let mut deps = mock_dependencies(&[]);
 
         // Init so we have state
-        let _ = init(
+        let _ = instantiate(
             deps.as_mut(),
             mock_env(),
             mock_info("sender", &[]),
@@ -307,7 +307,7 @@ mod tests {
         let mut deps = mock_dependencies(&[]);
 
         // Init so we have state
-        let _ = init(
+        let _ = instantiate(
             deps.as_mut(),
             mock_env(),
             mock_info("sender", &[]),
@@ -341,7 +341,7 @@ mod tests {
         let mut deps = mock_dependencies(&[]);
 
         // Init so we have state
-        let _ = init(
+        let _ = instantiate(
             deps.as_mut(),
             mock_env(),
             mock_info("sender", &[]),
@@ -382,7 +382,7 @@ mod tests {
         let mut deps = mock_dependencies(&[]);
 
         // Init so we have state
-        let _ = init(
+        let _ = instantiate(
             deps.as_mut(),
             mock_env(),
             mock_info("sender", &[]),
@@ -414,7 +414,7 @@ mod tests {
         let mut deps = mock_dependencies(&[]);
 
         // Init so we have state
-        let _ = init(
+        let _ = instantiate(
             deps.as_mut(),
             mock_env(),
             mock_info("sender", &[]),
@@ -451,7 +451,7 @@ mod tests {
         );
 
         // Init so we have state
-        let _ = init(
+        let _ = instantiate(
             deps.as_mut(),
             mock_env(),
             mock_info("sender", &[]),

@@ -12,7 +12,7 @@ use crate::msg::{ExecuteMsg, InitMsg, QueryMsg};
 use crate::state::{config, State};
 
 /// Initialize the smart contract config state, then bind a name to the contract address.
-pub fn init(
+pub fn instantiate(
     deps: DepsMut,
     env: Env,
     _info: MessageInfo,
@@ -176,7 +176,7 @@ mod tests {
         // Create default provenance mocks.
         let mut deps = mock_dependencies(&[]);
         // Call init
-        let res = init(
+        let res = instantiate(
             deps.as_mut(),
             mock_env(),
             mock_info("sender", &[]),
