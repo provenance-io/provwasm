@@ -28,6 +28,21 @@ pub struct Name {
     pub restricted: bool,
 }
 
+/// A type for name bindings
+#[derive(Serialize, Deserialize, Clone, Debug, Hash, PartialEq, JsonSchema)]
+#[serde(rename_all = "snake_case")]
+pub enum NameBinding {
+    Restricted,
+    Unrestricted,
+}
+
+/// Bind names as restricted by default
+impl Default for NameBinding {
+    fn default() -> Self {
+        NameBinding::Restricted
+    }
+}
+
 /// A collection of attributes associated with an account address.
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
@@ -115,6 +130,21 @@ pub enum MarkerAccess {
     // Query only
     Unspecified,
     Withdraw,
+}
+
+impl MarkerAccess {
+    /// A helper that returns all permissions that can be granted.
+    pub fn all() -> Vec<MarkerAccess> {
+        vec![
+            MarkerAccess::Admin,
+            MarkerAccess::Burn,
+            MarkerAccess::Deposit,
+            MarkerAccess::Delete,
+            MarkerAccess::Mint,
+            MarkerAccess::Transfer,
+            MarkerAccess::Withdraw,
+        ]
+    }
 }
 
 /// Marker types.

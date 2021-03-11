@@ -3,8 +3,8 @@ use cosmwasm_std::{
     Uint128,
 };
 use provwasm_std::{
-    activate_marker, bind_name, create_marker, finalize_marker, grant_marker_access_all,
-    withdraw_marker_coins, ProvenanceMsg, ProvenanceQuerier,
+    activate_marker, bind_name, create_marker, finalize_marker, grant_marker_access,
+    withdraw_marker_coins, MarkerAccess, MarkerType, NameBinding, ProvenanceMsg, ProvenanceQuerier,
 };
 
 use crate::error::ContractError;
@@ -24,7 +24,7 @@ pub fn instantiate(
     })?;
 
     // Create a name for the contract
-    let bind_name_msg = bind_name(&msg.name, env.contract.address);
+    let bind_name_msg = bind_name(&msg.name, env.contract.address, NameBinding::Restricted);
 
     // Dispatch messages to the name module handler and emit an event.
     Ok(Response {
@@ -60,7 +60,7 @@ pub fn execute(
 
 // Create and dispatch a message that will create a new proposed marker.
 fn try_create_marker(supply: Uint128, denom: String) -> Response<ProvenanceMsg> {
-    let msg = create_marker(supply.u128(), &denom);
+    let msg = create_marker(supply.u128(), &denom, MarkerType::Coin);
     Response {
         submessages: vec![],
         messages: vec![msg],
@@ -76,7 +76,7 @@ fn try_create_marker(supply: Uint128, denom: String) -> Response<ProvenanceMsg> 
 
 // Create and dispatch a message that will grant all permissions to a marker for an address.
 fn try_grant_marker_access(denom: String, address: HumanAddr) -> Response<ProvenanceMsg> {
-    let msg = grant_marker_access_all(&denom, &address);
+    let msg = grant_marker_access(&denom, &address, MarkerAccess::all());
     Response {
         submessages: vec![],
         messages: vec![msg],

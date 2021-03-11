@@ -3,7 +3,7 @@ use cosmwasm_std::{
 };
 
 use provwasm_std::{
-    add_json_attribute, bind_name, delete_attributes, ProvenanceMsg, ProvenanceQuerier,
+    add_json_attribute, bind_name, delete_attributes, NameBinding, ProvenanceMsg, ProvenanceQuerier,
 };
 
 use crate::error::ContractError;
@@ -27,7 +27,7 @@ pub fn instantiate(
     config(deps.storage).save(&state)?;
 
     // Create bind name messages
-    let bind_name_msg = bind_name(&msg.name, env.contract.address);
+    let bind_name_msg = bind_name(&msg.name, env.contract.address, NameBinding::Restricted);
 
     // Dispatch message to handler and emit events
     Ok(Response {
@@ -72,7 +72,7 @@ pub fn execute(
 // Bind the label attibute name to the contract address.
 fn try_bind_label_name(env: Env, attr_name: String) -> Response<ProvenanceMsg> {
     // Bind the label name to the contract address.
-    let bind_name_msg = bind_name(&attr_name, env.contract.address);
+    let bind_name_msg = bind_name(&attr_name, env.contract.address, NameBinding::Restricted);
 
     // Issue a response that will dispatch the messages to the name module handler.
     Response {

@@ -2,7 +2,9 @@ use cosmwasm_std::{
     attr, to_binary, Deps, DepsMut, Env, HumanAddr, MessageInfo, QueryResponse, Response, StdError,
 };
 
-use provwasm_std::{bind_name, unbind_name, Name, Names, ProvenanceMsg, ProvenanceQuerier};
+use provwasm_std::{
+    bind_name, unbind_name, Name, NameBinding, Names, ProvenanceMsg, ProvenanceQuerier,
+};
 
 use crate::error::ContractError;
 use crate::msg::{ExecuteMsg, InitMsg, QueryMsg};
@@ -25,7 +27,7 @@ pub fn instantiate(
     config(deps.storage).save(&state)?;
 
     // Create a bind name message
-    let bind_name_msg = bind_name(&msg.name, env.contract.address);
+    let bind_name_msg = bind_name(&msg.name, env.contract.address, NameBinding::Restricted);
 
     // Dispatch message to handler and emit events
     Ok(Response {
@@ -73,7 +75,7 @@ pub fn try_bind_prefix(
     let name = format!("{}.{}", prefix, state.contract_name);
 
     // Create a message that will set the marker pointer.
-    let bind_name_msg = bind_name(&name, &env.contract.address);
+    let bind_name_msg = bind_name(&name, &env.contract.address, NameBinding::Restricted);
 
     // Dispatch message to handler and emit events
     Ok(Response {
