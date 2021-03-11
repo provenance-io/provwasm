@@ -13,9 +13,10 @@ blockchain modules.
 The following table shows provwasm version compatibility and network availability for smart
 contract development and testing.
 
-| provwasm | wasmd   | cosmos  | provenance | localnet | testnet | mainnet | module support        |
-| -------- | ------- | ------- | ---------- | -------- | ------- | ------- | --------------------- |
-| v0.13.x  | v0.15.x | v0.41.x | v0.1.x     | yes      | yes     | N/A     | attribute,marker,name |
+| provwasm | wasmd   | cosmos  | provenance   | localnet | testnet | mainnet | module support        |
+| -------- | ------- | ------- | ------------ | -------- | ------- | ------- | --------------------- |
+| v0.13    | v0.15   | v0.41   | v0.1 to v0.2 | yes      | yes     | N/A     | attribute,marker,name |
+| v0.14    | v0.16   | v0.42   | v0.3         | yes      | yes     | N/A     | attribute,marker,name |
 
 ## Getting Started
 
