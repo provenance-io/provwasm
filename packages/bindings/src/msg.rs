@@ -53,9 +53,11 @@ fn create_name_msg(params: NameMsgParams) -> CosmosMsg<ProvenanceMsg> {
 /// ### Example
 ///
 /// ```rust
-/// # use cosmwasm_std::{Response, HumanAddr};
-/// # use provwasm_std::{bind_name, NameBinding, ProvenanceMsg};
+/// // Imports required
+/// use cosmwasm_std::{Response, HumanAddr};
+/// use provwasm_std::{bind_name, NameBinding, ProvenanceMsg};
 ///
+/// // Bind a name to an address.
 /// fn exec_bind_name(
 ///     name: String,
 ///     address: HumanAddr,
@@ -83,9 +85,11 @@ pub fn bind_name<S: Into<String>, H: Into<HumanAddr>>(
 /// ### Example
 ///
 /// ```rust
-/// # use cosmwasm_std::Response;
-/// # use provwasm_std::{unbind_name, ProvenanceMsg};
+/// // Imports required
+/// use cosmwasm_std::Response;
+/// use provwasm_std::{unbind_name, ProvenanceMsg};
 ///
+/// // Unbind a name
 /// fn exec_unbind_name(name: String) -> Response<ProvenanceMsg> {
 ///     let msg = unbind_name(&name);
 ///     let mut res = Response::new();
@@ -127,8 +131,9 @@ fn create_attribute_msg(params: AttributeMsgParams) -> CosmosMsg<ProvenanceMsg> 
 /// ### Example
 ///
 /// ```rust
-/// # use cosmwasm_std::{Binary, Env, HumanAddr, Response};
-/// # use provwasm_std::{add_attribute, AttributeValueType, ProvenanceMsg};
+/// // Imports required
+/// use cosmwasm_std::{Binary, Env, HumanAddr, Response};
+/// use provwasm_std::{add_attribute, AttributeValueType, ProvenanceMsg};
 ///
 /// // Add a greeting attribute to an account.
 /// // NOTE: The name below must resolve to the contract address.
@@ -170,10 +175,11 @@ pub fn add_attribute<H: Into<HumanAddr>, S: Into<String>, B: Into<Binary>>(
 /// ### Example
 ///
 /// ```rust
-/// # use cosmwasm_std::{Env, HumanAddr, Response, StdError};
-/// # use provwasm_std::{add_json_attribute, ProvenanceMsg};
-/// # use schemars::JsonSchema;
-/// # use serde::{Deserialize, Serialize};
+/// // Imports required
+/// use cosmwasm_std::{Env, HumanAddr, Response, StdError};
+/// use provwasm_std::{add_json_attribute, ProvenanceMsg};
+/// use schemars::JsonSchema;
+/// use serde::{Deserialize, Serialize};
 ///
 /// // Add a label attribute. NOTE: The name below must resolve to the contract address.
 /// fn exec_add_label(
@@ -220,8 +226,9 @@ pub fn add_json_attribute<H: Into<HumanAddr>, S: Into<String>, T: Serialize + ?S
 /// ### Example
 ///
 /// ```rust
-/// # use cosmwasm_std::{HumanAddr, Response};
-/// # use provwasm_std::{delete_attributes, ProvenanceMsg};
+/// // Imports required
+/// use cosmwasm_std::{HumanAddr, Response};
+/// use provwasm_std::{delete_attributes, ProvenanceMsg};
 ///
 /// // Delete all label attributes. NOTE: The name below must resolve to the contract address.
 /// fn exec_delete_labels(
@@ -314,20 +321,20 @@ pub fn create_marker<S: Into<String>>(
 /// ### Example
 ///
 /// ```rust
-/// // Create and dispatch a message that will grant specific permissions to a marker for an address.
-/// use cosmwasm_std::{HumanAddr, HandleResponse};
+/// // Imports required
+/// use cosmwasm_std::{HumanAddr, Response};
 /// use provwasm_std::{grant_marker_access, MarkerAccess, ProvenanceMsg};
+///
+/// // Create and dispatch a message that will grant specific permissions to a marker for an address.
 /// fn try_grant_marker_access(
 ///     denom: String,
 ///     address: HumanAddr,
-/// ) -> HandleResponse<ProvenanceMsg> {
+/// ) -> Response<ProvenanceMsg> {
 ///     let permissions = vec![MarkerAccess::Burn, MarkerAccess::Mint];
 ///     let msg = grant_marker_access(&denom, &address, permissions);
-///     HandleResponse {
-///         messages: vec![msg],
-///         attributes: vec![],
-///         data: None,
-///     }
+///     let mut res = Response::new();
+///     res.add_message(msg);
+///     res
 /// }
 /// ```
 pub fn grant_marker_access<S: Into<String>, H: Into<HumanAddr>>(
@@ -347,19 +354,19 @@ pub fn grant_marker_access<S: Into<String>, H: Into<HumanAddr>>(
 /// ### Example
 ///
 /// ```rust
+/// // Imports required
+/// use cosmwasm_std::{HumanAddr, Response};
+/// use provwasm_std::{revoke_marker_access, ProvenanceMsg};
+///
 /// // Create and dispatch a message that will revoke all permissions from a marker for an address.
-/// use cosmwasm_std::{HumanAddr, HandleResponse};
-/// use provwasm_std::{ProvenanceMsg, revoke_marker_access};
 /// fn try_revoke_marker_access(
 ///     denom: String,
 ///     address: HumanAddr,
-/// ) -> HandleResponse<ProvenanceMsg> {
+/// ) -> Response<ProvenanceMsg> {
 ///     let msg = revoke_marker_access(&denom, &address);
-///     HandleResponse {
-///         messages: vec![msg],
-///         attributes: vec![],
-///         data: None,
-///     }
+///     let mut res = Response::new();
+///     res.add_message(msg);
+///     res
 /// }
 /// ```
 pub fn revoke_marker_access<S: Into<String>, H: Into<HumanAddr>>(
@@ -377,16 +384,16 @@ pub fn revoke_marker_access<S: Into<String>, H: Into<HumanAddr>>(
 /// ### Example
 ///
 /// ```rust
+/// // Imports required
+/// use cosmwasm_std::Response;
+/// use provwasm_std::{finalize_marker, ProvenanceMsg};
+///
 /// // Create and dispatch a message that will finalize a proposed marker.
-/// use cosmwasm_std::HandleResponse;
-/// use provwasm_std::{ProvenanceMsg, finalize_marker};
-/// fn try_finalize_marker(denom: String) -> HandleResponse<ProvenanceMsg> {
+/// fn try_finalize_marker(denom: String) -> Response<ProvenanceMsg> {
 ///     let msg = finalize_marker(&denom);
-///     HandleResponse {
-///         messages: vec![msg],
-///         attributes: vec![],
-///         data: None,
-///     }
+///     let mut res = Response::new();
+///     res.add_message(msg);
+///     res
 /// }
 /// ```
 pub fn finalize_marker<S: Into<String>>(denom: S) -> CosmosMsg<ProvenanceMsg> {
@@ -400,16 +407,16 @@ pub fn finalize_marker<S: Into<String>>(denom: S) -> CosmosMsg<ProvenanceMsg> {
 /// ### Example
 ///
 /// ```rust
+/// // Imports required
+/// use cosmwasm_std::Response;
+/// use provwasm_std::{activate_marker, ProvenanceMsg};
+///
 /// // Create and dispatch a message that will activate a finalized marker.
-/// use cosmwasm_std::HandleResponse;
-/// use provwasm_std::{ProvenanceMsg, activate_marker};
-/// fn try_activate_marker(denom: String) -> HandleResponse<ProvenanceMsg> {
+/// fn try_activate_marker(denom: String) -> Response<ProvenanceMsg> {
 ///     let msg = activate_marker(&denom);
-///     HandleResponse {
-///         messages: vec![msg],
-///         attributes: vec![],
-///         data: None,
-///     }
+///     let mut res = Response::new();
+///     res.add_message(msg);
+///     res
 /// }
 /// ```
 pub fn activate_marker<S: Into<String>>(denom: S) -> CosmosMsg<ProvenanceMsg> {
@@ -423,16 +430,16 @@ pub fn activate_marker<S: Into<String>>(denom: S) -> CosmosMsg<ProvenanceMsg> {
 /// ### Example
 ///
 /// ```rust
+/// // Imports required
+/// use cosmwasm_std::Response;
+/// use provwasm_std::{cancel_marker, ProvenanceMsg};
+///
 /// // Create and dispatch a message that will cancel a marker.
-/// use cosmwasm_std::HandleResponse;
-/// use provwasm_std::{ProvenanceMsg, cancel_marker};
-/// fn try_cancel_marker(denom: String) -> HandleResponse<ProvenanceMsg> {
+/// fn try_cancel_marker(denom: String) -> Response<ProvenanceMsg> {
 ///     let msg = cancel_marker(&denom);
-///     HandleResponse {
-///         messages: vec![msg],
-///         attributes: vec![],
-///         data: None,
-///     }
+///     let mut res = Response::new();
+///     res.add_message(msg);
+///     res
 /// }
 /// ```
 pub fn cancel_marker<S: Into<String>>(denom: S) -> CosmosMsg<ProvenanceMsg> {
@@ -446,16 +453,16 @@ pub fn cancel_marker<S: Into<String>>(denom: S) -> CosmosMsg<ProvenanceMsg> {
 /// ### Example
 ///
 /// ```rust
+/// // Imports required
+/// use cosmwasm_std::Response;
+/// use provwasm_std::{destroy_marker, ProvenanceMsg};
+///
 /// // Create and dispatch a message that will destroy a marker.
-/// use cosmwasm_std::HandleResponse;
-/// use provwasm_std::{ProvenanceMsg, destroy_marker};
-/// fn try_destroy_marker(denom: String) -> HandleResponse<ProvenanceMsg> {
+/// fn try_destroy_marker(denom: String) -> Response<ProvenanceMsg> {
 ///     let msg = destroy_marker(&denom);
-///     HandleResponse {
-///         messages: vec![msg],
-///         attributes: vec![],
-///         data: None,
-///     }
+///     let mut res = Response::new();
+///     res.add_message(msg);
+///     res
 /// }
 /// ```
 pub fn destroy_marker<S: Into<String>>(denom: S) -> CosmosMsg<ProvenanceMsg> {
@@ -469,16 +476,16 @@ pub fn destroy_marker<S: Into<String>>(denom: S) -> CosmosMsg<ProvenanceMsg> {
 /// ### Example
 ///
 /// ```rust
+/// // Imports required
+/// use cosmwasm_std::Response;
+/// use provwasm_std::{mint_marker_supply, ProvenanceMsg};
+///
 /// // Create and dispatch a message that will mint marker supply.
-/// use cosmwasm_std::HandleResponse;
-/// use provwasm_std::{ProvenanceMsg, mint_marker_supply};
-/// fn try_mint_marker(amount: u128, denom: String) -> HandleResponse<ProvenanceMsg> {
+/// fn try_mint_marker(amount: u128, denom: String) -> Response<ProvenanceMsg> {
 ///     let msg = mint_marker_supply(amount, &denom);
-///     HandleResponse {
-///         messages: vec![msg],
-///         attributes: vec![],
-///         data: None,
-///     }
+///     let mut res = Response::new();
+///     res.add_message(msg);
+///     res
 /// }
 /// ```
 pub fn mint_marker_supply<S: Into<String>>(amount: u128, denom: S) -> CosmosMsg<ProvenanceMsg> {
@@ -491,16 +498,16 @@ pub fn mint_marker_supply<S: Into<String>>(amount: u128, denom: S) -> CosmosMsg<
 /// ### Example
 ///
 /// ```rust
+/// // Imports required
+/// use cosmwasm_std::Response;
+/// use provwasm_std::{burn_marker_supply, ProvenanceMsg};
+///
 /// // Create and dispatch a message that will burn marker supply.
-/// use cosmwasm_std::HandleResponse;
-/// use provwasm_std::{ProvenanceMsg, burn_marker_supply};
-/// fn try_burn_marker(amount: u128, denom: String) -> HandleResponse<ProvenanceMsg> {
+/// fn try_burn_marker(amount: u128, denom: String) -> Response<ProvenanceMsg> {
 ///     let msg = burn_marker_supply(amount, &denom);
-///     HandleResponse {
-///         messages: vec![msg],
-///         attributes: vec![],
-///         data: None,
-///     }
+///     let mut res = Response::new();
+///     res.add_message(msg);
+///     res
 /// }
 /// ```
 pub fn burn_marker_supply<S: Into<String>>(amount: u128, denom: S) -> CosmosMsg<ProvenanceMsg> {
@@ -513,20 +520,20 @@ pub fn burn_marker_supply<S: Into<String>>(amount: u128, denom: S) -> CosmosMsg<
 /// ### Example
 ///
 /// ```rust
+/// // Imports required
+/// use cosmwasm_std::{HumanAddr, Response};
+/// use provwasm_std::{withdraw_marker_coins, ProvenanceMsg};
+///
 /// // Create and dispatch a message that will withdraw coins from a marker.
-/// use cosmwasm_std::{HumanAddr, HandleResponse};
-/// use provwasm_std::{ProvenanceMsg, withdraw_marker_coins};
 /// fn try_withdraw_marker_coins(
 ///     amount: u128,
 ///     denom: String,
 ///     recipient: HumanAddr,
-/// ) -> HandleResponse<ProvenanceMsg> {
+/// ) -> Response<ProvenanceMsg> {
 ///     let msg = withdraw_marker_coins(amount, &denom, &recipient);
-///     HandleResponse {
-///         messages: vec![msg],
-///         attributes: vec![],
-///         data: None,
-///     }
+///     let mut res = Response::new();
+///     res.add_message(msg);
+///     res
 /// }
 /// ```
 pub fn withdraw_marker_coins<S: Into<String>, H: Into<HumanAddr>>(
@@ -546,23 +553,22 @@ pub fn withdraw_marker_coins<S: Into<String>, H: Into<HumanAddr>>(
 /// ### Example
 ///
 /// ```rust
+/// // Imports required
+/// use cosmwasm_std::{HumanAddr, Response};
+/// use provwasm_std::{transfer_marker_coins, ProvenanceMsg};
 ///
 /// // Create and dispatch a message that will transfer marker coins from one account to another.
 /// // NOTE: Transfer is only enabled for restricted markers.
-/// use cosmwasm_std::{HumanAddr, HandleResponse};
-/// use provwasm_std::{ProvenanceMsg, transfer_marker_coins};
 /// fn try_transfer_marker_coins(
 ///     amount: u128,
 ///     denom: String,
 ///     to: HumanAddr,
 ///     from: HumanAddr,
-/// ) -> HandleResponse<ProvenanceMsg> {
+/// ) -> Response<ProvenanceMsg> {
 ///     let msg = transfer_marker_coins(amount, &denom, &to, &from);
-///     HandleResponse {
-///         messages: vec![msg],
-///         attributes: vec![],
-///         data: None,
-///     }
+///     let mut res = Response::new();
+///     res.add_message(msg);
+///     res
 /// }
 /// ```
 pub fn transfer_marker_coins<S: Into<String>, H: Into<HumanAddr>>(
