@@ -1,6 +1,6 @@
 use cosmwasm_std::{
     attr, to_binary, Deps, DepsMut, Env, HumanAddr, MessageInfo, QueryResponse, Response, StdError,
-    Uint128,
+    StdResult, Uint128,
 };
 use provwasm_std::{
     activate_marker, bind_name, create_marker, finalize_marker, grant_marker_access,
@@ -24,7 +24,7 @@ pub fn instantiate(
     })?;
 
     // Create a name for the contract
-    let bind_name_msg = bind_name(&msg.name, env.contract.address, NameBinding::Restricted);
+    let bind_name_msg = bind_name(&msg.name, env.contract.address, NameBinding::Restricted)?;
 
     // Dispatch messages to the name module handler and emit an event.
     Ok(Response {
@@ -45,8 +45,8 @@ pub fn execute(
     env: Env,
     _info: MessageInfo,
     msg: ExecuteMsg,
-) -> Result<Response<ProvenanceMsg>, ContractError> {
-    let res = match msg {
+) -> Result<Response<ProvenanceMsg>, StdError> {
+    match msg {
         ExecuteMsg::CreateMarker { supply, denom } => try_create_marker(supply, denom),
         ExecuteMsg::GrantAccess { denom } => try_grant_marker_access(denom, env.contract.address),
         ExecuteMsg::Finalize { denom } => try_finalize_marker(denom),
@@ -54,14 +54,13 @@ pub fn execute(
         ExecuteMsg::Withdraw { amount, denom } => {
             try_withdraw_marker_coins(amount, denom, env.contract.address)
         }
-    };
-    Ok(res)
+    }
 }
 
 // Create and dispatch a message that will create a new proposed marker.
-fn try_create_marker(supply: Uint128, denom: String) -> Response<ProvenanceMsg> {
-    let msg = create_marker(supply.u128(), &denom, MarkerType::Coin);
-    Response {
+fn try_create_marker(supply: Uint128, denom: String) -> StdResult<Response<ProvenanceMsg>> {
+    let msg = create_marker(supply.u128(), &denom, MarkerType::Coin)?;
+    Ok(Response {
         submessages: vec![],
         messages: vec![msg],
         attributes: vec![
@@ -71,13 +70,16 @@ fn try_create_marker(supply: Uint128, denom: String) -> Response<ProvenanceMsg> 
             attr("marker_denom", denom),
         ],
         data: None,
-    }
+    })
 }
 
 // Create and dispatch a message that will grant all permissions to a marker for an address.
-fn try_grant_marker_access(denom: String, address: HumanAddr) -> Response<ProvenanceMsg> {
-    let msg = grant_marker_access(&denom, &address, MarkerAccess::all());
-    Response {
+fn try_grant_marker_access(
+    denom: String,
+    address: HumanAddr,
+) -> StdResult<Response<ProvenanceMsg>> {
+    let msg = grant_marker_access(&denom, &address, MarkerAccess::all())?;
+    Ok(Response {
         submessages: vec![],
         messages: vec![msg],
         attributes: vec![
@@ -87,13 +89,13 @@ fn try_grant_marker_access(denom: String, address: HumanAddr) -> Response<Proven
             attr("marker_addr", address),
         ],
         data: None,
-    }
+    })
 }
 
 // Create and dispatch a message that will finalize a proposed marker.
-fn try_finalize_marker(denom: String) -> Response<ProvenanceMsg> {
-    let msg = finalize_marker(&denom);
-    Response {
+fn try_finalize_marker(denom: String) -> StdResult<Response<ProvenanceMsg>> {
+    let msg = finalize_marker(&denom)?;
+    Ok(Response {
         submessages: vec![],
         messages: vec![msg],
         attributes: vec![
@@ -102,13 +104,13 @@ fn try_finalize_marker(denom: String) -> Response<ProvenanceMsg> {
             attr("marker_denom", denom),
         ],
         data: None,
-    }
+    })
 }
 
 // Create and dispatch a message that will activate a finalized marker.
-fn try_activate_marker(denom: String) -> Response<ProvenanceMsg> {
-    let msg = activate_marker(&denom);
-    Response {
+fn try_activate_marker(denom: String) -> StdResult<Response<ProvenanceMsg>> {
+    let msg = activate_marker(&denom)?;
+    Ok(Response {
         submessages: vec![],
         messages: vec![msg],
         attributes: vec![
@@ -117,7 +119,7 @@ fn try_activate_marker(denom: String) -> Response<ProvenanceMsg> {
             attr("marker_denom", denom),
         ],
         data: None,
-    }
+    })
 }
 
 // Create and dispatch a message that will withdraw coins from a marker.
@@ -125,9 +127,9 @@ fn try_withdraw_marker_coins(
     amount: Uint128,
     denom: String,
     recipient: HumanAddr,
-) -> Response<ProvenanceMsg> {
-    let msg = withdraw_marker_coins(amount.u128(), &denom, &recipient);
-    Response {
+) -> StdResult<Response<ProvenanceMsg>> {
+    let msg = withdraw_marker_coins(amount.u128(), &denom, &recipient)?;
+    Ok(Response {
         submessages: vec![],
         messages: vec![msg],
         attributes: vec![
@@ -138,7 +140,7 @@ fn try_withdraw_marker_coins(
             attr("withdraw_recipient", recipient),
         ],
         data: None,
-    }
+    })
 }
 
 /// Handle query requests for the provenance marker module.
