@@ -3,6 +3,7 @@ use cosmwasm_std::{coin, to_binary, Binary, Coin, CosmosMsg, HumanAddr, StdError
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
+use crate::common::{validate_address, validate_string};
 use crate::types::{AttributeValueType, MarkerAccess, MarkerType, NameBinding, ProvenanceRoute};
 
 // The data format version to pass into provenance for message encoding
@@ -75,7 +76,7 @@ pub fn bind_name<S: Into<String>, H: Into<HumanAddr>>(
 ) -> StdResult<CosmosMsg<ProvenanceMsg>> {
     Ok(create_name_msg(NameMsgParams::BindName {
         name: validate_string(name, "name")?,
-        address: validate_address(address, "address")?,
+        address: validate_address(address)?,
         restrict: matches!(binding, NameBinding::Restricted),
     }))
 }
@@ -164,7 +165,7 @@ pub fn add_attribute<H: Into<HumanAddr>, S: Into<String>, B: Into<Binary>>(
     value_type: AttributeValueType,
 ) -> StdResult<CosmosMsg<ProvenanceMsg>> {
     Ok(create_attribute_msg(AttributeMsgParams::AddAttribute {
-        address: validate_address(address, "address")?,
+        address: validate_address(address)?,
         name: validate_string(name, "name")?,
         value: value.into(),
         value_type,
@@ -243,7 +244,7 @@ pub fn delete_attributes<H: Into<HumanAddr>, S: Into<String>>(
     name: S,
 ) -> StdResult<CosmosMsg<ProvenanceMsg>> {
     Ok(create_attribute_msg(AttributeMsgParams::DeleteAttribute {
-        address: validate_address(address, "address")?,
+        address: validate_address(address)?,
         name: validate_string(name, "name")?,
     }))
 }
@@ -347,7 +348,7 @@ pub fn grant_marker_access<S: Into<String>, H: Into<HumanAddr>>(
 ) -> StdResult<CosmosMsg<ProvenanceMsg>> {
     Ok(create_marker_msg(MarkerMsgParams::GrantMarkerAccess {
         denom: validate_string(denom, "denom")?,
-        address: validate_address(address, "address")?,
+        address: validate_address(address)?,
         permissions,
     }))
 }
@@ -378,7 +379,7 @@ pub fn revoke_marker_access<S: Into<String>, H: Into<HumanAddr>>(
 ) -> StdResult<CosmosMsg<ProvenanceMsg>> {
     Ok(create_marker_msg(MarkerMsgParams::RevokeMarkerAccess {
         denom: validate_string(denom, "denom")?,
-        address: validate_address(address, "address")?,
+        address: validate_address(address)?,
     }))
 }
 
@@ -566,7 +567,7 @@ pub fn withdraw_marker_coins<S: Into<String>, H: Into<HumanAddr>>(
     let coin = coin(amount, validate_string(denom, "denom")?);
     Ok(create_marker_msg(MarkerMsgParams::WithdrawMarkerCoins {
         coin,
-        recipient: validate_address(recipient, "recipient")?,
+        recipient: validate_address(recipient)?,
     }))
 }
 
@@ -605,30 +606,8 @@ pub fn transfer_marker_coins<S: Into<String>, H: Into<HumanAddr>>(
     let coin = coin(amount, validate_string(denom, "denom")?);
     let msg = create_marker_msg(MarkerMsgParams::TransferMarkerCoins {
         coin,
-        to: validate_address(to, "to")?,
-        from: validate_address(from, "from")?,
+        to: validate_address(to)?,
+        from: validate_address(from)?,
     });
     Ok(msg)
-}
-
-// A helper that ensures string params are non-empty.
-fn validate_string<S: Into<String>>(input: S, name: &str) -> StdResult<String> {
-    let s: String = input.into();
-    if s.trim().is_empty() {
-        let errm = format!("string param cannot be empty: {}", name);
-        Err(StdError::generic_err(errm))
-    } else {
-        Ok(s)
-    }
-}
-
-// A helper that ensures address params are non-empty.
-fn validate_address<H: Into<HumanAddr>>(input: H, name: &str) -> StdResult<HumanAddr> {
-    let h: HumanAddr = input.into();
-    if h.trim().is_empty() {
-        let errm = format!("address param cannot be empty: {}", name);
-        Err(StdError::generic_err(errm))
-    } else {
-        Ok(h)
-    }
 }

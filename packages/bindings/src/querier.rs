@@ -1,6 +1,7 @@
 use cosmwasm_std::{from_binary, HumanAddr, QuerierWrapper, StdError, StdResult};
 use serde::de::DeserializeOwned;
 
+use crate::common::{validate_address, validate_string};
 use crate::query::*;
 use crate::types::{AttributeValueType, Attributes, Marker, Name, Names, ProvenanceRoute};
 
@@ -45,7 +46,9 @@ impl<'a> ProvenanceQuerier<'a> {
     /// }
     /// ```
     pub fn resolve_name<S: Into<String>>(&self, name: S) -> StdResult<Name> {
-        let res = self.query_name_module(NameQueryParams::Resolve { name: name.into() })?;
+        let res = self.query_name_module(NameQueryParams::Resolve {
+            name: validate_string(name, "name")?,
+        })?;
         if res.records.len() != 1 {
             return Err(StdError::generic_err(
                 "expected only one address bound to name",
@@ -71,7 +74,7 @@ impl<'a> ProvenanceQuerier<'a> {
     /// ```
     pub fn lookup_names<H: Into<HumanAddr>>(&self, address: H) -> StdResult<Names> {
         self.query_name_module(NameQueryParams::Lookup {
-            address: address.into(),
+            address: validate_address(address)?,
         })
     }
 
@@ -108,13 +111,12 @@ impl<'a> ProvenanceQuerier<'a> {
         address: H,
         name: Option<S>,
     ) -> StdResult<Attributes> {
+        let address = validate_address(address)?;
         match name {
-            None => self.query_attributes(AttributeQueryParams::GetAllAttributes {
-                address: address.into(),
-            }),
+            None => self.query_attributes(AttributeQueryParams::GetAllAttributes { address }),
             Some(name) => self.query_attributes(AttributeQueryParams::GetAttributes {
-                address: address.into(),
-                name: name.into(),
+                address,
+                name: validate_string(name, "name")?,
             }),
         }
     }
@@ -154,8 +156,8 @@ impl<'a> ProvenanceQuerier<'a> {
     ) -> StdResult<Vec<T>> {
         // Gather results
         let resp = self.query_attributes(AttributeQueryParams::GetAttributes {
-            address: address.into(),
-            name: name.into(),
+            address: validate_address(address)?,
+            name: validate_string(name, "name")?,
         })?;
         // Map deserialize, returning values or failure.
         resp.attributes
@@ -192,7 +194,7 @@ impl<'a> ProvenanceQuerier<'a> {
     /// ```
     pub fn get_marker_by_address<H: Into<HumanAddr>>(&self, address: H) -> StdResult<Marker> {
         self.query_marker(MarkerQueryParams::GetMarkerByAddress {
-            address: address.into(),
+            address: validate_address(address)?,
         })
     }
 
@@ -214,7 +216,7 @@ impl<'a> ProvenanceQuerier<'a> {
     /// ```
     pub fn get_marker_by_denom<S: Into<String>>(&self, denom: S) -> StdResult<Marker> {
         self.query_marker(MarkerQueryParams::GetMarkerByDenom {
-            denom: denom.into(),
+            denom: validate_string(denom, "denom")?,
         })
     }
 }

@@ -1,4 +1,5 @@
 #[allow(clippy::all)]
+mod common;
 mod msg;
 mod querier;
 mod query;
