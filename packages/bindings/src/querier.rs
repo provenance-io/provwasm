@@ -2,7 +2,10 @@ use cosmwasm_std::{from_binary, HumanAddr, QuerierWrapper, StdError, StdResult};
 use serde::de::DeserializeOwned;
 
 use crate::common::{validate_address, validate_string};
-use crate::query::*;
+use crate::query::{
+    AttributeQueryParams, MarkerQueryParams, NameQueryParams, ProvenanceQuery,
+    ProvenanceQueryParams,
+};
 use crate::types::{AttributeValueType, Attributes, Marker, Name, Names, ProvenanceRoute};
 
 // The data format version to pass into provenance for queries.
@@ -35,13 +38,15 @@ impl<'a> ProvenanceQuerier<'a> {
     /// ### Example
     ///
     /// ```rust
-    /// # use cosmwasm_std::{Deps, QueryResponse, StdError};
-    /// # use provwasm_std::{Name, ProvenanceQuerier};
+    /// // Imports required
+    /// use cosmwasm_std::{Deps, QueryResponse, StdResult};
+    /// use provwasm_std::{Name, ProvenanceQuerier};
     ///
-    /// fn query_resolve_name(deps: Deps, name: String) -> Result<QueryResponse, StdError> {
+    /// // Resolve the address for a name.
+    /// fn query_resolve_name(deps: Deps, name: String) -> StdResult<QueryResponse> {
     ///     let querier = ProvenanceQuerier::new(&deps.querier);
     ///     let name: Name = querier.resolve_name(&name)?;
-    ///     // Do something with name...
+    ///     // Do something with name.address ...
     ///     todo!()
     /// }
     /// ```
@@ -62,13 +67,15 @@ impl<'a> ProvenanceQuerier<'a> {
     /// ### Example
     ///
     /// ```rust
-    /// # use cosmwasm_std::{Deps, HumanAddr, QueryResponse, StdError};
-    /// # use provwasm_std::{Names, ProvenanceQuerier};
+    /// // Imports required
+    /// use cosmwasm_std::{Deps, HumanAddr, QueryResponse, StdResult};
+    /// use provwasm_std::{Names, ProvenanceQuerier};
     ///
-    /// fn query_lookup_names(deps: Deps, address: HumanAddr) -> Result<QueryResponse, StdError> {
+    /// // Lookup all names bound to an address.
+    /// fn query_lookup_names(deps: Deps, address: HumanAddr) -> StdResult<QueryResponse> {
     ///     let querier = ProvenanceQuerier::new(&deps.querier);
     ///     let names: Names = querier.lookup_names(&address)?;
-    ///     // Do something with names...
+    ///     // Do something with names.records ...
     ///     todo!()
     /// }
     /// ```
@@ -94,15 +101,16 @@ impl<'a> ProvenanceQuerier<'a> {
     ///  ### Example
     ///
     /// ```rust
-    /// # use cosmwasm_std::{Deps, HumanAddr, QueryResponse, StdError};
-    /// # use provwasm_std::{Attributes, ProvenanceQuerier};
+    /// // Imports required
+    /// use cosmwasm_std::{Deps, HumanAddr, QueryResponse, StdResult};
+    /// use provwasm_std::{Attributes, ProvenanceQuerier};
     ///
-    /// // Query all label attributes added to an account.
-    /// pub fn try_query_attributes(deps: Deps, address: HumanAddr) -> Result<QueryResponse, StdError> {
+    /// // Query all attributes added to an account.
+    /// pub fn try_query_attributes(deps: Deps, address: HumanAddr) -> StdResult<QueryResponse> {
     ///     let querier = ProvenanceQuerier::new(&deps.querier);
     ///     let none: Option<String> = None;
-    ///     let attrs: Attributes = querier.get_attributes(&address, none)?;
-    ///     // Do something with attrs...
+    ///     let res: Attributes = querier.get_attributes(&address, none)?;
+    ///     // Do something with res.attributes ...
     ///     todo!()
     /// }
     /// ```
@@ -127,13 +135,14 @@ impl<'a> ProvenanceQuerier<'a> {
     /// ### Example
     ///
     /// ```rust
-    /// # use cosmwasm_std::{Deps, HumanAddr, QueryResponse, StdError};
-    /// # use provwasm_std::ProvenanceQuerier;
-    /// # use schemars::JsonSchema;
-    /// # use serde::{Deserialize, Serialize};
+    /// // Imports required
+    /// use cosmwasm_std::{Deps, HumanAddr, QueryResponse, StdResult};
+    /// use provwasm_std::ProvenanceQuerier;
+    /// use schemars::JsonSchema;
+    /// use serde::{Deserialize, Serialize};
     ///
     /// // Query all label attributes added to an account.
-    /// pub fn query_labels(deps: Deps, address: HumanAddr) -> Result<QueryResponse, StdError> {
+    /// pub fn query_labels(deps: Deps, address: HumanAddr) -> StdResult<QueryResponse> {
     ///     let attr_name = String::from("label.my-contract.sc.pb");
     ///     let querier = ProvenanceQuerier::new(&deps.querier);
     ///     let labels: Vec<Label> = querier.get_json_attributes(&address, &attr_name)?;
@@ -183,13 +192,16 @@ impl<'a> ProvenanceQuerier<'a> {
     /// ### Example
     ///
     /// ```rust
-    /// // Query a marker by address.
+    /// // Imports required
     /// use provwasm_std::{ProvenanceQuerier, Marker};
-    /// use cosmwasm_std::{Deps, HumanAddr, QueryResponse, StdError, to_binary};
-    /// fn try_get_marker_by_address(deps: Deps, address: HumanAddr) -> Result<QueryResponse, StdError> {
+    /// use cosmwasm_std::{Deps, HumanAddr, QueryResponse, StdResult};
+    ///
+    /// // Query a marker by address.
+    /// fn try_get_marker_by_address(deps: Deps, address: HumanAddr) -> StdResult<QueryResponse> {
     ///     let querier = ProvenanceQuerier::new(&deps.querier);
     ///     let marker: Marker = querier.get_marker_by_address(&address)?;
-    ///     to_binary(&marker)
+    ///     // Do something with marker ...
+    ///     todo!()
     /// }
     /// ```
     pub fn get_marker_by_address<H: Into<HumanAddr>>(&self, address: H) -> StdResult<Marker> {
@@ -202,16 +214,17 @@ impl<'a> ProvenanceQuerier<'a> {
     ///
     /// ### Example
     ///
-    /// To query a marker by denomination
-    ///
     /// ```rust
-    /// // Query a marker by denom.
-    /// use cosmwasm_std::{Deps, QueryResponse, StdError, to_binary};
+    /// // Imports required
+    /// use cosmwasm_std::{Deps, QueryResponse, StdResult};
     /// use provwasm_std::{ProvenanceQuerier, Marker};
-    /// fn try_get_marker_by_denom(deps: Deps, denom: String) -> Result<QueryResponse, StdError> {
+    ///
+    /// // Query a marker by denom.
+    /// fn try_get_marker_by_denom(deps: Deps, denom: String) -> StdResult<QueryResponse> {
     ///     let querier = ProvenanceQuerier::new(&deps.querier);
     ///     let marker: Marker = querier.get_marker_by_denom(&denom)?;
-    ///     to_binary(&marker)
+    ///     // Do something with marker ...
+    ///     todo!()
     /// }
     /// ```
     pub fn get_marker_by_denom<S: Into<String>>(&self, denom: S) -> StdResult<Marker> {
