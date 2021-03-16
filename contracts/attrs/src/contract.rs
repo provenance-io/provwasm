@@ -27,7 +27,7 @@ pub fn instantiate(
     config(deps.storage).save(&state)?;
 
     // Create bind name messages
-    let bind_name_msg = bind_name(&msg.name, env.contract.address, NameBinding::Restricted);
+    let bind_name_msg = bind_name(&msg.name, env.contract.address, NameBinding::Restricted)?;
 
     // Dispatch message to handler and emit events
     Ok(Response {
@@ -63,19 +63,22 @@ pub fn execute(
 
     // Dispatch message to the appropriate handler
     match msg {
-        ExecuteMsg::BindLabelName {} => Ok(try_bind_label_name(env, attr_name)),
+        ExecuteMsg::BindLabelName {} => try_bind_label_name(env, attr_name),
         ExecuteMsg::AddLabel { text } => try_add_label(env, attr_name, text),
-        ExecuteMsg::DeleteLabels {} => Ok(try_delete_labels(env, attr_name)),
+        ExecuteMsg::DeleteLabels {} => try_delete_labels(env, attr_name),
     }
 }
 
 // Bind the label attibute name to the contract address.
-fn try_bind_label_name(env: Env, attr_name: String) -> Response<ProvenanceMsg> {
+fn try_bind_label_name(
+    env: Env,
+    attr_name: String,
+) -> Result<Response<ProvenanceMsg>, ContractError> {
     // Bind the label name to the contract address.
-    let bind_name_msg = bind_name(&attr_name, env.contract.address, NameBinding::Restricted);
+    let bind_name_msg = bind_name(&attr_name, env.contract.address, NameBinding::Restricted)?;
 
     // Issue a response that will dispatch the messages to the name module handler.
-    Response {
+    Ok(Response {
         submessages: vec![],
         messages: vec![bind_name_msg],
         attributes: vec![
@@ -84,7 +87,7 @@ fn try_bind_label_name(env: Env, attr_name: String) -> Response<ProvenanceMsg> {
             attr("attribute_name", attr_name),
         ],
         data: None,
-    }
+    })
 }
 
 // Add a label attribute.
@@ -112,12 +115,15 @@ fn try_add_label(
 }
 
 // Delete all label attributes.
-fn try_delete_labels(env: Env, attr_name: String) -> Response<ProvenanceMsg> {
+fn try_delete_labels(
+    env: Env,
+    attr_name: String,
+) -> Result<Response<ProvenanceMsg>, ContractError> {
     // Delete label attributes from an account.
-    let delete_label_msg = delete_attributes(env.contract.address, &attr_name);
+    let delete_label_msg = delete_attributes(env.contract.address, &attr_name)?;
 
     // Issue a response that will dispatch the messages to the attribute module handler.
-    Response {
+    Ok(Response {
         submessages: vec![],
         messages: vec![delete_label_msg],
         attributes: vec![
@@ -126,7 +132,7 @@ fn try_delete_labels(env: Env, attr_name: String) -> Response<ProvenanceMsg> {
             attr("attribute_name", attr_name),
         ],
         data: None,
-    }
+    })
 }
 
 /// Handle label query requests.

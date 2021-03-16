@@ -27,7 +27,7 @@ pub fn instantiate(
     config(deps.storage).save(&state)?;
 
     // Create a bind name message
-    let bind_name_msg = bind_name(&msg.name, env.contract.address, NameBinding::Restricted);
+    let bind_name_msg = bind_name(&msg.name, env.contract.address, NameBinding::Restricted)?;
 
     // Dispatch message to handler and emit events
     Ok(Response {
@@ -75,7 +75,7 @@ pub fn try_bind_prefix(
     let name = format!("{}.{}", prefix, state.contract_name);
 
     // Create a message that will set the marker pointer.
-    let bind_name_msg = bind_name(&name, &env.contract.address, NameBinding::Restricted);
+    let bind_name_msg = bind_name(&name, &env.contract.address, NameBinding::Restricted)?;
 
     // Dispatch message to handler and emit events
     Ok(Response {
@@ -109,7 +109,7 @@ pub fn try_unbind_prefix(
     let name = format!("{}.{}", prefix, state.contract_name);
 
     // Create a message that will set the marker pointer.
-    let unbind_name_msg = unbind_name(&name);
+    let unbind_name_msg = unbind_name(&name)?;
 
     // Dispatch message to handler and emit events
     Ok(Response {
