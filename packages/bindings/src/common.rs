@@ -21,3 +21,32 @@ pub fn validate_address<H: Into<HumanAddr>>(input: H) -> StdResult<HumanAddr> {
         Ok(h)
     }
 }
+
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn validate_string_empty() {
+        let whitespace = " \r \n \t ";
+        let err = validate_string(whitespace, "whitespace").unwrap_err();
+        match err {
+            StdError::GenericErr { msg, .. } => {
+                assert_eq!(msg, "whitespace must not be empty")
+            }
+            _ => panic!("unexpected error"),
+        }
+    }
+
+    #[test]
+    fn validate_address_empty() {
+        let empty = HumanAddr::from("");
+        let err = validate_address(empty).unwrap_err();
+        match err {
+            StdError::GenericErr { msg, .. } => {
+                assert_eq!(msg, "address must not be empty")
+            }
+            _ => panic!("unexpected error"),
+        }
+    }
+}
