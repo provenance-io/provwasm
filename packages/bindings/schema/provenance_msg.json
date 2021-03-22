@@ -321,18 +321,22 @@
         {
           "type": "object",
           "required": [
-            "withdraw_marker_coins"
+            "withdraw_coins"
           ],
           "properties": {
-            "withdraw_marker_coins": {
+            "withdraw_coins": {
               "type": "object",
               "required": [
                 "coin",
+                "marker_denom",
                 "recipient"
               ],
               "properties": {
                 "coin": {
                   "$ref": "#/definitions/Coin"
+                },
+                "marker_denom": {
+                  "type": "string"
                 },
                 "recipient": {
                   "$ref": "#/definitions/HumanAddr"
