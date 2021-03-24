@@ -4,7 +4,7 @@ use cosmwasm_std::{
 };
 use provwasm_std::{
     activate_marker, bind_name, create_marker, finalize_marker, grant_marker_access,
-    withdraw_marker_coins, MarkerAccess, MarkerType, NameBinding, ProvenanceMsg, ProvenanceQuerier,
+    withdraw_coins, MarkerAccess, MarkerType, NameBinding, ProvenanceMsg, ProvenanceQuerier,
 };
 
 use crate::error::ContractError;
@@ -128,7 +128,8 @@ fn try_withdraw_marker_coins(
     denom: String,
     recipient: HumanAddr,
 ) -> StdResult<Response<ProvenanceMsg>> {
-    let msg = withdraw_marker_coins(amount.u128(), &denom, &recipient)?;
+    let marker_denom = denom.clone();
+    let msg = withdraw_coins(&marker_denom, amount.u128(), &denom, &recipient)?;
     Ok(Response {
         submessages: vec![],
         messages: vec![msg],

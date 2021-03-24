@@ -284,7 +284,8 @@ pub enum MarkerMsgParams {
     BurnMarkerSupply {
         coin: Coin,
     },
-    WithdrawMarkerCoins {
+    WithdrawCoins {
+        marker_denom: String,
         coin: Coin,
         recipient: HumanAddr,
     },
@@ -535,28 +536,30 @@ pub fn burn_marker_supply<S: Into<String>>(
     }))
 }
 
-/// Create a message that will transfer marker coins to a recipient account.
+/// Create a message that will withdraw coins from a marker account to a recipient account.
 ///
 /// ### Example
 ///
 /// ```rust
 /// // Imports required
 /// use cosmwasm_std::{HumanAddr, Response, StdResult};
-/// use provwasm_std::{withdraw_marker_coins, ProvenanceMsg};
+/// use provwasm_std::{withdraw_coins, ProvenanceMsg};
 ///
 /// // Create and dispatch a message that will withdraw coins from a marker.
-/// fn try_withdraw_marker_coins(
+/// fn try_withdraw_coins(
+///     marker_denom: String,
 ///     amount: u128,
 ///     denom: String,
 ///     recipient: HumanAddr,
 /// ) -> StdResult<Response<ProvenanceMsg>> {
-///     let msg = withdraw_marker_coins(amount, &denom, &recipient)?;
+///     let msg = withdraw_coins(&marker_denom, amount, &denom, &recipient)?;
 ///     let mut res = Response::new();
 ///     res.add_message(msg);
 ///     Ok(res)
 /// }
 /// ```
-pub fn withdraw_marker_coins<S: Into<String>, H: Into<HumanAddr>>(
+pub fn withdraw_coins<S: Into<String>, H: Into<HumanAddr>>(
+    marker_denom: S,
     amount: u128,
     denom: S,
     recipient: H,
@@ -565,7 +568,8 @@ pub fn withdraw_marker_coins<S: Into<String>, H: Into<HumanAddr>>(
         return Err(StdError::generic_err("withdraw amount must be > 0"));
     }
     let coin = coin(amount, validate_string(denom, "denom")?);
-    Ok(create_marker_msg(MarkerMsgParams::WithdrawMarkerCoins {
+    Ok(create_marker_msg(MarkerMsgParams::WithdrawCoins {
+        marker_denom: validate_string(marker_denom, "marker_denom")?,
         coin,
         recipient: validate_address(recipient)?,
     }))
