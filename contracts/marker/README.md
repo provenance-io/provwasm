@@ -29,7 +29,7 @@ Compile and optimize the smart contract WASM.
 make && make optimize
 ```
 
-## Example Usage 1
+## Setup
 
 _NOTE: Address bech32 values and other params may vary._
 
@@ -95,12 +95,14 @@ provenanced tx wasm instantiate 1 '{"name":"marker-itv2.sc.pb"}' \
     --testnet | jq
 ```
 
-Execute the contract, creating a marker in a 'proposed' state.
+## Test 1
+
+Create a restricted marker in a 'proposed' state.
 
 ```bash
 provenanced tx wasm execute \
     tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
-    '{"create":{"supply":"420","denom":"mondonugz"}}' \
+    '{"create":{"supply":"500","denom":"faustiancoin"}}' \
     --from node0 \
     --keyring-backend test \
     --home build/node0 \
@@ -117,7 +119,7 @@ Query the marker by denom
 ```bash
 provenanced q wasm contract-state smart \
     tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
-    '{"get_by_denom":{"denom":"mondonugz"}}' \
+    '{"get_by_denom":{"denom":"faustiancoin"}}' \
     --testnet -o json | jq
  ```
 
@@ -130,12 +132,12 @@ provenanced q wasm contract-state smart \
     --testnet -o json | jq
 ```
 
-Grant access to the marker, so the contract can withdraw funds in a later step
+Grant access to the marker, so the contract can withdraw and transfer funds in later steps
 
 ```bash
 provenanced tx wasm execute \
     tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
-    '{"grant_access":{"denom":"mondonugz"}}' \
+    '{"grant_access":{"denom":"faustiancoin"}}' \
     --from node0 \
     --keyring-backend test \
     --home build/node0 \
@@ -152,7 +154,7 @@ Finalize the marker
 ```bash
 provenanced tx wasm execute \
     tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
-    '{"finalize":{"denom":"mondonugz"}}' \
+    '{"finalize":{"denom":"faustiancoin"}}' \
     --from node0 \
     --keyring-backend test \
     --home build/node0 \
@@ -169,7 +171,7 @@ Activate the marker
 ```bash
 provenanced tx wasm execute \
     tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
-    '{"activate":{"denom":"mondonugz"}}' \
+    '{"activate":{"denom":"faustiancoin"}}' \
     --from node0 \
     --keyring-backend test \
     --home build/node0 \
@@ -186,7 +188,7 @@ Withdraw coins from the marker to the smart contract instance
 ```bash
 provenanced tx wasm execute \
     tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
-    '{"withdraw":{"amount":"400","denom":"mondonugz"}}' \
+    '{"withdraw":{"amount":"400","denom":"faustiancoin"}}' \
     --from node0 \
     --keyring-backend test \
     --home build/node0 \
@@ -203,7 +205,7 @@ Transfer coins from the contract to an account
 ```bash
 provenanced tx wasm execute \
     tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
-    '{"transfer":{"amount":"200","denom":"mondonugz","to":"FIXME"}}' \
+    '{"transfer":{"amount":"200","denom":"faustiancoin","to":"FIXME"}}' \
     --from node0 \
     --keyring-backend test \
     --home build/node0 \
@@ -220,7 +222,7 @@ Mint marker coins
 ```bash
 provenanced tx wasm execute \
     tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
-    '{"mint":{"amount":"10","denom":"mondonugz"}}' \
+    '{"mint":{"amount":"100","denom":"faustiancoin"}}' \
     --from node0 \
     --keyring-backend test \
     --home build/node0 \
@@ -237,7 +239,7 @@ Burn all remaining coins escrowed in the marker
 ```bash
 provenanced tx wasm execute \
     tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
-    '{"burn":{"amount":"30","denom":"mondonugz"}}' \
+    '{"burn":{"amount":"200","denom":"faustiancoin"}}' \
     --from node0 \
     --keyring-backend test \
     --home build/node0 \
@@ -249,14 +251,14 @@ provenanced tx wasm execute \
     --testnet | jq
 ```
 
-## Example Usage 2
+## Test 2
 
 Create another marker in a 'proposed' state.
 
 ```bash
 provenanced tx wasm execute \
     tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
-    '{"create":{"denom":"chkntendiez","amount":"100"}}' \
+    '{"create":{"denom":"chickentendies","amount":"100"}}' \
     --from node0 \
     --keyring-backend test \
     --home build/node0 \
@@ -273,7 +275,7 @@ Grant access to the marker, so the contract can cancel and destroy it.
 ```bash
 provenanced tx wasm execute \
     tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
-    '{"grant_access":{"denom":"chkntendiez"}}' \
+    '{"grant_access":{"denom":"chickentendies"}}' \
     --from node0 \
     --keyring-backend test \
     --home build/node0 \
@@ -290,7 +292,7 @@ Cancel the marker.
 ```bash
 provenanced tx wasm execute \
     tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
-    '{"cancel":{"denom":"chkntendiez"}}' \
+    '{"cancel":{"denom":"chickentendies"}}' \
     --from node0 \
     --keyring-backend test \
     --home build/node0 \
@@ -307,7 +309,7 @@ Destroy the marker.
 ```bash
 provenanced tx wasm execute \
     tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
-    '{"destroy":{"denom":"chkntendiez"}}' \
+    '{"destroy":{"denom":"chickentendies"}}' \
     --from node0 \
     --keyring-backend test \
     --home build/node0 \
