@@ -5,10 +5,10 @@
     {
       "type": "object",
       "required": [
-        "create_marker"
+        "create"
       ],
       "properties": {
-        "create_marker": {
+        "create": {
           "type": "object",
           "required": [
             "denom",
@@ -85,6 +85,117 @@
     {
       "type": "object",
       "required": [
+        "mint"
+      ],
+      "properties": {
+        "mint": {
+          "type": "object",
+          "required": [
+            "amount",
+            "denom"
+          ],
+          "properties": {
+            "amount": {
+              "$ref": "#/definitions/Uint128"
+            },
+            "denom": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "object",
+      "required": [
+        "burn"
+      ],
+      "properties": {
+        "burn": {
+          "type": "object",
+          "required": [
+            "amount",
+            "denom"
+          ],
+          "properties": {
+            "amount": {
+              "$ref": "#/definitions/Uint128"
+            },
+            "denom": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "object",
+      "required": [
+        "cancel"
+      ],
+      "properties": {
+        "cancel": {
+          "type": "object",
+          "required": [
+            "denom"
+          ],
+          "properties": {
+            "denom": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "object",
+      "required": [
+        "destroy"
+      ],
+      "properties": {
+        "destroy": {
+          "type": "object",
+          "required": [
+            "denom"
+          ],
+          "properties": {
+            "denom": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "object",
+      "required": [
+        "transfer"
+      ],
+      "properties": {
+        "transfer": {
+          "type": "object",
+          "required": [
+            "amount",
+            "denom",
+            "to"
+          ],
+          "properties": {
+            "amount": {
+              "$ref": "#/definitions/Uint128"
+            },
+            "denom": {
+              "type": "string"
+            },
+            "to": {
+              "$ref": "#/definitions/HumanAddr"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "object",
+      "required": [
         "withdraw"
       ],
       "properties": {
@@ -107,6 +218,9 @@
     }
   ],
   "definitions": {
+    "HumanAddr": {
+      "type": "string"
+    },
     "Uint128": {
       "type": "string"
     }

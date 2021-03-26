@@ -11,7 +11,12 @@ This contract has the following functionality.
   - Grant access (all permissions) to a marker
   - Finalize a marker
   - Activate a marker
-  - Withdraw coins from a marker
+  - Withdraw coins from the marker to the contract instance
+  - Transfer coins from the contract instance to an account
+  - Mint marker coins
+  - Burn marker coins
+  - Cancel a marker
+  - Destroy a marker
 - Queries
   - Get marker by address
   - Get marker by denom
@@ -24,7 +29,7 @@ Compile and optimize the smart contract WASM.
 make && make optimize
 ```
 
-## Example Usage
+## Example Usage 1
 
 _NOTE: Address bech32 values and other params may vary._
 
@@ -95,7 +100,7 @@ Execute the contract, creating a marker in a 'proposed' state.
 ```bash
 provenanced tx wasm execute \
     tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
-    '{"create_marker":{"supply":"420","denom":"nugz"}}' \
+    '{"create":{"supply":"420","denom":"mondonugz"}}' \
     --from node0 \
     --keyring-backend test \
     --home build/node0 \
@@ -112,7 +117,7 @@ Query the marker by denom
 ```bash
 provenanced q wasm contract-state smart \
     tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
-    '{"get_by_denom":{"denom":"nugz"}}' \
+    '{"get_by_denom":{"denom":"mondonugz"}}' \
     --testnet -o json | jq
  ```
 
@@ -130,7 +135,7 @@ Grant access to the marker, so the contract can withdraw funds in a later step
 ```bash
 provenanced tx wasm execute \
     tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
-    '{"grant_access":{"denom":"nugz"}}' \
+    '{"grant_access":{"denom":"mondonugz"}}' \
     --from node0 \
     --keyring-backend test \
     --home build/node0 \
@@ -147,7 +152,7 @@ Finalize the marker
 ```bash
 provenanced tx wasm execute \
     tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
-    '{"finalize":{"denom":"nugz"}}' \
+    '{"finalize":{"denom":"mondonugz"}}' \
     --from node0 \
     --keyring-backend test \
     --home build/node0 \
@@ -164,7 +169,7 @@ Activate the marker
 ```bash
 provenanced tx wasm execute \
     tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
-    '{"activate":{"denom":"nugz"}}' \
+    '{"activate":{"denom":"mondonugz"}}' \
     --from node0 \
     --keyring-backend test \
     --home build/node0 \
@@ -181,7 +186,128 @@ Withdraw coins from the marker to the smart contract instance
 ```bash
 provenanced tx wasm execute \
     tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
-    '{"withdraw":{"amount":"400","denom":"nugz"}}' \
+    '{"withdraw":{"amount":"400","denom":"mondonugz"}}' \
+    --from node0 \
+    --keyring-backend test \
+    --home build/node0 \
+    --chain-id chain-local \
+    --gas auto \
+    --fees 3500nhash \
+    --broadcast-mode block \
+    --yes \
+    --testnet | jq
+```
+
+Transfer coins from the contract to an account
+
+```bash
+provenanced tx wasm execute \
+    tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
+    '{"transfer":{"amount":"200","denom":"mondonugz","to":"FIXME"}}' \
+    --from node0 \
+    --keyring-backend test \
+    --home build/node0 \
+    --chain-id chain-local \
+    --gas auto \
+    --fees 3500nhash \
+    --broadcast-mode block \
+    --yes \
+    --testnet | jq
+```
+
+Mint marker coins
+
+```bash
+provenanced tx wasm execute \
+    tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
+    '{"mint":{"amount":"10","denom":"mondonugz"}}' \
+    --from node0 \
+    --keyring-backend test \
+    --home build/node0 \
+    --chain-id chain-local \
+    --gas auto \
+    --fees 3500nhash \
+    --broadcast-mode block \
+    --yes \
+    --testnet | jq
+```
+
+Burn all remaining coins escrowed in the marker
+
+```bash
+provenanced tx wasm execute \
+    tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
+    '{"burn":{"amount":"30","denom":"mondonugz"}}' \
+    --from node0 \
+    --keyring-backend test \
+    --home build/node0 \
+    --chain-id chain-local \
+    --gas auto \
+    --fees 3500nhash \
+    --broadcast-mode block \
+    --yes \
+    --testnet | jq
+```
+
+## Example Usage 2
+
+Create another marker in a 'proposed' state.
+
+```bash
+provenanced tx wasm execute \
+    tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
+    '{"create":{"denom":"chkntendiez","amount":"100"}}' \
+    --from node0 \
+    --keyring-backend test \
+    --home build/node0 \
+    --chain-id chain-local \
+    --gas auto \
+    --fees 3500nhash \
+    --broadcast-mode block \
+    --yes \
+    --testnet | jq
+```
+
+Grant access to the marker, so the contract can cancel and destroy it.
+
+```bash
+provenanced tx wasm execute \
+    tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
+    '{"grant_access":{"denom":"chkntendiez"}}' \
+    --from node0 \
+    --keyring-backend test \
+    --home build/node0 \
+    --chain-id chain-local \
+    --gas auto \
+    --fees 3500nhash \
+    --broadcast-mode block \
+    --yes \
+    --testnet | jq
+```
+
+Cancel the marker.
+
+```bash
+provenanced tx wasm execute \
+    tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
+    '{"cancel":{"denom":"chkntendiez"}}' \
+    --from node0 \
+    --keyring-backend test \
+    --home build/node0 \
+    --chain-id chain-local \
+    --gas auto \
+    --fees 3500nhash \
+    --broadcast-mode block \
+    --yes \
+    --testnet | jq
+```
+
+Destroy the marker.
+
+```bash
+provenanced tx wasm execute \
+    tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
+    '{"destroy":{"denom":"chkntendiez"}}' \
     --from node0 \
     --keyring-backend test \
     --home build/node0 \
