@@ -1,31 +1,20 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "HandleMsg",
+  "title": "ExecuteMsg",
   "anyOf": [
     {
       "type": "object",
       "required": [
-        "bind_label_name"
+        "bind_prefix"
       ],
       "properties": {
-        "bind_label_name": {
-          "type": "object"
-        }
-      }
-    },
-    {
-      "type": "object",
-      "required": [
-        "add_label"
-      ],
-      "properties": {
-        "add_label": {
+        "bind_prefix": {
           "type": "object",
           "required": [
-            "text"
+            "prefix"
           ],
           "properties": {
-            "text": {
+            "prefix": {
               "type": "string"
             }
           }
@@ -35,11 +24,19 @@
     {
       "type": "object",
       "required": [
-        "delete_labels"
+        "unbind_prefix"
       ],
       "properties": {
-        "delete_labels": {
-          "type": "object"
+        "unbind_prefix": {
+          "type": "object",
+          "required": [
+            "prefix"
+          ],
+          "properties": {
+            "prefix": {
+              "type": "string"
+            }
+          }
         }
       }
     }

@@ -33,11 +33,7 @@
     },
     "manager": {
       "default": "",
-      "allOf": [
-        {
-          "$ref": "#/definitions/HumanAddr"
-        }
-      ]
+      "type": "string"
     },
     "marker_type": {
       "$ref": "#/definitions/MarkerType"

@@ -18,3 +18,4 @@ target/
 # Tutorial code
 contracts/tutorial
 contracts/tutorial-migrate
+contracts/hft-demo

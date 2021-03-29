@@ -28,6 +28,21 @@ pub struct Name {
     pub restricted: bool,
 }
 
+/// A type for name bindings
+#[derive(Serialize, Deserialize, Clone, Debug, Hash, PartialEq, JsonSchema)]
+#[serde(rename_all = "snake_case")]
+pub enum NameBinding {
+    Restricted,
+    Unrestricted,
+}
+
+/// Bind names as restricted by default
+impl Default for NameBinding {
+    fn default() -> Self {
+        NameBinding::Restricted
+    }
+}
+
 /// A collection of attributes associated with an account address.
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
@@ -67,7 +82,7 @@ pub struct Marker {
     pub account_number: u64,
     pub sequence: u64,
     #[serde(default)]
-    pub manager: HumanAddr,
+    manager: String, // Keep private and force use of public get_manager()
     #[serde(default)]
     pub permissions: Vec<AccessGrant>,
     pub status: MarkerStatus,
@@ -81,6 +96,16 @@ impl Marker {
     /// Determines whether a marker requires restricted transfers.
     pub fn bank_sends_disabled(&self) -> bool {
         matches!(self.marker_type, MarkerType::Restricted)
+    }
+
+    /// Returns the human address for the marker manager if defined.
+    pub fn get_manager(&self) -> Option<HumanAddr> {
+        if !self.manager.is_empty() {
+            let address = HumanAddr::from(self.manager.clone());
+            Some(address)
+        } else {
+            None
+        }
     }
 }
 
@@ -105,6 +130,21 @@ pub enum MarkerAccess {
     // Query only
     Unspecified,
     Withdraw,
+}
+
+impl MarkerAccess {
+    /// A helper that returns all permissions that can be granted.
+    pub fn all() -> Vec<MarkerAccess> {
+        vec![
+            MarkerAccess::Admin,
+            MarkerAccess::Burn,
+            MarkerAccess::Deposit,
+            MarkerAccess::Delete,
+            MarkerAccess::Mint,
+            MarkerAccess::Transfer,
+            MarkerAccess::Withdraw,
+        ]
+    }
 }
 
 /// Marker types.

@@ -1,23 +1,22 @@
 use cosmwasm_std::{
-    attr, to_binary, Deps, DepsMut, Env, HandleResponse, InitResponse, MessageInfo, QueryResponse,
-    StdError,
+    attr, to_binary, Deps, DepsMut, Env, MessageInfo, QueryResponse, Response, StdError,
 };
 
 use provwasm_std::{
-    add_json_attribute, bind_name, delete_attributes, ProvenanceMsg, ProvenanceQuerier,
+    add_json_attribute, bind_name, delete_attributes, NameBinding, ProvenanceMsg, ProvenanceQuerier,
 };
 
 use crate::error::ContractError;
-use crate::msg::{HandleMsg, InitMsg, Label, LabelNameResponse, LabelsResponse, QueryMsg};
+use crate::msg::{ExecuteMsg, InitMsg, Label, LabelNameResponse, LabelsResponse, QueryMsg};
 use crate::state::{config, config_read, State};
 
 /// Initialize the smart contract config state and bind a name to the contract address.
-pub fn init(
+pub fn instantiate(
     deps: DepsMut,
     env: Env,
     info: MessageInfo,
     msg: InitMsg,
-) -> Result<InitResponse<ProvenanceMsg>, ContractError> {
+) -> Result<Response<ProvenanceMsg>, ContractError> {
     // Create contract config state.
     let state = State {
         contract_owner: info.sender.clone(),
@@ -28,10 +27,11 @@ pub fn init(
     config(deps.storage).save(&state)?;
 
     // Create bind name messages
-    let bind_name_msg = bind_name(&msg.name, env.contract.address);
+    let bind_name_msg = bind_name(&msg.name, env.contract.address, NameBinding::Restricted)?;
 
     // Dispatch message to handler and emit events
-    Ok(InitResponse {
+    Ok(Response {
+        submessages: vec![],
         messages: vec![bind_name_msg], // Routed to the name module handler
         attributes: vec![
             attr("integration_test", "v2"),
@@ -39,16 +39,17 @@ pub fn init(
             attr("contract_name", msg.name),
             attr("contract_owner", info.sender),
         ],
+        data: None,
     })
 }
 
 /// Handle state change requests
-pub fn handle(
+pub fn execute(
     deps: DepsMut,
     env: Env,
     info: MessageInfo,
-    msg: HandleMsg,
-) -> Result<HandleResponse<ProvenanceMsg>, ContractError> {
+    msg: ExecuteMsg,
+) -> Result<Response<ProvenanceMsg>, ContractError> {
     // Load contract state
     let state = config_read(deps.storage).load()?;
 
@@ -62,19 +63,23 @@ pub fn handle(
 
     // Dispatch message to the appropriate handler
     match msg {
-        HandleMsg::BindLabelName {} => Ok(try_bind_label_name(env, attr_name)),
-        HandleMsg::AddLabel { text } => try_add_label(env, attr_name, text),
-        HandleMsg::DeleteLabels {} => Ok(try_delete_labels(env, attr_name)),
+        ExecuteMsg::BindLabelName {} => try_bind_label_name(env, attr_name),
+        ExecuteMsg::AddLabel { text } => try_add_label(env, attr_name, text),
+        ExecuteMsg::DeleteLabels {} => try_delete_labels(env, attr_name),
     }
 }
 
 // Bind the label attibute name to the contract address.
-fn try_bind_label_name(env: Env, attr_name: String) -> HandleResponse<ProvenanceMsg> {
+fn try_bind_label_name(
+    env: Env,
+    attr_name: String,
+) -> Result<Response<ProvenanceMsg>, ContractError> {
     // Bind the label name to the contract address.
-    let bind_name_msg = bind_name(&attr_name, env.contract.address);
+    let bind_name_msg = bind_name(&attr_name, env.contract.address, NameBinding::Restricted)?;
 
     // Issue a response that will dispatch the messages to the name module handler.
-    HandleResponse {
+    Ok(Response {
+        submessages: vec![],
         messages: vec![bind_name_msg],
         attributes: vec![
             attr("integration_test", "v2"),
@@ -82,7 +87,7 @@ fn try_bind_label_name(env: Env, attr_name: String) -> HandleResponse<Provenance
             attr("attribute_name", attr_name),
         ],
         data: None,
-    }
+    })
 }
 
 // Add a label attribute.
@@ -90,14 +95,15 @@ fn try_add_label(
     env: Env,
     attr_name: String,
     text: String,
-) -> Result<HandleResponse<ProvenanceMsg>, ContractError> {
+) -> Result<Response<ProvenanceMsg>, ContractError> {
     // Init then pass a label struct to create a JSON attribute message.
     let timestamp = env.block.time;
     let label = Label { text, timestamp };
     let msg = add_json_attribute(env.contract.address, &attr_name, &label)?;
 
     // Issue a response that will dispatch the message to the account module handler.
-    Ok(HandleResponse {
+    Ok(Response {
+        submessages: vec![],
         messages: vec![msg],
         attributes: vec![
             attr("integration_test", "v2"),
@@ -109,12 +115,16 @@ fn try_add_label(
 }
 
 // Delete all label attributes.
-fn try_delete_labels(env: Env, attr_name: String) -> HandleResponse<ProvenanceMsg> {
+fn try_delete_labels(
+    env: Env,
+    attr_name: String,
+) -> Result<Response<ProvenanceMsg>, ContractError> {
     // Delete label attributes from an account.
-    let delete_label_msg = delete_attributes(env.contract.address, &attr_name);
+    let delete_label_msg = delete_attributes(env.contract.address, &attr_name)?;
 
     // Issue a response that will dispatch the messages to the attribute module handler.
-    HandleResponse {
+    Ok(Response {
+        submessages: vec![],
         messages: vec![delete_label_msg],
         attributes: vec![
             attr("integration_test", "v2"),
@@ -122,7 +132,7 @@ fn try_delete_labels(env: Env, attr_name: String) -> HandleResponse<ProvenanceMs
             attr("attribute_name", attr_name),
         ],
         data: None,
-    }
+    })
 }
 
 /// Handle label query requests.
@@ -156,7 +166,7 @@ mod tests {
         let mut deps = mock_dependencies(&[]);
 
         // Call init
-        let res = init(
+        let res = instantiate(
             deps.as_mut(),
             mock_env(),
             mock_info("sender", &[]),
@@ -186,7 +196,7 @@ mod tests {
         let mut deps = mock_dependencies(&[]);
 
         // Init so we have state
-        let _ = init(
+        let _ = instantiate(
             deps.as_mut(),
             mock_env(),
             mock_info("sender", &[]),
@@ -197,11 +207,11 @@ mod tests {
         .unwrap(); // Panics on error
 
         // Handle bind label name request
-        let res = handle(
+        let res = execute(
             deps.as_mut(),
             mock_env(),
             mock_info("sender", &[]),
-            HandleMsg::BindLabelName {},
+            ExecuteMsg::BindLabelName {},
         )
         .unwrap(); // Panics on error
 
@@ -225,7 +235,7 @@ mod tests {
         let mut deps = mock_dependencies(&[]);
 
         // Init so we have state
-        let _ = init(
+        let _ = instantiate(
             deps.as_mut(),
             mock_env(),
             mock_info("sender", &[]),
@@ -236,11 +246,11 @@ mod tests {
         .unwrap(); // Panics on error
 
         // Handle bind label name request
-        let err = handle(
+        let err = execute(
             deps.as_mut(),
             mock_env(),
             mock_info("other", &[]), //  error: not 'sender'
-            HandleMsg::BindLabelName {},
+            ExecuteMsg::BindLabelName {},
         )
         .unwrap_err();
 
@@ -257,7 +267,7 @@ mod tests {
         let mut deps = mock_dependencies(&[]);
 
         // Init so we have state
-        let _ = init(
+        let _ = instantiate(
             deps.as_mut(),
             mock_env(),
             mock_info("sender", &[]),
@@ -268,11 +278,11 @@ mod tests {
         .unwrap(); // Panics on error
 
         // Handle a add label request
-        let res = handle(
+        let res = execute(
             deps.as_mut(),
             mock_env(),
             mock_info("sender", &[]),
-            HandleMsg::AddLabel {
+            ExecuteMsg::AddLabel {
                 text: "text".into(),
             },
         )
@@ -303,7 +313,7 @@ mod tests {
         let mut deps = mock_dependencies(&[]);
 
         // Init so we have state
-        let _ = init(
+        let _ = instantiate(
             deps.as_mut(),
             mock_env(),
             mock_info("sender", &[]),
@@ -314,11 +324,11 @@ mod tests {
         .unwrap(); // Panics on error
 
         // Try to add a label with some other sender address
-        let err = handle(
+        let err = execute(
             deps.as_mut(),
             mock_env(),
             mock_info("other", &[]), // error: not 'sender'
-            HandleMsg::AddLabel {
+            ExecuteMsg::AddLabel {
                 text: "text".into(),
             },
         )
@@ -337,7 +347,7 @@ mod tests {
         let mut deps = mock_dependencies(&[]);
 
         // Init so we have state
-        let _ = init(
+        let _ = instantiate(
             deps.as_mut(),
             mock_env(),
             mock_info("sender", &[]),
@@ -348,11 +358,11 @@ mod tests {
         .unwrap(); // Panics on error
 
         // Handle a delete label request
-        let res = handle(
+        let res = execute(
             deps.as_mut(),
             mock_env(),
             mock_info("sender", &[]),
-            HandleMsg::DeleteLabels {},
+            ExecuteMsg::DeleteLabels {},
         )
         .unwrap();
 
@@ -378,7 +388,7 @@ mod tests {
         let mut deps = mock_dependencies(&[]);
 
         // Init so we have state
-        let _ = init(
+        let _ = instantiate(
             deps.as_mut(),
             mock_env(),
             mock_info("sender", &[]),
@@ -389,11 +399,11 @@ mod tests {
         .unwrap(); // Panics on error
 
         // Try to delete labels with some other sender address
-        let err = handle(
+        let err = execute(
             deps.as_mut(),
             mock_env(),
             mock_info("other", &[]), // error: not 'sender'
-            HandleMsg::DeleteLabels {},
+            ExecuteMsg::DeleteLabels {},
         )
         .unwrap_err();
 
@@ -410,7 +420,7 @@ mod tests {
         let mut deps = mock_dependencies(&[]);
 
         // Init so we have state
-        let _ = init(
+        let _ = instantiate(
             deps.as_mut(),
             mock_env(),
             mock_info("sender", &[]),
@@ -447,7 +457,7 @@ mod tests {
         );
 
         // Init so we have state
-        let _ = init(
+        let _ = instantiate(
             deps.as_mut(),
             mock_env(),
             mock_info("sender", &[]),

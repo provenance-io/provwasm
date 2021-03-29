@@ -5,7 +5,7 @@ use cosmwasm_schema::{export_schema, remove_schemas, schema_for};
 
 use provwasm_std::Marker;
 
-use marker::msg::{HandleMsg, InitMsg, QueryMsg};
+use marker::msg::{ExecuteMsg, InitMsg, QueryMsg};
 use marker::state::State;
 
 fn main() {
@@ -15,7 +15,7 @@ fn main() {
     remove_schemas(&out_dir).unwrap();
 
     export_schema(&schema_for!(InitMsg), &out_dir);
-    export_schema(&schema_for!(HandleMsg), &out_dir);
+    export_schema(&schema_for!(ExecuteMsg), &out_dir);
     export_schema(&schema_for!(QueryMsg), &out_dir);
     export_schema(&schema_for!(State), &out_dir);
     export_schema(&schema_for!(Marker), &out_dir);
