@@ -1,3 +1,4 @@
+#![allow(clippy::field_reassign_with_default)]
 use cosmwasm_std::{CustomQuery, HumanAddr};
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};

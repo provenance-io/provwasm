@@ -1,3 +1,4 @@
+#![allow(clippy::field_reassign_with_default)]
 use cosmwasm_std::{HumanAddr, StdError, StdResult};
 
 /// A helper that ensures string params are non-empty.

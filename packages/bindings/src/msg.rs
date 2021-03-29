@@ -1,3 +1,4 @@
+#![allow(clippy::field_reassign_with_default)]
 use cosmwasm_std::{coin, to_binary, Binary, Coin, CosmosMsg, HumanAddr, StdError, StdResult};
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
