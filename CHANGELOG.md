@@ -2,13 +2,17 @@
 
 ## Unreleased changes
 
+* None
+
+## Releases
+
+### [v0.14.0-beta1](https://github.com/provenance-io/provwasm/tree/v0.14.0-beta1)
+
 * Migrate to cosmwasm v0.14.0-beta1.
 * Cleanup API using Rust API Guidelines.
 * Add contributing document.
 * Expand marker integration test contract.
 * Extend marker withdrawals to support any denom.
-
-## Releases
 
 ### [v0.13.3](https://github.com/provenance-io/provwasm/tree/v0.13.3)
 
