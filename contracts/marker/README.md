@@ -128,7 +128,7 @@ Query the marker by address
 ```bash
 provenanced q wasm contract-state smart \
     tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
-    '{"get_by_address": { "address": "tp1085qhetuel3vxwk7k345w4g4t5qves9tkfcjht"}}' \
+    '{"get_by_address": { "address": "tp1egzwrnxzzlq22ncg3mv8t8zq0zjccwlsdadfdv"}}' \
     --testnet -o json | jq
 ```
 
@@ -258,7 +258,7 @@ Create another marker in a 'proposed' state.
 ```bash
 provenanced tx wasm execute \
     tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
-    '{"create":{"denom":"chickentendies","amount":"100"}}' \
+    '{"create":{"denom":"chickentendies","supply":"100"}}' \
     --from node0 \
     --keyring-backend test \
     --home build/node0 \
