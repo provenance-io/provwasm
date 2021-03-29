@@ -11,11 +11,42 @@ pub struct InitMsg {
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum ExecuteMsg {
-    CreateMarker { supply: Uint128, denom: String },
-    GrantAccess { denom: String },
-    Finalize { denom: String },
-    Activate { denom: String },
-    Withdraw { amount: Uint128, denom: String },
+    Create {
+        supply: Uint128,
+        denom: String,
+    },
+    GrantAccess {
+        denom: String,
+    },
+    Finalize {
+        denom: String,
+    },
+    Activate {
+        denom: String,
+    },
+    Mint {
+        amount: Uint128,
+        denom: String,
+    },
+    Burn {
+        amount: Uint128,
+        denom: String,
+    },
+    Cancel {
+        denom: String,
+    },
+    Destroy {
+        denom: String,
+    },
+    Transfer {
+        amount: Uint128,
+        denom: String,
+        to: HumanAddr,
+    },
+    Withdraw {
+        amount: Uint128,
+        denom: String,
+    },
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
