@@ -1,5 +1,5 @@
 use crate::{AttributeQuerier, MarkerQuerier, NameQuerier};
-use cosmwasm_std::testing::{MockApi, MockQuerier, MockStorage};
+use cosmwasm_std::testing::{MockApi, MockQuerier, MockStorage, MOCK_CONTRACT_ADDR};
 use cosmwasm_std::{
     from_slice, to_binary, Coin, HumanAddr, OwnedDeps, Querier, QuerierResult, QueryRequest,
     StdResult, SystemError, SystemResult,
@@ -11,7 +11,7 @@ use provwasm_std::{Marker, ProvenanceQuery, ProvenanceQueryParams};
 pub fn mock_dependencies(
     contract_balance: &[Coin],
 ) -> OwnedDeps<MockStorage, MockApi, ProvenanceMockQuerier> {
-    let contract_addr = HumanAddr::from("provwasm2contract");
+    let contract_addr = HumanAddr::from(MOCK_CONTRACT_ADDR);
     let base = MockQuerier::new(&[(&contract_addr, contract_balance)]);
     OwnedDeps {
         storage: MockStorage::default(),
@@ -20,8 +20,21 @@ pub fn mock_dependencies(
     }
 }
 
+/// Initializes the mock querier with the account balances provided. NOTE: contract balance must
+/// be set in the balances passed if required.
+pub fn mock_dependencies_with_balances(
+    balances: &[(&HumanAddr, &[Coin])],
+) -> OwnedDeps<MockStorage, MockApi, ProvenanceMockQuerier> {
+    let base = MockQuerier::new(balances);
+    OwnedDeps {
+        storage: MockStorage::default(),
+        api: MockApi::default(),
+        querier: ProvenanceMockQuerier::new(base),
+    }
+}
+
 pub struct ProvenanceMockQuerier {
-    base: MockQuerier,
+    pub base: MockQuerier,
     name: NameQuerier,
     attribute: AttributeQuerier,
     marker: MarkerQuerier,
@@ -39,12 +52,17 @@ impl Querier for ProvenanceMockQuerier {
 
 impl ProvenanceMockQuerier {
     pub fn handle_query(&self, request: &QueryRequest<ProvenanceQuery>) -> QuerierResult {
-        match &request {
+        match request {
             QueryRequest::Custom(custom) => match &custom.params {
                 ProvenanceQueryParams::Attribute(p) => self.attribute.query(&p),
                 ProvenanceQueryParams::Marker(p) => self.marker.query(&p),
                 ProvenanceQueryParams::Name(p) => self.name.query(&p),
             },
+            QueryRequest::Bank(q) => self.base.handle_query(&QueryRequest::Bank(q.clone())),
+            QueryRequest::Staking(q) => self.base.handle_query(&QueryRequest::Staking(q.clone())),
+            QueryRequest::Wasm(q) => self.base.handle_query(&QueryRequest::Wasm(q.clone())),
+            // Note: As of 0.14.0-beta1, no mocking for stargate or ibc queries in base, so we just
+            // return an error.
             _ => SystemResult::Err(SystemError::InvalidRequest {
                 error: "invalid query request type".into(),
                 request: to_binary(&request).unwrap(),
@@ -73,5 +91,32 @@ impl ProvenanceMockQuerier {
 
     pub fn with_markers(&mut self, inputs: Vec<Marker>) {
         self.marker = MarkerQuerier::new(inputs);
+    }
+}
+
+#[cfg(test)]
+mod test {
+    use super::*;
+    use cosmwasm_std::{coin, from_binary, BalanceResponse, BankQuery};
+
+    #[test]
+    fn query_with_balances() {
+        let alice = HumanAddr::from("alice");
+        let amount = coin(12345, "denom");
+        let deps = mock_dependencies_with_balances(&[(&alice, &[amount.clone()])]);
+        let bin = deps
+            .querier
+            .handle_query(
+                &BankQuery::Balance {
+                    address: alice,
+                    denom: "denom".into(),
+                }
+                .into(),
+            )
+            .unwrap()
+            .unwrap();
+
+        let res: BalanceResponse = from_binary(&bin).unwrap();
+        assert_eq!(res.amount, amount);
     }
 }

@@ -2,7 +2,9 @@
 
 ## Unreleased changes
 
-* None
+* Allow bank balances to be set in the provenance mock querier.
+* Make the internal base querier available in smart contract unit tests.
+* Use the correct mock contract address.
 
 ## Releases
 

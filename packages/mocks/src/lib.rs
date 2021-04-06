@@ -10,4 +10,4 @@ pub use common::must_read_binary_file;
 pub use marker::MarkerQuerier;
 pub use name::NameQuerier;
 
-pub use querier::{mock_dependencies, ProvenanceMockQuerier};
+pub use querier::{mock_dependencies, mock_dependencies_with_balances, ProvenanceMockQuerier};
