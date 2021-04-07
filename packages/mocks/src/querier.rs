@@ -1,8 +1,8 @@
 use crate::{AttributeQuerier, MarkerQuerier, NameQuerier};
 use cosmwasm_std::testing::{MockApi, MockQuerier, MockStorage, MOCK_CONTRACT_ADDR};
 use cosmwasm_std::{
-    from_slice, to_binary, Coin, HumanAddr, OwnedDeps, Querier, QuerierResult, QueryRequest,
-    StdResult, SystemError, SystemResult,
+    from_slice, to_binary, Coin, OwnedDeps, Querier, QuerierResult, QueryRequest, StdResult,
+    SystemError, SystemResult,
 };
 use provwasm_std::{Marker, ProvenanceQuery, ProvenanceQueryParams};
 
@@ -11,8 +11,7 @@ use provwasm_std::{Marker, ProvenanceQuery, ProvenanceQueryParams};
 pub fn mock_dependencies(
     contract_balance: &[Coin],
 ) -> OwnedDeps<MockStorage, MockApi, ProvenanceMockQuerier> {
-    let contract_addr = HumanAddr::from(MOCK_CONTRACT_ADDR);
-    let base = MockQuerier::new(&[(&contract_addr, contract_balance)]);
+    let base = MockQuerier::new(&[(MOCK_CONTRACT_ADDR, contract_balance)]);
     OwnedDeps {
         storage: MockStorage::default(),
         api: MockApi::default(),
@@ -21,9 +20,9 @@ pub fn mock_dependencies(
 }
 
 /// Initializes the mock querier with the account balances provided. NOTE: contract balance must
-/// be set in the balances passed if required.
+/// be set in the balances slice passed if required.
 pub fn mock_dependencies_with_balances(
-    balances: &[(&HumanAddr, &[Coin])],
+    balances: &[(&str, &[Coin])],
 ) -> OwnedDeps<MockStorage, MockApi, ProvenanceMockQuerier> {
     let base = MockQuerier::new(balances);
     OwnedDeps {
@@ -101,14 +100,13 @@ mod test {
 
     #[test]
     fn query_with_balances() {
-        let alice = HumanAddr::from("alice");
         let amount = coin(12345, "denom");
-        let deps = mock_dependencies_with_balances(&[(&alice, &[amount.clone()])]);
+        let deps = mock_dependencies_with_balances(&[("alice", &[amount.clone()])]);
         let bin = deps
             .querier
             .handle_query(
                 &BankQuery::Balance {
-                    address: alice,
+                    address: "alice".into(),
                     denom: "denom".into(),
                 }
                 .into(),

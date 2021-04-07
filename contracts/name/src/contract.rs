@@ -1,5 +1,5 @@
 use cosmwasm_std::{
-    attr, to_binary, Deps, DepsMut, Env, HumanAddr, MessageInfo, QueryResponse, Response, StdError,
+    attr, to_binary, Deps, DepsMut, Env, MessageInfo, QueryResponse, Response, StdError,
 };
 
 use provwasm_std::{
@@ -75,7 +75,7 @@ pub fn try_bind_prefix(
     let name = format!("{}.{}", prefix, state.contract_name);
 
     // Create a message that will set the marker pointer.
-    let bind_name_msg = bind_name(&name, &env.contract.address, NameBinding::Restricted)?;
+    let bind_name_msg = bind_name(&name, env.contract.address.clone(), NameBinding::Restricted)?;
 
     // Dispatch message to handler and emit events
     Ok(Response {
@@ -141,8 +141,9 @@ fn try_resolve(deps: Deps, name: String) -> Result<QueryResponse, StdError> {
 }
 
 // Use a ProvenanceQuerier to lookup all names bound to the contract address.
-fn try_lookup(deps: Deps, address: HumanAddr) -> Result<QueryResponse, StdError> {
+fn try_lookup(deps: Deps, address: String) -> Result<QueryResponse, StdError> {
     let querier = ProvenanceQuerier::new(&deps.querier);
+    let address = deps.api.addr_validate(&address)?;
     let names: Names = querier.lookup_names(address)?;
     to_binary(&names)
 }
@@ -318,10 +319,7 @@ mod tests {
 
         // Ensure that we got the expected address.
         let rep: Name = from_binary(&bin).unwrap();
-        assert_eq!(
-            rep.address.as_str(),
-            "tp1y0txdp3sqmxjvfdaa8hfvwcljl8ugcfv26uync"
-        )
+        assert_eq!(rep.address, "tp1y0txdp3sqmxjvfdaa8hfvwcljl8ugcfv26uync")
     }
 
     #[test]
@@ -354,17 +352,15 @@ mod tests {
     fn query_lookup() {
         // Create provenance mock deps with two bound names.
         let mut deps = mock_dependencies(&[]);
-        deps.querier.with_names(&[
-            ("b.pb", "tp1y0txdp3sqmxjvfdaa8hfvwcljl8ugcfv26uync", false),
-            ("a.pb", "tp1y0txdp3sqmxjvfdaa8hfvwcljl8ugcfv26uync", false),
-        ]);
+        deps.querier
+            .with_names(&[("b.pb", "address", false), ("a.pb", "address", false)]);
 
         // Call the smart contract query function to lookup names bound to an address.
         let bin = query(
             deps.as_ref(),
             mock_env(),
             QueryMsg::Lookup {
-                address: "tp1y0txdp3sqmxjvfdaa8hfvwcljl8ugcfv26uync".into(),
+                address: "address".into(),
             },
         )
         .unwrap();
@@ -383,15 +379,14 @@ mod tests {
     fn query_lookup_empty() {
         // Create provenance mock deps with a bound name.
         let mut deps = mock_dependencies(&[]);
-        deps.querier
-            .with_names(&[("a.pb", "tp1y0txdp3sqmxjvfdaa8hfvwcljl8ugcfv26uync", false)]);
+        deps.querier.with_names(&[("a.pb", "address1", false)]);
 
         // Call the smart contract query function to lookup names bound to an address.
         let bin = query(
             deps.as_ref(),
             mock_env(),
             QueryMsg::Lookup {
-                address: "tp1qtwv8qd8jnezaquap4pt64wvluyf59h7w9fn4m".into(),
+                address: "address2".into(),
             },
         )
         .unwrap();

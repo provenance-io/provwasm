@@ -1,4 +1,3 @@
-use cosmwasm_std::HumanAddr;
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
@@ -19,5 +18,5 @@ pub enum ExecuteMsg {
 #[serde(rename_all = "snake_case")]
 pub enum QueryMsg {
     Resolve { name: String },
-    Lookup { address: HumanAddr },
+    Lookup { address: String },
 }

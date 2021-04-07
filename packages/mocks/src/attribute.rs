@@ -1,12 +1,12 @@
 use crate::common::query_result;
-use cosmwasm_std::{to_binary, Binary, HumanAddr, QuerierResult};
+use cosmwasm_std::{to_binary, Addr, Binary, QuerierResult};
 use provwasm_std::{Attribute, AttributeQueryParams, AttributeValueType, Attributes};
 use std::collections::HashMap;
 
 /// A mock for testing provenance account attribute queries.
 #[derive(Clone, Default)]
 pub struct AttributeQuerier {
-    records: HashMap<HumanAddr, Vec<Attribute>>,
+    records: HashMap<Addr, Vec<Attribute>>,
 }
 
 // Helper function to convert string to attribute value type.
@@ -35,11 +35,11 @@ impl AttributeQuerier {
                 value_type: determine_attr_type(t),
             });
         }
-        records.insert(HumanAddr::from(address), attrs);
+        records.insert(Addr::unchecked(address), attrs);
         AttributeQuerier { records }
     }
 
-    fn get_attributes_by_name(&self, address: &HumanAddr, name: &str) -> Attributes {
+    fn get_attributes_by_name(&self, address: &Addr, name: &str) -> Attributes {
         Attributes {
             address: address.clone(),
             attributes: self
@@ -56,7 +56,7 @@ impl AttributeQuerier {
         }
     }
 
-    fn get_attributes(&self, address: &HumanAddr) -> Attributes {
+    fn get_attributes(&self, address: &Addr) -> Attributes {
         Attributes {
             address: address.clone(),
             attributes: self.records.get(address).unwrap_or(&vec![]).to_vec(),
@@ -90,7 +90,7 @@ mod test {
         );
 
         let params = AttributeQueryParams::GetAttributes {
-            address: HumanAddr::from("tp1y0txdp3sqmxjvfdaa8hfvwcljl8ugcfv26uync"),
+            address: Addr::unchecked("tp1y0txdp3sqmxjvfdaa8hfvwcljl8ugcfv26uync"),
             name: String::from("id"),
         };
 
@@ -99,7 +99,7 @@ mod test {
 
         assert_eq!(
             rep.address,
-            HumanAddr::from("tp1y0txdp3sqmxjvfdaa8hfvwcljl8ugcfv26uync")
+            Addr::unchecked("tp1y0txdp3sqmxjvfdaa8hfvwcljl8ugcfv26uync")
         );
         assert_eq!(rep.attributes.len(), 1);
         assert_eq!(
@@ -119,7 +119,7 @@ mod test {
         );
 
         let params = AttributeQueryParams::GetAttributes {
-            address: HumanAddr::from("tp1fhdhzrnpq9rnnyp8r6xvm75t0cmdul3xqyp6sd"),
+            address: Addr::unchecked("tp1fhdhzrnpq9rnnyp8r6xvm75t0cmdul3xqyp6sd"),
             name: String::from("uuid"),
         };
 
@@ -142,7 +142,7 @@ mod test {
         );
 
         let params = AttributeQueryParams::GetAllAttributes {
-            address: HumanAddr::from("tp1y0txdp3sqmxjvfdaa8hfvwcljl8ugcfv26uync"),
+            address: Addr::unchecked("tp1y0txdp3sqmxjvfdaa8hfvwcljl8ugcfv26uync"),
         };
 
         let bin = querier.query(&params).unwrap().unwrap();
@@ -150,7 +150,7 @@ mod test {
 
         assert_eq!(
             rep.address,
-            HumanAddr::from("tp1y0txdp3sqmxjvfdaa8hfvwcljl8ugcfv26uync")
+            Addr::unchecked("tp1y0txdp3sqmxjvfdaa8hfvwcljl8ugcfv26uync")
         );
         assert_eq!(rep.attributes.len(), 3);
     }
@@ -168,7 +168,7 @@ mod test {
         );
 
         let params = AttributeQueryParams::GetAttributes {
-            address: HumanAddr::from("tp1y0txdp3sqmxjvfdaa8hfvwcljl8ugcfv26uync"),
+            address: Addr::unchecked("tp1y0txdp3sqmxjvfdaa8hfvwcljl8ugcfv26uync"),
             name: String::from("id"),
         };
 
@@ -177,7 +177,7 @@ mod test {
 
         assert_eq!(
             rep.address,
-            HumanAddr::from("tp1y0txdp3sqmxjvfdaa8hfvwcljl8ugcfv26uync")
+            Addr::unchecked("tp1y0txdp3sqmxjvfdaa8hfvwcljl8ugcfv26uync")
         );
         assert_eq!(rep.attributes.len(), 2);
     }
@@ -194,7 +194,7 @@ mod test {
         );
 
         let params = AttributeQueryParams::GetAllAttributes {
-            address: HumanAddr::from("tp1fhdhzrnpq9rnnyp8r6xvm75t0cmdul3xqyp6sd"),
+            address: Addr::unchecked("tp1fhdhzrnpq9rnnyp8r6xvm75t0cmdul3xqyp6sd"),
         };
 
         let bin = querier.query(&params).unwrap().unwrap();

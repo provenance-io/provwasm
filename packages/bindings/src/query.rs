@@ -1,5 +1,4 @@
-#![allow(clippy::field_reassign_with_default)]
-use cosmwasm_std::{CustomQuery, HumanAddr};
+use cosmwasm_std::{Addr, CustomQuery};
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
@@ -32,21 +31,21 @@ pub enum ProvenanceQueryParams {
 #[serde(rename_all = "snake_case")]
 pub enum NameQueryParams {
     Resolve { name: String },
-    Lookup { address: HumanAddr },
+    Lookup { address: Addr },
 }
 
 /// Params for attribute queries.
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum AttributeQueryParams {
-    GetAttributes { address: HumanAddr, name: String },
-    GetAllAttributes { address: HumanAddr },
+    GetAttributes { address: Addr, name: String },
+    GetAllAttributes { address: Addr },
 }
 
 /// Params for marker queries.
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum MarkerQueryParams {
-    GetMarkerByAddress { address: HumanAddr },
+    GetMarkerByAddress { address: Addr },
     GetMarkerByDenom { denom: String },
 }
