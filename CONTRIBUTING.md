@@ -153,13 +153,14 @@ by using our
 Whenever possible, use the standards set by the
 [Rust API Guidelines](https://rust-lang.github.io/api-guidelines/).
 
+### Documentation Styleguide
+
+* Use [Markdown](https://daringfireball.net/projects/markdown)
+* Use a Markdown [linter](https://marketplace.visualstudio.com/items?itemName=DavidAnson.vscode-markdownlint)
+
 ## References
 
 The contributing document from the
 [Atom](https://github.com/atom/atom/blob/master/CONTRIBUTING.md) editor project was used as a
 template for this document.
 
-### Documentation Styleguide
-
-* Use [Markdown](https://daringfireball.net/projects/markdown)
-* Use a Markdown [linter](https://marketplace.visualstudio.com/items?itemName=DavidAnson.vscode-markdownlint)
