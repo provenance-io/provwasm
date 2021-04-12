@@ -1,7 +1,7 @@
 # Provenance Smart Contract Tutorial
 
 In this section we will execute a purchase by sending funds to the contract instance. The contract
-will then peform bank transfers to the merchant and fee collection accounts.
+will then perform bank transfers to the merchant and fee collection accounts.
 
 ## Execute Contract
 
@@ -23,7 +23,7 @@ provenanced tx wasm execute \
     --testnet
 ```
 
-To ensure the transfers were sent successfully, first query the `merhcant` account
+To ensure the transfers were sent successfully, first query the `merchant` account
 
 ```bash
 provenanced query bank balances \

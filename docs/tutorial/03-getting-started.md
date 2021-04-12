@@ -35,7 +35,7 @@ cargo install cargo-generate --features vendored-openssl
 Every so often, the Rust toolchain should be updated
 
 ```bash
-# check for udpates
+# check for updates
 rustup check
 # update
 rustup update stable

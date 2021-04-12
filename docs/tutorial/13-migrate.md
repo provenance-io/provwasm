@@ -24,7 +24,6 @@ pub mod error;
 pub mod msg;
 pub mod state;
 
-// Make sure migrations are enabled
 #[cfg(target_arch = "wasm32")]
 cosmwasm_std::create_entry_points_with_migration!(contract);
 ```
@@ -37,6 +36,38 @@ File: `src/msg.rs`
 #[serde(rename_all = "snake_case")]
 pub struct MigrateMsg {
     pub new_fee_percent: Decimal,
+}
+```
+
+File: `src/contract.rs`
+
+```rust
+/// Called when migrating a contract instance to a new code ID.
+pub fn migrate(
+    deps: DepsMut,
+    env: Env,
+    msg: MigrateMsg,
+) -> Result<MigrateResponse, ContractError> {
+    // 1) Ensure the new fee percent is within the updated range.
+    // 2) Get mutable ref to the contract state
+    // 3) Set new fee percent in the state
+    Ok(MigrateResponse::default())
+}
+```
+
+Suggested test stubs
+
+```rust
+#[test]
+fn valid_migrate() {
+    // Test happy-path migrate here
+    todo!()
+}
+
+#[test]
+fn invalid_migrate() {
+    // Test migrate error scenarios here
+    todo!()
 }
 ```
 
@@ -64,40 +95,6 @@ fn main() {
 }
 ```
 
-File: `src/contract.rs`
-
-```rust
-/// Called when migrating a contract instance to a new code ID.
-pub fn migrate(
-    deps: DepsMut,
-    env: Env,
-    info: MessageInfo,
-    msg: MigrateMsg,
-) -> Result<MigrateResponse, ContractError> {
-    // 1) Ensure the new fee percent is within the updated range.
-    // 2) Get mutable ref to the contract state
-    // 3) Ensure the message sender is the fee collector
-    // 4) Set new fee percent in the state
-    Ok(MigrateResponse::default())
-}
-```
-
-Suggested test stubs
-
-```rust
-#[test]
-fn valid_migrate() {
-    // Test happy-path migrate here
-    todo!()
-}
-
-#[test]
-fn invalid_migrate() {
-    // Test migrate error scenarios here
-    todo!()
-}
-```
-
 When complete, use the CLI commands below to migrate the smart contract instance to a new code ID.
 
 ### Store
@@ -110,7 +107,7 @@ To store the new version, re-run the store command
 ```bash
 provenanced tx wasm store tutorial.wasm \
     --source "https://github.com/provenance-io/provwasm/tree/main/contracts/tutorial-migrate" \
-    --builder "cosmwasm/rust-optimizer:0.10.7" \
+    --builder "cosmwasm/rust-optimizer:0.11.0" \
     --instantiate-only-address $(provenanced keys show -a feebucket --keyring-backend test --home build/node0 --testnet) \
     --from feebucket \
     --keyring-backend test \
@@ -140,14 +137,14 @@ Should output JSON similar to
     "creator": "tp10vy2n34wgysds98fmj44jvhm5ugepd4w3pz9s9",
     "data_hash": "B2C5A7BC76D636BEAD7FC4EB51EC77E3F73955B1C8A756AE1FEA5AAFE804912A",
     "source": "https://github.com/provenance-io/provwasm/tree/main/contracts/tutorial",
-    "builder": "cosmwasm/rust-optimizer:0.10.7"
+    "builder": "cosmwasm/rust-optimizer:0.11.0"
   },
   {
     "id": 2,
     "creator": "tp10vy2n34wgysds98fmj44jvhm5ugepd4w3pz9s9",
     "data_hash": "EC22D0FEA3BA5D5368259E34234265EB4A767941212E48CDBD00C5460363C379",
     "source": "https://github.com/provenance-io/provwasm/tree/main/contracts/tutorial-migrate",
-    "builder": "cosmwasm/rust-optimizer:0.10.7"
+    "builder": "cosmwasm/rust-optimizer:0.11.0"
   }
 ]
 ```
@@ -187,7 +184,7 @@ provenanced tx wasm migrate \
     --home build/node0/provenance \
     --chain-id chain-local \
     --gas auto \
-    --fees 3500vspn \
+    --fees 3500nhash \
     --broadcast-mode block \
     --yes \
     --testnet
@@ -201,7 +198,7 @@ To verify, query for contract instances under the new code ID
 provenance q wasm list-contract-by-code 2 | jq
 ```
 
-Should output JSON simimlar to
+Should output JSON similar to
 
 ```json
 [

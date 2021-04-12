@@ -98,7 +98,7 @@ attributes can be added and deleted in later operations.
 provenanced tx wasm execute \
     tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
     '{"bind_label_name":{}}' \
-     --from node0 \
+    --from node0 \
     --keyring-backend test \
     --home build/node0 \
     --chain-id chain-local \
@@ -122,7 +122,7 @@ Add labels to an account.
 provenanced tx wasm execute \
     tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
     '{"add_label":{"text":"hello"}}' \
-     --from node0 \
+    --from node0 \
     --keyring-backend test \
     --home build/node0 \
     --chain-id chain-local \
@@ -137,7 +137,7 @@ provenanced tx wasm execute \
 provenanced tx wasm execute \
     tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
     '{"add_label":{"text":"wasm"}}' \
-     --from node0 \
+    --from node0 \
     --keyring-backend test \
     --home build/node0 \
     --chain-id chain-local \
@@ -161,7 +161,7 @@ Delete the labels from an account.
 provenanced tx wasm execute \
     tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
     '{"delete_labels":{}}' \
-     --from node0 \
+    --from node0 \
     --keyring-backend test \
     --home build/node0 \
     --chain-id chain-local \

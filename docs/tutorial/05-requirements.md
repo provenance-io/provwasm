@@ -16,19 +16,19 @@ In response to messages received, a smart contract can modify internal state and
 but can only affect other contracts and modules by passing further messages.
 
 Because of this, it is useful to define functionality in terms of the types of messages the smart
-conctract can handle. There are four types of message handlers.
+contract can handle. There are four types of message handlers.
 
-- Init: called when contracts are instantiated; setting the initial contract state.
-- Handle: performs actions (change state, send funds, send more messages, generate events, etc).
+- Instantiate: called when contracts are instantiated; setting the initial contract state.
+- Execute: performs actions (change state, send funds, send more messages, generate events, etc).
 - Query: access the state of the contract, other contracts, and blockchain modules.
 - Migrate(optional): called when a contract is migrated to a new code instance.
 
 The tutorial contract requires the following handler functions and messages.
 
-## Init
+## Instantiate
 
 ```rust
-pub fn init(
+pub fn instantiate(
     deps: DepsMut,
     env: Env,
     info: MessageInfo,
@@ -38,7 +38,7 @@ pub fn init(
 
 Params
 
-- `DepsMut` - Holds external contract dependencies - mutable storage, address, and querier APIs.
+- `DepsMut` - Holds external contract dependencies - mutable storage, as well as address, crypto, and querier APIs.
 - `Env` - Contains blockchain environment info - block height, block time, and the contract address.
 - `MessageInfo` - Contains info for authorization - identity of the caller, and payment.
 - `InitMsg` - The user-defined message sent to initialize the contract
@@ -58,23 +58,23 @@ The following validations must be performed during initialization.
 - the merchant address cannot equal the fee collection address
 - the contract name must be available (not bound)
 
-## Handle
+## Execute
 
 ```rust
-pub fn handle(
+pub fn execute(
     deps: DepsMut,
     env: Env,
     info: MessageInfo,
-    msg: HandleMsg,
+    msg: ExecuteMsg,
 ) -> ...
 ```
 
 Params
 
-- `DepsMut` - Holds external contract dependencies - mutable storage, address, and querier APIs.
+- `DepsMut` - Holds external contract dependencies - mutable storage, as well as address, crypto, and querier APIs.
 - `Env` - Contains blockchain environment info - block height, block time, and the contract address.
 - `MessageInfo` - Contains info for authorization - identity of the caller, and payment.
-- `HandleMsg` - The user-defined message for purchases.
+- `ExecuteMsg` - The user-defined message for purchases.
 
 The following fields are required for purchases
 
@@ -104,9 +104,9 @@ pub fn query(
 
 Params
 
-- `Deps` - Holds external contract dependencies - _immutable_ storage, address, and querier APIs.
+- `Deps` - Holds external contract dependencies - _immutable_ storage, address, crypto, and querier APIs.
 - `Env` - Contains blockchain environment info - block height, block time, and the contract address.
-- `QueryMsg` - The user-defined parms sent to query the contract
+- `QueryMsg` - The user-defined params sent to query the contract
 
 There are no params for the tutorial query, so `QueryMsg` shall contain an empty request object.
 

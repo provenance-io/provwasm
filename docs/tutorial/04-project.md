@@ -6,7 +6,7 @@ CosmWasm has a template repo that can be used as a starting point for developmen
 tutorial project, run
 
 ```bash
-cargo generate --git https://github.com/CosmWasm/cosmwasm-template.git --branch 0.13 --name tutorial
+cargo generate --git https://github.com/CosmWasm/cosmwasm-template.git --branch 0.14 --name tutorial
 ```
 
 Navigate to the project
@@ -28,16 +28,16 @@ Set contract dependencies
 
 ```toml
 [dependencies]
-provwasm-std = { version = "0.13.2" }
-cosmwasm-std = { version = "0.13.2" }
-cosmwasm-storage = { version = "0.13.2" }
-schemars = "0.7"
+provwasm-std = { git = "https://github.com/provenance-io/provwasm", branch = "wip/v0.14.0-beta2",  version = "0.14.0-beta2"}
+cosmwasm-std = { version = "0.14.0-beta2" }
+cosmwasm-storage = { version = "0.14.0-beta2" }
+schemars = "0.8.1"
 serde = { version = "1.0.103", default-features = false, features = ["derive"] }
-thiserror = { version = "1.0.21" }
+thiserror = { version = "1.0.20" }
 
 [dev-dependencies]
-provwasm-mocks = { version = "0.13.2" }
-cosmwasm-schema = { version = "0.13.2" }
+provwasm-mocks = { git = "https://github.com/provenance-io/provwasm", branch = "wip/v0.14.0-beta2", version = "0.14.0-beta2" }
+cosmwasm-schema = { version = "0.14.0-beta2" }
 ```
 
 Reset the README and clear out the current JSON schema artifacts.
