@@ -154,11 +154,13 @@ pub fn query(deps: Deps, env: Env, msg: QueryMsg) -> Result<QueryResponse, StdEr
 mod tests {
     use super::*;
     use cosmwasm_std::testing::{mock_env, mock_info, MOCK_CONTRACT_ADDR};
-    use cosmwasm_std::{from_binary, CosmosMsg};
+    use cosmwasm_std::Api;
+    use cosmwasm_std::{from_binary, CosmosMsg, Decimal, Uint128};
     use provwasm_mocks::mock_dependencies;
     use provwasm_std::{
         AttributeMsgParams, AttributeValueType, NameMsgParams, ProvenanceMsgParams,
     };
+    use std::str::FromStr;
 
     #[test]
     fn init_test() {
@@ -480,5 +482,16 @@ mod tests {
                 timestamp: 123456789
             }
         )
+    }
+
+    #[test]
+    fn test_decimal() {
+        let deps = mock_dependencies(&[]);
+        let amount = Uint128(10);
+        let multiplier: Decimal = Decimal::from_str("1.29").unwrap();
+        let res: Uint128 = amount * multiplier;
+
+        let message = format!("{}", res);
+        deps.api.debug(&message)
     }
 }
