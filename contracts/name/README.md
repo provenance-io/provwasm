@@ -57,7 +57,7 @@ Store the name integration test smart contract WASM in provenance
 ```bash
 provenanced tx wasm store name.wasm \
     --source "https://github.com/provenance-io/provwasm/tree/main/contracts/name" \
-    --builder "cosmwasm/rust-optimizer:0.10.9" \
+    --builder "cosmwasm/rust-optimizer:0.11.0" \
     --instantiate-only-address $(provenanced keys show -a node0 --home build/node0 --keyring-backend test --testnet) \
     --from node0 \
     --keyring-backend test \
