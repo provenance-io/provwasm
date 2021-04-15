@@ -28,16 +28,16 @@ Set contract dependencies
 
 ```toml
 [dependencies]
-provwasm-std = { git = "https://github.com/provenance-io/provwasm", branch = "wip/v0.14.0-beta3",  version = "0.14.0-beta3"}
-cosmwasm-std = { version = "0.14.0-beta3" }
-cosmwasm-storage = { version = "0.14.0-beta3" }
+provwasm-std = { version = "0.14.0"}
+cosmwasm-std = { version = "0.14.0" }
+cosmwasm-storage = { version = "0.14.0" }
 schemars = "0.8.1"
 serde = { version = "1.0.103", default-features = false, features = ["derive"] }
 thiserror = { version = "1.0.20" }
 
 [dev-dependencies]
-provwasm-mocks = { git = "https://github.com/provenance-io/provwasm", branch = "wip/v0.14.0-beta3", version = "0.14.0-beta3" }
-cosmwasm-schema = { version = "0.14.0-beta3" }
+provwasm-mocks = { version = "0.14.0" }
+cosmwasm-schema = { version = "0.14.0" }
 ```
 
 Reset the README and clear out the current JSON schema artifacts.
