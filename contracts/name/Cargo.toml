@@ -28,12 +28,12 @@ backtraces = []
 
 [dependencies]
 provwasm-std = { path = "../../packages/bindings" }
-cosmwasm-std = { version = "0.14.0-beta4" }
-cosmwasm-storage = { version = "0.14.0-beta4" }
+cosmwasm-std = { version = "0.14.0-rc1" }
+cosmwasm-storage = { version = "0.14.0-rc1" }
 schemars = "0.8.1"
 serde = { version = "1.0.103", default-features = false, features = ["derive"] }
 thiserror = { version = "1.0.20" }
 
 [dev-dependencies]
 provwasm-mocks = { path = "../../packages/mocks" }
-cosmwasm-schema = { version = "0.14.0-beta4" }
+cosmwasm-schema = { version = "0.14.0-rc1" }

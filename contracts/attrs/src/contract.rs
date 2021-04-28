@@ -97,7 +97,7 @@ fn try_add_label(
     text: String,
 ) -> Result<Response<ProvenanceMsg>, ContractError> {
     // Init then pass a label struct to create a JSON attribute message.
-    let timestamp = env.block.time;
+    let timestamp = env.block.time.nanos();
     let label = Label { text, timestamp };
     let msg = add_json_attribute(env.contract.address, &attr_name, &label)?;
 
