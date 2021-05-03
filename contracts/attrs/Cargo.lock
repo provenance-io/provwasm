@@ -82,9 +82,9 @@ dependencies = [
 
 [[package]]
 name = "cosmwasm-schema"
-version = "0.14.0-rc1"
+version = "0.14.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c2f8b684b189b2164040400e3816207239e3d8172ca281bfa9dd74140851f164"
+checksum = "d6a9a6a4ca3b4d7b56f943312a65857cdfc84424f9c2773889f4cd17f36fba61"
 dependencies = [
  "schemars",
  "serde_json",
@@ -107,9 +107,9 @@ dependencies = [
 
 [[package]]
 name = "cosmwasm-storage"
-version = "0.14.0-rc1"
+version = "0.14.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e3e27454f019e613c921dfb6d795957f5bb1dff153ed6d2de4b1e4205f20f7ef"
+checksum = "13b03dc324ef7b5bce224e096d67bc67e12aadc8fbacb7c8c796eac40cf7c4b8"
 dependencies = [
  "cosmwasm-std",
  "serde",
