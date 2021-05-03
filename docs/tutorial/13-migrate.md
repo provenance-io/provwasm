@@ -47,11 +47,11 @@ pub fn migrate(
     deps: DepsMut,
     env: Env,
     msg: MigrateMsg,
-) -> Result<MigrateResponse, ContractError> {
+) -> Result<Response, ContractError> {
     // 1) Ensure the new fee percent is within the updated range.
     // 2) Get mutable ref to the contract state
     // 3) Set new fee percent in the state
-    Ok(MigrateResponse::default())
+    Ok(Response::default())
 }
 ```
 
