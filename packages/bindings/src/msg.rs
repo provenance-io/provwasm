@@ -190,7 +190,7 @@ pub fn add_attribute<H: Into<Addr>, S: Into<String>, B: Into<Binary>>(
 ///     text: String,
 /// ) -> StdResult<Response<ProvenanceMsg>> {
 ///     let attr_name = String::from("label.my-contract.sc.pb");
-///     let timestamp = env.block.time;
+///     let timestamp = env.block.time.nanos();
 ///     let label = Label { text, timestamp };
 ///     let msg = add_json_attribute(address, &attr_name, &label)?;
 ///     let mut res = Response::new();
