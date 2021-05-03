@@ -2,11 +2,16 @@
 
 ## Unreleased changes
 
+* None
+
+## Releases
+
+### [v0.14.0](https://github.com/provenance-io/provwasm/tree/v0.14.0)
+
+* Upgrade to cosmwasm v0.14.0
 * Allow bank balances to be set in the provenance mock querier.
 * Make the internal base querier available in smart contract unit tests.
 * Use the correct mock contract address.
-
-## Releases
 
 ### [v0.14.0-beta1](https://github.com/provenance-io/provwasm/tree/v0.14.0-beta1)
 
