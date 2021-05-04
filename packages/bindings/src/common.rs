@@ -1,5 +1,4 @@
-#![allow(clippy::field_reassign_with_default)]
-use cosmwasm_std::{HumanAddr, StdError, StdResult};
+use cosmwasm_std::{Addr, StdError, StdResult};
 
 /// A helper that ensures string params are non-empty.
 pub fn validate_string<S: Into<String>>(input: S, param_name: &str) -> StdResult<String> {
@@ -13,9 +12,9 @@ pub fn validate_string<S: Into<String>>(input: S, param_name: &str) -> StdResult
 }
 
 /// A helper that ensures address params are non-empty.
-pub fn validate_address<H: Into<HumanAddr>>(input: H) -> StdResult<HumanAddr> {
-    let h: HumanAddr = input.into();
-    if h.trim().is_empty() {
+pub fn validate_address<H: Into<Addr>>(input: H) -> StdResult<Addr> {
+    let h: Addr = input.into();
+    if h.to_string().is_empty() {
         Err(StdError::generic_err("address must not be empty"))
     } else {
         Ok(h)
@@ -40,7 +39,7 @@ mod test {
 
     #[test]
     fn validate_address_empty() {
-        let empty = HumanAddr::from("");
+        let empty = Addr::unchecked("");
         let err = validate_address(empty).unwrap_err();
         match err {
             StdError::GenericErr { msg, .. } => {

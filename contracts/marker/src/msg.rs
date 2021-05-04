@@ -1,4 +1,4 @@
-use cosmwasm_std::{HumanAddr, Uint128};
+use cosmwasm_std::Uint128;
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
@@ -41,7 +41,7 @@ pub enum ExecuteMsg {
     Transfer {
         amount: Uint128,
         denom: String,
-        to: HumanAddr,
+        to: String,
     },
     Withdraw {
         amount: Uint128,
@@ -52,6 +52,6 @@ pub enum ExecuteMsg {
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum QueryMsg {
-    GetByAddress { address: HumanAddr },
+    GetByAddress { address: String },
     GetByDenom { denom: String },
 }

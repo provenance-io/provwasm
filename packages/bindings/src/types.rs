@@ -1,5 +1,4 @@
-#![allow(clippy::field_reassign_with_default)]
-use cosmwasm_std::{Binary, Coin, Decimal, HumanAddr};
+use cosmwasm_std::{Addr, Binary, Coin, Decimal};
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
@@ -24,7 +23,7 @@ pub struct Names {
 #[serde(rename_all = "snake_case")]
 pub struct Name {
     pub name: String,
-    pub address: HumanAddr,
+    pub address: Addr,
     pub restricted: bool,
 }
 
@@ -47,7 +46,7 @@ impl Default for NameBinding {
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub struct Attributes {
-    pub address: HumanAddr,
+    pub address: Addr,
     #[serde(default)]
     pub attributes: Vec<Attribute>,
 }
@@ -76,7 +75,7 @@ pub struct Attribute {
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub struct Marker {
-    pub address: HumanAddr,
+    pub address: Addr,
     #[serde(default)]
     pub coins: Vec<Coin>,
     pub account_number: u64,
@@ -99,9 +98,9 @@ impl Marker {
     }
 
     /// Returns the human address for the marker manager if defined.
-    pub fn get_manager(&self) -> Option<HumanAddr> {
+    pub fn get_manager(&self) -> Option<Addr> {
         if !self.manager.is_empty() {
-            let address = HumanAddr::from(self.manager.clone());
+            let address = Addr::unchecked(self.manager.clone());
             Some(address)
         } else {
             None
@@ -114,7 +113,7 @@ impl Marker {
 #[serde(rename_all = "snake_case")]
 pub struct AccessGrant {
     pub permissions: Vec<MarkerAccess>,
-    pub address: HumanAddr,
+    pub address: Addr,
 }
 
 /// Marker permission types.

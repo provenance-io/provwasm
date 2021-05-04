@@ -1,5 +1,5 @@
 use crate::common::{query_error, query_result};
-use cosmwasm_std::{to_binary, HumanAddr, QuerierResult};
+use cosmwasm_std::{to_binary, Addr, QuerierResult};
 use provwasm_std::{Marker, MarkerQueryParams};
 use std::collections::HashMap;
 
@@ -7,7 +7,7 @@ use std::collections::HashMap;
 #[derive(Clone, Default)]
 pub struct MarkerQuerier {
     denom_records: HashMap<String, Marker>,
-    address_records: HashMap<HumanAddr, Marker>,
+    address_records: HashMap<Addr, Marker>,
 }
 
 impl MarkerQuerier {
@@ -30,7 +30,7 @@ impl MarkerQuerier {
             .map(|marker| query_result(to_binary(&marker)))
     }
 
-    fn get_marker_by_address(&self, address: &HumanAddr) -> Option<QuerierResult> {
+    fn get_marker_by_address(&self, address: &Addr) -> Option<QuerierResult> {
         self.address_records
             .get(address)
             .map(|marker| query_result(to_binary(&marker)))
@@ -90,7 +90,7 @@ mod test {
 
         // Ensure the manager address is set on proposed marker.
         assert_eq!(marker.status, MarkerStatus::Proposed);
-        let expected_manager = HumanAddr::from("tp15rrl3qjafxzlzguu5x29xh29pam35uetkpnnph");
+        let expected_manager = Addr::unchecked("tp15rrl3qjafxzlzguu5x29xh29pam35uetkpnnph");
         assert_eq!(marker.get_manager(), Some(expected_manager))
     }
 
@@ -101,7 +101,7 @@ mod test {
         let querier = MarkerQuerier::new(vec![expected_marker.clone()]);
 
         let params = MarkerQueryParams::GetMarkerByAddress {
-            address: HumanAddr::from("tp18vmzryrvwaeykmdtu6cfrz5sau3dhc5c73ms0u"),
+            address: Addr::unchecked("tp18vmzryrvwaeykmdtu6cfrz5sau3dhc5c73ms0u"),
         };
         let bin = querier.query(&params).unwrap().unwrap();
         let marker: Marker = from_binary(&bin).unwrap();

@@ -1,15 +1,15 @@
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
-use cosmwasm_std::{HumanAddr, Storage};
+use cosmwasm_std::{Addr, Storage};
 use cosmwasm_storage::{singleton, singleton_read, ReadonlySingleton, Singleton};
 
 pub static CONFIG_KEY: &[u8] = b"config";
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 pub struct State {
-    pub contract_owner: HumanAddr, // Ensures only sender from contract init can call handle.
-    pub contract_name: String,     // The root name of the contract.
+    pub contract_owner: Addr, // Ensures only sender from contract init can call handle.
+    pub contract_name: String, // The root name of the contract.
 }
 
 pub fn config(storage: &mut dyn Storage) -> Singleton<State> {

@@ -30,4 +30,4 @@ The second will deal with deploying smart contracts to the Provenance Blockchain
 
 Continue to the [Introduction](02-intro.md) for a high-level background of smart contracts.
 
-To dive right in, proceed to the [Getting Startred](03-getting-started.md) section.
+To dive right in, proceed to the [Getting Started](03-getting-started.md) section.

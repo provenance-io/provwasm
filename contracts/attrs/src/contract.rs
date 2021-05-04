@@ -7,7 +7,9 @@ use provwasm_std::{
 };
 
 use crate::error::ContractError;
-use crate::msg::{ExecuteMsg, InitMsg, Label, LabelNameResponse, LabelsResponse, QueryMsg};
+use crate::msg::{
+    ExecuteMsg, InitMsg, Label, LabelNameResponse, LabelsResponse, MigrateMsg, QueryMsg,
+};
 use crate::state::{config, config_read, State};
 
 /// Initialize the smart contract config state and bind a name to the contract address.
@@ -97,7 +99,7 @@ fn try_add_label(
     text: String,
 ) -> Result<Response<ProvenanceMsg>, ContractError> {
     // Init then pass a label struct to create a JSON attribute message.
-    let timestamp = env.block.time;
+    let timestamp = env.block.time.nanos();
     let label = Label { text, timestamp };
     let msg = add_json_attribute(env.contract.address, &attr_name, &label)?;
 
@@ -150,15 +152,22 @@ pub fn query(deps: Deps, env: Env, msg: QueryMsg) -> Result<QueryResponse, StdEr
     }
 }
 
+/// Called when migrating a contract instance to a new code ID.
+pub fn migrate(_deps: DepsMut, _env: Env, _msg: MigrateMsg) -> Result<Response, ContractError> {
+    Ok(Response::default())
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
     use cosmwasm_std::testing::{mock_env, mock_info, MOCK_CONTRACT_ADDR};
-    use cosmwasm_std::{from_binary, CosmosMsg};
+    use cosmwasm_std::Api;
+    use cosmwasm_std::{from_binary, CosmosMsg, Decimal, Uint128};
     use provwasm_mocks::mock_dependencies;
     use provwasm_std::{
         AttributeMsgParams, AttributeValueType, NameMsgParams, ProvenanceMsgParams,
     };
+    use std::str::FromStr;
 
     #[test]
     fn init_test() {
@@ -480,5 +489,16 @@ mod tests {
                 timestamp: 123456789
             }
         )
+    }
+
+    #[test]
+    fn test_decimal() {
+        let deps = mock_dependencies(&[]);
+        let amount = Uint128(10);
+        let multiplier: Decimal = Decimal::from_str("1.29").unwrap();
+        let res: Uint128 = amount * multiplier;
+
+        let message = format!("{}", res);
+        deps.api.debug(&message)
     }
 }

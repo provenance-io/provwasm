@@ -11,7 +11,8 @@
         "bind_label_name": {
           "type": "object"
         }
-      }
+      },
+      "additionalProperties": false
     },
     {
       "type": "object",
@@ -30,7 +31,8 @@
             }
           }
         }
-      }
+      },
+      "additionalProperties": false
     },
     {
       "type": "object",
@@ -41,7 +43,8 @@
         "delete_labels": {
           "type": "object"
         }
-      }
+      },
+      "additionalProperties": false
     }
   ]
 }

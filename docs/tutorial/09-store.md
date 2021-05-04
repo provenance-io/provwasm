@@ -19,7 +19,7 @@ Then, from the provenance directory, store the optimized smart contract WASM in 
 ```bash
 provenanced tx wasm store tutorial.wasm \
     --source "https://github.com/provenance-io/provwasm/tree/main/contracts/tutorial" \
-    --builder "cosmwasm/rust-optimizer:0.10.7" \
+    --builder "cosmwasm/rust-optimizer:0.11.0" \
     --instantiate-only-address $(provenanced keys show -a feebucket --keyring-backend test --home build/node0 --testnet) \
     --from feebucket \
     --keyring-backend test \
@@ -48,7 +48,7 @@ Should produce output that resembles (field values may differ) the following.
       "creator": "tp18ef6kll9ffpz06ergm6v9xyqtn7pzg9vux8e0z",
       "data_hash": "9BAE475D812850DF789ACB8252582FDCFB6627593BC44234D75F6002E48DFFD5",
       "source": "https://github.com/provenance-io/provwasm/tree/main/contracts/tutorial",
-      "builder": "cosmwasm/rust-optimizer:0.10.7"
+      "builder": "cosmwasm/rust-optimizer:0.11.0"
     }
   ],
   "pagination": {}

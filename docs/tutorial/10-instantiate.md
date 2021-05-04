@@ -13,7 +13,7 @@ provenanced keys show -a merchant --home build/node0 --keyring-backend test --te
 tp1u3zw79zhzxv8znpkdy35u6npe7aa45szt2ccge
 ```
 
-Then, create a JSON message using this adresss with configuration values (formatted here for
+Then, create a JSON message using this address with configuration values (formatted here for
 readability).
 
 ```json

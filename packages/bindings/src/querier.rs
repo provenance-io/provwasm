@@ -1,4 +1,4 @@
-use cosmwasm_std::{from_binary, HumanAddr, QuerierWrapper, StdError, StdResult};
+use cosmwasm_std::{from_binary, Addr, QuerierWrapper, StdError, StdResult};
 use serde::de::DeserializeOwned;
 
 use crate::common::{validate_address, validate_string};
@@ -68,18 +68,18 @@ impl<'a> ProvenanceQuerier<'a> {
     ///
     /// ```rust
     /// // Imports required
-    /// use cosmwasm_std::{Deps, HumanAddr, QueryResponse, StdResult};
+    /// use cosmwasm_std::{Addr, Deps, QueryResponse, StdResult};
     /// use provwasm_std::{Names, ProvenanceQuerier};
     ///
     /// // Lookup all names bound to an address.
-    /// fn query_lookup_names(deps: Deps, address: HumanAddr) -> StdResult<QueryResponse> {
+    /// fn query_lookup_names(deps: Deps, address: Addr) -> StdResult<QueryResponse> {
     ///     let querier = ProvenanceQuerier::new(&deps.querier);
-    ///     let names: Names = querier.lookup_names(&address)?;
+    ///     let names: Names = querier.lookup_names(address)?;
     ///     // Do something with names.records ...
     ///     todo!()
     /// }
     /// ```
-    pub fn lookup_names<H: Into<HumanAddr>>(&self, address: H) -> StdResult<Names> {
+    pub fn lookup_names<H: Into<Addr>>(&self, address: H) -> StdResult<Names> {
         self.query_name_module(NameQueryParams::Lookup {
             address: validate_address(address)?,
         })
@@ -102,19 +102,19 @@ impl<'a> ProvenanceQuerier<'a> {
     ///
     /// ```rust
     /// // Imports required
-    /// use cosmwasm_std::{Deps, HumanAddr, QueryResponse, StdResult};
+    /// use cosmwasm_std::{Addr, Deps, QueryResponse, StdResult};
     /// use provwasm_std::{Attributes, ProvenanceQuerier};
     ///
     /// // Query all attributes added to an account.
-    /// pub fn try_query_attributes(deps: Deps, address: HumanAddr) -> StdResult<QueryResponse> {
+    /// pub fn try_query_attributes(deps: Deps, address: Addr) -> StdResult<QueryResponse> {
     ///     let querier = ProvenanceQuerier::new(&deps.querier);
     ///     let none: Option<String> = None;
-    ///     let res: Attributes = querier.get_attributes(&address, none)?;
+    ///     let res: Attributes = querier.get_attributes(address, none)?;
     ///     // Do something with res.attributes ...
     ///     todo!()
     /// }
     /// ```
-    pub fn get_attributes<H: Into<HumanAddr>, S: Into<String>>(
+    pub fn get_attributes<H: Into<Addr>, S: Into<String>>(
         &self,
         address: H,
         name: Option<S>,
@@ -136,16 +136,16 @@ impl<'a> ProvenanceQuerier<'a> {
     ///
     /// ```rust
     /// // Imports required
-    /// use cosmwasm_std::{Deps, HumanAddr, QueryResponse, StdResult};
+    /// use cosmwasm_std::{Addr, Deps, QueryResponse, StdResult};
     /// use provwasm_std::ProvenanceQuerier;
     /// use schemars::JsonSchema;
     /// use serde::{Deserialize, Serialize};
     ///
     /// // Query all label attributes added to an account.
-    /// pub fn query_labels(deps: Deps, address: HumanAddr) -> StdResult<QueryResponse> {
+    /// pub fn query_labels(deps: Deps, address: Addr) -> StdResult<QueryResponse> {
     ///     let attr_name = String::from("label.my-contract.sc.pb");
     ///     let querier = ProvenanceQuerier::new(&deps.querier);
-    ///     let labels: Vec<Label> = querier.get_json_attributes(&address, &attr_name)?;
+    ///     let labels: Vec<Label> = querier.get_json_attributes(address, &attr_name)?;
     ///     // Do something with labels...
     ///     todo!()
     /// }
@@ -158,7 +158,7 @@ impl<'a> ProvenanceQuerier<'a> {
     ///     pub timestamp: u64,
     /// }
     /// ```
-    pub fn get_json_attributes<H: Into<HumanAddr>, S: Into<String>, T: DeserializeOwned>(
+    pub fn get_json_attributes<H: Into<Addr>, S: Into<String>, T: DeserializeOwned>(
         &self,
         address: H,
         name: S,
@@ -194,17 +194,17 @@ impl<'a> ProvenanceQuerier<'a> {
     /// ```rust
     /// // Imports required
     /// use provwasm_std::{ProvenanceQuerier, Marker};
-    /// use cosmwasm_std::{Deps, HumanAddr, QueryResponse, StdResult};
+    /// use cosmwasm_std::{Addr, Deps, QueryResponse, StdResult};
     ///
     /// // Query a marker by address.
-    /// fn try_get_marker_by_address(deps: Deps, address: HumanAddr) -> StdResult<QueryResponse> {
+    /// fn try_get_marker_by_address(deps: Deps, address: Addr) -> StdResult<QueryResponse> {
     ///     let querier = ProvenanceQuerier::new(&deps.querier);
-    ///     let marker: Marker = querier.get_marker_by_address(&address)?;
+    ///     let marker: Marker = querier.get_marker_by_address(address)?;
     ///     // Do something with marker ...
     ///     todo!()
     /// }
     /// ```
-    pub fn get_marker_by_address<H: Into<HumanAddr>>(&self, address: H) -> StdResult<Marker> {
+    pub fn get_marker_by_address<H: Into<Addr>>(&self, address: H) -> StdResult<Marker> {
         self.query_marker(MarkerQueryParams::GetMarkerByAddress {
             address: validate_address(address)?,
         })

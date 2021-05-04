@@ -11,7 +11,8 @@
         "get_label_name": {
           "type": "object"
         }
-      }
+      },
+      "additionalProperties": false
     },
     {
       "type": "object",
@@ -22,7 +23,8 @@
         "get_labels": {
           "type": "object"
         }
-      }
+      },
+      "additionalProperties": false
     }
   ]
 }

@@ -1,5 +1,5 @@
 use crate::common::{query_error, query_result};
-use cosmwasm_std::{to_binary, HumanAddr, QuerierResult};
+use cosmwasm_std::{to_binary, Addr, QuerierResult};
 use provwasm_std::{Name, NameQueryParams, Names};
 use std::collections::HashMap;
 
@@ -18,7 +18,7 @@ impl NameQuerier {
                 name.clone(),
                 Name {
                     name,
-                    address: HumanAddr::from(*a),
+                    address: Addr::unchecked(*a),
                     restricted: *r,
                 },
             );
@@ -32,13 +32,13 @@ impl NameQuerier {
         })
     }
 
-    fn lookup_names(&self, address: &HumanAddr) -> Names {
+    fn lookup_names(&self, address: &Addr) -> Names {
         Names {
             records: self
                 .records
                 .values()
                 .cloned()
-                .filter(|r| !r.address.is_empty() && r.address == *address)
+                .filter(|r| !r.address.to_string().is_empty() && r.address == *address)
                 .collect(),
         }
     }
@@ -78,7 +78,7 @@ mod test {
         assert_eq!(rep.records.len(), 1);
         assert_eq!(
             rep.records[0].address,
-            HumanAddr::from("tp1y0txdp3sqmxjvfdaa8hfvwcljl8ugcfv26uync")
+            Addr::unchecked("tp1y0txdp3sqmxjvfdaa8hfvwcljl8ugcfv26uync")
         )
     }
 
@@ -108,7 +108,7 @@ mod test {
         ]);
 
         let params = NameQueryParams::Lookup {
-            address: HumanAddr::from("tp1238aw49q0nvz6nyj86mxgppn0wt60td5ngfhk9"),
+            address: Addr::unchecked("tp1238aw49q0nvz6nyj86mxgppn0wt60td5ngfhk9"),
         };
         let bin = querier.query(&params).unwrap().unwrap();
         let rep: Names = from_binary(&bin).unwrap();
@@ -126,7 +126,7 @@ mod test {
         ]);
 
         let params = NameQueryParams::Lookup {
-            address: HumanAddr::from("tp1238aw49q0nvz6nyj86mxgppn0wt60td5ngfhk9"),
+            address: Addr::unchecked("tp1238aw49q0nvz6nyj86mxgppn0wt60td5ngfhk9"),
         };
         let bin = querier.query(&params).unwrap().unwrap();
         let rep: Names = from_binary(&bin).unwrap();

@@ -1,5 +1,5 @@
 use cosmwasm_std::{
-    attr, to_binary, Deps, DepsMut, Env, HumanAddr, MessageInfo, QueryResponse, Response, StdError,
+    attr, to_binary, Addr, Deps, DepsMut, Env, MessageInfo, QueryResponse, Response, StdError,
     StdResult, Uint128,
 };
 use provwasm_std::{
@@ -42,7 +42,7 @@ pub fn instantiate(
 
 /// Handle messages that create and interact with with native provenance markers.
 pub fn execute(
-    _deps: DepsMut,
+    deps: DepsMut,
     env: Env,
     _info: MessageInfo,
     msg: ExecuteMsg,
@@ -58,6 +58,7 @@ pub fn execute(
         ExecuteMsg::Destroy { denom } => try_destroy(denom),
         ExecuteMsg::Withdraw { amount, denom } => try_withdraw(amount, denom, env.contract.address),
         ExecuteMsg::Transfer { amount, denom, to } => {
+            let to = deps.api.addr_validate(&to)?;
             try_transfer(amount, denom, to, env.contract.address)
         }
     }
@@ -80,8 +81,8 @@ fn try_create(supply: Uint128, denom: String) -> StdResult<Response<ProvenanceMs
 }
 
 // Create and dispatch a message that will grant all permissions to a marker for an address.
-fn try_grant_access(denom: String, address: HumanAddr) -> StdResult<Response<ProvenanceMsg>> {
-    let msg = grant_marker_access(&denom, &address, MarkerAccess::all())?;
+fn try_grant_access(denom: String, address: Addr) -> StdResult<Response<ProvenanceMsg>> {
+    let msg = grant_marker_access(&denom, address.clone(), MarkerAccess::all())?;
     Ok(Response {
         submessages: vec![],
         messages: vec![msg],
@@ -129,10 +130,10 @@ fn try_activate(denom: String) -> StdResult<Response<ProvenanceMsg>> {
 fn try_withdraw(
     amount: Uint128,
     denom: String,
-    recipient: HumanAddr,
+    recipient: Addr,
 ) -> StdResult<Response<ProvenanceMsg>> {
     let marker_denom = denom.clone();
-    let msg = withdraw_coins(&marker_denom, amount.u128(), &denom, &recipient)?;
+    let msg = withdraw_coins(&marker_denom, amount.u128(), &denom, recipient.clone())?;
     Ok(Response {
         submessages: vec![],
         messages: vec![msg],
@@ -213,10 +214,10 @@ fn try_destroy(denom: String) -> StdResult<Response<ProvenanceMsg>> {
 fn try_transfer(
     amount: Uint128,
     denom: String,
-    to: HumanAddr,
-    from: HumanAddr,
+    to: Addr,
+    from: Addr,
 ) -> StdResult<Response<ProvenanceMsg>> {
-    let msg = transfer_marker_coins(amount.u128(), &denom, &to, &from)?;
+    let msg = transfer_marker_coins(amount.u128(), &denom, to.clone(), from.clone())?;
     Ok(Response {
         submessages: vec![],
         messages: vec![msg],
@@ -224,8 +225,8 @@ fn try_transfer(
             attr("action", "provwasm.contracts.marker.transfer"),
             attr("integration_test", "v2"),
             attr("funds", format!("{}{}", &amount, &denom)),
-            attr("to", to.to_string()),
-            attr("from", from.to_string()),
+            attr("to", to),
+            attr("from", from),
         ],
         data: None,
     })
@@ -240,7 +241,8 @@ pub fn query(deps: Deps, _env: Env, msg: QueryMsg) -> Result<QueryResponse, StdE
 }
 
 // Query a marker by address.
-fn try_get_marker_by_address(deps: Deps, address: HumanAddr) -> Result<QueryResponse, StdError> {
+fn try_get_marker_by_address(deps: Deps, address: String) -> Result<QueryResponse, StdError> {
+    let address = deps.api.addr_validate(&address)?;
     let querier = ProvenanceQuerier::new(&deps.querier);
     let marker = querier.get_marker_by_address(address)?;
     to_binary(&marker)
@@ -550,7 +552,7 @@ mod tests {
         let msg = ExecuteMsg::Transfer {
             amount: Uint128(20),
             denom: "budz".into(),
-            to: HumanAddr::from("to"),
+            to: "toaddress".into(),
         };
 
         // Call execute and ensure a cosmos message was dispatched
@@ -562,7 +564,7 @@ mod tests {
         match unwrap_marker_params(&res.messages[0]) {
             MarkerMsgParams::TransferMarkerCoins { coin, to, from } => {
                 assert_eq!(*coin, expected_coin);
-                assert_eq!(*to, HumanAddr::from("to"));
+                assert_eq!(*to, Addr::unchecked("toaddress"));
                 assert_eq!(from, &env.contract.address);
             }
             _ => panic!("expected marker transfer params"),

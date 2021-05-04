@@ -4,8 +4,8 @@
 
 CosmWasm provides the ability to create web assembly smart contracts - computations that take place
 on a public blockchain - for the Cosmos SDK using the Rust programming language. Smart contracts are
-the backend code for decentralized applications (dApps) - commonly paired with fontend code written
-in Javascript.
+the backend code for decentralized applications (dApps) - commonly paired with frontend code
+written in Javascript.
 
 The `provwasm` library extends CosmWasm to allow developers to utilize custom functionality provided
 by the Provenance Blockchain.
