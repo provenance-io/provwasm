@@ -5,13 +5,13 @@ will then perform bank transfers to the merchant and fee collection accounts.
 
 ## Execute Contract
 
-To execute a `100pcoin` purchase with an ID of `12345`, run
+To execute a `100purchasecoin` purchase with an ID of `12345`, run
 
 ```bash
 provenanced tx wasm execute \
     tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
     '{"purchase":{"id":"12345"}}' \
-    --amount 100pcoin \
+    --amount 100purchasecoin \
     --from consumer \
     --keyring-backend test \
     --home build/node0 \
@@ -31,12 +31,12 @@ provenanced query bank balances \
     --testnet
 ```
 
-This should show that the merchant has increased by `90pcoin`
+This should show that the merchant has increased by `90purchasecoin`
 
 ```yaml
 balances:
   - amount: "90"
-    denom: pcoin
+    denom: purchasecoin
   - amount: "100000"
     denom: nhash
 pagination:
@@ -52,12 +52,12 @@ provenanced query bank balances \
     --testnet
 ```
 
-This should show that the feebucket account has increased by `10pcoin`
+This should show that the feebucket account has increased by `10purchasecoin`
 
 ```yaml
 balances:
   - amount: "10"
-    denom: pcoin
+    denom: purchasecoin
   - amount: "46500"
     denom: nhash
 pagination:
@@ -73,12 +73,12 @@ provenanced query bank balances \
     --testnet
 ```
 
-This should show that it has decreased by `100pcoin`
+This should show that it has decreased by `100purchasecoin`
 
 ```yaml
 balances:
   - amount: "99900"
-    denom: pcoin
+    denom: purchasecoin
   - amount: "92000"
     denom: nhash
 pagination:

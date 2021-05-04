@@ -135,7 +135,7 @@ provenanced tx name bind \
 A marker must be created in order to mint coins required for purchase transfers.
 
 ```bash
-provenanced tx marker new 1000000000pcoin \
+provenanced tx marker new 1000000000purchasecoin \
     --type COIN \
     --from node0 \
     --keyring-backend test \
@@ -153,7 +153,7 @@ Grant withdraw access on the marker to the `node0` marker admin account
 ```bash
 provenanced tx marker grant \
     $(provenanced keys show -a node0 --home build/node0 --keyring-backend test --testnet) \
-    pcoin \
+    purchasecoin \
     withdraw \
     --from node0 \
     --keyring-backend test \
@@ -169,7 +169,7 @@ provenanced tx marker grant \
 Finalize the marker
 
 ```bash
-provenanced tx marker finalize pcoin \
+provenanced tx marker finalize purchasecoin \
     --from node0 \
     --keyring-backend test \
     --home build/node0 \
@@ -181,10 +181,10 @@ provenanced tx marker finalize pcoin \
     --testnet
 ```
 
-Activate the marker, minting the `pcoin` supply
+Activate the marker, minting the `purchasecoin` supply
 
 ```bash
-provenanced tx marker activate pcoin \
+provenanced tx marker activate purchasecoin \
     --from node0 \
     --keyring-backend test \
     --home build/node0 \
@@ -201,8 +201,8 @@ provenanced tx marker activate pcoin \
 Coins must be withdrawn into the `consumer` account in order to send purchase transfers.
 
 ```bash
-provenanced tx marker withdraw pcoin \
-    100000pcoin \
+provenanced tx marker withdraw purchasecoin \
+    100000purchasecoin \
     $(provenanced keys show -a consumer --home build/node0 --keyring-backend test --testnet) \
     --from node0 \
     --keyring-backend test \
@@ -215,7 +215,7 @@ provenanced tx marker withdraw pcoin \
     --testnet
 ```
 
-The `consumer` account should now have `nhash` to pay network fees, and `pcoin` for purchases with
+The `consumer` account should now have `nhash` to pay network fees, and `purchasecoin` for purchases with
 the merchant.
 
 ```bash
@@ -229,7 +229,7 @@ Example account query output
 ```yaml
 balances:
   - amount: "100000"
-    denom: pcoin
+    denom: purchasecoin
   - amount: "100000"
     denom: nhash
 pagination:
