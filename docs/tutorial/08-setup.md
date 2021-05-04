@@ -22,7 +22,6 @@ Navigate to the blockchain project and checkout the required branch.
 
 ```bash
 cd ./provenance
-git checkout pederson/wasmd-8109bba87111
 ```
 
 Install commands and start a provenance localnet cluster.
