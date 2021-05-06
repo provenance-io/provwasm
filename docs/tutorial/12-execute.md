@@ -20,7 +20,7 @@ provenanced tx wasm execute \
     --fees 4000nhash \
     --broadcast-mode block \
     --yes \
-    --testnet
+    --testnet | jq
 ```
 
 To ensure the transfers were sent successfully, first query the `merchant` account
@@ -28,20 +28,28 @@ To ensure the transfers were sent successfully, first query the `merchant` accou
 ```bash
 provenanced query bank balances \
     $(provenanced keys show -a merchant --home build/node0 --keyring-backend test --testnet) \
-    --testnet
+    --testnet -o json | jq
 ```
 
 This should show that the merchant has increased by `90purchasecoin`
 
-```yaml
-balances:
-  - amount: "90"
-    denom: purchasecoin
-  - amount: "100000"
-    denom: nhash
-pagination:
-  next_key: null
-  total: "0"
+```json
+{
+  "balances": [
+    {
+      "denom": "nhash",
+      "amount": "100000"
+    },
+    {
+      "denom": "purchasecoin",
+      "amount": "90"
+    }
+  ],
+  "pagination": {
+    "next_key": null,
+    "total": "0"
+  }
+}
 ```
 
 Then, query the `feebucket` account
@@ -49,20 +57,28 @@ Then, query the `feebucket` account
 ```bash
 provenanced query bank balances \
     $(provenanced keys show -a feebucket --home build/node0 --keyring-backend test --testnet) \
-    --testnet
+    --testnet -o json | jq
 ```
 
 This should show that the feebucket account has increased by `10purchasecoin`
 
-```yaml
-balances:
-  - amount: "10"
-    denom: purchasecoin
-  - amount: "46500"
-    denom: nhash
-pagination:
-  next_key: null
-  total: "0"
+```json
+{
+  "balances": [
+    {
+      "denom": "nhash",
+      "amount": "46500"
+    },
+    {
+      "denom": "purchasecoin",
+      "amount": "10"
+    }
+  ],
+  "pagination": {
+    "next_key": null,
+    "total": "0"
+  }
+}
 ```
 
 Finally, query the `consumer` account
@@ -70,20 +86,28 @@ Finally, query the `consumer` account
 ```bash
 provenanced query bank balances \
     $(provenanced keys show -a consumer --home build/node0 --keyring-backend test --testnet) \
-    --testnet
+    --testnet -o json | jq
 ```
 
 This should show that it has decreased by `100purchasecoin`
 
-```yaml
-balances:
-  - amount: "99900"
-    denom: purchasecoin
-  - amount: "92000"
-    denom: nhash
-pagination:
-  next_key: null
-  total: "0"
+```json
+{
+  "balances": [
+    {
+      "denom": "nhash",
+      "amount": "92000"
+    },
+    {
+      "denom": "purchasecoin",
+      "amount": "99900"
+    }
+  ],
+  "pagination": {
+    "next_key": null,
+    "total": "0"
+  }
+}
 ```
 
 ## Up Next

@@ -19,7 +19,7 @@ Then, from the provenance directory, store the optimized smart contract WASM in 
 ```bash
 provenanced tx wasm store tutorial.wasm \
     --source "https://github.com/provenance-io/provwasm/tree/main/contracts/tutorial" \
-    --builder "cosmwasm/rust-optimizer:0.11.0" \
+    --builder "cosmwasm/rust-optimizer:0.11.3" \
     --instantiate-only-address $(provenanced keys show -a feebucket --keyring-backend test --home build/node0 --testnet) \
     --from feebucket \
     --keyring-backend test \
@@ -29,7 +29,7 @@ provenanced tx wasm store tutorial.wasm \
     --fees 25000nhash \
     --broadcast-mode block \
     --yes \
-    --testnet
+    --testnet | jq
 ```
 
 To query the stored code (NOTE: The wasm module query commands only produces JSON output).
@@ -44,14 +44,17 @@ Should produce output that resembles (field values may differ) the following.
 {
   "code_infos": [
     {
-      "id": 1,
-      "creator": "tp18ef6kll9ffpz06ergm6v9xyqtn7pzg9vux8e0z",
-      "data_hash": "9BAE475D812850DF789ACB8252582FDCFB6627593BC44234D75F6002E48DFFD5",
+      "code_id": "1",
+      "creator": "tp102c9nplcvrxmhevc6wenm99q6dfte3k3z8vscv",
+      "data_hash": "F2F2CD9AA2C192A95B86E9429BC15DCD6B8859BE54C8C66274B80347D2443D82",
       "source": "https://github.com/provenance-io/provwasm/tree/main/contracts/tutorial",
-      "builder": "cosmwasm/rust-optimizer:0.11.0"
+      "builder": "cosmwasm/rust-optimizer:0.11.3"
     }
   ],
-  "pagination": {}
+  "pagination": {
+    "next_key": null,
+    "total": "0"
+  }
 }
 ```
 

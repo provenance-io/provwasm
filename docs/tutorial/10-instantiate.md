@@ -44,7 +44,7 @@ provenanced tx wasm instantiate 1 \
     --fees 3500nhash \
     --broadcast-mode block \
     --yes \
-    --testnet
+    --testnet | jq
 ```
 
 NOTE: Setting the `--admin` account is important. It is impossible to migrate the contract instance
@@ -53,23 +53,25 @@ to a new code ID if not set.
 The contract can then be queried by code ID.
 
 ```bash
-provenanced query wasm list-contract-by-code 1 --testnet
+provenanced query wasm list-contract-by-code 1 --testnet -o json | jq
 ```
 
 Should produce output similar to
 
-```yaml
-contract_infos:
-  - address: tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz
-    admin: tp18ef6kll9ffpz06ergm6v9xyqtn7pzg9vux8e0z
-    code_id: 1
-    creator: tp18ef6kll9ffpz06ergm6v9xyqtn7pzg9vux8e0z
-    label: tutorial-v2
-pagination: {}
+```json
+{
+  "contracts": [
+    "tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz"
+  ],
+  "pagination": {
+    "next_key": null,
+    "total": "0"
+  }
+}
 ```
 
-Copy the value of the `address` field. It is required in later sections to query and execute the
-contract instance.
+Copy the value of the contract address field. It is required in later sections to query and execute
+the contract instance.
 
 ## Up Next
 

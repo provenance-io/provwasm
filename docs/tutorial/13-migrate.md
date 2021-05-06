@@ -107,7 +107,7 @@ To store the new version, re-run the store command
 ```bash
 provenanced tx wasm store tutorial.wasm \
     --source "https://github.com/provenance-io/provwasm/tree/main/contracts/tutorial-migrate" \
-    --builder "cosmwasm/rust-optimizer:0.11.0" \
+    --builder "cosmwasm/rust-optimizer:0.11.3" \
     --instantiate-only-address $(provenanced keys show -a feebucket --keyring-backend test --home build/node0 --testnet) \
     --from feebucket \
     --keyring-backend test \
@@ -117,7 +117,7 @@ provenanced tx wasm store tutorial.wasm \
     --fees 25000nhash \
     --broadcast-mode block \
     --yes \
-    --testnet
+    --testnet | jq
 ```
 
 Make sure that the `--source` and `--builder` are updated so third parties can verify this build.
@@ -125,28 +125,34 @@ Make sure that the `--source` and `--builder` are updated so third parties can v
 To query for both uploaded code entries
 
 ```bash
-provenanced q wasm list-code --testnet | jq
+provenanced q wasm list-code --testnet -o json | jq
 ```
 
 Should output JSON similar to
 
 ```json
-[
-  {
-    "id": 1,
-    "creator": "tp10vy2n34wgysds98fmj44jvhm5ugepd4w3pz9s9",
-    "data_hash": "B2C5A7BC76D636BEAD7FC4EB51EC77E3F73955B1C8A756AE1FEA5AAFE804912A",
-    "source": "https://github.com/provenance-io/provwasm/tree/main/contracts/tutorial",
-    "builder": "cosmwasm/rust-optimizer:0.11.0"
-  },
-  {
-    "id": 2,
-    "creator": "tp10vy2n34wgysds98fmj44jvhm5ugepd4w3pz9s9",
-    "data_hash": "EC22D0FEA3BA5D5368259E34234265EB4A767941212E48CDBD00C5460363C379",
-    "source": "https://github.com/provenance-io/provwasm/tree/main/contracts/tutorial-migrate",
-    "builder": "cosmwasm/rust-optimizer:0.11.0"
+{
+  "code_infos": [
+    {
+      "code_id": "1",
+      "creator": "tp102c9nplcvrxmhevc6wenm99q6dfte3k3z8vscv",
+      "data_hash": "F2F2CD9AA2C192A95B86E9429BC15DCD6B8859BE54C8C66274B80347D2443D82",
+      "source": "https://github.com/provenance-io/provwasm/tree/main/contracts/tutorial",
+      "builder": "cosmwasm/rust-optimizer:0.11.3"
+    },
+    {
+      "code_id": "2",
+      "creator": "tp102c9nplcvrxmhevc6wenm99q6dfte3k3z8vscv",
+      "data_hash": "F2F2CD9AA2C192A95B86E9429BC15DCD6B8859BE54C8C66274B80347D2443D82",
+      "source": "https://github.com/provenance-io/provwasm/tree/main/contracts/tutorial-migrate",
+      "builder": "cosmwasm/rust-optimizer:0.11.3"
+    }
+  ],
+  "pagination": {
+    "next_key": null,
+    "total": "0"
   }
-]
+}
 ```
 
 Copy the new code ID to migrate the current instance.
@@ -154,20 +160,21 @@ Copy the new code ID to migrate the current instance.
 To query the contract address, query using the original code ID, `1`
 
 ```bash
-provenanced q wasm list-contract-by-code 1 --testnet | jq
+provenanced q wasm list-contract-by-code 1 --testnet -o json | jq
 ```
 
-Copy the contract `address` field value from the output
+Copy the contract address value from the output
 
 ```json
-[
-  {
-    "code_id": 1,
-    "creator": "tp10vy2n34wgysds98fmj44jvhm5ugepd4w3pz9s9",
-    "label": "tutorial-v2",
-    "address": "tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz"
+{
+  "contracts": [
+    "tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz"
+  ],
+  "pagination": {
+    "next_key": null,
+    "total": "0"
   }
-]
+}
 ```
 
 ### Migrate
@@ -181,13 +188,13 @@ provenanced tx wasm migrate \
     '{"new_fee_percent":"0.05"}' \
     --from feebucket \
     --keyring-backend test \
-    --home build/node0/provenance \
+    --home build/node0 \
     --chain-id chain-local \
     --gas auto \
     --fees 3500nhash \
     --broadcast-mode block \
     --yes \
-    --testnet
+    --testnet | jq
 ```
 
 The instance is now migrated to the updated WASM code - with the updated fee range and percent.
@@ -195,18 +202,39 @@ The instance is now migrated to the updated WASM code - with the updated fee ran
 To verify, query for contract instances under the new code ID
 
 ```bash
-provenance q wasm list-contract-by-code 2 | jq
+provenanced q wasm list-contract-by-code 2 -o json | jq
 ```
 
 Should output JSON similar to
 
 ```json
-[
-  {
-    "code_id": 2,
-    "creator": "tp106xphyzh8fxxdnvp5drharll7724sj9z4rpm6r",
-    "label": "tutorial-v2",
-    "address": "tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz"
+{
+  "contracts": [
+    "tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz"
+  ],
+  "pagination": {
+    "next_key": null,
+    "total": "0"
   }
-]
+}
+```
+
+To verify, query the state of the contract.
+
+```bash
+provenanced query wasm contract-state smart \
+    tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz '{"query_request":{}}' --testnet -o json | jq
+```
+
+Should reflect the updated fee percent.
+
+```json
+{
+  "data": {
+    "purchase_denom": "purchasecoin",
+    "merchant_address": "tp1jeqf9m9psa5jvurzpwtdk5m5429fhq48f0u5wq",
+    "fee_collection_address": "tp102c9nplcvrxmhevc6wenm99q6dfte3k3z8vscv",
+    "fee_percent": "0.05"
+  }
+}
 ```

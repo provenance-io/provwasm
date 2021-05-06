@@ -14,7 +14,7 @@ optimize:
 	@docker run --rm -v $(CURDIR):/code \
 		--mount type=volume,source=tutorial_cache,target=/code/target \
 		--mount type=volume,source=registry_cache,target=/usr/local/cargo/registry \
-		cosmwasm/rust-optimizer:0.11.0
+		cosmwasm/rust-optimizer:0.11.3
 ```
 
 Then build the optimized WASM
@@ -39,7 +39,7 @@ ls -lh target/wasm32-unknown-unknown/release/tutorial.wasm
 -rwxrwxr-x 2 user user 1.7M Dec 17 10:53 target/wasm32-unknown-unknown/release/tutorial.wasm
 ```
 
-NOTE: Optimized smart contract size must be smaller than `500K`
+NOTE: Optimized smart contract size must be smaller than `600K`
 
 This concludes Part 1 of the tutorial. The optimized smart contract WASM is ready to deploy to
 the Provenance Blockchain.

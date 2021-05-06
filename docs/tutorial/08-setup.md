@@ -22,6 +22,7 @@ Navigate to the blockchain project and checkout the required branch.
 
 ```bash
 cd ./provenance
+git checkout v1.3.0
 ```
 
 Install commands and start a provenance localnet cluster.
@@ -40,19 +41,19 @@ and transfer fee bucket.
 Create `merchant` account keys
 
 ```bash
-provenanced keys add merchant --home build/node0 --keyring-backend test --testnet
+provenanced keys add merchant --home build/node0 --keyring-backend test --testnet --hd-path "44'/1'/0'/0/0" --output json | jq
 ```
 
 Create `feebucket` account keys
 
 ```bash
-provenanced keys add feebucket --home build/node0 --keyring-backend test --testnet
+provenanced keys add feebucket --home build/node0 --keyring-backend test --testnet --hd-path "44'/1'/0'/0/0" --output json | jq
 ```
 
 Create `consumer` account keys
 
 ```bash
-provenanced keys add consumer --home build/node0 --keyring-backend test --testnet
+provenanced keys add consumer --home build/node0 --keyring-backend test --testnet --hd-path "44'/1'/0'/0/0" --output json | jq
 ```
 
 Fund a `merchant` account with `nhash`, creating it on chain.
@@ -70,7 +71,7 @@ provenanced tx bank send \
     --fees 2000nhash \
     --broadcast-mode block \
     --yes \
-    --testnet
+    --testnet | jq
 ```
 
 Fund a `feebucket` account with `nhash`, creating it on chain.
@@ -88,7 +89,7 @@ provenanced tx bank send \
     --fees 2000nhash \
     --broadcast-mode block \
     --yes \
-    --testnet
+    --testnet | jq
 ```
 
 Fund a `consumer` account with `nhash`, creating it on chain.
@@ -106,7 +107,7 @@ provenanced tx bank send \
     --fees 2000nhash \
     --broadcast-mode block \
     --yes \
-    --testnet
+    --testnet | jq
 ```
 
 ## Name
@@ -127,7 +128,7 @@ provenanced tx name bind \
     --fees 5000nhash \
     --broadcast-mode block \
     --yes \
-    --testnet
+    --testnet | jq
 ```
 
 ## Marker
@@ -145,7 +146,7 @@ provenanced tx marker new 1000000000purchasecoin \
     --fees 5000nhash \
     --broadcast-mode block \
     --yes \
-    --testnet
+    --testnet | jq
 ```
 
 Grant withdraw access on the marker to the `node0` marker admin account
@@ -163,7 +164,7 @@ provenanced tx marker grant \
     --fees 5000nhash \
     --broadcast-mode block \
     --yes \
-    --testnet
+    --testnet | jq
 ```
 
 Finalize the marker
@@ -178,7 +179,7 @@ provenanced tx marker finalize purchasecoin \
     --fees 5000nhash \
     --broadcast-mode block \
     --yes \
-    --testnet
+    --testnet | jq
 ```
 
 Activate the marker, minting the `purchasecoin` supply
@@ -193,7 +194,7 @@ provenanced tx marker activate purchasecoin \
     --fees 5000nhash \
     --broadcast-mode block \
     --yes \
-    --testnet
+    --testnet | jq
 ```
 
 ## Withdraw
@@ -212,7 +213,7 @@ provenanced tx marker withdraw purchasecoin \
     --fees 5000nhash \
     --broadcast-mode block \
     --yes \
-    --testnet
+    --testnet | jq
 ```
 
 The `consumer` account should now have `nhash` to pay network fees, and `purchasecoin` for purchases with
@@ -221,20 +222,28 @@ the merchant.
 ```bash
 provenanced q bank balances \
     $(provenanced keys show -a consumer --home build/node0 --keyring-backend test --testnet) \
-    --testnet
+    --testnet -o json | jq
 ```
 
 Example account query output
 
-```yaml
-balances:
-  - amount: "100000"
-    denom: purchasecoin
-  - amount: "100000"
-    denom: nhash
-pagination:
-  next_key: null
-  total: "0"
+```json
+{
+  "balances": [
+    {
+      "denom": "nhash",
+      "amount": "100000"
+    },
+    {
+      "denom": "purchasecoin",
+      "amount": "100000"
+    }
+  ],
+  "pagination": {
+    "next_key": null,
+    "total": "0"
+  }
+}
 ```
 
 ## Up Next
