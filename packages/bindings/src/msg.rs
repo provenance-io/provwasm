@@ -305,6 +305,25 @@ fn create_marker_msg(params: MarkerMsgParams) -> CosmosMsg<ProvenanceMsg> {
 }
 
 /// Create a message that will propose a new marker with a given type.
+///
+/// ### Example
+///
+/// ```rust
+/// // Imports required
+/// use cosmwasm_std::{Response, StdResult};
+/// use provwasm_std::{create_marker, MarkerType, ProvenanceMsg};
+///
+/// // Create and dispatch a message that will propose a new unrestricted marker.
+/// fn try_create_marker(
+///     amount: u128,
+///     denom: String,
+/// ) -> StdResult<Response<ProvenanceMsg>> {
+///     let msg = create_marker(amount, &denom, MarkerType::Coin)?;
+///     let mut res = Response::new();
+///     res.add_message(msg);
+///     Ok(res)
+/// }
+/// ```
 pub fn create_marker<S: Into<String>>(
     amount: u128,
     denom: S,

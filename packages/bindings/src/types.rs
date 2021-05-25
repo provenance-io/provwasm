@@ -71,7 +71,7 @@ pub struct Attribute {
     pub value_type: AttributeValueType,
 }
 
-// A marker account
+/// A marker account
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub struct Marker {
@@ -108,7 +108,7 @@ impl Marker {
     }
 }
 
-// Marker permissions granted to another account.
+/// Marker permissions granted to another account.
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub struct AccessGrant {
