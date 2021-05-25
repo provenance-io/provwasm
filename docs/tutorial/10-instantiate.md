@@ -29,7 +29,7 @@ The contract can then be instantiated using the code ID from the previous sectio
 JSON from above. NOTE: Remember that since the `feebucket` represents network ownership, that
 account must be the executor (the `--from` flag) of the command. This requirement was further
 enforced by the fact that only the `feebucket` account is allowed to instantiate (set with the
-`--instantiate-only-address` flag during WASM upload).
+`--instantiate-only-address` flag during Wasm upload).
 
 ```bash
 provenanced tx wasm instantiate 1 \

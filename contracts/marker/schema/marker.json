@@ -1,6 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "Marker",
+  "description": "A marker account",
   "type": "object",
   "required": [
     "account_number",
@@ -62,6 +63,7 @@
   },
   "definitions": {
     "AccessGrant": {
+      "description": "Marker permissions granted to another account.",
       "type": "object",
       "required": [
         "address",

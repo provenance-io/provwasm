@@ -15,12 +15,12 @@ The second will deal with deploying smart contracts to the Provenance Blockchain
 - [Project](04-project.md) - Generate a smart contract project from template.
 - [Requirements](05-requirements.md) - Define smart contract functionality.
 - [Develop](06-develop.md) - Code, compile, and test the smart contract.
-- [Optimize](07-optimize.md) - Create optimized contract WASM for deployment.
+- [Optimize](07-optimize.md) - Create optimized contract Wasm for deployment.
 
 ### Part 2: Deployment
 
 - [Setup](08-setup.md) - Start a provenance localnet cluster, create accounts and a marker.
-- [Store](09-store.md) - Upload optimized contract WASM.
+- [Store](09-store.md) - Upload optimized contract Wasm.
 - [Instantiate](10-instantiate.md) - Create an instance of the contract.
 - [Query](11-query.md) - Get the smart contract configuration state.
 - [Execute](12-execute.md) - Execute the contract, sending funds and collecting fees.

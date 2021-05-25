@@ -53,7 +53,7 @@ schema = "run --example schema"
 
 File: `src/lib.rs`
 
-The main project file. Adds smart contract WASM entry points and ensures all project linter
+The main project file. Adds smart contract Wasm entry points and ensures all project linter
 warnings are checked.
 
 ```rust
@@ -656,4 +656,4 @@ make
 
 ## Up Next
 
-Proceed to the next [section](07-optimize.md) to optimize the smart contract WASM for deployment.
+Proceed to the next [section](07-optimize.md) to optimize the smart contract Wasm for deployment.

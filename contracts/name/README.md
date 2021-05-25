@@ -15,7 +15,7 @@ This smart contract tests the following functionality
 
 ## Build
 
-Compile and optimize the smart contract WASM.
+Compile and optimize the smart contract Wasm.
 
 ```bash
 make && make optimize
@@ -25,7 +25,7 @@ make && make optimize
 
 _NOTE: Address bech32 values and other params may vary._
 
-First, copy the optimized WASM to your Provenance Blockchain project root.
+First, copy the optimized Wasm to your Provenance Blockchain project root.
 Then, install the `provenanced` command and genesis a localnet.
 
 ```bash
@@ -52,7 +52,7 @@ provenanced tx name bind \
     --testnet | jq
 ```
 
-Store the name integration test smart contract WASM in provenance
+Store the name integration test smart contract Wasm in provenance
 
 ```bash
 provenanced tx wasm store name.wasm \
