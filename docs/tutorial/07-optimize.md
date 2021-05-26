@@ -2,10 +2,10 @@
 
 ## Optimize
 
-In this section we will optimize the compiled smart contract WASM to a deployable file.
+In this section we will optimize the compiled smart contract Wasm to a deployable file.
 
 A rust optimization tool was developed by the CosmWasm team to reduce the size of smart contract
-WASM. It is packaged as a docker image. To use this image, add the following to the end of the
+Wasm. It is packaged as a docker image. To use this image, add the following to the end of the
 tutorial `Makefile`.
 
 ```Makefile
@@ -17,7 +17,7 @@ optimize:
 		cosmwasm/rust-optimizer:0.11.3
 ```
 
-Then build the optimized WASM
+Then build the optimized Wasm
 
 ```bash
 make optimize
@@ -31,7 +31,7 @@ ls -lh artifacts/tutorial.wasm
 -rw-r--r-- 1 user user 160K Dec 17 10:54 artifacts/tutorial.wasm
 ```
 
-The optimized WASM file should be significantly smaller than the original.
+The optimized Wasm file should be significantly smaller than the original.
 
 ```bash
 ls -lh target/wasm32-unknown-unknown/release/tutorial.wasm
@@ -41,7 +41,7 @@ ls -lh target/wasm32-unknown-unknown/release/tutorial.wasm
 
 NOTE: Optimized smart contract size must be smaller than `600K`
 
-This concludes Part 1 of the tutorial. The optimized smart contract WASM is ready to deploy to
+This concludes Part 1 of the tutorial. The optimized smart contract Wasm is ready to deploy to
 the Provenance Blockchain.
 
 ## Up Next

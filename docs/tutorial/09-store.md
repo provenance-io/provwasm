@@ -1,20 +1,20 @@
 # Provenance Smart Contract Tutorial
 
-In this section we will upload the optimized smart contract WASM to the Provenance Blockchain.
+In this section we will upload the optimized smart contract Wasm to the Provenance Blockchain.
 
 ## Store Code
 
 For this tutorial, it is assumed that the fee collection address represents network ownership
-(why they get paid fees), thus they must be the uploader of the contract WASM.
+(why they get paid fees), thus they must be the uploader of the contract Wasm.
 
-Copy the optimized WASM file to the Provenance Blockchain project. From the tutorial project dir,
+Copy the optimized Wasm file to the Provenance Blockchain project. From the tutorial project dir,
 run
 
 ```bash
 cp artifacts/tutorial.wasm $GOPATH/src/github.com/provenance-io/provenance
 ```
 
-Then, from the provenance directory, store the optimized smart contract WASM in the blockchain
+Then, from the provenance directory, store the optimized smart contract Wasm in the blockchain
 
 ```bash
 provenanced tx wasm store tutorial.wasm \
@@ -59,9 +59,9 @@ Should produce output that resembles (field values may differ) the following.
 ```
 
 When storing contracts, it is important to set the `--source` and `--builder` fields. 3rd parties
-should be able to download the source (usually an archive file) and create a release WASM file with
+should be able to download the source (usually an archive file) and create a release Wasm file with
 the listed builder. They can then compare the checksum of the generated file to the `data_hash`
-above. If the hashes match, the source listed is verified to have produced the WASM deployed to the
+above. If the hashes match, the source listed is verified to have produced the Wasm deployed to the
 blockchain.
 
 The `--instantiate-only-address` flag is important when it is necessary to limit instance creation

@@ -99,7 +99,7 @@ When complete, use the CLI commands below to migrate the smart contract instance
 
 ### Store
 
-Since WASM can't be updated or changed once deployed, the newly optimized WASM file must be stored
+Since Wasm can't be updated or changed once deployed, the newly optimized Wasm file must be stored
 in provenance under a new code ID.
 
 To store the new version, re-run the store command
@@ -197,7 +197,7 @@ provenanced tx wasm migrate \
     --testnet | jq
 ```
 
-The instance is now migrated to the updated WASM code - with the updated fee range and percent.
+The instance is now migrated to the updated Wasm code - with the updated fee range and percent.
 
 To verify, query for contract instances under the new code ID
 

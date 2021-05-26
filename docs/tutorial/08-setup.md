@@ -35,7 +35,7 @@ make localnet-start
 
 ## Accounts
 
-Before the WASM can be deployed, accounts need to be set up for the consumer, merchant,
+Before the Wasm can be deployed, accounts need to be set up for the consumer, merchant,
 and transfer fee bucket.
 
 Create `merchant` account keys
@@ -248,5 +248,5 @@ Example account query output
 
 ## Up Next
 
-Proceed to the [Store](09-store.md) section to upload the optimized smart contract WASM to the
+Proceed to the [Store](09-store.md) section to upload the optimized smart contract Wasm to the
 blockchain.
