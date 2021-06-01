@@ -67,63 +67,47 @@ pub fn execute(
 // Create and dispatch a message that will create a new restricted marker w/ proposed status.
 fn try_create(supply: Uint128, denom: String) -> StdResult<Response<ProvenanceMsg>> {
     let msg = create_marker(supply.u128(), &denom, MarkerType::Restricted)?;
-    Ok(Response {
-        submessages: vec![],
-        messages: vec![msg],
-        attributes: vec![
-            attr("action", "provwasm.contracts.marker.create"),
-            attr("integration_test", "v2"),
-            attr("marker_supply", supply),
-            attr("marker_denom", denom),
-        ],
-        data: None,
-    })
+    let mut res = Response::new();
+    res.add_message(msg);
+    res.add_attribute("action", "provwasm.contracts.marker.create");
+    res.add_attribute("integration_test", "v2");
+    res.add_attribute("marker_supply", supply);
+    res.add_attribute("marker_denom", denom);
+    Ok(res)
 }
 
 // Create and dispatch a message that will grant all permissions to a marker for an address.
 fn try_grant_access(denom: String, address: Addr) -> StdResult<Response<ProvenanceMsg>> {
     let msg = grant_marker_access(&denom, address.clone(), MarkerAccess::all())?;
-    Ok(Response {
-        submessages: vec![],
-        messages: vec![msg],
-        attributes: vec![
-            attr("action", "provwasm.contracts.marker.grant_access"),
-            attr("integration_test", "v2"),
-            attr("marker_denom", denom),
-            attr("marker_addr", address),
-        ],
-        data: None,
-    })
+    let mut res = Response::new();
+    res.add_message(msg);
+    res.add_attribute("action", "provwasm.contracts.marker.grant_access");
+    res.add_attribute("integration_test", "v2");
+    res.add_attribute("marker_denom", denom);
+    res.add_attribute("marker_addr", address);
+    Ok(res)
 }
 
 // Create and dispatch a message that will finalize a proposed marker.
 fn try_finalize(denom: String) -> StdResult<Response<ProvenanceMsg>> {
     let msg = finalize_marker(&denom)?;
-    Ok(Response {
-        submessages: vec![],
-        messages: vec![msg],
-        attributes: vec![
-            attr("action", "provwasm.contracts.marker.finalize"),
-            attr("integration_test", "v2"),
-            attr("marker_denom", denom),
-        ],
-        data: None,
-    })
+    let mut res = Response::new();
+    res.add_message(msg);
+    res.add_attribute("action", "provwasm.contracts.marker.finalize");
+    res.add_attribute("integration_test", "v2");
+    res.add_attribute("marker_denom", denom);
+    Ok(res)
 }
 
 // Create and dispatch a message that will activate a finalized marker.
 fn try_activate(denom: String) -> StdResult<Response<ProvenanceMsg>> {
     let msg = activate_marker(&denom)?;
-    Ok(Response {
-        submessages: vec![],
-        messages: vec![msg],
-        attributes: vec![
-            attr("action", "provwasm.contracts.marker.activate"),
-            attr("integration_test", "v2"),
-            attr("marker_denom", denom),
-        ],
-        data: None,
-    })
+    let mut res = Response::new();
+    res.add_message(msg);
+    res.add_attribute("action", "provwasm.contracts.marker.activate");
+    res.add_attribute("integration_test", "v2");
+    res.add_attribute("marker_denom", denom);
+    Ok(res)
 }
 
 // Create and dispatch a message that will withdraw coins from a marker.
@@ -134,80 +118,60 @@ fn try_withdraw(
 ) -> StdResult<Response<ProvenanceMsg>> {
     let marker_denom = denom.clone();
     let msg = withdraw_coins(&marker_denom, amount.u128(), &denom, recipient.clone())?;
-    Ok(Response {
-        submessages: vec![],
-        messages: vec![msg],
-        attributes: vec![
-            attr("action", "provwasm.contracts.marker.withdraw"),
-            attr("integration_test", "v2"),
-            attr("withdraw_amount", amount),
-            attr("withdraw_denom", denom),
-            attr("withdraw_recipient", recipient),
-        ],
-        data: None,
-    })
+    let mut res = Response::new();
+    res.add_message(msg);
+    res.add_attribute("action", "provwasm.contracts.marker.withdraw");
+    res.add_attribute("integration_test", "v2");
+    res.add_attribute("withdraw_amount", amount);
+    res.add_attribute("withdraw_denom", denom);
+    res.add_attribute("withdraw_recipient", recipient);
+    Ok(res)
 }
 
 // Create and dispatch a message that will mint coins into a marker.
 fn try_mint(amount: Uint128, denom: String) -> StdResult<Response<ProvenanceMsg>> {
     let msg = mint_marker_supply(amount.u128(), &denom)?;
-    Ok(Response {
-        submessages: vec![],
-        messages: vec![msg],
-        attributes: vec![
-            attr("action", "provwasm.contracts.marker.mint"),
-            attr("integration_test", "v2"),
-            attr("mint_amount", amount),
-            attr("mint_denom", denom),
-        ],
-        data: None,
-    })
+    let mut res = Response::new();
+    res.add_message(msg);
+    res.add_attribute("action", "provwasm.contracts.marker.mint");
+    res.add_attribute("integration_test", "v2");
+    res.add_attribute("mint_amount", amount);
+    res.add_attribute("mint_denom", denom);
+    Ok(res)
 }
 
 // Create and dispatch a message that will burn coins from a marker.
 fn try_burn(amount: Uint128, denom: String) -> StdResult<Response<ProvenanceMsg>> {
     let msg = burn_marker_supply(amount.u128(), &denom)?;
-    Ok(Response {
-        submessages: vec![],
-        messages: vec![msg],
-        attributes: vec![
-            attr("action", "provwasm.contracts.marker.burn"),
-            attr("integration_test", "v2"),
-            attr("mint_amount", amount),
-            attr("mint_denom", denom),
-        ],
-        data: None,
-    })
+    let mut res = Response::new();
+    res.add_message(msg);
+    res.add_attribute("action", "provwasm.contracts.marker.burn");
+    res.add_attribute("integration_test", "v2");
+    res.add_attribute("mint_amount", amount);
+    res.add_attribute("mint_denom", denom);
+    Ok(res)
 }
 
 // Create and dispatch a message that will cancel a marker.
 fn try_cancel(denom: String) -> StdResult<Response<ProvenanceMsg>> {
     let msg = cancel_marker(&denom)?;
-    Ok(Response {
-        submessages: vec![],
-        messages: vec![msg],
-        attributes: vec![
-            attr("action", "provwasm.contracts.marker.cancel"),
-            attr("integration_test", "v2"),
-            attr("marker_denom", denom),
-        ],
-        data: None,
-    })
+    let mut res = Response::new();
+    res.add_message(msg);
+    res.add_attribute("action", "provwasm.contracts.marker.cancel");
+    res.add_attribute("integration_test", "v2");
+    res.add_attribute("marker_denom", denom);
+    Ok(res)
 }
 
 // Create and dispatch a message that will destroy a marker.
 fn try_destroy(denom: String) -> StdResult<Response<ProvenanceMsg>> {
     let msg = destroy_marker(denom.clone())?;
-    Ok(Response {
-        submessages: vec![],
-        messages: vec![msg],
-        attributes: vec![
-            attr("action", "provwasm.contracts.marker.destroy"),
-            attr("integration_test", "v2"),
-            attr("marker_denom", denom),
-        ],
-        data: None,
-    })
+    let mut res = Response::new();
+    res.add_message(msg);
+    res.add_attribute("action", "provwasm.contracts.marker.destroy");
+    res.add_attribute("integration_test", "v2");
+    res.add_attribute("marker_denom", denom);
+    Ok(res)
 }
 
 // Create and dispatch a message that will transfer coins from one account to another.
@@ -218,18 +182,14 @@ fn try_transfer(
     from: Addr,
 ) -> StdResult<Response<ProvenanceMsg>> {
     let msg = transfer_marker_coins(amount.u128(), &denom, to.clone(), from.clone())?;
-    Ok(Response {
-        submessages: vec![],
-        messages: vec![msg],
-        attributes: vec![
-            attr("action", "provwasm.contracts.marker.transfer"),
-            attr("integration_test", "v2"),
-            attr("funds", format!("{}{}", &amount, &denom)),
-            attr("to", to),
-            attr("from", from),
-        ],
-        data: None,
-    })
+    let mut res = Response::new();
+    res.add_message(msg);
+    res.add_attribute("action", "provwasm.contracts.marker.transfer");
+    res.add_attribute("integration_test", "v2");
+    res.add_attribute("funds", format!("{}{}", &amount, &denom));
+    res.add_attribute("to", to);
+    res.add_attribute("from", from);
+    Ok(res)
 }
 
 /// Handle query requests for the provenance marker module.

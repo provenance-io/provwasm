@@ -20,3 +20,9 @@ To leave off the args to `act`, place the following in ~/.actrc
 -P ubuntu-latest=provwasm/act-environments-ubuntu:latest
 -P ubuntu-18.04=provwasm/act-environments-ubuntu:latest
 ```
+
+If you've remapped the docker user namespace, add the following to the `act` command
+
+```bash
+act --userns=host
+```

@@ -1,7 +1,4 @@
-use cosmwasm_std::{
-    attr, to_binary, Deps, DepsMut, Env, MessageInfo, QueryResponse, Response, StdError,
-};
-
+use cosmwasm_std::{to_binary, Deps, DepsMut, Env, MessageInfo, QueryResponse, Response, StdError};
 use provwasm_std::{
     bind_name, unbind_name, Name, NameBinding, Names, ProvenanceMsg, ProvenanceQuerier,
 };
@@ -29,18 +26,14 @@ pub fn instantiate(
     // Create a bind name message
     let bind_name_msg = bind_name(&msg.name, env.contract.address, NameBinding::Restricted)?;
 
-    // Dispatch message to handler and emit events
-    Ok(Response {
-        submessages: vec![],
-        messages: vec![bind_name_msg], // Routed to the name module handler
-        attributes: vec![
-            attr("integration_test", "v2"),
-            attr("action", "provwasm.contracts.name.init"),
-            attr("contract_name", msg.name),
-            attr("contract_owner", info.sender),
-        ],
-        data: None,
-    })
+    // Dispatch bind name message and add event attributes.
+    let mut res = Response::new();
+    res.add_message(bind_name_msg);
+    res.add_attribute("integration_test", "v2");
+    res.add_attribute("action", "provwasm.contracts.name.init");
+    res.add_attribute("contract_name", msg.name);
+    res.add_attribute("contract_owner", info.sender);
+    Ok(res)
 }
 
 /// Handle messages that bind names under the contract root name.
@@ -78,17 +71,13 @@ pub fn try_bind_prefix(
     let bind_name_msg = bind_name(&name, env.contract.address.clone(), NameBinding::Restricted)?;
 
     // Dispatch message to handler and emit events
-    Ok(Response {
-        submessages: vec![],
-        messages: vec![bind_name_msg],
-        attributes: vec![
-            attr("integration_test", "v2"),
-            attr("action", "provwasm.contracts.name.handle.bind_prefix"),
-            attr("name", name),
-            attr("address", env.contract.address),
-        ],
-        data: None,
-    })
+    let mut res = Response::new();
+    res.add_message(bind_name_msg);
+    res.add_attribute("integration_test", "v2");
+    res.add_attribute("action", "provwasm.contracts.name.try_bind_prefix");
+    res.add_attribute("name", name);
+    res.add_attribute("address", env.contract.address);
+    Ok(res)
 }
 
 // Unbind a name from the contract.
@@ -112,16 +101,12 @@ pub fn try_unbind_prefix(
     let unbind_name_msg = unbind_name(&name)?;
 
     // Dispatch message to handler and emit events
-    Ok(Response {
-        submessages: vec![],
-        messages: vec![unbind_name_msg],
-        attributes: vec![
-            attr("integration_test", "v2"),
-            attr("action", "provwasm.contracts.name.handle.unbind_prefix"),
-            attr("name", name),
-        ],
-        data: None,
-    })
+    let mut res = Response::new();
+    res.add_message(unbind_name_msg);
+    res.add_attribute("integration_test", "v2");
+    res.add_attribute("action", "provwasm.contracts.name.try_unbind_prefix");
+    res.add_attribute("name", name);
+    Ok(res)
 }
 
 /// Handle query requests for the provenance name module. The queries handled here are not bound to

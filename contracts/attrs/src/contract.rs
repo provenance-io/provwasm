@@ -1,7 +1,4 @@
-use cosmwasm_std::{
-    attr, to_binary, Deps, DepsMut, Env, MessageInfo, QueryResponse, Response, StdError,
-};
-
+use cosmwasm_std::{to_binary, Deps, DepsMut, Env, MessageInfo, QueryResponse, Response, StdError};
 use provwasm_std::{
     add_json_attribute, bind_name, delete_attributes, NameBinding, ProvenanceMsg, ProvenanceQuerier,
 };
@@ -19,30 +16,23 @@ pub fn instantiate(
     info: MessageInfo,
     msg: InitMsg,
 ) -> Result<Response<ProvenanceMsg>, ContractError> {
-    // Create contract config state.
-    let state = State {
+    // Create and save contract config state.
+    config(deps.storage).save(&State {
         contract_owner: info.sender.clone(),
         contract_name: msg.name.clone(),
-    };
+    })?;
 
-    // Save contract config state.
-    config(deps.storage).save(&state)?;
-
-    // Create bind name messages
+    // Create bind name message.
     let bind_name_msg = bind_name(&msg.name, env.contract.address, NameBinding::Restricted)?;
 
-    // Dispatch message to handler and emit events
-    Ok(Response {
-        submessages: vec![],
-        messages: vec![bind_name_msg], // Routed to the name module handler
-        attributes: vec![
-            attr("integration_test", "v2"),
-            attr("action", "provwasm.contracts.attrs.init"),
-            attr("contract_name", msg.name),
-            attr("contract_owner", info.sender),
-        ],
-        data: None,
-    })
+    // Dispatch message to handler and add event attributes.
+    let mut res = Response::new();
+    res.add_message(bind_name_msg);
+    res.add_attribute("integration_test", "v2");
+    res.add_attribute("action", "provwasm.contracts.attrs.init");
+    res.add_attribute("contract_name", msg.name);
+    res.add_attribute("contract_owner", info.sender);
+    Ok(res)
 }
 
 /// Handle state change requests
@@ -76,20 +66,13 @@ fn try_bind_label_name(
     env: Env,
     attr_name: String,
 ) -> Result<Response<ProvenanceMsg>, ContractError> {
-    // Bind the label name to the contract address.
     let bind_name_msg = bind_name(&attr_name, env.contract.address, NameBinding::Restricted)?;
-
-    // Issue a response that will dispatch the messages to the name module handler.
-    Ok(Response {
-        submessages: vec![],
-        messages: vec![bind_name_msg],
-        attributes: vec![
-            attr("integration_test", "v2"),
-            attr("action", "provwasm.contracts.attrs.try_bind_label_name"),
-            attr("attribute_name", attr_name),
-        ],
-        data: None,
-    })
+    let mut res = Response::new();
+    res.add_message(bind_name_msg);
+    res.add_attribute("integration_test", "v2");
+    res.add_attribute("action", "provwasm.contracts.attrs.try_bind_label_name");
+    res.add_attribute("attribute_name", attr_name);
+    Ok(res)
 }
 
 // Add a label attribute.
@@ -98,22 +81,15 @@ fn try_add_label(
     attr_name: String,
     text: String,
 ) -> Result<Response<ProvenanceMsg>, ContractError> {
-    // Init then pass a label struct to create a JSON attribute message.
     let timestamp = env.block.time.nanos();
     let label = Label { text, timestamp };
     let msg = add_json_attribute(env.contract.address, &attr_name, &label)?;
-
-    // Issue a response that will dispatch the message to the account module handler.
-    Ok(Response {
-        submessages: vec![],
-        messages: vec![msg],
-        attributes: vec![
-            attr("integration_test", "v2"),
-            attr("action", "provwasm.contracts.attrs.try_add_label"),
-            attr("attribute_name", attr_name),
-        ],
-        data: None,
-    })
+    let mut res = Response::new();
+    res.add_message(msg);
+    res.add_attribute("integration_test", "v2");
+    res.add_attribute("action", "provwasm.contracts.attrs.try_add_label");
+    res.add_attribute("attribute_name", attr_name);
+    Ok(res)
 }
 
 // Delete all label attributes.
@@ -121,20 +97,13 @@ fn try_delete_labels(
     env: Env,
     attr_name: String,
 ) -> Result<Response<ProvenanceMsg>, ContractError> {
-    // Delete label attributes from an account.
-    let delete_label_msg = delete_attributes(env.contract.address, &attr_name)?;
-
-    // Issue a response that will dispatch the messages to the attribute module handler.
-    Ok(Response {
-        submessages: vec![],
-        messages: vec![delete_label_msg],
-        attributes: vec![
-            attr("integration_test", "v2"),
-            attr("action", "provwasm.contracts.attrs.try_delete_labels"),
-            attr("attribute_name", attr_name),
-        ],
-        data: None,
-    })
+    let msg = delete_attributes(env.contract.address, &attr_name)?;
+    let mut res = Response::new();
+    res.add_message(msg);
+    res.add_attribute("integration_test", "v2");
+    res.add_attribute("action", "provwasm.contracts.attrs.try_delete_labels");
+    res.add_attribute("attribute_name", attr_name);
+    Ok(res)
 }
 
 /// Handle label query requests.
@@ -161,13 +130,11 @@ pub fn migrate(_deps: DepsMut, _env: Env, _msg: MigrateMsg) -> Result<Response, 
 mod tests {
     use super::*;
     use cosmwasm_std::testing::{mock_env, mock_info, MOCK_CONTRACT_ADDR};
-    use cosmwasm_std::Api;
-    use cosmwasm_std::{from_binary, CosmosMsg, Decimal, Uint128};
+    use cosmwasm_std::{from_binary, CosmosMsg};
     use provwasm_mocks::mock_dependencies;
     use provwasm_std::{
         AttributeMsgParams, AttributeValueType, NameMsgParams, ProvenanceMsgParams,
     };
-    use std::str::FromStr;
 
     #[test]
     fn init_test() {
@@ -489,16 +456,5 @@ mod tests {
                 timestamp: 123456789
             }
         )
-    }
-
-    #[test]
-    fn test_decimal() {
-        let deps = mock_dependencies(&[]);
-        let amount = Uint128(10);
-        let multiplier: Decimal = Decimal::from_str("1.29").unwrap();
-        let res: Uint128 = amount * multiplier;
-
-        let message = format!("{}", res);
-        deps.api.debug(&message)
     }
 }
