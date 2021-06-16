@@ -10,8 +10,7 @@ blockchain modules.
 
 ## Compatibility
 
-The following table shows provwasm version compatibility and network availability for smart
-contract development and testing.
+The following table shows provwasm version compatibility for smart contract development and testing.
 
 | provwasm      | wasmd          | cosmos  | provenance    | module support        |
 | ------------- | -------------- | ------- | ------------- | --------------------- |
