@@ -3,10 +3,10 @@ use serde::de::DeserializeOwned;
 
 use crate::common::{validate_address, validate_string};
 use crate::query::{
-    AttributeQueryParams, MarkerQueryParams, NameQueryParams, ProvenanceQuery,
+    AttributeQueryParams, MarkerQueryParams, MetadataQueryParams, NameQueryParams, ProvenanceQuery,
     ProvenanceQueryParams,
 };
-use crate::types::{AttributeValueType, Attributes, Marker, Name, Names, ProvenanceRoute};
+use crate::types::{AttributeValueType, Attributes, Marker, Name, Names, ProvenanceRoute, Scope};
 
 // The data format version to pass into provenance for queries.
 static QUERY_DATAFMT_VERSION: &str = "2.0.0";
@@ -231,5 +231,37 @@ impl<'a> ProvenanceQuerier<'a> {
         self.query_marker(MarkerQueryParams::GetMarkerByDenom {
             denom: validate_string(denom, "denom")?,
         })
+    }
+
+    // Execute a scope query against the metadata module.
+    fn query_scope(&self, params: MetadataQueryParams) -> StdResult<Scope> {
+        let request = ProvenanceQuery {
+            route: ProvenanceRoute::Metadata,
+            params: ProvenanceQueryParams::Metadata(params),
+            version: String::from(QUERY_DATAFMT_VERSION),
+        };
+        let res: Scope = self.querier.custom_query(&request.into())?;
+        Ok(res)
+    }
+
+    /// Get a scope by ID.
+    ///
+    /// ### Example
+    /// ```rust
+    /// // Imports required
+    /// use provwasm_std::{ProvenanceQuerier, Scope};
+    /// use cosmwasm_std::{Addr, Deps, QueryResponse, StdResult};
+    ///
+    /// // Query a scope by id.
+    /// fn try_get_scope(deps: Deps, scope_id: Addr) -> StdResult<QueryResponse> {
+    ///     let querier = ProvenanceQuerier::new(&deps.querier);
+    ///     let scope: Scope = querier.get_scope(scope_id)?;
+    ///     // Do something with scope ...
+    ///     todo!()
+    /// }
+    /// ```
+    pub fn get_scope<A: Into<Addr>>(&self, scope_id: A) -> StdResult<Scope> {
+        let scope_id = validate_address(scope_id)?;
+        self.query_scope(MetadataQueryParams::GetScope { scope_id })
     }
 }

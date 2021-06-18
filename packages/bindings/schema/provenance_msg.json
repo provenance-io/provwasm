@@ -497,7 +497,8 @@
       "enum": [
         "attribute",
         "marker",
-        "name"
+        "name",
+        "metadata"
       ]
     },
     "Uint128": {

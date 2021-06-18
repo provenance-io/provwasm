@@ -118,6 +118,31 @@
         }
       ]
     },
+    "MetadataQueryParams": {
+      "description": "Params for metadata queries",
+      "anyOf": [
+        {
+          "type": "object",
+          "required": [
+            "get_scope"
+          ],
+          "properties": {
+            "get_scope": {
+              "type": "object",
+              "required": [
+                "scope_id"
+              ],
+              "properties": {
+                "scope_id": {
+                  "$ref": "#/definitions/Addr"
+                }
+              }
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
     "NameQueryParams": {
       "description": "Params for name queries.",
       "anyOf": [
@@ -201,6 +226,18 @@
             }
           },
           "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "metadata"
+          ],
+          "properties": {
+            "metadata": {
+              "$ref": "#/definitions/MetadataQueryParams"
+            }
+          },
+          "additionalProperties": false
         }
       ]
     },
@@ -210,7 +247,8 @@
       "enum": [
         "attribute",
         "marker",
-        "name"
+        "name",
+        "metadata"
       ]
     }
   }

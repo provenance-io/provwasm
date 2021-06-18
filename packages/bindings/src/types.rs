@@ -9,6 +9,7 @@ pub enum ProvenanceRoute {
     Attribute,
     Marker,
     Name,
+    Metadata,
 }
 
 /// A collection of bound names.
@@ -81,8 +82,7 @@ pub struct Marker {
     pub account_number: u64,
     pub sequence: u64,
     #[serde(default)]
-    manager: String, // Keep private and force use of public get_manager()
-    #[serde(default)]
+    pub manager: String,
     pub permissions: Vec<AccessGrant>,
     pub status: MarkerStatus,
     pub denom: String,
@@ -95,16 +95,6 @@ impl Marker {
     /// Determines whether a marker requires restricted transfers.
     pub fn bank_sends_disabled(&self) -> bool {
         matches!(self.marker_type, MarkerType::Restricted)
-    }
-
-    /// Returns the human address for the marker manager if defined.
-    pub fn get_manager(&self) -> Option<Addr> {
-        if !self.manager.is_empty() {
-            let address = Addr::unchecked(self.manager.clone());
-            Some(address)
-        } else {
-            None
-        }
     }
 }
 
@@ -167,5 +157,41 @@ pub enum MarkerStatus {
     Finalized,
     Proposed,
     // Query only
+    Unspecified,
+}
+
+/// Defines a root reference for a collection of records owned by one or more parties.
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[serde(rename_all = "snake_case")]
+pub struct Scope {
+    pub scope_id: Addr,
+    pub specification_id: Addr,
+    #[serde(default)]
+    pub owners: Vec<Party>,
+    #[serde(default)]
+    pub data_access: Vec<Addr>,
+    pub value_owner_address: String, // Can be empty so can't be Addr, which has no Default impl
+}
+
+/// An address with an associated role.
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[serde(rename_all = "snake_case")]
+pub struct Party {
+    pub address: Addr,
+    pub role: PartyType,
+}
+
+/// Defines roles that can be associated to a party.
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[serde(rename_all = "snake_case")]
+pub enum PartyType {
+    Originator,
+    Servicer,
+    Investor,
+    Custodian,
+    Owner,
+    Affiliate,
+    Omnibus,
+    Provenance,
     Unspecified,
 }

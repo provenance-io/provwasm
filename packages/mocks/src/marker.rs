@@ -90,8 +90,7 @@ mod test {
 
         // Ensure the manager address is set on proposed marker.
         assert_eq!(marker.status, MarkerStatus::Proposed);
-        let expected_manager = Addr::unchecked("tp15rrl3qjafxzlzguu5x29xh29pam35uetkpnnph");
-        assert_eq!(marker.get_manager(), Some(expected_manager))
+        assert_eq!(marker.manager, "tp15rrl3qjafxzlzguu5x29xh29pam35uetkpnnph")
     }
 
     #[test]
@@ -131,6 +130,6 @@ mod test {
         assert_eq!(marker.bank_sends_disabled(), true);
         // Check manager is None for active markers
         assert_eq!(marker.status, MarkerStatus::Active);
-        assert_eq!(marker.get_manager(), None);
+        assert_eq!(marker.manager, "");
     }
 }

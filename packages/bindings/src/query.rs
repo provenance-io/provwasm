@@ -24,6 +24,7 @@ pub enum ProvenanceQueryParams {
     Name(NameQueryParams),
     Attribute(AttributeQueryParams),
     Marker(MarkerQueryParams),
+    Metadata(MetadataQueryParams),
 }
 
 /// Params for name queries.
@@ -48,4 +49,11 @@ pub enum AttributeQueryParams {
 pub enum MarkerQueryParams {
     GetMarkerByAddress { address: Addr },
     GetMarkerByDenom { denom: String },
+}
+
+/// Params for metadata queries
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[serde(rename_all = "snake_case")]
+pub enum MetadataQueryParams {
+    GetScope { scope_id: Addr },
 }
