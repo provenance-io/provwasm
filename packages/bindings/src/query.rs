@@ -55,5 +55,15 @@ pub enum MarkerQueryParams {
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum MetadataQueryParams {
-    GetScope { scope_id: Addr },
+    GetScope {
+        scope_id: Addr,
+    },
+    GetSessions {
+        scope_id: Addr,
+        name: Option<String>,
+    },
+    GetRecords {
+        scope_id: Addr,
+        name: Option<String>,
+    },
 }

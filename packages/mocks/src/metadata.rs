@@ -30,6 +30,8 @@ impl MetadataQuerier {
                 Some(r) => r,
                 None => query_error("scope not found", to_binary(params)),
             },
+            MetadataQueryParams::GetSessions { .. } => todo!(),
+            MetadataQueryParams::GetRecords { .. } => todo!(),
         }
     }
 }
