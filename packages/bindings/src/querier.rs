@@ -278,7 +278,7 @@ impl<'a> ProvenanceQuerier<'a> {
         Ok(res)
     }
 
-    /// Get sessions for a scope. If provided, the sessions will be filtered by name.
+    /// Get all sessions for a scope.
     ///
     /// ### Example
     /// ```rust
@@ -289,19 +289,40 @@ impl<'a> ProvenanceQuerier<'a> {
     /// // Query all sessions for a scope.
     /// fn try_get_scope(deps: Deps, scope_id: Addr) -> StdResult<QueryResponse> {
     ///     let querier = ProvenanceQuerier::new(&deps.querier);
-    ///     let name: Option<String> = None;
-    ///     let res: Sessions = querier.get_sessions(scope_id, name)?;
+    ///     let res: Sessions = querier.get_sessions(scope_id)?;
     ///     // Do something with res.sessions ...
     ///     todo!()
     /// }
     /// ```
-    pub fn get_sessions<A: Into<Addr>, S: Into<String>>(
+    pub fn get_sessions<A: Into<Addr>>(&self, scope_id: A) -> StdResult<Sessions> {
+        let scope_id = validate_address(scope_id)?;
+        let name: Option<String> = None;
+        self.query_sessions(MetadataQueryParams::GetSessions { scope_id, name })
+    }
+
+    /// Get sessions for a scope with the given name.
+    ///
+    /// ### Example
+    /// ```rust
+    /// // Imports required
+    /// use provwasm_std::{ProvenanceQuerier, Sessions};
+    /// use cosmwasm_std::{Addr, Deps, QueryResponse, StdResult};
+    ///
+    /// // Query all sessions for a scope.
+    /// fn try_get_scope(deps: Deps, scope_id: Addr) -> StdResult<QueryResponse> {
+    ///     let querier = ProvenanceQuerier::new(&deps.querier);
+    ///     let res: Sessions = querier.get_sessions_by_name(scope_id, "someSession")?;
+    ///     // Do something with res.sessions ...
+    ///     todo!()
+    /// }
+    /// ```
+    pub fn get_sessions_by_name<A: Into<Addr>, S: Into<String>>(
         &self,
         scope_id: A,
-        name: Option<S>,
+        name: S,
     ) -> StdResult<Sessions> {
         let scope_id = validate_address(scope_id)?;
-        let name: Option<String> = name.map(|s| s.into());
+        let name: Option<String> = Some(name.into());
         self.query_sessions(MetadataQueryParams::GetSessions { scope_id, name })
     }
 
@@ -316,7 +337,7 @@ impl<'a> ProvenanceQuerier<'a> {
         Ok(res)
     }
 
-    /// Get records for a scope. If provided, the records will be filtered by name.
+    /// Get all records for a scope.
     ///
     /// ### Example
     /// ```rust
@@ -327,19 +348,40 @@ impl<'a> ProvenanceQuerier<'a> {
     /// // Query all records for a scope.
     /// fn try_get_scope(deps: Deps, scope_id: Addr) -> StdResult<QueryResponse> {
     ///     let querier = ProvenanceQuerier::new(&deps.querier);
-    ///     let name: Option<String> = None;
-    ///     let res: Records = querier.get_records(scope_id, name)?;
+    ///     let res: Records = querier.get_records(scope_id)?;
     ///     // Do something with res.records ...
     ///     todo!()
     /// }
     /// ```
-    pub fn get_records<A: Into<Addr>, S: Into<String>>(
+    pub fn get_records<A: Into<Addr>>(&self, scope_id: A) -> StdResult<Records> {
+        let scope_id = validate_address(scope_id)?;
+        let name: Option<String> = None;
+        self.query_records(MetadataQueryParams::GetRecords { scope_id, name })
+    }
+
+    /// Get records for a scope with the given name.
+    ///
+    /// ### Example
+    /// ```rust
+    /// // Imports required
+    /// use provwasm_std::{ProvenanceQuerier, Records};
+    /// use cosmwasm_std::{Addr, Deps, QueryResponse, StdResult};
+    ///
+    /// // Query all records for a scope.
+    /// fn try_get_scope(deps: Deps, scope_id: Addr) -> StdResult<QueryResponse> {
+    ///     let querier = ProvenanceQuerier::new(&deps.querier);
+    ///     let res: Records = querier.get_records_by_name(scope_id, "loanStatus")?;
+    ///     // Do something with res.records ...
+    ///     todo!()
+    /// }
+    /// ```
+    pub fn get_records_by_name<A: Into<Addr>, S: Into<String>>(
         &self,
         scope_id: A,
-        name: Option<S>,
+        name: S,
     ) -> StdResult<Records> {
         let scope_id = validate_address(scope_id)?;
-        let name: Option<String> = name.map(|s| s.into());
+        let name: Option<String> = Some(name.into());
         self.query_records(MetadataQueryParams::GetRecords { scope_id, name })
     }
 }
