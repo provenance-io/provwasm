@@ -134,7 +134,7 @@
               ],
               "properties": {
                 "scope_id": {
-                  "$ref": "#/definitions/Addr"
+                  "type": "string"
                 }
               }
             }
@@ -160,7 +160,7 @@
                   ]
                 },
                 "scope_id": {
-                  "$ref": "#/definitions/Addr"
+                  "type": "string"
                 }
               }
             }
@@ -186,7 +186,7 @@
                   ]
                 },
                 "scope_id": {
-                  "$ref": "#/definitions/Addr"
+                  "type": "string"
                 }
               }
             }

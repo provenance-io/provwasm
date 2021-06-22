@@ -1,5 +1,5 @@
 use crate::common::{query_error, query_result};
-use cosmwasm_std::{to_binary, Addr, QuerierResult};
+use cosmwasm_std::{to_binary, QuerierResult};
 use provwasm_std::{MetadataQueryParams, Scope};
 use std::collections::HashMap;
 
@@ -18,7 +18,7 @@ impl MetadataQuerier {
         MetadataQuerier { scope_records }
     }
 
-    fn get_scope(&self, scope_id: &Addr) -> Option<QuerierResult> {
+    fn get_scope(&self, scope_id: &str) -> Option<QuerierResult> {
         self.scope_records
             .get(&scope_id.to_string())
             .map(|scope| query_result(to_binary(scope)))

@@ -1,0 +1,112 @@
+use cosmwasm_std::{to_binary, Deps, DepsMut, Env, MessageInfo, QueryResponse, Response, StdError};
+
+use provwasm_std::{bind_name, NameBinding, ProvenanceMsg, ProvenanceQuerier, Scope};
+
+use crate::error::ContractError;
+use crate::msg::{ExecuteMsg, InitMsg, QueryMsg};
+use crate::state::{config, State};
+
+/// Initialize config state and bind a name to the contract address.
+pub fn instantiate(
+    deps: DepsMut,
+    env: Env,
+    _info: MessageInfo,
+    msg: InitMsg,
+) -> Result<Response<ProvenanceMsg>, ContractError> {
+    // Create and save contract config state.
+    config(deps.storage).save(&State {
+        contract_name: msg.name.clone(),
+    })?;
+
+    // Create a message that will give the contract a name.
+    let bind_name_msg = bind_name(
+        msg.name.clone(),
+        env.contract.address,
+        NameBinding::Restricted,
+    )?;
+
+    // Dispatch message to handler and emit events
+    let mut res: Response<ProvenanceMsg> = Response::new();
+    res.add_message(bind_name_msg);
+    res.add_attribute("integration_test", "v2");
+    res.add_attribute("action", "provwasm.contracts.scope.init");
+    res.add_attribute("name", msg.name);
+    Ok(res)
+}
+
+/// Execute does nothing
+pub fn execute(
+    _deps: DepsMut,
+    _env: Env,
+    _info: MessageInfo,
+    _msg: ExecuteMsg,
+) -> Result<Response, ContractError> {
+    Ok(Response::default())
+}
+
+/// Handle scope query requests for the provenance metadata module.
+pub fn query(deps: Deps, _env: Env, msg: QueryMsg) -> Result<QueryResponse, StdError> {
+    match msg {
+        QueryMsg::GetScope { id } => try_get_scope(deps, id),
+    }
+}
+
+// Use a ProvenanceQuerier to get a scope by ID.
+fn try_get_scope(deps: Deps, id: String) -> Result<QueryResponse, StdError> {
+    let querier = ProvenanceQuerier::new(&deps.querier);
+    let scope: Scope = querier.get_scope(id)?;
+    to_binary(&scope)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use cosmwasm_std::from_binary;
+    use cosmwasm_std::testing::{mock_env, mock_info};
+    use provwasm_mocks::{mock_dependencies, must_read_binary_file};
+
+    #[test]
+    fn valid_init() {
+        // Create default provenance mocks.
+        let mut deps = mock_dependencies(&[]);
+
+        // Init contract state
+        let res = instantiate(
+            deps.as_mut(),
+            mock_env(),
+            mock_info("sender", &[]),
+            InitMsg {
+                name: "contract.pb".into(),
+            },
+        )
+        .unwrap(); // Panics on error
+
+        // Just check that one message was created (bind name to contract address).
+        assert_eq!(1, res.messages.len());
+    }
+
+    #[test]
+    fn query_scope() {
+        // Read a scope from file
+        let bin = must_read_binary_file("testdata/scope.json");
+        let expected_scope: Scope = from_binary(&bin).unwrap();
+
+        // Create custom deps with the scope.
+        let mut deps = mock_dependencies(&[]);
+        deps.querier.with_scopes(vec![expected_scope.clone()]);
+
+        // Call the contract query function.
+        let bin = query(
+            deps.as_ref(),
+            mock_env(),
+            QueryMsg::GetScope {
+                id: "scope1qqqqq2wf3c4yt4u447m8pw65qcdqrre82d".into(),
+            },
+        )
+        .unwrap();
+
+        // Ensure we got the expected scope
+        let scope: Scope = from_binary(&bin).unwrap();
+        assert_eq!(scope, expected_scope)
+    }
+}

@@ -160,13 +160,13 @@ pub enum MarkerStatus {
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub struct Scope {
-    pub scope_id: Addr,
-    pub specification_id: Addr,
+    pub scope_id: String,
+    pub specification_id: String,
     #[serde(default)]
     pub owners: Vec<Party>,
     #[serde(default)]
-    pub data_access: Vec<Addr>,
-    pub value_owner_address: String, // Can be empty so can't be Addr, which has no Default
+    pub data_access: Vec<String>,
+    pub value_owner_address: String,
 }
 
 /// The final state of an execution context for a specification instance.
@@ -174,8 +174,8 @@ pub struct Scope {
 #[serde(rename_all = "snake_case")]
 pub struct Session {
     pub name: String,
-    pub session_id: Addr,
-    pub specification_id: Addr,
+    pub session_id: String,
+    pub specification_id: String,
     pub parties: Vec<Party>,
     pub context: Binary,
 }
@@ -192,8 +192,8 @@ pub struct Sessions {
 #[serde(rename_all = "snake_case")]
 pub struct Record {
     pub name: String,
-    pub session_id: Addr,
-    pub specification_id: Addr,
+    pub session_id: String,
+    pub specification_id: String,
     pub process: Process,
     pub inputs: Vec<RecordInput>,
     pub outputs: Vec<RecordOutput>,
@@ -210,7 +210,7 @@ pub struct Records {
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub struct Party {
-    pub address: Addr,
+    pub address: String,
     pub role: PartyType,
 }
 
@@ -243,7 +243,7 @@ pub struct Process {
 #[serde(rename_all = "snake_case")]
 pub enum ProcessId {
     /// The on-chain address of a process.
-    Address { address: Addr },
+    Address { address: String },
     /// The hash of an off-chain process.
     Hash { hash: String },
 }
@@ -263,7 +263,7 @@ pub struct RecordInput {
 #[serde(rename_all = "snake_case")]
 pub enum RecordInputSource {
     /// The address of a record on chain (established records).
-    Record { record_id: Addr },
+    Record { record_id: String },
     /// The hash of an off-chain piece of information (proposed records).
     Hash { hash: String },
 }
