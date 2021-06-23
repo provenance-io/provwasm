@@ -60,7 +60,6 @@ pub enum MetadataQueryParams {
     },
     GetSessions {
         scope_id: String,
-        name: Option<String>,
     },
     GetRecords {
         scope_id: String,

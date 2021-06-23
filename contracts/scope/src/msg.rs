@@ -15,4 +15,7 @@ pub enum ExecuteMsg {}
 #[serde(rename_all = "snake_case")]
 pub enum QueryMsg {
     GetScope { id: String },
+    GetSessions { scope_id: String },
+    GetRecords { scope_id: String },
+    GetRecordsByName { scope_id: String, name: String },
 }

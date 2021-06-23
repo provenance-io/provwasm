@@ -2,7 +2,7 @@ use std::env::current_dir;
 use std::fs::create_dir_all;
 
 use cosmwasm_schema::{export_schema, remove_schemas, schema_for};
-use provwasm_std::Scope;
+use provwasm_std::{Records, Scope, Sessions};
 
 use scope::msg::{ExecuteMsg, InitMsg, QueryMsg};
 use scope::state::State;
@@ -16,6 +16,8 @@ fn main() {
     export_schema(&schema_for!(InitMsg), &out_dir);
     export_schema(&schema_for!(ExecuteMsg), &out_dir);
     export_schema(&schema_for!(QueryMsg), &out_dir);
+    export_schema(&schema_for!(Records), &out_dir);
     export_schema(&schema_for!(Scope), &out_dir);
+    export_schema(&schema_for!(Sessions), &out_dir);
     export_schema(&schema_for!(State), &out_dir);
 }

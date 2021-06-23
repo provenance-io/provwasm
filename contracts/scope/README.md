@@ -9,8 +9,9 @@ This smart contract tests the following functionality
   - Bind a name to the contact address
 - Queries
   - Query scope by ID
-  - Query scope sessions (TODO)
-  - Query scope records  (TODO)
+  - Query scope sessions
+  - Query scope records
+  - Query scope records by name
 
 ## Build
 
@@ -89,7 +90,31 @@ provenanced tx wasm instantiate 1 '{"name": "scope-itv2.sc.pb"}' \
 Execute a scope query
 
 ```bash
-provenance query wasm contract-state smart \
+provenanced query wasm contract-state smart \
     tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
-    '{"get_scope":{"id":"scope1qqqqq2wf3c4yt4u447m8pw65qcdqrre82d"}}' | jq
+    '{"get_scope":{"id":"scope1qqqqq2wf3c4yt4u447m8pw65qcdqrre82d"}}' -t -o json | jq
+```
+
+Execute a scope sessions query
+
+```bash
+provenanced query wasm contract-state smart \
+    tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
+    '{"get_sessions":{"scope_id":"scope1qqqqq2wf3c4yt4u447m8pw65qcdqrre82d"}}' -t -o json | jq
+```
+
+Execute a scope records query
+
+```bash
+provenanced query wasm contract-state smart \
+    tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
+    '{"get_records":{"scope_id":"scope1qqqqq2wf3c4yt4u447m8pw65qcdqrre82d"}}' -t -o json | jq
+```
+
+Execute a scope records query by name
+
+```bash
+provenanced query wasm contract-state smart \
+    tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
+    '{"get_records_by_name":{"scope_id":"scope1qqqqq2wf3c4yt4u447m8pw65qcdqrre82d","name":"loan"}}' -t -o json | jq
 ```

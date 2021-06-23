@@ -1,6 +1,8 @@
 use cosmwasm_std::{to_binary, Deps, DepsMut, Env, MessageInfo, QueryResponse, Response, StdError};
 
-use provwasm_std::{bind_name, NameBinding, ProvenanceMsg, ProvenanceQuerier, Scope};
+use provwasm_std::{
+    bind_name, NameBinding, ProvenanceMsg, ProvenanceQuerier, Records, Scope, Sessions,
+};
 
 use crate::error::ContractError;
 use crate::msg::{ExecuteMsg, InitMsg, QueryMsg};
@@ -48,6 +50,11 @@ pub fn execute(
 pub fn query(deps: Deps, _env: Env, msg: QueryMsg) -> Result<QueryResponse, StdError> {
     match msg {
         QueryMsg::GetScope { id } => try_get_scope(deps, id),
+        QueryMsg::GetSessions { scope_id } => try_get_sessions(deps, scope_id),
+        QueryMsg::GetRecords { scope_id } => try_get_records(deps, scope_id),
+        QueryMsg::GetRecordsByName { scope_id, name } => {
+            try_get_records_by_name(deps, scope_id, name)
+        }
     }
 }
 
@@ -56,6 +63,31 @@ fn try_get_scope(deps: Deps, id: String) -> Result<QueryResponse, StdError> {
     let querier = ProvenanceQuerier::new(&deps.querier);
     let scope: Scope = querier.get_scope(id)?;
     to_binary(&scope)
+}
+
+// Use a ProvenanceQuerier to get sessions for a scope.
+fn try_get_sessions(deps: Deps, scope_id: String) -> Result<QueryResponse, StdError> {
+    let querier = ProvenanceQuerier::new(&deps.querier);
+    let sessions: Sessions = querier.get_sessions(scope_id)?;
+    to_binary(&sessions)
+}
+
+// Use a ProvenanceQuerier to get records for a scope.
+fn try_get_records(deps: Deps, scope_id: String) -> Result<QueryResponse, StdError> {
+    let querier = ProvenanceQuerier::new(&deps.querier);
+    let records: Records = querier.get_records(scope_id)?;
+    to_binary(&records)
+}
+
+// Use a ProvenanceQuerier to get records for a scope by name
+fn try_get_records_by_name(
+    deps: Deps,
+    scope_id: String,
+    name: String,
+) -> Result<QueryResponse, StdError> {
+    let querier = ProvenanceQuerier::new(&deps.querier);
+    let records: Records = querier.get_records_by_name(scope_id, name)?;
+    to_binary(&records)
 }
 
 #[cfg(test)]

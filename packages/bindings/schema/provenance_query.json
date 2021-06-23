@@ -153,12 +153,6 @@
                 "scope_id"
               ],
               "properties": {
-                "name": {
-                  "type": [
-                    "string",
-                    "null"
-                  ]
-                },
                 "scope_id": {
                   "type": "string"
                 }

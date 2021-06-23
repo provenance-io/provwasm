@@ -297,34 +297,7 @@ impl<'a> ProvenanceQuerier<'a> {
     /// ```
     pub fn get_sessions<S: Into<String>>(&self, scope_id: S) -> StdResult<Sessions> {
         let scope_id = scope_id.into();
-        let name: Option<String> = None;
-        self.query_sessions(MetadataQueryParams::GetSessions { scope_id, name })
-    }
-
-    /// Get sessions for a scope with the given name.
-    ///
-    /// ### Example
-    /// ```rust
-    /// // Imports required
-    /// use provwasm_std::{ProvenanceQuerier, Sessions};
-    /// use cosmwasm_std::{Deps, QueryResponse, StdResult};
-    ///
-    /// // Query all sessions for a scope.
-    /// fn try_get_sessions(deps: Deps, scope_id: String, name: String) -> StdResult<QueryResponse> {
-    ///     let querier = ProvenanceQuerier::new(&deps.querier);
-    ///     let res: Sessions = querier.get_sessions_by_name(&scope_id, &name)?;
-    ///     // Do something with res.sessions ...
-    ///     todo!()
-    /// }
-    /// ```
-    pub fn get_sessions_by_name<S: Into<String>>(
-        &self,
-        scope_id: S,
-        name: S,
-    ) -> StdResult<Sessions> {
-        let scope_id = scope_id.into();
-        let name: Option<String> = Some(name.into());
-        self.query_sessions(MetadataQueryParams::GetSessions { scope_id, name })
+        self.query_sessions(MetadataQueryParams::GetSessions { scope_id })
     }
 
     // Execute a record query against the metadata module.
