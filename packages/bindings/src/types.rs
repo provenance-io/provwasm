@@ -184,7 +184,7 @@ pub struct Session {
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub struct Sessions {
-    sessions: Vec<Session>,
+    pub sessions: Vec<Session>,
 }
 
 /// A record of fact for a session.
@@ -203,7 +203,7 @@ pub struct Record {
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub struct Records {
-    records: Vec<Record>,
+    pub records: Vec<Record>,
 }
 
 /// An address with an associated role.

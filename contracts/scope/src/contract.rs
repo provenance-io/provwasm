@@ -121,11 +121,11 @@ mod tests {
     fn query_scope() {
         // Read a scope from file
         let bin = must_read_binary_file("testdata/scope.json");
-        let expected_scope: Scope = from_binary(&bin).unwrap();
+        let expected: Scope = from_binary(&bin).unwrap();
 
         // Create custom deps with the scope.
         let mut deps = mock_dependencies(&[]);
-        deps.querier.with_scopes(vec![expected_scope.clone()]);
+        deps.querier.with_scope(expected.clone());
 
         // Call the contract query function.
         let bin = query(
@@ -139,6 +139,6 @@ mod tests {
 
         // Ensure we got the expected scope
         let scope: Scope = from_binary(&bin).unwrap();
-        assert_eq!(scope, expected_scope)
+        assert_eq!(scope, expected)
     }
 }

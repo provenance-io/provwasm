@@ -4,7 +4,7 @@ use cosmwasm_std::{
     from_slice, to_binary, Coin, OwnedDeps, Querier, QuerierResult, QueryRequest, StdResult,
     SystemError, SystemResult,
 };
-use provwasm_std::{Marker, ProvenanceQuery, ProvenanceQueryParams, Scope};
+use provwasm_std::{Marker, ProvenanceQuery, ProvenanceQueryParams, Records, Scope, Sessions};
 
 /// A drop-in replacement for cosmwasm_std::testing::mock_dependencies that uses the mock
 /// provenance querier.
@@ -96,8 +96,17 @@ impl ProvenanceMockQuerier {
         self.marker = MarkerQuerier::new(inputs);
     }
 
-    pub fn with_scopes(&mut self, inputs: Vec<Scope>) {
-        self.metadata = MetadataQuerier::new(inputs)
+    pub fn with_scope(&mut self, scope: Scope) {
+        self.metadata = MetadataQuerier::new(scope, None, None)
+    }
+
+    pub fn with_metadata(
+        &mut self,
+        scope: Scope,
+        sessions: Option<Sessions>,
+        records: Option<Records>,
+    ) {
+        self.metadata = MetadataQuerier::new(scope, sessions, records)
     }
 }
 
