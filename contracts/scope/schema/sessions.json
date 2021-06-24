@@ -3,9 +3,11 @@
   "title": "Sessions",
   "description": "A group of sessions.",
   "type": "object",
+  "required": [
+    "sessions"
+  ],
   "properties": {
     "sessions": {
-      "default": [],
       "type": "array",
       "items": {
         "$ref": "#/definitions/Session"

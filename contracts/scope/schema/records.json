@@ -3,9 +3,11 @@
   "title": "Records",
   "description": "A group of records.",
   "type": "object",
+  "required": [
+    "records"
+  ],
   "properties": {
     "records": {
-      "default": [],
       "type": "array",
       "items": {
         "$ref": "#/definitions/Record"

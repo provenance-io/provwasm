@@ -294,7 +294,7 @@ checksum = "265d751d31d6780a3f956bb5b8022feba2d94eeee5a84ba64f4212eedca42213"
 
 [[package]]
 name = "marker"
-version = "0.6.0"
+version = "0.6.1"
 dependencies = [
  "cosmwasm-schema",
  "cosmwasm-std",
@@ -332,7 +332,7 @@ dependencies = [
 
 [[package]]
 name = "provwasm-mocks"
-version = "0.14.1"
+version = "0.14.2"
 dependencies = [
  "cosmwasm-std",
  "provwasm-std",
@@ -342,7 +342,7 @@ dependencies = [
 
 [[package]]
 name = "provwasm-std"
-version = "0.14.1"
+version = "0.14.2"
 dependencies = [
  "cosmwasm-std",
  "schemars",

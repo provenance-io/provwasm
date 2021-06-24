@@ -1,5 +1,5 @@
 .PHONY: all
-all: attrs marker name
+all: attrs marker name scope
 
 .PHONY: attrs
 attrs:
@@ -13,8 +13,13 @@ marker:
 name:
 	@make -C name
 
+.PHONY: scope
+scope:
+	@make -C scope
+
 .PHONY: clean
 clean:
 	@make -C attrs clean
 	@make -C marker clean
 	@make -C name clean
+	@make -C scope clean

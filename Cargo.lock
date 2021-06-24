@@ -308,7 +308,7 @@ dependencies = [
 
 [[package]]
 name = "provwasm-mocks"
-version = "0.14.1"
+version = "0.14.2"
 dependencies = [
  "cosmwasm-std",
  "provwasm-std",
@@ -318,7 +318,7 @@ dependencies = [
 
 [[package]]
 name = "provwasm-std"
-version = "0.14.1"
+version = "0.14.2"
 dependencies = [
  "cosmwasm-schema",
  "cosmwasm-std",

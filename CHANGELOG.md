@@ -2,7 +2,7 @@
 
 ## Unreleased changes
 
-* None
+* Add metadata module query support for scopes, sessions, and records.
 
 ## Releases
 
