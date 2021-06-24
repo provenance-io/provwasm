@@ -3,11 +3,9 @@
   "title": "Records",
   "description": "A group of records.",
   "type": "object",
-  "required": [
-    "records"
-  ],
   "properties": {
     "records": {
+      "default": [],
       "type": "array",
       "items": {
         "$ref": "#/definitions/Record"
@@ -86,15 +84,14 @@
       "description": "A record of fact for a session.",
       "type": "object",
       "required": [
-        "inputs",
         "name",
-        "outputs",
         "process",
         "session_id",
         "specification_id"
       ],
       "properties": {
         "inputs": {
+          "default": [],
           "type": "array",
           "items": {
             "$ref": "#/definitions/RecordInput"
@@ -104,6 +101,7 @@
           "type": "string"
         },
         "outputs": {
+          "default": [],
           "type": "array",
           "items": {
             "$ref": "#/definitions/RecordOutput"

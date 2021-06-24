@@ -86,15 +86,14 @@
       "description": "A record of fact for a session.",
       "type": "object",
       "required": [
-        "inputs",
         "name",
-        "outputs",
         "process",
         "session_id",
         "specification_id"
       ],
       "properties": {
         "inputs": {
+          "default": [],
           "type": "array",
           "items": {
             "$ref": "#/definitions/RecordInput"
@@ -104,6 +103,7 @@
           "type": "string"
         },
         "outputs": {
+          "default": [],
           "type": "array",
           "items": {
             "$ref": "#/definitions/RecordOutput"

@@ -3,11 +3,9 @@
   "title": "Sessions",
   "description": "A group of sessions.",
   "type": "object",
-  "required": [
-    "sessions"
-  ],
   "properties": {
     "sessions": {
+      "default": [],
       "type": "array",
       "items": {
         "$ref": "#/definitions/Session"
@@ -56,7 +54,6 @@
       "required": [
         "context",
         "name",
-        "parties",
         "session_id",
         "specification_id"
       ],
@@ -68,6 +65,7 @@
           "type": "string"
         },
         "parties": {
+          "default": [],
           "type": "array",
           "items": {
             "$ref": "#/definitions/Party"

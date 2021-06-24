@@ -52,7 +52,7 @@ provenanced tx name bind \
     --testnet | jq
 ```
 
-Store the metadata integration test smart contract WASM in provenance
+Store the metadata integration test smart contract Wasm in provenance
 
 ```bash
 provenanced tx wasm store scope.wasm \

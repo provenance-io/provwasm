@@ -176,6 +176,7 @@ pub struct Session {
     pub name: String,
     pub session_id: String,
     pub specification_id: String,
+    #[serde(default)]
     pub parties: Vec<Party>,
     pub context: Binary,
 }
@@ -195,7 +196,9 @@ pub struct Record {
     pub session_id: String,
     pub specification_id: String,
     pub process: Process,
+    #[serde(default)]
     pub inputs: Vec<RecordInput>,
+    #[serde(default)]
     pub outputs: Vec<RecordOutput>,
 }
 

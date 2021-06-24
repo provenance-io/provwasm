@@ -56,7 +56,6 @@
       "required": [
         "context",
         "name",
-        "parties",
         "session_id",
         "specification_id"
       ],
@@ -68,6 +67,7 @@
           "type": "string"
         },
         "parties": {
+          "default": [],
           "type": "array",
           "items": {
             "$ref": "#/definitions/Party"
