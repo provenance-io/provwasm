@@ -137,8 +137,95 @@ mod tests {
         )
         .unwrap();
 
-        // Ensure we got the expected scope
+        // Ensure we got the expected scope.
         let scope: Scope = from_binary(&bin).unwrap();
         assert_eq!(scope, expected)
+    }
+
+    #[test]
+    fn query_sessions() {
+        // Read test metadata JSON files
+        let bin = must_read_binary_file("testdata/scope.json");
+        let scope: Scope = from_binary(&bin).unwrap();
+        let bin = must_read_binary_file("testdata/sessions.json");
+        let expected: Sessions = from_binary(&bin).unwrap();
+
+        // Create custom deps with metadata.
+        let mut deps = mock_dependencies(&[]);
+        deps.querier
+            .with_metadata(scope, Some(expected.clone()), None);
+
+        // Call the contract query function.
+        let bin = query(
+            deps.as_ref(),
+            mock_env(),
+            QueryMsg::GetSessions {
+                scope_id: "scope1qqqqq2wf3c4yt4u447m8pw65qcdqrre82d".into(),
+            },
+        )
+        .unwrap();
+
+        // Ensure we got the expected sessions.
+        let sessions: Sessions = from_binary(&bin).unwrap();
+        assert_eq!(sessions, expected)
+    }
+
+    #[test]
+    fn query_records() {
+        // Read test metadata JSON files
+        let bin = must_read_binary_file("testdata/scope.json");
+        let scope: Scope = from_binary(&bin).unwrap();
+        let bin = must_read_binary_file("testdata/records.json");
+        let expected: Records = from_binary(&bin).unwrap();
+
+        // Create custom deps with metadata.
+        let mut deps = mock_dependencies(&[]);
+        deps.querier
+            .with_metadata(scope, None, Some(expected.clone()));
+
+        // Call the contract query function.
+        let bin = query(
+            deps.as_ref(),
+            mock_env(),
+            QueryMsg::GetRecords {
+                scope_id: "scope1qqqqq2wf3c4yt4u447m8pw65qcdqrre82d".into(),
+            },
+        )
+        .unwrap();
+
+        // Ensure we got the expected records
+        let records: Records = from_binary(&bin).unwrap();
+        assert_eq!(records, expected)
+    }
+
+    #[test]
+    fn query_records_by_name() {
+        // Read test metadata JSON files
+        let bin = must_read_binary_file("testdata/scope.json");
+        let scope: Scope = from_binary(&bin).unwrap();
+        let bin = must_read_binary_file("testdata/records.json");
+        let records: Records = from_binary(&bin).unwrap();
+        let bin = must_read_binary_file("testdata/loan_record.json");
+        let expected: Records = from_binary(&bin).unwrap();
+
+        // Create custom deps with metadata.
+        let mut deps = mock_dependencies(&[]);
+        deps.querier.with_metadata(scope, None, Some(records));
+
+        // Call the contract query function.
+        let bin = query(
+            deps.as_ref(),
+            mock_env(),
+            QueryMsg::GetRecordsByName {
+                scope_id: "scope1qqqqq2wf3c4yt4u447m8pw65qcdqrre82d".into(),
+                name: "loan".into(),
+            },
+        )
+        .unwrap();
+
+        // Ensure we got the expected record.
+        let records: Records = from_binary(&bin).unwrap();
+        assert_eq!(records.records.len(), 1);
+        assert_eq!(records, expected);
     }
 }
