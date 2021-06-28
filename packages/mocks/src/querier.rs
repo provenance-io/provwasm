@@ -100,13 +100,16 @@ impl ProvenanceMockQuerier {
         self.metadata = MetadataQuerier::new(scope, None, None)
     }
 
-    pub fn with_metadata(
-        &mut self,
-        scope: Scope,
-        sessions: Option<Sessions>,
-        records: Option<Records>,
-    ) {
-        self.metadata = MetadataQuerier::new(scope, sessions, records)
+    pub fn with_sessions(&mut self, scope: Scope, sessions: Sessions) {
+        self.metadata = MetadataQuerier::new(scope, Some(sessions), None)
+    }
+
+    pub fn with_records(&mut self, scope: Scope, records: Records) {
+        self.metadata = MetadataQuerier::new(scope, None, Some(records))
+    }
+
+    pub fn with_metadata(&mut self, scope: Scope, sessions: Sessions, records: Records) {
+        self.metadata = MetadataQuerier::new(scope, Some(sessions), Some(records))
     }
 }
 

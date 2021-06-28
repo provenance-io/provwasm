@@ -152,8 +152,7 @@ mod tests {
 
         // Create custom deps with metadata.
         let mut deps = mock_dependencies(&[]);
-        deps.querier
-            .with_metadata(scope, Some(expected.clone()), None);
+        deps.querier.with_sessions(scope, expected.clone());
 
         // Call the contract query function.
         let bin = query(
@@ -180,8 +179,7 @@ mod tests {
 
         // Create custom deps with metadata.
         let mut deps = mock_dependencies(&[]);
-        deps.querier
-            .with_metadata(scope, None, Some(expected.clone()));
+        deps.querier.with_records(scope, expected.clone());
 
         // Call the contract query function.
         let bin = query(
@@ -210,7 +208,7 @@ mod tests {
 
         // Create custom deps with metadata.
         let mut deps = mock_dependencies(&[]);
-        deps.querier.with_metadata(scope, None, Some(records));
+        deps.querier.with_records(scope, records);
 
         // Call the contract query function.
         let bin = query(

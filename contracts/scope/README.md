@@ -21,7 +21,7 @@ Compile and optimize the smart contract Wasm.
 make && make optimize
 ```
 
-## Usage
+## Setup
 
 _NOTE: Address bech32 values and other params may vary._
 
@@ -86,6 +86,8 @@ provenanced tx wasm instantiate 1 '{"name": "scope-itv2.sc.pb"}' \
     --yes \
     --testnet | jq
 ```
+
+## Example Queries
 
 Execute a scope query
 
