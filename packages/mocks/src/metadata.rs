@@ -20,10 +20,14 @@ impl MetadataQuerier {
         scope_store.insert(scope.scope_id.to_string(), scope.clone());
         // Store sessions
         let mut sessions_store = HashMap::new();
-        sessions.map(|s| sessions_store.insert(scope.scope_id.to_string(), s));
+        sessions.into_iter().for_each(|s| {
+            sessions_store.insert(scope.scope_id.to_string(), s);
+        });
         // Store records
         let mut records_store = HashMap::new();
-        records.map(|r| records_store.insert(scope.scope_id.to_string(), r));
+        records.into_iter().for_each(|r| {
+            records_store.insert(scope.scope_id.to_string(), r);
+        });
         // Create and return the mock metadata querier
         MetadataQuerier {
             scope_store,
@@ -59,21 +63,16 @@ impl MetadataQuerier {
     }
 
     pub fn query(&self, params: &MetadataQueryParams) -> QuerierResult {
-        match params {
-            MetadataQueryParams::GetScope { scope_id } => match self.get_scope(scope_id) {
-                Some(r) => r,
-                None => query_error("scope not found", to_binary(params)),
-            },
-            MetadataQueryParams::GetSessions { scope_id } => match self.get_sessions(scope_id) {
-                Some(r) => r,
-                None => query_error("no sessions found", to_binary(params)),
-            },
+        let maybe_result = match params {
+            MetadataQueryParams::GetScope { scope_id } => self.get_scope(scope_id),
+            MetadataQueryParams::GetSessions { scope_id } => self.get_sessions(scope_id),
             MetadataQueryParams::GetRecords { scope_id, name } => {
-                match self.get_records(scope_id, name.clone()) {
-                    Some(r) => r,
-                    None => query_error("no records found", to_binary(params)),
-                }
+                self.get_records(scope_id, name.clone())
             }
+        };
+        match maybe_result {
+            Some(r) => r,
+            None => query_error("metadata not found", to_binary(params)),
         }
     }
 }
