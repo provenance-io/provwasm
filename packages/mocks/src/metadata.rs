@@ -81,76 +81,74 @@ impl MetadataQuerier {
 mod test {
     use super::*;
     use crate::common::must_read_binary_file;
-    use cosmwasm_std::from_binary;
+    use cosmwasm_std::{from_binary, Binary};
+
+    // The scope ID used for test queries.
+    const TEST_SCOPE_ID: &str = "scope1qqqqq2wf3c4yt4u447m8pw65qcdqrre82d";
+
+    // Read a test scope from file.
+    fn test_scope() -> Scope {
+        let bin = must_read_binary_file("testdata/scope.json");
+        from_binary(&bin).unwrap()
+    }
+    // Read test sessions from file.
+    fn test_sessions() -> Sessions {
+        let bin = must_read_binary_file("testdata/sessions.json");
+        from_binary(&bin).unwrap()
+    }
+
+    // Read test records from file.
+    fn test_records() -> Records {
+        let bin = must_read_binary_file("testdata/records.json");
+        from_binary(&bin).unwrap()
+    }
+
+    // Execute a query against the mock metadata querier.
+    fn mock_query(params: &MetadataQueryParams) -> Binary {
+        let querier =
+            MetadataQuerier::new(test_scope(), Some(test_sessions()), Some(test_records()));
+        querier.query(params).unwrap().unwrap()
+    }
 
     #[test]
     fn query_scope() {
-        let bin = must_read_binary_file("testdata/scope.json");
-        let expected: Scope = from_binary(&bin).unwrap();
-        let querier = MetadataQuerier::new(expected.clone(), None, None);
-
-        let params = MetadataQueryParams::GetScope {
-            scope_id: "scope1qqqqq2wf3c4yt4u447m8pw65qcdqrre82d".into(),
-        };
-        let bin = querier.query(&params).unwrap().unwrap();
-        let scope: Scope = from_binary(&bin).unwrap();
-
-        assert_eq!(scope, expected)
+        let result = mock_query(&MetadataQueryParams::GetScope {
+            scope_id: TEST_SCOPE_ID.into(),
+        });
+        let scope: Scope = from_binary(&result).unwrap();
+        assert_eq!(scope, test_scope())
     }
 
     #[test]
     fn query_sessions() {
-        let bin = must_read_binary_file("testdata/scope.json");
-        let scope: Scope = from_binary(&bin).unwrap();
-        let bin = must_read_binary_file("testdata/sessions.json");
-        let expected: Sessions = from_binary(&bin).unwrap();
-        let querier = MetadataQuerier::new(scope, Some(expected.clone()), None);
-
-        let params = MetadataQueryParams::GetSessions {
-            scope_id: "scope1qqqqq2wf3c4yt4u447m8pw65qcdqrre82d".into(),
-        };
-        let bin = querier.query(&params).unwrap().unwrap();
-        let sessions: Sessions = from_binary(&bin).unwrap();
-
-        assert_eq!(sessions, expected)
+        let result = mock_query(&MetadataQueryParams::GetSessions {
+            scope_id: TEST_SCOPE_ID.into(),
+        });
+        let sessions: Sessions = from_binary(&result).unwrap();
+        assert_eq!(sessions, test_sessions())
     }
 
     #[test]
     fn query_records() {
-        let bin = must_read_binary_file("testdata/scope.json");
-        let scope: Scope = from_binary(&bin).unwrap();
-        let bin = must_read_binary_file("testdata/records.json");
-        let expected: Records = from_binary(&bin).unwrap();
-        let querier = MetadataQuerier::new(scope, None, Some(expected.clone()));
-
-        let params = MetadataQueryParams::GetRecords {
-            scope_id: "scope1qqqqq2wf3c4yt4u447m8pw65qcdqrre82d".into(),
+        let result = mock_query(&MetadataQueryParams::GetRecords {
+            scope_id: TEST_SCOPE_ID.into(),
             name: None,
-        };
-        let bin = querier.query(&params).unwrap().unwrap();
-        let records: Records = from_binary(&bin).unwrap();
-
-        assert_eq!(records, expected)
+        });
+        let records: Records = from_binary(&result).unwrap();
+        assert_eq!(records, test_records())
     }
 
     #[test]
     fn query_records_by_name() {
-        let bin = must_read_binary_file("testdata/scope.json");
-        let scope: Scope = from_binary(&bin).unwrap();
-        let bin = must_read_binary_file("testdata/records.json");
-        let records: Records = from_binary(&bin).unwrap();
-        let querier = MetadataQuerier::new(scope, None, Some(records.clone()));
-
         let bin = must_read_binary_file("testdata/loan_record.json");
         let expected: Records = from_binary(&bin).unwrap();
 
-        let params = MetadataQueryParams::GetRecords {
-            scope_id: "scope1qqqqq2wf3c4yt4u447m8pw65qcdqrre82d".into(),
+        let result = mock_query(&MetadataQueryParams::GetRecords {
+            scope_id: TEST_SCOPE_ID.into(),
             name: Some("loan".into()),
-        };
-        let bin = querier.query(&params).unwrap().unwrap();
-        let records: Records = from_binary(&bin).unwrap();
+        });
 
+        let records: Records = from_binary(&result).unwrap();
         assert_eq!(records, expected)
     }
 }
