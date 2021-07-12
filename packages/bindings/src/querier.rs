@@ -7,7 +7,8 @@ use crate::query::{
     ProvenanceQueryParams,
 };
 use crate::types::{
-    AttributeValueType, Attributes, Marker, Name, Names, ProvenanceRoute, Records, Scope, Sessions,
+    AttributeValueType, Attributes, Marker, Name, Names, ProvenanceRoute, Record, Records, Scope,
+    Sessions,
 };
 
 // The data format version to pass into provenance for queries.
@@ -333,29 +334,36 @@ impl<'a> ProvenanceQuerier<'a> {
         self.query_records(MetadataQueryParams::GetRecords { scope_id, name })
     }
 
-    /// Get records for a scope with the given name.
+    /// Get a record for a scope with the given name.
     ///
     /// ### Example
     /// ```rust
     /// // Imports required
-    /// use provwasm_std::{ProvenanceQuerier, Records};
+    /// use provwasm_std::{ProvenanceQuerier, Record};
     /// use cosmwasm_std::{Deps, QueryResponse, StdResult};
     ///
-    /// // Query loan records for a scope.
-    /// fn try_get_loan_records(deps: Deps, scope_id: String) -> StdResult<QueryResponse> {
+    /// // Query a loan record for a scope.
+    /// fn try_get_loan_record(deps: Deps, scope_id: String) -> StdResult<QueryResponse> {
     ///     let querier = ProvenanceQuerier::new(&deps.querier);
-    ///     let res: Records = querier.get_records_by_name(scope_id, "loan")?;
-    ///     // Do something with res.records ...
+    ///     let record: Record = querier.get_record_by_name(scope_id, "loan")?;
+    ///     // Do something with record ...
     ///     todo!()
     /// }
     /// ```
-    pub fn get_records_by_name<S: Into<String>, T: Into<String>>(
+    pub fn get_record_by_name<S: Into<String>, T: Into<String>>(
         &self,
         scope_id: S,
         name: T,
-    ) -> StdResult<Records> {
+    ) -> StdResult<Record> {
         let scope_id = validate_string(scope_id, "scope_id")?;
-        let name: Option<String> = Some(validate_string(name, "name")?);
-        self.query_records(MetadataQueryParams::GetRecords { scope_id, name })
+        let name: String = validate_string(name, "name")?;
+        let res = self.query_records(MetadataQueryParams::GetRecords {
+            scope_id,
+            name: Some(name.clone()),
+        })?;
+        if res.records.is_empty() {
+            return Err(StdError::not_found(format!("record not found: {}", name)));
+        }
+        Ok(res.records[0].clone())
     }
 }
