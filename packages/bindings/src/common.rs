@@ -14,7 +14,7 @@ pub fn validate_string<S: Into<String>>(input: S, param_name: &str) -> StdResult
 /// A helper that ensures address params are non-empty.
 pub fn validate_address<H: Into<Addr>>(input: H) -> StdResult<Addr> {
     let h: Addr = input.into();
-    if h.to_string().is_empty() {
+    if h.to_string().trim().is_empty() {
         Err(StdError::generic_err("address must not be empty"))
     } else {
         Ok(h)
@@ -39,7 +39,7 @@ mod test {
 
     #[test]
     fn validate_address_empty() {
-        let empty = Addr::unchecked("");
+        let empty = Addr::unchecked("    ");
         let err = validate_address(empty).unwrap_err();
         match err {
             StdError::GenericErr { msg, .. } => {
