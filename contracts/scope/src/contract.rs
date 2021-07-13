@@ -1,7 +1,7 @@
 use cosmwasm_std::{to_binary, Deps, DepsMut, Env, MessageInfo, QueryResponse, Response, StdError};
 
 use provwasm_std::{
-    bind_name, NameBinding, ProvenanceMsg, ProvenanceQuerier, Records, Scope, Sessions,
+    bind_name, NameBinding, ProvenanceMsg, ProvenanceQuerier, Record, Records, Scope, Sessions,
 };
 
 use crate::error::ContractError;
@@ -52,7 +52,7 @@ pub fn query(deps: Deps, _env: Env, msg: QueryMsg) -> Result<QueryResponse, StdE
         QueryMsg::GetScope { id } => try_get_scope(deps, id),
         QueryMsg::GetSessions { scope_id } => try_get_sessions(deps, scope_id),
         QueryMsg::GetRecords { scope_id } => try_get_records(deps, scope_id),
-        QueryMsg::GetRecordsByName { scope_id, name } => {
+        QueryMsg::GetRecordByName { scope_id, name } => {
             try_get_records_by_name(deps, scope_id, name)
         }
     }
@@ -86,8 +86,8 @@ fn try_get_records_by_name(
     name: String,
 ) -> Result<QueryResponse, StdError> {
     let querier = ProvenanceQuerier::new(&deps.querier);
-    let records: Records = querier.get_records_by_name(scope_id, name)?;
-    to_binary(&records)
+    let record: Record = querier.get_record_by_name(scope_id, name)?;
+    to_binary(&record)
 }
 
 #[cfg(test)]
@@ -197,14 +197,14 @@ mod tests {
     }
 
     #[test]
-    fn query_records_by_name() {
+    fn query_record_by_name() {
         // Read test metadata JSON files
         let bin = must_read_binary_file("testdata/scope.json");
         let scope: Scope = from_binary(&bin).unwrap();
         let bin = must_read_binary_file("testdata/records.json");
         let records: Records = from_binary(&bin).unwrap();
         let bin = must_read_binary_file("testdata/loan_record.json");
-        let expected: Records = from_binary(&bin).unwrap();
+        let expected: Record = from_binary(&bin).unwrap();
 
         // Create custom deps with metadata.
         let mut deps = mock_dependencies(&[]);
@@ -214,7 +214,7 @@ mod tests {
         let bin = query(
             deps.as_ref(),
             mock_env(),
-            QueryMsg::GetRecordsByName {
+            QueryMsg::GetRecordByName {
                 scope_id: "scope1qqqqq2wf3c4yt4u447m8pw65qcdqrre82d".into(),
                 name: "loan".into(),
             },
@@ -222,8 +222,7 @@ mod tests {
         .unwrap();
 
         // Ensure we got the expected record.
-        let records: Records = from_binary(&bin).unwrap();
-        assert_eq!(records.records.len(), 1);
-        assert_eq!(records, expected);
+        let record: Record = from_binary(&bin).unwrap();
+        assert_eq!(record, expected);
     }
 }
