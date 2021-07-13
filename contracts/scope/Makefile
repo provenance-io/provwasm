@@ -1,5 +1,5 @@
 .PHONY: all
-all: fmt build test schema optimize
+all: fmt build test lint schema optimize
 
 .PHONY: fmt
 fmt:
