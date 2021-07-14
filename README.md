@@ -40,6 +40,11 @@ In addition to the core CosmWasm functionality, the provenance bindings include
 - Markers
   - Get marker by denom.
   - Get marker by address.
+- Metadata
+  - Get scope by ID.
+  - Get scope sessions.
+  - Get scope records.
+  - Get scope record by name.
 
 ### Message Encoding
 
