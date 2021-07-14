@@ -48,7 +48,7 @@ fn create_name_msg(params: NameMsgParams) -> CosmosMsg<ProvenanceMsg> {
     })
 }
 
-/// Create a message that will bind a restricted name to an address.
+/// Create a message that will bind a name to an address.
 ///
 /// ### Example
 ///
@@ -128,7 +128,7 @@ fn create_attribute_msg(params: AttributeMsgParams) -> CosmosMsg<ProvenanceMsg> 
     })
 }
 
-/// Create a message that will add a an attribute (a typed key-value pair) to an account.
+/// Create a message that will add an attribute (a typed key-value pair) to an account.
 ///
 /// ### Example
 ///
@@ -163,6 +163,11 @@ pub fn add_attribute<H: Into<Addr>, S: Into<String>, B: Into<Binary>>(
     value: B,
     value_type: AttributeValueType,
 ) -> StdResult<CosmosMsg<ProvenanceMsg>> {
+    if value_type == AttributeValueType::Unspecified {
+        return Err(StdError::generic_err(
+            "cannot add attribute with unspecified value type",
+        ));
+    }
     Ok(create_attribute_msg(AttributeMsgParams::AddAttribute {
         address: validate_address(address)?,
         name: validate_string(name, "name")?,

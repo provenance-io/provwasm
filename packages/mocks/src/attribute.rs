@@ -17,6 +17,14 @@ fn determine_attr_type(typ: &str) -> AttributeValueType {
         AttributeValueType::Bytes
     } else if typ == "uuid" {
         AttributeValueType::Uuid
+    } else if typ == "uri" {
+        AttributeValueType::Uri
+    } else if typ == "proto" {
+        AttributeValueType::Proto
+    } else if typ == "int" {
+        AttributeValueType::Int
+    } else if typ == "float" {
+        AttributeValueType::Float
     } else {
         AttributeValueType::String
     }

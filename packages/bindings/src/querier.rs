@@ -247,7 +247,7 @@ impl<'a> ProvenanceQuerier<'a> {
         Ok(res)
     }
 
-    /// Get a scope by ID.
+    /// Get a scope by metadata ID (bech32 address string).
     ///
     /// ### Example
     /// ```rust
@@ -280,7 +280,7 @@ impl<'a> ProvenanceQuerier<'a> {
         Ok(res)
     }
 
-    /// Get all sessions for a scope.
+    /// Get all scope sessions.
     ///
     /// ### Example
     /// ```rust
@@ -312,7 +312,7 @@ impl<'a> ProvenanceQuerier<'a> {
         Ok(res)
     }
 
-    /// Get all records for a scope.
+    /// Get all scope records.
     ///
     /// ### Example
     /// ```rust
@@ -334,7 +334,7 @@ impl<'a> ProvenanceQuerier<'a> {
         self.query_records(MetadataQueryParams::GetRecords { scope_id, name })
     }
 
-    /// Get a record for a scope with the given name.
+    /// Get a scope record with the given name.
     ///
     /// ### Example
     /// ```rust

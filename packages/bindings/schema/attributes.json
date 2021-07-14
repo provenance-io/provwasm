@@ -50,7 +50,12 @@
         "uuid",
         "json",
         "string",
-        "bytes"
+        "bytes",
+        "uri",
+        "int",
+        "float",
+        "proto",
+        "unspecified"
       ]
     },
     "Binary": {

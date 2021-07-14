@@ -60,6 +60,11 @@ pub enum AttributeValueType {
     Json,
     String,
     Bytes,
+    Uri,
+    Int,
+    Float,
+    Proto,
+    Unspecified,
 }
 
 /// A typed key-value pair.

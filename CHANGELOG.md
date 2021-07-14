@@ -3,6 +3,7 @@
 ## Unreleased changes
 
 * Add metadata module query support for scopes, sessions, and records.
+* Add missing attribute value types to fix de-serialization errors.
 
 ## Releases
 
