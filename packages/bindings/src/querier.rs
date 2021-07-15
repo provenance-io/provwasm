@@ -3,10 +3,13 @@ use serde::de::DeserializeOwned;
 
 use crate::common::{validate_address, validate_string};
 use crate::query::{
-    AttributeQueryParams, MarkerQueryParams, NameQueryParams, ProvenanceQuery,
+    AttributeQueryParams, MarkerQueryParams, MetadataQueryParams, NameQueryParams, ProvenanceQuery,
     ProvenanceQueryParams,
 };
-use crate::types::{AttributeValueType, Attributes, Marker, Name, Names, ProvenanceRoute};
+use crate::types::{
+    AttributeValueType, Attributes, Marker, Name, Names, ProvenanceRoute, Record, Records, Scope,
+    Sessions,
+};
 
 // The data format version to pass into provenance for queries.
 static QUERY_DATAFMT_VERSION: &str = "2.0.0";
@@ -231,5 +234,136 @@ impl<'a> ProvenanceQuerier<'a> {
         self.query_marker(MarkerQueryParams::GetMarkerByDenom {
             denom: validate_string(denom, "denom")?,
         })
+    }
+
+    // Execute a scope query against the metadata module.
+    fn query_scope(&self, params: MetadataQueryParams) -> StdResult<Scope> {
+        let request = ProvenanceQuery {
+            route: ProvenanceRoute::Metadata,
+            params: ProvenanceQueryParams::Metadata(params),
+            version: String::from(QUERY_DATAFMT_VERSION),
+        };
+        let res: Scope = self.querier.custom_query(&request.into())?;
+        Ok(res)
+    }
+
+    /// Get a scope by metadata ID (bech32 address string).
+    ///
+    /// ### Example
+    /// ```rust
+    /// // Imports required
+    /// use provwasm_std::{ProvenanceQuerier, Scope};
+    /// use cosmwasm_std::{Deps, QueryResponse, StdResult};
+    ///
+    /// // Query a scope by id.
+    /// fn try_get_scope(deps: Deps, scope_id: String) -> StdResult<QueryResponse> {
+    ///     let querier = ProvenanceQuerier::new(&deps.querier);
+    ///     let scope: Scope = querier.get_scope(scope_id)?;
+    ///     // Do something with scope ...
+    ///     todo!()
+    /// }
+    /// ```
+    pub fn get_scope<S: Into<String>>(&self, scope_id: S) -> StdResult<Scope> {
+        self.query_scope(MetadataQueryParams::GetScope {
+            scope_id: validate_string(scope_id, "scope_id")?,
+        })
+    }
+
+    // Execute a sessions query against the metadata module.
+    fn query_sessions(&self, params: MetadataQueryParams) -> StdResult<Sessions> {
+        let request = ProvenanceQuery {
+            route: ProvenanceRoute::Metadata,
+            params: ProvenanceQueryParams::Metadata(params),
+            version: String::from(QUERY_DATAFMT_VERSION),
+        };
+        let res: Sessions = self.querier.custom_query(&request.into())?;
+        Ok(res)
+    }
+
+    /// Get all scope sessions.
+    ///
+    /// ### Example
+    /// ```rust
+    /// // Imports required
+    /// use provwasm_std::{ProvenanceQuerier, Sessions};
+    /// use cosmwasm_std::{Deps, QueryResponse, StdResult};
+    ///
+    /// // Query all sessions for a scope.
+    /// fn try_get_sessions(deps: Deps, scope_id: String) -> StdResult<QueryResponse> {
+    ///     let querier = ProvenanceQuerier::new(&deps.querier);
+    ///     let res: Sessions = querier.get_sessions(scope_id)?;
+    ///     // Do something with res.sessions ...
+    ///     todo!()
+    /// }
+    /// ```
+    pub fn get_sessions<S: Into<String>>(&self, scope_id: S) -> StdResult<Sessions> {
+        let scope_id = validate_string(scope_id, "scope_id")?;
+        self.query_sessions(MetadataQueryParams::GetSessions { scope_id })
+    }
+
+    // Execute a record query against the metadata module.
+    fn query_records(&self, params: MetadataQueryParams) -> StdResult<Records> {
+        let request = ProvenanceQuery {
+            route: ProvenanceRoute::Metadata,
+            params: ProvenanceQueryParams::Metadata(params),
+            version: String::from(QUERY_DATAFMT_VERSION),
+        };
+        let res: Records = self.querier.custom_query(&request.into())?;
+        Ok(res)
+    }
+
+    /// Get all scope records.
+    ///
+    /// ### Example
+    /// ```rust
+    /// // Imports required
+    /// use provwasm_std::{ProvenanceQuerier, Records};
+    /// use cosmwasm_std::{Deps, QueryResponse, StdResult};
+    ///
+    /// // Query all records for a scope.
+    /// fn try_get_records(deps: Deps, scope_id: String) -> StdResult<QueryResponse> {
+    ///     let querier = ProvenanceQuerier::new(&deps.querier);
+    ///     let res: Records = querier.get_records(scope_id)?;
+    ///     // Do something with res.records ...
+    ///     todo!()
+    /// }
+    /// ```
+    pub fn get_records<S: Into<String>>(&self, scope_id: S) -> StdResult<Records> {
+        let scope_id = validate_string(scope_id, "scope_id")?;
+        let name: Option<String> = None;
+        self.query_records(MetadataQueryParams::GetRecords { scope_id, name })
+    }
+
+    /// Get a scope record with the given name.
+    ///
+    /// ### Example
+    /// ```rust
+    /// // Imports required
+    /// use provwasm_std::{ProvenanceQuerier, Record};
+    /// use cosmwasm_std::{Deps, QueryResponse, StdResult};
+    ///
+    /// // Query a loan record for a scope.
+    /// fn try_get_loan_record(deps: Deps, scope_id: String) -> StdResult<QueryResponse> {
+    ///     let querier = ProvenanceQuerier::new(&deps.querier);
+    ///     let record: Record = querier.get_record_by_name(scope_id, "loan")?;
+    ///     // Do something with record ...
+    ///     todo!()
+    /// }
+    /// ```
+    pub fn get_record_by_name<S: Into<String>, T: Into<String>>(
+        &self,
+        scope_id: S,
+        name: T,
+    ) -> StdResult<Record> {
+        let scope_id = validate_string(scope_id, "scope_id")?;
+        let name: String = validate_string(name, "name")?;
+        let res = self.query_records(MetadataQueryParams::GetRecords {
+            scope_id,
+            name: Some(name.clone()),
+        })?;
+        if res.records.is_empty() {
+            return Err(StdError::not_found(format!("record not found: {}", name)));
+        }
+        Ok(res.records[0].clone())
     }
 }

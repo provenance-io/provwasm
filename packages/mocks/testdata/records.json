@@ -1,0 +1,666 @@
+{
+  "records": [
+    {
+      "name": "tri_merge_reports",
+      "session_id": "session1qyqqq2wf3c4yt4u447m8pw65qcdxx9k7nswc7sec43qcmpp9267xw6r8xv4",
+      "specification_id": "recspec1q45xsyufyuyh7a5ejg7n2d336x2qd6lrzs702zd4yh02s5p4tcwmgwxxy3q",
+      "process": {
+        "process_id": {
+          "hash": {
+            "hash": "mCVay1v4K017VMs2EIbLjuLS2OcOVTAn7LjrKvqy5UZoBXA+dDdyeElWPXKdiw8OOzx5UjOfa/mbla1/PlzZyw=="
+          }
+        },
+        "method": "tri_merge_reports",
+        "name": "io.provenance.proto.loan.LoanProtos$TriMergeReportsList"
+      },
+      "inputs": [
+        {
+          "name": "perform_input_checks",
+          "type_name": "io.p8e.proto.Common$BooleanResult",
+          "source": {
+            "hash": {
+              "hash": "z4PhNX7vuL3xVChQ1m2AB9Yg5AULVxXcg/SpIdNs6c5H0NE8XYXysP+DGNKHfuwvY7kxvUdBeoGlODJ6+SfaPg=="
+            }
+          },
+          "status": "proposed"
+        },
+        {
+          "name": "tri_merge_reports",
+          "type_name": "io.provenance.proto.loan.LoanProtos$TriMergeReportsList",
+          "source": {
+            "hash": {
+              "hash": "T/SPBHyZ7fZ3YhPra7e/ObJdHG/QC3xUSjbxl261b9eAGTt6ETrtSgJRQmzJbK4N57iQKpsf3PtDV2jo8rWBKw=="
+            }
+          },
+          "status": "proposed"
+        }
+      ],
+      "outputs": [
+        {
+          "hash": "T/SPBHyZ7fZ3YhPra7e/ObJdHG/QC3xUSjbxl261b9eAGTt6ETrtSgJRQmzJbK4N57iQKpsf3PtDV2jo8rWBKw==",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "name": "blockchain_custody",
+      "session_id": "session1qyqqq2wf3c4yt4u447m8pw65qcdxx9k7nswc7sec43qcmpp9267xw6r8xv4",
+      "specification_id": "recspec1q45xsyufyuyh7a5ejg7n2d336x2p3dt39j57v80dxsvnk65ex4rwwpg27x9",
+      "process": {
+        "process_id": {
+          "hash": {
+            "hash": "mCVay1v4K017VMs2EIbLjuLS2OcOVTAn7LjrKvqy5UZoBXA+dDdyeElWPXKdiw8OOzx5UjOfa/mbla1/PlzZyw=="
+          }
+        },
+        "method": "blockchain_custody",
+        "name": "io.provenance.proto.loan.LoanProtos$BlockchainCustody"
+      },
+      "inputs": [
+        {
+          "name": "perform_input_checks",
+          "type_name": "io.p8e.proto.Common$BooleanResult",
+          "source": {
+            "hash": {
+              "hash": "z4PhNX7vuL3xVChQ1m2AB9Yg5AULVxXcg/SpIdNs6c5H0NE8XYXysP+DGNKHfuwvY7kxvUdBeoGlODJ6+SfaPg=="
+            }
+          },
+          "status": "proposed"
+        },
+        {
+          "name": "blockchain_custody",
+          "type_name": "io.provenance.proto.loan.LoanProtos$BlockchainCustody",
+          "source": {
+            "hash": {
+              "hash": "y5X8TGgn+Vg7I5fUL63OQVRjMSZPI+b59KlbsftAUQ8a01a3QjfiZ66+i346HsxhyrhvH61Ro1Gra+0f1CiNVg=="
+            }
+          },
+          "status": "proposed"
+        }
+      ],
+      "outputs": [
+        {
+          "hash": "y5X8TGgn+Vg7I5fUL63OQVRjMSZPI+b59KlbsftAUQ8a01a3QjfiZ66+i346HsxhyrhvH61Ro1Gra+0f1CiNVg==",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "name": "primary_party",
+      "session_id": "session1qyqqq2wf3c4yt4u447m8pw65qcdxx9k7nswc7sec43qcmpp9267xw6r8xv4",
+      "specification_id": "recspec1q45xsyufyuyh7a5ejg7n2d336x2p76fcvmta6kgpl78h6dwgqqekjk3h49s",
+      "process": {
+        "process_id": {
+          "hash": {
+            "hash": "mCVay1v4K017VMs2EIbLjuLS2OcOVTAn7LjrKvqy5UZoBXA+dDdyeElWPXKdiw8OOzx5UjOfa/mbla1/PlzZyw=="
+          }
+        },
+        "method": "primary_party",
+        "name": "io.provenance.proto.CustomerProtos$Party"
+      },
+      "inputs": [
+        {
+          "name": "perform_input_checks",
+          "type_name": "io.p8e.proto.Common$BooleanResult",
+          "source": {
+            "hash": {
+              "hash": "z4PhNX7vuL3xVChQ1m2AB9Yg5AULVxXcg/SpIdNs6c5H0NE8XYXysP+DGNKHfuwvY7kxvUdBeoGlODJ6+SfaPg=="
+            }
+          },
+          "status": "proposed"
+        },
+        {
+          "name": "primary_party",
+          "type_name": "io.provenance.proto.CustomerProtos$Party",
+          "source": {
+            "hash": {
+              "hash": "LM8Pe9km8mH04tBi58+w/vypnycCyrSto+enw2rJLMhLHHVVwUDwkYqIsrmLJiawZqtCgKLRoWPYczIyQEhRZA=="
+            }
+          },
+          "status": "proposed"
+        }
+      ],
+      "outputs": [
+        {
+          "hash": "LM8Pe9km8mH04tBi58+w/vypnycCyrSto+enw2rJLMhLHHVVwUDwkYqIsrmLJiawZqtCgKLRoWPYczIyQEhRZA==",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "name": "funding",
+      "session_id": "session1qyqqq2wf3c4yt4u447m8pw65qcdxx9k7nswc7sec43qcmpp9267xw6r8xv4",
+      "specification_id": "recspec1q45xsyufyuyh7a5ejg7n2d336x2z298pgaddmlan0r7mql56zzfpwn3s7cd",
+      "process": {
+        "process_id": {
+          "hash": {
+            "hash": "mCVay1v4K017VMs2EIbLjuLS2OcOVTAn7LjrKvqy5UZoBXA+dDdyeElWPXKdiw8OOzx5UjOfa/mbla1/PlzZyw=="
+          }
+        },
+        "method": "funding",
+        "name": "io.provenance.proto.loan.LoanProtos$Funding"
+      },
+      "inputs": [
+        {
+          "name": "perform_input_checks",
+          "type_name": "io.p8e.proto.Common$BooleanResult",
+          "source": {
+            "hash": {
+              "hash": "z4PhNX7vuL3xVChQ1m2AB9Yg5AULVxXcg/SpIdNs6c5H0NE8XYXysP+DGNKHfuwvY7kxvUdBeoGlODJ6+SfaPg=="
+            }
+          },
+          "status": "proposed"
+        },
+        {
+          "name": "funding",
+          "type_name": "io.provenance.proto.loan.LoanProtos$Funding",
+          "source": {
+            "hash": {
+              "hash": "TeSCwzQXvD3qVncalY7eHxWANNRrrh/mcyKfjBe+4hnIyeqHr64Zn+zc7fSQfifkYlsycbgprHpVjv5aIdP/LA=="
+            }
+          },
+          "status": "proposed"
+        }
+      ],
+      "outputs": [
+        {
+          "hash": "TeSCwzQXvD3qVncalY7eHxWANNRrrh/mcyKfjBe+4hnIyeqHr64Zn+zc7fSQfifkYlsycbgprHpVjv5aIdP/LA==",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "name": "digital_signature_packets",
+      "session_id": "session1qyqqq2wf3c4yt4u447m8pw65qcdxx9k7nswc7sec43qcmpp9267xw6r8xv4",
+      "specification_id": "recspec1q45xsyufyuyh7a5ejg7n2d336x2z2vnjxcq5qn4t62ld7tu9djvq5cxcgpk",
+      "process": {
+        "process_id": {
+          "hash": {
+            "hash": "mCVay1v4K017VMs2EIbLjuLS2OcOVTAn7LjrKvqy5UZoBXA+dDdyeElWPXKdiw8OOzx5UjOfa/mbla1/PlzZyw=="
+          }
+        },
+        "method": "digital_signature_packets",
+        "name": "io.provenance.proto.common.DocumentProtos$DocumentWithDataList"
+      },
+      "inputs": [
+        {
+          "name": "perform_input_checks",
+          "type_name": "io.p8e.proto.Common$BooleanResult",
+          "source": {
+            "hash": {
+              "hash": "z4PhNX7vuL3xVChQ1m2AB9Yg5AULVxXcg/SpIdNs6c5H0NE8XYXysP+DGNKHfuwvY7kxvUdBeoGlODJ6+SfaPg=="
+            }
+          },
+          "status": "proposed"
+        },
+        {
+          "name": "digital_signature_packets",
+          "type_name": "io.provenance.proto.common.DocumentProtos$DocumentWithDataList",
+          "source": {
+            "hash": {
+              "hash": "z4PhNX7vuL3xVChQ1m2AB9Yg5AULVxXcg/SpIdNs6c5H0NE8XYXysP+DGNKHfuwvY7kxvUdBeoGlODJ6+SfaPg=="
+            }
+          },
+          "status": "proposed"
+        }
+      ],
+      "outputs": [
+        {
+          "hash": "z4PhNX7vuL3xVChQ1m2AB9Yg5AULVxXcg/SpIdNs6c5H0NE8XYXysP+DGNKHfuwvY7kxvUdBeoGlODJ6+SfaPg==",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "name": "credit_reports",
+      "session_id": "session1qyqqq2wf3c4yt4u447m8pw65qcdxx9k7nswc7sec43qcmpp9267xw6r8xv4",
+      "specification_id": "recspec1q45xsyufyuyh7a5ejg7n2d336x2zv9ghd97rlnf3mzk3k80x5fukvdm4z39",
+      "process": {
+        "process_id": {
+          "hash": {
+            "hash": "mCVay1v4K017VMs2EIbLjuLS2OcOVTAn7LjrKvqy5UZoBXA+dDdyeElWPXKdiw8OOzx5UjOfa/mbla1/PlzZyw=="
+          }
+        },
+        "method": "credit_reports",
+        "name": "io.provenance.proto.loan.LoanProtos$CreditReportsList"
+      },
+      "inputs": [
+        {
+          "name": "perform_input_checks",
+          "type_name": "io.p8e.proto.Common$BooleanResult",
+          "source": {
+            "hash": {
+              "hash": "z4PhNX7vuL3xVChQ1m2AB9Yg5AULVxXcg/SpIdNs6c5H0NE8XYXysP+DGNKHfuwvY7kxvUdBeoGlODJ6+SfaPg=="
+            }
+          },
+          "status": "proposed"
+        },
+        {
+          "name": "credit_reports",
+          "type_name": "io.provenance.proto.loan.LoanProtos$CreditReportsList",
+          "source": {
+            "hash": {
+              "hash": "TgaFSnFoCcQOkZluvTx5p28sjjsXj27O6GouxIFuJZdKAQSZG4phpzGXF/lT7UQemnf6rrhMio0AsHQkV2M+iA=="
+            }
+          },
+          "status": "proposed"
+        }
+      ],
+      "outputs": [
+        {
+          "hash": "TgaFSnFoCcQOkZluvTx5p28sjjsXj27O6GouxIFuJZdKAQSZG4phpzGXF/lT7UQemnf6rrhMio0AsHQkV2M+iA==",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "name": "income_records",
+      "session_id": "session1qyqqq2wf3c4yt4u447m8pw65qcdxx9k7nswc7sec43qcmpp9267xw6r8xv4",
+      "specification_id": "recspec1q45xsyufyuyh7a5ejg7n2d336x2rrndthndzpz0zfr38yeam5cuy6ccknqp",
+      "process": {
+        "process_id": {
+          "hash": {
+            "hash": "mCVay1v4K017VMs2EIbLjuLS2OcOVTAn7LjrKvqy5UZoBXA+dDdyeElWPXKdiw8OOzx5UjOfa/mbla1/PlzZyw=="
+          }
+        },
+        "method": "income_records",
+        "name": "io.provenance.proto.loan.LoanProtos$IncomeRecordsList"
+      },
+      "inputs": [
+        {
+          "name": "perform_input_checks",
+          "type_name": "io.p8e.proto.Common$BooleanResult",
+          "source": {
+            "hash": {
+              "hash": "z4PhNX7vuL3xVChQ1m2AB9Yg5AULVxXcg/SpIdNs6c5H0NE8XYXysP+DGNKHfuwvY7kxvUdBeoGlODJ6+SfaPg=="
+            }
+          },
+          "status": "proposed"
+        },
+        {
+          "name": "income_records",
+          "type_name": "io.provenance.proto.loan.LoanProtos$IncomeRecordsList",
+          "source": {
+            "hash": {
+              "hash": "NnvB97eedX+Rj0P0kIP+GJVXL9/8QxEBEGKrK/lgs12n0FBo5FcwHH9glyS33/GszEgCvrcdHXDGQ5WSlShBOw=="
+            }
+          },
+          "status": "proposed"
+        }
+      ],
+      "outputs": [
+        {
+          "hash": "NnvB97eedX+Rj0P0kIP+GJVXL9/8QxEBEGKrK/lgs12n0FBo5FcwHH9glyS33/GszEgCvrcdHXDGQ5WSlShBOw==",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "name": "loan",
+      "session_id": "session1qyqqq2wf3c4yt4u447m8pw65qcdxx9k7nswc7sec43qcmpp9267xw6r8xv4",
+      "specification_id": "recspec1q45xsyufyuyh7a5ejg7n2d336x2yw2alzjfrutnualv99xp9csq7sdqwhln",
+      "process": {
+        "process_id": {
+          "hash": {
+            "hash": "mCVay1v4K017VMs2EIbLjuLS2OcOVTAn7LjrKvqy5UZoBXA+dDdyeElWPXKdiw8OOzx5UjOfa/mbla1/PlzZyw=="
+          }
+        },
+        "method": "loan",
+        "name": "io.provenance.proto.loan.LoanProtos$Loan"
+      },
+      "inputs": [
+        {
+          "name": "perform_input_checks",
+          "type_name": "io.p8e.proto.Common$BooleanResult",
+          "source": {
+            "hash": {
+              "hash": "z4PhNX7vuL3xVChQ1m2AB9Yg5AULVxXcg/SpIdNs6c5H0NE8XYXysP+DGNKHfuwvY7kxvUdBeoGlODJ6+SfaPg=="
+            }
+          },
+          "status": "proposed"
+        },
+        {
+          "name": "loan",
+          "type_name": "io.provenance.proto.loan.LoanProtos$Loan",
+          "source": {
+            "hash": {
+              "hash": "poYoiYr8gi22vyBlo09YkSSnGHRY0jQW9DZAvaTPT5slTbt2SV8KgGSKoK72PYVL/yLrCgnrEDaRn08byB/JHQ=="
+            }
+          },
+          "status": "proposed"
+        }
+      ],
+      "outputs": [
+        {
+          "hash": "poYoiYr8gi22vyBlo09YkSSnGHRY0jQW9DZAvaTPT5slTbt2SV8KgGSKoK72PYVL/yLrCgnrEDaRn08byB/JHQ==",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "name": "lien_property",
+      "session_id": "session1qyqqq2wf3c4yt4u447m8pw65qcdxx9k7nswc7sec43qcmpp9267xw6r8xv4",
+      "specification_id": "recspec1q45xsyufyuyh7a5ejg7n2d336x28v6j074x52mr68rnvlce6acl6xnwjry5",
+      "process": {
+        "process_id": {
+          "hash": {
+            "hash": "mCVay1v4K017VMs2EIbLjuLS2OcOVTAn7LjrKvqy5UZoBXA+dDdyeElWPXKdiw8OOzx5UjOfa/mbla1/PlzZyw=="
+          }
+        },
+        "method": "lien_property",
+        "name": "io.provenance.proto.PropertyProtos$LienProperty"
+      },
+      "inputs": [
+        {
+          "name": "perform_input_checks",
+          "type_name": "io.p8e.proto.Common$BooleanResult",
+          "source": {
+            "hash": {
+              "hash": "z4PhNX7vuL3xVChQ1m2AB9Yg5AULVxXcg/SpIdNs6c5H0NE8XYXysP+DGNKHfuwvY7kxvUdBeoGlODJ6+SfaPg=="
+            }
+          },
+          "status": "proposed"
+        },
+        {
+          "name": "lien_property",
+          "type_name": "io.provenance.proto.PropertyProtos$LienProperty",
+          "source": {
+            "hash": {
+              "hash": "iB4IYU+e4oJ+GL+2BFD9tw8xr4QKTyrKtoixyGV77LGe/Bo8XgfUVYiGi/B+54NQrM3BL5TqxHeyEesSEGMndw=="
+            }
+          },
+          "status": "proposed"
+        }
+      ],
+      "outputs": [
+        {
+          "hash": "iB4IYU+e4oJ+GL+2BFD9tw8xr4QKTyrKtoixyGV77LGe/Bo8XgfUVYiGi/B+54NQrM3BL5TqxHeyEesSEGMndw==",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "name": "validation_result",
+      "session_id": "session1qyqqq2wf3c4yt4u447m8pw65qcdxx9k7nswc7sec43qcmpp9267xw6r8xv4",
+      "specification_id": "recspec1q45xsyufyuyh7a5ejg7n2d336x2g3ns37laz06djdyhfu5775v6gg4wwjls",
+      "process": {
+        "process_id": {
+          "hash": {
+            "hash": "mCVay1v4K017VMs2EIbLjuLS2OcOVTAn7LjrKvqy5UZoBXA+dDdyeElWPXKdiw8OOzx5UjOfa/mbla1/PlzZyw=="
+          }
+        },
+        "method": "validation_result",
+        "name": "io.provenance.proto.ValidationProtos$ValidationResult"
+      },
+      "inputs": [
+        {
+          "name": "validation_result",
+          "type_name": "io.provenance.proto.ValidationProtos$ValidationResult",
+          "source": {
+            "hash": {
+              "hash": "BRbqHt/n7dYoml7Mbn7pJsqKm82vEktJ816l08l70tzoWNm2TQ4ybJDo0jNK2HrtrWxyG3cA9FRYMUg52IWBQw=="
+            }
+          },
+          "status": "proposed"
+        }
+      ],
+      "outputs": [
+        {
+          "hash": "BRbqHt/n7dYoml7Mbn7pJsqKm82vEktJ816l08l70tzoWNm2TQ4ybJDo0jNK2HrtrWxyG3cA9FRYMUg52IWBQw==",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "name": "documents",
+      "session_id": "session1qyqqq2wf3c4yt4u447m8pw65qcdxx9k7nswc7sec43qcmpp9267xw6r8xv4",
+      "specification_id": "recspec1q45xsyufyuyh7a5ejg7n2d336x2fk945f58q5h9vf7tghmaskk67kqtev0x",
+      "process": {
+        "process_id": {
+          "hash": {
+            "hash": "mCVay1v4K017VMs2EIbLjuLS2OcOVTAn7LjrKvqy5UZoBXA+dDdyeElWPXKdiw8OOzx5UjOfa/mbla1/PlzZyw=="
+          }
+        },
+        "method": "documents",
+        "name": "io.provenance.proto.common.DocumentProtos$DocumentList"
+      },
+      "inputs": [
+        {
+          "name": "perform_input_checks",
+          "type_name": "io.p8e.proto.Common$BooleanResult",
+          "source": {
+            "hash": {
+              "hash": "z4PhNX7vuL3xVChQ1m2AB9Yg5AULVxXcg/SpIdNs6c5H0NE8XYXysP+DGNKHfuwvY7kxvUdBeoGlODJ6+SfaPg=="
+            }
+          },
+          "status": "proposed"
+        },
+        {
+          "name": "documents",
+          "type_name": "io.provenance.proto.common.DocumentProtos$DocumentList",
+          "source": {
+            "hash": {
+              "hash": "3umW9JYfJdx0048wxY7VZcjnnP2gEBsnf356wuaWfWwD5yKLoZ1rvILyUuwVJkeoheBgoEnJJS/mss0Sw2c6Wg=="
+            }
+          },
+          "status": "proposed"
+        }
+      ],
+      "outputs": [
+        {
+          "hash": "3umW9JYfJdx0048wxY7VZcjnnP2gEBsnf356wuaWfWwD5yKLoZ1rvILyUuwVJkeoheBgoEnJJS/mss0Sw2c6Wg==",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "name": "additional_parties",
+      "session_id": "session1qyqqq2wf3c4yt4u447m8pw65qcdxx9k7nswc7sec43qcmpp9267xw6r8xv4",
+      "specification_id": "recspec1q45xsyufyuyh7a5ejg7n2d336x22y0aeyhnus90eqmv3xfwwugdwq8cw7de",
+      "process": {
+        "process_id": {
+          "hash": {
+            "hash": "mCVay1v4K017VMs2EIbLjuLS2OcOVTAn7LjrKvqy5UZoBXA+dDdyeElWPXKdiw8OOzx5UjOfa/mbla1/PlzZyw=="
+          }
+        },
+        "method": "additional_parties",
+        "name": "io.provenance.proto.loan.LoanProtos$PartiesList"
+      },
+      "inputs": [
+        {
+          "name": "perform_input_checks",
+          "type_name": "io.p8e.proto.Common$BooleanResult",
+          "source": {
+            "hash": {
+              "hash": "z4PhNX7vuL3xVChQ1m2AB9Yg5AULVxXcg/SpIdNs6c5H0NE8XYXysP+DGNKHfuwvY7kxvUdBeoGlODJ6+SfaPg=="
+            }
+          },
+          "status": "proposed"
+        },
+        {
+          "name": "additional_parties",
+          "type_name": "io.provenance.proto.loan.LoanProtos$PartiesList",
+          "source": {
+            "hash": {
+              "hash": "z4PhNX7vuL3xVChQ1m2AB9Yg5AULVxXcg/SpIdNs6c5H0NE8XYXysP+DGNKHfuwvY7kxvUdBeoGlODJ6+SfaPg=="
+            }
+          },
+          "status": "proposed"
+        }
+      ],
+      "outputs": [
+        {
+          "hash": "z4PhNX7vuL3xVChQ1m2AB9Yg5AULVxXcg/SpIdNs6c5H0NE8XYXysP+DGNKHfuwvY7kxvUdBeoGlODJ6+SfaPg==",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "name": "signed_prom_note",
+      "session_id": "session1qyqqq2wf3c4yt4u447m8pw65qcdxx9k7nswc7sec43qcmpp9267xw6r8xv4",
+      "specification_id": "recspec1q45xsyufyuyh7a5ejg7n2d336x22mwf9v32gxhlchmv6wuq620dss7wkja0",
+      "process": {
+        "process_id": {
+          "hash": {
+            "hash": "mCVay1v4K017VMs2EIbLjuLS2OcOVTAn7LjrKvqy5UZoBXA+dDdyeElWPXKdiw8OOzx5UjOfa/mbla1/PlzZyw=="
+          }
+        },
+        "method": "signed_prom_note",
+        "name": "io.provenance.proto.common.DocumentProtos$Disclosure"
+      },
+      "inputs": [
+        {
+          "name": "perform_input_checks",
+          "type_name": "io.p8e.proto.Common$BooleanResult",
+          "source": {
+            "hash": {
+              "hash": "z4PhNX7vuL3xVChQ1m2AB9Yg5AULVxXcg/SpIdNs6c5H0NE8XYXysP+DGNKHfuwvY7kxvUdBeoGlODJ6+SfaPg=="
+            }
+          },
+          "status": "proposed"
+        },
+        {
+          "name": "signed_prom_note",
+          "type_name": "io.provenance.proto.common.DocumentProtos$Disclosure",
+          "source": {
+            "hash": {
+              "hash": "YHj0dU9uiVFdp72FOY1ocG6GOAQmoJrhyysAMywFDAXrqPsOg0ncnGAH3yzB5VCqv7iTPmPUtJncBSiC6+hYxA=="
+            }
+          },
+          "status": "proposed"
+        }
+      ],
+      "outputs": [
+        {
+          "hash": "YHj0dU9uiVFdp72FOY1ocG6GOAQmoJrhyysAMywFDAXrqPsOg0ncnGAH3yzB5VCqv7iTPmPUtJncBSiC6+hYxA==",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "name": "underwriting_packet",
+      "session_id": "session1qyqqq2wf3c4yt4u447m8pw65qcdxx9k7nswc7sec43qcmpp9267xw6r8xv4",
+      "specification_id": "recspec1q45xsyufyuyh7a5ejg7n2d336x2tuemlndlrfxfmdvhdnqjkzv9txpxhxsx",
+      "process": {
+        "process_id": {
+          "hash": {
+            "hash": "mCVay1v4K017VMs2EIbLjuLS2OcOVTAn7LjrKvqy5UZoBXA+dDdyeElWPXKdiw8OOzx5UjOfa/mbla1/PlzZyw=="
+          }
+        },
+        "method": "underwriting_packet",
+        "name": "io.provenance.proto.UnderwritingProtos$UnderwritingPacket"
+      },
+      "inputs": [
+        {
+          "name": "perform_input_checks",
+          "type_name": "io.p8e.proto.Common$BooleanResult",
+          "source": {
+            "hash": {
+              "hash": "z4PhNX7vuL3xVChQ1m2AB9Yg5AULVxXcg/SpIdNs6c5H0NE8XYXysP+DGNKHfuwvY7kxvUdBeoGlODJ6+SfaPg=="
+            }
+          },
+          "status": "proposed"
+        },
+        {
+          "name": "underwriting_packet",
+          "type_name": "io.provenance.proto.UnderwritingProtos$UnderwritingPacket",
+          "source": {
+            "hash": {
+              "hash": "Y9Nfx+4xQ4RJ74cmgvg18+CRyUz1uBzVk8LlTVFpXfFt9ReiEEyxsi91J1tKlrQIuPci5z9ND15e+5BRtuhRrQ=="
+            }
+          },
+          "status": "proposed"
+        }
+      ],
+      "outputs": [
+        {
+          "hash": "Y9Nfx+4xQ4RJ74cmgvg18+CRyUz1uBzVk8LlTVFpXfFt9ReiEEyxsi91J1tKlrQIuPci5z9ND15e+5BRtuhRrQ==",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "name": "credit_reports_clean",
+      "session_id": "session1qyqqq2wf3c4yt4u447m8pw65qcdxx9k7nswc7sec43qcmpp9267xw6r8xv4",
+      "specification_id": "recspec1q45xsyufyuyh7a5ejg7n2d336x2dzt92fnf2lp33v823vkz5rmatkfmathl",
+      "process": {
+        "process_id": {
+          "hash": {
+            "hash": "mCVay1v4K017VMs2EIbLjuLS2OcOVTAn7LjrKvqy5UZoBXA+dDdyeElWPXKdiw8OOzx5UjOfa/mbla1/PlzZyw=="
+          }
+        },
+        "method": "credit_reports_clean",
+        "name": "io.provenance.proto.loan.LoanProtos$CreditReportsList"
+      },
+      "inputs": [
+        {
+          "name": "perform_input_checks",
+          "type_name": "io.p8e.proto.Common$BooleanResult",
+          "source": {
+            "hash": {
+              "hash": "z4PhNX7vuL3xVChQ1m2AB9Yg5AULVxXcg/SpIdNs6c5H0NE8XYXysP+DGNKHfuwvY7kxvUdBeoGlODJ6+SfaPg=="
+            }
+          },
+          "status": "proposed"
+        },
+        {
+          "name": "credit_reports",
+          "type_name": "io.provenance.proto.loan.LoanProtos$CreditReportsList",
+          "source": {
+            "hash": {
+              "hash": "TgaFSnFoCcQOkZluvTx5p28sjjsXj27O6GouxIFuJZdKAQSZG4phpzGXF/lT7UQemnf6rrhMio0AsHQkV2M+iA=="
+            }
+          },
+          "status": "proposed"
+        }
+      ],
+      "outputs": [
+        {
+          "hash": "TgaFSnFoCcQOkZluvTx5p28sjjsXj27O6GouxIFuJZdKAQSZG4phpzGXF/lT7UQemnf6rrhMio0AsHQkV2M+iA==",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "name": "servicing",
+      "session_id": "session1qyqqq2wf3c4yt4u447m8pw65qcdxx9k7nswc7sec43qcmpp9267xw6r8xv4",
+      "specification_id": "recspec1q45xsyufyuyh7a5ejg7n2d336x20tfr8t3lqvnrlq2k44j09hxgrvkfv226",
+      "process": {
+        "process_id": {
+          "hash": {
+            "hash": "mCVay1v4K017VMs2EIbLjuLS2OcOVTAn7LjrKvqy5UZoBXA+dDdyeElWPXKdiw8OOzx5UjOfa/mbla1/PlzZyw=="
+          }
+        },
+        "method": "servicing",
+        "name": "io.provenance.proto.asset.LoanProtos$LoanServicing"
+      },
+      "inputs": [
+        {
+          "name": "perform_input_checks",
+          "type_name": "io.p8e.proto.Common$BooleanResult",
+          "source": {
+            "hash": {
+              "hash": "z4PhNX7vuL3xVChQ1m2AB9Yg5AULVxXcg/SpIdNs6c5H0NE8XYXysP+DGNKHfuwvY7kxvUdBeoGlODJ6+SfaPg=="
+            }
+          },
+          "status": "proposed"
+        },
+        {
+          "name": "servicing",
+          "type_name": "io.provenance.proto.asset.LoanProtos$LoanServicing",
+          "source": {
+            "hash": {
+              "hash": "GmLPNBKR5++F8CpbEflukjIZRAcD1Z0UrMjWPFHXz8X4TfGxqYZuqSdW3QOqeuBpJUxRGWLSrzkZyEKhPrQ4wA=="
+            }
+          },
+          "status": "proposed"
+        }
+      ],
+      "outputs": [
+        {
+          "hash": "GmLPNBKR5++F8CpbEflukjIZRAcD1Z0UrMjWPFHXz8X4TfGxqYZuqSdW3QOqeuBpJUxRGWLSrzkZyEKhPrQ4wA==",
+          "status": "pass"
+        }
+      ]
+    }
+  ]
+}

@@ -67,7 +67,7 @@ pub fn try_bind_prefix(
     // Create a name using the prefix
     let name = format!("{}.{}", prefix, state.contract_name);
 
-    // Create a message that will set the marker pointer.
+    // Create a message that will give the contract a name.
     let bind_name_msg = bind_name(&name, env.contract.address.clone(), NameBinding::Restricted)?;
 
     // Dispatch message to handler and emit events

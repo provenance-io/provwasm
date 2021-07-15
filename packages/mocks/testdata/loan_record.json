@@ -1,0 +1,46 @@
+{
+  "records": [
+    {
+      "name": "loan",
+      "session_id": "session1qyqqq2wf3c4yt4u447m8pw65qcdxx9k7nswc7sec43qcmpp9267xw6r8xv4",
+      "specification_id": "recspec1q45xsyufyuyh7a5ejg7n2d336x2yw2alzjfrutnualv99xp9csq7sdqwhln",
+      "process": {
+        "process_id": {
+          "hash": {
+            "hash": "mCVay1v4K017VMs2EIbLjuLS2OcOVTAn7LjrKvqy5UZoBXA+dDdyeElWPXKdiw8OOzx5UjOfa/mbla1/PlzZyw=="
+          }
+        },
+        "method": "loan",
+        "name": "io.provenance.proto.loan.LoanProtos$Loan"
+      },
+      "inputs": [
+        {
+          "name": "perform_input_checks",
+          "type_name": "io.p8e.proto.Common$BooleanResult",
+          "source": {
+            "hash": {
+              "hash": "z4PhNX7vuL3xVChQ1m2AB9Yg5AULVxXcg/SpIdNs6c5H0NE8XYXysP+DGNKHfuwvY7kxvUdBeoGlODJ6+SfaPg=="
+            }
+          },
+          "status": "proposed"
+        },
+        {
+          "name": "loan",
+          "type_name": "io.provenance.proto.loan.LoanProtos$Loan",
+          "source": {
+            "hash": {
+              "hash": "poYoiYr8gi22vyBlo09YkSSnGHRY0jQW9DZAvaTPT5slTbt2SV8KgGSKoK72PYVL/yLrCgnrEDaRn08byB/JHQ=="
+            }
+          },
+          "status": "proposed"
+        }
+      ],
+      "outputs": [
+        {
+          "hash": "poYoiYr8gi22vyBlo09YkSSnGHRY0jQW9DZAvaTPT5slTbt2SV8KgGSKoK72PYVL/yLrCgnrEDaRn08byB/JHQ==",
+          "status": "pass"
+        }
+      ]
+    }
+  ]
+}

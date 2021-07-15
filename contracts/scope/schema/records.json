@@ -1,0 +1,230 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Records",
+  "description": "A group of records.",
+  "type": "object",
+  "required": [
+    "records"
+  ],
+  "properties": {
+    "records": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Record"
+      }
+    }
+  },
+  "definitions": {
+    "Process": {
+      "description": "The process that generated a record.",
+      "type": "object",
+      "required": [
+        "method",
+        "name",
+        "process_id"
+      ],
+      "properties": {
+        "method": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "process_id": {
+          "$ref": "#/definitions/ProcessId"
+        }
+      }
+    },
+    "ProcessId": {
+      "description": "The representations of a process id.",
+      "anyOf": [
+        {
+          "description": "The on-chain address of a process.",
+          "type": "object",
+          "required": [
+            "address"
+          ],
+          "properties": {
+            "address": {
+              "type": "object",
+              "required": [
+                "address"
+              ],
+              "properties": {
+                "address": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "description": "The hash of an off-chain process.",
+          "type": "object",
+          "required": [
+            "hash"
+          ],
+          "properties": {
+            "hash": {
+              "type": "object",
+              "required": [
+                "hash"
+              ],
+              "properties": {
+                "hash": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "Record": {
+      "description": "A record of fact for a session.",
+      "type": "object",
+      "required": [
+        "name",
+        "process",
+        "session_id",
+        "specification_id"
+      ],
+      "properties": {
+        "inputs": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RecordInput"
+          }
+        },
+        "name": {
+          "type": "string"
+        },
+        "outputs": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RecordOutput"
+          }
+        },
+        "process": {
+          "$ref": "#/definitions/Process"
+        },
+        "session_id": {
+          "type": "string"
+        },
+        "specification_id": {
+          "type": "string"
+        }
+      }
+    },
+    "RecordInput": {
+      "description": "The inputs used to produce a record.",
+      "type": "object",
+      "required": [
+        "name",
+        "source",
+        "status",
+        "type_name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "source": {
+          "$ref": "#/definitions/RecordInputSource"
+        },
+        "status": {
+          "$ref": "#/definitions/RecordInputStatus"
+        },
+        "type_name": {
+          "type": "string"
+        }
+      }
+    },
+    "RecordInputSource": {
+      "description": "The representations of a record input source.",
+      "anyOf": [
+        {
+          "description": "The address of a record on chain (established records).",
+          "type": "object",
+          "required": [
+            "record"
+          ],
+          "properties": {
+            "record": {
+              "type": "object",
+              "required": [
+                "record_id"
+              ],
+              "properties": {
+                "record_id": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "description": "The hash of an off-chain piece of information (proposed records).",
+          "type": "object",
+          "required": [
+            "hash"
+          ],
+          "properties": {
+            "hash": {
+              "type": "object",
+              "required": [
+                "hash"
+              ],
+              "properties": {
+                "hash": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "RecordInputStatus": {
+      "description": "Record input types.",
+      "type": "string",
+      "enum": [
+        "proposed",
+        "record",
+        "unspecified"
+      ]
+    },
+    "RecordOutput": {
+      "description": "The output of a process recorded on chain.",
+      "type": "object",
+      "required": [
+        "hash",
+        "status"
+      ],
+      "properties": {
+        "hash": {
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/definitions/ResultStatus"
+        }
+      }
+    },
+    "ResultStatus": {
+      "description": "Result status types.",
+      "type": "string",
+      "enum": [
+        "pass",
+        "skip",
+        "fail",
+        "unspecified"
+      ]
+    }
+  }
+}

@@ -1,10 +1,10 @@
-use crate::{AttributeQuerier, MarkerQuerier, NameQuerier};
+use crate::{AttributeQuerier, MarkerQuerier, MetadataQuerier, NameQuerier};
 use cosmwasm_std::testing::{MockApi, MockQuerier, MockStorage, MOCK_CONTRACT_ADDR};
 use cosmwasm_std::{
     from_slice, to_binary, Coin, OwnedDeps, Querier, QuerierResult, QueryRequest, StdResult,
     SystemError, SystemResult,
 };
-use provwasm_std::{Marker, ProvenanceQuery, ProvenanceQueryParams};
+use provwasm_std::{Marker, ProvenanceQuery, ProvenanceQueryParams, Records, Scope, Sessions};
 
 /// A drop-in replacement for cosmwasm_std::testing::mock_dependencies that uses the mock
 /// provenance querier.
@@ -37,6 +37,7 @@ pub struct ProvenanceMockQuerier {
     name: NameQuerier,
     attribute: AttributeQuerier,
     marker: MarkerQuerier,
+    metadata: MetadataQuerier,
 }
 
 impl Querier for ProvenanceMockQuerier {
@@ -56,11 +57,13 @@ impl ProvenanceMockQuerier {
                 ProvenanceQueryParams::Attribute(p) => self.attribute.query(&p),
                 ProvenanceQueryParams::Marker(p) => self.marker.query(&p),
                 ProvenanceQueryParams::Name(p) => self.name.query(&p),
+                ProvenanceQueryParams::Metadata(p) => self.metadata.query(&p),
             },
             QueryRequest::Bank(q) => self.base.handle_query(&QueryRequest::Bank(q.clone())),
+            #[cfg(feature = "staking")]
             QueryRequest::Staking(q) => self.base.handle_query(&QueryRequest::Staking(q.clone())),
             QueryRequest::Wasm(q) => self.base.handle_query(&QueryRequest::Wasm(q.clone())),
-            // Note: As of 0.14.0-beta1, no mocking for stargate or ibc queries in base, so we just
+            // Note: As of 0.14, no mocks exist for stargate or ibc queries in base, so we just
             // return an error.
             _ => SystemResult::Err(SystemError::InvalidRequest {
                 error: "invalid query request type".into(),
@@ -77,6 +80,7 @@ impl ProvenanceMockQuerier {
             attribute: AttributeQuerier::default(),
             name: NameQuerier::default(),
             marker: MarkerQuerier::default(),
+            metadata: MetadataQuerier::default(),
         }
     }
 
@@ -90,6 +94,22 @@ impl ProvenanceMockQuerier {
 
     pub fn with_markers(&mut self, inputs: Vec<Marker>) {
         self.marker = MarkerQuerier::new(inputs);
+    }
+
+    pub fn with_scope(&mut self, scope: Scope) {
+        self.metadata = MetadataQuerier::new(scope, None, None)
+    }
+
+    pub fn with_sessions(&mut self, scope: Scope, sessions: Sessions) {
+        self.metadata = MetadataQuerier::new(scope, Some(sessions), None)
+    }
+
+    pub fn with_records(&mut self, scope: Scope, records: Records) {
+        self.metadata = MetadataQuerier::new(scope, None, Some(records))
+    }
+
+    pub fn with_metadata(&mut self, scope: Scope, sessions: Sessions, records: Records) {
+        self.metadata = MetadataQuerier::new(scope, Some(sessions), Some(records))
     }
 }
 

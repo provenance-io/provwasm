@@ -1,0 +1,14 @@
+{
+    "scope_id": "scope1qqqqq2wf3c4yt4u447m8pw65qcdqrre82d",
+    "specification_id": "scopespec1qj5hx4l3vgryhp5g3ks68wh53jkq3net7n",
+    "owners": [
+        {
+            "address": "tp1rr4d0eu62pgt4edw38d2ev27798pfhdhp5ttha",
+            "role": "originator"
+        }
+    ],
+    "data_access": [
+        "tp1rr4d0eu62pgt4edw38d2ev27798pfhdhp5ttha"
+    ],
+    "value_owner_address": "tp1r7dd2w80x939u5f3l5y04rruusyr5dxx7wuvdm"
+}

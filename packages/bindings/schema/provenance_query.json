@@ -118,6 +118,77 @@
         }
       ]
     },
+    "MetadataQueryParams": {
+      "description": "Params for metadata queries",
+      "anyOf": [
+        {
+          "type": "object",
+          "required": [
+            "get_scope"
+          ],
+          "properties": {
+            "get_scope": {
+              "type": "object",
+              "required": [
+                "scope_id"
+              ],
+              "properties": {
+                "scope_id": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "get_sessions"
+          ],
+          "properties": {
+            "get_sessions": {
+              "type": "object",
+              "required": [
+                "scope_id"
+              ],
+              "properties": {
+                "scope_id": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "get_records"
+          ],
+          "properties": {
+            "get_records": {
+              "type": "object",
+              "required": [
+                "scope_id"
+              ],
+              "properties": {
+                "name": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "scope_id": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
     "NameQueryParams": {
       "description": "Params for name queries.",
       "anyOf": [
@@ -201,6 +272,18 @@
             }
           },
           "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "metadata"
+          ],
+          "properties": {
+            "metadata": {
+              "$ref": "#/definitions/MetadataQueryParams"
+            }
+          },
+          "additionalProperties": false
         }
       ]
     },
@@ -210,7 +293,8 @@
       "enum": [
         "attribute",
         "marker",
-        "name"
+        "name",
+        "metadata"
       ]
     }
   }

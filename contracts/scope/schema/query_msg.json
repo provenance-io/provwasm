@@ -1,0 +1,90 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "QueryMsg",
+  "anyOf": [
+    {
+      "type": "object",
+      "required": [
+        "get_scope"
+      ],
+      "properties": {
+        "get_scope": {
+          "type": "object",
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "get_sessions"
+      ],
+      "properties": {
+        "get_sessions": {
+          "type": "object",
+          "required": [
+            "scope_id"
+          ],
+          "properties": {
+            "scope_id": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "get_records"
+      ],
+      "properties": {
+        "get_records": {
+          "type": "object",
+          "required": [
+            "scope_id"
+          ],
+          "properties": {
+            "scope_id": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "get_record_by_name"
+      ],
+      "properties": {
+        "get_record_by_name": {
+          "type": "object",
+          "required": [
+            "name",
+            "scope_id"
+          ],
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "scope_id": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  ]
+}

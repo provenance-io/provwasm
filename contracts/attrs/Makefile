@@ -37,5 +37,5 @@ optimize:
 		cosmwasm/rust-optimizer:0.11.3
 
 .PHONY: install
-install: optimize
+install:
 	@cp artifacts/attrs.wasm $(PROVWASM_INSTALL_DIR)

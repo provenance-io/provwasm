@@ -1,0 +1,85 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Sessions",
+  "description": "A group of sessions.",
+  "type": "object",
+  "required": [
+    "sessions"
+  ],
+  "properties": {
+    "sessions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Session"
+      }
+    }
+  },
+  "definitions": {
+    "Binary": {
+      "description": "Binary is a wrapper around Vec<u8> to add base64 de/serialization with serde. It also adds some helper methods to help encode inline.\n\nThis is only needed as serde-json-{core,wasm} has a horrible encoding for Vec<u8>",
+      "type": "string"
+    },
+    "Party": {
+      "description": "An address with an associated role.",
+      "type": "object",
+      "required": [
+        "address",
+        "role"
+      ],
+      "properties": {
+        "address": {
+          "type": "string"
+        },
+        "role": {
+          "$ref": "#/definitions/PartyType"
+        }
+      }
+    },
+    "PartyType": {
+      "description": "Roles that can be associated to a party.",
+      "type": "string",
+      "enum": [
+        "originator",
+        "servicer",
+        "investor",
+        "custodian",
+        "owner",
+        "affiliate",
+        "omnibus",
+        "provenance",
+        "unspecified"
+      ]
+    },
+    "Session": {
+      "description": "The final state of an execution context for a specification instance.",
+      "type": "object",
+      "required": [
+        "context",
+        "name",
+        "session_id",
+        "specification_id"
+      ],
+      "properties": {
+        "context": {
+          "$ref": "#/definitions/Binary"
+        },
+        "name": {
+          "type": "string"
+        },
+        "parties": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Party"
+          }
+        },
+        "session_id": {
+          "type": "string"
+        },
+        "specification_id": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

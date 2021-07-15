@@ -1,0 +1,69 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Scope",
+  "description": "A collection of records owned by one or more parties.",
+  "type": "object",
+  "required": [
+    "scope_id",
+    "specification_id",
+    "value_owner_address"
+  ],
+  "properties": {
+    "data_access": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "owners": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Party"
+      }
+    },
+    "scope_id": {
+      "type": "string"
+    },
+    "specification_id": {
+      "type": "string"
+    },
+    "value_owner_address": {
+      "type": "string"
+    }
+  },
+  "definitions": {
+    "Party": {
+      "description": "An address with an associated role.",
+      "type": "object",
+      "required": [
+        "address",
+        "role"
+      ],
+      "properties": {
+        "address": {
+          "type": "string"
+        },
+        "role": {
+          "$ref": "#/definitions/PartyType"
+        }
+      }
+    },
+    "PartyType": {
+      "description": "Roles that can be associated to a party.",
+      "type": "string",
+      "enum": [
+        "originator",
+        "servicer",
+        "investor",
+        "custodian",
+        "owner",
+        "affiliate",
+        "omnibus",
+        "provenance",
+        "unspecified"
+      ]
+    }
+  }
+}

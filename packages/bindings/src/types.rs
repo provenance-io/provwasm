@@ -9,6 +9,7 @@ pub enum ProvenanceRoute {
     Attribute,
     Marker,
     Name,
+    Metadata,
 }
 
 /// A collection of bound names.
@@ -59,6 +60,11 @@ pub enum AttributeValueType {
     Json,
     String,
     Bytes,
+    Uri,
+    Int,
+    Float,
+    Proto,
+    Unspecified,
 }
 
 /// A typed key-value pair.
@@ -81,8 +87,7 @@ pub struct Marker {
     pub account_number: u64,
     pub sequence: u64,
     #[serde(default)]
-    manager: String, // Keep private and force use of public get_manager()
-    #[serde(default)]
+    pub manager: String,
     pub permissions: Vec<AccessGrant>,
     pub status: MarkerStatus,
     pub denom: String,
@@ -95,16 +100,6 @@ impl Marker {
     /// Determines whether a marker requires restricted transfers.
     pub fn bank_sends_disabled(&self) -> bool {
         matches!(self.marker_type, MarkerType::Restricted)
-    }
-
-    /// Returns the human address for the marker manager if defined.
-    pub fn get_manager(&self) -> Option<Addr> {
-        if !self.manager.is_empty() {
-            let address = Addr::unchecked(self.manager.clone());
-            Some(address)
-        } else {
-            None
-        }
     }
 }
 
@@ -126,7 +121,6 @@ pub enum MarkerAccess {
     Delete,
     Mint,
     Transfer,
-    // Query only
     Unspecified,
     Withdraw,
 }
@@ -151,9 +145,7 @@ impl MarkerAccess {
 #[serde(rename_all = "snake_case")]
 pub enum MarkerType {
     Coin,
-    // Means "restricted coin"
     Restricted,
-    // Query only
     Unspecified,
 }
 
@@ -166,6 +158,147 @@ pub enum MarkerStatus {
     Destroyed,
     Finalized,
     Proposed,
-    // Query only
+    Unspecified,
+}
+
+/// A collection of records owned by one or more parties.
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[serde(rename_all = "snake_case")]
+pub struct Scope {
+    pub scope_id: String,
+    pub specification_id: String,
+    #[serde(default)]
+    pub owners: Vec<Party>,
+    #[serde(default)]
+    pub data_access: Vec<String>,
+    pub value_owner_address: String,
+}
+
+/// The final state of an execution context for a specification instance.
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[serde(rename_all = "snake_case")]
+pub struct Session {
+    pub name: String,
+    pub session_id: String,
+    pub specification_id: String,
+    #[serde(default)]
+    pub parties: Vec<Party>,
+    pub context: Binary,
+}
+
+/// A group of sessions.
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[serde(rename_all = "snake_case")]
+pub struct Sessions {
+    pub sessions: Vec<Session>,
+}
+
+/// A record of fact for a session.
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[serde(rename_all = "snake_case")]
+pub struct Record {
+    pub name: String,
+    pub session_id: String,
+    pub specification_id: String,
+    pub process: Process,
+    #[serde(default)]
+    pub inputs: Vec<RecordInput>,
+    #[serde(default)]
+    pub outputs: Vec<RecordOutput>,
+}
+
+/// A group of records.
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[serde(rename_all = "snake_case")]
+pub struct Records {
+    pub records: Vec<Record>,
+}
+
+/// An address with an associated role.
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[serde(rename_all = "snake_case")]
+pub struct Party {
+    pub address: String,
+    pub role: PartyType,
+}
+
+/// Roles that can be associated to a party.
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[serde(rename_all = "snake_case")]
+pub enum PartyType {
+    Originator,
+    Servicer,
+    Investor,
+    Custodian,
+    Owner,
+    Affiliate,
+    Omnibus,
+    Provenance,
+    Unspecified,
+}
+
+/// The process that generated a record.
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[serde(rename_all = "snake_case")]
+pub struct Process {
+    pub process_id: ProcessId,
+    pub method: String,
+    pub name: String,
+}
+
+/// The representations of a process id.
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[serde(rename_all = "snake_case")]
+pub enum ProcessId {
+    /// The on-chain address of a process.
+    Address { address: String },
+    /// The hash of an off-chain process.
+    Hash { hash: String },
+}
+
+/// The inputs used to produce a record.
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[serde(rename_all = "snake_case")]
+pub struct RecordInput {
+    pub name: String,
+    pub type_name: String,
+    pub source: RecordInputSource,
+    pub status: RecordInputStatus,
+}
+
+/// The representations of a record input source.
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[serde(rename_all = "snake_case")]
+pub enum RecordInputSource {
+    /// The address of a record on chain (established records).
+    Record { record_id: String },
+    /// The hash of an off-chain piece of information (proposed records).
+    Hash { hash: String },
+}
+
+/// Record input types.
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[serde(rename_all = "snake_case")]
+pub enum RecordInputStatus {
+    Proposed,
+    Record,
+    Unspecified,
+}
+
+/// The output of a process recorded on chain.
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[serde(rename_all = "snake_case")]
+pub struct RecordOutput {
+    pub hash: String,
+    pub status: ResultStatus,
+}
+
+/// Result status types.
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[serde(rename_all = "snake_case")]
+pub enum ResultStatus {
+    Pass,
+    Skip,
+    Fail,
     Unspecified,
 }

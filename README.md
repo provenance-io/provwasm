@@ -12,12 +12,13 @@ blockchain modules.
 
 The following table shows provwasm version compatibility for smart contract development and testing.
 
-| provwasm      | wasmd          | cosmos  | provenance    | module support        |
-| ------------- | -------------- | ------- | ------------- | --------------------- |
-| v0.14.1       | v0.17.0        | v0.42.5 | v1.4.1+       | attribute,marker,name |
-| v0.14.0       | v0.16.0        | v0.42.4 | v1.3.0+       | attribute,marker,name |
-| v0.14.0-beta1 | v0.16.0-alpha1 | v0.42.3 | v0.2.1-v1.2.0 | attribute,marker,name |
-| v0.13         | v0.15          | v0.41   | v0.2.0        | attribute,marker,name |
+| provwasm      | wasmd          | cosmos  | provenance    | module support                 |
+| ------------- | -------------- | ------- | ------------- | ------------------------------ |
+| v0.14.2       | v0.17.0        | v0.42.6 | v1.5.0+       | attribute,marker,metadata,name |
+| v0.14.1       | v0.17.0        | v0.42.5 | v1.4.1+       | attribute,marker,name          |
+| v0.14.0       | v0.16.0        | v0.42.4 | v1.3.0+       | attribute,marker,name          |
+| v0.14.0-beta1 | v0.16.0-alpha1 | v0.42.3 | v0.2.1-v1.2.0 | attribute,marker,name          |
+| v0.13         | v0.15          | v0.41   | v0.2.0        | attribute,marker,name          |
 
 ## Getting Started
 
@@ -39,6 +40,11 @@ In addition to the core CosmWasm functionality, the provenance bindings include
 - Markers
   - Get marker by denom.
   - Get marker by address.
+- Metadata
+  - Get scope by ID.
+  - Get scope sessions.
+  - Get scope records.
+  - Get scope record by name.
 
 ### Message Encoding
 
