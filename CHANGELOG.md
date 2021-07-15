@@ -2,10 +2,12 @@
 
 ## Unreleased changes
 
+## Releases
+
+### [v0.14.2](https://github.com/provenance-io/provwasm/tree/v0.14.2)
+
 * Add metadata module query support for scopes, sessions, and records.
 * Add missing attribute value types to fix de-serialization errors.
-
-## Releases
 
 ### [v0.14.1](https://github.com/provenance-io/provwasm/tree/v0.14.1)
 
