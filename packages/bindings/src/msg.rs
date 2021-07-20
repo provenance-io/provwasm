@@ -334,9 +334,6 @@ pub fn create_marker<S: Into<String>>(
     denom: S,
     marker_type: MarkerType,
 ) -> StdResult<CosmosMsg<ProvenanceMsg>> {
-    if amount == 0 {
-        return Err(StdError::generic_err("marker supply must be > 0"));
-    }
     let coin = coin(amount, validate_string(denom, "denom")?);
     Ok(create_marker_msg(MarkerMsgParams::CreateMarker {
         coin,

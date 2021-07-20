@@ -2,6 +2,8 @@
 
 ## Unreleased changes
 
+* Allow a supply of zero when creating a marker.
+
 ## Releases
 
 ### [v0.14.2](https://github.com/provenance-io/provwasm/tree/v0.14.2)
