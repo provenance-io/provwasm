@@ -1,6 +1,6 @@
 [package]
 name = "provwasm-mocks"
-version = "0.14.2"
+version = "0.14.3"
 authors = ["David Pederson <dpederson@figure.com>", "Ken Talley <ktalley@figure.com>"]
 edition = "2018"
 license = "Apache-2.0"
@@ -11,7 +11,7 @@ keywords = ["provenance", "blockchain", "smart-contracts", "defi", "finance"]
 categories = ["development-tools::testing", "cryptography::cryptocurrencies", "wasm"]
 
 [dependencies]
-provwasm-std = { path = "../bindings", version = "0.14.2" }
+provwasm-std = { path = "../bindings", version = "0.14.3" }
 cosmwasm-std = { version = "0.14.1", features = ["staking"] }
 schemars = "0.8.1"
 serde = { version = "1.0.103", default-features = false, features = ["derive"] }
