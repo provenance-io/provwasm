@@ -22,7 +22,7 @@ Navigate to the blockchain project and checkout the required branch.
 
 ```bash
 cd ./provenance
-git checkout v1.3.0
+git checkout v1.5.0
 ```
 
 Install commands and start a provenance localnet cluster.
