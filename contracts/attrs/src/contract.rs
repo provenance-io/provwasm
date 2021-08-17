@@ -26,12 +26,12 @@ pub fn instantiate(
     let bind_name_msg = bind_name(&msg.name, env.contract.address, NameBinding::Restricted)?;
 
     // Dispatch message to handler and add event attributes.
-    let mut res = Response::new();
-    res.add_message(bind_name_msg);
-    res.add_attribute("integration_test", "v2");
-    res.add_attribute("action", "provwasm.contracts.attrs.init");
-    res.add_attribute("contract_name", msg.name);
-    res.add_attribute("contract_owner", info.sender);
+    let res = Response::new()
+        .add_message(bind_name_msg)
+        .add_attribute("integration_test", "v2")
+        .add_attribute("action", "provwasm.contracts.attrs.init")
+        .add_attribute("contract_name", msg.name)
+        .add_attribute("contract_owner", info.sender);
     Ok(res)
 }
 
@@ -67,11 +67,11 @@ fn try_bind_label_name(
     attr_name: String,
 ) -> Result<Response<ProvenanceMsg>, ContractError> {
     let bind_name_msg = bind_name(&attr_name, env.contract.address, NameBinding::Restricted)?;
-    let mut res = Response::new();
-    res.add_message(bind_name_msg);
-    res.add_attribute("integration_test", "v2");
-    res.add_attribute("action", "provwasm.contracts.attrs.try_bind_label_name");
-    res.add_attribute("attribute_name", attr_name);
+    let res = Response::new()
+        .add_message(bind_name_msg)
+        .add_attribute("integration_test", "v2")
+        .add_attribute("action", "provwasm.contracts.attrs.try_bind_label_name")
+        .add_attribute("attribute_name", attr_name);
     Ok(res)
 }
 
@@ -84,11 +84,11 @@ fn try_add_label(
     let timestamp = env.block.time.nanos();
     let label = Label { text, timestamp };
     let msg = add_json_attribute(env.contract.address, &attr_name, &label)?;
-    let mut res = Response::new();
-    res.add_message(msg);
-    res.add_attribute("integration_test", "v2");
-    res.add_attribute("action", "provwasm.contracts.attrs.try_add_label");
-    res.add_attribute("attribute_name", attr_name);
+    let res = Response::new()
+        .add_message(msg)
+        .add_attribute("integration_test", "v2")
+        .add_attribute("action", "provwasm.contracts.attrs.try_add_label")
+        .add_attribute("attribute_name", attr_name);
     Ok(res)
 }
 
@@ -98,11 +98,11 @@ fn try_delete_labels(
     attr_name: String,
 ) -> Result<Response<ProvenanceMsg>, ContractError> {
     let msg = delete_attributes(env.contract.address, &attr_name)?;
-    let mut res = Response::new();
-    res.add_message(msg);
-    res.add_attribute("integration_test", "v2");
-    res.add_attribute("action", "provwasm.contracts.attrs.try_delete_labels");
-    res.add_attribute("attribute_name", attr_name);
+    let res = Response::new()
+        .add_message(msg)
+        .add_attribute("integration_test", "v2")
+        .add_attribute("action", "provwasm.contracts.attrs.try_delete_labels")
+        .add_attribute("attribute_name", attr_name);
     Ok(res)
 }
 
@@ -154,7 +154,7 @@ mod tests {
 
         // Ensure a message was created to bind the name to the contract address.
         assert_eq!(1, res.messages.len());
-        match &res.messages[0] {
+        match &res.messages[0].msg {
             CosmosMsg::Custom(msg) => match &msg.params {
                 ProvenanceMsgParams::Name(p) => match &p {
                     NameMsgParams::BindName { name, .. } => assert_eq!(name, "contract.pb"),
@@ -193,7 +193,7 @@ mod tests {
 
         // Ensure a message was generated for binding the label name under the contract name.
         assert_eq!(1, res.messages.len());
-        match &res.messages[0] {
+        match &res.messages[0].msg {
             CosmosMsg::Custom(msg) => match &msg.params {
                 ProvenanceMsgParams::Name(p) => match &p {
                     NameMsgParams::BindName { name, .. } => assert_eq!(name, "label.contract.pb"),
@@ -266,7 +266,7 @@ mod tests {
 
         // Ensure a message was created to add a named JSON attribute.
         assert_eq!(1, res.messages.len());
-        match &res.messages[0] {
+        match &res.messages[0].msg {
             CosmosMsg::Custom(msg) => match &msg.params {
                 ProvenanceMsgParams::Attribute(p) => match &p {
                     AttributeMsgParams::AddAttribute {
@@ -344,7 +344,7 @@ mod tests {
 
         // Ensure a message was created to delete all named JSON attributes.
         assert_eq!(1, res.messages.len());
-        match &res.messages[0] {
+        match &res.messages[0].msg {
             CosmosMsg::Custom(msg) => match &msg.params {
                 ProvenanceMsgParams::Attribute(p) => match &p {
                     AttributeMsgParams::DeleteAttribute { name, .. } => {
