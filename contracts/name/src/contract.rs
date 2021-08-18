@@ -27,12 +27,12 @@ pub fn instantiate(
     let bind_name_msg = bind_name(&msg.name, env.contract.address, NameBinding::Restricted)?;
 
     // Dispatch bind name message and add event attributes.
-    let mut res = Response::new();
-    res.add_message(bind_name_msg);
-    res.add_attribute("integration_test", "v2");
-    res.add_attribute("action", "provwasm.contracts.name.init");
-    res.add_attribute("contract_name", msg.name);
-    res.add_attribute("contract_owner", info.sender);
+    let res = Response::new()
+        .add_message(bind_name_msg)
+        .add_attribute("integration_test", "v2")
+        .add_attribute("action", "provwasm.contracts.name.init")
+        .add_attribute("contract_name", msg.name)
+        .add_attribute("contract_owner", info.sender);
     Ok(res)
 }
 
@@ -71,12 +71,12 @@ pub fn try_bind_prefix(
     let bind_name_msg = bind_name(&name, env.contract.address.clone(), NameBinding::Restricted)?;
 
     // Dispatch message to handler and emit events
-    let mut res = Response::new();
-    res.add_message(bind_name_msg);
-    res.add_attribute("integration_test", "v2");
-    res.add_attribute("action", "provwasm.contracts.name.try_bind_prefix");
-    res.add_attribute("name", name);
-    res.add_attribute("address", env.contract.address);
+    let res = Response::new()
+        .add_message(bind_name_msg)
+        .add_attribute("integration_test", "v2")
+        .add_attribute("action", "provwasm.contracts.name.try_bind_prefix")
+        .add_attribute("name", name)
+        .add_attribute("address", env.contract.address);
     Ok(res)
 }
 
@@ -101,11 +101,11 @@ pub fn try_unbind_prefix(
     let unbind_name_msg = unbind_name(&name)?;
 
     // Dispatch message to handler and emit events
-    let mut res = Response::new();
-    res.add_message(unbind_name_msg);
-    res.add_attribute("integration_test", "v2");
-    res.add_attribute("action", "provwasm.contracts.name.try_unbind_prefix");
-    res.add_attribute("name", name);
+    let res = Response::new()
+        .add_message(unbind_name_msg)
+        .add_attribute("integration_test", "v2")
+        .add_attribute("action", "provwasm.contracts.name.try_unbind_prefix")
+        .add_attribute("name", name);
     Ok(res)
 }
 
@@ -156,7 +156,7 @@ mod tests {
         // Ensure a message was created to bind the name to the contract address.
         let res = instantiate(deps.as_mut(), env, info, msg).unwrap();
         assert_eq!(1, res.messages.len());
-        match &res.messages[0] {
+        match &res.messages[0].msg {
             CosmosMsg::Custom(msg) => match &msg.params {
                 ProvenanceMsgParams::Name(p) => match &p {
                     NameMsgParams::BindName { name, .. } => assert_eq!(name, "contract.pb"),
@@ -189,7 +189,7 @@ mod tests {
 
         // Assert the correct message was created
         assert_eq!(1, res.messages.len());
-        match &res.messages[0] {
+        match &res.messages[0].msg {
             CosmosMsg::Custom(msg) => match &msg.params {
                 ProvenanceMsgParams::Name(p) => match &p {
                     NameMsgParams::BindName { name, .. } => assert_eq!(name, "test.contract.pb"),
@@ -221,7 +221,7 @@ mod tests {
 
         // Assert the correct message was created
         assert_eq!(1, res.messages.len());
-        match &res.messages[0] {
+        match &res.messages[0].msg {
             CosmosMsg::Custom(msg) => match &msg.params {
                 ProvenanceMsgParams::Name(p) => match &p {
                     NameMsgParams::DeleteName { name, .. } => assert_eq!(name, "test.contract.pb"),

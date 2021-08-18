@@ -28,11 +28,11 @@ pub fn instantiate(
     )?;
 
     // Dispatch message to handler and emit events
-    let mut res: Response<ProvenanceMsg> = Response::new();
-    res.add_message(bind_name_msg);
-    res.add_attribute("integration_test", "v2");
-    res.add_attribute("action", "provwasm.contracts.scope.init");
-    res.add_attribute("name", msg.name);
+    let res: Response<ProvenanceMsg> = Response::new()
+        .add_message(bind_name_msg)
+        .add_attribute("integration_test", "v2")
+        .add_attribute("action", "provwasm.contracts.scope.init")
+        .add_attribute("name", msg.name);
     Ok(res)
 }
 

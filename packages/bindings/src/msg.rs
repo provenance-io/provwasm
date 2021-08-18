@@ -63,8 +63,7 @@ fn create_name_msg(params: NameMsgParams) -> CosmosMsg<ProvenanceMsg> {
 ///     address: Addr,
 /// ) -> StdResult<Response<ProvenanceMsg>> {
 ///    let msg = bind_name(&name, address, NameBinding::Restricted)?;
-///    let mut res = Response::new();
-///    res.add_message(msg);
+///    let mut res = Response::new().add_message(msg);
 ///    Ok(res)
 /// }
 /// ```
@@ -92,8 +91,7 @@ pub fn bind_name<S: Into<String>, H: Into<Addr>>(
 /// // Unbind a name
 /// fn exec_unbind_name(name: String) -> StdResult<Response<ProvenanceMsg>> {
 ///     let msg = unbind_name(&name)?;
-///     let mut res = Response::new();
-///     res.add_message(msg);
+///     let mut res = Response::new().add_message(msg);
 ///     Ok(res)
 /// }
 /// ```
@@ -152,8 +150,7 @@ fn create_attribute_msg(params: AttributeMsgParams) -> CosmosMsg<ProvenanceMsg> 
 ///         Binary::from(greeting.as_bytes()),
 ///         AttributeValueType::String,
 ///     )?;
-///     let mut res = Response::new();
-///     res.add_message(msg);
+///     let mut res = Response::new().add_message(msg);
 ///     Ok(res)
 /// }
 /// ```
@@ -198,8 +195,7 @@ pub fn add_attribute<H: Into<Addr>, S: Into<String>, B: Into<Binary>>(
 ///     let timestamp = env.block.time.nanos();
 ///     let label = Label { text, timestamp };
 ///     let msg = add_json_attribute(address, &attr_name, &label)?;
-///     let mut res = Response::new();
-///     res.add_message(msg);
+///     let mut res = Response::new().add_message(msg);
 ///     Ok(res)
 /// }
 ///
@@ -238,8 +234,7 @@ pub fn add_json_attribute<H: Into<Addr>, S: Into<String>, T: Serialize + ?Sized>
 /// ) -> StdResult<Response<ProvenanceMsg>> {
 ///     let attr_name = String::from("label.my-contract.sc.pb");
 ///     let msg = delete_attributes(address, &attr_name)?;
-///     let mut res = Response::new();
-///     res.add_message(msg);
+///     let mut res = Response::new().add_message(msg);
 ///     Ok(res)
 /// }
 /// ```
@@ -324,8 +319,7 @@ fn create_marker_msg(params: MarkerMsgParams) -> CosmosMsg<ProvenanceMsg> {
 ///     denom: String,
 /// ) -> StdResult<Response<ProvenanceMsg>> {
 ///     let msg = create_marker(amount, &denom, MarkerType::Coin)?;
-///     let mut res = Response::new();
-///     res.add_message(msg);
+///     let mut res = Response::new().add_message(msg);
 ///     Ok(res)
 /// }
 /// ```
@@ -357,8 +351,7 @@ pub fn create_marker<S: Into<String>>(
 /// ) -> StdResult<Response<ProvenanceMsg>> {
 ///     let permissions = vec![MarkerAccess::Burn, MarkerAccess::Mint];
 ///     let msg = grant_marker_access(&denom, address, permissions)?;
-///     let mut res = Response::new();
-///     res.add_message(msg);
+///     let mut res = Response::new().add_message(msg);
 ///     Ok(res)
 /// }
 /// ```
@@ -389,8 +382,7 @@ pub fn grant_marker_access<S: Into<String>, H: Into<Addr>>(
 ///     address: Addr,
 /// ) -> StdResult<Response<ProvenanceMsg>> {
 ///     let msg = revoke_marker_access(&denom, address)?;
-///     let mut res = Response::new();
-///     res.add_message(msg);
+///     let mut res = Response::new().add_message(msg);
 ///     Ok(res)
 /// }
 /// ```
@@ -416,8 +408,7 @@ pub fn revoke_marker_access<S: Into<String>, H: Into<Addr>>(
 /// // Create and dispatch a message that will finalize a proposed marker.
 /// fn try_finalize_marker(denom: String) -> StdResult<Response<ProvenanceMsg>> {
 ///     let msg = finalize_marker(&denom)?;
-///     let mut res = Response::new();
-///     res.add_message(msg);
+///     let mut res = Response::new().add_message(msg);
 ///     Ok(res)
 /// }
 /// ```
@@ -439,8 +430,7 @@ pub fn finalize_marker<S: Into<String>>(denom: S) -> StdResult<CosmosMsg<Provena
 /// // Create and dispatch a message that will activate a finalized marker.
 /// fn try_activate_marker(denom: String) -> StdResult<Response<ProvenanceMsg>> {
 ///     let msg = activate_marker(&denom)?;
-///     let mut res = Response::new();
-///     res.add_message(msg);
+///     let mut res = Response::new().add_message(msg);
 ///     Ok(res)
 /// }
 /// ```
@@ -462,8 +452,7 @@ pub fn activate_marker<S: Into<String>>(denom: S) -> StdResult<CosmosMsg<Provena
 /// // Create and dispatch a message that will cancel a marker.
 /// fn try_cancel_marker(denom: String) -> StdResult<Response<ProvenanceMsg>> {
 ///     let msg = cancel_marker(&denom)?;
-///     let mut res = Response::new();
-///     res.add_message(msg);
+///     let mut res = Response::new().add_message(msg);
 ///     Ok(res)
 /// }
 /// ```
@@ -485,8 +474,7 @@ pub fn cancel_marker<S: Into<String>>(denom: S) -> StdResult<CosmosMsg<Provenanc
 /// // Create and dispatch a message that will destroy a marker.
 /// fn try_destroy_marker(denom: String) -> StdResult<Response<ProvenanceMsg>> {
 ///     let msg = destroy_marker(&denom)?;
-///     let mut res = Response::new();
-///     res.add_message(msg);
+///     let mut res = Response::new().add_message(msg);
 ///     Ok(res)
 /// }
 /// ```
@@ -508,8 +496,7 @@ pub fn destroy_marker<S: Into<String>>(denom: S) -> StdResult<CosmosMsg<Provenan
 /// // Create and dispatch a message that will mint marker supply.
 /// fn try_mint_marker(amount: u128, denom: String) -> StdResult<Response<ProvenanceMsg>> {
 ///     let msg = mint_marker_supply(amount, &denom)?;
-///     let mut res = Response::new();
-///     res.add_message(msg);
+///     let mut res = Response::new().add_message(msg);
 ///     Ok(res)
 /// }
 /// ```
@@ -538,8 +525,7 @@ pub fn mint_marker_supply<S: Into<String>>(
 /// // Create and dispatch a message that will burn marker supply.
 /// fn try_burn_marker(amount: u128, denom: String) -> StdResult<Response<ProvenanceMsg>> {
 ///     let msg = burn_marker_supply(amount, &denom)?;
-///     let mut res = Response::new();
-///     res.add_message(msg);
+///     let mut res = Response::new().add_message(msg);
 ///     Ok(res)
 /// }
 /// ```
@@ -573,8 +559,7 @@ pub fn burn_marker_supply<S: Into<String>>(
 ///     recipient: Addr,
 /// ) -> StdResult<Response<ProvenanceMsg>> {
 ///     let msg = withdraw_coins(&marker_denom, amount, &denom, recipient)?;
-///     let mut res = Response::new();
-///     res.add_message(msg);
+///     let mut res = Response::new().add_message(msg);
 ///     Ok(res)
 /// }
 /// ```
@@ -613,8 +598,7 @@ pub fn withdraw_coins<S: Into<String>, H: Into<Addr>>(
 ///     from: Addr,
 /// ) -> StdResult<Response<ProvenanceMsg>> {
 ///     let msg = transfer_marker_coins(amount, &denom, to, from)?;
-///     let mut res = Response::new();
-///     res.add_message(msg);
+///     let mut res = Response::new().add_message(msg);
 ///     Ok(res)
 /// }
 /// ```

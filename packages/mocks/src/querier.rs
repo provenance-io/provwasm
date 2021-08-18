@@ -54,10 +54,10 @@ impl ProvenanceMockQuerier {
     pub fn handle_query(&self, request: &QueryRequest<ProvenanceQuery>) -> QuerierResult {
         match request {
             QueryRequest::Custom(custom) => match &custom.params {
-                ProvenanceQueryParams::Attribute(p) => self.attribute.query(&p),
-                ProvenanceQueryParams::Marker(p) => self.marker.query(&p),
-                ProvenanceQueryParams::Name(p) => self.name.query(&p),
-                ProvenanceQueryParams::Metadata(p) => self.metadata.query(&p),
+                ProvenanceQueryParams::Attribute(p) => self.attribute.query(p),
+                ProvenanceQueryParams::Marker(p) => self.marker.query(p),
+                ProvenanceQueryParams::Name(p) => self.name.query(p),
+                ProvenanceQueryParams::Metadata(p) => self.metadata.query(p),
             },
             QueryRequest::Bank(q) => self.base.handle_query(&QueryRequest::Bank(q.clone())),
             #[cfg(feature = "staking")]
