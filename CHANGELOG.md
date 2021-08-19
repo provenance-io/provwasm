@@ -4,6 +4,10 @@
 
 ## Releases
 
+### [v0.16.0](https://github.com/provenance-io/provwasm/tree/v0.16.0)
+
+* Upgrade to cosmwasm v0.16.0
+
 ### [v0.14.3](https://github.com/provenance-io/provwasm/tree/v0.14.3)
 
 * Allow a supply of zero when creating a marker.
