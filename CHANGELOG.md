@@ -2,6 +2,8 @@
 
 ## Unreleased changes
 
+* Update example tutorial to work with the latest version of Provenance
+
 ## Releases
 
 ### [v0.16.0](https://github.com/provenance-io/provwasm/tree/v0.16.0)

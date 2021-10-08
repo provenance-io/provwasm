@@ -18,18 +18,18 @@ Then, from the provenance directory, store the optimized smart contract Wasm in 
 
 ```bash
 provenanced tx wasm store tutorial.wasm \
-    --source "https://github.com/provenance-io/provwasm/tree/main/contracts/tutorial" \
-    --builder "cosmwasm/rust-optimizer:0.11.3" \
-    --instantiate-only-address $(provenanced keys show -a feebucket --keyring-backend test --home build/node0 --testnet) \
+    --instantiate-only-address "$feebucket" \
     --from feebucket \
     --keyring-backend test \
     --home build/node0 \
     --chain-id chain-local \
     --gas auto \
-    --fees 25000nhash \
+    --gas-prices="1905nhash" \
+	--gas-adjustment=1.5 \
     --broadcast-mode block \
     --yes \
-    --testnet | jq
+    --testnet \
+	--output json | jq
 ```
 
 To query the stored code (NOTE: The wasm module query commands only produces JSON output).
@@ -47,8 +47,6 @@ Should produce output that resembles (field values may differ) the following.
       "code_id": "1",
       "creator": "tp102c9nplcvrxmhevc6wenm99q6dfte3k3z8vscv",
       "data_hash": "F2F2CD9AA2C192A95B86E9429BC15DCD6B8859BE54C8C66274B80347D2443D82",
-      "source": "https://github.com/provenance-io/provwasm/tree/main/contracts/tutorial",
-      "builder": "cosmwasm/rust-optimizer:0.11.3"
     }
   ],
   "pagination": {
@@ -57,12 +55,6 @@ Should produce output that resembles (field values may differ) the following.
   }
 }
 ```
-
-When storing contracts, it is important to set the `--source` and `--builder` fields. 3rd parties
-should be able to download the source (usually an archive file) and create a release Wasm file with
-the listed builder. They can then compare the checksum of the generated file to the `data_hash`
-above. If the hashes match, the source listed is verified to have produced the Wasm deployed to the
-blockchain.
 
 The `--instantiate-only-address` flag is important when it is necessary to limit instance creation
 to a single account.

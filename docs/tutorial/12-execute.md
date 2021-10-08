@@ -5,7 +5,7 @@ will then perform bank transfers to the merchant and fee collection accounts.
 
 ## Execute Contract
 
-To execute a `100purchasecoin` purchase with an ID of `12345`, run
+To execute a `100purchasecoin` purchase with an ID of `12345`, run using the merchant address from earlier
 
 ```bash
 provenanced tx wasm execute \
@@ -17,18 +17,18 @@ provenanced tx wasm execute \
     --home build/node0 \
     --chain-id chain-local \
     --gas auto \
-    --fees 4000nhash \
+    --gas-prices="1905nhash" \
+	--gas-adjustment=1.5 \
     --broadcast-mode block \
     --yes \
-    --testnet | jq
+    --testnet \
+	--output json | jq
 ```
 
 To ensure the transfers were sent successfully, first query the `merchant` account
 
 ```bash
-provenanced query bank balances \
-    $(provenanced keys show -a merchant --home build/node0 --keyring-backend test --testnet) \
-    --testnet -o json | jq
+provenanced query bank balances "$merchant" -t -o json | jq
 ```
 
 This should show that the merchant has increased by `90purchasecoin`
@@ -55,9 +55,7 @@ This should show that the merchant has increased by `90purchasecoin`
 Then, query the `feebucket` account
 
 ```bash
-provenanced query bank balances \
-    $(provenanced keys show -a feebucket --home build/node0 --keyring-backend test --testnet) \
-    --testnet -o json | jq
+provenanced query bank balances "$feebucket" -t -o json | jq
 ```
 
 This should show that the feebucket account has increased by `10purchasecoin`
@@ -84,9 +82,7 @@ This should show that the feebucket account has increased by `10purchasecoin`
 Finally, query the `consumer` account
 
 ```bash
-provenanced query bank balances \
-    $(provenanced keys show -a consumer --home build/node0 --keyring-backend test --testnet) \
-    --testnet -o json | jq
+provenanced query bank balances "$consumer" -t -o json | jq
 ```
 
 This should show that it has decreased by `100purchasecoin`
