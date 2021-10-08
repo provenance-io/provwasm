@@ -368,20 +368,20 @@ mod tests {
                 fee_percent: Decimal::percent(10),
             },
         )
-        .unwrap();
+            .unwrap();
 
         // Ensure a message was created to bind the name to the contract address.
         assert_eq!(res.messages.len(), 1);
-        // match &res.messages[0] {
-        //     CosmosMsg::Custom(msg) => match &msg.params {
-        //         ProvenanceMsgParams::Name(p) => match &p {
-        //             NameMsgParams::BindName { name, .. } => assert_eq!(name, "tutorial.sc.pb"),
-        //             _ => panic!("unexpected name params"),
-        //         },
-        //         _ => panic!("unexpected provenance params"),
-        //     },
-        //     _ => panic!("unexpected cosmos message"),
-        // }
+        match &res.messages[0].msg {
+            CosmosMsg::Custom(msg) => match &msg.params {
+                ProvenanceMsgParams::Name(p) => match &p {
+                    NameMsgParams::BindName { name, .. } => assert_eq!(name, "tutorial.sc.pb"),
+                    _ => panic!("unexpected name params"),
+                },
+                _ => panic!("unexpected provenance params"),
+            },
+            _ => panic!("unexpected cosmos message"),
+        }
     }
 
     #[test]
@@ -401,7 +401,7 @@ mod tests {
                 fee_percent: Decimal::percent(10),
             },
         )
-        .unwrap_err();
+            .unwrap_err();
 
         // Ensure the expected error was returned.
         match err {
@@ -429,7 +429,7 @@ mod tests {
                 fee_percent: Decimal::percent(37), // error: > 25%
             },
         )
-        .unwrap_err();
+            .unwrap_err();
 
         // Ensure the expected error was returned
         match err {
@@ -457,7 +457,7 @@ mod tests {
                 fee_percent: Decimal::percent(10),
             },
         )
-        .unwrap(); // Panics on error
+            .unwrap(); // Panics on error
 
         // Call the smart contract query function to get stored state.
         let bin = query(deps.as_ref(), mock_env(), QueryMsg::QueryRequest {}).unwrap();
@@ -487,7 +487,7 @@ mod tests {
                 fee_percent: Decimal::percent(10),
             },
         )
-        .unwrap();
+            .unwrap();
 
         // Send a valid purchase message of 100purchasecoin
         let res = execute(
@@ -498,30 +498,30 @@ mod tests {
                 id: "a7918172-ac09-43f6-bc4b-7ac2fbad17e9".into(),
             },
         )
-        .unwrap();
+            .unwrap();
 
         // Ensure we have the merchant transfer and fee collection bank messages
         assert_eq!(res.messages.len(), 2);
 
         // Ensure we got the proper bank transfer values.
         // 10% fees on 100 purchasecoin => 90 purchasecoin for the merchant and 10 purchasecoin for the fee bucket.
-        // let expected_transfer = coin(90, "purchasecoin");
-        // let expected_fees = coin(10, "purchasecoin");
-        // res.messages.into_iter().for_each(|msg| match msg {
-        //     CosmosMsg::Bank(BankMsg::Send {
-        //         amount, to_address, ..
-        //     }) => {
-        //         assert_eq!(amount.len(), 1);
-        //         if to_address == "merchant" {
-        //             assert_eq!(amount[0], expected_transfer)
-        //         } else if to_address == "feebucket" {
-        //             assert_eq!(amount[0], expected_fees)
-        //         } else {
-        //             panic!("unexpected to_address in bank message")
-        //         }
-        //     }
-        //     _ => panic!("unexpected message type"),
-        // });
+        let expected_transfer = coin(90, "purchasecoin");
+        let expected_fees = coin(10, "purchasecoin");
+        res.messages.into_iter().for_each(|msg| match msg.msg {
+            CosmosMsg::Bank(BankMsg::Send {
+                                amount, to_address, ..
+                            }) => {
+                assert_eq!(amount.len(), 1);
+                if to_address == "merchant" {
+                    assert_eq!(amount[0], expected_transfer)
+                } else if to_address == "feebucket" {
+                    assert_eq!(amount[0], expected_fees)
+                } else {
+                    panic!("unexpected to_address in bank message")
+                }
+            }
+            _ => panic!("unexpected message type"),
+        });
 
         // Ensure we got the purchase ID event attribute value
         let expected_purchase_id = "a7918172-ac09-43f6-bc4b-7ac2fbad17e9";
@@ -549,7 +549,7 @@ mod tests {
                 fee_percent: Decimal::percent(10),
             },
         )
-        .unwrap();
+            .unwrap();
 
         // Don't send any funds
         let err = execute(
@@ -560,7 +560,7 @@ mod tests {
                 id: "a7918172-ac09-43f6-bc4b-7ac2fbad17e9".into(),
             },
         )
-        .unwrap_err();
+            .unwrap_err();
 
         // Ensure the expected error was returned.
         match err {
@@ -579,7 +579,7 @@ mod tests {
                 id: "a7918172-ac09-43f6-bc4b-7ac2fbad17e9".into(),
             },
         )
-        .unwrap_err();
+            .unwrap_err();
 
         // Ensure the expected error was returned.
         match err {
@@ -598,7 +598,7 @@ mod tests {
                 id: "a7918172-ac09-43f6-bc4b-7ac2fbad17e9".into(),
             },
         )
-        .unwrap_err();
+            .unwrap_err();
 
         // Ensure the expected error was returned.
         match err {
