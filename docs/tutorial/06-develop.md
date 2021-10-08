@@ -638,6 +638,13 @@ fn main() {
 }
 ```
 
+## Code Format
+
+Before building make sure that everything is formatted correctly using:
+```bash
+cargo fmt
+```
+
 ## Build
 
 Build and edit the smart contract source code until all compiler errors are resolved.
