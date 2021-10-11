@@ -22,7 +22,8 @@ Navigate to the blockchain project and checkout the required branch.
 
 ```bash
 cd ./provenance
-git checkout v1.5.0
+git fetch
+git checkout main
 ```
 
 Install commands and start a provenance localnet cluster.
@@ -56,58 +57,73 @@ Create `consumer` account keys
 provenanced keys add consumer --home build/node0 --keyring-backend test --testnet --hd-path "44'/1'/0'/0/0" --output json | jq
 ```
 
+Create alias for the keys
+```bash
+export node0=$(provenanced keys show -a node0 --home build/node0 --keyring-backend test -t)
+export merchant=$(provenanced keys show -a merchant --home build/node0 --keyring-backend test -t)
+export feebucket=$(provenanced keys show -a feebucket --home build/node0 --keyring-backend test -t)
+export consumer=$(provenanced keys show -a consumer --home build/node0 --keyring-backend test -t)
+```
+
 Fund a `merchant` account with `nhash`, creating it on chain.
 
 ```bash
 provenanced tx bank send \
-    $(provenanced keys show -a node0 --home build/node0 --keyring-backend test --testnet) \
-    $(provenanced keys show -a merchant --home build/node0 --keyring-backend test --testnet) \
-    100000nhash \
-    --from node0 \
-    --keyring-backend test \
-    --home build/node0 \
-    --chain-id chain-local \
-    --gas auto \
-    --fees 2000nhash \
-    --broadcast-mode block \
-    --yes \
-    --testnet | jq
+	"$node0" \
+	"$merchant" \
+	200000000000nhash \
+	--from="$node0" \
+	--keyring-backend=test \
+	--home=build/node0 \
+	--chain-id=chain-local \
+	--gas=auto \
+	--gas-prices="1905nhash" \
+	--gas-adjustment=1.5 \
+	--broadcast-mode=block \
+	--yes \
+	--testnet \
+	--output json | jq
 ```
 
 Fund a `feebucket` account with `nhash`, creating it on chain.
 
 ```bash
 provenanced tx bank send \
-    $(provenanced keys show -a node0 --home build/node0 --keyring-backend test --testnet) \
-    $(provenanced keys show -a feebucket --home build/node0 --keyring-backend test --testnet) \
-    100000nhash \
+    provenanced tx bank send \
+    "$node0" \
+    "$feebucket" \
+    200000000000nhash \
     --from node0 \
     --keyring-backend test \
     --home build/node0 \
     --chain-id chain-local \
     --gas auto \
-    --fees 2000nhash \
+    --gas-prices="1905nhash" \
+	--gas-adjustment=1.5 \
     --broadcast-mode block \
     --yes \
-    --testnet | jq
+    --testnet \
+	--output json | jq
 ```
 
 Fund a `consumer` account with `nhash`, creating it on chain.
 
 ```bash
 provenanced tx bank send \
-    $(provenanced keys show -a node0 --home build/node0 --keyring-backend test --testnet) \
-    $(provenanced keys show -a consumer --home build/node0 --keyring-backend test --testnet) \
-    100000nhash \
+    "$node0" \
+    "$consumer" \
+    200000000000nhash \
     --from node0 \
     --keyring-backend test \
     --home build/node0 \
     --chain-id chain-local \
     --gas auto \
-    --fees 2000nhash \
+    --gas-prices="1905nhash" \
+	--gas-adjustment=1.5 \
     --broadcast-mode block \
     --yes \
-    --testnet | jq
+    --testnet \
+	--output json | jq
 ```
 
 ## Name
@@ -118,17 +134,19 @@ address.
 ```bash
 provenanced tx name bind \
     "sc" \
-    $(provenanced keys show -a node0 --home build/node0 --keyring-backend test --testnet) \
+    "$node0" \
     "pb" \
     --restrict=false \
     --from node0 \
     --keyring-backend test \
     --home build/node0 \
     --chain-id chain-local \
-    --fees 5000nhash \
+    --gas-prices="1905nhash" \
+	--gas-adjustment=1.5 \
     --broadcast-mode block \
     --yes \
-    --testnet | jq
+    --testnet \
+	--output json | jq
 ```
 
 ## Marker
@@ -143,17 +161,19 @@ provenanced tx marker new 1000000000purchasecoin \
     --home build/node0 \
     --chain-id chain-local \
     --gas auto \
-    --fees 5000nhash \
+    --gas-prices="1905nhash" \
+	--gas-adjustment=1.5 \
     --broadcast-mode block \
     --yes \
-    --testnet | jq
+    --testnet \
+	--output json | jq
 ```
 
 Grant withdraw access on the marker to the `node0` marker admin account
 
 ```bash
 provenanced tx marker grant \
-    $(provenanced keys show -a node0 --home build/node0 --keyring-backend test --testnet) \
+    $node0 \
     purchasecoin \
     withdraw \
     --from node0 \
@@ -161,10 +181,12 @@ provenanced tx marker grant \
     --home build/node0 \
     --chain-id chain-local \
     --gas auto \
-    --fees 5000nhash \
+    --gas-prices="1905nhash" \
+	--gas-adjustment=1.5 \
     --broadcast-mode block \
     --yes \
-    --testnet | jq
+    --testnet \
+	--output json | jq
 ```
 
 Finalize the marker
@@ -176,10 +198,12 @@ provenanced tx marker finalize purchasecoin \
     --home build/node0 \
     --chain-id chain-local \
     --gas auto \
-    --fees 5000nhash \
+    --gas-prices="1905nhash" \
+	--gas-adjustment=1.5 \
     --broadcast-mode block \
     --yes \
-    --testnet | jq
+    --testnet \
+	--output json | jq
 ```
 
 Activate the marker, minting the `purchasecoin` supply
@@ -191,10 +215,12 @@ provenanced tx marker activate purchasecoin \
     --home build/node0 \
     --chain-id chain-local \
     --gas auto \
-    --fees 5000nhash \
+    --gas-prices="1905nhash" \
+	--gas-adjustment=1.5 \
     --broadcast-mode block \
     --yes \
-    --testnet | jq
+    --testnet \
+	--output json | jq
 ```
 
 ## Withdraw
@@ -204,25 +230,25 @@ Coins must be withdrawn into the `consumer` account in order to send purchase tr
 ```bash
 provenanced tx marker withdraw purchasecoin \
     100000purchasecoin \
-    $(provenanced keys show -a consumer --home build/node0 --keyring-backend test --testnet) \
+    $consumer \
     --from node0 \
     --keyring-backend test \
     --home build/node0 \
     --chain-id chain-local \
     --gas auto \
-    --fees 5000nhash \
+    --gas-prices="1905nhash" \
+	--gas-adjustment=1.5 \
     --broadcast-mode block \
     --yes \
-    --testnet | jq
+    --testnet \
+	--output json | jq
 ```
 
 The `consumer` account should now have `nhash` to pay network fees, and `purchasecoin` for purchases with
 the merchant.
 
 ```bash
-provenanced q bank balances \
-    $(provenanced keys show -a consumer --home build/node0 --keyring-backend test --testnet) \
-    --testnet -o json | jq
+provenanced q bank balances "$consumer" -t -o json | jq
 ```
 
 Example account query output

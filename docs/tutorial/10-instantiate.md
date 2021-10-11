@@ -32,19 +32,21 @@ enforced by the fact that only the `feebucket` account is allowed to instantiate
 `--instantiate-only-address` flag during Wasm upload).
 
 ```bash
-provenanced tx wasm instantiate 1 \
-    '{"contract_name":"tutorial-v2.sc.pb","purchase_denom":"purchasecoin","merchant_address":"FIXME","fee_percent":"0.1"}' \
-    --admin $(provenanced keys show -a feebucket --home build/node0 --keyring-backend test --testnet) \
-    --label tutorial-v2 \
+provenanced tx wasm instantiate 4 \
+	'{ "contract_name": "tutorial.sc.pb", "purchase_denom": "purchasecoin", "merchant_address": "fixme", "fee_percent": "0.10" }' \
+    --admin "$feebucket" \
+    --label tutorial \
     --from feebucket \
     --keyring-backend test \
     --home build/node0 \
     --chain-id chain-local \
     --gas auto \
-    --fees 3500nhash \
+    --gas-prices="1905nhash" \
+	--gas-adjustment=1.5 \
     --broadcast-mode block \
     --yes \
-    --testnet | jq
+    --testnet \
+	--output json | jq
 ```
 
 NOTE: Setting the `--admin` account is important. It is impossible to migrate the contract instance
@@ -53,7 +55,7 @@ to a new code ID if not set.
 The contract can then be queried by code ID.
 
 ```bash
-provenanced query wasm list-contract-by-code 1 --testnet -o json | jq
+provenanced query wasm list-contract-by-code 1 -t -o json | jq
 ```
 
 Should produce output similar to

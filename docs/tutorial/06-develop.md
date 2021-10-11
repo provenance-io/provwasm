@@ -235,12 +235,9 @@ pub fn instantiate(
     )?;
 
     // Dispatch messages and emit event attributes
-    Ok(Response {
-        submessages: vec![],
-        messages: vec![msg],
-        attributes: vec![attr("tutorial-v2", ""), attr("action", "init")],
-        data: None,
-    })
+    Ok(Response::new()
+        .add_message(msg)
+        .add_attribute("action", "init"))
 }
 ```
 
@@ -329,17 +326,12 @@ fn try_purchase(
     });
 
     // Return a response that will dispatch the transfers to the bank module and emit events.
-    Ok(Response {
-        submessages: vec![],
-        messages: vec![transfers, fees],
-        attributes: vec![
-            attr("tutorial-v2", ""),
-            attr("action", "purchase"),
-            attr("purchase_id", id),
-            attr("purchase_time", env.block.time), // Use BFT time as event timestamp
-        ],
-        data: None,
-    })
+    Ok(Response::new()
+        .add_message(transfers)
+        .add_message(fees)
+        .add_attribute("action", "purchase")
+        .add_attribute("purchase_id", id)
+        .add_attribute("purchase_time", env.block.time.to_string()))
 }
 ```
 
@@ -376,11 +368,11 @@ mod tests {
                 fee_percent: Decimal::percent(10),
             },
         )
-        .unwrap();
+            .unwrap();
 
         // Ensure a message was created to bind the name to the contract address.
         assert_eq!(res.messages.len(), 1);
-        match &res.messages[0] {
+        match &res.messages[0].msg {
             CosmosMsg::Custom(msg) => match &msg.params {
                 ProvenanceMsgParams::Name(p) => match &p {
                     NameMsgParams::BindName { name, .. } => assert_eq!(name, "tutorial.sc.pb"),
@@ -409,7 +401,7 @@ mod tests {
                 fee_percent: Decimal::percent(10),
             },
         )
-        .unwrap_err();
+            .unwrap_err();
 
         // Ensure the expected error was returned.
         match err {
@@ -437,7 +429,7 @@ mod tests {
                 fee_percent: Decimal::percent(37), // error: > 25%
             },
         )
-        .unwrap_err();
+            .unwrap_err();
 
         // Ensure the expected error was returned
         match err {
@@ -465,7 +457,7 @@ mod tests {
                 fee_percent: Decimal::percent(10),
             },
         )
-        .unwrap(); // Panics on error
+            .unwrap(); // Panics on error
 
         // Call the smart contract query function to get stored state.
         let bin = query(deps.as_ref(), mock_env(), QueryMsg::QueryRequest {}).unwrap();
@@ -495,7 +487,7 @@ mod tests {
                 fee_percent: Decimal::percent(10),
             },
         )
-        .unwrap();
+            .unwrap();
 
         // Send a valid purchase message of 100purchasecoin
         let res = execute(
@@ -506,7 +498,7 @@ mod tests {
                 id: "a7918172-ac09-43f6-bc4b-7ac2fbad17e9".into(),
             },
         )
-        .unwrap();
+            .unwrap();
 
         // Ensure we have the merchant transfer and fee collection bank messages
         assert_eq!(res.messages.len(), 2);
@@ -515,10 +507,10 @@ mod tests {
         // 10% fees on 100 purchasecoin => 90 purchasecoin for the merchant and 10 purchasecoin for the fee bucket.
         let expected_transfer = coin(90, "purchasecoin");
         let expected_fees = coin(10, "purchasecoin");
-        res.messages.into_iter().for_each(|msg| match msg {
+        res.messages.into_iter().for_each(|msg| match msg.msg {
             CosmosMsg::Bank(BankMsg::Send {
-                amount, to_address, ..
-            }) => {
+                                amount, to_address, ..
+                            }) => {
                 assert_eq!(amount.len(), 1);
                 if to_address == "merchant" {
                     assert_eq!(amount[0], expected_transfer)
@@ -557,7 +549,7 @@ mod tests {
                 fee_percent: Decimal::percent(10),
             },
         )
-        .unwrap();
+            .unwrap();
 
         // Don't send any funds
         let err = execute(
@@ -568,7 +560,7 @@ mod tests {
                 id: "a7918172-ac09-43f6-bc4b-7ac2fbad17e9".into(),
             },
         )
-        .unwrap_err();
+            .unwrap_err();
 
         // Ensure the expected error was returned.
         match err {
@@ -587,7 +579,7 @@ mod tests {
                 id: "a7918172-ac09-43f6-bc4b-7ac2fbad17e9".into(),
             },
         )
-        .unwrap_err();
+            .unwrap_err();
 
         // Ensure the expected error was returned.
         match err {
@@ -606,7 +598,7 @@ mod tests {
                 id: "a7918172-ac09-43f6-bc4b-7ac2fbad17e9".into(),
             },
         )
-        .unwrap_err();
+            .unwrap_err();
 
         // Ensure the expected error was returned.
         match err {
@@ -644,6 +636,13 @@ fn main() {
     export_schema(&schema_for!(QueryMsg), &out_dir);
     export_schema(&schema_for!(QueryResponse), &out_dir);
 }
+```
+
+## Code Format
+
+Before building make sure that everything is formatted correctly using:
+```bash
+cargo fmt
 ```
 
 ## Build

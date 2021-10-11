@@ -6,7 +6,7 @@ CosmWasm has a template repo that can be used as a starting point for developmen
 tutorial project, run
 
 ```bash
-cargo generate --git https://github.com/CosmWasm/cosmwasm-template.git --branch 0.14 --name tutorial
+cargo generate --git https://github.com/CosmWasm/cosmwasm-template.git --name tutorial
 ```
 
 Navigate to the project
@@ -15,29 +15,22 @@ Navigate to the project
 cd ./tutorial
 ```
 
-Edit Cargo.toml, changing the `exclude` list to the following
-
-```toml
-exclude = [
-  "tutorial.wasm",
-  "checksums.txt",
-]
-```
-
-Set contract dependencies
+Edit Cargo.toml to have the following contract dependencies
 
 ```toml
 [dependencies]
-provwasm-std = { version = "0.14.3"}
-cosmwasm-std = { version = "0.14.1" }
-cosmwasm-storage = { version = "0.14.1" }
-schemars = "0.8.1"
-serde = { version = "1.0.103", default-features = false, features = ["derive"] }
-thiserror = { version = "1.0.20" }
+provwasm-std = { version = "0.16.0"}
+cosmwasm-std = { version = "0.16.2" }
+cosmwasm-storage = { version = "0.16.0" }
+cw-storage-plus = "0.8.0"
+cw2 = "0.8.1"
+schemars = "0.8.3"
+serde = { version = "1.0.127", default-features = false, features = ["derive"] }
+thiserror = { version = "1.0.26" }
 
 [dev-dependencies]
-provwasm-mocks = { version = "0.14.3" }
-cosmwasm-schema = { version = "0.14.1" }
+provwasm-mocks = { version = "0.16.0" }
+cosmwasm-schema = { version = "0.16.0" }
 ```
 
 Reset the README and clear out the current JSON schema artifacts.
