@@ -21,7 +21,7 @@ Edit Cargo.toml to have the following contract dependencies
 [dependencies]
 provwasm-std = { version = "0.16.0"}
 cosmwasm-std = { version = "0.16.2" }
-cosmwasm-storage = { version = "0.16.0" }
+cosmwasm-storage = { version = "0.16.2" }
 cw-storage-plus = "0.8.0"
 cw2 = "0.8.1"
 schemars = "0.8.3"
@@ -30,7 +30,7 @@ thiserror = { version = "1.0.26" }
 
 [dev-dependencies]
 provwasm-mocks = { version = "0.16.0" }
-cosmwasm-schema = { version = "0.16.0" }
+cosmwasm-schema = { version = "0.16.2" }
 ```
 
 Reset the README and clear out the current JSON schema artifacts.
