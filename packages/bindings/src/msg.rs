@@ -57,7 +57,7 @@ fn create_metadata_msg(params: MetadataMsgParams) -> CosmosMsg<ProvenanceMsg> {
 /// fn try_update_metadata_scope(
 ///     scope_id: String,
 /// ) -> StdResult<Response<ProvenanceMsg>> {
-///    let msg = update_metadata_scope(&name, address, MetadataBinding::Restricted)?;
+///    let msg = update_metadata_scope(scope_id)?;
 ///    let mut res = Response::new().add_message(msg);
 ///    Ok(res)
 /// }
