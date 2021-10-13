@@ -23,16 +23,14 @@ pub enum ProvenanceMsgParams {
     Name(NameMsgParams),
     Attribute(AttributeMsgParams),
     Marker(MarkerMsgParams),
-    Metadata(MetadataMsgParams)
+    Metadata(MetadataMsgParams),
 }
 
 /// Input params for creating name module messages.
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum MetadataMsgParams {
-    UpdateScope {
-        scope: String,
-    },
+    UpdateScope { scope: String },
 }
 
 // Create a custom cosmos message using name module params.
@@ -62,14 +60,11 @@ fn create_metadata_msg(params: MetadataMsgParams) -> CosmosMsg<ProvenanceMsg> {
 ///    Ok(res)
 /// }
 /// ```
-pub fn update_metadata_scope<S: Into<String>>(
-    scope_id: S,
-) -> StdResult<CosmosMsg<ProvenanceMsg>> {
+pub fn update_metadata_scope<S: Into<String>>(scope_id: S) -> StdResult<CosmosMsg<ProvenanceMsg>> {
     Ok(create_metadata_msg(MetadataMsgParams::UpdateScope {
         scope: validate_string(scope_id, "scope_id")?,
     }))
 }
-
 
 /// Input params for creating name module messages.
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
