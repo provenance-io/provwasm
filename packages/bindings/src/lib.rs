@@ -19,9 +19,9 @@ pub use query::{
 };
 pub use types::{
     AccessGrant, Attribute, AttributeValueType, Attributes, Marker, MarkerAccess, MarkerStatus,
-    MarkerType, MetadataBinding, Name, NameBinding, Names, Party, PartyType, Process, ProcessId,
-    ProvenanceRoute, Record, RecordInput, RecordInputSource, RecordInputStatus, RecordOutput,
-    Records, ResultStatus, Scope, Session, Sessions,
+    MarkerType, Name, NameBinding, Names, Party, PartyType, Process, ProcessId, ProvenanceRoute,
+    Record, RecordInput, RecordInputSource, RecordInputStatus, RecordOutput, Records, ResultStatus,
+    Scope, Session, Sessions,
 };
 
 // Indicate that smart contracts that use this lib can only be run on the Provenance Blockchain.
