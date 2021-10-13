@@ -23,7 +23,53 @@ pub enum ProvenanceMsgParams {
     Name(NameMsgParams),
     Attribute(AttributeMsgParams),
     Marker(MarkerMsgParams),
+    Metadata(MetadataMsgParams)
 }
+
+/// Input params for creating name module messages.
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[serde(rename_all = "snake_case")]
+pub enum MetadataMsgParams {
+    UpdateScope {
+        scope: String,
+    },
+}
+
+// Create a custom cosmos message using name module params.
+fn create_metadata_msg(params: MetadataMsgParams) -> CosmosMsg<ProvenanceMsg> {
+    CosmosMsg::Custom(ProvenanceMsg {
+        route: ProvenanceRoute::Metadata,
+        params: ProvenanceMsgParams::Metadata(params),
+        version: String::from(MSG_DATAFMT_VERSION),
+    })
+}
+
+/// Create a message that will update the metadata scope.
+///
+/// ### Example
+///
+/// ```rust
+/// // Imports required
+/// use cosmwasm_std::{Addr, Response, StdResult};
+/// use provwasm_std::{update_metadata_scope, MetadataBinding, ProvenanceMsg};
+///
+/// // Update the metadata scope
+/// fn try_update_metadata_scope(
+///     scope_id: String,
+/// ) -> StdResult<Response<ProvenanceMsg>> {
+///    let msg = update_metadata_scope(&name, address, MetadataBinding::Restricted)?;
+///    let mut res = Response::new().add_message(msg);
+///    Ok(res)
+/// }
+/// ```
+pub fn update_metadata_scope<S: Into<String>>(
+    scope_id: S,
+) -> StdResult<CosmosMsg<ProvenanceMsg>> {
+    Ok(create_metadata_msg(MetadataMsgParams::UpdateScope {
+        scope: validate_string(scope_id, "scope_id")?,
+    }))
+}
+
 
 /// Input params for creating name module messages.
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
