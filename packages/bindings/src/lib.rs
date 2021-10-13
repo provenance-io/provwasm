@@ -10,7 +10,7 @@ pub use msg::{
     cancel_marker, create_marker, delete_attributes, destroy_marker, finalize_marker,
     grant_marker_access, mint_marker_supply, revoke_marker_access, transfer_marker_coins,
     unbind_name, update_metadata_scope, withdraw_coins, AttributeMsgParams, MarkerMsgParams,
-    MetadataBinding, NameMsgParams, ProvenanceMsg, ProvenanceMsgParams,
+    NameMsgParams, ProvenanceMsg, ProvenanceMsgParams,
 };
 pub use querier::ProvenanceQuerier;
 pub use query::{
@@ -19,9 +19,9 @@ pub use query::{
 };
 pub use types::{
     AccessGrant, Attribute, AttributeValueType, Attributes, Marker, MarkerAccess, MarkerStatus,
-    MarkerType, Name, NameBinding, Names, Party, PartyType, Process, ProcessId, ProvenanceRoute,
-    Record, RecordInput, RecordInputSource, RecordInputStatus, RecordOutput, Records, ResultStatus,
-    Scope, Session, Sessions,
+    MarkerType, MetadataBinding, Name, NameBinding, Names, Party, PartyType, Process, ProcessId,
+    ProvenanceRoute, Record, RecordInput, RecordInputSource, RecordInputStatus, RecordOutput,
+    Records, ResultStatus, Scope, Session, Sessions,
 };
 
 // Indicate that smart contracts that use this lib can only be run on the Provenance Blockchain.
