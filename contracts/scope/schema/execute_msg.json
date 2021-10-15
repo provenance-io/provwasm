@@ -1,6 +1,26 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "ExecuteMsg",
-  "type": "string",
-  "enum": []
+  "anyOf": [
+    {
+      "type": "object",
+      "required": [
+        "scope"
+      ],
+      "properties": {
+        "scope": {
+          "type": "object",
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  ]
 }

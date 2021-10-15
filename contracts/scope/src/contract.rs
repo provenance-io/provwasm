@@ -1,7 +1,8 @@
 use cosmwasm_std::{to_binary, Deps, DepsMut, Env, MessageInfo, QueryResponse, Response, StdError};
 
 use provwasm_std::{
-    bind_name, NameBinding, ProvenanceMsg, ProvenanceQuerier, Record, Records, Scope, Sessions,
+    bind_name, update_metadata_scope, NameBinding, ProvenanceMsg, ProvenanceQuerier, Record,
+    Records, Scope, Sessions,
 };
 
 use crate::error::ContractError;
@@ -41,9 +42,17 @@ pub fn execute(
     _deps: DepsMut,
     _env: Env,
     _info: MessageInfo,
-    _msg: ExecuteMsg,
-) -> Result<Response, ContractError> {
-    Ok(Response::default())
+    msg: ExecuteMsg,
+) -> Result<Response<ProvenanceMsg>, ContractError> {
+    match msg {
+        ExecuteMsg::Scope { id } => try_update_metadata_scope(id),
+    }
+}
+
+fn try_update_metadata_scope(scope_id: String) -> Result<Response<ProvenanceMsg>, ContractError> {
+    let msg = update_metadata_scope(scope_id)?;
+    let res = Response::new().add_message(msg);
+    Ok(res)
 }
 
 /// Handle scope query requests for the provenance metadata module.
