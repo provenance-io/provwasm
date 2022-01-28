@@ -1,8 +1,10 @@
-use cosmwasm_std::{to_binary, Deps, DepsMut, Env, MessageInfo, QueryResponse, Response, StdError};
+use cosmwasm_std::{
+    to_binary, Addr, Deps, DepsMut, Env, MessageInfo, QueryResponse, Response, StdError,
+};
 
 use provwasm_std::{
-    bind_name, NameBinding, ProvenanceMsg, ProvenanceQuerier, ProvenanceQuery, Record, Records,
-    Scope, Sessions,
+    bind_name, write_scope, NameBinding, ProvenanceMsg, ProvenanceQuerier, ProvenanceQuery, Record,
+    Records, Scope, Sessions,
 };
 
 use crate::error::ContractError;
@@ -37,14 +39,25 @@ pub fn instantiate(
     Ok(res)
 }
 
-/// Execute does nothing
+/// Handle scope execute requests for the provenance metadata module.
 pub fn execute(
-    _deps: DepsMut<ProvenanceQuery>,
+    deps: DepsMut,
     _env: Env,
     _info: MessageInfo,
-    _msg: ExecuteMsg,
-) -> Result<Response, ContractError> {
-    Ok(Response::default())
+    msg: ExecuteMsg,
+) -> Result<Response<ProvenanceMsg>, StdError> {
+    match msg {
+        ExecuteMsg::WriteScope { scope, signers } => try_write_scope(deps, scope, signers),
+    }
+}
+
+/// Create and dispatch a provenance message that will write scope data
+pub fn try_write_scope(
+    _deps: DepsMut,
+    scope: Scope,
+    signers: Vec<Addr>,
+) -> Result<Response<ProvenanceMsg>, StdError> {
+    Ok(Response::new().add_message(write_scope(scope, signers)?))
 }
 
 /// Handle scope query requests for the provenance metadata module.

@@ -170,8 +170,8 @@ pub struct Scope {
     #[serde(default)]
     pub owners: Vec<Party>,
     #[serde(default)]
-    pub data_access: Vec<String>,
-    pub value_owner_address: String,
+    pub data_access: Vec<Addr>,
+    pub value_owner_address: Addr,
 }
 
 /// The final state of an execution context for a specification instance.
@@ -218,7 +218,7 @@ pub struct Records {
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub struct Party {
-    pub address: String,
+    pub address: Addr,
     pub role: PartyType,
 }
 
