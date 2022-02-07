@@ -29,7 +29,7 @@ The tutorial contract requires the following handler functions and messages.
 
 ```rust
 pub fn instantiate(
-    deps: DepsMut,
+    deps: DepsMut<ProvenanceQuery>,
     env: Env,
     info: MessageInfo,
     msg: InitMsg,
@@ -62,7 +62,7 @@ The following validations must be performed during initialization.
 
 ```rust
 pub fn execute(
-    deps: DepsMut,
+    deps: DepsMut<ProvenanceQuery>,
     env: Env,
     info: MessageInfo,
     msg: ExecuteMsg,
@@ -96,7 +96,7 @@ action when a purchase has been completed.
 
 ```rust
 pub fn query(
-    deps: Deps,
+    deps: Deps<ProvenanceQuery>,
     env: Env,
     msg: QueryMsg,
 ) -> ...

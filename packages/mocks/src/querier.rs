@@ -5,17 +5,19 @@ use cosmwasm_std::{
     SystemError, SystemResult,
 };
 use provwasm_std::{Marker, ProvenanceQuery, ProvenanceQueryParams, Records, Scope, Sessions};
+use std::marker::PhantomData;
 
 /// A drop-in replacement for cosmwasm_std::testing::mock_dependencies that uses the mock
 /// provenance querier.
 pub fn mock_dependencies(
     contract_balance: &[Coin],
-) -> OwnedDeps<MockStorage, MockApi, ProvenanceMockQuerier> {
+) -> OwnedDeps<MockStorage, MockApi, ProvenanceMockQuerier, ProvenanceQuery> {
     let base = MockQuerier::new(&[(MOCK_CONTRACT_ADDR, contract_balance)]);
     OwnedDeps {
         storage: MockStorage::default(),
         api: MockApi::default(),
         querier: ProvenanceMockQuerier::new(base),
+        custom_query_type: PhantomData,
     }
 }
 
@@ -23,12 +25,13 @@ pub fn mock_dependencies(
 /// be set in the balances slice passed if required.
 pub fn mock_dependencies_with_balances(
     balances: &[(&str, &[Coin])],
-) -> OwnedDeps<MockStorage, MockApi, ProvenanceMockQuerier> {
+) -> OwnedDeps<MockStorage, MockApi, ProvenanceMockQuerier, ProvenanceQuery> {
     let base = MockQuerier::new(balances);
     OwnedDeps {
         storage: MockStorage::default(),
         api: MockApi::default(),
         querier: ProvenanceMockQuerier::new(base),
+        custom_query_type: PhantomData,
     }
 }
 

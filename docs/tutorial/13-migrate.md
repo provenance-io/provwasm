@@ -23,9 +23,6 @@ pub mod contract;
 pub mod error;
 pub mod msg;
 pub mod state;
-
-#[cfg(target_arch = "wasm32")]
-cosmwasm_std::create_entry_points_with_migration!(contract);
 ```
 
 File: `src/msg.rs`
@@ -44,7 +41,7 @@ File: `src/contract.rs`
 ```rust
 /// Called when migrating a contract instance to a new code ID.
 pub fn migrate(
-    deps: DepsMut,
+    deps: DepsMut<ProvenanceQuery>,
     env: Env,
     msg: MigrateMsg,
 ) -> Result<Response, ContractError> {
@@ -106,8 +103,6 @@ To store the new version, re-run the store command
 
 ```bash
 provenanced tx wasm store tutorial.wasm \
-    --source "https://github.com/provenance-io/provwasm/tree/main/contracts/tutorial-migrate" \
-    --builder "cosmwasm/rust-optimizer:0.11.3" \
     --instantiate-only-address $(provenanced keys show -a feebucket --keyring-backend test --home build/node0 --testnet) \
     --from feebucket \
     --keyring-backend test \
@@ -119,8 +114,6 @@ provenanced tx wasm store tutorial.wasm \
     --yes \
     --testnet | jq
 ```
-
-Make sure that the `--source` and `--builder` are updated so third parties can verify this build.
 
 To query for both uploaded code entries
 
@@ -137,15 +130,11 @@ Should output JSON similar to
       "code_id": "1",
       "creator": "tp102c9nplcvrxmhevc6wenm99q6dfte3k3z8vscv",
       "data_hash": "F2F2CD9AA2C192A95B86E9429BC15DCD6B8859BE54C8C66274B80347D2443D82",
-      "source": "https://github.com/provenance-io/provwasm/tree/main/contracts/tutorial",
-      "builder": "cosmwasm/rust-optimizer:0.11.3"
     },
     {
       "code_id": "2",
       "creator": "tp102c9nplcvrxmhevc6wenm99q6dfte3k3z8vscv",
       "data_hash": "F2F2CD9AA2C192A95B86E9429BC15DCD6B8859BE54C8C66274B80347D2443D82",
-      "source": "https://github.com/provenance-io/provwasm/tree/main/contracts/tutorial-migrate",
-      "builder": "cosmwasm/rust-optimizer:0.11.3"
     }
   ],
   "pagination": {

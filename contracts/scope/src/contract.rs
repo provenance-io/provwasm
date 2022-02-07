@@ -1,7 +1,8 @@
 use cosmwasm_std::{to_binary, Deps, DepsMut, Env, MessageInfo, QueryResponse, Response, StdError};
 
 use provwasm_std::{
-    bind_name, NameBinding, ProvenanceMsg, ProvenanceQuerier, Record, Records, Scope, Sessions,
+    bind_name, NameBinding, ProvenanceMsg, ProvenanceQuerier, ProvenanceQuery, Record, Records,
+    Scope, Sessions,
 };
 
 use crate::error::ContractError;
@@ -10,7 +11,7 @@ use crate::state::{config, State};
 
 /// Initialize config state and bind a name to the contract address.
 pub fn instantiate(
-    deps: DepsMut,
+    deps: DepsMut<ProvenanceQuery>,
     env: Env,
     _info: MessageInfo,
     msg: InitMsg,
@@ -38,7 +39,7 @@ pub fn instantiate(
 
 /// Execute does nothing
 pub fn execute(
-    _deps: DepsMut,
+    _deps: DepsMut<ProvenanceQuery>,
     _env: Env,
     _info: MessageInfo,
     _msg: ExecuteMsg,
@@ -47,7 +48,11 @@ pub fn execute(
 }
 
 /// Handle scope query requests for the provenance metadata module.
-pub fn query(deps: Deps, _env: Env, msg: QueryMsg) -> Result<QueryResponse, StdError> {
+pub fn query(
+    deps: Deps<ProvenanceQuery>,
+    env: Env,
+    msg: QueryMsg,
+) -> Result<QueryResponse, StdError> {
     match msg {
         QueryMsg::GetScope { id } => try_get_scope(deps, id),
         QueryMsg::GetSessions { scope_id } => try_get_sessions(deps, scope_id),
@@ -59,21 +64,27 @@ pub fn query(deps: Deps, _env: Env, msg: QueryMsg) -> Result<QueryResponse, StdE
 }
 
 // Use a ProvenanceQuerier to get a scope by ID.
-fn try_get_scope(deps: Deps, id: String) -> Result<QueryResponse, StdError> {
+fn try_get_scope(deps: Deps<ProvenanceQuery>, id: String) -> Result<QueryResponse, StdError> {
     let querier = ProvenanceQuerier::new(&deps.querier);
     let scope: Scope = querier.get_scope(id)?;
     to_binary(&scope)
 }
 
 // Use a ProvenanceQuerier to get sessions for a scope.
-fn try_get_sessions(deps: Deps, scope_id: String) -> Result<QueryResponse, StdError> {
+fn try_get_sessions(
+    deps: Deps<ProvenanceQuery>,
+    scope_id: String,
+) -> Result<QueryResponse, StdError> {
     let querier = ProvenanceQuerier::new(&deps.querier);
     let sessions: Sessions = querier.get_sessions(scope_id)?;
     to_binary(&sessions)
 }
 
 // Use a ProvenanceQuerier to get records for a scope.
-fn try_get_records(deps: Deps, scope_id: String) -> Result<QueryResponse, StdError> {
+fn try_get_records(
+    deps: Deps<ProvenanceQuery>,
+    scope_id: String,
+) -> Result<QueryResponse, StdError> {
     let querier = ProvenanceQuerier::new(&deps.querier);
     let records: Records = querier.get_records(scope_id)?;
     to_binary(&records)
@@ -81,7 +92,7 @@ fn try_get_records(deps: Deps, scope_id: String) -> Result<QueryResponse, StdErr
 
 // Use a ProvenanceQuerier to get records for a scope by name
 fn try_get_records_by_name(
-    deps: Deps,
+    deps: Deps<ProvenanceQuery>,
     scope_id: String,
     name: String,
 ) -> Result<QueryResponse, StdError> {

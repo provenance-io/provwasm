@@ -62,9 +62,6 @@ pub mod contract;
 pub mod error;
 pub mod msg;
 pub mod state;
-
-#[cfg(target_arch = "wasm32")]
-cosmwasm_std::create_entry_points!(contract);
 ```
 
 ### Errors
@@ -192,7 +189,7 @@ Handler code for contract instantiation.
 ```rust
 /// Initialize the contract
 pub fn instantiate(
-    deps: DepsMut,
+    deps: DepsMut<ProvenanceQuery>,
     env: Env,
     info: MessageInfo,
     msg: InitMsg,
@@ -248,7 +245,7 @@ Query code for accessing contract state.
 ```rust
 /// Query contract state.
 pub fn query(
-    deps: Deps,
+    deps: Deps<ProvenanceQuery>,
     _env: Env, // NOTE: A '_' prefix indicates a variable is unused (suppress linter warnings)
     msg: QueryMsg,
 ) -> StdResult<Binary> {
@@ -267,7 +264,7 @@ pub fn query(
 ```rust
 /// Handle purchase messages.
 pub fn execute(
-    deps: DepsMut,
+    deps: DepsMut<ProvenanceQuery>,
     env: Env,
     info: MessageInfo,
     msg: ExecuteMsg,
@@ -279,7 +276,7 @@ pub fn execute(
 
 // Calculates transfers and fees, then dispatches messages to the bank module.
 fn try_purchase(
-    deps: DepsMut,
+    deps: DepsMut<ProvenanceQuery>,
     env: Env,
     info: MessageInfo,
     id: String,
@@ -354,7 +351,7 @@ mod tests {
     #[test]
     fn valid_init() {
         // Create mocks
-        let mut deps = mock_dependencies(&[]);
+        let mut deps = mock_dependencies();
 
         // Create valid config state
         let res = instantiate(
@@ -387,7 +384,7 @@ mod tests {
     #[test]
     fn invalid_merchant_init() {
         // Create mocks
-        let mut deps = mock_dependencies(&[]);
+        let mut deps = mock_dependencies();
 
         // Create an invalid init message
         let err = instantiate(
@@ -415,7 +412,7 @@ mod tests {
     #[test]
     fn invalid_fee_percent_init() {
         // Create mocks
-        let mut deps = mock_dependencies(&[]);
+        let mut deps = mock_dependencies();
 
         // Create an invalid init message.
         let err = instantiate(
@@ -443,7 +440,7 @@ mod tests {
     #[test]
     fn query_test() {
         // Create mocks
-        let mut deps = mock_dependencies(&[]);
+        let mut deps = mock_dependencies();
 
         // Create config state
         instantiate(
@@ -473,7 +470,7 @@ mod tests {
     #[test]
     fn handle_valid_purchase() {
         // Create mocks
-        let mut deps = mock_dependencies(&[]);
+        let mut deps = mock_dependencies();
 
         // Create config state
         instantiate(
@@ -535,7 +532,7 @@ mod tests {
     #[test]
     fn handle_invalid_funds() {
         // Create mocks
-        let mut deps = mock_dependencies(&[]);
+        let mut deps = mock_dependencies();
 
         // Create config state
         instantiate(
