@@ -1,5 +1,5 @@
 .PHONY: all
-all: bindings mocks
+all: bindings mocks contracts
 
 .PHONY: bindings
 bindings:

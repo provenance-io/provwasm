@@ -644,7 +644,7 @@ fn create_metadata_msg(params: MetadataMsgParams) -> CosmosMsg<ProvenanceMsg> {
 ///
 /// ```rust
 /// // Imports required
-/// use cosmwasm_std::{Addr, Response, StdError, StdResult};
+/// use cosmwasm_std::{Addr, Response, StdError};
 /// use provwasm_std::{ProvenanceMsg, Scope, write_scope};
 ///
 /// // Create and dispatch a message that will create, or update, a scope.
