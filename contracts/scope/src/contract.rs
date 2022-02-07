@@ -50,7 +50,7 @@ pub fn execute(
 /// Handle scope query requests for the provenance metadata module.
 pub fn query(
     deps: Deps<ProvenanceQuery>,
-    env: Env,
+    _env: Env,
     msg: QueryMsg,
 ) -> Result<QueryResponse, StdError> {
     match msg {
