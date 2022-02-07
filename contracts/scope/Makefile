@@ -34,7 +34,7 @@ optimize:
 	@docker run --rm -v $(CURDIR):/code -v "$(CURDIR)/../../packages":/packages \
 		--mount type=volume,source=scope_cache,target=/code/target \
 		--mount type=volume,source=registry_cache,target=/usr/local/cargo/registry \
-		cosmwasm/rust-optimizer:0.11.4
+		cosmwasm/rust-optimizer:0.12.5
 
 .PHONY: install
 install:
