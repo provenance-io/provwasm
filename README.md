@@ -69,3 +69,5 @@ In addition to the core CosmWasm functionality, the provenance bindings include
   - Burn supply
   - Withdraw coins
   - Transfer coins
+- Metadata
+  - Write Scope
