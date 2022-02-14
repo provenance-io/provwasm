@@ -1,6 +1,6 @@
 [package]
 name = "attrs"
-version = "1.0.0-beta"
+version = "1.0.1-beta"
 authors = ["David Pederson <dpederson@figure.com>", "Ken Talley <ktalley@figure.com>"]
 edition = "2018"
 

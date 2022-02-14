@@ -1,0 +1,1 @@
+3be93227e90d8a81d1a575dd6838136276e33d8e93cc595acc68b64d5f35893b  ./target/wasm32-unknown-unknown/release/attrs.wasm
