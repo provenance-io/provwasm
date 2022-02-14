@@ -16,12 +16,12 @@ static QUERY_DATAFMT_VERSION: &str = "2.0.0";
 
 /// A type for simplifying provenance custom queries.
 pub struct ProvenanceQuerier<'a> {
-    querier: &'a QuerierWrapper<'a>,
+    querier: &'a QuerierWrapper<'a, ProvenanceQuery>,
 }
 
 impl<'a> ProvenanceQuerier<'a> {
     /// Creates a new provenance querier
-    pub fn new(querier: &'a QuerierWrapper) -> Self {
+    pub fn new(querier: &'a QuerierWrapper<'a, ProvenanceQuery>) -> Self {
         ProvenanceQuerier { querier }
     }
 
@@ -32,7 +32,7 @@ impl<'a> ProvenanceQuerier<'a> {
             params: ProvenanceQueryParams::Name(params),
             version: String::from(QUERY_DATAFMT_VERSION),
         };
-        let res: Names = self.querier.custom_query(&request.into())?;
+        let res: Names = self.querier.query(&request.into())?;
         Ok(res)
     }
 
@@ -43,10 +43,10 @@ impl<'a> ProvenanceQuerier<'a> {
     /// ```rust
     /// // Imports required
     /// use cosmwasm_std::{Deps, QueryResponse, StdResult};
-    /// use provwasm_std::{Name, ProvenanceQuerier};
+    /// use provwasm_std::{Name, ProvenanceQuerier, ProvenanceQuery};
     ///
     /// // Resolve the address for a name.
-    /// fn query_resolve_name(deps: Deps, name: String) -> StdResult<QueryResponse> {
+    /// fn query_resolve_name(deps: Deps<ProvenanceQuery>, name: String) -> StdResult<QueryResponse> {
     ///     let querier = ProvenanceQuerier::new(&deps.querier);
     ///     let name: Name = querier.resolve_name(&name)?;
     ///     // Do something with name.address ...
@@ -72,10 +72,10 @@ impl<'a> ProvenanceQuerier<'a> {
     /// ```rust
     /// // Imports required
     /// use cosmwasm_std::{Addr, Deps, QueryResponse, StdResult};
-    /// use provwasm_std::{Names, ProvenanceQuerier};
+    /// use provwasm_std::{Names, ProvenanceQuerier, ProvenanceQuery};
     ///
     /// // Lookup all names bound to an address.
-    /// fn query_lookup_names(deps: Deps, address: Addr) -> StdResult<QueryResponse> {
+    /// fn query_lookup_names(deps: Deps<ProvenanceQuery>, address: Addr) -> StdResult<QueryResponse> {
     ///     let querier = ProvenanceQuerier::new(&deps.querier);
     ///     let names: Names = querier.lookup_names(address)?;
     ///     // Do something with names.records ...
@@ -95,7 +95,7 @@ impl<'a> ProvenanceQuerier<'a> {
             params: ProvenanceQueryParams::Attribute(params),
             version: String::from(QUERY_DATAFMT_VERSION),
         };
-        let res: Attributes = self.querier.custom_query(&request.into())?;
+        let res: Attributes = self.querier.query(&request.into())?;
         Ok(res)
     }
 
@@ -106,10 +106,10 @@ impl<'a> ProvenanceQuerier<'a> {
     /// ```rust
     /// // Imports required
     /// use cosmwasm_std::{Addr, Deps, QueryResponse, StdResult};
-    /// use provwasm_std::{Attributes, ProvenanceQuerier};
+    /// use provwasm_std::{Attributes, ProvenanceQuerier, ProvenanceQuery};
     ///
     /// // Query all attributes added to an account.
-    /// pub fn try_query_attributes(deps: Deps, address: Addr) -> StdResult<QueryResponse> {
+    /// pub fn try_query_attributes(deps: Deps<ProvenanceQuery>, address: Addr) -> StdResult<QueryResponse> {
     ///     let querier = ProvenanceQuerier::new(&deps.querier);
     ///     let none: Option<String> = None;
     ///     let res: Attributes = querier.get_attributes(address, none)?;
@@ -140,12 +140,12 @@ impl<'a> ProvenanceQuerier<'a> {
     /// ```rust
     /// // Imports required
     /// use cosmwasm_std::{Addr, Deps, QueryResponse, StdResult};
-    /// use provwasm_std::ProvenanceQuerier;
+    /// use provwasm_std::{ProvenanceQuerier, ProvenanceQuery};
     /// use schemars::JsonSchema;
     /// use serde::{Deserialize, Serialize};
     ///
     /// // Query all label attributes added to an account.
-    /// pub fn query_labels(deps: Deps, address: Addr) -> StdResult<QueryResponse> {
+    /// pub fn query_labels(deps: Deps<ProvenanceQuery>, address: Addr) -> StdResult<QueryResponse> {
     ///     let attr_name = String::from("label.my-contract.sc.pb");
     ///     let querier = ProvenanceQuerier::new(&deps.querier);
     ///     let labels: Vec<Label> = querier.get_json_attributes(address, &attr_name)?;
@@ -186,7 +186,7 @@ impl<'a> ProvenanceQuerier<'a> {
             params: ProvenanceQueryParams::Marker(params),
             version: String::from(QUERY_DATAFMT_VERSION),
         };
-        let res: Marker = self.querier.custom_query(&request.into())?;
+        let res: Marker = self.querier.query(&request.into())?;
         Ok(res)
     }
 
@@ -196,11 +196,11 @@ impl<'a> ProvenanceQuerier<'a> {
     ///
     /// ```rust
     /// // Imports required
-    /// use provwasm_std::{ProvenanceQuerier, Marker};
+    /// use provwasm_std::{ProvenanceQuerier, Marker, ProvenanceQuery};
     /// use cosmwasm_std::{Addr, Deps, QueryResponse, StdResult};
     ///
     /// // Query a marker by address.
-    /// fn try_get_marker_by_address(deps: Deps, address: Addr) -> StdResult<QueryResponse> {
+    /// fn try_get_marker_by_address(deps: Deps<ProvenanceQuery>, address: Addr) -> StdResult<QueryResponse> {
     ///     let querier = ProvenanceQuerier::new(&deps.querier);
     ///     let marker: Marker = querier.get_marker_by_address(address)?;
     ///     // Do something with marker ...
@@ -220,10 +220,10 @@ impl<'a> ProvenanceQuerier<'a> {
     /// ```rust
     /// // Imports required
     /// use cosmwasm_std::{Deps, QueryResponse, StdResult};
-    /// use provwasm_std::{ProvenanceQuerier, Marker};
+    /// use provwasm_std::{ProvenanceQuerier, Marker, ProvenanceQuery};
     ///
     /// // Query a marker by denom.
-    /// fn try_get_marker_by_denom(deps: Deps, denom: String) -> StdResult<QueryResponse> {
+    /// fn try_get_marker_by_denom(deps: Deps<ProvenanceQuery>, denom: String) -> StdResult<QueryResponse> {
     ///     let querier = ProvenanceQuerier::new(&deps.querier);
     ///     let marker: Marker = querier.get_marker_by_denom(&denom)?;
     ///     // Do something with marker ...
@@ -243,7 +243,7 @@ impl<'a> ProvenanceQuerier<'a> {
             params: ProvenanceQueryParams::Metadata(params),
             version: String::from(QUERY_DATAFMT_VERSION),
         };
-        let res: Scope = self.querier.custom_query(&request.into())?;
+        let res: Scope = self.querier.query(&request.into())?;
         Ok(res)
     }
 
@@ -252,11 +252,11 @@ impl<'a> ProvenanceQuerier<'a> {
     /// ### Example
     /// ```rust
     /// // Imports required
-    /// use provwasm_std::{ProvenanceQuerier, Scope};
+    /// use provwasm_std::{ProvenanceQuerier, ProvenanceQuery, Scope};
     /// use cosmwasm_std::{Deps, QueryResponse, StdResult};
     ///
     /// // Query a scope by id.
-    /// fn try_get_scope(deps: Deps, scope_id: String) -> StdResult<QueryResponse> {
+    /// fn try_get_scope(deps: Deps<ProvenanceQuery>, scope_id: String) -> StdResult<QueryResponse> {
     ///     let querier = ProvenanceQuerier::new(&deps.querier);
     ///     let scope: Scope = querier.get_scope(scope_id)?;
     ///     // Do something with scope ...
@@ -276,7 +276,7 @@ impl<'a> ProvenanceQuerier<'a> {
             params: ProvenanceQueryParams::Metadata(params),
             version: String::from(QUERY_DATAFMT_VERSION),
         };
-        let res: Sessions = self.querier.custom_query(&request.into())?;
+        let res: Sessions = self.querier.query(&request.into())?;
         Ok(res)
     }
 
@@ -285,11 +285,11 @@ impl<'a> ProvenanceQuerier<'a> {
     /// ### Example
     /// ```rust
     /// // Imports required
-    /// use provwasm_std::{ProvenanceQuerier, Sessions};
+    /// use provwasm_std::{ProvenanceQuerier, ProvenanceQuery, Sessions};
     /// use cosmwasm_std::{Deps, QueryResponse, StdResult};
     ///
     /// // Query all sessions for a scope.
-    /// fn try_get_sessions(deps: Deps, scope_id: String) -> StdResult<QueryResponse> {
+    /// fn try_get_sessions(deps: Deps<ProvenanceQuery>, scope_id: String) -> StdResult<QueryResponse> {
     ///     let querier = ProvenanceQuerier::new(&deps.querier);
     ///     let res: Sessions = querier.get_sessions(scope_id)?;
     ///     // Do something with res.sessions ...
@@ -308,7 +308,7 @@ impl<'a> ProvenanceQuerier<'a> {
             params: ProvenanceQueryParams::Metadata(params),
             version: String::from(QUERY_DATAFMT_VERSION),
         };
-        let res: Records = self.querier.custom_query(&request.into())?;
+        let res: Records = self.querier.query(&request.into())?;
         Ok(res)
     }
 
@@ -317,11 +317,11 @@ impl<'a> ProvenanceQuerier<'a> {
     /// ### Example
     /// ```rust
     /// // Imports required
-    /// use provwasm_std::{ProvenanceQuerier, Records};
+    /// use provwasm_std::{ProvenanceQuerier, ProvenanceQuery, Records};
     /// use cosmwasm_std::{Deps, QueryResponse, StdResult};
     ///
     /// // Query all records for a scope.
-    /// fn try_get_records(deps: Deps, scope_id: String) -> StdResult<QueryResponse> {
+    /// fn try_get_records(deps: Deps<ProvenanceQuery>, scope_id: String) -> StdResult<QueryResponse> {
     ///     let querier = ProvenanceQuerier::new(&deps.querier);
     ///     let res: Records = querier.get_records(scope_id)?;
     ///     // Do something with res.records ...
@@ -339,11 +339,11 @@ impl<'a> ProvenanceQuerier<'a> {
     /// ### Example
     /// ```rust
     /// // Imports required
-    /// use provwasm_std::{ProvenanceQuerier, Record};
+    /// use provwasm_std::{ProvenanceQuerier, ProvenanceQuery, Record};
     /// use cosmwasm_std::{Deps, QueryResponse, StdResult};
     ///
     /// // Query a loan record for a scope.
-    /// fn try_get_loan_record(deps: Deps, scope_id: String) -> StdResult<QueryResponse> {
+    /// fn try_get_loan_record(deps: Deps<ProvenanceQuery>, scope_id: String) -> StdResult<QueryResponse> {
     ///     let querier = ProvenanceQuerier::new(&deps.querier);
     ///     let record: Record = querier.get_record_by_name(scope_id, "loan")?;
     ///     // Do something with record ...

@@ -32,7 +32,7 @@ use provwasm_std::Name;
 #[test]
 fn query_resolve() {
     // Create provenance mock deps with a single bound name.
-    let mut deps = mock_dependencies(&[]);
+    let mut deps = mock_dependencies();
     deps.querier
         .with_names(&[("a.pb", "tp1y0txdp3sqmxjvfdaa8hfvwcljl8ugcfv26uync", false)]);
 

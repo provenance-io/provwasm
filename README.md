@@ -14,6 +14,7 @@ The following table shows provwasm version compatibility for smart contract deve
 
 | provwasm      | wasmd          | cosmos  | provenance    | module support                 |
 | ------------- | -------------- | ------- | ------------- | ------------------------------ |
+| v1.0.0-beta   | v0.22.0        | v0.45.0 | v1.8.0+       | attribute,marker,metadata,name |
 | v0.16.0       | v0.18.0        | v0.43.0 | v1.6.0+       | attribute,marker,metadata,name |
 | v0.14.3       | v0.17.0        | v0.42.6 | v1.5.0+       | attribute,marker,metadata,name |
 | v0.14.2       | v0.17.0        | v0.42.6 | v1.5.0+       | attribute,marker,metadata,name |
@@ -68,3 +69,5 @@ In addition to the core CosmWasm functionality, the provenance bindings include
   - Burn supply
   - Withdraw coins
   - Transfer coins
+- Metadata
+  - Write Scope

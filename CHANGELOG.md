@@ -6,6 +6,10 @@
 
 ## Releases
 
+### [v1.0.0-beta](https://github.com/provenance-io/provwasm/tree/v1.0.0-beta)
+
+* Upgrade to cosmwasm v1.0.0-beta5
+
 ### [v0.16.0](https://github.com/provenance-io/provwasm/tree/v0.16.0)
 
 * Upgrade to cosmwasm v0.16.0

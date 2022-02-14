@@ -4,6 +4,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::common::{validate_address, validate_string};
 use crate::types::{AttributeValueType, MarkerAccess, MarkerType, NameBinding, ProvenanceRoute};
+use crate::Scope;
 
 // The data format version to pass into provenance for message encoding
 static MSG_DATAFMT_VERSION: &str = "2.0.0";
@@ -23,6 +24,7 @@ pub enum ProvenanceMsgParams {
     Name(NameMsgParams),
     Attribute(AttributeMsgParams),
     Marker(MarkerMsgParams),
+    Metadata(MetadataMsgParams),
 }
 
 /// Input params for creating name module messages.
@@ -618,4 +620,49 @@ pub fn transfer_marker_coins<S: Into<String>, H: Into<Addr>>(
         from: validate_address(from)?,
     });
     Ok(msg)
+}
+
+/// Input params for creating marker module messages.
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[serde(rename_all = "snake_case")]
+pub enum MetadataMsgParams {
+    WriteScope { scope: Scope, signers: Vec<Addr> },
+}
+
+// Create a custom cosmos message using metadata module params.
+fn create_metadata_msg(params: MetadataMsgParams) -> CosmosMsg<ProvenanceMsg> {
+    CosmosMsg::Custom(ProvenanceMsg {
+        route: ProvenanceRoute::Metadata,
+        params: ProvenanceMsgParams::Metadata(params),
+        version: String::from(MSG_DATAFMT_VERSION),
+    })
+}
+
+/// Create a message that will create, or update, a scope.
+///
+/// ### Example
+///
+/// ```rust
+/// // Imports required
+/// use cosmwasm_std::{Addr, Response, StdError};
+/// use provwasm_std::{ProvenanceMsg, Scope, write_scope};
+///
+/// // Create and dispatch a message that will create, or update, a scope.
+/// fn try_write_scope(scope: Scope, signers: Vec<Addr>) -> Result<Response<ProvenanceMsg>, StdError> {
+///     let msg = write_scope(scope, signers)?;
+///     let mut res = Response::new().add_message(msg);
+///     Ok(res)
+/// }
+/// ```
+pub fn write_scope<S: Into<Scope>, H: Into<Addr>>(
+    scope: S,
+    signers: Vec<H>,
+) -> Result<CosmosMsg<ProvenanceMsg>, StdError> {
+    Ok(create_metadata_msg(MetadataMsgParams::WriteScope {
+        scope: scope.into(),
+        signers: signers
+            .into_iter()
+            .map(validate_address)
+            .collect::<Result<Vec<Addr>, _>>()?,
+    }))
 }

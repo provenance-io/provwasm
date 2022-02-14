@@ -1,6 +1,7 @@
 use cosmwasm_std::{to_binary, Deps, DepsMut, Env, MessageInfo, QueryResponse, Response, StdError};
 use provwasm_std::{
     bind_name, unbind_name, Name, NameBinding, Names, ProvenanceMsg, ProvenanceQuerier,
+    ProvenanceQuery,
 };
 
 use crate::error::ContractError;
@@ -9,7 +10,7 @@ use crate::state::{config, config_read, State};
 
 /// Initialize the smart contract config state and bind a name to the contract address.
 pub fn instantiate(
-    deps: DepsMut,
+    deps: DepsMut<ProvenanceQuery>,
     env: Env,
     info: MessageInfo,
     msg: InitMsg,
@@ -38,7 +39,7 @@ pub fn instantiate(
 
 /// Handle messages that bind names under the contract root name.
 pub fn execute(
-    deps: DepsMut,
+    deps: DepsMut<ProvenanceQuery>,
     env: Env,
     info: MessageInfo,
     msg: ExecuteMsg,
@@ -51,7 +52,7 @@ pub fn execute(
 
 // Bind a name under the contract root name.
 pub fn try_bind_prefix(
-    deps: DepsMut,
+    deps: DepsMut<ProvenanceQuery>,
     env: Env,
     info: MessageInfo,
     prefix: String,
@@ -82,7 +83,7 @@ pub fn try_bind_prefix(
 
 // Unbind a name from the contract.
 pub fn try_unbind_prefix(
-    deps: DepsMut,
+    deps: DepsMut<ProvenanceQuery>,
     info: MessageInfo,
     prefix: String,
 ) -> Result<Response<ProvenanceMsg>, ContractError> {
@@ -111,7 +112,11 @@ pub fn try_unbind_prefix(
 
 /// Handle query requests for the provenance name module. The queries handled here are not bound to
 /// the contract name or address.
-pub fn query(deps: Deps, _env: Env, msg: QueryMsg) -> Result<QueryResponse, StdError> {
+pub fn query(
+    deps: Deps<ProvenanceQuery>,
+    _env: Env,
+    msg: QueryMsg,
+) -> Result<QueryResponse, StdError> {
     match msg {
         QueryMsg::Resolve { name } => try_resolve(deps, name),
         QueryMsg::Lookup { address } => try_lookup(deps, address),
@@ -119,14 +124,14 @@ pub fn query(deps: Deps, _env: Env, msg: QueryMsg) -> Result<QueryResponse, StdE
 }
 
 // Use a ProvenanceQuerier to resolve the address for a name.
-fn try_resolve(deps: Deps, name: String) -> Result<QueryResponse, StdError> {
+fn try_resolve(deps: Deps<ProvenanceQuery>, name: String) -> Result<QueryResponse, StdError> {
     let querier = ProvenanceQuerier::new(&deps.querier);
     let name: Name = querier.resolve_name(&name)?;
     to_binary(&name)
 }
 
 // Use a ProvenanceQuerier to lookup all names bound to the contract address.
-fn try_lookup(deps: Deps, address: String) -> Result<QueryResponse, StdError> {
+fn try_lookup(deps: Deps<ProvenanceQuery>, address: String) -> Result<QueryResponse, StdError> {
     let querier = ProvenanceQuerier::new(&deps.querier);
     let address = deps.api.addr_validate(&address)?;
     let names: Names = querier.lookup_names(address)?;

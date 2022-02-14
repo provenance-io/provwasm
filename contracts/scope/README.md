@@ -56,8 +56,6 @@ Store the metadata integration test smart contract Wasm in provenance
 
 ```bash
 provenanced tx wasm store scope.wasm \
-    --source "https://github.com/provenance-io/provwasm/tree/main/contracts/scope" \
-    --builder "cosmwasm/rust-optimizer:0.11.3" \
     --instantiate-only-address $(provenanced keys show -a node0 --home build/node0 --keyring-backend test --testnet) \
     --from node0 \
     --keyring-backend test \

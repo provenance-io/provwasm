@@ -1,6 +1,7 @@
 use cosmwasm_std::{to_binary, Deps, DepsMut, Env, MessageInfo, QueryResponse, Response, StdError};
 use provwasm_std::{
-    add_json_attribute, bind_name, delete_attributes, NameBinding, ProvenanceMsg, ProvenanceQuerier,
+    add_json_attribute, bind_name, delete_attributes, NameBinding, ProvenanceMsg,
+    ProvenanceQuerier, ProvenanceQuery,
 };
 
 use crate::error::ContractError;
@@ -11,7 +12,7 @@ use crate::state::{config, config_read, State};
 
 /// Initialize the smart contract config state and bind a name to the contract address.
 pub fn instantiate(
-    deps: DepsMut,
+    deps: DepsMut<ProvenanceQuery>,
     env: Env,
     info: MessageInfo,
     msg: InitMsg,
@@ -37,7 +38,7 @@ pub fn instantiate(
 
 /// Handle state change requests
 pub fn execute(
-    deps: DepsMut,
+    deps: DepsMut<ProvenanceQuery>,
     env: Env,
     info: MessageInfo,
     msg: ExecuteMsg,
@@ -107,7 +108,11 @@ fn try_delete_labels(
 }
 
 /// Handle label query requests.
-pub fn query(deps: Deps, env: Env, msg: QueryMsg) -> Result<QueryResponse, StdError> {
+pub fn query(
+    deps: Deps<ProvenanceQuery>,
+    env: Env,
+    msg: QueryMsg,
+) -> Result<QueryResponse, StdError> {
     let state = config_read(deps.storage).load()?;
     let attr_name = format!("{}.{}", "label", state.contract_name);
     match msg {
@@ -122,7 +127,11 @@ pub fn query(deps: Deps, env: Env, msg: QueryMsg) -> Result<QueryResponse, StdEr
 }
 
 /// Called when migrating a contract instance to a new code ID.
-pub fn migrate(_deps: DepsMut, _env: Env, _msg: MigrateMsg) -> Result<Response, ContractError> {
+pub fn migrate(
+    _deps: DepsMut<ProvenanceQuery>,
+    _env: Env,
+    _msg: MigrateMsg,
+) -> Result<Response, ContractError> {
     Ok(Response::default())
 }
 

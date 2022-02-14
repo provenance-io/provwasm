@@ -1,3 +1,5 @@
+use cosmwasm_std::Addr;
+use provwasm_std::Scope;
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
@@ -9,7 +11,9 @@ pub struct InitMsg {
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
-pub enum ExecuteMsg {}
+pub enum ExecuteMsg {
+    WriteScope { scope: Scope, signers: Vec<Addr> },
+}
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
