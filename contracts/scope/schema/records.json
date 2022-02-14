@@ -37,7 +37,7 @@
     },
     "ProcessId": {
       "description": "The representations of a process id.",
-      "oneOf": [
+      "anyOf": [
         {
           "description": "The on-chain address of a process.",
           "type": "object",
@@ -146,7 +146,7 @@
     },
     "RecordInputSource": {
       "description": "The representations of a record input source.",
-      "oneOf": [
+      "anyOf": [
         {
           "description": "The address of a record on chain (established records).",
           "type": "object",
