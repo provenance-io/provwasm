@@ -6,7 +6,7 @@
 
 ## Releases
 
-### [v1.0.1-beta](https://github.com/provenance-io/provwasm/tree/v1.0.1-beta)
+### [v1.0.0-beta2](https://github.com/provenance-io/provwasm/tree/v1.0.0-beta2)
 
 * Add missing CustomMsg impl for ProvenanceMsg
 
