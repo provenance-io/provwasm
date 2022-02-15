@@ -19,3 +19,6 @@ target/
 contracts/tutorial
 contracts/tutorial-migrate
 contracts/hft-demo
+
+# checksums
+**/checksums_intermediate.txt
