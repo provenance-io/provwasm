@@ -1,6 +1,6 @@
 [package]
 name = "marker"
-version = "1.0.0-beta"
+version = "1.0.0-beta2"
 authors = ["Phil Story <pstory@figure.com>", "David Pederson <dpederson@figure.com>", "Ken Talley <ktalley@figure.com"]
 edition = "2018"
 

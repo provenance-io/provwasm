@@ -1,4 +1,6 @@
-use cosmwasm_std::{coin, to_binary, Addr, Binary, Coin, CosmosMsg, StdError, StdResult};
+use cosmwasm_std::{
+    coin, to_binary, Addr, Binary, Coin, CosmosMsg, CustomMsg, StdError, StdResult,
+};
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
@@ -17,6 +19,8 @@ pub struct ProvenanceMsg {
     pub params: ProvenanceMsgParams, // The module-specific encoder params
     pub version: String,             // The data format version
 }
+
+impl CustomMsg for ProvenanceMsg {}
 
 /// Input params for custom provenance message encoders.
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
