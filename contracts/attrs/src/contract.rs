@@ -1,4 +1,6 @@
-use cosmwasm_std::{to_binary, Deps, DepsMut, Env, MessageInfo, QueryResponse, Response, StdError};
+use cosmwasm_std::{
+    entry_point, to_binary, Deps, DepsMut, Env, MessageInfo, QueryResponse, Response, StdError,
+};
 use provwasm_std::{
     add_json_attribute, bind_name, delete_attributes, NameBinding, ProvenanceMsg,
     ProvenanceQuerier, ProvenanceQuery,
@@ -11,6 +13,7 @@ use crate::msg::{
 use crate::state::{config, config_read, State};
 
 /// Initialize the smart contract config state and bind a name to the contract address.
+#[entry_point]
 pub fn instantiate(
     deps: DepsMut<ProvenanceQuery>,
     env: Env,
@@ -37,6 +40,7 @@ pub fn instantiate(
 }
 
 /// Handle state change requests
+#[entry_point]
 pub fn execute(
     deps: DepsMut<ProvenanceQuery>,
     env: Env,
@@ -108,6 +112,7 @@ fn try_delete_labels(
 }
 
 /// Handle label query requests.
+#[entry_point]
 pub fn query(
     deps: Deps<ProvenanceQuery>,
     env: Env,
@@ -127,6 +132,7 @@ pub fn query(
 }
 
 /// Called when migrating a contract instance to a new code ID.
+#[entry_point]
 pub fn migrate(
     _deps: DepsMut<ProvenanceQuery>,
     _env: Env,
