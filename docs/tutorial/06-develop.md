@@ -16,7 +16,7 @@ File: `Makefile`
 
 ```Makefile
 .PHONY: all
-all: fmt build test lint schema
+all: fmt build test lint schema optimize
 
 .PHONY: fmt
 fmt:
@@ -171,14 +171,14 @@ The following imports are required for the init, query and handle functions.
 
 ```rust
 use cosmwasm_std::{
-    attr, coin, to_binary, BankMsg, Binary, CosmosMsg, Decimal, Deps, DepsMut, Env, MessageInfo,
-    Response, StdError, StdResult,
+    coin, entry_point, to_binary, BankMsg, Binary, CosmosMsg, Decimal, Deps, DepsMut, Env,
+    MessageInfo, Response, StdError, StdResult,
 };
-use provwasm_std::{bind_name, NameBinding, ProvenanceMsg};
+use provwasm_std::{bind_name, NameBinding, ProvenanceMsg, ProvenanceQuery};
 use std::ops::Mul;
 
 use crate::error::ContractError;
-use crate::msg::{ExecuteMsg, InitMsg, QueryMsg};
+use crate::msg::{ExecuteMsg, InitMsg, MigrateMsg, QueryMsg};
 use crate::state::{config, config_read, State};
 ```
 
@@ -188,6 +188,7 @@ Handler code for contract instantiation.
 
 ```rust
 /// Initialize the contract
+#[entry_point]
 pub fn instantiate(
     deps: DepsMut<ProvenanceQuery>,
     env: Env,
@@ -231,7 +232,6 @@ pub fn instantiate(
         NameBinding::Restricted,
     )?;
 
-    // Dispatch messages and emit event attributes
     Ok(Response::new()
         .add_message(msg)
         .add_attribute("action", "init"))
@@ -244,6 +244,7 @@ Query code for accessing contract state.
 
 ```rust
 /// Query contract state.
+#[entry_point]
 pub fn query(
     deps: Deps<ProvenanceQuery>,
     _env: Env, // NOTE: A '_' prefix indicates a variable is unused (suppress linter warnings)
@@ -263,6 +264,7 @@ pub fn query(
 
 ```rust
 /// Handle purchase messages.
+#[entry_point]
 pub fn execute(
     deps: DepsMut<ProvenanceQuery>,
     env: Env,
@@ -274,13 +276,23 @@ pub fn execute(
     }
 }
 
+/// Called when migrating a contract instance to a new code ID.
+#[entry_point]
+pub fn migrate(
+    _deps: DepsMut<ProvenanceQuery>,
+    _env: Env,
+    _msg: MigrateMsg,
+) -> Result<Response, ContractError> {
+    Ok(Response::default())
+}
+
 // Calculates transfers and fees, then dispatches messages to the bank module.
 fn try_purchase(
     deps: DepsMut<ProvenanceQuery>,
     env: Env,
     info: MessageInfo,
     id: String,
-) -> Result<Response<BankMsg>, ContractError> {
+) -> Result<Response<ProvenanceMsg>, ContractError> {
     // Ensure funds were sent with the message
     if info.funds.is_empty() {
         let err = "no purchase funds sent";

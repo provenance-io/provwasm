@@ -89,20 +89,19 @@ Fund a `feebucket` account with `nhash`, creating it on chain.
 
 ```bash
 provenanced tx bank send \
-    provenanced tx bank send \
-    "$node0" \
-    "$feebucket" \
-    200000000000nhash \
-    --from node0 \
-    --keyring-backend test \
-    --home build/node0 \
-    --chain-id chain-local \
-    --gas auto \
-    --gas-prices="1905nhash" \
+	"$node0" \
+	"$feebucket" \
+	200000000000nhash \
+	--from="$node0" \
+	--keyring-backend=test \
+	--home=build/node0 \
+	--chain-id=chain-local \
+	--gas=auto \
+	--gas-prices="1905nhash" \
 	--gas-adjustment=1.5 \
-    --broadcast-mode block \
-    --yes \
-    --testnet \
+	--broadcast-mode=block \
+	--yes \
+	--testnet \
 	--output json | jq
 ```
 

@@ -1,4 +1,6 @@
-use cosmwasm_std::{to_binary, Deps, DepsMut, Env, MessageInfo, QueryResponse, Response, StdError};
+use cosmwasm_std::{
+    entry_point, to_binary, Deps, DepsMut, Env, MessageInfo, QueryResponse, Response, StdError,
+};
 use provwasm_std::{
     bind_name, unbind_name, Name, NameBinding, Names, ProvenanceMsg, ProvenanceQuerier,
     ProvenanceQuery,
@@ -9,6 +11,7 @@ use crate::msg::{ExecuteMsg, InitMsg, QueryMsg};
 use crate::state::{config, config_read, State};
 
 /// Initialize the smart contract config state and bind a name to the contract address.
+#[entry_point]
 pub fn instantiate(
     deps: DepsMut<ProvenanceQuery>,
     env: Env,
@@ -38,6 +41,7 @@ pub fn instantiate(
 }
 
 /// Handle messages that bind names under the contract root name.
+#[entry_point]
 pub fn execute(
     deps: DepsMut<ProvenanceQuery>,
     env: Env,
@@ -112,6 +116,7 @@ pub fn try_unbind_prefix(
 
 /// Handle query requests for the provenance name module. The queries handled here are not bound to
 /// the contract name or address.
+#[entry_point]
 pub fn query(
     deps: Deps<ProvenanceQuery>,
     _env: Env,

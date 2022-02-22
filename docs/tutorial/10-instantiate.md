@@ -32,7 +32,7 @@ enforced by the fact that only the `feebucket` account is allowed to instantiate
 `--instantiate-only-address` flag during Wasm upload).
 
 ```bash
-provenanced tx wasm instantiate 4 \
+provenanced tx wasm instantiate 1 \
 	'{ "contract_name": "tutorial.sc.pb", "purchase_denom": "purchasecoin", "merchant_address": "fixme", "fee_percent": "0.10" }' \
     --admin "$feebucket" \
     --label tutorial \

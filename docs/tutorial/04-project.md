@@ -1,5 +1,7 @@
 # Provenance Smart Contract Tutorial
 
+The smart contract created in this tutorial is located: https://github.com/fkneeland-figure/smart-contract-tutorial
+
 ## Generate Project
 
 CosmWasm has a template repo that can be used as a starting point for development. To generate the
@@ -19,9 +21,9 @@ Edit Cargo.toml to have the following contract dependencies
 
 ```toml
 [dependencies]
-provwasm-std = { version = "0.16.0"}
-cosmwasm-std = { version = "0.16.2" }
-cosmwasm-storage = { version = "0.16.2" }
+provwasm-std = { version = "1.0.0-beta2" }
+cosmwasm-std = { version = "1.0.0-beta5", default-features = false }
+cosmwasm-storage = { version = "1.0.0-beta5" }
 cw-storage-plus = "0.8.0"
 cw2 = "0.8.1"
 schemars = "0.8.3"
@@ -29,8 +31,8 @@ serde = { version = "1.0.127", default-features = false, features = ["derive"] }
 thiserror = { version = "1.0.26" }
 
 [dev-dependencies]
-provwasm-mocks = { version = "0.16.0" }
-cosmwasm-schema = { version = "0.16.2" }
+provwasm-mocks = { version = "1.0.0-beta2" }
+cosmwasm-schema = { version = "1.0.0-beta5" }
 ```
 
 Reset the README and clear out the current JSON schema artifacts.

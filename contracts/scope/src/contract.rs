@@ -1,5 +1,6 @@
 use cosmwasm_std::{
-    to_binary, Addr, Deps, DepsMut, Env, MessageInfo, QueryResponse, Response, StdError,
+    entry_point, to_binary, Addr, Deps, DepsMut, Env, MessageInfo, QueryResponse, Response,
+    StdError,
 };
 
 use provwasm_std::{
@@ -12,6 +13,7 @@ use crate::msg::{ExecuteMsg, InitMsg, QueryMsg};
 use crate::state::{config, State};
 
 /// Initialize config state and bind a name to the contract address.
+#[entry_point]
 pub fn instantiate(
     deps: DepsMut<ProvenanceQuery>,
     env: Env,
@@ -40,6 +42,7 @@ pub fn instantiate(
 }
 
 /// Handle scope execute requests for the provenance metadata module.
+#[entry_point]
 pub fn execute(
     deps: DepsMut,
     _env: Env,
@@ -61,6 +64,7 @@ pub fn try_write_scope(
 }
 
 /// Handle scope query requests for the provenance metadata module.
+#[entry_point]
 pub fn query(
     deps: Deps<ProvenanceQuery>,
     _env: Env,

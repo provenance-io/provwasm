@@ -1,6 +1,6 @@
 use cosmwasm_std::{
-    attr, to_binary, Addr, Deps, DepsMut, Env, MessageInfo, QueryResponse, Response, StdError,
-    StdResult, Uint128,
+    attr, entry_point, to_binary, Addr, Deps, DepsMut, Env, MessageInfo, QueryResponse, Response,
+    StdError, StdResult, Uint128,
 };
 use provwasm_std::{
     activate_marker, bind_name, burn_marker_supply, cancel_marker, create_marker, destroy_marker,
@@ -14,6 +14,7 @@ use crate::msg::{ExecuteMsg, InitMsg, QueryMsg};
 use crate::state::{config, State};
 
 /// Initialize the smart contract config state, then bind a name to the contract address.
+#[entry_point]
 pub fn instantiate(
     deps: DepsMut<ProvenanceQuery>,
     env: Env,
@@ -39,6 +40,7 @@ pub fn instantiate(
 }
 
 /// Handle messages that create and interact with with native provenance markers.
+#[entry_point]
 pub fn execute(
     deps: DepsMut<ProvenanceQuery>,
     env: Env,
@@ -191,6 +193,7 @@ fn try_transfer(
 }
 
 /// Handle query requests for the provenance marker module.
+#[entry_point]
 pub fn query(
     deps: Deps<ProvenanceQuery>,
     _env: Env,
