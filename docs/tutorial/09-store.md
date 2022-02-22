@@ -19,7 +19,7 @@ Then, from the provenance directory, store the optimized smart contract Wasm in 
 ```bash
 provenanced tx wasm store tutorial.wasm \
     --instantiate-only-address "$feebucket" \
-    --from feebucket \
+    --from "$feebucket" \
     --keyring-backend test \
     --home build/node0 \
     --chain-id chain-local \
