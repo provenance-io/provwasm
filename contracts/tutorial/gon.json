@@ -1,0 +1,13 @@
+{
+	"source": ["./artifacts/tutorial.wasm"],
+	"bundle_id": "io.tutorial",
+	"apple_id": {
+		"password": "@env:AC_PASSWORD"
+	},
+	"sign": {
+		"application_identity": "Developer ID Application: FIGURE TECHNOLOGIES INC."
+	},
+	"zip": {
+		"output_path": "./artifacts/tutorial.zip"
+	}
+}

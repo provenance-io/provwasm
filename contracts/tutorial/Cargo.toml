@@ -1,0 +1,51 @@
+[package]
+name = "provwasm-tutorial"
+version = "0.1.2"
+authors = ["fkneeland <fkneeland@figure.com>"]
+edition = "2018"
+license = "Apache-2.0"
+repository = "https://github.com/provenance-io/fkneeland-figure/smart-contract-tutorial"
+description = "A simple smart contract used for testing inside of the Provenance blockchain"
+
+exclude = [
+  # Those files are rust-optimizer artifacts. You might want to commit them for convenience but they should not be part of the source code publication.
+  "contract.wasm",
+  "hash.txt",
+]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[profile.release]
+opt-level = 3
+debug = false
+rpath = false
+lto = true
+debug-assertions = false
+codegen-units = 1
+panic = 'abort'
+incremental = false
+overflow-checks = true
+
+[features]
+backtraces = []
+# for more explicit tests, cargo test --features=backtraces
+#backtraces = ["cosmwasm-std/backtraces"]
+## use library feature to disable all instantiate/execute/query exports
+#library = []
+
+[dependencies]
+provwasm-std = { version = "1.0.0-beta2" }
+cosmwasm-std = { version = "1.0.0-beta5", default-features = false }
+cosmwasm-storage = { version = "1.0.0-beta5" }
+cw-storage-plus = "0.8.0"
+cw2 = "0.8.1"
+schemars = "0.8.3"
+serde = { version = "1.0.127", default-features = false, features = ["derive"] }
+thiserror = { version = "1.0.26" }
+
+[dev-dependencies]
+provwasm-mocks = { version = "1.0.0-beta2" }
+cosmwasm-schema = { version = "1.0.0-beta5" }

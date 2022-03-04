@@ -15,10 +15,5 @@ target/
 # Auto-gen
 .cargo-ok
 
-# Tutorial code
-contracts/tutorial
-contracts/tutorial-migrate
-contracts/hft-demo
-
 # checksums
 **/checksums_intermediate.txt
