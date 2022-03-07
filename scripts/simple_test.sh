@@ -10,7 +10,7 @@ provenanced init --home=./build
 provenanced start --home=./build
 
 # Build the contract
-cd ../contracts/tutorial
+cd ./contracts/tutorial
 make all
 
 # return to root directory
@@ -56,7 +56,7 @@ provenanced tx wasm instantiate 1 \
     --chain-id chain-local \
     --gas auto \
     --gas-prices="1905nhash" \
-	--gas-adjustment=1.5 \
+	  --gas-adjustment=1.5 \
     --broadcast-mode block \
     --yes \
     --testnet \
