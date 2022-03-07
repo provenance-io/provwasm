@@ -40,11 +40,11 @@ provenanced tx wasm store ./contracts/tutorial/artifacts/tutorial.wasm \
     --chain-id chain-local \
     --gas auto \
     --gas-prices="1905nhash" \
-	--gas-adjustment=1.5 \
+	  --gas-adjustment=1.5 \
     --broadcast-mode block \
     --yes \
     --testnet \
-	--output json | jq
+	  --output json | jq
 
 provenanced tx wasm instantiate 1 \
 	'{ "contract_name": "tutorial.sc.pb", "purchase_denom": "purchasecoin", "merchant_address": "fixme", "fee_percent": "0.10" }' \
@@ -60,7 +60,7 @@ provenanced tx wasm instantiate 1 \
     --broadcast-mode block \
     --yes \
     --testnet \
-	--output json | jq
+	  --output json | jq
 
 # TODO: I need to get the contract address so that we can put it into the execute below
 
@@ -75,13 +75,27 @@ provenanced tx wasm execute \
     --chain-id chain-local \
     --gas auto \
     --gas-prices="1905nhash" \
-	--gas-adjustment=1.5 \
+	  --gas-adjustment=1.5 \
     --broadcast-mode block \
     --yes \
     --testnet \
-	--output json | jq
+	  --output json | jq
 
 # TODO: I need to parse a json response from the query to verify that I have the correct amount of coins in the consumer, merchant and feebucket accounts
+
+# Check out ATS README.md
+# What all do we need for inputs and outputs if this is a github action?
+# Actual actions in the github actions repo hub so other smart contract users can have.
+
+# 1. Tutorial tests
+# 2. All contracts
+# 3. Github action for 3rd party actions
+# 4. Document action for external use
+# 5. Integrating with ATS and other Figure Smart Contracts
+
+
+
+
 
 
 
