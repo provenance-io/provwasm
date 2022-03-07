@@ -18,3 +18,7 @@ clean:
 	@make -C packages/bindings clean
 	@make -C packages/mocks clean
 	@make -C contracts clean
+
+.PHONY: tutorial
+tutorial:
+	@make -C contracts/tutorial
