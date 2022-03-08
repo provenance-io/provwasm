@@ -41,10 +41,10 @@ jobs:
         uses: actions/setup-go@v2.1.5
         with:
           go-version: ${{ needs.build_init.outputs.go_version }}
+      - name: Add wasm32 target
+        run: |
+          rustup target add wasm32-unknown-unknown
       - name: Build wasm binary
-        - run:
-          name: Add wasm32 target
-          command: rustup target add wasm32-unknown-unknown && rustup target list --installed
         run: |
           make tutorial
       - name: Fix zip structure for cosmovisor
