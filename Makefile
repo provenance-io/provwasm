@@ -22,3 +22,9 @@ clean:
 .PHONY: tutorial
 tutorial:
 	@make -C contracts/tutorial
+
+.PHONY: build-release-zip
+build-release-zip:
+	cd contracts/tutorial/artifact && \
+	  zip -u provwasm_tutorial.wasm && \
+	cd ../../..
