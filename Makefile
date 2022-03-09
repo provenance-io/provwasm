@@ -21,7 +21,11 @@ clean:
 
 .PHONY: tutorial
 tutorial:
-	@make -C contracts/tutorial
+	@make -C contracts/tutorial pre-optimize
+
+.PHONY: optimize-tutorial
+optimize-tutorial:
+	@make -C contracts/tutorial optimize
 
 .PHONY: build-release-zip
 build-release-zip: tutorial

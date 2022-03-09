@@ -48,11 +48,14 @@ jobs:
       - name: Add wasm32 target
         run: |
           rustup target add wasm32-unknown-unknown
-      - name: Docker setup
-        uses: docker://cosmwasm/rust-optimizer:0.11.3
       - name: Build wasm binary
         run: |
           make tutorial
+      - name: Docker setup
+        uses: docker://cosmwasm/rust-optimizer:0.11.3
+      - name: Optimize wasm
+        run: |
+          make optimize-tutorial
       - name: Fix zip structure for cosmovisor
         run: |
           make build-release-zip
