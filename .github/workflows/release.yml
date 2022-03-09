@@ -114,7 +114,7 @@ jobs:
       -
         name: Test
         run: |
-          ls ./contracts/tutorial/assets
+          ls ./contracts/
       -
         name: Upload zip artifact
         uses: actions/upload-release-asset@v1
