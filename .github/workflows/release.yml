@@ -51,19 +51,10 @@ jobs:
       - name: Build wasm binary
         run: |
           make tutorial
-      - name: Docker setup
+      - name: Optimize wasm
         run: |
           cd ./contracts/tutorial
           make optimize
-#        uses: docker://cosmwasm/rust-optimizer:0.11.3
-#        with:
-#          args: >-
-#            --v ./contracts/tutorial/:/code
-#            --mount type=volume,source=tutorial_cache,target=/code/target
-#            --mount type=volume,source=registry_cache,target=/usr/local/cargo/registry
-#      - name: Optimize wasm
-#        run: |
-#          make optimize-tutorial
       - name: Fix zip structure for cosmovisor
         run: |
           make build-release-zip
@@ -71,20 +62,6 @@ jobs:
         with:
           name: zip
           path: contracts/tutorial/artifacts/*.zip
-
-#  optimize_wasm:
-#    runs-on: ubuntu-latest
-#    needs:
-#      - build_wasm
-#    container:
-#      image: cosmwasm/rust-optimizer:0.11.3
-#    steps:
-#      - name: Checkout
-#        uses: actions/checkout@v2
-#      - name: Setup go
-#        uses: actions/setup-go@v2.1.5
-#        with:
-#          go-version: ${{ needs.build_init.outputs.go_version }}
 
   create_release:
     runs-on: ubuntu-latest
