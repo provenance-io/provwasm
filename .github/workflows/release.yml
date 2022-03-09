@@ -112,16 +112,12 @@ jobs:
         run: |
           make build-release-checksum
       -
-        name: Test
-        run: |
-          ls ./contracts/tutorial/artifacts
-      -
         name: Upload zip artifact
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.create_release.outputs.release_url }}
-          asset_path: ./contracts/tutorial/assets/provwasm_tutorial.zip
+          asset_path: ./contracts/tutorial/artifacts/provwasm_tutorial.zip
           asset_name: provwasm_tutorial.zip
           asset_content_type: application/octet-stream
