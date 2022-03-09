@@ -49,7 +49,7 @@ jobs:
         run: |
           rustup target add wasm32-unknown-unknown
       - name: Docker setup
-        uses: docker
+        uses: docker://cosmwasm/rust-optimizer:0.11.3
       - name: Build wasm binary
         run: |
           make tutorial
