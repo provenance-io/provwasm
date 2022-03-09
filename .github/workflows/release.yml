@@ -52,12 +52,15 @@ jobs:
         run: |
           make tutorial
       - name: Docker setup
-        uses: docker://cosmwasm/rust-optimizer:0.11.3
-        with:
-          args: >-
-            --v ./contracts/tutorial/:/code
-            --mount type=volume,source=tutorial_cache,target=/code/target
-            --mount type=volume,source=registry_cache,target=/usr/local/cargo/registry
+        run: |
+          cd ./contracts/tutorial
+          make optimize
+#        uses: docker://cosmwasm/rust-optimizer:0.11.3
+#        with:
+#          args: >-
+#            --v ./contracts/tutorial/:/code
+#            --mount type=volume,source=tutorial_cache,target=/code/target
+#            --mount type=volume,source=registry_cache,target=/usr/local/cargo/registry
 #      - name: Optimize wasm
 #        run: |
 #          make optimize-tutorial
