@@ -60,7 +60,7 @@ jobs:
           make build-release-zip
       - uses: actions/upload-artifact@v2
         with:
-          name: zip
+          name: wasm-zip
           path: contracts/tutorial/artifacts/*.zip
 
   create_release:
