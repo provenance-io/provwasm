@@ -112,6 +112,10 @@ jobs:
         run: |
           make build-release-checksum
       -
+        name: Test
+        run: |
+          ls ./contracts/tutorial/assets
+      -
         name: Upload zip artifact
         uses: actions/upload-release-asset@v1
         env:
