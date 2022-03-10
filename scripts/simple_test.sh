@@ -1,8 +1,15 @@
 #!/bin/bash -e
 
+export Provenance_Version="v1.7.6"
+
+wget "https://github.com/provenance-io/provenance/releases/download/$Provenance_Version/provenance-linux-amd64-v1.7.6.zip"
+
+# this will create a folder with both provenance and libwasm
+unzip provenance-linux-amd64-v1.7.6.zip
+
 mkdir ./build
 
-PROV_CMD="provenanced"
+PROV_CMD="./bin/provenanced"
 PIO_HOME="./build"
 export PIO_HOME
 
@@ -25,7 +32,7 @@ if [ ! -d "$PIO_HOME/config" ]; then
 		--activate --keyring-backend test
     "$PROV_CMD" -t collect-gentxs
 fi
-"$PROV_CMD" -t start
+nohup "$PROV_CMD" -t start
 
 # Build the contract
 cd ./contracts/tutorial
