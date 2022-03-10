@@ -1,13 +1,31 @@
 #!/bin/bash -e
 
-mkdir build
+mkdir ./build
 
-# TODO: Download the provenanced binary?
+PROV_CMD="provenanced"
+PIO_HOME="./build"
+export PIO_HOME
 
-# TODO finish provenance initialization
-provenanced init --home=./build
-
-provenanced start --home=./build
+if [ ! -d "$PIO_HOME/config" ]; then
+    "$PROV_CMD" -t init --chain-id=testing testing
+    "$PROV_CMD" -t keys add validator --keyring-backend test
+    "$PROV_CMD" -t add-genesis-root-name validator pio --keyring-backend test
+    "$PROV_CMD" -t add-genesis-root-name validator pb --restrict=false \
+		--keyring-backend test
+    "$PROV_CMD" -t add-genesis-root-name validator io --restrict \
+		--keyring-backend test
+    "$PROV_CMD" -t add-genesis-root-name validator provenance \
+		--keyring-backend test
+    "$PROV_CMD" -t add-genesis-account validator 100000000000000000000nhash \
+		--keyring-backend test
+    "$PROV_CMD" -t gentx validator 1000000000000000nhash \
+		--keyring-backend test --chain-id=testing
+    "$PROV_CMD" -t add-genesis-marker 100000000000000000000nhash --manager \
+		validator --access mint,burn,admin,withdraw,deposit \
+		--activate --keyring-backend test
+    "$PROV_CMD" -t collect-gentxs
+fi
+"$PROV_CMD" -t start
 
 # Build the contract
 cd ./contracts/tutorial
@@ -21,22 +39,20 @@ cd ../..
 # No I don't think that would be the best idea...
 
 # setup all of the necessary keys
-provenanced keys add merchant --home build/node0 --keyring-backend test --testnet --hd-path "44'/1'/0'/0/0" --output json | jq
-provenanced keys add feebucket --home build/node0 --keyring-backend test --testnet --hd-path "44'/1'/0'/0/0" --output json | jq
-provenanced keys add consumer --home build/node0 --keyring-backend test --testnet --hd-path "44'/1'/0'/0/0" --output json | jq
+"$PROV_CMD" keys add merchant --keyring-backend test --testnet --hd-path "44'/1'/0'/0/0" --output json | jq
+"$PROV_CMD" keys add feebucket --keyring-backend test --testnet --hd-path "44'/1'/0'/0/0" --output json | jq
+"$PROV_CMD" keys add consumer --keyring-backend test --testnet --hd-path "44'/1'/0'/0/0" --output json | jq
 
-export node0=$(provenanced keys show -a node0 --home build/node0 --keyring-backend test -t)
-export merchant=$(provenanced keys show -a merchant --home build/node0 --keyring-backend test -t)
-export feebucket=$(provenanced keys show -a feebucket --home build/node0 --keyring-backend test -t)
-export consumer=$(provenanced keys show -a consumer --home build/node0 --keyring-backend test -t)
+export node0=$("$PROV_CMD" keys show -a node0 --keyring-backend test -t)
+export merchant=$("$PROV_CMD" keys show -a merchant --keyring-backend test -t)
+export feebucket=$("$PROV_CMD" keys show -a feebucket --keyring-backend test -t)
+export consumer=$("$PROV_CMD" keys show -a consumer --keyring-backend test -t)
 
-# go ahead and run the contract
-
-provenanced tx wasm store ./contracts/tutorial/artifacts/tutorial.wasm \
+# Run the contract
+"$PROV_CMD" tx wasm store ./contracts/tutorial/artifacts/tutorial.wasm \
     --instantiate-only-address "$feebucket" \
     --from "$feebucket" \
     --keyring-backend test \
-    --home build/ \
     --chain-id chain-local \
     --gas auto \
     --gas-prices="1905nhash" \
@@ -46,13 +62,12 @@ provenanced tx wasm store ./contracts/tutorial/artifacts/tutorial.wasm \
     --testnet \
 	  --output json | jq
 
-provenanced tx wasm instantiate 1 \
+"$PROV_CMD" tx wasm instantiate 1 \
 	'{ "contract_name": "tutorial.sc.pb", "purchase_denom": "purchasecoin", "merchant_address": "fixme", "fee_percent": "0.10" }' \
     --admin "$feebucket" \
     --label tutorial \
     --from feebucket \
     --keyring-backend test \
-    --home build/node0 \
     --chain-id chain-local \
     --gas auto \
     --gas-prices="1905nhash" \
@@ -65,13 +80,12 @@ provenanced tx wasm instantiate 1 \
 # TODO: I need to get the contract address so that we can put it into the execute below
 
 
-provenanced tx wasm execute \
+"$PROV_CMD" tx wasm execute \
     tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
     '{"purchase":{"id":"12345"}}' \
     --amount 100purchasecoin \
     --from consumer \
     --keyring-backend test \
-    --home build/node0 \
     --chain-id chain-local \
     --gas auto \
     --gas-prices="1905nhash" \

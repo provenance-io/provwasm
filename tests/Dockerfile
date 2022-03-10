@@ -16,6 +16,7 @@ RUN echo "Completed go build"
 
 RUN echo "Initializing provenance"
 
+COPY ./simple_test.sh ./scripts/simple_test.sh
+
 # Initialize provenance to run with the default node configuration
-WORKDIR /testrosetta
-RUN provenanced testnet -t --v 1 -o . --starting-ip-address=0.0.0.0 --keyring-backend=test --chain-id=chain-local
+RUN ./simple_test.sh
