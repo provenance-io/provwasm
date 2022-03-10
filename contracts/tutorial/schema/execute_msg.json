@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "ExecuteMsg",
   "description": "A message sent to transfer funds and collect fees for a purchase.",
-  "anyOf": [
+  "oneOf": [
     {
       "type": "object",
       "required": [
