@@ -1,11 +1,15 @@
 #!/bin/bash -e
 
-export Provenance_Version="v1.7.6"
+export Provenance_Version="v1.8.0-rc10"
+export Provwasm_Version="v1.0.0-beta4"
 
-wget "https://github.com/provenance-io/provenance/releases/download/$Provenance_Version/provenance-linux-amd64-v1.7.6.zip"
+wget "https://github.com/provenance-io/provenance/releases/download/$Provenance_Version/provenance-linux-amd64-$Provenance_Version.zip"
+wget "https://github.com/provenance-io/provwasm/releases/download/$Provwasm_Version/provwasm_tutorial.zip"
 
 # this will create a folder with both provenance and libwasm
-unzip provenance-linux-amd64-v1.7.6.zip
+unzip "provenance-linux-amd64-$Provenance_Version.zip"
+unzip provwasm_tutorial.zip
+rm provwasm_tutorial.zip
 
 mkdir ./build
 
@@ -32,57 +36,199 @@ if [ ! -d "$PIO_HOME/config" ]; then
 		--activate --keyring-backend test
     "$PROV_CMD" -t collect-gentxs
 fi
-nohup "$PROV_CMD" -t start
+nohup "$PROV_CMD" -t start &>/dev/null &
 
-# Build the contract
-cd ./contracts/tutorial
-make all
+echo "Sleeping for provenance to start up"
+sleep 10s
 
-# return to root directory
-cd ../..
 
 # Or... should I use a docker compose so that I am running the provenance testnet in one docker
 # container and then storing tests to it?
 # No I don't think that would be the best idea...
 
 # setup all of the necessary keys
-"$PROV_CMD" keys add merchant --keyring-backend test --testnet --hd-path "44'/1'/0'/0/0" --output json | jq
-"$PROV_CMD" keys add feebucket --keyring-backend test --testnet --hd-path "44'/1'/0'/0/0" --output json | jq
-"$PROV_CMD" keys add consumer --keyring-backend test --testnet --hd-path "44'/1'/0'/0/0" --output json | jq
+"$PROV_CMD" keys add merchant --keyring-backend test --testnet --hd-path "44'/1'/0'/0/0"
+"$PROV_CMD" keys add feebucket --keyring-backend test --testnet --hd-path "44'/1'/0'/0/0"
+"$PROV_CMD" keys add consumer --keyring-backend test --testnet --hd-path "44'/1'/0'/0/0"
 
-export node0=$("$PROV_CMD" keys show -a node0 --keyring-backend test -t)
+echo "sleeping after adding keys"
+sleep 10s
+
+export node0=$("$PROV_CMD" keys show -a validator --keyring-backend test -t)
 export merchant=$("$PROV_CMD" keys show -a merchant --keyring-backend test -t)
 export feebucket=$("$PROV_CMD" keys show -a feebucket --keyring-backend test -t)
 export consumer=$("$PROV_CMD" keys show -a consumer --keyring-backend test -t)
 
+echo "Sending coins to different keys"
+
+"$PROV_CMD" tx bank send \
+	"$node0" \
+	"$merchant" \
+	200000000000nhash \
+	--from="$node0" \
+	--keyring-backend=test \
+	--chain-id="testing" \
+	--gas=auto \
+	--gas-prices="1905nhash" \
+	--gas-adjustment=1.5 \
+	--broadcast-mode=block \
+	--yes \
+	--testnet \
+	--output json
+
+"$PROV_CMD" tx bank send \
+	"$node0" \
+	"$consumer" \
+	200000000000nhash \
+	--from="$node0" \
+	--keyring-backend=test \
+	--chain-id="testing" \
+	--gas=auto \
+	--gas-prices="1905nhash" \
+	--gas-adjustment=1.5 \
+	--broadcast-mode=block \
+	--yes \
+	--testnet \
+	--output json
+
+"$PROV_CMD" tx bank send \
+	"$node0" \
+	"$feebucket" \
+	200000000000nhash \
+	--from="$node0" \
+	--keyring-backend=test \
+	--chain-id="testing" \
+	--gas=auto \
+	--gas-prices="1905nhash" \
+	--gas-adjustment=1.5 \
+	--broadcast-mode=block \
+	--yes \
+	--testnet \
+	--output json
+
+echo "Sleeping to allow send txs to process"
+sleep 10s
+
+# Setup name and new COIN for the smart contract
+"$PROV_CMD" tx name bind \
+    "sc" \
+    "$node0" \
+    "pb" \
+    --restrict=false \
+    --from="$node0" \
+    --keyring-backend test \
+    --chain-id="testing" \
+    --gas-prices="1905nhash" \
+	  --gas-adjustment=1.5 \
+    --broadcast-mode block \
+    --yes \
+    --testnet \
+	  --output json
+
+"$PROV_CMD" tx marker new 1000000000purchasecoin \
+    --type COIN \
+    --from="$node0" \
+    --keyring-backend test \
+    --chain-id="testing" \
+    --gas auto \
+    --gas-prices="1905nhash" \
+	  --gas-adjustment=1.5 \
+    --broadcast-mode block \
+    --yes \
+    --testnet \
+	  --output json
+
+"$PROV_CMD" tx marker grant \
+    $node0 \
+    purchasecoin \
+    withdraw \
+    --from="$node0" \
+    --keyring-backend test \
+    --chain-id="testing" \
+    --gas auto \
+    --gas-prices="1905nhash" \
+	  --gas-adjustment=1.5 \
+    --broadcast-mode block \
+    --yes \
+    --testnet \
+	  --output json
+
+"$PROV_CMD" tx marker finalize purchasecoin \
+    --from="$node0" \
+    --keyring-backend test \
+    --chain-id="testing" \
+    --gas auto \
+    --gas-prices="1905nhash" \
+	  --gas-adjustment=1.5 \
+    --broadcast-mode block \
+    --yes \
+    --testnet \
+	  --output json
+
+"$PROV_CMD" tx marker activate purchasecoin \
+    --from="$node0" \
+    --keyring-backend test \
+    --chain-id="testing" \
+    --gas auto \
+    --gas-prices="1905nhash" \
+	  --gas-adjustment=1.5 \
+    --broadcast-mode block \
+    --yes \
+    --testnet \
+	  --output json
+
+"$PROV_CMD" tx marker withdraw purchasecoin \
+    100000purchasecoin \
+    $consumer \
+    --from="$node0" \
+    --keyring-backend test \
+    --chain-id="testing" \
+    --gas auto \
+    --gas-prices="1905nhash" \
+	  --gas-adjustment=1.5 \
+    --broadcast-mode block \
+    --yes \
+    --testnet \
+	  --output json
+
+"$PROV_CMD" query bank balances "$feebucket" -t
+"$PROV_CMD" query bank balances "$consumer" -t
+
 # Run the contract
-"$PROV_CMD" tx wasm store ./contracts/tutorial/artifacts/tutorial.wasm \
+"$PROV_CMD" tx wasm store provwasm_tutorial.wasm \
     --instantiate-only-address "$feebucket" \
     --from "$feebucket" \
-    --keyring-backend test \
-    --chain-id chain-local \
-    --gas auto \
+    --keyring-backend="test" \
+    --chain-id="testing" \
+    --gas=auto \
     --gas-prices="1905nhash" \
 	  --gas-adjustment=1.5 \
-    --broadcast-mode block \
+    --broadcast-mode=block \
     --yes \
-    --testnet \
-	  --output json | jq
+    -t
 
-"$PROV_CMD" tx wasm instantiate 1 \
-	'{ "contract_name": "tutorial.sc.pb", "purchase_denom": "purchasecoin", "merchant_address": "fixme", "fee_percent": "0.10" }' \
-    --admin "$feebucket" \
-    --label tutorial \
-    --from feebucket \
-    --keyring-backend test \
-    --chain-id chain-local \
-    --gas auto \
+echo "\n"
+echo "---------"
+"$PROV_CMD" query wasm list-code -o json
+
+echo "\n"
+echo "-------------"
+echo "Instantiate:"
+
+export json="{ \"contract_name\": \"tutorial.sc.pb\", \"purchase_denom\": \"purchasecoin\", \"merchant_address\": \"$merchant_address\", \"fee_percent\": \"0.10\" }"
+
+"$PROV_CMD" tx wasm instantiate 1 "$json" \
+    --admin="$feebucket" \
+    --label="tutorial" \
+    --from="$feebucket" \
+    --keyring-backend="test" \
+    --chain-id="testing" \
+    --gas=auto \
     --gas-prices="1905nhash" \
 	  --gas-adjustment=1.5 \
     --broadcast-mode block \
     --yes \
-    --testnet \
-	  --output json | jq
+    --testnet
 
 # TODO: I need to get the contract address so that we can put it into the execute below
 
@@ -91,16 +237,16 @@ export consumer=$("$PROV_CMD" keys show -a consumer --keyring-backend test -t)
     tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
     '{"purchase":{"id":"12345"}}' \
     --amount 100purchasecoin \
-    --from consumer \
+    --from="$consumer" \
     --keyring-backend test \
-    --chain-id chain-local \
+    --chain-id testing \
     --gas auto \
     --gas-prices="1905nhash" \
 	  --gas-adjustment=1.5 \
     --broadcast-mode block \
     --yes \
     --testnet \
-	  --output json | jq
+	  --output json
 
 # TODO: I need to parse a json response from the query to verify that I have the correct amount of coins in the consumer, merchant and feebucket accounts
 
