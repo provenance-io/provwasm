@@ -1,5 +1,5 @@
 .PHONY: all
-all: attrs marker name scope
+all: attrs marker name scope tutorial
 
 .PHONY: attrs
 attrs:
@@ -16,6 +16,10 @@ name:
 .PHONY: scope
 scope:
 	@make -C scope
+
+.PHONY: tutorial
+tutorial:
+	@make -C tutorial
 
 .PHONY: clean
 clean:

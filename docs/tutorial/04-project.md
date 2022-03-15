@@ -1,6 +1,6 @@
 # Provenance Smart Contract Tutorial
 
-The smart contract created in this tutorial is located: https://github.com/fkneeland-figure/smart-contract-tutorial
+The smart contract created in this tutorial is located in the `contracts/tutorial` folder.
 
 ## Generate Project
 

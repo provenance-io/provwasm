@@ -1,6 +1,9 @@
 .PHONY: all
 all: fmt build test lint schema optimize
 
+.PHONY: pre-optimize
+pre-optimize: fmt build test lint schema
+
 .PHONY: fmt
 fmt:
 	@cargo fmt --all -- --check

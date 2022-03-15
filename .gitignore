@@ -17,3 +17,7 @@ target/
 
 # checksums
 **/checksums_intermediate.txt
+**/sha256sum.txt
+
+# zip
+*.zip
