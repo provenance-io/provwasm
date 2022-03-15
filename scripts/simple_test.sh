@@ -231,7 +231,7 @@ export json="{ \"contract_name\": \"tutorial.sc.pb\", \"purchase_denom\": \"purc
     --testnet
 
 # TODO: I need to get the contract address so that we can put it into the execute below
-
+"$PROV_CMD" query wasm list-contract-by-code 1 -t -o json
 
 "$PROV_CMD" tx wasm execute \
     tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
