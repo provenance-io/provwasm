@@ -39,3 +39,8 @@ build-release-checksum:
 	cd ./contracts/tutorial/artifacts && \
 	  shasum -a 256 *.zip  > sha256sum.txt && \
 	cd ../../..
+
+.PHONY: test
+test: tutorial
+	docker build -t tests .
+	docker run tests

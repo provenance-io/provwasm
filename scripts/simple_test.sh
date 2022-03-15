@@ -1,15 +1,11 @@
 #!/bin/bash -e
 
 export Provenance_Version="v1.8.0-rc10"
-export Provwasm_Version="v1.0.0-beta4"
 
 wget "https://github.com/provenance-io/provenance/releases/download/$Provenance_Version/provenance-linux-amd64-$Provenance_Version.zip"
-wget "https://github.com/provenance-io/provwasm/releases/download/$Provwasm_Version/provwasm_tutorial.zip"
 
 # this will create a folder with both provenance and libwasm
 unzip "provenance-linux-amd64-$Provenance_Version.zip"
-unzip provwasm_tutorial.zip
-rm provwasm_tutorial.zip
 
 mkdir ./build
 
@@ -41,11 +37,6 @@ nohup "$PROV_CMD" -t start &>/dev/null &
 echo "Sleeping for provenance to start up"
 sleep 10s
 
-
-# Or... should I use a docker compose so that I am running the provenance testnet in one docker
-# container and then storing tests to it?
-# No I don't think that would be the best idea...
-
 # setup all of the necessary keys
 "$PROV_CMD" keys add merchant --keyring-backend test --testnet --hd-path "44'/1'/0'/0/0"
 "$PROV_CMD" keys add feebucket --keyring-backend test --testnet --hd-path "44'/1'/0'/0/0"
@@ -54,6 +45,7 @@ sleep 10s
 echo "sleeping after adding keys"
 sleep 10s
 
+# setup key variables
 export node0=$("$PROV_CMD" keys show -a validator --keyring-backend test -t)
 export merchant=$("$PROV_CMD" keys show -a merchant --keyring-backend test -t)
 export feebucket=$("$PROV_CMD" keys show -a feebucket --keyring-backend test -t)
@@ -191,9 +183,6 @@ sleep 10s
     --testnet \
 	  --output json
 
-"$PROV_CMD" query bank balances "$feebucket" -t
-"$PROV_CMD" query bank balances "$consumer" -t
-
 # Run the contract
 "$PROV_CMD" tx wasm store provwasm_tutorial.wasm \
     --instantiate-only-address "$feebucket" \
@@ -207,15 +196,8 @@ sleep 10s
     --yes \
     -t
 
-echo "\n"
-echo "---------"
-"$PROV_CMD" query wasm list-code -o json
-
-echo "\n"
-echo "-------------"
-echo "Instantiate:"
-
-export json="{ \"contract_name\": \"tutorial.sc.pb\", \"purchase_denom\": \"purchasecoin\", \"merchant_address\": \"$merchant_address\", \"fee_percent\": \"0.10\" }"
+# create the json for instantiating the contract with our merchant address
+export json="{ \"contract_name\": \"tutorial.sc.pb\", \"purchase_denom\": \"purchasecoin\", \"merchant_address\": \"$merchant\", \"fee_percent\": \"0.10\" }"
 
 "$PROV_CMD" tx wasm instantiate 1 "$json" \
     --admin="$feebucket" \
@@ -230,11 +212,11 @@ export json="{ \"contract_name\": \"tutorial.sc.pb\", \"purchase_denom\": \"purc
     --yes \
     --testnet
 
-# TODO: I need to get the contract address so that we can put it into the execute below
-"$PROV_CMD" query wasm list-contract-by-code 1 -t -o json
+# Query for the contract address so we can execute it
+export contract=$("$PROV_CMD" query wasm list-contract-by-code 1 -t -o json | jq -r ".contracts[0]")
 
 "$PROV_CMD" tx wasm execute \
-    tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
+    "$contract" \
     '{"purchase":{"id":"12345"}}' \
     --amount 100purchasecoin \
     --from="$consumer" \
@@ -248,21 +230,29 @@ export json="{ \"contract_name\": \"tutorial.sc.pb\", \"purchase_denom\": \"purc
     --testnet \
 	  --output json
 
-# TODO: I need to parse a json response from the query to verify that I have the correct amount of coins in the consumer, merchant and feebucket accounts
+# Verify that the funds were sent to the correct accounts for the merchant and the feebucket
+export merchant_query=$("$PROV_CMD" query bank balances "$merchant" -t -o json)
+export merchant_denom=$(echo "$merchant_query" | jq -r ".balances[1].denom")
+export merchant_amount=$(echo "$merchant_query" | jq -r ".balances[1].amount")
 
-# Check out ATS README.md
-# What all do we need for inputs and outputs if this is a github action?
-# Actual actions in the github actions repo hub so other smart contract users can have.
+if [ "$merchant_denom" != "purchasecoin" ]; then
+  exit 1
+fi
 
-# 1. Tutorial tests
-# 2. All contracts
-# 3. Github action for 3rd party actions
-# 4. Document action for external use
-# 5. Integrating with ATS and other Figure Smart Contracts
+if [ "$merchant_amount" != "90" ]; then
+  exit 1
+fi
 
+export feebucket_query=$("$PROV_CMD" query bank balances "$feebucket" -t -o json)
+export feebucket_denom=$(echo "$feebucket_query" | jq -r ".balances[1].denom")
+export feebucket_amount=$(echo "$feebucket_query" | jq -r ".balances[1].amount")
 
+if [ "$feebucket_denom" != "purchasecoin" ]; then
+  exit 1
+fi
 
+if [ "$feebucket_amount" != "10" ]; then
+  exit 1
+fi
 
-
-
-
+echo "All good!"
