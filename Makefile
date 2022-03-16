@@ -42,5 +42,5 @@ build-release-checksum:
 
 .PHONY: test
 test: tutorial
-	docker build -t tests .
-	docker run tests
+	docker build -t tests . --build-arg test_script="./scripts/tutorial_setup.sh"
+	docker run tests "./scripts/tutorial_setup.sh"
