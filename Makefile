@@ -35,6 +35,10 @@ attrs:
 marker:
 	@make -C contracts/marker
 
+.PHONY: name
+name:
+	@make -C contracts/name
+
 .PHONY: build-release-zip
 build-release-zip: tutorial
 	cd ./contracts/tutorial/artifacts && \
@@ -61,3 +65,8 @@ test-attrs: attrs
 test-marker: marker
 	docker build -t tests . --build-arg test_script="./scripts/marker_test.sh" --build-arg contract_location="./contracts/marker/artifacts/marker.wasm" --build-arg contract_destination="marker.wasm"
 	docker run tests "./scripts/marker_test.sh"
+
+.PHONY: test-name
+test-name: name
+	docker build -t tests . --build-arg test_script="./scripts/name_test.sh" --build-arg contract_location="./contracts/name/artifacts/name.wasm" --build-arg contract_destination="name.wasm"
+	docker run tests "./scripts/name_test.sh"
