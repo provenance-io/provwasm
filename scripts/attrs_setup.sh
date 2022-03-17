@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-# This script stores, instantiates and executes the tutorial smart contract
+# This script stores, instantiates and executes the attrs smart contract
 PROV_CMD="./bin/provenanced"
 
 export node0=$("$PROV_CMD" keys show -a validator --keyring-backend test --testnet)

@@ -28,14 +28,18 @@ optimize-tutorial:
 	@make -C contracts/tutorial optimize
 
 .PHONY: attrs
+attrs:
 	@make -C contracts/attrs
+
+.PHONY: marker
+marker:
+	@make -C contracts/marker
 
 .PHONY: build-release-zip
 build-release-zip: tutorial
 	cd ./contracts/tutorial/artifacts && \
 	  zip -u provwasm_tutorial.zip provwasm_tutorial.wasm && \
 	cd ../../..
-
 
 .PHONY: build-release-checksum
 build-release-checksum:
@@ -44,7 +48,7 @@ build-release-checksum:
 	cd ../../..
 
 .PHONY: test-tutorial
-test-tutorial: tutorial
+test-tutorial: tutorial optimize-tutorial
 	docker build -t tests . --build-arg test_script="./scripts/tutorial_setup.sh" --build-arg contract_location="./contracts/tutorial/artifacts/provwasm_tutorial.wasm" --build-arg contract_destination="provwasm_tutorial.wasm"
 	docker run tests "./scripts/tutorial_setup.sh"
 
@@ -52,3 +56,8 @@ test-tutorial: tutorial
 test-attrs: attrs
 	docker build -t tests . --build-arg test_script="./scripts/attrs_setup.sh" --build-arg contract_location="./contracts/attrs/artifacts/attrs.wasm" --build-arg contract_destination="attrs.wasm"
 	docker run tests "./scripts/attrs_setup.sh"
+
+.PHONY: test-marker
+test-marker: marker
+	docker build -t tests . --build-arg test_script="./scripts/marker_test.sh" --build-arg contract_location="./contracts/marker/artifacts/marker.wasm" --build-arg contract_destination="marker.wasm"
+	docker run tests "./scripts/marker_test.sh"
