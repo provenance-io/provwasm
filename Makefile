@@ -27,6 +27,9 @@ tutorial:
 optimize-tutorial:
 	@make -C contracts/tutorial optimize
 
+.PHONY: attrs
+	@make -C contracts/attrs
+
 .PHONY: build-release-zip
 build-release-zip: tutorial
 	cd ./contracts/tutorial/artifacts && \
@@ -40,7 +43,12 @@ build-release-checksum:
 	  shasum -a 256 *.zip  > sha256sum.txt && \
 	cd ../../..
 
-.PHONY: test
-test: tutorial
-	docker build -t tests . --build-arg test_script="./scripts/tutorial_setup.sh"
+.PHONY: test-tutorial
+test-tutorial: tutorial
+	docker build -t tests . --build-arg test_script="./scripts/tutorial_setup.sh" --build-arg contract_location="./contracts/tutorial/artifacts/provwasm_tutorial.wasm" --build-arg contract_destination="provwasm_tutorial.wasm"
 	docker run tests "./scripts/tutorial_setup.sh"
+
+.PHONY: test-attrs
+test-attrs: attrs
+	docker build -t tests . --build-arg test_script="./scripts/attrs_setup.sh" --build-arg contract_location="./contracts/attrs/artifacts/attrs.wasm" --build-arg contract_destination="attrs.wasm"
+	docker run tests "./scripts/attrs_setup.sh"
