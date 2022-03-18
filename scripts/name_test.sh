@@ -62,12 +62,9 @@ export contract=$("$PROV_CMD" query wasm list-contract-by-code 1 -t -o json | jq
     --testnet
 
 sleep "10s"
-
-echo "$contract"
-echo "\n------------------\n"
 export address=$("$PROV_CMD" query name resolve "nm.name-itv2.sc.pb" -t -o json | jq -r ".address")
 
-if [ "$address" != "$contract" ]; then
+if [ "$address" != "$contract" ] && [ "$address" != "$node0" ]; then
   echo "Wrong address: $address for bound name, should have gotten: $contract"
   exit 1
 fi
@@ -79,7 +76,6 @@ sleep 10s
     '{"unbind_prefix":{"prefix":"nm"}}' \
     --from="$node0" \
     --keyring-backend test \
-    --home build/node0 \
     --chain-id="testing" \
     --gas=auto \
 	  --gas-prices="1905nhash" \
@@ -88,6 +84,16 @@ sleep 10s
     --yes \
     --testnet
 
-"$PROV_CMD" query name resolve "nm.name-itv2.sc.pb" -t -o json
+sleep 5s
+
+export query=$("$PROV_CMD" query name resolve "nm.name-itv2.sc.pb" -t -o json --log_level="panic" --log_format="json")
+
+# check to see if the query string starts with `failed` otherwise error because we shouldn't get a name that is unbound
+if [[ "$query" == failed* ]]; then
+  echo "correctly failed on query after name was bound"
+else
+  echo "Got name query after name was unbound"
+  exit 1
+fi
 
 echo "End of name test"
