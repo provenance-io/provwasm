@@ -2,7 +2,7 @@
 
 # This script setups up Provenance and then runs a script it receives as an argument to do various tests afterwards
 
-export Provenance_Version="v1.8.0-rc10"
+Provenance_Version=$2
 
 wget "https://github.com/provenance-io/provenance/releases/download/$Provenance_Version/provenance-linux-amd64-$Provenance_Version.zip"
 

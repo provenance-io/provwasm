@@ -1,0 +1,30 @@
+# action.yml
+name: 'Smart Contract Test'
+description: 'Action to test smart contract on Provenance'
+inputs:
+  provenance_version:  # version of Provenance
+    description: 'Version of Provenance to test against'
+    required: true
+    default: 'v1.8.0'
+  test_script:
+    description: 'Script used to test smart contract after provenance has been setup and run'
+    required: true
+  contract_location:
+    description: 'File path to contracts .wasm file'
+    required: true
+  contract_destination:
+    description: 'Location in the docker file that the .wasm file should be writen to so that the test_script can read it'
+    required: true
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  env:
+    map: |
+      {
+        "test_script": ${{ inputs.test_script }}
+        "contract_location": ${{ inputs.test_script }}
+        "contract_destination": ${{ inputs.contract_destination }}
+      }
+  args:
+    - ${{ inputs.test_script }}
+    - ${{ inputs.provenance_version }}
