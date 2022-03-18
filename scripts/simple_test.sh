@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-# This script setups up Provenance and then runs a script it recieves as an argument to do various tests afterwards
+# This script setups up Provenance and then runs a script it receives as an argument to do various tests afterwards
 
 export Provenance_Version="v1.8.0-rc10"
 
@@ -39,8 +39,7 @@ nohup "$PROV_CMD" -t start &>/dev/null &
 echo "Sleeping for provenance to start up"
 sleep 10s
 
-# execute the script test that was past in
-#script="$(dirname "$0")/$1"
-#"$script"
-
+# execute the script test that was passed in as an argument
+echo "Executing test..."
 "$1"
+echo "Test complete"

@@ -57,12 +57,12 @@ build-release-checksum:
 
 .PHONY: test-tutorial
 test-tutorial: tutorial optimize-tutorial
-	docker build -t tests . --build-arg test_script="./scripts/tutorial_setup.sh" --build-arg contract_location="./contracts/tutorial/artifacts/provwasm_tutorial.wasm" --build-arg contract_destination="provwasm_tutorial.wasm"
+	docker build -t tests . --build-arg test_script="./scripts/tutorial_test.sh" --build-arg contract_location="./contracts/tutorial/artifacts/provwasm_tutorial.wasm" --build-arg contract_destination="provwasm_tutorial.wasm"
 	docker run tests "./scripts/tutorial_setup.sh"
 
 .PHONY: test-attrs
 test-attrs: attrs
-	docker build -t tests . --build-arg test_script="./scripts/attrs_setup.sh" --build-arg contract_location="./contracts/attrs/artifacts/attrs.wasm" --build-arg contract_destination="attrs.wasm"
+	docker build -t tests . --build-arg test_script="./scripts/attrs_test.sh" --build-arg contract_location="./contracts/attrs/artifacts/attrs.wasm" --build-arg contract_destination="attrs.wasm"
 	docker run tests "./scripts/attrs_setup.sh"
 
 .PHONY: test-marker
