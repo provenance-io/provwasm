@@ -6,7 +6,7 @@ ARG test_script
 ARG contract_location
 ARG contract_destination
 
-COPY --chown=0:0 ../../scripts/simple_test.sh simple_test.sh
+COPY --chown=0:0 ./scripts/simple_test.sh simple_test.sh
 COPY --chown=0:0 "$test_script" "$test_script"
 COPY "$contract_location" "$contract_destination"
 
