@@ -39,6 +39,10 @@ marker:
 name:
 	@make -C contracts/name
 
+.PHONY: scope
+scope:
+	@make -C contracts/scope
+
 .PHONY: build-release-zip
 build-release-zip: tutorial
 	cd ./contracts/tutorial/artifacts && \
@@ -70,3 +74,8 @@ test-marker: marker
 test-name: name
 	docker build -t tests . --build-arg test_script="./scripts/name_test.sh" --build-arg contract_location="./contracts/name/artifacts/name.wasm" --build-arg contract_destination="name.wasm"
 	docker run tests "./scripts/name_test.sh"
+
+.PHONY: test-scope
+test-scope: scope
+	docker build -t tests . --build-arg test_script="./scripts/scope_test.sh" --build-arg contract_location="./contracts/scope/artifacts/scope.wasm" --build-arg contract_destination="scope.wasm"
+	docker run tests "./scripts/scope_test.sh"
