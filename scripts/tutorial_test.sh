@@ -149,8 +149,14 @@ sleep 10s
     --testnet \
 	  --output json
 
+current_dir=pwd
+ls $current_dir
+
+cd \
+ls
+
 # Run the contract
-"$PROV_CMD" tx wasm store "/provwasm_tutorial.wasm" \
+"$PROV_CMD" tx wasm store provwasm_tutorial.wasm \
     --instantiate-only-address "$feebucket" \
     --from "$feebucket" \
     --keyring-backend="test" \
@@ -161,6 +167,8 @@ sleep 10s
     --broadcast-mode=block \
     --yes \
     -t
+
+cd $current_dir
 
 # create the json for instantiating the contract with our merchant address
 export json="{ \"contract_name\": \"tutorial.sc.pb\", \"purchase_denom\": \"purchasecoin\", \"merchant_address\": \"$merchant\", \"fee_percent\": \"0.10\" }"
