@@ -150,9 +150,11 @@ sleep 10s
 	  --output json
 
 current_dir=pwd
+echo "--------------"
 ls
 
 cd \
+
 ls
 
 # Run the contract
