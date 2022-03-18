@@ -56,7 +56,7 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - build_init
-    name: A job to say hello
+    name: Test Tutorial Smart Contract
     steps:
       # To use this repository's private action,
       # you must check out the repository
