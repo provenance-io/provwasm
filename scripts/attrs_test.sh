@@ -96,15 +96,20 @@ sleep 10s
 export text1=$("$PROV_CMD" query wasm contract-state smart "$contract" '{"get_labels":{}}' -t -o json | jq -r ".data.labels[0].text")
 export text2=$("$PROV_CMD" query wasm contract-state smart "$contract" '{"get_labels":{}}' -t -o json | jq -r ".data.labels[1].text")
 
-if [ "$text1" != "hello" ]; then
+# we don't know the order that 'text' and 'wasm' could be in so we check both
+if [ "$text1" != "hello" ] && [ "$text1" != "wasm" ]; then
   echo "label: '$text1' was not set properly to hello"
   exit 1
 fi
 
-if [ "$text2" != "wasm" ]; then
+if [ "$text2" != "wasm" ] && [ "$text2" != "hello"]; then
   echo "label: '$text2' was not set properly to wasm"
   exit 1
 fi
 
+if [ "$text2" == "$text1" ]; then
+  echo "$text2 and $text1 are suppose to be 'wasm' and 'hello' not the same"
+  exit 1
+fi
 
 echo "Done with script"
