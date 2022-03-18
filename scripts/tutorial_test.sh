@@ -150,7 +150,7 @@ sleep 10s
 	  --output json
 
 current_dir=pwd
-ls $current_dir
+ls
 
 cd \
 ls
