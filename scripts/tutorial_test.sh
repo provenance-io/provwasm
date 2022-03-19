@@ -152,7 +152,7 @@ sleep 10s
 current_dir=pwd
 echo "--------------"
 ls
-
+echo "--------------"
 cd \
 
 ls
