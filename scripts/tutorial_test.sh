@@ -155,6 +155,8 @@ ls
 echo "--------------"
 ls ..
 echo "--------------"
+pwd
+echo "--------------"
 
 # Run the contract
 "$PROV_CMD" tx wasm store provwasm_tutorial.wasm \
