@@ -153,7 +153,8 @@ current_dir=pwd
 echo "--------------"
 ls
 echo "--------------"
-
+ls ..
+echo "--------------"
 
 # Run the contract
 "$PROV_CMD" tx wasm store provwasm_tutorial.wasm \
