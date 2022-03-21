@@ -92,7 +92,7 @@ jobs:
         id: tutorial
         with:
           provenance_version: "v1.8.0"
-          test_script: "./scripts/attr_test.sh"
+          test_script: "./scripts/attrs_test.sh"
 
   test_marker_smart_contract:
     runs-on: ubuntu-latest
