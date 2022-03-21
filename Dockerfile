@@ -8,7 +8,7 @@ ARG contract_destination
 
 COPY --chown=0:0 ./scripts/simple_test.sh /simple_test.sh
 COPY --chown=0:0 "$test_script" "$test_script"
-COPY --chown=0:0 "$contract_location" "$contract_destination"
+COPY --chown=0:0 "$contract_location" "/github/workspace/$contract_destination"
 
 # install jq for parsing output of queries
 RUN curl -o /usr/local/bin/jq http://stedolan.github.io/jq/download/linux64/jq && \
