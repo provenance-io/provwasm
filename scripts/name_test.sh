@@ -20,7 +20,7 @@ export node0=$("$PROV_CMD" keys show -a validator --keyring-backend test --testn
     --yes \
     --testnet
 
-"$PROV_CMD" tx wasm store name.wasm \
+"$PROV_CMD" tx wasm store ./contracts/name/artifacts/name.wasm \
     --instantiate-only-address "$node0" \
     --from="$node0" \
     --keyring-backend test \
