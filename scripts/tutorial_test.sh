@@ -151,11 +151,9 @@ sleep 10s
 
 current_dir=pwd
 echo "--------------"
-ls
+ls \
 echo "--------------"
-cd \
 
-ls
 
 # Run the contract
 "$PROV_CMD" tx wasm store provwasm_tutorial.wasm \
