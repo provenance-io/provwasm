@@ -149,16 +149,6 @@ sleep 10s
     --testnet \
 	  --output json
 
-echo "--------------"
-ls
-echo "--------------"
-ls ..
-echo "--------------"
-pwd
-echo "--------------"
-ls ./contracts/tutorial/artifacts
-echo "----------"
-
 # Run the contract
 "$PROV_CMD" tx wasm store ./contracts/tutorial/artifacts/provwasm_tutorial.wasm \
     --instantiate-only-address "$feebucket" \

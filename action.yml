@@ -9,22 +9,9 @@ inputs:
   test_script:
     description: 'Script used to test smart contract after provenance has been setup and run'
     required: true
-  contract_location:
-    description: 'File path to contracts .wasm file'
-    required: true
-  contract_destination:
-    description: 'Location in the docker file that the .wasm file should be written to so that the test_script can read it'
-    required: true
 runs:
   using: 'docker'
   image: 'Dockerfile'
-  env:
-    map: |
-      {
-        "test_script": ${{ inputs.test_script }}
-        "contract_location": ${{ inputs.contract_location }}
-        "contract_destination": ${{ inputs.contract_destination }}
-      }
   args:
     - ${{ inputs.test_script }}
     - ${{ inputs.provenance_version }}

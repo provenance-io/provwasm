@@ -72,8 +72,6 @@ jobs:
         with:
           provenance_version: "v1.8.0"
           test_script: "./scripts/tutorial_test.sh"
-          contract_location: "./contracts/tutorial/artifacts/provwasm_tutorial.wasm"
-          contract_destination: "provwasm_tutorial.wasm"
 
 #  test_tutorial_smart_contract:
 #    runs-on: ubuntu-latest
