@@ -149,7 +149,6 @@ sleep 10s
     --testnet \
 	  --output json
 
-current_dir=pwd
 echo "--------------"
 ls
 echo "--------------"
@@ -157,6 +156,8 @@ ls ..
 echo "--------------"
 pwd
 echo "--------------"
+ls ./contracts/tutorial/artifacts
+echo "----------"
 
 # Run the contract
 "$PROV_CMD" tx wasm store ./contracts/tutorial/artifacts/provwasm_tutorial.wasm \
@@ -170,8 +171,6 @@ echo "--------------"
     --broadcast-mode=block \
     --yes \
     -t
-
-cd $current_dir
 
 # create the json for instantiating the contract with our merchant address
 export json="{ \"contract_name\": \"tutorial.sc.pb\", \"purchase_denom\": \"purchasecoin\", \"merchant_address\": \"$merchant\", \"fee_percent\": \"0.10\" }"
