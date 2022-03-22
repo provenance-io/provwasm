@@ -58,22 +58,20 @@ jobs:
       - build_init
     name: Test Tutorial Smart Contract
     steps:
+      # To use this repository's private action,
+      # you must check out the repository
       - name: Checkout
         uses: actions/checkout@v2
       - name: Setup go
         uses: actions/setup-go@v2.1.5
         with:
           go-version: ${{ needs.build_init.outputs.go_version }}
-      - name: Install deps
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libleveldb-dev
-      - name: Add wasm32 target
-        run: |
-          rustup target add wasm32-unknown-unknown
-      - name: Test contract
-        run: |
-          make test-tutorial
+      - name: Smart Contract Test setup
+        uses: ./ # Uses action.yml in the root directory
+        id: tutorial
+        with:
+          provenance_version: "v1.8.0"
+          test_script: "./scripts/tutorial_test.sh"
 
   test_attrs_smart_contract:
     runs-on: ubuntu-latest
@@ -81,22 +79,20 @@ jobs:
       - build_init
     name: Test Attr Smart Contract
     steps:
+      # To use this repository's private action,
+      # you must check out the repository
       - name: Checkout
         uses: actions/checkout@v2
       - name: Setup go
         uses: actions/setup-go@v2.1.5
         with:
           go-version: ${{ needs.build_init.outputs.go_version }}
-      - name: Install deps
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libleveldb-dev
-      - name: Add wasm32 target
-        run: |
-          rustup target add wasm32-unknown-unknown
-      - name: Test contract
-        run: |
-          make test-attrs
+      - name: Smart Contract Test setup
+        uses: ./ # Uses action.yml in the root directory
+        id: tutorial
+        with:
+          provenance_version: "v1.8.0"
+          test_script: "./scripts/attrs_test.sh"
 
   test_marker_smart_contract:
     runs-on: ubuntu-latest
@@ -104,22 +100,20 @@ jobs:
       - build_init
     name: Test Marker Smart Contract
     steps:
+      # To use this repository's private action,
+      # you must check out the repository
       - name: Checkout
         uses: actions/checkout@v2
       - name: Setup go
         uses: actions/setup-go@v2.1.5
         with:
           go-version: ${{ needs.build_init.outputs.go_version }}
-      - name: Install deps
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libleveldb-dev
-      - name: Add wasm32 target
-        run: |
-          rustup target add wasm32-unknown-unknown
-      - name: Test contract
-        run: |
-          make test-marker
+      - name: Smart Contract Test setup
+        uses: ./ # Uses action.yml in the root directory
+        id: tutorial
+        with:
+          provenance_version: "v1.8.0"
+          test_script: "./scripts/marker_test.sh"
 
   test_name_smart_contract:
     runs-on: ubuntu-latest
@@ -127,22 +121,20 @@ jobs:
       - build_init
     name: Test Name Smart Contract
     steps:
+      # To use this repository's private action,
+      # you must check out the repository
       - name: Checkout
         uses: actions/checkout@v2
       - name: Setup go
         uses: actions/setup-go@v2.1.5
         with:
           go-version: ${{ needs.build_init.outputs.go_version }}
-      - name: Install deps
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libleveldb-dev
-      - name: Add wasm32 target
-        run: |
-          rustup target add wasm32-unknown-unknown
-      - name: Test contract
-        run: |
-          make test-name
+      - name: Smart Contract Test setup
+        uses: ./ # Uses action.yml in the root directory
+        id: tutorial
+        with:
+          provenance_version: "v1.8.0"
+          test_script: "./scripts/name_test.sh"
 
   test_scope_smart_contract:
     runs-on: ubuntu-latest
@@ -150,19 +142,17 @@ jobs:
       - build_init
     name: Test Scope Smart Contract
     steps:
+      # To use this repository's private action,
+      # you must check out the repository
       - name: Checkout
         uses: actions/checkout@v2
       - name: Setup go
         uses: actions/setup-go@v2.1.5
         with:
           go-version: ${{ needs.build_init.outputs.go_version }}
-      - name: Install deps
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libleveldb-dev
-      - name: Add wasm32 target
-        run: |
-          rustup target add wasm32-unknown-unknown
-      - name: Test contract
-        run: |
-          make test-scope
+      - name: Smart Contract Test setup
+        uses: ./ # Uses action.yml in the root directory
+        id: tutorial
+        with:
+          provenance_version: "v1.8.0"
+          test_script: "./scripts/scope_test.sh"

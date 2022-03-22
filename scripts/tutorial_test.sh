@@ -150,7 +150,7 @@ sleep 10s
 	  --output json
 
 # Run the contract
-"$PROV_CMD" tx wasm store provwasm_tutorial.wasm \
+"$PROV_CMD" tx wasm store ./contracts/tutorial/artifacts/provwasm_tutorial.wasm \
     --instantiate-only-address "$feebucket" \
     --from "$feebucket" \
     --keyring-backend="test" \
