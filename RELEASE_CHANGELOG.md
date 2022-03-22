@@ -1,0 +1,4 @@
+### [v1.0.0-beta3](https://github.com/provenance-io/provwasm/tree/v1.0.0-beta3)
+
+* Update example tutorial to work with the latest version of Provenance
+* expose MetadataMsgParams to library consumers
