@@ -1,4 +1,3 @@
-### [v1.0.0-beta3](https://github.com/provenance-io/provwasm/tree/v1.0.0-beta3)
+### [v1.0.0-beta5](https://github.com/provenance-io/provwasm/tree/v1.0.0-beta5)
 
-* Update example tutorial to work with the latest version of Provenance
-* expose MetadataMsgParams to library consumers
+* Added github action to support testing smart contracts in provenance
