@@ -88,7 +88,7 @@ jobs:
         with:
           go-version: ${{ needs.build_init.outputs.go_version }}
       - name: Smart Contract Test setup
-        uses: actions/provenance-testing-action@latest
+        uses: provenance-io/provenance-testing-action@latest
         id: tutorial
         with:
           provenance_version: "v1.8.0"
@@ -129,7 +129,7 @@ jobs:
         with:
           go-version: ${{ needs.build_init.outputs.go_version }}
       - name: Smart Contract Test setup
-        uses: actions/provenance-test@v1.0.0-beta
+        uses: actions/provenance-io/provenance-testing-action@v1.0.0-beta
         id: tutorial
         with:
           provenance_version: "v1.8.0"
@@ -150,7 +150,7 @@ jobs:
         with:
           go-version: ${{ needs.build_init.outputs.go_version }}
       - name: Smart Contract Test setup
-        uses: actions/provenance-test@v1.0.0-beta
+        uses: provenance-io/provenance-testing-action@v1.0.0-beta
         id: tutorial
         with:
           provenance_version: "v1.8.0"
