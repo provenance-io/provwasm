@@ -108,9 +108,8 @@ jobs:
         uses: actions/setup-go@v2.1.5
         with:
           go-version: ${{ needs.build_init.outputs.go_version }}
-      - name: Smart Contract Test setup
-        uses: actions/provenance-test@v1.0.0-beta
-        id: tutorial
+      - name: Provenance Test
+        uses: provenance-io/provenance-testing-action@v1.0.0-beta
         with:
           provenance_version: "v1.8.0"
           test_script: "./scripts/marker_test.sh"
