@@ -1,5 +1,5 @@
-name: Tests / Code Coverage
-#  Tests / Code Coverage workflow runs unit tests and uploads a code coverage report
+name: Tests
+#  Tests workflow builds all of the example smart contracts and then runs tests with them on Provenance
 #  This workflow is run on pushes to master & every Pull Request,
 on:
   push:
@@ -67,8 +67,8 @@ jobs:
         with:
           go-version: ${{ needs.build_init.outputs.go_version }}
       - name: Smart Contract Test setup
-        uses: ./ # Uses action.yml in the root directory
         id: tutorial
+        uses: provenance-io/provenance-testing-action@v1.0.0
         with:
           provenance_version: "v1.8.0"
           test_script: "./scripts/tutorial_test.sh"
@@ -88,7 +88,7 @@ jobs:
         with:
           go-version: ${{ needs.build_init.outputs.go_version }}
       - name: Smart Contract Test setup
-        uses: ./ # Uses action.yml in the root directory
+        uses: provenance-io/provenance-testing-action@v1.0.0
         id: tutorial
         with:
           provenance_version: "v1.8.0"
@@ -108,9 +108,8 @@ jobs:
         uses: actions/setup-go@v2.1.5
         with:
           go-version: ${{ needs.build_init.outputs.go_version }}
-      - name: Smart Contract Test setup
-        uses: ./ # Uses action.yml in the root directory
-        id: tutorial
+      - name: Provenance Test
+        uses: provenance-io/provenance-testing-action@v1.0.0
         with:
           provenance_version: "v1.8.0"
           test_script: "./scripts/marker_test.sh"
@@ -130,7 +129,7 @@ jobs:
         with:
           go-version: ${{ needs.build_init.outputs.go_version }}
       - name: Smart Contract Test setup
-        uses: ./ # Uses action.yml in the root directory
+        uses: provenance-io/provenance-testing-action@v1.0.0
         id: tutorial
         with:
           provenance_version: "v1.8.0"
@@ -151,7 +150,7 @@ jobs:
         with:
           go-version: ${{ needs.build_init.outputs.go_version }}
       - name: Smart Contract Test setup
-        uses: ./ # Uses action.yml in the root directory
+        uses: provenance-io/provenance-testing-action@v1.0.0
         id: tutorial
         with:
           provenance_version: "v1.8.0"
