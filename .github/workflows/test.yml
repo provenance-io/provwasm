@@ -1,5 +1,5 @@
-name: Tests / Code Coverage
-#  Tests / Code Coverage workflow runs unit tests and uploads a code coverage report
+name: Tests
+#  Tests workflow builds all of the example smart contracts and then runs tests with them on Provenance
 #  This workflow is run on pushes to master & every Pull Request,
 on:
   push:

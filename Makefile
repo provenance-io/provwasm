@@ -59,8 +59,10 @@ PROVENANCE_TEST_VERSION = "v1.8.0"
 
 .PHONY: test-tutorial
 test-tutorial: tutorial optimize-tutorial
-	docker build -t tests . --build-arg test_script="./scripts/tutorial_test.sh" --build-arg contract_location="./contracts/tutorial/artifacts/provwasm_tutorial.wasm" --build-arg contract_destination="provwasm_tutorial.wasm"
-	docker run tests "./scripts/tutorial_test.sh" $(PROVENANCE_TEST_VERSION)
+	docker pull provenanceio/provenance-testing-action
+	docker create --name test_container provenanceio/provenance-testing-action --entrypoint	"/tutorial_test.sh" "$(PROVENANCE_TEST_VERSION)"
+	docker cp ./scripts/tutorial_test.sh test_container:/tutorial_test.sh
+	docker start test_container
 
 .PHONY: test-attrs
 test-attrs: attrs
