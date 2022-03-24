@@ -59,27 +59,45 @@ PROVENANCE_TEST_VERSION = "v1.8.0"
 
 .PHONY: test-tutorial
 test-tutorial: tutorial optimize-tutorial
+	docker rm -f test_container || true
 	docker pull provenanceio/provenance-testing-action
-	docker create --name test_container provenanceio/provenance-testing-action --entrypoint	"/tutorial_test.sh" "$(PROVENANCE_TEST_VERSION)"
-	docker cp ./scripts/tutorial_test.sh test_container:/tutorial_test.sh
+	docker create --name test_container provenanceio/provenance-testing-action --entrypoint	"/scripts/tutorial_test.sh" "$(PROVENANCE_TEST_VERSION)"
+	docker cp ./scripts test_container:/scripts
+	docker cp ./contracts test_container:/go/contracts
 	docker start test_container
 
 .PHONY: test-attrs
 test-attrs: attrs
-	docker build -t tests . --build-arg test_script="./scripts/attrs_test.sh" --build-arg contract_location="./contracts/attrs/artifacts/attrs.wasm" --build-arg contract_destination="attrs.wasm"
-	docker run tests "./scripts/attrs_test.sh" $(PROVENANCE_TEST_VERSION)
+	docker rm -f test_container || true
+	docker pull provenanceio/provenance-testing-action
+	docker create --name test_container provenanceio/provenance-testing-action --entrypoint	"/scripts/attrs_test.sh" "$(PROVENANCE_TEST_VERSION)"
+	docker cp ./scripts test_container:/scripts
+	docker cp ./contracts test_container:/go/contracts
+	docker start test_container
 
 .PHONY: test-marker
 test-marker: marker
-	docker build -t tests . --build-arg test_script="./scripts/marker_test.sh" --build-arg contract_location="./contracts/marker/artifacts/marker.wasm" --build-arg contract_destination="marker.wasm"
-	docker run tests "./scripts/marker_test.sh" $(PROVENANCE_TEST_VERSION)
+	docker rm -f test_container || true
+	docker pull provenanceio/provenance-testing-action
+	docker create --name test_container provenanceio/provenance-testing-action --entrypoint	"/scripts/marker_test.sh" "$(PROVENANCE_TEST_VERSION)"
+	docker cp ./scripts test_container:/scripts
+	docker cp ./contracts test_container:/go/contracts
+	docker start test_container
 
 .PHONY: test-name
 test-name: name
-	docker build -t tests . --build-arg test_script="./scripts/name_test.sh" --build-arg contract_location="./contracts/name/artifacts/name.wasm" --build-arg contract_destination="name.wasm"
-	docker run tests "./scripts/name_test.sh" $(PROVENANCE_TEST_VERSION)
+	docker rm -f test_container || true
+	docker pull provenanceio/provenance-testing-action
+	docker create --name test_container provenanceio/provenance-testing-action --entrypoint	"/scripts/name_test.sh" "$(PROVENANCE_TEST_VERSION)"
+	docker cp ./scripts test_container:/scripts
+	docker cp ./contracts test_container:/go/contracts
+	docker start test_container
 
 .PHONY: test-scope
 test-scope: scope
-	docker build -t tests . --build-arg test_script="./scripts/scope_test.sh" --build-arg contract_location="./contracts/scope/artifacts/scope.wasm" --build-arg contract_destination="scope.wasm"
-	docker run tests "./scripts/scope_test.sh" $(PROVENANCE_TEST_VERSION)
+	docker rm -f test_container || true
+	docker pull provenanceio/provenance-testing-action
+	docker create --name test_container provenanceio/provenance-testing-action --entrypoint	"/scripts/scope_test.sh" "$(PROVENANCE_TEST_VERSION)"
+	docker cp ./scripts test_container:/scripts
+	docker cp ./contracts test_container:/go/contracts
+	docker start test_container
