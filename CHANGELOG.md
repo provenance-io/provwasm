@@ -8,6 +8,7 @@
 
 * Update example tutorial to work with the latest version of Provenance
 * expose MetadataMsgParams to library consumers
+* Add example scope create/update message to metadata contract README
 
 ### [v1.0.0-beta2](https://github.com/provenance-io/provwasm/tree/v1.0.0-beta2)
 

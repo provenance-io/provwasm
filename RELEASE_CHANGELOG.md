@@ -2,3 +2,4 @@
 
 * Update example tutorial to work with the latest version of Provenance
 * expose MetadataMsgParams to library consumers
+* Add example scope create/update message to metadata contract README
