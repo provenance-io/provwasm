@@ -1,12 +1,12 @@
 # Metadata Module Integration Test
 
-This a CosmWasm smart contract that tests the Rust bindings and mocks for querying the provenance
+This a CosmWasm smart contract that tests the Rust bindings and mocks for the provenance
 metadata module.
 
 This smart contract tests the following functionality
 
 - Messages
-  - Bind a name to the contact address
+  - Create/Update a scope
 - Queries
   - Query scope by ID
   - Query scope sessions
@@ -83,6 +83,23 @@ provenanced tx wasm instantiate 1 '{"name": "scope-itv2.sc.pb"}' \
     --broadcast-mode block \
     --yes \
     --testnet | jq
+```
+
+## Example Executions
+
+Execute a create/update scope
+
+```bash
+provenanced tx wasm execute $(provenanced q name resolve scope.sc.pb --testnet | awk '{print $2}') \
+  '{"write_scope":{"scope":{"scope_id":"scope1qzhpuff00wpy2yuf7xr0rp8aucqstsk0cn", "specification_id":"scopespec1qjpreurq8n7ylc4y5zw6gn255lkqle56sv", "owners":[{"address":"'$(provenanced keys show -a validator --home build/run/provenanced --keyring-backend test --testnet)'", "role": "owner"}, {"address":"tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz", "role": "owner"}], "data_access": ["'$(provenanced keys show -a validator --home build/run/provenanced --keyring-backend test --testnet)'"], "value_owner_address":"tp1vmu3nwgpat58k4pgeqxwprxl2fhhmufk2ndv8l"},"signers":["tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz"]}}' \
+  --from validator \
+  --keyring-backend test \
+  --home build/run/provenanced \
+  --chain-id testing \
+  --gas auto --gas-prices 1905nhash --gas-adjustment 2 \
+  --broadcast-mode block \
+  --yes \
+  --testnet
 ```
 
 ## Example Queries
