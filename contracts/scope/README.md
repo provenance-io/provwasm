@@ -96,7 +96,7 @@ provenanced tx wasm execute $(provenanced q name resolve scope.sc.pb --testnet |
   --keyring-backend test \
   --home build/run/provenanced \
   --chain-id testing \
-  --gas auto --gas-prices 1905nhash --gas-adjustment 2 \
+  --gas auto --fees 10300000000nhash --gas-adjustment 2 \
   --broadcast-mode block \
   --yes \
   --testnet
