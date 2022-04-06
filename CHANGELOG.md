@@ -2,6 +2,8 @@
 
 ## Unreleased changes
 
+* Upgrade to CosmWasm v1.0.0-beta7 [#83](https://github.com/provenance-io/provwasm/issues/83)
+
 ## Releases
 
 ### [v1.0.0-beta3](https://github.com/provenance-io/provwasm/tree/v1.0.0-beta3)
