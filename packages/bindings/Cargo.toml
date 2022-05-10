@@ -1,6 +1,6 @@
 [package]
 name = "provwasm-std"
-version = "1.0.0-beta7"
+version = "1.0.0-rc.0"
 authors = ["David Pederson <dpederson@figure.com>", "Ken Talley <ktalley@figure.com>"]
 edition = "2018"
 license = "Apache-2.0"
@@ -13,9 +13,9 @@ categories = ["api-bindings", "cryptography::cryptocurrencies", "wasm"]
 backtraces = []
 
 [dependencies]
-cosmwasm-std = { version = "1.0.0-beta7", default-features = false }
+cosmwasm-std = { version = "1.0.0-rc.0", default-features = false }
 schemars = "0.8.1"
 serde = { version = "1.0.127", default-features = false, features = ["derive"] }
 
 [dev-dependencies]
-cosmwasm-schema = { version = "1.0.0-beta5" }
+cosmwasm-schema = { version = "1.0.0-rc.0" }
