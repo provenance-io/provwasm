@@ -26,26 +26,15 @@ jobs:
     steps:
       - id: version
         run: echo "::set-output name=version::${GITHUB_REF##*/}"
-    outputs:
-      version: ${{ steps.version.outputs.version }}
-      go_version: "1.17"
 
-  build_wasm:
+  create_release:
     runs-on: ubuntu-latest
     needs:
       - build_init
-    name: Build Wasm
+    name: Create Release
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Setup go
-        uses: actions/setup-go@v2.1.5
-        with:
-          go-version: ${{ needs.build_init.outputs.go_version }}
-      - name: Install deps
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libleveldb-dev
       - name: Add wasm32 target
         run: |
           rustup target add wasm32-unknown-unknown
@@ -54,25 +43,10 @@ jobs:
           make tutorial
       - name: Optimize wasm
         run: |
-          cd ./contracts/tutorial
-          make optimize
+          make optimize-tutorial
       - name: Fix zip structure for cosmovisor
         run: |
           make build-release-zip
-      - uses: actions/upload-artifact@v2
-        with:
-          name: wasm-zip
-          path: contracts/tutorial/artifacts/*.zip
-
-  create_release:
-    runs-on: ubuntu-latest
-    needs:
-      - build_init
-      - build_wasm
-    name: Create Release
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
       - name: Create release ${{ needs.build_init.outputs.version }}
         uses: actions/create-release@v1
         id: create_release
@@ -84,41 +58,12 @@ jobs:
           draft: false
           prerelease: false
           body_path: RELEASE_CHANGELOG.md
-    outputs:
-      release_url: ${{ steps.create_release.outputs.upload_url }}
-
-  update_release:
-    runs-on: ubuntu-latest
-    needs:
-      - build_init
-      - create_release
-    name: Attach Release Artifacts
-    steps:
-      -
-        name: Checkout
-        uses: actions/checkout@v2
-      -
-        name: Setup go
-        uses: actions/setup-go@v2.1.5
-        with:
-          go-version: ${{ needs.build_init.outputs.go_version }}
-      -
-        name: Download zip artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: wasm-zip
-          path: ./contracts/tutorial/artifacts
-      -
-        name: Create release items
-        run: |
-          make build-release-checksum
-      -
-        name: Upload zip artifact
+      - name: Upload zip artifact
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ needs.create_release.outputs.release_url }}
-          asset_path: ./contracts/tutorial/artifacts/provwasm_tutorial.zip
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: provwasm_tutorial.zip
           asset_name: provwasm_tutorial.zip
           asset_content_type: application/octet-stream
