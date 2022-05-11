@@ -13,11 +13,13 @@ blockchain modules.
 The following table shows provwasm version compatibility for smart contract development and testing.
 
 | provwasm      | wasmd          | cosmos  | provenance    | module support                 |
-|---------------| -------------- | ------- | ------------- | ------------------------------ |
-| v1.0.0-beta2  | v0.22.0        | v0.45.0 | v1.8.0+       | attribute,marker,metadata,name |
-| v0.16.0       | v0.18.0        | v0.43.0 | v1.6.0+       | attribute,marker,metadata,name |
-| v0.14.3       | v0.17.0        | v0.42.6 | v1.5.0+       | attribute,marker,metadata,name |
-| v0.14.2       | v0.17.0        | v0.42.6 | v1.5.0+       | attribute,marker,metadata,name |
+|---------------|----------------| ------- |---------------| ------------------------------ |
+| v1.0.0-rc.0   | v0.26.0        | v0.45.0 | v1.9.X        | attribute,marker,metadata,name |
+| v1.0.0-beta3  | v0.22.0        | v0.45.0 | v1.8.X        | attribute,marker,metadata,name |
+| v1.0.0-beta2  | v0.22.0        | v0.45.0 | v1.8.X        | attribute,marker,metadata,name |
+| v0.16.0       | v0.18.0        | v0.43.0 | v1.6.X        | attribute,marker,metadata,name |
+| v0.14.3       | v0.17.0        | v0.42.6 | v1.5.X        | attribute,marker,metadata,name |
+| v0.14.2       | v0.17.0        | v0.42.6 | v1.5.X        | attribute,marker,metadata,name |
 | v0.14.1       | v0.17.0        | v0.42.5 | v1.4.1+       | attribute,marker,name          |
 | v0.14.0       | v0.16.0        | v0.42.4 | v1.3.0+       | attribute,marker,name          |
 | v0.14.0-beta1 | v0.16.0-alpha1 | v0.42.3 | v0.2.1-v1.2.0 | attribute,marker,name          |
