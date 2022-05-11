@@ -11,7 +11,7 @@ keywords = ["provenance", "blockchain", "smart-contracts", "defi", "finance"]
 categories = ["development-tools::testing", "cryptography::cryptocurrencies", "wasm"]
 
 [dependencies]
-provwasm-std = { path = "../bindings" }
+provwasm-std = { version = "1.0.0-rc.0", path = "../bindings" }
 cosmwasm-std = { version = "1.0.0-rc.0", default-features = false }
 schemars = "0.8.1"
 serde = { version = "1.0.127", default-features = false, features = ["derive"] }
