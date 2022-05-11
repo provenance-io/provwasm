@@ -15,9 +15,8 @@ target/
 # Auto-gen
 .cargo-ok
 
-# checksums
-**/checksums_intermediate.txt
-**/sha256sum.txt
+# contract artifacts
+**/artifacts
 
 # zip
 *.zip

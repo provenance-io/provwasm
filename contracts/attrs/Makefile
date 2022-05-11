@@ -24,6 +24,7 @@ schema:
 .PHONY: clean
 clean:
 	@cargo clean
+	@cargo clean --target-dir artifacts
 
 .PHONY: check
 check:

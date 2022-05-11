@@ -24,6 +24,11 @@ lint:
 schema:
 	@cargo schema
 
+.PHONY: clean
+clean:
+	@cargo clean
+	@cargo clean --target-dir artifacts
+
 .PHONY: optimize
 optimize:
 	@docker run --rm -v $(CURDIR):/code:Z -v "$(CURDIR)/../../packages":/packages:Z \
