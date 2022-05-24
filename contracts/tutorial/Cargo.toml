@@ -1,6 +1,6 @@
 [package]
 name = "provwasm-tutorial"
-version = "1.0.0-rc.0"
+version = "1.0.0"
 authors = ["fkneeland <fkneeland@figure.com>"]
 edition = "2018"
 license = "Apache-2.0"
@@ -38,12 +38,12 @@ backtraces = []
 
 [dependencies]
 provwasm-std = { path = "../../packages/bindings" }
-cosmwasm-std = { version = "1.0.0-rc.0", default-features = false }
-cosmwasm-storage = { version = "1.0.0-rc.0" }
+cosmwasm-std = { version = "1.0.0", default-features = false }
+cosmwasm-storage = { version = "1.0.0" }
 schemars = "0.8.3"
 serde = { version = "1.0.127", default-features = false, features = ["derive"] }
 thiserror = { version = "1.0.26" }
 
 [dev-dependencies]
 provwasm-mocks = { path = "../../packages/mocks" }
-cosmwasm-schema = { version = "1.0.0-rc.0" }
+cosmwasm-schema = { version = "1.0.0" }
