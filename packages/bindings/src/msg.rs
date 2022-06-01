@@ -29,6 +29,7 @@ pub enum ProvenanceMsgParams {
     Attribute(AttributeMsgParams),
     Marker(MarkerMsgParams),
     Metadata(MetadataMsgParams),
+    MsgFees(MsgFeesMsgParams),
 }
 
 /// Input params for creating name module messages.
@@ -668,5 +669,53 @@ pub fn write_scope<S: Into<Scope>, H: Into<Addr>>(
             .into_iter()
             .map(validate_address)
             .collect::<Result<Vec<Addr>, _>>()?,
+    }))
+}
+
+/// Input params for creating msgfee module messages.
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[serde(rename_all = "snake_case")]
+pub enum MsgFeesMsgParams {
+    AssessCustomFee {
+        amount: Coin,
+        from: Addr,
+        name: Option<String>,
+        recipient: Option<Addr>,
+    },
+}
+
+// Create a custom cosmos message using msgfees module params.
+fn create_msgfees_msg(params: MsgFeesMsgParams) -> CosmosMsg<ProvenanceMsg> {
+    CosmosMsg::Custom(ProvenanceMsg {
+        route: ProvenanceRoute::MsgFees,
+        params: ProvenanceMsgParams::MsgFees(params),
+        version: String::from(MSG_DATAFMT_VERSION),
+    })
+}
+
+/// Create a message that will assess a custom fee
+/// ### Example
+///
+/// ```rust
+/// use cosmwasm_std::{Addr, Coin, Response, StdError};
+/// use provwasm_std::{create_assess_custom_fee_msg, MsgFeesMsgParams, ProvenanceMsg};
+///
+/// fn try_assess_custom_fee(amount: Coin, name: Option<String>, from: Addr, recipient: Option<Addr>) -> Result<Response<ProvenanceMsg>, StdError>{
+///     let msg = create_assess_custom_fee_msg(amount, name, from, recipient)?;
+///     let res = Response::new().add_message(msg);
+///     Ok(res)
+/// }
+/// ```
+pub fn create_assess_custom_fee_msg<S: Into<String>>(
+    amount: Coin,
+    name: Option<S>,
+    from: Addr,
+    recipient: Option<Addr>,
+) -> Result<CosmosMsg<ProvenanceMsg>, StdError> {
+    Ok(create_msgfees_msg(MsgFeesMsgParams::AssessCustomFee {
+        amount,
+        name: name.map(|name| name.into()),
+        from,
+        recipient,
     }))
 }

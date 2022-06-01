@@ -294,7 +294,8 @@
         "attribute",
         "marker",
         "name",
-        "metadata"
+        "metadata",
+        "msg_fees"
       ]
     }
   }
