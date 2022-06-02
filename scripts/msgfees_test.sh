@@ -55,8 +55,8 @@ sleep 10s
 
 # Run the contract
 "$PROV_CMD" tx wasm store ./contracts/msgfees/artifacts/msgfees.wasm \
-    --instantiate-only-address "$feebucket" \
-    --from "$feebucket" \
+    --instantiate-only-address "$node0" \
+    --from "$node0" \
     --keyring-backend="test" \
     --chain-id="testing" \
     --gas=auto \
