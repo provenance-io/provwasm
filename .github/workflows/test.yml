@@ -88,6 +88,27 @@ jobs:
           provenance_version: "v1.8.0"
           test_script: "./scripts/marker_test.sh"
 
+  test_msgfees_smart_contract:
+    runs-on: ubuntu-latest
+    needs:
+      - build_init
+    name: Test MsgFees Smart Contract
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Add wasm32 target
+        run: |
+          rustup target add wasm32-unknown-unknown
+      - name: Build wasm binary
+        run: |
+          cd ./contracts/marker
+          make all
+      - name: Provenance Test
+        uses: provenance-io/provenance-testing-action@v1.0.0
+        with:
+          provenance_version: "v1.8.0"
+          test_script: "./scripts/msgfees_test.sh"
+
   test_name_smart_contract:
     runs-on: ubuntu-latest
     needs:
