@@ -29,5 +29,6 @@ tutorial:
 clean:
 	@make -C attrs clean
 	@make -C marker clean
+	@make -C msgfees clean
 	@make -C name clean
 	@make -C scope clean
