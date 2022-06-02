@@ -101,7 +101,7 @@ jobs:
           rustup target add wasm32-unknown-unknown
       - name: Build wasm binary
         run: |
-          cd ./contracts/marker
+          cd ./contracts/msgfees
           make all
       - name: Provenance Test
         uses: provenance-io/provenance-testing-action@v1.0.0
