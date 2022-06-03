@@ -1,7 +1,5 @@
 use cosmwasm_std::CosmosMsg::Bank;
-use cosmwasm_std::{
-    entry_point, Addr, BankMsg, Coin, DepsMut, Env, MessageInfo, Response, StdError,
-};
+use cosmwasm_std::{entry_point, Addr, BankMsg, Coin, DepsMut, Env, MessageInfo, Response};
 use provwasm_std::{create_assess_custom_fee_msg, ProvenanceMsg, ProvenanceQuery};
 
 use crate::error::ContractError;
@@ -67,15 +65,6 @@ pub fn try_send_funds(
 
     match state.fee_amount {
         Some(fee) => {
-            if (funds.denom != fee.denom && (!info.funds.contains(&fee) || info.funds.len().ne(&2)))
-                || (info.funds.len().ne(&1)
-                    || info.funds[0].denom.ne(&fee.denom)
-                    || info.funds[0].amount != funds.amount.checked_add(fee.amount).unwrap())
-            {
-                return Err(ContractError::Std(StdError::GenericErr {
-                    msg: "Insufficient fee".to_string(),
-                }));
-            }
             // Create a message that will assess a custom fee
             res = res.add_message(create_assess_custom_fee_msg(
                 fee.to_owned(),
@@ -228,36 +217,6 @@ mod tests {
                 assert_eq!(to_address, &Addr::unchecked("to_address"));
             }
             _ => panic!("unexpected cosmos message"),
-        }
-    }
-
-    #[test]
-    fn send_funds_fees_mismatch() {
-        // Init state
-        let mut deps = mock_dependencies(&[]);
-        let env = mock_env();
-        let info = mock_info("sender", &[coin(100_000, "nhash")]);
-
-        config(&mut deps.storage)
-            .save(&State {
-                fee_amount: Some(coin(100_000, "nhash")),
-                fee_recipient: Some(Addr::unchecked("fee_address")),
-            })
-            .expect("failed to save test state");
-
-        let msg = ExecuteMsg::SendFunds {
-            funds: coin(100_000, "nhash"),
-            to_address: Addr::unchecked("to_address"),
-        };
-        let res = execute(deps.as_mut(), env, info, msg);
-
-        // Assert the correct error was created
-        assert!(res.is_err());
-        match res.unwrap_err() {
-            ContractError::Std(StdError::GenericErr { msg }) => {
-                assert_eq!(msg, "Insufficient fee".to_string())
-            }
-            e => panic!("unexpected error: {:?}", e),
         }
     }
 }
