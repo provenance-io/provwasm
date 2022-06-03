@@ -26,7 +26,7 @@
     },
     "AttributeQueryParams": {
       "description": "Params for attribute queries.",
-      "anyOf": [
+      "oneOf": [
         {
           "type": "object",
           "required": [
@@ -75,7 +75,7 @@
     },
     "MarkerQueryParams": {
       "description": "Params for marker queries.",
-      "anyOf": [
+      "oneOf": [
         {
           "type": "object",
           "required": [
@@ -120,7 +120,7 @@
     },
     "MetadataQueryParams": {
       "description": "Params for metadata queries",
-      "anyOf": [
+      "oneOf": [
         {
           "type": "object",
           "required": [
@@ -191,7 +191,7 @@
     },
     "NameQueryParams": {
       "description": "Params for name queries.",
-      "anyOf": [
+      "oneOf": [
         {
           "type": "object",
           "required": [
@@ -236,7 +236,7 @@
     },
     "ProvenanceQueryParams": {
       "description": "Input params for custom provenance queriers.",
-      "anyOf": [
+      "oneOf": [
         {
           "type": "object",
           "required": [
