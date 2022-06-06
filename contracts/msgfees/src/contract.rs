@@ -50,8 +50,8 @@ pub fn execute(
 // Send funds to te recipient and assess a fee
 pub fn try_send_funds(
     deps: DepsMut<ProvenanceQuery>,
-    _: Env,
-    info: MessageInfo,
+    env: Env,
+    _: MessageInfo,
     funds: Coin,
     to_address: Addr,
 ) -> Result<Response<ProvenanceMsg>, ContractError> {
@@ -69,7 +69,7 @@ pub fn try_send_funds(
             res = res.add_message(create_assess_custom_fee_msg(
                 fee.to_owned(),
                 Some("std_contract_fee"),
-                info.sender,
+                env.contract.address,
                 state.fee_recipient.to_owned(),
             )?);
             res = res
@@ -157,7 +157,7 @@ mod tests {
             funds: coin(100_000, "nhash"),
             to_address: Addr::unchecked("to_address"),
         };
-        let res = execute(deps.as_mut(), env, info, msg).unwrap();
+        let res = execute(deps.as_mut(), env.clone(), info, msg).unwrap();
 
         // Assert the correct message was created
         assert_eq!(2, res.messages.len());
@@ -171,7 +171,7 @@ mod tests {
                         recipient,
                     } => {
                         assert_eq!(amount, &coin(100_000, "nhash"));
-                        assert_eq!(from, &Addr::unchecked("sender"));
+                        assert_eq!(from, &env.contract.address);
                         assert_eq!(name, &Some("std_contract_fee".into()));
                         assert_eq!(recipient, &Some(Addr::unchecked("fee_address")));
                     }
