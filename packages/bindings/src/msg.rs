@@ -687,7 +687,7 @@ pub enum MsgFeesMsgParams {
 // Create a custom cosmos message using msgfees module params.
 fn create_msgfees_msg(params: MsgFeesMsgParams) -> CosmosMsg<ProvenanceMsg> {
     CosmosMsg::Custom(ProvenanceMsg {
-        route: ProvenanceRoute::MsgFees,
+        route: ProvenanceRoute::Msgfees,
         params: ProvenanceMsgParams::MsgFees(params),
         version: String::from(MSG_DATAFMT_VERSION),
     })
