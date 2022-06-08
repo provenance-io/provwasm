@@ -18,8 +18,14 @@ pub struct Label {
 #[serde(rename_all = "snake_case")]
 pub enum ExecuteMsg {
     BindLabelName {},
-    AddLabel { text: String },
+    AddLabel {
+        text: String,
+    },
     DeleteLabels {},
+    UpdateLabel {
+        original_text: String,
+        update_text: String,
+    },
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]

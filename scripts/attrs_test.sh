@@ -112,4 +112,34 @@ if [ "$text2" == "$text1" ]; then
   exit 1
 fi
 
+"$PROV_CMD" tx wasm execute \
+    "$contract" \
+    '{"update_label":{"original_text":"hello", "update_text":"goodbye"}}' \
+    --from="$node0" \
+    --keyring-backend test \
+    --chain-id="testing" \
+    --gas=auto \
+	  --gas-prices="1905nhash" \
+	  --gas-adjustment=1.5 \
+    --broadcast-mode block \
+    --yes \
+    --testnet
+
+# we don't know the order that 'text' and 'wasm' could be in so we check both
+if [ "$text1" != "goodbye" ] && [ "$text1" != "wasm" ]; then
+  echo "label: '$text1' was not set properly to hello"
+  exit 1
+fi
+
+if [ "$text2" != "wasm" ] && [ "$text2" != "goodbye"]; then
+  echo "label: '$text2' was not set properly to wasm"
+  exit 1
+fi
+
+if [ "$text2" == "$text1" ]; then
+  echo "$text2 and $text1 are suppose to be 'goodbye' and 'wasm' not the same"
+  exit 1
+fi
+
+
 echo "Done with script"

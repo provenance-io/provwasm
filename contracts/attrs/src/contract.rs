@@ -2,8 +2,8 @@ use cosmwasm_std::{
     entry_point, to_binary, Deps, DepsMut, Env, MessageInfo, QueryResponse, Response, StdError,
 };
 use provwasm_std::{
-    add_json_attribute, bind_name, delete_attributes, NameBinding, ProvenanceMsg,
-    ProvenanceQuerier, ProvenanceQuery,
+    add_json_attribute, bind_name, delete_attributes, update_attribute, AttributeValueType,
+    NameBinding, ProvenanceMsg, ProvenanceQuerier, ProvenanceQuery,
 };
 
 use crate::error::ContractError;
@@ -63,6 +63,10 @@ pub fn execute(
         ExecuteMsg::BindLabelName {} => try_bind_label_name(env, attr_name),
         ExecuteMsg::AddLabel { text } => try_add_label(env, attr_name, text),
         ExecuteMsg::DeleteLabels {} => try_delete_labels(env, attr_name),
+        ExecuteMsg::UpdateLabel {
+            original_text,
+            update_text,
+        } => try_update_label(env, attr_name, original_text, update_text),
     }
 }
 
@@ -107,6 +111,29 @@ fn try_delete_labels(
         .add_message(msg)
         .add_attribute("integration_test", "v2")
         .add_attribute("action", "provwasm.contracts.attrs.try_delete_labels")
+        .add_attribute("attribute_name", attr_name);
+    Ok(res)
+}
+
+// Update label attributes.
+fn try_update_label(
+    env: Env,
+    attr_name: String,
+    original_text: String,
+    update_text: String,
+) -> Result<Response<ProvenanceMsg>, ContractError> {
+    let msg = update_attribute(
+        env.contract.address,
+        &attr_name,
+        to_binary(&original_text)?,
+        AttributeValueType::Json,
+        to_binary(&update_text)?,
+        AttributeValueType::Json,
+    )?;
+    let res = Response::new()
+        .add_message(msg)
+        .add_attribute("integration_test", "v2")
+        .add_attribute("action", "provwasm.contracts.attrs.try_update_label")
         .add_attribute("attribute_name", attr_name);
     Ok(res)
 }
@@ -402,6 +429,64 @@ mod tests {
         match err {
             ContractError::Unauthorized {} => {}
             e => panic!("unexpected error: {:?}", e),
+        }
+    }
+
+    #[test]
+    fn handle_update_label() {
+        // Create default provenance mocks.
+        let mut deps = mock_dependencies(&[]);
+
+        // Init so we have state
+        let _ = instantiate(
+            deps.as_mut(),
+            mock_env(),
+            mock_info("sender", &[]),
+            InitMsg {
+                name: "contract.pb".into(),
+            },
+        )
+        .unwrap(); // Panics on error
+
+        // Handle an update label request
+        let res = execute(
+            deps.as_mut(),
+            mock_env(),
+            mock_info("sender", &[]),
+            ExecuteMsg::UpdateLabel {
+                original_text: "original_text".to_string(),
+                update_text: "update_text".to_string(),
+            },
+        )
+        .unwrap();
+
+        // Ensure a message was created to add a named JSON attribute.
+        assert_eq!(1, res.messages.len());
+        match &res.messages[0].msg {
+            CosmosMsg::Custom(msg) => match &msg.params {
+                ProvenanceMsgParams::Attribute(p) => match &p {
+                    AttributeMsgParams::UpdateAttribute {
+                        name,
+                        original_value,
+                        original_value_type,
+                        update_value,
+                        update_value_type,
+                        ..
+                    } => {
+                        assert_eq!(name, "label.contract.pb");
+                        assert_eq!(
+                            from_binary::<String>(original_value).unwrap(),
+                            "original_text"
+                        );
+                        assert_eq!(original_value_type, &AttributeValueType::Json);
+                        assert_eq!(from_binary::<String>(update_value).unwrap(), "update_text");
+                        assert_eq!(update_value_type, &AttributeValueType::Json);
+                    }
+                    _ => panic!("unexpected attribute params"),
+                },
+                _ => panic!("unexpected provenance params"),
+            },
+            _ => panic!("unexpected cosmos message"),
         }
     }
 

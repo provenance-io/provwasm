@@ -45,6 +45,30 @@
         }
       },
       "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "update_label"
+      ],
+      "properties": {
+        "update_label": {
+          "type": "object",
+          "required": [
+            "original_text",
+            "update_text"
+          ],
+          "properties": {
+            "original_text": {
+              "type": "string"
+            },
+            "update_text": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "additionalProperties": false
     }
   ]
 }
