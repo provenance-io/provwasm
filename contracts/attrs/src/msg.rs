@@ -11,7 +11,6 @@ pub struct InitMsg {
 #[serde(rename_all = "snake_case")]
 pub struct Label {
     pub text: String,
-    pub timestamp: u64,
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]

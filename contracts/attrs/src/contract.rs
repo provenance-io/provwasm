@@ -90,8 +90,7 @@ fn try_add_label(
     attr_name: String,
     text: String,
 ) -> Result<Response<ProvenanceMsg>, ContractError> {
-    let timestamp = env.block.time.nanos();
-    let label = Label { text, timestamp };
+    let label = Label { text };
     let msg = add_json_attribute(env.contract.address, &attr_name, &label)?;
     let res = Response::new()
         .add_message(msg)
@@ -125,9 +124,11 @@ fn try_update_label(
     let msg = update_attribute(
         env.contract.address,
         &attr_name,
-        to_binary(&original_text)?,
+        to_binary(&Label {
+            text: original_text,
+        })?,
         AttributeValueType::Json,
-        to_binary(&update_text)?,
+        to_binary(&Label { text: update_text })?,
         AttributeValueType::Json,
     )?;
     let res = Response::new()
@@ -475,11 +476,18 @@ mod tests {
                     } => {
                         assert_eq!(name, "label.contract.pb");
                         assert_eq!(
-                            from_binary::<String>(original_value).unwrap(),
-                            "original_text"
+                            from_binary::<Label>(original_value).unwrap(),
+                            Label {
+                                text: "original_text".to_string()
+                            }
                         );
                         assert_eq!(original_value_type, &AttributeValueType::Json);
-                        assert_eq!(from_binary::<String>(update_value).unwrap(), "update_text");
+                        assert_eq!(
+                            from_binary::<Label>(update_value).unwrap(),
+                            Label {
+                                text: "update_text".to_string()
+                            }
+                        );
                         assert_eq!(update_value_type, &AttributeValueType::Json);
                     }
                     _ => panic!("unexpected attribute params"),
@@ -525,11 +533,7 @@ mod tests {
         let mut deps = mock_dependencies(&[]);
         deps.querier.with_attributes(
             MOCK_CONTRACT_ADDR,
-            &[(
-                "label.contract.pb",
-                "{\"text\":\"text\",\"timestamp\":123456789}",
-                "json",
-            )],
+            &[("label.contract.pb", "{\"text\":\"text\"}", "json")],
         );
 
         // Init so we have state
@@ -553,7 +557,6 @@ mod tests {
             rep.labels[0],
             Label {
                 text: "text".into(),
-                timestamp: 123456789
             }
         )
     }
