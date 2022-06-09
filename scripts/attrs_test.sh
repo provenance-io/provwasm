@@ -78,7 +78,6 @@ export contract=$("$PROV_CMD" query wasm list-contract-by-code 1 -t -o json | jq
     --testnet
 
 # delay to ensure correct order for text1 and text2 below
-sleep 10s
 
 "$PROV_CMD" tx wasm execute \
     "$contract" \
@@ -102,7 +101,7 @@ if [ "$text1" != "hello" ] && [ "$text1" != "wasm" ]; then
   exit 1
 fi
 
-if [ "$text2" != "wasm" ] && [ "$text2" != "hello"]; then
+if [ "$text2" != "wasm" ] && [ "$text2" != "hello" ]; then
   echo "label: '$text2' was not set properly to wasm"
   exit 1
 fi
@@ -131,7 +130,7 @@ if [ "$text1" != "goodbye" ] && [ "$text1" != "wasm" ]; then
   exit 1
 fi
 
-if [ "$text2" != "wasm" ] && [ "$text2" != "goodbye"]; then
+if [ "$text2" != "wasm" ] && [ "$text2" != "goodbye" ]; then
   echo "label: '$text2' was not set properly to wasm"
   exit 1
 fi
@@ -141,5 +140,50 @@ if [ "$text2" == "$text1" ]; then
   exit 1
 fi
 
+"$PROV_CMD" tx wasm execute \
+    $contract \
+    '{"delete_distinct_label":{"text":"wasm"}}' \
+    --from="$node0" \
+    --keyring-backend test \
+    --chain-id="testing" \
+    --gas=auto \
+	  --gas-prices="1905nhash" \
+	  --gas-adjustment=1.5 \
+    --broadcast-mode block \
+    --yes \
+    --testnet
+
+export label_count=$("$PROV_CMD" query wasm contract-state smart "$contract" '{"get_labels":{}}' -t -o json | jq -r ".data.labels | length")
+export text1=$("$PROV_CMD" query wasm contract-state smart "$contract" '{"get_labels":{}}' -t -o json | jq -r ".data.labels[0].text")
+
+if [ "$label_count" != "1" ]; then
+  echo "only 1 label should exist. found: $label_count"
+  exit 1
+fi
+
+if [ "$text1" = "wasm" ]; then
+  echo "label: '$text1' was not distinctly deleted"
+  exit 1
+fi
+
+"$PROV_CMD" tx wasm execute \
+    $contract \
+    '{"delete_labels":{}}' \
+    --from="$node0" \
+    --keyring-backend test \
+    --chain-id="testing" \
+    --gas=auto \
+	  --gas-prices="1905nhash" \
+	  --gas-adjustment=1.5 \
+    --broadcast-mode block \
+    --yes \
+    --testnet
+
+export label_count=$("$PROV_CMD" query wasm contract-state smart "$contract" '{"get_labels":{}}' -t -o json | jq -r ".data.labels | length")
+
+if [ "$label_count" != "0" ]; then
+  echo "all labels should be deleted. found: $label_count"
+  exit 1
+fi
 
 echo "Done with script"
