@@ -60,7 +60,9 @@ In addition to the core CosmWasm functionality, the provenance bindings include
   - Delete name
 - Account Metadata
   - Add attribute
-  - Delete attributes
+  - Delete all attributes
+  - Delete distinct attribute
+  - Update attribute
 - Markers
   - Create
   - Grant access
