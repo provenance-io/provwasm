@@ -20,6 +20,9 @@ pub enum ExecuteMsg {
     AddLabel {
         text: String,
     },
+    DeleteDistinctLabel {
+        text: String,
+    },
     DeleteLabels {},
     UpdateLabel {
         original_text: String,

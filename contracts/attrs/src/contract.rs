@@ -2,8 +2,8 @@ use cosmwasm_std::{
     entry_point, to_binary, Deps, DepsMut, Env, MessageInfo, QueryResponse, Response, StdError,
 };
 use provwasm_std::{
-    add_json_attribute, bind_name, delete_attributes, update_attribute, AttributeValueType,
-    NameBinding, ProvenanceMsg, ProvenanceQuerier, ProvenanceQuery,
+    add_json_attribute, bind_name, delete_attributes, delete_distinct_attribute, update_attribute,
+    AttributeValueType, NameBinding, ProvenanceMsg, ProvenanceQuerier, ProvenanceQuery,
 };
 
 use crate::error::ContractError;
@@ -62,6 +62,7 @@ pub fn execute(
     match msg {
         ExecuteMsg::BindLabelName {} => try_bind_label_name(env, attr_name),
         ExecuteMsg::AddLabel { text } => try_add_label(env, attr_name, text),
+        ExecuteMsg::DeleteDistinctLabel { text } => try_delete_distinct_label(env, attr_name, text),
         ExecuteMsg::DeleteLabels {} => try_delete_labels(env, attr_name),
         ExecuteMsg::UpdateLabel {
             original_text,
@@ -110,6 +111,28 @@ fn try_delete_labels(
         .add_message(msg)
         .add_attribute("integration_test", "v2")
         .add_attribute("action", "provwasm.contracts.attrs.try_delete_labels")
+        .add_attribute("attribute_name", attr_name);
+    Ok(res)
+}
+
+// Delete distinct label attribute.
+fn try_delete_distinct_label(
+    env: Env,
+    attr_name: String,
+    value: String,
+) -> Result<Response<ProvenanceMsg>, ContractError> {
+    let msg = delete_distinct_attribute(
+        env.contract.address,
+        &attr_name,
+        to_binary(&Label { text: value })?,
+    )?;
+    let res = Response::new()
+        .add_message(msg)
+        .add_attribute("integration_test", "v2")
+        .add_attribute(
+            "action",
+            "provwasm.contracts.attrs.try_delete_distinct_label",
+        )
         .add_attribute("attribute_name", attr_name);
     Ok(res)
 }

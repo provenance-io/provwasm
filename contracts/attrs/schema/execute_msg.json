@@ -37,6 +37,26 @@
     {
       "type": "object",
       "required": [
+        "delete_distinct_label"
+      ],
+      "properties": {
+        "delete_distinct_label": {
+          "type": "object",
+          "required": [
+            "text"
+          ],
+          "properties": {
+            "text": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
         "delete_labels"
       ],
       "properties": {
