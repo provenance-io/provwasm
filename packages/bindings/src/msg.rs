@@ -122,6 +122,11 @@ pub enum AttributeMsgParams {
         address: Addr,
         name: String,
     },
+    DeleteDistinctAttribute {
+        address: Addr,
+        name: String,
+        value: Binary,
+    },
     UpdateAttribute {
         address: Addr,
         name: String,
@@ -261,6 +266,40 @@ pub fn delete_attributes<H: Into<Addr>, S: Into<String>>(
         address: validate_address(address)?,
         name: validate_string(name, "name")?,
     }))
+}
+
+/// Create a message that will delete a distinct attribute with the given name and value from an account.
+///
+/// ### Example
+///
+/// ```rust
+/// // Imports required
+/// use cosmwasm_std::{Addr, Response, StdResult};
+/// use provwasm_std::{delete_distinct_attribute, ProvenanceMsg};
+///
+/// // Delete the distinct label attribute. NOTE: The name below must resolve to the contract address.
+/// fn exec_delete_labels(
+///     address: Addr,
+/// ) -> StdResult<Response<ProvenanceMsg>> {
+///     let attr_name = String::from("label.my-contract.sc.pb");
+///     let attr_value = String::from("hello");
+///     let msg = delete_distinct_attribute(address, &attr_name, &attr_value)?;
+///     let mut res = Response::new().add_message(msg);
+///     Ok(res)
+/// }
+/// ```
+pub fn delete_distinct_attribute<H: Into<Addr>, S: Into<String>, B: Into<Binary>>(
+    address: H,
+    name: S,
+    value: B,
+) -> StdResult<CosmosMsg<ProvenanceMsg>> {
+    Ok(create_attribute_msg(
+        AttributeMsgParams::DeleteDistinctAttribute {
+            address: validate_address(address)?,
+            name: validate_string(name, "name")?,
+            value: value.into(),
+        },
+    ))
 }
 
 /// Create a message that will update an attribute (a typed key-value pair) on an account.
