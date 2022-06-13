@@ -54,4 +54,4 @@ jobs:
           body_path: RELEASE_CHANGELOG.md
           token: ${{ secrets.GITHUB_TOKEN }}
           files: |
-            **.wasm
+            **/artifacts/*.wasm
