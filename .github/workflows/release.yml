@@ -38,32 +38,20 @@ jobs:
       - name: Add wasm32 target
         run: |
           rustup target add wasm32-unknown-unknown
-      - name: Build wasm binary
+      - name: Build wasm binaries
         run: |
-          make tutorial
-      - name: Optimize wasm
-        run: |
-          make optimize-tutorial
-      - name: Fix zip structure for cosmovisor
-        run: |
-          make build-release-zip
+          make contracts
       - name: Create release ${{ needs.build_init.outputs.version }}
-        uses: actions/create-release@v1
+        uses: softprops/action-gh-release@v1
         id: create_release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ github.ref }}
-          release_name: ${{ github.ref }}
+          name: ${{ github.ref }}
           draft: false
           prerelease: false
           body_path: RELEASE_CHANGELOG.md
-      - name: Upload zip artifact
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: provwasm_tutorial.zip
-          asset_name: provwasm_tutorial.zip
-          asset_content_type: application/octet-stream
+          token: ${{ secrets.GITHUB_TOKEN }}
+          files: |
+            **/artifacts/*.wasm
