@@ -41,10 +41,13 @@ jobs:
           cd ./contracts/tutorial
           make all
       - name: Smart Contract Test setup
-        uses: provenance-io/provenance-testing-action@v1.0.0
+        uses: provenance-io/provenance-testing-action@v1.1.0
         with:
-          provenance_version: "v1.8.0"
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          provenance_version: "v1.11.1"
           test_script: "./scripts/tutorial_test.sh"
+          generate_proposals: true
+          wasm_path: "./contracts/tutorial/artifacts/provwasm_tutorial.wasm"
 
   test_attrs_smart_contract:
     runs-on: ubuntu-latest
@@ -62,10 +65,13 @@ jobs:
           cd ./contracts/attrs
           make all
       - name: Smart Contract Test setup
-        uses: provenance-io/provenance-testing-action@v1.0.0
+        uses: provenance-io/provenance-testing-action@v1.1.0
         with:
-          provenance_version: "v1.8.0"
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          provenance_version: "v1.11.1"
           test_script: "./scripts/attrs_test.sh"
+          generate_proposals: true
+          wasm_path: "./contracts/attrs/artifacts/attrs.wasm"
 
   test_marker_smart_contract:
     runs-on: ubuntu-latest
@@ -83,10 +89,13 @@ jobs:
           cd ./contracts/marker
           make all
       - name: Provenance Test
-        uses: provenance-io/provenance-testing-action@v1.0.0
+        uses: provenance-io/provenance-testing-action@v1.1.0
         with:
-          provenance_version: "v1.8.0"
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          provenance_version: "v1.11.1"
           test_script: "./scripts/marker_test.sh"
+          generate_proposals: true
+          wasm_path: "./contracts/marker/artifacts/marker.wasm"
 
   test_msgfees_smart_contract:
     runs-on: ubuntu-latest
@@ -104,10 +113,13 @@ jobs:
           cd ./contracts/msgfees
           make all
       - name: Provenance Test
-        uses: provenance-io/provenance-testing-action@v1.0.0
+        uses: provenance-io/provenance-testing-action@v1.1.0
         with:
-          provenance_version: "v1.8.0"
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          provenance_version: "v1.11.1"
           test_script: "./scripts/msgfees_test.sh"
+          generate_proposals: true
+          wasm_path: "./contracts/msgfees/artifacts/msgfees.wasm"
 
   test_name_smart_contract:
     runs-on: ubuntu-latest
@@ -125,10 +137,13 @@ jobs:
           cd ./contracts/name
           make all
       - name: Smart Contract Test setup
-        uses: provenance-io/provenance-testing-action@v1.0.0
+        uses: provenance-io/provenance-testing-action@v1.1.0
         with:
-          provenance_version: "v1.8.0"
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          provenance_version: "v1.11.1"
           test_script: "./scripts/name_test.sh"
+          generate_proposals: true
+          wasm_path: "./contracts/name/artifacts/name.wasm"
 
   test_scope_smart_contract:
     runs-on: ubuntu-latest
@@ -146,7 +161,10 @@ jobs:
           cd ./contracts/scope
           make all
       - name: Smart Contract Test setup
-        uses: provenance-io/provenance-testing-action@v1.0.0
+        uses: provenance-io/provenance-testing-action@v1.1.0
         with:
-          provenance_version: "v1.8.0"
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          provenance_version: "v1.11.1"
           test_script: "./scripts/scope_test.sh"
+          generate_proposals: true
+          wasm_path: "./contracts/scope/artifacts/scope.wasm"
