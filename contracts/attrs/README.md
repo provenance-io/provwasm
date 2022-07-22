@@ -11,7 +11,9 @@ This smart contract tests the following functionality
   - Bind a name to the contract address
   - Bind label attribute name to contract address (must be done after init, but before add/delete)
   - Add label attribute
-  - Delete label attributes
+  - Delete all label attributes
+  - Delete distinct label attribute
+  - Update label attribute
 - Queries
   - Get label attribute name
   - Get label attributes
@@ -168,4 +170,38 @@ provenanced tx wasm execute \
     --broadcast-mode block \
     --yes \
     --testnet | jq
-``
+```
+
+Delete a distinct label from an account.
+
+```bash
+provenanced tx wasm execute \
+    tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
+    '{"delete_distinct_label":{"text":"wasm"}}' \
+    --from node0 \
+    --keyring-backend test \
+    --home build/node0 \
+    --chain-id chain-local \
+    --gas auto \
+    --fees 5000nhash \
+    --broadcast-mode block \
+    --yes \
+    --testnet | jq
+```
+
+Update a label on an account.
+
+```bash
+provenanced tx wasm execute \
+    tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
+    '{"update_label":{"original_text":"hello", "update_text":"goodbye"}}' \
+    --from node0 \
+    --keyring-backend test \
+    --home build/node0 \
+    --chain-id chain-local \
+    --gas auto \
+    --fees 5000nhash \
+    --broadcast-mode block \
+    --yes \
+    --testnet | jq
+```

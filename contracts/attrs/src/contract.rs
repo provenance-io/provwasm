@@ -2,8 +2,8 @@ use cosmwasm_std::{
     entry_point, to_binary, Deps, DepsMut, Env, MessageInfo, QueryResponse, Response, StdError,
 };
 use provwasm_std::{
-    add_json_attribute, bind_name, delete_attributes, NameBinding, ProvenanceMsg,
-    ProvenanceQuerier, ProvenanceQuery,
+    add_json_attribute, bind_name, delete_attributes, delete_distinct_attribute, update_attribute,
+    AttributeValueType, NameBinding, ProvenanceMsg, ProvenanceQuerier, ProvenanceQuery,
 };
 
 use crate::error::ContractError;
@@ -62,7 +62,12 @@ pub fn execute(
     match msg {
         ExecuteMsg::BindLabelName {} => try_bind_label_name(env, attr_name),
         ExecuteMsg::AddLabel { text } => try_add_label(env, attr_name, text),
+        ExecuteMsg::DeleteDistinctLabel { text } => try_delete_distinct_label(env, attr_name, text),
         ExecuteMsg::DeleteLabels {} => try_delete_labels(env, attr_name),
+        ExecuteMsg::UpdateLabel {
+            original_text,
+            update_text,
+        } => try_update_label(env, attr_name, original_text, update_text),
     }
 }
 
@@ -86,8 +91,7 @@ fn try_add_label(
     attr_name: String,
     text: String,
 ) -> Result<Response<ProvenanceMsg>, ContractError> {
-    let timestamp = env.block.time.nanos();
-    let label = Label { text, timestamp };
+    let label = Label { text };
     let msg = add_json_attribute(env.contract.address, &attr_name, &label)?;
     let res = Response::new()
         .add_message(msg)
@@ -107,6 +111,53 @@ fn try_delete_labels(
         .add_message(msg)
         .add_attribute("integration_test", "v2")
         .add_attribute("action", "provwasm.contracts.attrs.try_delete_labels")
+        .add_attribute("attribute_name", attr_name);
+    Ok(res)
+}
+
+// Delete distinct label attribute.
+fn try_delete_distinct_label(
+    env: Env,
+    attr_name: String,
+    value: String,
+) -> Result<Response<ProvenanceMsg>, ContractError> {
+    let msg = delete_distinct_attribute(
+        env.contract.address,
+        &attr_name,
+        to_binary(&Label { text: value })?,
+    )?;
+    let res = Response::new()
+        .add_message(msg)
+        .add_attribute("integration_test", "v2")
+        .add_attribute(
+            "action",
+            "provwasm.contracts.attrs.try_delete_distinct_label",
+        )
+        .add_attribute("attribute_name", attr_name);
+    Ok(res)
+}
+
+// Update label attributes.
+fn try_update_label(
+    env: Env,
+    attr_name: String,
+    original_text: String,
+    update_text: String,
+) -> Result<Response<ProvenanceMsg>, ContractError> {
+    let msg = update_attribute(
+        env.contract.address,
+        &attr_name,
+        to_binary(&Label {
+            text: original_text,
+        })?,
+        AttributeValueType::Json,
+        to_binary(&Label { text: update_text })?,
+        AttributeValueType::Json,
+    )?;
+    let res = Response::new()
+        .add_message(msg)
+        .add_attribute("integration_test", "v2")
+        .add_attribute("action", "provwasm.contracts.attrs.try_update_label")
         .add_attribute("attribute_name", attr_name);
     Ok(res)
 }
@@ -406,6 +457,71 @@ mod tests {
     }
 
     #[test]
+    fn handle_update_label() {
+        // Create default provenance mocks.
+        let mut deps = mock_dependencies(&[]);
+
+        // Init so we have state
+        let _ = instantiate(
+            deps.as_mut(),
+            mock_env(),
+            mock_info("sender", &[]),
+            InitMsg {
+                name: "contract.pb".into(),
+            },
+        )
+        .unwrap(); // Panics on error
+
+        // Handle an update label request
+        let res = execute(
+            deps.as_mut(),
+            mock_env(),
+            mock_info("sender", &[]),
+            ExecuteMsg::UpdateLabel {
+                original_text: "original_text".to_string(),
+                update_text: "update_text".to_string(),
+            },
+        )
+        .unwrap();
+
+        // Ensure a message was created to add a named JSON attribute.
+        assert_eq!(1, res.messages.len());
+        match &res.messages[0].msg {
+            CosmosMsg::Custom(msg) => match &msg.params {
+                ProvenanceMsgParams::Attribute(p) => match &p {
+                    AttributeMsgParams::UpdateAttribute {
+                        name,
+                        original_value,
+                        original_value_type,
+                        update_value,
+                        update_value_type,
+                        ..
+                    } => {
+                        assert_eq!(name, "label.contract.pb");
+                        assert_eq!(
+                            from_binary::<Label>(original_value).unwrap(),
+                            Label {
+                                text: "original_text".to_string()
+                            }
+                        );
+                        assert_eq!(original_value_type, &AttributeValueType::Json);
+                        assert_eq!(
+                            from_binary::<Label>(update_value).unwrap(),
+                            Label {
+                                text: "update_text".to_string()
+                            }
+                        );
+                        assert_eq!(update_value_type, &AttributeValueType::Json);
+                    }
+                    _ => panic!("unexpected attribute params"),
+                },
+                _ => panic!("unexpected provenance params"),
+            },
+            _ => panic!("unexpected cosmos message"),
+        }
+    }
+
+    #[test]
     fn query_get_label_name() {
         // Create default provenance mocks.
         let mut deps = mock_dependencies(&[]);
@@ -440,11 +556,7 @@ mod tests {
         let mut deps = mock_dependencies(&[]);
         deps.querier.with_attributes(
             MOCK_CONTRACT_ADDR,
-            &[(
-                "label.contract.pb",
-                "{\"text\":\"text\",\"timestamp\":123456789}",
-                "json",
-            )],
+            &[("label.contract.pb", "{\"text\":\"text\"}", "json")],
         );
 
         // Init so we have state
@@ -468,7 +580,6 @@ mod tests {
             rep.labels[0],
             Label {
                 text: "text".into(),
-                timestamp: 123456789
             }
         )
     }

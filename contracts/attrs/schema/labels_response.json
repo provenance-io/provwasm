@@ -17,17 +17,11 @@
     "Label": {
       "type": "object",
       "required": [
-        "text",
-        "timestamp"
+        "text"
       ],
       "properties": {
         "text": {
           "type": "string"
-        },
-        "timestamp": {
-          "type": "integer",
-          "format": "uint64",
-          "minimum": 0.0
         }
       }
     }

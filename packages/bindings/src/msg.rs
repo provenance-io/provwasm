@@ -122,6 +122,19 @@ pub enum AttributeMsgParams {
         address: Addr,
         name: String,
     },
+    DeleteDistinctAttribute {
+        address: Addr,
+        name: String,
+        value: Binary,
+    },
+    UpdateAttribute {
+        address: Addr,
+        name: String,
+        original_value: Binary,
+        original_value_type: AttributeValueType,
+        update_value: Binary,
+        update_value_type: AttributeValueType,
+    },
 }
 
 // Create a custom cosmos message using attribute module params.
@@ -252,6 +265,99 @@ pub fn delete_attributes<H: Into<Addr>, S: Into<String>>(
     Ok(create_attribute_msg(AttributeMsgParams::DeleteAttribute {
         address: validate_address(address)?,
         name: validate_string(name, "name")?,
+    }))
+}
+
+/// Create a message that will delete a distinct attribute with the given name and value from an account.
+///
+/// ### Example
+///
+/// ```rust
+/// // Imports required
+/// use cosmwasm_std::{Addr, Response, StdResult, to_binary};
+/// use provwasm_std::{delete_distinct_attribute, ProvenanceMsg};
+///
+/// // Delete the distinct label attribute. NOTE: The name below must resolve to the contract address.
+/// fn try_delete_distinct_label(
+///     address: Addr,
+/// ) -> StdResult<Response<ProvenanceMsg>> {
+///     let attr_name = String::from("label.my-contract.sc.pb");
+///     let attr_value = String::from("hello");
+///     let msg = delete_distinct_attribute(address, &attr_name, to_binary(&attr_value)?)?;
+///     let mut res = Response::new().add_message(msg);
+///     Ok(res)
+/// }
+/// ```
+pub fn delete_distinct_attribute<H: Into<Addr>, S: Into<String>, B: Into<Binary>>(
+    address: H,
+    name: S,
+    value: B,
+) -> StdResult<CosmosMsg<ProvenanceMsg>> {
+    Ok(create_attribute_msg(
+        AttributeMsgParams::DeleteDistinctAttribute {
+            address: validate_address(address)?,
+            name: validate_string(name, "name")?,
+            value: value.into(),
+        },
+    ))
+}
+
+/// Create a message that will update an attribute (a typed key-value pair) on an account.
+///
+/// ### Example
+///
+/// ```rust
+/// // Imports required
+/// use cosmwasm_std::{Binary, Env, Addr, Response, StdResult};
+/// use provwasm_std::{update_attribute, AttributeValueType, ProvenanceMsg};
+///
+/// // Update an attribute on an account.
+/// // NOTE: The name below must resolve to the contract address.
+/// fn try_update_attribute(
+///     env: Env,
+///     address: Addr,
+///     text: String,
+/// ) -> StdResult<Response<ProvenanceMsg>> {
+///     let attr_name = String::from("attribute.my-contract.sc.pb");
+///     let original_attribute_value = String::from("hello");
+///     let updated_attribute_value = String::from("goodbye");
+///     let msg = update_attribute(
+///         address,
+///         &attr_name,
+///         Binary::from(original_attribute_value.as_bytes()),
+///         AttributeValueType::String,
+///         Binary::from(original_attribute_value.as_bytes()),
+///         AttributeValueType::String,
+///     )?;
+///     let mut res = Response::new().add_message(msg);
+///     Ok(res)
+/// }
+/// ```
+pub fn update_attribute<H: Into<Addr>, S: Into<String>, B: Into<Binary>>(
+    address: H,
+    name: S,
+    original_value: B,
+    original_value_type: AttributeValueType,
+    update_value: B,
+    update_value_type: AttributeValueType,
+) -> StdResult<CosmosMsg<ProvenanceMsg>> {
+    if original_value_type == AttributeValueType::Unspecified {
+        return Err(StdError::generic_err(
+            "cannot update attribute with unspecified original value type",
+        ));
+    }
+    if update_value_type == AttributeValueType::Unspecified {
+        return Err(StdError::generic_err(
+            "cannot update attribute with unspecified update value type",
+        ));
+    }
+    Ok(create_attribute_msg(AttributeMsgParams::UpdateAttribute {
+        address: validate_address(address)?,
+        name: validate_string(name, "name")?,
+        original_value: original_value.into(),
+        original_value_type,
+        update_value: update_value.into(),
+        update_value_type,
     }))
 }
 

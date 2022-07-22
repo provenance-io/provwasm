@@ -82,6 +82,74 @@
             }
           },
           "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "delete_distinct_attribute"
+          ],
+          "properties": {
+            "delete_distinct_attribute": {
+              "type": "object",
+              "required": [
+                "address",
+                "name",
+                "value"
+              ],
+              "properties": {
+                "address": {
+                  "$ref": "#/definitions/Addr"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "value": {
+                  "$ref": "#/definitions/Binary"
+                }
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "update_attribute"
+          ],
+          "properties": {
+            "update_attribute": {
+              "type": "object",
+              "required": [
+                "address",
+                "name",
+                "original_value",
+                "original_value_type",
+                "update_value",
+                "update_value_type"
+              ],
+              "properties": {
+                "address": {
+                  "$ref": "#/definitions/Addr"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "original_value": {
+                  "$ref": "#/definitions/Binary"
+                },
+                "original_value_type": {
+                  "$ref": "#/definitions/AttributeValueType"
+                },
+                "update_value": {
+                  "$ref": "#/definitions/Binary"
+                },
+                "update_value_type": {
+                  "$ref": "#/definitions/AttributeValueType"
+                }
+              }
+            }
+          },
+          "additionalProperties": false
         }
       ]
     },
