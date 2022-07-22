@@ -35,6 +35,10 @@ attrs:
 marker:
 	@make -C contracts/marker
 
+.PHONY: msgfees
+msgfees:
+	@make -C contracts/msgfees
+
 .PHONY: name
 name:
 	@make -C contracts/name

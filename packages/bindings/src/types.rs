@@ -10,6 +10,7 @@ pub enum ProvenanceRoute {
     Marker,
     Name,
     Metadata,
+    Msgfees,
 }
 
 /// A collection of bound names.

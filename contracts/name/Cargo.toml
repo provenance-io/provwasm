@@ -1,6 +1,6 @@
 [package]
 name = "name"
-version = "1.0.1"
+version = "1.1.0"
 authors = ["David Pederson <dpederson@figure.com>", "Ken Talley <ktalley@figure.com>"]
 edition = "2018"
 
@@ -8,9 +8,6 @@ exclude = [
   "name.wasm",
   "checksums.txt",
 ]
-
-[lib]
-crate-type = ["cdylib", "rlib"]
 
 [profile.release]
 opt-level = 3
@@ -22,6 +19,9 @@ codegen-units = 1
 panic = 'abort'
 incremental = false
 overflow-checks = true
+
+[lib]
+crate-type = ["cdylib", "rlib"]
 
 [features]
 backtraces = []

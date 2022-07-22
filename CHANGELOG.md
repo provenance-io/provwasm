@@ -2,9 +2,11 @@
 
 ## Unreleased changes
 
+* Smart Contract MsgFee Support [#87](https://github.com/provenance-io/provwasm/issues/87)
+
 ## Releases
 
-### [v1.0.0-rc.0](https://github.com/provenance-io/provwasm/tree/v1.0.0-rc.0)
+### [v1.0.0](https://github.com/provenance-io/provwasm/tree/v1.0.0)
 
 * Upgrade to CosmWasm v1.0.0 [#88](https://github.com/provenance-io/provwasm/issues/88)
 

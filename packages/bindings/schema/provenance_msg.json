@@ -26,7 +26,7 @@
     },
     "AttributeMsgParams": {
       "description": "Input params for creating attribute module messages.",
-      "anyOf": [
+      "oneOf": [
         {
           "type": "object",
           "required": [
@@ -135,7 +135,7 @@
     },
     "MarkerMsgParams": {
       "description": "Input params for creating marker module messages.",
-      "anyOf": [
+      "oneOf": [
         {
           "type": "object",
           "required": [
@@ -404,7 +404,7 @@
     },
     "MetadataMsgParams": {
       "description": "Input params for creating marker module messages.",
-      "anyOf": [
+      "oneOf": [
         {
           "type": "object",
           "required": [
@@ -434,9 +434,54 @@
         }
       ]
     },
+    "MsgFeesMsgParams": {
+      "description": "Input params for creating msgfee module messages.",
+      "oneOf": [
+        {
+          "type": "object",
+          "required": [
+            "assess_custom_fee"
+          ],
+          "properties": {
+            "assess_custom_fee": {
+              "type": "object",
+              "required": [
+                "amount",
+                "from"
+              ],
+              "properties": {
+                "amount": {
+                  "$ref": "#/definitions/Coin"
+                },
+                "from": {
+                  "$ref": "#/definitions/Addr"
+                },
+                "name": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "recipient": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/definitions/Addr"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
     "NameMsgParams": {
       "description": "Input params for creating name module messages.",
-      "anyOf": [
+      "oneOf": [
         {
           "type": "object",
           "required": [
@@ -520,7 +565,7 @@
     },
     "ProvenanceMsgParams": {
       "description": "Input params for custom provenance message encoders.",
-      "anyOf": [
+      "oneOf": [
         {
           "type": "object",
           "required": [
@@ -568,6 +613,18 @@
             }
           },
           "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "MsgFees"
+          ],
+          "properties": {
+            "MsgFees": {
+              "$ref": "#/definitions/MsgFeesMsgParams"
+            }
+          },
+          "additionalProperties": false
         }
       ]
     },
@@ -578,7 +635,8 @@
         "attribute",
         "marker",
         "name",
-        "metadata"
+        "metadata",
+        "msgfees"
       ]
     },
     "Scope": {

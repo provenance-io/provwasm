@@ -9,3 +9,5 @@ debug-assertions = false
 codegen-units = 1
 incremental = false
 
+[build]
+jobs = 6

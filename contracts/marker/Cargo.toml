@@ -9,9 +9,6 @@ exclude = [
   "checksums.txt",
 ]
 
-[lib]
-crate-type = ["cdylib", "rlib"]
-
 [profile.release]
 opt-level = 3
 debug = false
@@ -22,6 +19,9 @@ codegen-units = 1
 panic = 'abort'
 incremental = false
 overflow-checks = true
+
+[lib]
+crate-type = ["cdylib", "rlib"]
 
 [features]
 # for more explicit tests, cargo test --features=backtraces
