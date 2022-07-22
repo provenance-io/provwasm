@@ -27,31 +27,232 @@ jobs:
       - id: version
         run: echo "::set-output name=version::${GITHUB_REF##*/}"
 
-  create_release:
+  tutorial_smart_contract:
     runs-on: ubuntu-latest
     needs:
       - build_init
-    name: Create Release
+    name: Test Tutorial Smart Contract
     steps:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Add wasm32 target
         run: |
           rustup target add wasm32-unknown-unknown
-      - name: Build wasm binaries
+      - name: Build wasm binary
         run: |
-          make contracts
+          cd ./contracts/tutorial
+          make all
+      - name: Smart Contract Test setup
+        uses: provenance-io/provenance-testing-action@v1.1.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          provenance_version: "v1.11.1"
+          test_script: "./scripts/tutorial_test.sh"
+          generate_proposals: true
+          wasm_path: "./contracts/tutorial/artifacts/provwasm_tutorial.wasm"
+      - name: Upload wasm
+        uses: actions/upload-artifact@v3
+        with:
+          name: tutorial_smart_contract_wasm
+          path: |
+            ./contracts/tutorial/artifacts/provwasm_tutorial.wasm
+            ./contracts/tutorial/artifacts/checksums.txt
+
+  attrs_smart_contract:
+    runs-on: ubuntu-latest
+    needs:
+      - build_init
+    name: Test Attr Smart Contract
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Add wasm32 target
+        run: |
+          rustup target add wasm32-unknown-unknown
+      - name: Build wasm binary
+        run: |
+          cd ./contracts/attrs
+          make all
+      - name: Smart Contract Test setup
+        uses: provenance-io/provenance-testing-action@v1.1.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          provenance_version: "v1.11.1"
+          test_script: "./scripts/attrs_test.sh"
+          generate_proposals: true
+          wasm_path: "./contracts/attrs/artifacts/attrs.wasm"
+      - name: Upload wasm
+        uses: actions/upload-artifact@v3
+        with:
+          name: attrs_smart_contract_wasm
+          path: |
+            ./contracts/attrs/artifacts/attrs.wasm
+            ./contracts/attrs/artifacts/checksums.txt
+
+  marker_smart_contract:
+    runs-on: ubuntu-latest
+    needs:
+      - build_init
+    name: Test Marker Smart Contract
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Add wasm32 target
+        run: |
+          rustup target add wasm32-unknown-unknown
+      - name: Build wasm binary
+        run: |
+          cd ./contracts/marker
+          make all
+      - name: Provenance Test
+        uses: provenance-io/provenance-testing-action@v1.1.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          provenance_version: "v1.11.1"
+          test_script: "./scripts/marker_test.sh"
+          generate_proposals: true
+          wasm_path: "./contracts/marker/artifacts/marker.wasm"
+      - name: Upload wasm
+        uses: actions/upload-artifact@v3
+        with:
+          name: marker_smart_contract_wasm
+          path: |
+            ./contracts/marker/artifacts/marker.wasm
+            ./contracts/marker/artifacts/checksums.txt
+
+  msgfees_smart_contract:
+    runs-on: ubuntu-latest
+    needs:
+      - build_init
+    name: Test MsgFees Smart Contract
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Add wasm32 target
+        run: |
+          rustup target add wasm32-unknown-unknown
+      - name: Build wasm binary
+        run: |
+          cd ./contracts/msgfees
+          make all
+      - name: Provenance Test
+        uses: provenance-io/provenance-testing-action@v1.1.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          provenance_version: "v1.11.1"
+          test_script: "./scripts/msgfees_test.sh"
+          generate_proposals: true
+          wasm_path: "./contracts/msgfees/artifacts/msgfees.wasm"
+      - name: Upload wasm
+        uses: actions/upload-artifact@v3
+        with:
+          name: msgfees_smart_contract_wasm
+          path: |
+            ./contracts/msgfees/artifacts/msgfees.wasm
+            ./contracts/msgfees/artifacts/checksums.txt
+
+  name_smart_contract:
+    runs-on: ubuntu-latest
+    needs:
+      - build_init
+    name: Test Name Smart Contract
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Add wasm32 target
+        run: |
+          rustup target add wasm32-unknown-unknown
+      - name: Build wasm binary
+        run: |
+          cd ./contracts/name
+          make all
+      - name: Smart Contract Test setup
+        uses: provenance-io/provenance-testing-action@v1.1.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          provenance_version: "v1.11.1"
+          test_script: "./scripts/name_test.sh"
+          generate_proposals: true
+          wasm_path: "./contracts/name/artifacts/name.wasm"
+      - name: Upload wasm
+        uses: actions/upload-artifact@v3
+        with:
+          name: name_smart_contract_wasm
+          path: |
+            ./contracts/name/artifacts/name.wasm
+            ./contracts/name/artifacts/checksums.txt
+
+  scope_smart_contract:
+    runs-on: ubuntu-latest
+    needs:
+      - build_init
+    name: Test Scope Smart Contract
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Add wasm32 target
+        run: |
+          rustup target add wasm32-unknown-unknown
+      - name: Build wasm binary
+        run: |
+          cd ./contracts/scope
+          make all
+      - name: Smart Contract Test setup
+        uses: provenance-io/provenance-testing-action@v1.1.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          provenance_version: "v1.11.1"
+          test_script: "./scripts/scope_test.sh"
+          generate_proposals: true
+          wasm_path: "./contracts/scope/artifacts/scope.wasm"
+      - name: Upload wasm
+        uses: actions/upload-artifact@v3
+        with:
+          name: scope_smart_contract_wasm
+          path: |
+            ./contracts/scope/artifacts/scope.wasm
+            ./contracts/scope/artifacts/checksums.txt
+
+  create_release:
+    runs-on: ubuntu-latest
+    needs:
+      - build_init
+      - attrs_smart_contract
+      - marker_smart_contract
+      - msgfees_smart_contract
+      - name_smart_contract
+      - scope_smart_contract
+      - tutorial_smart_contract
+    name: Create Release
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Download all artifacts
+        uses: marcofaggian/action-download-multiple-artifacts@v3.0.8
+        with:
+          workflow: release.yml
+          commit: ${{ github.sha }}
+          names: attrs_smart_contract_wasm attrs_smart_contract_proposals marker_smart_contract_wasm marker_smart_contract_proposals msgfees_smart_contract_wasm msgfees_smart_contract_proposals name_smart_contract_wasm name_smart_contract_proposals scope_smart_contract_wasm scope_smart_contract_proposals tutorial_smart_contract_wasm tutorial_smart_contract_proposals
+          paths: ${{ github.workspace }}/download/artifacts/attrs ${{ github.workspace }}/download/artifacts/attrs ${{ github.workspace }}/download/artifacts/marker ${{ github.workspace }}/download/artifacts/marker ${{ github.workspace }}/download/artifacts/msgfees ${{ github.workspace }}/download/artifacts/msgfees ${{ github.workspace }}/download/artifacts/name ${{ github.workspace }}/download/artifacts/name ${{ github.workspace }}/download/artifacts/scope ${{ github.workspace }}/download/artifacts/scope ${{ github.workspace }}/download/artifacts/tutorial ${{ github.workspace }}/download/artifacts/tutorial
+      - name: Create release zip artifacts
+        shell: bash
+        run: |
+          cd ${{ github.workspace }}/download/artifacts
+          cd attrs && zip -r ${{ github.workspace }}/download/artifacts/attrs_contract.zip ./* && cd -
+          cd marker && zip -r ${{ github.workspace }}/download/artifacts/marker_contract.zip ./* && cd -
+          cd msgfees && zip -r ${{ github.workspace }}/download/artifacts/msgfees_contract.zip ./* && cd -
+          cd name && zip -r ${{ github.workspace }}/download/artifacts/name_contract.zip ./* && cd -
+          cd scope && zip -r ${{ github.workspace }}/download/artifacts/scope_contract.zip ./* && cd -
+          cd tutorial && zip -r ${{ github.workspace }}/download/artifacts/tutorial_contract.zip ./* && cd -
       - name: Create release ${{ needs.build_init.outputs.version }}
         uses: softprops/action-gh-release@v1
-        id: create_release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
-          name: ${{ github.ref }}
-          draft: false
-          prerelease: false
           body_path: RELEASE_CHANGELOG.md
-          token: ${{ secrets.GITHUB_TOKEN }}
           files: |
-            **/artifacts/*.wasm
+            ${{ github.workspace }}/download/artifacts/attrs_contract.zip
+            ${{ github.workspace }}/download/artifacts/marker_contract.zip
+            ${{ github.workspace }}/download/artifacts/name_contract.zip
+            ${{ github.workspace }}/download/artifacts/scope_contract.zip
+            ${{ github.workspace }}/download/artifacts/tutorial_contract.zip

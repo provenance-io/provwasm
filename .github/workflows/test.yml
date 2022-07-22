@@ -1,6 +1,6 @@
 name: Tests
 #  Tests workflow builds all of the example smart contracts and then runs tests with them on Provenance
-#  This workflow is run on pushes to master & every Pull Request,
+#  This workflow is run on pushes to main & every Pull Request,
 on:
   push:
     branches: [ main ]
@@ -10,8 +10,9 @@ jobs:
   #  This action cleans up previously running instances of a workflow on the same branch. This accomplishes
   #  the task of automatically cancelling CI runs on pushes to the same branch, which is a common feature in
   #  most CI systems but currently not possible with GitHub actions.
-  cleanup-runs:
+  cleanup_runs:
     runs-on: ubuntu-latest
+    name: Cleanup Workflows
     steps:
       - uses: rokroskar/workflow-run-cleanup-action@v0.3.3
         env:
@@ -25,7 +26,7 @@ jobs:
       - id: version
         run: echo "::set-output name=version::${GITHUB_REF##*/}"
 
-  test_tutorial_smart_contract:
+  tutorial_smart_contract:
     runs-on: ubuntu-latest
     needs:
       - build_init
@@ -48,8 +49,15 @@ jobs:
           test_script: "./scripts/tutorial_test.sh"
           generate_proposals: true
           wasm_path: "./contracts/tutorial/artifacts/provwasm_tutorial.wasm"
+      - name: Upload wasm
+        uses: actions/upload-artifact@v3
+        with:
+          name: tutorial_smart_contract_wasm
+          path: |
+            ./contracts/tutorial/artifacts/provwasm_tutorial.wasm
+            ./contracts/tutorial/artifacts/checksums.txt
 
-  test_attrs_smart_contract:
+  attrs_smart_contract:
     runs-on: ubuntu-latest
     needs:
       - build_init
@@ -72,8 +80,15 @@ jobs:
           test_script: "./scripts/attrs_test.sh"
           generate_proposals: true
           wasm_path: "./contracts/attrs/artifacts/attrs.wasm"
+      - name: Upload wasm
+        uses: actions/upload-artifact@v3
+        with:
+          name: attrs_smart_contract_wasm
+          path: |
+            ./contracts/attrs/artifacts/attrs.wasm
+            ./contracts/attrs/artifacts/checksums.txt
 
-  test_marker_smart_contract:
+  marker_smart_contract:
     runs-on: ubuntu-latest
     needs:
       - build_init
@@ -96,8 +111,15 @@ jobs:
           test_script: "./scripts/marker_test.sh"
           generate_proposals: true
           wasm_path: "./contracts/marker/artifacts/marker.wasm"
+      - name: Upload wasm
+        uses: actions/upload-artifact@v3
+        with:
+          name: marker_smart_contract_wasm
+          path: |
+            ./contracts/marker/artifacts/marker.wasm
+            ./contracts/marker/artifacts/checksums.txt
 
-  test_msgfees_smart_contract:
+  msgfees_smart_contract:
     runs-on: ubuntu-latest
     needs:
       - build_init
@@ -120,8 +142,15 @@ jobs:
           test_script: "./scripts/msgfees_test.sh"
           generate_proposals: true
           wasm_path: "./contracts/msgfees/artifacts/msgfees.wasm"
+      - name: Upload wasm
+        uses: actions/upload-artifact@v3
+        with:
+          name: msgfees_smart_contract_wasm
+          path: |
+            ./contracts/msgfees/artifacts/msgfees.wasm
+            ./contracts/msgfees/artifacts/checksums.txt
 
-  test_name_smart_contract:
+  name_smart_contract:
     runs-on: ubuntu-latest
     needs:
       - build_init
@@ -144,8 +173,15 @@ jobs:
           test_script: "./scripts/name_test.sh"
           generate_proposals: true
           wasm_path: "./contracts/name/artifacts/name.wasm"
+      - name: Upload wasm
+        uses: actions/upload-artifact@v3
+        with:
+          name: name_smart_contract_wasm
+          path: |
+            ./contracts/name/artifacts/name.wasm
+            ./contracts/name/artifacts/checksums.txt
 
-  test_scope_smart_contract:
+  scope_smart_contract:
     runs-on: ubuntu-latest
     needs:
       - build_init
@@ -168,3 +204,10 @@ jobs:
           test_script: "./scripts/scope_test.sh"
           generate_proposals: true
           wasm_path: "./contracts/scope/artifacts/scope.wasm"
+      - name: Upload wasm
+        uses: actions/upload-artifact@v3
+        with:
+          name: scope_smart_contract_wasm
+          path: |
+            ./contracts/scope/artifacts/scope.wasm
+            ./contracts/scope/artifacts/checksums.txt
