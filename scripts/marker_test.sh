@@ -2,8 +2,16 @@
 
 # This script stores, instantiates and executes the marker smart contract
 export PROV_CMD="./bin/provenanced"
+PROV_CMD="./bin/provenanced"
+WASM="./contracts/marker/artifacts/marker.wasm"
+declare LOCAL_ARGS
+if [ -z "${CI}" ]; then
+  PROV_CMD=provenanced
+  LOCAL_ARGS="--home build/run/provenanced"
+  WASM=$1
+fi
 
-export node0=$("$PROV_CMD" keys show -a validator --keyring-backend test --testnet)
+export node0=$("$PROV_CMD" keys show -a validator --keyring-backend test --testnet $LOCAL_ARGS)
 
 "$PROV_CMD" tx name bind \
     "sc" \
@@ -18,9 +26,9 @@ export node0=$("$PROV_CMD" keys show -a validator --keyring-backend test --testn
 	  --gas-adjustment=1.5 \
     --broadcast-mode block \
     --yes \
-    --testnet
+    --testnet $LOCAL_ARGS
 
-"$PROV_CMD" tx wasm store ./contracts/marker/artifacts/marker.wasm \
+"$PROV_CMD" tx wasm store $WASM \
     --instantiate-only-address "$node0" \
     --from="$node0" \
     --keyring-backend test \
@@ -30,7 +38,7 @@ export node0=$("$PROV_CMD" keys show -a validator --keyring-backend test --testn
 	  --gas-adjustment=1.5 \
     --broadcast-mode block \
     --yes \
-    --testnet
+    --testnet $LOCAL_ARGS
 
 "$PROV_CMD" tx wasm instantiate 1 '{"name":"marker-itv2.sc.pb"}' \
     --admin "$node0" \
@@ -43,10 +51,10 @@ export node0=$("$PROV_CMD" keys show -a validator --keyring-backend test --testn
 	  --gas-adjustment=1.5 \
     --broadcast-mode block \
     --yes \
-    --testnet
+    --testnet $LOCAL_ARGS
 
 # Query for the contract address so we can execute it
-export contract=$("$PROV_CMD" query wasm list-contract-by-code 1 -t -o json | jq -r ".contracts[0]")
+export contract=$("$PROV_CMD" query wasm list-contract-by-code 1 --testnet --output json $LOCAL_ARGS | jq -r ".contracts[0]")
 
 "$PROV_CMD" tx wasm execute \
     "$contract" \
@@ -59,7 +67,7 @@ export contract=$("$PROV_CMD" query wasm list-contract-by-code 1 -t -o json | jq
 	  --gas-adjustment=1.5 \
     --broadcast-mode block \
     --yes \
-    --testnet
+    --testnet $LOCAL_ARGS
 
 #"$PROV_CMD" q marker list --testnet -o json
 #"$PROV_CMD" q wasm contract-state smart "$contract" '{"get_by_denom":{"denom":"faustiancoin"}}' --testnet -o json
@@ -75,7 +83,7 @@ export contract=$("$PROV_CMD" query wasm list-contract-by-code 1 -t -o json | jq
 	  --gas-adjustment=1.5 \
     --broadcast-mode block \
     --yes \
-    --testnet
+    --testnet $LOCAL_ARGS
 
 "$PROV_CMD" tx wasm execute \
     "$contract" \
@@ -88,7 +96,7 @@ export contract=$("$PROV_CMD" query wasm list-contract-by-code 1 -t -o json | jq
 	  --gas-adjustment=1.5 \
     --broadcast-mode block \
     --yes \
-    --testnet
+    --testnet $LOCAL_ARGS
 
 "$PROV_CMD" tx wasm execute \
     "$contract" \
@@ -101,7 +109,7 @@ export contract=$("$PROV_CMD" query wasm list-contract-by-code 1 -t -o json | jq
 	  --gas-adjustment=1.5 \
     --broadcast-mode block \
     --yes \
-    --testnet
+    --testnet $LOCAL_ARGS
 
 "$PROV_CMD" tx wasm execute \
     "$contract" \
@@ -114,7 +122,7 @@ export contract=$("$PROV_CMD" query wasm list-contract-by-code 1 -t -o json | jq
 	  --gas-adjustment=1.5 \
     --broadcast-mode block \
     --yes \
-    --testnet
+    --testnet $LOCAL_ARGS
 
 "$PROV_CMD" tx wasm execute \
     "$contract" \
@@ -127,12 +135,10 @@ export contract=$("$PROV_CMD" query wasm list-contract-by-code 1 -t -o json | jq
 	  --gas-adjustment=1.5 \
     --broadcast-mode block \
     --yes \
-    --testnet
-
-sleep 10s
+    --testnet $LOCAL_ARGS
 
 # verify that the amount was withdrawn into the node0 address
-export faustiancoin=$("$PROV_CMD" q bank balances "$node0" -t -o json | jq -r ".balances[0].amount")
+export faustiancoin=$("$PROV_CMD" q bank balances "$node0" --testnet --output json $LOCAL_ARGS | jq -r ".balances[0].amount")
 
 if [ "$faustiancoin" != "200" ]; then
   echo "We failed to get 200faustiancoin and instead got: $faustiancoin"
@@ -150,7 +156,7 @@ fi
 	  --gas-adjustment=1.5 \
     --broadcast-mode block \
     --yes \
-    --testnet
+    --testnet $LOCAL_ARGS
 
 "$PROV_CMD" tx wasm execute \
     "$contract" \
@@ -163,6 +169,6 @@ fi
 	  --gas-adjustment=1.5 \
     --broadcast-mode block \
     --yes \
-    --testnet
+    --testnet $LOCAL_ARGS
 
 echo "Finished marker test script"

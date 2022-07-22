@@ -15,9 +15,6 @@ fi
 "$PROV_CMD" keys add feebucket --keyring-backend test --testnet --hd-path "44'/1'/0'/0/0" $LOCAL_ARGS
 "$PROV_CMD" keys add receiver --keyring-backend test --testnet --hd-path "44'/1'/0'/0/0" $LOCAL_ARGS
 
-echo "sleeping after adding keys"
-sleep 5s
-
 # setup key variables
 export node0=$("$PROV_CMD" keys show -a validator --keyring-backend test --testnet $LOCAL_ARGS)
 export sender=$("$PROV_CMD" keys show -a sender --keyring-backend test --testnet $LOCAL_ARGS)
@@ -40,9 +37,6 @@ echo "Sending coins to different keys"
 	--yes \
 	--testnet \
 	--output json $LOCAL_ARGS
-
-echo "Sleeping to allow send txs to process"
-sleep 5s
 
 echo "Binding name"
 # Setup name and new COIN for the smart contract
