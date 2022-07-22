@@ -698,15 +698,15 @@ fn create_msgfees_msg(params: MsgFeesMsgParams) -> CosmosMsg<ProvenanceMsg> {
 ///
 /// ```rust
 /// use cosmwasm_std::{Addr, Coin, Response, StdError};
-/// use provwasm_std::{create_assess_custom_fee_msg, MsgFeesMsgParams, ProvenanceMsg};
+/// use provwasm_std::{assess_custom_fee, MsgFeesMsgParams, ProvenanceMsg};
 ///
 /// fn try_assess_custom_fee(amount: Coin, name: Option<String>, from: Addr, recipient: Option<Addr>) -> Result<Response<ProvenanceMsg>, StdError>{
-///     let msg = create_assess_custom_fee_msg(amount, name, from, recipient)?;
+///     let msg = assess_custom_fee(amount, name, from, recipient)?;
 ///     let res = Response::new().add_message(msg);
 ///     Ok(res)
 /// }
 /// ```
-pub fn create_assess_custom_fee_msg<S: Into<String>>(
+pub fn assess_custom_fee<S: Into<String>>(
     amount: Coin,
     name: Option<S>,
     from: Addr,

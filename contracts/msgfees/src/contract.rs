@@ -1,6 +1,6 @@
 use cosmwasm_std::CosmosMsg::Bank;
 use cosmwasm_std::{entry_point, Addr, BankMsg, Coin, DepsMut, Env, MessageInfo, Response};
-use provwasm_std::{create_assess_custom_fee_msg, ProvenanceMsg, ProvenanceQuery};
+use provwasm_std::{assess_custom_fee, ProvenanceMsg, ProvenanceQuery};
 
 use crate::error::ContractError;
 use crate::msg::{ExecuteMsg, InitMsg};
@@ -66,7 +66,7 @@ pub fn try_send_funds(
     match state.fee_amount {
         Some(fee) => {
             // Create a message that will assess a custom fee
-            res = res.add_message(create_assess_custom_fee_msg(
+            res = res.add_message(assess_custom_fee(
                 fee.to_owned(),
                 Some("std_contract_fee"),
                 env.contract.address,

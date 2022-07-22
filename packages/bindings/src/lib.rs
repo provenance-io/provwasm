@@ -6,8 +6,8 @@ mod query;
 mod types;
 
 pub use msg::{
-    activate_marker, add_attribute, add_json_attribute, bind_name, burn_marker_supply,
-    cancel_marker, create_assess_custom_fee_msg, create_marker, delete_attributes, destroy_marker,
+    activate_marker, add_attribute, add_json_attribute, assess_custom_fee, bind_name,
+    burn_marker_supply, cancel_marker, create_marker, delete_attributes, destroy_marker,
     finalize_marker, grant_marker_access, mint_marker_supply, revoke_marker_access,
     transfer_marker_coins, unbind_name, withdraw_coins, write_scope, AttributeMsgParams,
     MarkerMsgParams, MetadataMsgParams, MsgFeesMsgParams, NameMsgParams, ProvenanceMsg,
