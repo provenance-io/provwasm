@@ -274,16 +274,16 @@ pub fn delete_attributes<H: Into<Addr>, S: Into<String>>(
 ///
 /// ```rust
 /// // Imports required
-/// use cosmwasm_std::{Addr, Response, StdResult};
+/// use cosmwasm_std::{Addr, Response, StdResult, to_binary};
 /// use provwasm_std::{delete_distinct_attribute, ProvenanceMsg};
 ///
 /// // Delete the distinct label attribute. NOTE: The name below must resolve to the contract address.
-/// fn exec_delete_labels(
+/// fn try_delete_distinct_label(
 ///     address: Addr,
 /// ) -> StdResult<Response<ProvenanceMsg>> {
 ///     let attr_name = String::from("label.my-contract.sc.pb");
 ///     let attr_value = String::from("hello");
-///     let msg = delete_distinct_attribute(address, &attr_name, &attr_value)?;
+///     let msg = delete_distinct_attribute(address, &attr_name, to_binary(&attr_value)?)?;
 ///     let mut res = Response::new().add_message(msg);
 ///     Ok(res)
 /// }
