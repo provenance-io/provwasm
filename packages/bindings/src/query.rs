@@ -5,7 +5,7 @@ use serde::{Deserialize, Serialize};
 use crate::types::ProvenanceRoute;
 
 /// Represents a request to query a custom provenance module.
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub struct ProvenanceQuery {
     pub route: ProvenanceRoute,        // The module router key
@@ -18,7 +18,7 @@ pub struct ProvenanceQuery {
 impl CustomQuery for ProvenanceQuery {}
 
 /// Input params for custom provenance queriers.
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum ProvenanceQueryParams {
     Name(NameQueryParams),
@@ -28,7 +28,7 @@ pub enum ProvenanceQueryParams {
 }
 
 /// Params for name queries.
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum NameQueryParams {
     Resolve { name: String },
@@ -36,7 +36,7 @@ pub enum NameQueryParams {
 }
 
 /// Params for attribute queries.
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum AttributeQueryParams {
     GetAttributes { address: Addr, name: String },
@@ -44,7 +44,7 @@ pub enum AttributeQueryParams {
 }
 
 /// Params for marker queries.
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum MarkerQueryParams {
     GetMarkerByAddress { address: Addr },
@@ -52,7 +52,7 @@ pub enum MarkerQueryParams {
 }
 
 /// Params for metadata queries
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum MetadataQueryParams {
     GetScope {

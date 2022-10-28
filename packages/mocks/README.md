@@ -16,7 +16,7 @@ This crate is part of the provwasm repository, licensed under the Apache License
 
 // ref: contracts/name/src/msg.rs
 
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum QueryMsg {
     Resolve { name: String },
