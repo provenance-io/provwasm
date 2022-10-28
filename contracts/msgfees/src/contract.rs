@@ -63,20 +63,17 @@ pub fn try_send_funds(
         .add_attribute("integration_test", "msgfees")
         .add_attribute("action", "provwasm.contracts.msgfees.try_send_funds");
 
-    match state.fee_amount {
-        Some(fee) => {
-            // Create a message that will assess a custom fee
-            res = res.add_message(assess_custom_fee(
-                fee.to_owned(),
-                Some("std_contract_fee"),
-                env.contract.address,
-                state.fee_recipient.to_owned(),
-            )?);
-            res = res
-                .add_attribute("fee_recipient", format!("{:?}", &state.fee_recipient))
-                .add_attribute("fee_amount", format!("{:?}", &fee));
-        }
-        None => {}
+    if let Some(fee) = state.fee_amount {
+        // Create a message that will assess a custom fee
+        res = res.add_message(assess_custom_fee(
+            fee.to_owned(),
+            Some("std_contract_fee"),
+            env.contract.address,
+            state.fee_recipient.to_owned(),
+        )?);
+        res = res
+            .add_attribute("fee_recipient", format!("{:?}", &state.fee_recipient))
+            .add_attribute("fee_amount", format!("{:?}", &fee));
     }
 
     // Create a message that will send funds to the to_address.
