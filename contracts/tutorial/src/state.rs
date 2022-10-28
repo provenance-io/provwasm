@@ -7,7 +7,7 @@ use cosmwasm_storage::{singleton, singleton_read, ReadonlySingleton, Singleton};
 pub static CONFIG_KEY: &[u8] = b"config";
 
 /// Fields that comprise the smart contract state
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 pub struct State {
     // The required purchase denomination
     pub purchase_denom: String,
