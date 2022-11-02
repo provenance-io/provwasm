@@ -159,7 +159,6 @@ fn try_purchase(
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::msg::QueryResponse;
     use cosmwasm_std::testing::{mock_env, mock_info};
     use cosmwasm_std::{from_binary, Addr};
     use provwasm_mocks::mock_dependencies;
@@ -275,7 +274,7 @@ mod tests {
 
         // Call the smart contract query function to get stored state.
         let bin = query(deps.as_ref(), mock_env(), QueryMsg::QueryRequest {}).unwrap();
-        let resp: QueryResponse = from_binary(&bin).unwrap();
+        let resp: State = from_binary(&bin).unwrap();
 
         // Ensure the expected init fields were properly stored.
         assert_eq!(resp.merchant_address, Addr::unchecked("merchant"));
