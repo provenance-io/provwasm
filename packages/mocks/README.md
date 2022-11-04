@@ -16,10 +16,13 @@ This crate is part of the provwasm repository, licensed under the Apache License
 
 // ref: contracts/name/src/msg.rs
 
-#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
-#[serde(rename_all = "snake_case")]
+#[cw_serde]
+#[derive(QueryResponses)]
 pub enum QueryMsg {
+    #[returns(provwasm_std::Name)]
     Resolve { name: String },
+    #[returns(provwasm_std::Names)]
+    Lookup { address: String },
 }
 
 // ref: contracts/name/src/contract.rs
@@ -32,7 +35,7 @@ use provwasm_std::Name;
 #[test]
 fn query_resolve() {
     // Create provenance mock deps with a single bound name.
-    let mut deps = mock_dependencies();
+    let mut deps = mock_dependencies(&[]);
     deps.querier
         .with_names(&[("a.pb", "tp1y0txdp3sqmxjvfdaa8hfvwcljl8ugcfv26uync", false)]);
 
@@ -44,13 +47,10 @@ fn query_resolve() {
             name: "a.pb".into(),
         },
     )
-    .unwrap();
+        .unwrap();
 
     // Ensure that we got the expected address.
     let rep: Name = from_binary(&bin).unwrap();
-    assert_eq!(
-        rep.address.as_str(),
-        "tp1y0txdp3sqmxjvfdaa8hfvwcljl8ugcfv26uync"
-    )
+    assert_eq!(rep.address, "tp1y0txdp3sqmxjvfdaa8hfvwcljl8ugcfv26uync")
 }
 ```
