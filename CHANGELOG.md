@@ -2,18 +2,22 @@
 
 ## Unreleased changes
 
-* Smart Contract MsgFee Support [#87](https://github.com/provenance-io/provwasm/issues/87)
-* Add `UpdateAttribute` and `DeleteDistinctAttribute` bindings [#86](https://github.com/provenance-io/provwasm/issues/86)
+Upgrade to latest cosmwasm v1.1.5 ([#95](https://github.com/provenance-io/provwasm/issues/95))
 
 ## Releases
 
+### [v1.1.0](https://github.com/provenance-io/provwasm/tree/v1.1.0)
+
+* Smart Contract MsgFee Support ([#87](https://github.com/provenance-io/provwasm/issues/87))
+* Add `UpdateAttribute` and `DeleteDistinctAttribute` bindings ([#86](https://github.com/provenance-io/provwasm/issues/86))
+
 ### [v1.0.0](https://github.com/provenance-io/provwasm/tree/v1.0.0)
 
-* Upgrade to CosmWasm v1.0.0 [#88](https://github.com/provenance-io/provwasm/issues/88)
+* Upgrade to CosmWasm v1.0.0 ([#88](https://github.com/provenance-io/provwasm/issues/88))
 
 ### [v1.0.0-rc.0](https://github.com/provenance-io/provwasm/tree/v1.0.0-rc.0)
 
-* Upgrade to CosmWasm v1.0.0-rc.0 [#83](https://github.com/provenance-io/provwasm/issues/83)
+* Upgrade to CosmWasm v1.0.0-rc.0 ([#83](https://github.com/provenance-io/provwasm/issues/83))
 
 ### [v1.0.0-beta3](https://github.com/provenance-io/provwasm/tree/v1.0.0-beta3)
 
