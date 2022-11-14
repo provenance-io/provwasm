@@ -154,7 +154,7 @@ impl<'a> ProvenanceQuerier<'a> {
     /// }
     ///
     /// // Text with timestamp.
-    /// #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+    /// #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
     /// #[serde(rename_all = "snake_case")]
     /// pub struct Label {
     ///     pub text: String,

@@ -100,7 +100,7 @@ use cosmwasm_storage::{singleton, singleton_read, ReadonlySingleton, Singleton};
 pub static CONFIG_KEY: &[u8] = b"config";
 
 /// Fields that comprise the smart contract state
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 pub struct State {
     // The required purchase denomination
     pub purchase_denom: String,
@@ -128,14 +128,13 @@ File: `src/msg.rs`
 Define message types for the smart contract.
 
 ```rust
+use cosmwasm_schema::{cw_serde, QueryResponses};
 use cosmwasm_std::Decimal;
-use schemars::JsonSchema;
-use serde::{Deserialize, Serialize};
 
 use crate::state::State;
 
 /// A message sent to initialize the contract state.
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[cw_serde]
 pub struct InitMsg {
     pub contract_name: String,
     pub purchase_denom: String,
@@ -144,21 +143,18 @@ pub struct InitMsg {
 }
 
 /// A message sent to transfer funds and collect fees for a purchase.
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
-#[serde(rename_all = "snake_case")]
+#[cw_serde]
 pub enum ExecuteMsg {
     Purchase { id: String },
 }
 
 /// A message sent to query contract config state.
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
-#[serde(rename_all = "snake_case")]
+#[cw_serde]
+#[derive(QueryResponses)]
 pub enum QueryMsg {
+    #[returns(crate::state::State)]
     QueryRequest {},
 }
-
-/// A type alias for contract state.
-pub type QueryResponse = State;
 ```
 
 ### Message Handlers

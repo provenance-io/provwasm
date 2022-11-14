@@ -12,7 +12,7 @@ use crate::Scope;
 static MSG_DATAFMT_VERSION: &str = "2.0.0";
 
 /// Represents a request to encode custom provenance messages.
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub struct ProvenanceMsg {
     pub route: ProvenanceRoute,      // The module router key
@@ -23,7 +23,7 @@ pub struct ProvenanceMsg {
 impl CustomMsg for ProvenanceMsg {}
 
 /// Input params for custom provenance message encoders.
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 pub enum ProvenanceMsgParams {
     Name(NameMsgParams),
     Attribute(AttributeMsgParams),
@@ -33,7 +33,7 @@ pub enum ProvenanceMsgParams {
 }
 
 /// Input params for creating name module messages.
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum NameMsgParams {
     BindName {
@@ -109,7 +109,7 @@ pub fn unbind_name<S: Into<String>>(name: S) -> StdResult<CosmosMsg<ProvenanceMs
 }
 
 /// Input params for creating attribute module messages.
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum AttributeMsgParams {
     AddAttribute {
@@ -220,7 +220,7 @@ pub fn add_attribute<H: Into<Addr>, S: Into<String>, B: Into<Binary>>(
 /// }
 ///
 /// // Text with a timestamp.
-/// #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+/// #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 /// #[serde(rename_all = "snake_case")]
 /// pub struct Label {
 ///     pub text: String,
@@ -362,7 +362,7 @@ pub fn update_attribute<H: Into<Addr>, S: Into<String>, B: Into<Binary>>(
 }
 
 /// Input params for creating marker module messages.
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum MarkerMsgParams {
     CreateMarker {
@@ -734,7 +734,7 @@ pub fn transfer_marker_coins<S: Into<String>, H: Into<Addr>>(
 }
 
 /// Input params for creating marker module messages.
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum MetadataMsgParams {
     WriteScope { scope: Scope, signers: Vec<Addr> },
@@ -779,7 +779,7 @@ pub fn write_scope<S: Into<Scope>, H: Into<Addr>>(
 }
 
 /// Input params for creating msgfee module messages.
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum MsgFeesMsgParams {
     AssessCustomFee {

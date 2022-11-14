@@ -3,7 +3,7 @@ use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
 /// Supported provenance module router keys.
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum ProvenanceRoute {
     Attribute,
@@ -14,14 +14,14 @@ pub enum ProvenanceRoute {
 }
 
 /// A collection of bound names.
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub struct Names {
     pub records: Vec<Name>,
 }
 
 /// A name bound to an address.
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub struct Name {
     pub name: String,
@@ -30,7 +30,7 @@ pub struct Name {
 }
 
 /// A type for name bindings
-#[derive(Serialize, Deserialize, Clone, Debug, Hash, PartialEq, JsonSchema)]
+#[derive(Serialize, Deserialize, Clone, Debug, Hash, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum NameBinding {
     Restricted,
@@ -45,7 +45,7 @@ impl Default for NameBinding {
 }
 
 /// A collection of attributes associated with an account address.
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub struct Attributes {
     pub address: Addr,
@@ -54,7 +54,7 @@ pub struct Attributes {
 }
 
 /// Allowed attribute value types.
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum AttributeValueType {
     Uuid,
@@ -69,7 +69,7 @@ pub enum AttributeValueType {
 }
 
 /// A typed key-value pair.
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub struct Attribute {
     pub name: String,
@@ -79,7 +79,7 @@ pub struct Attribute {
 }
 
 /// A marker account
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub struct Marker {
     pub address: Addr,
@@ -105,7 +105,7 @@ impl Marker {
 }
 
 /// Marker permissions granted to another account.
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub struct AccessGrant {
     pub permissions: Vec<MarkerAccess>,
@@ -113,7 +113,7 @@ pub struct AccessGrant {
 }
 
 /// Marker permission types.
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum MarkerAccess {
     Admin,
@@ -142,7 +142,7 @@ impl MarkerAccess {
 }
 
 /// Marker types.
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum MarkerType {
     Coin,
@@ -151,7 +151,7 @@ pub enum MarkerType {
 }
 
 /// Marker status types.
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum MarkerStatus {
     Active,
@@ -163,7 +163,7 @@ pub enum MarkerStatus {
 }
 
 /// A collection of records owned by one or more parties.
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub struct Scope {
     pub scope_id: String,
@@ -176,7 +176,7 @@ pub struct Scope {
 }
 
 /// The final state of an execution context for a specification instance.
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub struct Session {
     pub name: String,
@@ -188,14 +188,14 @@ pub struct Session {
 }
 
 /// A group of sessions.
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub struct Sessions {
     pub sessions: Vec<Session>,
 }
 
 /// A record of fact for a session.
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub struct Record {
     pub name: String,
@@ -209,14 +209,14 @@ pub struct Record {
 }
 
 /// A group of records.
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub struct Records {
     pub records: Vec<Record>,
 }
 
 /// An address with an associated role.
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub struct Party {
     pub address: Addr,
@@ -224,7 +224,7 @@ pub struct Party {
 }
 
 /// Roles that can be associated to a party.
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum PartyType {
     Originator,
@@ -239,7 +239,7 @@ pub enum PartyType {
 }
 
 /// The process that generated a record.
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub struct Process {
     pub process_id: ProcessId,
@@ -248,7 +248,7 @@ pub struct Process {
 }
 
 /// The representations of a process id.
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum ProcessId {
     /// The on-chain address of a process.
@@ -258,7 +258,7 @@ pub enum ProcessId {
 }
 
 /// The inputs used to produce a record.
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub struct RecordInput {
     pub name: String,
@@ -268,7 +268,7 @@ pub struct RecordInput {
 }
 
 /// The representations of a record input source.
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum RecordInputSource {
     /// The address of a record on chain (established records).
@@ -278,7 +278,7 @@ pub enum RecordInputSource {
 }
 
 /// Record input types.
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum RecordInputStatus {
     Proposed,
@@ -287,7 +287,7 @@ pub enum RecordInputStatus {
 }
 
 /// The output of a process recorded on chain.
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub struct RecordOutput {
     pub hash: String,
@@ -295,7 +295,7 @@ pub struct RecordOutput {
 }
 
 /// Result status types.
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum ResultStatus {
     Pass,

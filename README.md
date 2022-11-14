@@ -3,29 +3,26 @@
 This crate provides bindings to enable CosmWasm smart contracts to interact with custom provenance
 blockchain modules.
 
-| Crate          | Download | Docs |
-| -------------- | -------- | ---- |
-| provwasm-std   | [![provwasm-std on crates.io](https://img.shields.io/crates/v/provwasm-std.svg)](https://crates.io/crates/provwasm-std) |  [![Docs](https://docs.rs/provwasm-std/badge.svg)](https://docs.rs/provwasm-std) |
+| Crate          | Download                                                                                                                      | Docs                                                                                |
+|----------------|-------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|
+| provwasm-std   | [![provwasm-std on crates.io](https://img.shields.io/crates/v/provwasm-std.svg)](https://crates.io/crates/provwasm-std)       | [![Docs](https://docs.rs/provwasm-std/badge.svg)](https://docs.rs/provwasm-std)     |
 | provwasm-mocks | [![provwasm-mocks on crates.io](https://img.shields.io/crates/v/provwasm-mocks.svg)](https://crates.io/crates/provwasm-mocks) | [![Docs](https://docs.rs/provwasm-mocks/badge.svg)](https://docs.rs/provwasm-mocks) |
 
 ## Compatibility
 
 The following table shows provwasm version compatibility for smart contract development and testing.
 
-| provwasm      | wasmd          | cosmos  | provenance    | module support                 |
-|---------------|----------------|---------|---------------| ------------------------------ |
-| v1.1.0        | v0.26.X        | v0.45.X | v1.11.X       | attribute,marker,metadata,name |
-| v1.0.0        | v0.26.X        | v0.45.X | v1.9.X        | attribute,marker,metadata,name |
-| v1.0.0-rc.0   | v0.26.X        | v0.45.X | v1.9.X        | attribute,marker,metadata,name |
-| v1.0.0-beta3  | v0.22.0        | v0.45.X | v1.8.X        | attribute,marker,metadata,name |
-| v1.0.0-beta2  | v0.22.0        | v0.45.X | v1.8.X        | attribute,marker,metadata,name |
-| v0.16.0       | v0.18.0        | v0.43.0 | v1.6.X        | attribute,marker,metadata,name |
-| v0.14.3       | v0.17.0        | v0.42.6 | v1.5.X        | attribute,marker,metadata,name |
-| v0.14.2       | v0.17.0        | v0.42.6 | v1.5.X        | attribute,marker,metadata,name |
-| v0.14.1       | v0.17.0        | v0.42.5 | v1.4.1+       | attribute,marker,name          |
-| v0.14.0       | v0.16.0        | v0.42.4 | v1.3.0+       | attribute,marker,name          |
-| v0.14.0-beta1 | v0.16.0-alpha1 | v0.42.3 | v0.2.1-v1.2.0 | attribute,marker,name          |
-| v0.13         | v0.15          | v0.41   | v0.2.0        | attribute,marker,name          |
+| provwasm | wasmd   | cosmos  | provenance        | module support                         |
+|----------|---------|---------|-------------------|----------------------------------------|
+| v1.1.1   | v0.29.X | v0.46.X | v1.13.X           | attribute,marker,metadata,msgfees,name |
+| v1.1.0   | v0.26.X | v0.45.X | v1.10.X - v1.12.X | attribute,marker,metadata,msgfees,name |
+| v1.0.0   | v0.26.X | v0.45.X | v1.8.X - v1.9.X   | attribute,marker,metadata,name         |
+| v0.16.0  | v0.18.0 | v0.43.0 | v1.6.X            | attribute,marker,metadata,name         |
+| v0.14.3  | v0.17.0 | v0.42.6 | v1.5.X            | attribute,marker,metadata,name         |
+| v0.14.2  | v0.17.0 | v0.42.6 | v1.5.X            | attribute,marker,metadata,name         |
+| v0.14.1  | v0.17.0 | v0.42.5 | v1.4.1+           | attribute,marker,name                  |
+| v0.14.0  | v0.16.0 | v0.42.4 | v1.3.0+           | attribute,marker,name                  |
+| v0.13    | v0.15   | v0.41   | v0.2.0            | attribute,marker,name                  |
 
 ## Getting Started
 

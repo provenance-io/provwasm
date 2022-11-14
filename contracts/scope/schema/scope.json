@@ -1,73 +1,829 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "Scope",
-  "description": "A collection of records owned by one or more parties.",
-  "type": "object",
-  "required": [
-    "scope_id",
-    "specification_id",
-    "value_owner_address"
-  ],
-  "properties": {
-    "data_access": {
-      "default": [],
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/Addr"
+  "contract_name": "scope",
+  "contract_version": "1.1.0",
+  "idl_version": "1.0.0",
+  "instantiate": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "InstantiateMsg",
+    "type": "object",
+    "required": [
+      "name"
+    ],
+    "properties": {
+      "name": {
+        "type": "string"
       }
     },
-    "owners": {
-      "default": [],
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/Party"
+    "additionalProperties": false
+  },
+  "execute": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "ExecuteMsg",
+    "oneOf": [
+      {
+        "type": "object",
+        "required": [
+          "write_scope"
+        ],
+        "properties": {
+          "write_scope": {
+            "type": "object",
+            "required": [
+              "scope",
+              "signers"
+            ],
+            "properties": {
+              "scope": {
+                "$ref": "#/definitions/Scope"
+              },
+              "signers": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/Addr"
+                }
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
       }
-    },
-    "scope_id": {
-      "type": "string"
-    },
-    "specification_id": {
-      "type": "string"
-    },
-    "value_owner_address": {
-      "$ref": "#/definitions/Addr"
+    ],
+    "definitions": {
+      "Addr": {
+        "description": "A human readable address.\n\nIn Cosmos, this is typically bech32 encoded. But for multi-chain smart contracts no assumptions should be made other than being UTF-8 encoded and of reasonable length.\n\nThis type represents a validated address. It can be created in the following ways 1. Use `Addr::unchecked(input)` 2. Use `let checked: Addr = deps.api.addr_validate(input)?` 3. Use `let checked: Addr = deps.api.addr_humanize(canonical_addr)?` 4. Deserialize from JSON. This must only be done from JSON that was validated before such as a contract's state. `Addr` must not be used in messages sent by the user because this would result in unvalidated instances.\n\nThis type is immutable. If you really need to mutate it (Really? Are you sure?), create a mutable copy using `let mut mutable = Addr::to_string()` and operate on that `String` instance.",
+        "type": "string"
+      },
+      "Party": {
+        "description": "An address with an associated role.",
+        "type": "object",
+        "required": [
+          "address",
+          "role"
+        ],
+        "properties": {
+          "address": {
+            "$ref": "#/definitions/Addr"
+          },
+          "role": {
+            "$ref": "#/definitions/PartyType"
+          }
+        }
+      },
+      "PartyType": {
+        "description": "Roles that can be associated to a party.",
+        "type": "string",
+        "enum": [
+          "originator",
+          "servicer",
+          "investor",
+          "custodian",
+          "owner",
+          "affiliate",
+          "omnibus",
+          "provenance",
+          "unspecified"
+        ]
+      },
+      "Scope": {
+        "description": "A collection of records owned by one or more parties.",
+        "type": "object",
+        "required": [
+          "scope_id",
+          "specification_id",
+          "value_owner_address"
+        ],
+        "properties": {
+          "data_access": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/Addr"
+            }
+          },
+          "owners": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/Party"
+            }
+          },
+          "scope_id": {
+            "type": "string"
+          },
+          "specification_id": {
+            "type": "string"
+          },
+          "value_owner_address": {
+            "$ref": "#/definitions/Addr"
+          }
+        }
+      }
     }
   },
-  "definitions": {
-    "Addr": {
-      "description": "A human readable address.\n\nIn Cosmos, this is typically bech32 encoded. But for multi-chain smart contracts no assumptions should be made other than being UTF-8 encoded and of reasonable length.\n\nThis type represents a validated address. It can be created in the following ways 1. Use `Addr::unchecked(input)` 2. Use `let checked: Addr = deps.api.addr_validate(input)?` 3. Use `let checked: Addr = deps.api.addr_humanize(canonical_addr)?` 4. Deserialize from JSON. This must only be done from JSON that was validated before such as a contract's state. `Addr` must not be used in messages sent by the user because this would result in unvalidated instances.\n\nThis type is immutable. If you really need to mutate it (Really? Are you sure?), create a mutable copy using `let mut mutable = Addr::to_string()` and operate on that `String` instance.",
-      "type": "string"
-    },
-    "Party": {
-      "description": "An address with an associated role.",
+  "query": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "QueryMsg",
+    "oneOf": [
+      {
+        "type": "object",
+        "required": [
+          "get_scope"
+        ],
+        "properties": {
+          "get_scope": {
+            "type": "object",
+            "required": [
+              "id"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "get_sessions"
+        ],
+        "properties": {
+          "get_sessions": {
+            "type": "object",
+            "required": [
+              "scope_id"
+            ],
+            "properties": {
+              "scope_id": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "get_records"
+        ],
+        "properties": {
+          "get_records": {
+            "type": "object",
+            "required": [
+              "scope_id"
+            ],
+            "properties": {
+              "scope_id": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "get_record_by_name"
+        ],
+        "properties": {
+          "get_record_by_name": {
+            "type": "object",
+            "required": [
+              "name",
+              "scope_id"
+            ],
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "scope_id": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  "migrate": null,
+  "sudo": null,
+  "responses": {
+    "get_record_by_name": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Record",
+      "description": "A record of fact for a session.",
       "type": "object",
       "required": [
-        "address",
-        "role"
+        "name",
+        "process",
+        "session_id",
+        "specification_id"
       ],
       "properties": {
-        "address": {
-          "$ref": "#/definitions/Addr"
+        "inputs": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RecordInput"
+          }
         },
-        "role": {
-          "$ref": "#/definitions/PartyType"
+        "name": {
+          "type": "string"
+        },
+        "outputs": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RecordOutput"
+          }
+        },
+        "process": {
+          "$ref": "#/definitions/Process"
+        },
+        "session_id": {
+          "type": "string"
+        },
+        "specification_id": {
+          "type": "string"
+        }
+      },
+      "definitions": {
+        "Process": {
+          "description": "The process that generated a record.",
+          "type": "object",
+          "required": [
+            "method",
+            "name",
+            "process_id"
+          ],
+          "properties": {
+            "method": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "process_id": {
+              "$ref": "#/definitions/ProcessId"
+            }
+          }
+        },
+        "ProcessId": {
+          "description": "The representations of a process id.",
+          "oneOf": [
+            {
+              "description": "The on-chain address of a process.",
+              "type": "object",
+              "required": [
+                "address"
+              ],
+              "properties": {
+                "address": {
+                  "type": "object",
+                  "required": [
+                    "address"
+                  ],
+                  "properties": {
+                    "address": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "description": "The hash of an off-chain process.",
+              "type": "object",
+              "required": [
+                "hash"
+              ],
+              "properties": {
+                "hash": {
+                  "type": "object",
+                  "required": [
+                    "hash"
+                  ],
+                  "properties": {
+                    "hash": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "RecordInput": {
+          "description": "The inputs used to produce a record.",
+          "type": "object",
+          "required": [
+            "name",
+            "source",
+            "status",
+            "type_name"
+          ],
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "source": {
+              "$ref": "#/definitions/RecordInputSource"
+            },
+            "status": {
+              "$ref": "#/definitions/RecordInputStatus"
+            },
+            "type_name": {
+              "type": "string"
+            }
+          }
+        },
+        "RecordInputSource": {
+          "description": "The representations of a record input source.",
+          "oneOf": [
+            {
+              "description": "The address of a record on chain (established records).",
+              "type": "object",
+              "required": [
+                "record"
+              ],
+              "properties": {
+                "record": {
+                  "type": "object",
+                  "required": [
+                    "record_id"
+                  ],
+                  "properties": {
+                    "record_id": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "description": "The hash of an off-chain piece of information (proposed records).",
+              "type": "object",
+              "required": [
+                "hash"
+              ],
+              "properties": {
+                "hash": {
+                  "type": "object",
+                  "required": [
+                    "hash"
+                  ],
+                  "properties": {
+                    "hash": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "RecordInputStatus": {
+          "description": "Record input types.",
+          "type": "string",
+          "enum": [
+            "proposed",
+            "record",
+            "unspecified"
+          ]
+        },
+        "RecordOutput": {
+          "description": "The output of a process recorded on chain.",
+          "type": "object",
+          "required": [
+            "hash",
+            "status"
+          ],
+          "properties": {
+            "hash": {
+              "type": "string"
+            },
+            "status": {
+              "$ref": "#/definitions/ResultStatus"
+            }
+          }
+        },
+        "ResultStatus": {
+          "description": "Result status types.",
+          "type": "string",
+          "enum": [
+            "pass",
+            "skip",
+            "fail",
+            "unspecified"
+          ]
         }
       }
     },
-    "PartyType": {
-      "description": "Roles that can be associated to a party.",
-      "type": "string",
-      "enum": [
-        "originator",
-        "servicer",
-        "investor",
-        "custodian",
-        "owner",
-        "affiliate",
-        "omnibus",
-        "provenance",
-        "unspecified"
-      ]
+    "get_records": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Records",
+      "description": "A group of records.",
+      "type": "object",
+      "required": [
+        "records"
+      ],
+      "properties": {
+        "records": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Record"
+          }
+        }
+      },
+      "definitions": {
+        "Process": {
+          "description": "The process that generated a record.",
+          "type": "object",
+          "required": [
+            "method",
+            "name",
+            "process_id"
+          ],
+          "properties": {
+            "method": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "process_id": {
+              "$ref": "#/definitions/ProcessId"
+            }
+          }
+        },
+        "ProcessId": {
+          "description": "The representations of a process id.",
+          "oneOf": [
+            {
+              "description": "The on-chain address of a process.",
+              "type": "object",
+              "required": [
+                "address"
+              ],
+              "properties": {
+                "address": {
+                  "type": "object",
+                  "required": [
+                    "address"
+                  ],
+                  "properties": {
+                    "address": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "description": "The hash of an off-chain process.",
+              "type": "object",
+              "required": [
+                "hash"
+              ],
+              "properties": {
+                "hash": {
+                  "type": "object",
+                  "required": [
+                    "hash"
+                  ],
+                  "properties": {
+                    "hash": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "Record": {
+          "description": "A record of fact for a session.",
+          "type": "object",
+          "required": [
+            "name",
+            "process",
+            "session_id",
+            "specification_id"
+          ],
+          "properties": {
+            "inputs": {
+              "default": [],
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/RecordInput"
+              }
+            },
+            "name": {
+              "type": "string"
+            },
+            "outputs": {
+              "default": [],
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/RecordOutput"
+              }
+            },
+            "process": {
+              "$ref": "#/definitions/Process"
+            },
+            "session_id": {
+              "type": "string"
+            },
+            "specification_id": {
+              "type": "string"
+            }
+          }
+        },
+        "RecordInput": {
+          "description": "The inputs used to produce a record.",
+          "type": "object",
+          "required": [
+            "name",
+            "source",
+            "status",
+            "type_name"
+          ],
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "source": {
+              "$ref": "#/definitions/RecordInputSource"
+            },
+            "status": {
+              "$ref": "#/definitions/RecordInputStatus"
+            },
+            "type_name": {
+              "type": "string"
+            }
+          }
+        },
+        "RecordInputSource": {
+          "description": "The representations of a record input source.",
+          "oneOf": [
+            {
+              "description": "The address of a record on chain (established records).",
+              "type": "object",
+              "required": [
+                "record"
+              ],
+              "properties": {
+                "record": {
+                  "type": "object",
+                  "required": [
+                    "record_id"
+                  ],
+                  "properties": {
+                    "record_id": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "description": "The hash of an off-chain piece of information (proposed records).",
+              "type": "object",
+              "required": [
+                "hash"
+              ],
+              "properties": {
+                "hash": {
+                  "type": "object",
+                  "required": [
+                    "hash"
+                  ],
+                  "properties": {
+                    "hash": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "RecordInputStatus": {
+          "description": "Record input types.",
+          "type": "string",
+          "enum": [
+            "proposed",
+            "record",
+            "unspecified"
+          ]
+        },
+        "RecordOutput": {
+          "description": "The output of a process recorded on chain.",
+          "type": "object",
+          "required": [
+            "hash",
+            "status"
+          ],
+          "properties": {
+            "hash": {
+              "type": "string"
+            },
+            "status": {
+              "$ref": "#/definitions/ResultStatus"
+            }
+          }
+        },
+        "ResultStatus": {
+          "description": "Result status types.",
+          "type": "string",
+          "enum": [
+            "pass",
+            "skip",
+            "fail",
+            "unspecified"
+          ]
+        }
+      }
+    },
+    "get_scope": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Scope",
+      "description": "A collection of records owned by one or more parties.",
+      "type": "object",
+      "required": [
+        "scope_id",
+        "specification_id",
+        "value_owner_address"
+      ],
+      "properties": {
+        "data_access": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Addr"
+          }
+        },
+        "owners": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Party"
+          }
+        },
+        "scope_id": {
+          "type": "string"
+        },
+        "specification_id": {
+          "type": "string"
+        },
+        "value_owner_address": {
+          "$ref": "#/definitions/Addr"
+        }
+      },
+      "definitions": {
+        "Addr": {
+          "description": "A human readable address.\n\nIn Cosmos, this is typically bech32 encoded. But for multi-chain smart contracts no assumptions should be made other than being UTF-8 encoded and of reasonable length.\n\nThis type represents a validated address. It can be created in the following ways 1. Use `Addr::unchecked(input)` 2. Use `let checked: Addr = deps.api.addr_validate(input)?` 3. Use `let checked: Addr = deps.api.addr_humanize(canonical_addr)?` 4. Deserialize from JSON. This must only be done from JSON that was validated before such as a contract's state. `Addr` must not be used in messages sent by the user because this would result in unvalidated instances.\n\nThis type is immutable. If you really need to mutate it (Really? Are you sure?), create a mutable copy using `let mut mutable = Addr::to_string()` and operate on that `String` instance.",
+          "type": "string"
+        },
+        "Party": {
+          "description": "An address with an associated role.",
+          "type": "object",
+          "required": [
+            "address",
+            "role"
+          ],
+          "properties": {
+            "address": {
+              "$ref": "#/definitions/Addr"
+            },
+            "role": {
+              "$ref": "#/definitions/PartyType"
+            }
+          }
+        },
+        "PartyType": {
+          "description": "Roles that can be associated to a party.",
+          "type": "string",
+          "enum": [
+            "originator",
+            "servicer",
+            "investor",
+            "custodian",
+            "owner",
+            "affiliate",
+            "omnibus",
+            "provenance",
+            "unspecified"
+          ]
+        }
+      }
+    },
+    "get_sessions": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Sessions",
+      "description": "A group of sessions.",
+      "type": "object",
+      "required": [
+        "sessions"
+      ],
+      "properties": {
+        "sessions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Session"
+          }
+        }
+      },
+      "definitions": {
+        "Addr": {
+          "description": "A human readable address.\n\nIn Cosmos, this is typically bech32 encoded. But for multi-chain smart contracts no assumptions should be made other than being UTF-8 encoded and of reasonable length.\n\nThis type represents a validated address. It can be created in the following ways 1. Use `Addr::unchecked(input)` 2. Use `let checked: Addr = deps.api.addr_validate(input)?` 3. Use `let checked: Addr = deps.api.addr_humanize(canonical_addr)?` 4. Deserialize from JSON. This must only be done from JSON that was validated before such as a contract's state. `Addr` must not be used in messages sent by the user because this would result in unvalidated instances.\n\nThis type is immutable. If you really need to mutate it (Really? Are you sure?), create a mutable copy using `let mut mutable = Addr::to_string()` and operate on that `String` instance.",
+          "type": "string"
+        },
+        "Binary": {
+          "description": "Binary is a wrapper around Vec<u8> to add base64 de/serialization with serde. It also adds some helper methods to help encode inline.\n\nThis is only needed as serde-json-{core,wasm} has a horrible encoding for Vec<u8>. See also <https://github.com/CosmWasm/cosmwasm/blob/main/docs/MESSAGE_TYPES.md>.",
+          "type": "string"
+        },
+        "Party": {
+          "description": "An address with an associated role.",
+          "type": "object",
+          "required": [
+            "address",
+            "role"
+          ],
+          "properties": {
+            "address": {
+              "$ref": "#/definitions/Addr"
+            },
+            "role": {
+              "$ref": "#/definitions/PartyType"
+            }
+          }
+        },
+        "PartyType": {
+          "description": "Roles that can be associated to a party.",
+          "type": "string",
+          "enum": [
+            "originator",
+            "servicer",
+            "investor",
+            "custodian",
+            "owner",
+            "affiliate",
+            "omnibus",
+            "provenance",
+            "unspecified"
+          ]
+        },
+        "Session": {
+          "description": "The final state of an execution context for a specification instance.",
+          "type": "object",
+          "required": [
+            "context",
+            "name",
+            "session_id",
+            "specification_id"
+          ],
+          "properties": {
+            "context": {
+              "$ref": "#/definitions/Binary"
+            },
+            "name": {
+              "type": "string"
+            },
+            "parties": {
+              "default": [],
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Party"
+              }
+            },
+            "session_id": {
+              "type": "string"
+            },
+            "specification_id": {
+              "type": "string"
+            }
+          }
+        }
+      }
     }
   }
 }
