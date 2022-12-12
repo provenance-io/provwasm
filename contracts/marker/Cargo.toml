@@ -1,6 +1,6 @@
 [package]
 name = "marker"
-version = "1.1.0"
+version = "1.1.2"
 authors = ["Phil Story <pstory@figure.com>", "David Pederson <dpederson@figure.com>", "Ken Talley <ktalley@figure.com"]
 edition = "2018"
 
@@ -28,9 +28,9 @@ crate-type = ["cdylib", "rlib"]
 backtraces = []
 
 [dependencies]
-cosmwasm-schema = { version = "1.1.5" }
-cosmwasm-std = { version = "1.1.5" }
-cosmwasm-storage = { version = "1.1.5" }
+cosmwasm-schema = { version = "1.1.9" }
+cosmwasm-std = { version = "1.1.9" }
+cosmwasm-storage = { version = "1.1.9" }
 provwasm-std = { path = "../../packages/bindings" }
 schemars = "0.8.1"
 serde = { version = "1.0.127", default-features = false, features = ["derive"] }
