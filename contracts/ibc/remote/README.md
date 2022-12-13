@@ -37,3 +37,25 @@ To simplify the setup and execution, several scripts are provided in the [script
     
     The `store_and_init_remote_contract` script stores and initializes the "remote" smart contract. **This step must be performed before starting the 
     `relayer`**
+
+## IBC Messages
+
+### Requests
+
+1.
+     ```rust
+     #[cw_serde]
+     pub enum PacketMsg {
+         WhoAmI {},
+     }
+     ```
+
+### Responses
+1.
+    ```rust
+    #[cw_serde]
+    pub struct WhoAmIResponse {
+        pub account: String,
+        pub block_info: BlockInfo,
+    }
+    ```

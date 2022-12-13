@@ -52,3 +52,25 @@ To simplify the setup and execution, several scripts are provided in the [script
     respond with data that includes the current block height, timestamp, and chain-id of the remote chain as well as the
     remote contract's address. It subsequently monitors the current state data of the local contract so that the
     response can be visualized. It normally requires around 10-12 blocks before the response is received.
+
+## IBC Messages
+
+### Requests
+
+1.
+    ```rust
+    #[cw_serde]
+    pub enum PacketMsg {
+        WhoAmI {},
+    }
+    ```
+   
+### Responses
+1.
+     ```rust
+     #[cw_serde]
+    pub struct WhoAmIResponse {
+        pub account: String,
+        pub block_info: BlockInfo,
+    }
+     ```
