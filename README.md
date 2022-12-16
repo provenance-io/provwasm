@@ -30,6 +30,11 @@ The following table shows provwasm version compatibility for smart contract deve
 Start with the [tutorial](docs/tutorial/01-overview.md) for a complete guide to developing smart
 contracts for the Provenance Blockchain.
 
+## IBC
+
+Once the tutorial has been completed and you are ready for a more advanced topic, checkout the
+[IBC Overview](contracts/ibc/README.md) to learn more about IBC Smart Contracts and a guided tour of a multi-contract IBC project.
+
 ## Contents
 
 In addition to the core CosmWasm functionality, the provenance bindings include

@@ -1,9 +1,13 @@
 .PHONY: all
-all: attrs marker msgfees name scope tutorial
+all: attrs ibc marker msgfees name scope tutorial
 
 .PHONY: attrs
 attrs:
 	@make -C attrs
+
+.PHONY: ibc
+attrs:
+	@make -C ibc
 
 .PHONY: marker
 marker:
