@@ -2,6 +2,8 @@
 
 ## Unreleased changes
 
+* Update tutorial documentation ([#102](https://github.com/provenance-io/provwasm/issues/102))
+
 ## Releases
 
 ### [v1.1.2](https://github.com/provenance-io/provwasm/tree/v1.1.2)
