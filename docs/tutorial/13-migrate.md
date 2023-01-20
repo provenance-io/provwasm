@@ -94,11 +94,11 @@ To store the new version, re-run the store command
 
 ```bash
 provenanced tx wasm store tutorial.wasm \
-    --instantiate-only-address $(provenanced keys show -a feebucket --keyring-backend test --home build/node0 --testnet) \
+    --instantiate-only-address $(provenanced keys show -a feebucket --keyring-backend test --home build/run/provenanced --testnet) \
     --from feebucket \
     --keyring-backend test \
-    --home build/node0 \
-    --chain-id chain-local \
+    --home build/run/provenanced \
+    --chain-id testing \
     --gas auto \
     --fees 25000nhash \
     --broadcast-mode block \
@@ -168,8 +168,8 @@ provenanced tx wasm migrate \
     '{"new_fee_percent":"0.05"}' \
     --from feebucket \
     --keyring-backend test \
-    --home build/node0 \
-    --chain-id chain-local \
+    --home build/run/provenanced \
+    --chain-id testing \
     --gas auto \
     --fees 3500nhash \
     --broadcast-mode block \
