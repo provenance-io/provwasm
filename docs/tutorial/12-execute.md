@@ -9,13 +9,13 @@ To execute a `100purchasecoin` purchase with an ID of `12345`, run using the mer
 
 ```bash
 provenanced tx wasm execute \
-    tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz \
+    tp14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9s96lrg8 \
     '{"purchase":{"id":"12345"}}' \
     --amount 100purchasecoin \
     --from consumer \
     --keyring-backend test \
-    --home build/node0 \
-    --chain-id chain-local \
+    --home build/run/provenanced \
+    --chain-id testing \
     --gas auto \
     --gas-prices="1905nhash" \
 	--gas-adjustment=1.5 \
@@ -38,7 +38,7 @@ This should show that the merchant has increased by `90purchasecoin`
   "balances": [
     {
       "denom": "nhash",
-      "amount": "100000"
+      "amount": "200000000000"
     },
     {
       "denom": "purchasecoin",
@@ -65,7 +65,7 @@ This should show that the feebucket account has increased by `10purchasecoin`
   "balances": [
     {
       "denom": "nhash",
-      "amount": "46500"
+      "amount": "155863718470"
     },
     {
       "denom": "purchasecoin",
@@ -92,7 +92,7 @@ This should show that it has decreased by `100purchasecoin`
   "balances": [
     {
       "denom": "nhash",
-      "amount": "92000"
+      "amount": "199462148015"
     },
     {
       "denom": "purchasecoin",
