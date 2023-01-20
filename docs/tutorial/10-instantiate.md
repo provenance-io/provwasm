@@ -8,9 +8,9 @@ To instantiate the contract from the command line, an init message must be creat
 JSON. First, take note of the merchant address by querying for the account address. For example
 
 ```bash
-provenanced keys show -a merchant --home build/node0 --keyring-backend test --testnet
+provenanced keys show -a merchant --home build/run/provenanced --keyring-backend test --testnet
 
-tp1u3zw79zhzxv8znpkdy35u6npe7aa45szt2ccge
+tp1p00sxn3yqdnwp8v60watjw35k0cn25gnamkguh
 ```
 
 Then, create a JSON message using this address with configuration values (formatted here for
@@ -38,10 +38,10 @@ provenanced tx wasm instantiate 1 \
     --label tutorial \
     --from feebucket \
     --keyring-backend test \
-    --home build/node0 \
-    --chain-id chain-local \
+    --home build/run/provenanced \
+    --chain-id testing \
     --gas auto \
-    --gas-prices="1905nhash" \
+    --gas-prices="100000nhash" \
 	--gas-adjustment=1.5 \
     --broadcast-mode block \
     --yes \
@@ -63,7 +63,7 @@ Should produce output similar to
 ```json
 {
   "contracts": [
-    "tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz"
+    "tp14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9s96lrg8"
   ],
   "pagination": {
     "next_key": null,
