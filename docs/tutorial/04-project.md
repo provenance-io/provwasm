@@ -8,7 +8,7 @@ CosmWasm has a template repo that can be used as a starting point for developmen
 tutorial project, run
 
 ```bash
-cargo generate --git https://github.com/CosmWasm/cosmwasm-template.git --name tutorial
+cargo generate --git https://github.com/CosmWasm/cw-template.git --name tutorial
 ```
 
 Navigate to the project
@@ -21,31 +21,31 @@ Edit Cargo.toml to have the following contract dependencies
 
 ```toml
 [dependencies]
-provwasm-std = { version = "1.0.0-beta2" }
-cosmwasm-std = { version = "1.0.0-beta5", default-features = false }
-cosmwasm-storage = { version = "1.0.0-beta5" }
-cw-storage-plus = "0.8.0"
-cw2 = "0.8.1"
-schemars = "0.8.3"
-serde = { version = "1.0.127", default-features = false, features = ["derive"] }
-thiserror = { version = "1.0.26" }
+cosmwasm-schema = "1.1.9"
+cosmwasm-std = "1.1.9"
+cosmwasm-storage = "1.1.9"
+cw-storage-plus = "1.0.1"
+cw2 = "1.0.1"
+provwasm-std = "1.1.2"
+schemars = "0.8.10"
+serde = { version = "1.0.145", default-features = false, features = ["derive"] }
+thiserror = { version = "1.0.31" }
 
 [dev-dependencies]
-provwasm-mocks = { version = "1.0.0-beta2" }
-cosmwasm-schema = { version = "1.0.0-beta5" }
+cw-multi-test = "0.16.2"
+provwasm-mocks = "1.1.2"
 ```
 
 Reset the README and clear out the current JSON schema artifacts.
 
 ```bash
 echo '# Purchase Smart Contact' > README.md
-rm -rf schema/*.json
 ```
 
 Clear out unnecessary files and directories you don't want hanging around. For example
 
 ```bash
-rm -rf .circleci Developing.md .git .github Importing.md LICENSE NOTICE Publishing.md
+rm -rf .circleci Developing.md .git .github .gitpod.Dockerfile .gitpod.yml Importing.md LICENSE NOTICE Publishing.md src/helpers.rs src/integration_tests.rs
 ```
 
 ## Up Next
