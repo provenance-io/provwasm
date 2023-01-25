@@ -8,7 +8,7 @@ To query the contract instance from the command line, run
 
 ```bash
 provenanced query wasm contract-state smart \
-    tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz '{"query_request":{}}' -t -o json | jq
+    tp14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9s96lrg8 '{"query_request":{}}' -t -o json | jq
 ```
 
 NOTE: Even though, the query request in this tutorial does not take parameters, a body must still
@@ -20,8 +20,8 @@ This should produce output similar to the following
 {
   "data": {
     "purchase_denom": "purchasecoin",
-    "merchant_address": "tp1jeqf9m9psa5jvurzpwtdk5m5429fhq48f0u5wq",
-    "fee_collection_address": "tp102c9nplcvrxmhevc6wenm99q6dfte3k3z8vscv",
+    "merchant_address": "tp1p00sxn3yqdnwp8v60watjw35k0cn25gnamkguh",
+    "fee_collection_address": "tp1rj4s08a7va4rdwwk7zmwg90slz956qnjrfa5ta",
     "fee_percent": "0.1"
   }
 }

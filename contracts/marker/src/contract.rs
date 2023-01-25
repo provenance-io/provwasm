@@ -222,7 +222,7 @@ fn try_get_marker_by_denom(
     denom: String,
 ) -> Result<QueryResponse, StdError> {
     let querier = ProvenanceQuerier::new(&deps.querier);
-    let marker = querier.get_marker_by_denom(&denom)?;
+    let marker = querier.get_marker_by_denom(denom)?;
     to_binary(&marker)
 }
 

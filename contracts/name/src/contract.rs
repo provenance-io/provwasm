@@ -131,7 +131,7 @@ pub fn query(
 // Use a ProvenanceQuerier to resolve the address for a name.
 fn try_resolve(deps: Deps<ProvenanceQuery>, name: String) -> Result<QueryResponse, StdError> {
     let querier = ProvenanceQuerier::new(&deps.querier);
-    let name: Name = querier.resolve_name(&name)?;
+    let name: Name = querier.resolve_name(name)?;
     to_binary(&name)
 }
 

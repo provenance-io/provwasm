@@ -5,8 +5,7 @@
 In this section, we will set up everything required to deploy the tutorial smart contract to a
 Provenance Blockchain localnet cluster.
 
-It is assumed that Go 1.15+ is installed. See [here](https://golang.org/doc/install) for
-installation instructions.
+It is assumed that Go 1.18+ is installed. See [here](https://golang.org/doc/install) for installation instructions.
 
 ## Blockchain
 
@@ -29,9 +28,8 @@ git checkout main
 Install commands and start a provenance localnet cluster.
 
 ```bash
-make clean
-make install
-make localnet-start
+make clean build install
+make run
 ```
 
 ## Accounts
@@ -42,40 +40,40 @@ and transfer fee bucket.
 Create `merchant` account keys
 
 ```bash
-provenanced keys add merchant --home build/node0 --keyring-backend test --testnet --hd-path "44'/1'/0'/0/0" --output json | jq
+provenanced keys add merchant --home build/run/provenanced --keyring-backend test --testnet --hd-path "44'/1'/0'/0/0" --output json | jq
 ```
 
 Create `feebucket` account keys
 
 ```bash
-provenanced keys add feebucket --home build/node0 --keyring-backend test --testnet --hd-path "44'/1'/0'/0/0" --output json | jq
+provenanced keys add feebucket --home build/run/provenanced --keyring-backend test --testnet --hd-path "44'/1'/0'/0/0" --output json | jq
 ```
 
 Create `consumer` account keys
 
 ```bash
-provenanced keys add consumer --home build/node0 --keyring-backend test --testnet --hd-path "44'/1'/0'/0/0" --output json | jq
+provenanced keys add consumer --home build/run/provenanced --keyring-backend test --testnet --hd-path "44'/1'/0'/0/0" --output json | jq
 ```
 
 Create alias for the keys
 ```bash
-export node0=$(provenanced keys show -a node0 --home build/node0 --keyring-backend test -t)
-export merchant=$(provenanced keys show -a merchant --home build/node0 --keyring-backend test -t)
-export feebucket=$(provenanced keys show -a feebucket --home build/node0 --keyring-backend test -t)
-export consumer=$(provenanced keys show -a consumer --home build/node0 --keyring-backend test -t)
+export validator=$(provenanced keys show -a validator --home build/run/provenanced --keyring-backend test -t)
+export merchant=$(provenanced keys show -a merchant --home build/run/provenanced --keyring-backend test -t)
+export feebucket=$(provenanced keys show -a feebucket --home build/run/provenanced --keyring-backend test -t)
+export consumer=$(provenanced keys show -a consumer --home build/run/provenanced --keyring-backend test -t)
 ```
 
 Fund a `merchant` account with `nhash`, creating it on chain.
 
 ```bash
 provenanced tx bank send \
-	"$node0" \
+	"$validator" \
 	"$merchant" \
 	200000000000nhash \
-	--from="$node0" \
+	--from="$validator" \
 	--keyring-backend=test \
-	--home=build/node0 \
-	--chain-id=chain-local \
+	--home=build/run/provenanced \
+	--chain-id=testing \
 	--gas=auto \
 	--gas-prices="1905nhash" \
 	--gas-adjustment=1.5 \
@@ -89,13 +87,13 @@ Fund a `feebucket` account with `nhash`, creating it on chain.
 
 ```bash
 provenanced tx bank send \
-	"$node0" \
+	"$validator" \
 	"$feebucket" \
 	200000000000nhash \
-	--from="$node0" \
+	--from="$validator" \
 	--keyring-backend=test \
-	--home=build/node0 \
-	--chain-id=chain-local \
+	--home=build/run/provenanced \
+	--chain-id=testing \
 	--gas=auto \
 	--gas-prices="1905nhash" \
 	--gas-adjustment=1.5 \
@@ -109,13 +107,13 @@ Fund a `consumer` account with `nhash`, creating it on chain.
 
 ```bash
 provenanced tx bank send \
-    "$node0" \
+    "$validator" \
     "$consumer" \
     200000000000nhash \
-    --from node0 \
+    --from validator \
     --keyring-backend test \
-    --home build/node0 \
-    --chain-id chain-local \
+    --home build/run/provenanced \
+    --chain-id testing \
     --gas auto \
     --gas-prices="1905nhash" \
 	--gas-adjustment=1.5 \
@@ -133,14 +131,14 @@ address.
 ```bash
 provenanced tx name bind \
     "sc" \
-    "$node0" \
+    "$validator" \
     "pb" \
-    --restrict=false \
-    --from node0 \
+    --unrestrict \
+    --from validator \
     --keyring-backend test \
-    --home build/node0 \
-    --chain-id chain-local \
-    --gas-prices="1905nhash" \
+    --home build/run/provenanced \
+    --chain-id testing \
+    --gas-prices="100000nhash" \
 	--gas-adjustment=1.5 \
     --broadcast-mode block \
     --yes \
@@ -155,12 +153,12 @@ A marker must be created in order to mint coins required for purchase transfers.
 ```bash
 provenanced tx marker new 1000000000purchasecoin \
     --type COIN \
-    --from node0 \
+    --from validator \
     --keyring-backend test \
-    --home build/node0 \
-    --chain-id chain-local \
+    --home build/run/provenanced \
+    --chain-id testing \
     --gas auto \
-    --gas-prices="1905nhash" \
+    --gas-prices="1000000nhash" \
 	--gas-adjustment=1.5 \
     --broadcast-mode block \
     --yes \
@@ -168,17 +166,17 @@ provenanced tx marker new 1000000000purchasecoin \
 	--output json | jq
 ```
 
-Grant withdraw access on the marker to the `node0` marker admin account
+Grant withdraw access on the marker to the `validator` marker admin account
 
 ```bash
 provenanced tx marker grant \
-    $node0 \
+    $validator \
     purchasecoin \
     withdraw \
-    --from node0 \
+    --from validator \
     --keyring-backend test \
-    --home build/node0 \
-    --chain-id chain-local \
+    --home build/run/provenanced \
+    --chain-id testing \
     --gas auto \
     --gas-prices="1905nhash" \
 	--gas-adjustment=1.5 \
@@ -192,10 +190,10 @@ Finalize the marker
 
 ```bash
 provenanced tx marker finalize purchasecoin \
-    --from node0 \
+    --from validator \
     --keyring-backend test \
-    --home build/node0 \
-    --chain-id chain-local \
+    --home build/run/provenanced \
+    --chain-id testing \
     --gas auto \
     --gas-prices="1905nhash" \
 	--gas-adjustment=1.5 \
@@ -209,10 +207,10 @@ Activate the marker, minting the `purchasecoin` supply
 
 ```bash
 provenanced tx marker activate purchasecoin \
-    --from node0 \
+    --from validator \
     --keyring-backend test \
-    --home build/node0 \
-    --chain-id chain-local \
+    --home build/run/provenanced \
+    --chain-id testing \
     --gas auto \
     --gas-prices="1905nhash" \
 	--gas-adjustment=1.5 \
@@ -230,10 +228,10 @@ Coins must be withdrawn into the `consumer` account in order to send purchase tr
 provenanced tx marker withdraw purchasecoin \
     100000purchasecoin \
     $consumer \
-    --from node0 \
+    --from validator \
     --keyring-backend test \
-    --home build/node0 \
-    --chain-id chain-local \
+    --home build/run/provenanced \
+    --chain-id testing \
     --gas auto \
     --gas-prices="1905nhash" \
 	--gas-adjustment=1.5 \
@@ -257,7 +255,7 @@ Example account query output
   "balances": [
     {
       "denom": "nhash",
-      "amount": "100000"
+      "amount": "200000000000"
     },
     {
       "denom": "purchasecoin",

@@ -18,11 +18,11 @@ Then, from the provenance directory, store the optimized smart contract Wasm in 
 
 ```bash
 provenanced tx wasm store tutorial.wasm \
-    --instantiate-only-address "$feebucket" \
+    --instantiate-anyof-addresses "$feebucket" \
     --from "$feebucket" \
     --keyring-backend test \
-    --home build/node0 \
-    --chain-id chain-local \
+    --home build/run/provenanced \
+    --chain-id testing \
     --gas auto \
     --gas-prices="1905nhash" \
 	--gas-adjustment=1.5 \
@@ -45,8 +45,15 @@ Should produce output that resembles (field values may differ) the following.
   "code_infos": [
     {
       "code_id": "1",
-      "creator": "tp102c9nplcvrxmhevc6wenm99q6dfte3k3z8vscv",
-      "data_hash": "F2F2CD9AA2C192A95B86E9429BC15DCD6B8859BE54C8C66274B80347D2443D82",
+      "creator": "tp1rj4s08a7va4rdwwk7zmwg90slz956qnjrfa5ta",
+      "data_hash": "6B6D1579CF2FF09B197B521E74FDDF09429895FECFA5BDB5D779472FFBCA8CF8",
+      "instantiate_permission": {
+        "permission": "AnyOfAddresses",
+        "address": "",
+        "addresses": [
+          "tp1rj4s08a7va4rdwwk7zmwg90slz956qnjrfa5ta"
+        ]
+      }
     }
   ],
   "pagination": {
@@ -56,8 +63,7 @@ Should produce output that resembles (field values may differ) the following.
 }
 ```
 
-The `--instantiate-only-address` flag is important when it is necessary to limit instance creation
-to a single account.
+The `--instantiate-anyof-addresses` flag is important when it is necessary to limit instance creation to specified accounts.
 
 Copy the value of the `id` field. It is required to instantiate the contract in the next section.
 

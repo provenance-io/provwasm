@@ -50,7 +50,7 @@ There are two recommended editors for smart contract development.
 ### Visual Studio Code
 
 - [Download](https://code.visualstudio.com/download)
-- [Rust Plugin](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust)
+- [Rust Plugin](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
 
 ### Intellij IDEA
 

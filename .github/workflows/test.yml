@@ -35,7 +35,7 @@ jobs:
         uses: provenance-io/provenance-testing-action@v1.1.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          provenance_version: "v1.13.0-rc2"
+          provenance_version: "v1.13.1"
           test_script: "./scripts/tutorial_test.sh"
           generate_proposals: true
           wasm_path: "./contracts/tutorial/artifacts/provwasm_tutorial.wasm"
@@ -57,7 +57,7 @@ jobs:
         uses: provenance-io/provenance-testing-action@v1.1.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          provenance_version: "v1.13.0-rc2"
+          provenance_version: "v1.13.1"
           test_script: "./scripts/attrs_test.sh"
           generate_proposals: true
           wasm_path: "./contracts/attrs/artifacts/attrs.wasm"
@@ -79,7 +79,7 @@ jobs:
         uses: provenance-io/provenance-testing-action@v1.1.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          provenance_version: "v1.13.0-rc2"
+          provenance_version: "v1.13.1"
           test_script: "./scripts/marker_test.sh"
           generate_proposals: true
           wasm_path: "./contracts/marker/artifacts/marker.wasm"
@@ -101,7 +101,7 @@ jobs:
         uses: provenance-io/provenance-testing-action@v1.1.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          provenance_version: "v1.13.0-rc2"
+          provenance_version: "v1.13.1"
           test_script: "./scripts/msgfees_test.sh"
           generate_proposals: true
           wasm_path: "./contracts/msgfees/artifacts/msgfees.wasm"
@@ -123,7 +123,7 @@ jobs:
         uses: provenance-io/provenance-testing-action@v1.1.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          provenance_version: "v1.13.0-rc2"
+          provenance_version: "v1.13.1"
           test_script: "./scripts/name_test.sh"
           generate_proposals: true
           wasm_path: "./contracts/name/artifacts/name.wasm"
@@ -145,7 +145,7 @@ jobs:
         uses: provenance-io/provenance-testing-action@v1.1.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          provenance_version: "v1.13.0-rc2"
+          provenance_version: "v1.13.1"
           test_script: "./scripts/scope_test.sh"
           generate_proposals: true
           wasm_path: "./contracts/scope/artifacts/scope.wasm"
