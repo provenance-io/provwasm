@@ -1,5 +1,5 @@
 [workspace]
-members = ["packages/*"]
+members = ["packages/proto-build", "packages/provwasm-std-derive", "packages/provwasm-std"]
 exclude = ["contracts"]
 
 [profile.release]
