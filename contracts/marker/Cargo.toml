@@ -37,4 +37,4 @@ serde = { version = "1.0.127", default-features = false, features = ["derive"] }
 thiserror = { version = "1.0.20" }
 
 [dev-dependencies]
-provwasm-mocks = { path = "../../packages/mocks" }
+provwasm-mocks = { path = "../../todo/mocks" }

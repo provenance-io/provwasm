@@ -37,4 +37,4 @@ thiserror = { version = "1.0.20" }
 
 
 [dev-dependencies]
-provwasm-mocks = { path = "../../packages/mocks" }
+provwasm-mocks = { path = "../../todo/mocks" }
