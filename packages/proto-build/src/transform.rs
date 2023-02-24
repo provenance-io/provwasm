@@ -13,8 +13,7 @@ use walkdir::WalkDir;
 use crate::transformers;
 
 /// Protos belonging to these Protobuf packages will be excluded
-const EXCLUDED_PROTO_PACKAGES: &[&str] =
-    &["cosmos_proto", "gogoproto", "google", "ibc", "tendermint"];
+const EXCLUDED_PROTO_PACKAGES: &[&str] = &["cosmos_proto", "gogoproto", "google", "tendermint"];
 
 pub fn copy_and_transform_all(from_dir: &Path, to_dir: &Path, descriptor: &FileDescriptorSet) {
     let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
