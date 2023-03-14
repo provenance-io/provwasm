@@ -362,7 +362,7 @@ impl<'a> ProvenanceQuerier<'a> {
             name: Some(name.clone()),
         })?;
         if res.records.is_empty() {
-            return Err(StdError::not_found(format!("record not found: {}", name)));
+            return Err(StdError::not_found(format!("record not found: {name}")));
         }
         Ok(res.records[0].clone())
     }
