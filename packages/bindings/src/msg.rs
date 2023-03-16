@@ -22,6 +22,13 @@ pub struct ProvenanceMsg {
 
 impl CustomMsg for ProvenanceMsg {}
 
+// Implements From and To for ProvenanceMsg
+impl From<ProvenanceMsg> for CosmosMsg<ProvenanceMsg> {
+    fn from(msg: ProvenanceMsg) -> Self {
+        CosmosMsg::Custom(msg)
+    }
+}
+
 /// Input params for custom provenance message encoders.
 #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 pub enum ProvenanceMsgParams {
