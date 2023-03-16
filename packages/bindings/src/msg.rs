@@ -22,7 +22,7 @@ pub struct ProvenanceMsg {
 
 impl CustomMsg for ProvenanceMsg {}
 
-// Implements From and To for ProvenanceMsg
+// Implements From for ProvenanceMsg so it can be used in place of CosmosMsg<ProvenanceMsg>
 impl From<ProvenanceMsg> for CosmosMsg<ProvenanceMsg> {
     fn from(msg: ProvenanceMsg) -> Self {
         CosmosMsg::Custom(msg)
