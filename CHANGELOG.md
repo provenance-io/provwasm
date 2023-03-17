@@ -3,6 +3,7 @@
 ## Unreleased changes
 
 * Update tutorial documentation ([#102](https://github.com/provenance-io/provwasm/issues/102))
+* Added ProvenanceMsg From implementation ([#108](https://github.com/provenance-io/provwasm/issues/102))
 
 ## Releases
 
