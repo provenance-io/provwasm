@@ -1,3 +1,3 @@
 pub mod cosmos;
-pub mod ibc;
+pub mod cosmwasm;
 pub mod provenance;
