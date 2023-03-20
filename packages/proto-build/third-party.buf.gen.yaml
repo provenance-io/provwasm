@@ -1,14 +1,8 @@
 version: v1
-managed:
-  enabled: true
-  cc_enable_arenas: false
-  java_multiple_files: true
 plugins:
-  - name: go
-    out: gen/proto/go
-    opt: paths=source_relative
-  - name: go-grpc
-    out: gen/proto/go
+  - plugin: buf.build/community/neoeinstein-prost
+    out: .
     opt:
-      - paths=source_relative
-      - require_unimplemented_servers=false
+      - extern_path=.google.protobuf.Timestamp=crate::shim::Timestamp
+      - extern_path=.google.protobuf.Duration=crate::shim::Duration
+      - extern_path=.google.protobuf.Any=crate::shim::Any
