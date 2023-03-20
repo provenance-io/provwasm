@@ -12,12 +12,12 @@ use provwasm_std_derive::CosmwasmExt;
     PartialEq,
     Eq,
     ::prost::Message,
-    serde::Serialize,
-    serde::Deserialize,
-    schemars::JsonSchema,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
     CosmwasmExt,
 )]
-#[proto_message(type_url = "/cosmos.base.query.v1beta1.PageRequest")]
+#[proto_message(type_url = "/cosmos.base.query.v1beta1.PageRequestPageRequest")]
 pub struct PageRequest {
     /// key is a value returned in PageResponse.next_key to begin
     /// querying the next page most efficiently. Only one of offset or key
@@ -66,12 +66,12 @@ pub struct PageRequest {
     PartialEq,
     Eq,
     ::prost::Message,
-    serde::Serialize,
-    serde::Deserialize,
-    schemars::JsonSchema,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
     CosmwasmExt,
 )]
-#[proto_message(type_url = "/cosmos.base.query.v1beta1.PageResponse")]
+#[proto_message(type_url = "/cosmos.base.query.v1beta1.PageResponsePageResponse")]
 pub struct PageResponse {
     /// next_key is the key to be passed to PageRequest.key to
     /// query the next page most efficiently. It will be empty if

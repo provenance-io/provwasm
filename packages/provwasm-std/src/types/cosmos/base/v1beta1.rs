@@ -9,12 +9,12 @@ use provwasm_std_derive::CosmwasmExt;
     PartialEq,
     Eq,
     ::prost::Message,
-    serde::Serialize,
-    serde::Deserialize,
-    schemars::JsonSchema,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
     CosmwasmExt,
 )]
-#[proto_message(type_url = "/cosmos.base.v1beta1.Coin")]
+#[proto_message(type_url = "/cosmos.base.v1beta1.CoinCoin")]
 pub struct Coin {
     #[prost(string, tag = "1")]
     pub denom: ::prost::alloc::string::String,
@@ -31,12 +31,12 @@ pub struct Coin {
     PartialEq,
     Eq,
     ::prost::Message,
-    serde::Serialize,
-    serde::Deserialize,
-    schemars::JsonSchema,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
     CosmwasmExt,
 )]
-#[proto_message(type_url = "/cosmos.base.v1beta1.DecCoin")]
+#[proto_message(type_url = "/cosmos.base.v1beta1.DecCoinDecCoin")]
 pub struct DecCoin {
     #[prost(string, tag = "1")]
     pub denom: ::prost::alloc::string::String,
@@ -50,12 +50,12 @@ pub struct DecCoin {
     PartialEq,
     Eq,
     ::prost::Message,
-    serde::Serialize,
-    serde::Deserialize,
-    schemars::JsonSchema,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
     CosmwasmExt,
 )]
-#[proto_message(type_url = "/cosmos.base.v1beta1.IntProto")]
+#[proto_message(type_url = "/cosmos.base.v1beta1.IntProtoIntProto")]
 pub struct IntProto {
     #[prost(string, tag = "1")]
     pub int: ::prost::alloc::string::String,
@@ -67,12 +67,12 @@ pub struct IntProto {
     PartialEq,
     Eq,
     ::prost::Message,
-    serde::Serialize,
-    serde::Deserialize,
-    schemars::JsonSchema,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
     CosmwasmExt,
 )]
-#[proto_message(type_url = "/cosmos.base.v1beta1.DecProto")]
+#[proto_message(type_url = "/cosmos.base.v1beta1.DecProtoDecProto")]
 pub struct DecProto {
     #[prost(string, tag = "1")]
     pub dec: ::prost::alloc::string::String,
