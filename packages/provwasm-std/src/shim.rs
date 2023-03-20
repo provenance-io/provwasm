@@ -1,12 +1,10 @@
-use ::serde::{ser, Deserialize, Deserializer, Serialize, Serializer};
+use ::serde::{Deserialize, Deserializer, Serialize, Serializer};
 use chrono::{DateTime, NaiveDateTime, Utc};
 use serde::de;
 use serde::de::Visitor;
 
 use std::fmt;
 use std::str::FromStr;
-
-use prost::Message;
 
 #[derive(Clone, PartialEq, Eq, ::prost::Message, schemars::JsonSchema)]
 pub struct Timestamp {
@@ -58,10 +56,7 @@ impl<'de> Deserialize<'de> for Timestamp {
                 E: de::Error,
             {
                 let utc: DateTime<Utc> = chrono::DateTime::from_str(value).map_err(|err| {
-                    serde::de::Error::custom(format!(
-                        "Failed to parse {} as datetime: {:?}",
-                        value, err
-                    ))
+                    de::Error::custom(format!("Failed to parse {} as datetime: {:?}", value, err))
                 })?;
                 let ts = Timestamp::from(utc);
                 Ok(ts)
@@ -180,7 +175,7 @@ macro_rules! expand_as_any {
         impl Serialize for Any {
             fn serialize<S>(
                 &self,
-                serializer: S,
+                _serializer: S,
             ) -> Result<<S as ::serde::Serializer>::Ok, <S as ::serde::Serializer>::Error>
             where
                 S: ::serde::Serializer,
@@ -228,7 +223,7 @@ macro_rules! expand_as_any {
 
                 match type_url {
                     // @type found
-                    Some(t) => {
+                    Some(_t) => {
                         $(
                             if t == <$ty>::TYPE_URL {
                                 return <$ty>::deserialize(
