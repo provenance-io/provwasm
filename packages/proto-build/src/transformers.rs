@@ -3,15 +3,14 @@ use std::path::Path;
 
 use heck::ToSnakeCase;
 use heck::ToUpperCamelCase;
+use proc_macro2::{Group, TokenStream as TokenStream2, TokenTree};
 use prost_types::{
     DescriptorProto, EnumDescriptorProto, FileDescriptorSet, ServiceDescriptorProto,
 };
+use quote::{format_ident, quote};
 use regex::Regex;
-use syn::__private::quote::__private::Group;
-use syn::__private::quote::__private::TokenStream as TokenStream2;
-use syn::__private::quote::__private::TokenTree;
-use syn::__private::quote::format_ident;
-use syn::__private::quote::quote;
+use syn::ItemEnum;
+use syn::ItemMod;
 use syn::{parse_quote, Attribute, Fields, Ident, Item, ItemStruct, Type};
 
 /// Regex substitutions to apply to the prost-generated output
@@ -34,74 +33,81 @@ pub const REPLACEMENTS: &[(&str, &str)] = &[
     ),
 ];
 
-pub fn add_derive_eq(s: &ItemStruct) -> ItemStruct {
-    let mut item_struct = s.clone();
-    item_struct.attrs = item_struct
-        .attrs
-        .into_iter()
-        .map(|mut attr| {
-            // find derive attribute
-            if attr.path.is_ident("derive") {
-                attr.tokens = attr
-                    .tokens
-                    .into_iter()
-                    .map(|token_tree| {
-                        match token_tree {
-                            // with group token stream, which is `#[derive( ... )]`
-                            TokenTree::Group(group) => {
-                                let has_ident = |ident_str: &str| {
-                                    group.stream().into_iter().any(|token| match token {
+pub fn add_derive_eq(mut attr: Attribute) -> Attribute {
+    // find derive attribute
+    if attr.path.is_ident("derive") {
+        attr.tokens = attr
+            .tokens
+            .into_iter()
+            .map(|token_tree| {
+                match token_tree {
+                    // with group token stream, which is `#[derive( ... )]`
+                    TokenTree::Group(group) => {
+                        let has_ident = |ident_str: &str| {
+                            group.stream().into_iter().any(|token| match token {
+                                TokenTree::Ident(ident) => ident == format_ident!("{}", ident_str),
+                                _ => false,
+                            })
+                        };
+
+                        // if does not have both PartialEq and Eq
+                        let stream = if !(has_ident("PartialEq") && has_ident("Eq")) {
+                            // construct new token stream
+                            group
+                                .stream()
+                                .into_iter()
+                                .flat_map(|token| {
+                                    match token {
+                                        // if there exist `PartialEq` in derive attr
                                         TokenTree::Ident(ident) => {
-                                            ident == format_ident!("{}", ident_str)
-                                        }
-                                        _ => false,
-                                    })
-                                };
-
-                                // if does not have both PartialEq and Eq
-                                let stream = if !(has_ident("PartialEq") && has_ident("Eq")) {
-                                    // construct new token stream
-                                    group
-                                        .stream()
-                                        .into_iter()
-                                        .flat_map(|token| {
-                                            match token {
-                                                // if there exist `PartialEq` in derive attr
-                                                TokenTree::Ident(ident) => {
-                                                    if ident == format_ident!("PartialEq") {
-                                                        // expand token stream in group with `#[derive( ..., PartialEq, ... )]` to ``#[derive( ..., PartialEq, Eq, ... )]``
-                                                        let expanded_token_stream: TokenStream2 =
-                                                            syn::parse_quote!(PartialEq, Eq);
-                                                        expanded_token_stream.into_iter().collect()
-                                                    } else {
-                                                        vec![TokenTree::Ident(ident)]
-                                                    }
-                                                }
-                                                tt => vec![tt],
+                                            if ident == format_ident!("PartialEq") {
+                                                // expand token stream in group with `#[derive( ..., PartialEq, ... )]` to ``#[derive( ..., PartialEq, Eq, ... )]``
+                                                let expanded_token_stream: TokenStream2 =
+                                                    syn::parse_quote!(PartialEq, Eq);
+                                                expanded_token_stream.into_iter().collect()
+                                            } else {
+                                                vec![TokenTree::Ident(ident)]
                                             }
-                                        })
-                                        .collect()
-                                } else {
-                                    group.stream()
-                                };
+                                        }
+                                        tt => vec![tt],
+                                    }
+                                })
+                                .collect()
+                        } else {
+                            group.stream()
+                        };
 
-                                TokenTree::Group(Group::new(group.delimiter(), stream))
-                            }
-                            _ => token_tree,
-                        }
-                    })
-                    .collect();
-                attr
-            } else {
-                attr
-            }
-        })
-        .collect();
+                        TokenTree::Group(Group::new(group.delimiter(), stream))
+                    }
+                    _ => token_tree,
+                }
+            })
+            .collect();
+        attr
+    } else {
+        attr
+    }
+}
+
+pub fn add_derive_eq_struct(s: &ItemStruct) -> ItemStruct {
+    let mut item_struct = s.clone();
+    item_struct.attrs = item_struct.attrs.into_iter().map(add_derive_eq).collect();
 
     item_struct
 }
 
-pub fn append_attrs(src: &Path, s: &ItemStruct, descriptor: &FileDescriptorSet) -> ItemStruct {
+pub fn add_derive_eq_enum(s: &ItemEnum) -> ItemEnum {
+    let mut item_enum = s.clone();
+    item_enum.attrs = item_enum.attrs.into_iter().map(add_derive_eq).collect();
+
+    item_enum
+}
+
+pub fn append_attrs_struct(
+    src: &Path,
+    s: &ItemStruct,
+    descriptor: &FileDescriptorSet,
+) -> ItemStruct {
     let mut s = s.clone();
     let query_services = extract_query_services(descriptor);
     let type_url = get_type_url(src, &s.ident, descriptor);
@@ -109,7 +115,7 @@ pub fn append_attrs(src: &Path, s: &ItemStruct, descriptor: &FileDescriptorSet) 
     let deprecated = get_deprecation(src, &s.ident, descriptor);
 
     s.attrs.append(&mut vec![
-        syn::parse_quote! { #[derive(serde::Serialize, serde::Deserialize, schemars::JsonSchema, CosmwasmExt)] },
+        syn::parse_quote! { #[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, CosmwasmExt)] },
         syn::parse_quote! { #[proto_message(type_url = #type_url)] },
     ]);
 
@@ -123,6 +129,22 @@ pub fn append_attrs(src: &Path, s: &ItemStruct, descriptor: &FileDescriptorSet) 
     }
 
     s
+}
+
+pub fn append_attrs_enum(src: &Path, e: &ItemEnum, descriptor: &FileDescriptorSet) -> ItemEnum {
+    let mut e = e.clone();
+    let deprecated = get_deprecation(src, &e.ident, descriptor);
+
+    e.attrs.append(&mut vec![
+        syn::parse_quote! { #[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)] },
+    ]);
+
+    if deprecated {
+        e.attrs
+            .append(&mut vec![syn::parse_quote! { #[deprecated] }]);
+    }
+
+    e
 }
 
 pub fn allow_serde_int_as_str(s: ItemStruct) -> ItemStruct {
@@ -154,6 +176,36 @@ pub fn allow_serde_int_as_str(s: ItemStruct) -> ItemStruct {
                     )]
                 };
                 field.attrs.append(&mut vec![from_str]);
+                field
+            } else {
+                field
+            }
+        })
+        .collect::<Vec<syn::Field>>();
+
+    let fields_named: syn::FieldsNamed = parse_quote! {
+        { #(#fields_vec,)* }
+    };
+    let fields = syn::Fields::Named(fields_named);
+
+    syn::ItemStruct { fields, ..s }
+}
+
+/// some of proto's fields in osmosis' modules are named `ID` but prost generates `id` field
+/// this function adds `#[serde(alias = "ID")]` to the `id` field
+/// so that serde can deserialize `ID` field to `id` field.
+/// This is required because the `ID` field is used in the query response and is serialized as json.
+pub fn serde_alias_id_with_uppercased(s: ItemStruct) -> ItemStruct {
+    let fields_vec = s
+        .fields
+        .clone()
+        .into_iter()
+        .map(|mut field| {
+            if field.ident == Some(format_ident!("id")) {
+                let serde_alias_id: syn::Attribute = parse_quote! {
+                    #[serde(alias = "ID")]
+                };
+                field.attrs.append(&mut vec![serde_alias_id]);
                 field
             } else {
                 field
@@ -381,6 +433,10 @@ pub fn append_querier(
                 _ => None
             });
 
+        if req_args.is_none() {
+            return quote! {};
+        }
+
         let arg_idents = req_args.clone().unwrap().into_iter().map(|arg| arg.ident.unwrap()).collect::<Vec<Ident>>();
         let arg_ty = req_args.unwrap().into_iter().map(|arg| arg.ty).collect::<Vec<Type>>();
 
@@ -419,6 +475,51 @@ pub fn append_querier(
     vec![items, querier].concat()
 }
 
+/// This is a hack to fix a clashing name in the stake_authorization module
+pub fn fix_clashing_stake_authorization_validators(input: ItemMod) -> ItemMod {
+    // do this only if the module is named "stake_authorization"
+    if input.ident != "stake_authorization" {
+        return input;
+    }
+    let new_name = Ident::new("Validators_", input.ident.span());
+    let mut validators = None;
+    let items = input.content.clone().unwrap().1;
+
+    // Iterate over the items in the module and look for the Validators struct then rename it
+    let items = items.into_iter().map(|mut item| {
+        if let Item::Struct(ref mut s) = item {
+            if s.ident == "Validators" {
+                s.ident = new_name.clone();
+                validators = Some(s.clone());
+            }
+        }
+        item
+    });
+
+    // Update any references to the struct
+    let items = items.into_iter().map(|mut item| {
+        if let Item::Enum(ref mut e) = item {
+            if e.ident == "Validators" {
+                for v in e.variants.iter_mut() {
+                    if let Fields::Unnamed(ref mut f) = v.fields {
+                        if let Type::Path(ref mut p) = f.unnamed.first_mut().unwrap().ty {
+                            if p.path.segments.first().unwrap().ident == "Validators" {
+                                p.path.segments.first_mut().unwrap().ident = new_name.clone();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        item
+    });
+
+    ItemMod {
+        content: Some((input.content.unwrap().0, items.collect())),
+        ..input
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -449,7 +550,7 @@ mod tests {
             }
         };
 
-        let result = add_derive_eq(&item_struct);
+        let result = add_derive_eq_struct(&item_struct);
         let expected: ItemStruct = syn::parse_quote! {
             #[derive(PartialEq, Eq, Debug)]
             struct Hello {
@@ -469,7 +570,7 @@ mod tests {
             }
         };
 
-        let result = add_derive_eq(&item_struct);
+        let result = add_derive_eq_struct(&item_struct);
 
         assert_ast_eq!(item_struct, result);
     }
@@ -483,12 +584,37 @@ mod tests {
             }
         };
 
-        let result = add_derive_eq(&item_struct);
+        let result = add_derive_eq_struct(&item_struct);
 
         let expected: ItemStruct = syn::parse_quote! {
             #[derive(PartialEq, Eq, Debug)]
             struct Hello {
                 name: String
+            }
+        };
+
+        assert_ast_eq!(result, expected);
+    }
+
+    #[test]
+    #[allow(non_snake_case)]
+    fn test_alias_id_with_ID_if_there_id_a_field_named_id() {
+        let item_struct: ItemStruct = syn::parse_quote! {
+            #[derive(PartialEq, Eq, Debug)]
+            struct PeriodLock {
+                id: u64,
+                duration: Duration,
+            }
+        };
+
+        let result = serde_alias_id_with_uppercased(item_struct);
+
+        let expected: ItemStruct = syn::parse_quote! {
+            #[derive(PartialEq, Eq, Debug)]
+            struct PeriodLock {
+                #[serde(alias = "ID")]
+                id: u64,
+                duration: Duration,
             }
         };
 

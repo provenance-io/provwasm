@@ -10,7 +10,7 @@ use proto_build::{
 };
 
 /// The provenance commit or tag to be cloned and used to build the proto files
-const PROVENANCE_REV: &str = "v1.13.1";
+const PROVENANCE_REV: &str = "v1.14.1";
 
 // All paths must end with a / and either be absolute or include a ./ to reference the current
 // working directory.
@@ -19,6 +19,7 @@ const PROVENANCE_REV: &str = "v1.13.1";
 const OUT_DIR: &str = "../provwasm-std/src/types/";
 /// Directory where the provenance submodule is located
 const PROVENANCE_DIR: &str = "../../dependencies/provenance/";
+const THIRD_PARTY_DIR: &str = "../../dependencies/provenance/third_party/proto/";
 
 /// A temporary directory for proto building
 const TMP_BUILD_DIR: &str = "/tmp/provwasm-std/proto-build";
@@ -37,10 +38,24 @@ pub fn generate() {
         version: PROVENANCE_REV.to_string(),
         project_dir: PROVENANCE_DIR.to_string(),
         include_mods: vec![],
+        buf_gen_template: "provenance.buf.gen.yaml".to_string(),
     };
 
-    let provenance_code_generator =
-        CodeGenerator::new(out_dir, tmp_build_dir, provenance_project, vec![]);
+    let third_party_project = CosmosProject {
+        name: "third-party".to_string(),
+        version: PROVENANCE_REV.to_string(),
+        project_dir: THIRD_PARTY_DIR.to_string(),
+        include_mods: vec![],
+        buf_gen_template: "third-party.buf.gen.yaml".to_string(),
+    };
+
+    let provenance_code_generator = CodeGenerator::new(
+        out_dir,
+        tmp_build_dir,
+        provenance_project,
+        // vec![],
+        vec![third_party_project],
+    );
 
     provenance_code_generator.generate();
 }
