@@ -285,9 +285,14 @@ mod tests {
 
         // Assert the correct params were created
         match unwrap_marker_params(&res.messages[0].msg) {
-            MarkerMsgParams::CreateMarker { coin, marker_type } => {
+            MarkerMsgParams::CreateMarker {
+                coin,
+                marker_type,
+                allow_forced_transfer,
+            } => {
                 assert_eq!(*coin, expected_coin);
                 assert_eq!(*marker_type, MarkerType::Restricted);
+                assert!(!*allow_forced_transfer);
             }
             _ => panic!("expected marker create params"),
         }
