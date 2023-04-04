@@ -9,5 +9,6 @@
     "denom": "nugz",
     "total_supply": "420",
     "marker_type": "coin",
-    "supply_fixed": true
+    "supply_fixed": true,
+    "allow_forced_transfer": false
 }
