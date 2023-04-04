@@ -1,6 +1,6 @@
 [package]
 name = "ibc-local"
-version = "1.1.2"
+version = "1.2.0"
 authors = ["Ken Talley <4344285+kwtalley@users.noreply.github.com"]
 edition = "2021"
 
