@@ -38,7 +38,7 @@ echo "Binding name"
   "sc" \
   "$node0" \
   "pb" \
-  --restrict=false \
+  --unrestrict \
   --from="$node0" \
   --keyring-backend test \
   --chain-id="testing" \
@@ -52,7 +52,7 @@ echo "Binding name"
 echo "Storing wasm"
 # Run the contract
 "$PROV_CMD" tx wasm store "$WASM" \
-  --instantiate-only-address "$node0" \
+  --instantiate-anyof-addresses "$node0" \
   --from="$node0" \
   --keyring-backend="test" \
   --chain-id="testing" \

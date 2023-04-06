@@ -10,7 +10,7 @@ export node0=$("$PROV_CMD" keys show -a validator --keyring-backend test --testn
   "sc" \
   $"$node0" \
   "pb" \
-  --restrict=false \
+  --unrestrict \
   --from="$node0" \
   --keyring-backend test \
   --chain-id="testing" \
@@ -22,7 +22,7 @@ export node0=$("$PROV_CMD" keys show -a validator --keyring-backend test --testn
   --testnet
 
 "$PROV_CMD" tx wasm store $WASM \
-  --instantiate-only-address "$node0" \
+  --instantiate-anyof-addresses "$node0" \
   --from="$node0" \
   --keyring-backend test \
   --chain-id="testing" \

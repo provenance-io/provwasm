@@ -67,7 +67,7 @@ echo "Sending coins to different keys"
   "sc" \
   "$node0" \
   "pb" \
-  --restrict=false \
+  --unrestrict \
   --from="$node0" \
   --keyring-backend test \
   --chain-id="testing" \
@@ -146,7 +146,7 @@ echo "Sending coins to different keys"
 
 # Run the contract
 "$PROV_CMD" tx wasm store $WASM \
-  --instantiate-only-address "$feebucket" \
+  --instantiate-anyof-addresses "$feebucket" \
   --from "$feebucket" \
   --keyring-backend="test" \
   --chain-id="testing" \
