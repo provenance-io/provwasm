@@ -1,8 +1,7 @@
 #!/bin/bash -e
 
 # This script stores, instantiates and executes the tutorial smart contract
-PROV_CMD="./bin/provenanced"
-PROV_CMD="./bin/provenanced"
+PROV_CMD="provenanced"
 WASM="./contracts/tutorial/artifacts/provwasm_tutorial.wasm"
 declare LOCAL_ARGS
 if [ -z "${CI}" ]; then

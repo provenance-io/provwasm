@@ -1,8 +1,7 @@
 #!/bin/bash -e
 
 # This script stores and instantiates the scope smart contract for the metadata module
-export PROV_CMD="./bin/provenanced"
-PROV_CMD="./bin/provenanced"
+PROV_CMD="provenanced"
 WASM="./contracts/scope/artifacts/scope.wasm"
 declare LOCAL_ARGS
 if [ -z "${CI}" ]; then

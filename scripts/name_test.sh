@@ -1,8 +1,7 @@
 #!/bin/bash -e
 
 # This script stores, instantiates and executes the marker smart contract
-export PROV_CMD="./bin/provenanced"
-PROV_CMD="./bin/provenanced"
+PROV_CMD="provenanced"
 WASM="./contracts/name/artifacts/name.wasm"
 declare LOCAL_ARGS
 if [ -z "${CI}" ]; then

@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 # This script stores, instantiates and executes the msgfees smart contract
-PROV_CMD="./bin/provenanced"
+PROV_CMD="provenanced"
 WASM="./contracts/msgfees/artifacts/msgfees.wasm"
 declare LOCAL_ARGS
 if [ -z "${CI}" ]; then
