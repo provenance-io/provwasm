@@ -11,6 +11,7 @@ pub enum ExecuteMsg {
     Create {
         supply: Uint128,
         denom: String,
+        allow_forced_transfer: bool,
     },
     GrantAccess {
         denom: String,

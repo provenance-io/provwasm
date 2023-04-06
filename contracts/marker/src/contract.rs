@@ -3,10 +3,10 @@ use cosmwasm_std::{
     StdError, StdResult, Uint128,
 };
 use provwasm_std::{
-    activate_marker, bind_name, burn_marker_supply, cancel_marker, create_marker, destroy_marker,
-    finalize_marker, grant_marker_access, mint_marker_supply, transfer_marker_coins,
-    withdraw_coins, MarkerAccess, MarkerType, NameBinding, ProvenanceMsg, ProvenanceQuerier,
-    ProvenanceQuery,
+    activate_marker, bind_name, burn_marker_supply, cancel_marker, create_forced_transfer_marker,
+    create_marker, destroy_marker, finalize_marker, grant_marker_access, mint_marker_supply,
+    transfer_marker_coins, withdraw_coins, MarkerAccess, MarkerType, NameBinding, ProvenanceMsg,
+    ProvenanceQuerier, ProvenanceQuery,
 };
 
 use crate::error::ContractError;
@@ -48,7 +48,11 @@ pub fn execute(
     msg: ExecuteMsg,
 ) -> Result<Response<ProvenanceMsg>, StdError> {
     match msg {
-        ExecuteMsg::Create { supply, denom } => try_create(supply, denom),
+        ExecuteMsg::Create {
+            supply,
+            denom,
+            allow_forced_transfer: restricted,
+        } => try_create(supply, denom, restricted),
         ExecuteMsg::GrantAccess { denom } => try_grant_access(denom, env.contract.address),
         ExecuteMsg::Finalize { denom } => try_finalize(denom),
         ExecuteMsg::Activate { denom } => try_activate(denom),
@@ -65,8 +69,16 @@ pub fn execute(
 }
 
 // Create and dispatch a message that will create a new restricted marker w/ proposed status.
-fn try_create(supply: Uint128, denom: String) -> StdResult<Response<ProvenanceMsg>> {
-    let msg = create_marker(supply.u128(), &denom, MarkerType::Restricted)?;
+fn try_create(
+    supply: Uint128,
+    denom: String,
+    restricted: bool,
+) -> StdResult<Response<ProvenanceMsg>> {
+    let msg = match restricted {
+        true => create_forced_transfer_marker(supply.u128(), &denom)?,
+        false => create_marker(supply.u128(), &denom, MarkerType::Restricted)?,
+    };
+
     let res = Response::new()
         .add_message(msg)
         .add_attribute("action", "provwasm.contracts.marker.create")
@@ -277,6 +289,7 @@ mod tests {
         let msg = ExecuteMsg::Create {
             supply: Uint128::new(420),
             denom: "budz".into(),
+            allow_forced_transfer: false,
         };
 
         // Call execute and ensure a cosmos message was dispatched
@@ -293,6 +306,42 @@ mod tests {
                 assert_eq!(*coin, expected_coin);
                 assert_eq!(*marker_type, MarkerType::Restricted);
                 assert!(!*allow_forced_transfer);
+            }
+            _ => panic!("expected marker create params"),
+        }
+    }
+
+    #[test]
+    fn create_forced_transfer_marker() {
+        // Create default provenance mocks.
+        let mut deps = mock_dependencies(&[]);
+        let env = mock_env();
+        let info = mock_info("sender", &[]);
+
+        // Expected marker supply
+        let expected_coin = coin(420, "budz");
+
+        // Create marker execute message
+        let msg = ExecuteMsg::Create {
+            supply: Uint128::new(420),
+            denom: "budz".into(),
+            allow_forced_transfer: true,
+        };
+
+        // Call execute and ensure a cosmos message was dispatched
+        let res = execute(deps.as_mut(), env, info, msg).unwrap();
+        assert_eq!(1, res.messages.len());
+
+        // Assert the correct params were created
+        match unwrap_marker_params(&res.messages[0].msg) {
+            MarkerMsgParams::CreateMarker {
+                coin,
+                marker_type,
+                allow_forced_transfer,
+            } => {
+                assert_eq!(*coin, expected_coin);
+                assert_eq!(*marker_type, MarkerType::Restricted);
+                assert!(*allow_forced_transfer);
             }
             _ => panic!("expected marker create params"),
         }
