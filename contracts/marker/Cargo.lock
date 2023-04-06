@@ -441,6 +441,7 @@ dependencies = [
 name = "provwasm-std"
 version = "1.1.2"
 dependencies = [
+ "cosmwasm-schema",
  "cosmwasm-std",
  "schemars",
  "serde",

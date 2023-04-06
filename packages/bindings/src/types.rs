@@ -1,3 +1,4 @@
+use cosmwasm_schema::cw_serde;
 use cosmwasm_std::{Addr, Binary, Coin, Decimal};
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
@@ -302,4 +303,10 @@ pub enum ResultStatus {
     Skip,
     Fail,
     Unspecified,
+}
+
+#[cw_serde]
+pub struct Fee {
+    pub recipient: Option<Addr>,
+    pub amount: Coin,
 }
