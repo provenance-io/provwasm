@@ -3,14 +3,8 @@
 # This script stores and instantiates the scope smart contract for the metadata module
 PROV_CMD="provenanced"
 WASM="./contracts/scope/artifacts/scope.wasm"
-declare LOCAL_ARGS
-if [ -z "${CI}" ]; then
-  PROV_CMD=provenanced
-  LOCAL_ARGS="--home build/run/provenanced"
-  WASM=$1
-fi
 
-export node0=$("$PROV_CMD" keys show -a validator --keyring-backend test --testnet $LOCAL_ARGS)
+export node0=$("$PROV_CMD" keys show -a validator --keyring-backend test --testnet )
 
 "$PROV_CMD" tx name bind \
   "sc" \
@@ -25,7 +19,7 @@ export node0=$("$PROV_CMD" keys show -a validator --keyring-backend test --testn
   --gas-adjustment=1.5 \
   --broadcast-mode block \
   --yes \
-  --testnet $LOCAL_ARGS
+  --testnet
 
 "$PROV_CMD" tx wasm store $WASM \
   --instantiate-only-address "$node0" \
@@ -37,7 +31,7 @@ export node0=$("$PROV_CMD" keys show -a validator --keyring-backend test --testn
   --gas-adjustment=1.5 \
   --broadcast-mode block \
   --yes \
-  --testnet $LOCAL_ARGS
+  --testnet
 
 "$PROV_CMD" tx wasm instantiate 1 '{"name": "scope-itv2.sc.pb"}' \
   --admin "$node0" \
@@ -50,6 +44,6 @@ export node0=$("$PROV_CMD" keys show -a validator --keyring-backend test --testn
   --gas-adjustment=1.5 \
   --broadcast-mode block \
   --yes \
-  --testnet $LOCAL_ARGS
+  --testnet
 
 echo "done with the scope contract"
