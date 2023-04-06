@@ -117,7 +117,7 @@ if [ "$feebucket_denom" != "nhash" ]; then
   exit 1
 fi
 
-if [ "$feebucket_amount" != "5000" ]; then
+if [ "$feebucket_amount" != "10000" ]; then
   exit 1
 fi
 
