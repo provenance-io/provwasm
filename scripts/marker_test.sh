@@ -58,7 +58,7 @@ export contract=$("$PROV_CMD" query wasm list-contract-by-code 1 --testnet --out
 
 "$PROV_CMD" tx wasm execute \
     "$contract" \
-    '{"create":{"supply":"500","denom":"faustiancoin"}}' \
+    '{"create":{"supply":"500","denom":"faustiancoin","allow_forced_transfer":false}}' \
     --from="$node0" \
     --keyring-backend test \
     --chain-id="testing" \
@@ -69,7 +69,20 @@ export contract=$("$PROV_CMD" query wasm list-contract-by-code 1 --testnet --out
     --yes \
     --testnet $LOCAL_ARGS
 
-#"$PROV_CMD" q marker list --testnet -o json
+"$PROV_CMD" tx wasm execute \
+    "$contract" \
+    '{"create":{"supply":"10","denom":"forcedtransfercoin","allow_forced_transfer":true}}' \
+    --from="$node0" \
+    --keyring-backend test \
+    --chain-id="testing" \
+    --gas=auto \
+	  --gas-prices="1905nhash" \
+	  --gas-adjustment=1.5 \
+    --broadcast-mode block \
+    --yes \
+    --testnet $LOCAL_ARGS
+
+"$PROV_CMD" q marker list --testnet
 #"$PROV_CMD" q wasm contract-state smart "$contract" '{"get_by_denom":{"denom":"faustiancoin"}}' --testnet -o json
 
 "$PROV_CMD" tx wasm execute \
