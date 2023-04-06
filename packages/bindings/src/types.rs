@@ -307,6 +307,6 @@ pub enum ResultStatus {
 
 #[cw_serde]
 pub struct Fee {
-    pub recipient: Addr,
+    pub recipient: Option<Addr>,
     pub amount: Coin,
 }
