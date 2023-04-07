@@ -3,8 +3,8 @@ use cosmwasm_std::Addr;
 use cw2::ContractVersion;
 
 #[cw_serde]
-pub struct InstantiateMsg {
-    owner: Addr,
+pub enum InstantiateMsg {
+    Instantiate { owner: Addr },
 }
 
 #[cw_serde]
@@ -33,4 +33,6 @@ pub struct QueryOwnerResponse {
 }
 
 #[cw_serde]
-pub struct MigrateMsg {}
+pub enum MigrateMsg {
+    MigrateV1ToV2 {},
+}
