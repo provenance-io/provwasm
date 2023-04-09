@@ -1,4 +1,4 @@
-use cosmwasm_std::{entry_point, Env, MessageInfo};
+use cosmwasm_std::{entry_point, Env, MessageInfo, Reply};
 
 use crate::{
     core::{
@@ -8,7 +8,7 @@ use crate::{
     },
     execute, instantiate,
     migrate::{self, validate::validate_migration},
-    query,
+    query, reply,
     util::validate::Validate,
 };
 
@@ -44,4 +44,9 @@ pub fn migrate(deps: ProvDepsMut, env: Env, msg: MigrateMsg) -> ProvTxResponse {
     let res = migrate::router::route(&deps, env, msg);
     cw2::set_contract_version(deps.storage, CONTRACT_NAME, CONTRACT_VERSION)?;
     res
+}
+
+#[entry_point]
+pub fn reply(deps: ProvDepsMut, env: Env, reply: Reply) -> ProvTxResponse {
+    reply::router::route(deps, env, reply)
 }

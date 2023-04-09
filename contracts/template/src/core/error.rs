@@ -1,4 +1,4 @@
-use cosmwasm_std::StdError;
+use cosmwasm_std::{Coin, StdError};
 use thiserror::Error;
 
 #[derive(Error, Debug)]
@@ -17,15 +17,15 @@ pub enum ContractError {
     #[error("Unexpected funds included in transaction")]
     UnexpectedFunds {},
 
-    #[error("Mismatch in the expected funds and the actual funds")]
-    MismatchFunds {},
+    #[error("Mismatch in the expected funds and the actual funds. Expected {0}, but received {1}")]
+    MismatchFunds(Coin, Coin),
 
     // Migration Errors
-    #[error("Mismatch in the migration contract name")]
-    ContractNameMismatch {},
+    #[error("Mismatch in the migration contract name. Expected contract with name {0}, but received {1}")]
+    ContractNameMismatch(String, String),
 
-    #[error("Invalid migration version")]
-    InvalidVersion {},
+    #[error("Invalid migration version. Version {0} is not greater than {1}")]
+    InvalidVersion(String, String),
 
     #[error("Semver parsing error: {0}")]
     SemVer(String),
