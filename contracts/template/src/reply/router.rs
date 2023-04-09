@@ -11,6 +11,6 @@ use super::default;
 pub fn route(deps: ProvDepsMut, env: Env, reply: Reply) -> ProvTxResponse {
     match reply.id {
         DEFAULT_REPLY => default::handle(deps, env, reply),
-        _ => Err(ContractError::UnexpectedReplyId { 0: reply.id }),
+        _ => Err(ContractError::UnexpectedReplyId(reply.id)),
     }
 }

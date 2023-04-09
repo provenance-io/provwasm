@@ -7,9 +7,7 @@ use crate::{
 
 impl Validate for ExecuteMsg {
     fn validate(&self) -> ValidateResult {
-        match self {
-            _ => Ok(()),
-        }
+        Ok(())
     }
 
     fn validate_funds(&self, funds: &[Coin]) -> ValidateResult {

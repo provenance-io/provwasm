@@ -1,7 +1,7 @@
 use std::{env::current_dir, fs::create_dir_all};
 
-use cosmwasm_schema::{remove_schemas, schema_for, export_schema};
-use template::core::msg::{InstantiateMsg, ExecuteMsg, QueryMsg, MigrateMsg};
+use cosmwasm_schema::{export_schema, remove_schemas, schema_for};
+use template::core::msg::{ExecuteMsg, InstantiateMsg, MigrateMsg, QueryMsg};
 
 fn main() {
     let mut out_dir = current_dir().unwrap();

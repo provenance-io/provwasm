@@ -11,9 +11,7 @@ use crate::{
 
 impl Validate for MigrateMsg {
     fn validate(&self) -> ValidateResult {
-        match self {
-            _ => Ok(()),
-        }
+        Ok(())
     }
 
     fn validate_funds(&self, _funds: &[Coin]) -> ValidateResult {
@@ -27,17 +25,17 @@ pub fn validate_migration(storage: &dyn Storage) -> ValidateResult {
     let ver = cw2::get_contract_version(storage)?;
 
     if ver.contract != CONTRACT_NAME {
-        return Err(crate::core::error::ContractError::ContractNameMismatch {
-            0: ver.contract,
-            1: CONTRACT_NAME.to_string(),
-        });
+        return Err(crate::core::error::ContractError::ContractNameMismatch(
+            ver.contract,
+            CONTRACT_NAME.to_string(),
+        ));
     }
 
     if storage_version >= version {
-        return Err(crate::core::error::ContractError::InvalidVersion {
-            0: version.to_string(),
-            1: storage_version.to_string(),
-        });
+        return Err(crate::core::error::ContractError::InvalidVersion(
+            version.to_string(),
+            storage_version.to_string(),
+        ));
     }
 
     Ok(())

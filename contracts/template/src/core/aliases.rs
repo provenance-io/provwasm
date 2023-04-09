@@ -1,5 +1,5 @@
-use cosmwasm_std::{Deps, DepsMut, Response, Binary, CosmosMsg};
-use provwasm_std::{ProvenanceQuery, ProvenanceMsg};
+use cosmwasm_std::{Binary, CosmosMsg, Deps, DepsMut, Response};
+use provwasm_std::{ProvenanceMsg, ProvenanceQuery};
 
 use super::error::ContractError;
 
