@@ -2,9 +2,11 @@ use cosmwasm_schema::{cw_serde, QueryResponses};
 use cosmwasm_std::Addr;
 use cw2::ContractVersion;
 
+use crate::util::fee::Fee;
+
 #[cw_serde]
 pub enum InstantiateMsg {
-    Instantiate { owner: Addr },
+    Default { owner: Addr, fee: Fee },
 }
 
 #[cw_serde]
@@ -34,5 +36,5 @@ pub struct QueryOwnerResponse {
 
 #[cw_serde]
 pub enum MigrateMsg {
-    MigrateV1ToV2 {},
+    Default {},
 }

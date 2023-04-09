@@ -28,7 +28,11 @@ pub enum ContractError {
     InvalidVersion {},
 
     #[error("Semver parsing error: {0}")]
-    SemVer(String)
+    SemVer(String),
+
+    // Reply Errors
+    #[error("Unexpected reply id: {0}")]
+    UnexpectedReplyId(u64),
 }
 
 impl From<semver::Error> for ContractError {

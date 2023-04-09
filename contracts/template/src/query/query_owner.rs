@@ -1,13 +1,16 @@
-use cosmwasm_std::{to_binary, Addr};
+use cosmwasm_std::to_binary;
 
-use crate::core::{
-    aliases::{ProvDeps, ProvQueryResponse},
-    msg::QueryOwnerResponse,
+use crate::{
+    core::{
+        aliases::{ProvDeps, ProvQueryResponse},
+        msg::QueryOwnerResponse,
+    },
+    storage,
 };
 
-pub fn handle(_deps: ProvDeps) -> ProvQueryResponse {
+pub fn handle(deps: ProvDeps) -> ProvQueryResponse {
     let res = QueryOwnerResponse {
-        owner: Addr::unchecked("test"),
+        owner: storage::state::get_owner(deps.storage)?,
     };
     Ok(to_binary(&res)?)
 }

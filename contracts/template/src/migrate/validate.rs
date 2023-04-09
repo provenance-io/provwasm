@@ -6,7 +6,7 @@ use crate::{
         constants::{CONTRACT_NAME, CONTRACT_VERSION},
         msg::MigrateMsg,
     },
-    types::validate::{Validate, ValidateResult},
+    util::validate::{Validate, ValidateResult},
 };
 
 impl Validate for MigrateMsg {

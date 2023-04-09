@@ -2,7 +2,7 @@ use cosmwasm_std::Coin;
 
 use crate::{
     core::msg::QueryMsg,
-    types::validate::{Validate, ValidateResult},
+    util::validate::{Validate, ValidateResult},
 };
 
 impl Validate for QueryMsg {

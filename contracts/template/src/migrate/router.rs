@@ -5,10 +5,10 @@ use crate::core::{
     msg::MigrateMsg,
 };
 
-use super::v1_to_v2;
+use super::default;
 
 pub fn route(deps: &ProvDepsMut, env: Env, msg: MigrateMsg) -> ProvTxResponse {
     match msg {
-        MigrateMsg::MigrateV1ToV2 {} => v1_to_v2::handle(deps, env, msg),
+        MigrateMsg::Default {} => default::handle(deps, env, msg),
     }
 }

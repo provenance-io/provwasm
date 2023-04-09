@@ -767,6 +767,7 @@ dependencies = [
  "cosmwasm-std",
  "cosmwasm-storage",
  "cw-multi-test",
+ "cw-storage-plus",
  "cw-utils",
  "cw2",
  "provwasm-mocks",

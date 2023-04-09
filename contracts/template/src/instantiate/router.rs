@@ -5,7 +5,7 @@ use crate::core::{
     msg::InstantiateMsg,
 };
 
-use super::instantiate;
+use super::default;
 
 pub fn route(
     deps: ProvDepsMut,
@@ -14,6 +14,6 @@ pub fn route(
     msg: InstantiateMsg,
 ) -> ProvTxResponse {
     match msg {
-        InstantiateMsg::Instantiate { owner } => instantiate::handle(deps, owner),
+        InstantiateMsg::Default { owner, fee } => default::handle(deps, owner, fee),
     }
 }

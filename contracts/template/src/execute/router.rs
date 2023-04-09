@@ -7,8 +7,8 @@ use crate::core::{
 
 use super::change_owner;
 
-pub fn route(_deps: ProvDepsMut, _env: Env, info: MessageInfo, msg: ExecuteMsg) -> ProvTxResponse {
+pub fn route(deps: ProvDepsMut, _env: Env, info: MessageInfo, msg: ExecuteMsg) -> ProvTxResponse {
     match msg {
-        ExecuteMsg::ChangeOwner { new_owner } => change_owner::handle(info.sender, new_owner),
+        ExecuteMsg::ChangeOwner { new_owner } => change_owner::handle(deps, info.sender, new_owner),
     }
 }

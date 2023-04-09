@@ -9,7 +9,7 @@ use crate::{
     execute, instantiate,
     migrate::{self, validate::validate_migration},
     query,
-    types::validate::Validate,
+    util::validate::Validate,
 };
 
 #[entry_point]
