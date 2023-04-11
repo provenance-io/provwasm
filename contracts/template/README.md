@@ -35,55 +35,134 @@ This group of modules is used to provide additional tools and helpers for the co
 The template contract enables all three transaction entry points. These transactions allow the user to manipulate contract and blockchain state with messages. 
 
 ### [Instantiation]
-These message variants are used to construct the contract and are dispatched to the instantiate entry point.
+These message variants are utilized in the construction of the contract and to activate the instantiate entry point.
 
 #### [Default]
-The default instantiation message that provides commonly used setup functionality. This is primarily an example, but can be used as a good starting point.
+A default instantiation message that provides and demonstrates commonly used setup functionality.
 
 #### Request Parameters
+- owner: The address of the account that will own the contract.
+- fee: A fee to be applied when instantiating the contract.
 
 #### Emitted Attributes
+- action: This will always have a value of "instantiate".
 
 #### Emitted Events
+This transaction does not emit any events.
 
 #### Request Sample
+```
+{
+    "default": {
+        "owner": "tp1y8e0lvgek8em05mpxk8veqfyz9tzwphylq7hxr",
+        "fee": {
+            "recipient": "tp1y8e0lvgek8em05mpxk8veqfyz9tzwphylq7hxr",
+            "amount": {
+                "denom": "nhash",
+                "amount": "1000000000"
+            }
+        }
+    }
+}
+```
 
 ### [Execute]
+The execute message variants encompass the various methods through which users can interact with and modify the contract. These variants activate the execute entry point.
 
 #### [Change Owner]
+This transaction will change the owner of the contract to the provided address.
+
+##### Note
+This message variant will fail if the sender is not the current owner of the contract.
 
 #### Request Parameters
+- new_owner: The address of the contract's new owner.
 
 #### Emitted Attributes
+- action: This will always have the value of "change_owner".
 
 #### Emitted Events
+- change_owner:
+    - previous_owner: The address of the previous owner.
+    - new_owner: The address of the new owner.
 
 #### Request Sample
+```
+{
+    "change_owner": {
+        "new_owner": "tp1ek77wghn0n9lc7x2uycgh697sjc7fvy995keun"
+    }
+}
+```
 
 ### [Migrate]
+The migrate message variants enable the developer to make their contract future-proof by providing the ability to upgrade it in multiple ways.
 
 #### [Default]
+A default instantiation message that provides and demonstrates commonly used migration functionality.
 
 #### Request Parameters
+- None
 
 #### Emitted Attributes
+- action: This will always have a value of "migrate".
 
 #### Emitted Events
+- None
 
 #### Request Sample
+```
+{
+    "default": {}
+}
+```
 
-## Queries
+### [Query]
+The migrate message variants allow the users to quickly obtain contract information.
 
-### [Querry Version]
-
-#### Request Sample
-
-#### Response Sample
-
-### [Querry Owner]
+### [Query Version]
+The QueryVersion message will return the contract's current version.
 
 #### Request Parameters
+- None
 
 #### Request Sample
+```
+{
+    "query_version": {}
+}
+```
 
 #### Response Sample
+```
+{
+    "data": {
+        "contract_version": {
+            "contract": "template",
+            "version": "1.0.0"
+        }
+    }
+}
+```
+
+### [Query Owner]
+The QueryVersion message will return the contract's current owner.
+
+#### Request Parameters
+- None
+
+#### Request Sample
+```
+{
+    "query_owner": {}
+}
+```
+
+#### Response Sample
+```
+{
+    "data": {
+        "owner": "tp1y8e0lvgek8em05mpxk8veqfyz9tzwphylq7hxr"
+    }
+}
+```
