@@ -375,6 +375,7 @@ pub enum MarkerMsgParams {
     CreateMarker {
         coin: Coin,
         marker_type: MarkerType,
+        allow_forced_transfer: bool,
     },
     GrantMarkerAccess {
         denom: String,
@@ -452,6 +453,38 @@ pub fn create_marker<S: Into<String>>(
     Ok(create_marker_msg(MarkerMsgParams::CreateMarker {
         coin,
         marker_type,
+        allow_forced_transfer: false,
+    }))
+}
+
+/// Create a message that will propose a new restricted marker that allows forced transfers.
+///
+/// ### Example
+///
+/// ```rust
+/// // Imports required
+/// use cosmwasm_std::{Response, StdResult};
+/// use provwasm_std::{create_forced_transfer_marker, MarkerType, ProvenanceMsg};
+///
+/// // Create and dispatch a message that will propose a new restricted marker that allows forced transfers.
+/// fn try_create_forced_transfer_marker(
+///     amount: u128,
+///     denom: String,
+/// ) -> StdResult<Response<ProvenanceMsg>> {
+///     let msg = create_forced_transfer_marker(amount, &denom)?;
+///     let mut res = Response::new().add_message(msg);
+///     Ok(res)
+/// }
+/// ```
+pub fn create_forced_transfer_marker<S: Into<String>>(
+    amount: u128,
+    denom: S,
+) -> StdResult<CosmosMsg<ProvenanceMsg>> {
+    let coin = coin(amount, validate_string(denom, "denom")?);
+    Ok(create_marker_msg(MarkerMsgParams::CreateMarker {
+        coin,
+        marker_type: MarkerType::Restricted,
+        allow_forced_transfer: true,
     }))
 }
 

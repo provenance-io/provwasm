@@ -381,7 +381,7 @@ checksum = "329c933548736bc49fd575ee68c89e8be4d260064184389a5b77517cddd99ffb"
 
 [[package]]
 name = "msgfees"
-version = "1.1.2"
+version = "1.2.0"
 dependencies = [
  "cosmwasm-schema",
  "cosmwasm-std",
@@ -420,7 +420,7 @@ dependencies = [
 
 [[package]]
 name = "provwasm-mocks"
-version = "1.1.2"
+version = "1.2.0"
 dependencies = [
  "cosmwasm-std",
  "provwasm-std",
@@ -430,7 +430,7 @@ dependencies = [
 
 [[package]]
 name = "provwasm-std"
-version = "1.1.2"
+version = "1.2.0"
 dependencies = [
  "cosmwasm-std",
  "schemars",

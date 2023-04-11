@@ -1,7 +1,7 @@
 [package]
 name = "name"
-version = "1.1.2"
-authors = ["David Pederson <dpederson@figure.com>", "Ken Talley <ktalley@figure.com>"]
+version = "1.2.0"
+authors = ["Ken Talley <ktalley@provenance.io"]
 edition = "2018"
 
 exclude = [

@@ -213,10 +213,14 @@
             "create_marker": {
               "type": "object",
               "required": [
+                "allow_forced_transfer",
                 "coin",
                 "marker_type"
               ],
               "properties": {
+                "allow_forced_transfer": {
+                  "type": "boolean"
+                },
                 "coin": {
                   "$ref": "#/definitions/Coin"
                 },

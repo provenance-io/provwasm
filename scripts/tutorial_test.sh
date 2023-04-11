@@ -1,205 +1,198 @@
 #!/bin/bash -e
 
 # This script stores, instantiates and executes the tutorial smart contract
-PROV_CMD="./bin/provenanced"
-PROV_CMD="./bin/provenanced"
+PROV_CMD="provenanced"
 WASM="./contracts/tutorial/artifacts/provwasm_tutorial.wasm"
-declare LOCAL_ARGS
-if [ -z "${CI}" ]; then
-  PROV_CMD=provenanced
-  LOCAL_ARGS="--home build/run/provenanced"
-  WASM=$1
-fi
 
 # setup all of the necessary keys
-"$PROV_CMD" keys add merchant --keyring-backend test --testnet --hd-path "44'/1'/0'/0/0" $LOCAL_ARGS
-"$PROV_CMD" keys add feebucket --keyring-backend test --testnet --hd-path "44'/1'/0'/0/0" $LOCAL_ARGS
-"$PROV_CMD" keys add consumer --keyring-backend test --testnet --hd-path "44'/1'/0'/0/0" $LOCAL_ARGS
+"$PROV_CMD" keys add merchant --keyring-backend test --testnet --hd-path "44'/1'/0'/0/0"
+"$PROV_CMD" keys add feebucket --keyring-backend test --testnet --hd-path "44'/1'/0'/0/0"
+"$PROV_CMD" keys add consumer --keyring-backend test --testnet --hd-path "44'/1'/0'/0/0"
 
 # setup key variables
-export node0=$("$PROV_CMD" keys show -a validator --keyring-backend test --testnet $LOCAL_ARGS)
-export merchant=$("$PROV_CMD" keys show -a merchant --keyring-backend test --testnet $LOCAL_ARGS)
-export feebucket=$("$PROV_CMD" keys show -a feebucket --keyring-backend test --testnet $LOCAL_ARGS)
-export consumer=$("$PROV_CMD" keys show -a consumer --keyring-backend test --testnet $LOCAL_ARGS)
+export node0=$("$PROV_CMD" keys show -a validator --keyring-backend test --testnet )
+export merchant=$("$PROV_CMD" keys show -a merchant --keyring-backend test --testnet )
+export feebucket=$("$PROV_CMD" keys show -a feebucket --keyring-backend test --testnet )
+export consumer=$("$PROV_CMD" keys show -a consumer --keyring-backend test --testnet )
 
 echo "Sending coins to different keys"
 
 "$PROV_CMD" tx bank send \
-	"$node0" \
-	"$merchant" \
-	200000000000nhash \
-	--from="$node0" \
-	--keyring-backend=test \
-	--chain-id="testing" \
-	--gas=auto \
-	--gas-prices="1905nhash" \
-	--gas-adjustment=1.5 \
-	--broadcast-mode=block \
-	--yes \
-	--testnet \
-	--output json $LOCAL_ARGS
+  "$node0" \
+  "$merchant" \
+  200000000000nhash \
+  --from="$node0" \
+  --keyring-backend=test \
+  --chain-id="testing" \
+  --gas=auto \
+  --gas-prices="1905nhash" \
+  --gas-adjustment=1.5 \
+  --broadcast-mode=block \
+  --yes \
+  --testnet \
+  --output json
 
 "$PROV_CMD" tx bank send \
-	"$node0" \
-	"$consumer" \
-	200000000000nhash \
-	--from="$node0" \
-	--keyring-backend=test \
-	--chain-id="testing" \
-	--gas=auto \
-	--gas-prices="1905nhash" \
-	--gas-adjustment=1.5 \
-	--broadcast-mode=block \
-	--yes \
-	--testnet \
-	--output json $LOCAL_ARGS
+  "$node0" \
+  "$consumer" \
+  200000000000nhash \
+  --from="$node0" \
+  --keyring-backend=test \
+  --chain-id="testing" \
+  --gas=auto \
+  --gas-prices="1905nhash" \
+  --gas-adjustment=1.5 \
+  --broadcast-mode=block \
+  --yes \
+  --testnet \
+  --output json
 
 "$PROV_CMD" tx bank send \
-	"$node0" \
-	"$feebucket" \
-	200000000000nhash \
-	--from="$node0" \
-	--keyring-backend=test \
-	--chain-id="testing" \
-	--gas=auto \
-	--gas-prices="1905nhash" \
-	--gas-adjustment=1.5 \
-	--broadcast-mode=block \
-	--yes \
-	--testnet \
-	--output json $LOCAL_ARGS
+  "$node0" \
+  "$feebucket" \
+  200000000000nhash \
+  --from="$node0" \
+  --keyring-backend=test \
+  --chain-id="testing" \
+  --gas=auto \
+  --gas-prices="1905nhash" \
+  --gas-adjustment=1.5 \
+  --broadcast-mode=block \
+  --yes \
+  --testnet \
+  --output json
 
 # Setup name and new COIN for the smart contract
 "$PROV_CMD" tx name bind \
-    "sc" \
-    "$node0" \
-    "pb" \
-    --restrict=false \
-    --from="$node0" \
-    --keyring-backend test \
-    --chain-id="testing" \
-    --gas-prices="1905nhash" \
-	  --gas-adjustment=1.5 \
-    --broadcast-mode block \
-    --yes \
-    --testnet \
-	  --output json $LOCAL_ARGS
+  "sc" \
+  "$node0" \
+  "pb" \
+  --unrestrict \
+  --from="$node0" \
+  --keyring-backend test \
+  --chain-id="testing" \
+  --gas-prices="1905nhash" \
+  --gas-adjustment=1.5 \
+  --broadcast-mode block \
+  --yes \
+  --testnet \
+  --output json
 
 "$PROV_CMD" tx marker new 1000000000purchasecoin \
-    --type COIN \
-    --from="$node0" \
-    --keyring-backend test \
-    --chain-id="testing" \
-    --gas auto \
-    --gas-prices="1905nhash" \
-	  --gas-adjustment=1.5 \
-    --broadcast-mode block \
-    --yes \
-    --testnet \
-	  --output json $LOCAL_ARGS
+  --type COIN \
+  --from="$node0" \
+  --keyring-backend test \
+  --chain-id="testing" \
+  --gas auto \
+  --gas-prices="1905nhash" \
+  --gas-adjustment=1.5 \
+  --broadcast-mode block \
+  --yes \
+  --testnet \
+  --output json
 
 "$PROV_CMD" tx marker grant \
-    $node0 \
-    purchasecoin \
-    withdraw \
-    --from="$node0" \
-    --keyring-backend test \
-    --chain-id="testing" \
-    --gas auto \
-    --gas-prices="1905nhash" \
-	  --gas-adjustment=1.5 \
-    --broadcast-mode block \
-    --yes \
-    --testnet \
-	  --output json $LOCAL_ARGS
+  $node0 \
+  purchasecoin \
+  withdraw \
+  --from="$node0" \
+  --keyring-backend test \
+  --chain-id="testing" \
+  --gas auto \
+  --gas-prices="1905nhash" \
+  --gas-adjustment=1.5 \
+  --broadcast-mode block \
+  --yes \
+  --testnet \
+  --output json
 
 "$PROV_CMD" tx marker finalize purchasecoin \
-    --from="$node0" \
-    --keyring-backend test \
-    --chain-id="testing" \
-    --gas auto \
-    --gas-prices="1905nhash" \
-	  --gas-adjustment=1.5 \
-    --broadcast-mode block \
-    --yes \
-    --testnet \
-	  --output json $LOCAL_ARGS
+  --from="$node0" \
+  --keyring-backend test \
+  --chain-id="testing" \
+  --gas auto \
+  --gas-prices="1905nhash" \
+  --gas-adjustment=1.5 \
+  --broadcast-mode block \
+  --yes \
+  --testnet \
+  --output json
 
 "$PROV_CMD" tx marker activate purchasecoin \
-    --from="$node0" \
-    --keyring-backend test \
-    --chain-id="testing" \
-    --gas auto \
-    --gas-prices="1905nhash" \
-	  --gas-adjustment=1.5 \
-    --broadcast-mode block \
-    --yes \
-    --testnet \
-	  --output json $LOCAL_ARGS
+  --from="$node0" \
+  --keyring-backend test \
+  --chain-id="testing" \
+  --gas auto \
+  --gas-prices="1905nhash" \
+  --gas-adjustment=1.5 \
+  --broadcast-mode block \
+  --yes \
+  --testnet \
+  --output json
 
 "$PROV_CMD" tx marker withdraw purchasecoin \
-    100000purchasecoin \
-    $consumer \
-    --from="$node0" \
-    --keyring-backend test \
-    --chain-id="testing" \
-    --gas auto \
-    --gas-prices="1905nhash" \
-	  --gas-adjustment=1.5 \
-    --broadcast-mode block \
-    --yes \
-    --testnet \
-	  --output json $LOCAL_ARGS
+  100000purchasecoin \
+  $consumer \
+  --from="$node0" \
+  --keyring-backend test \
+  --chain-id="testing" \
+  --gas auto \
+  --gas-prices="1905nhash" \
+  --gas-adjustment=1.5 \
+  --broadcast-mode block \
+  --yes \
+  --testnet \
+  --output json
 
 # Run the contract
 "$PROV_CMD" tx wasm store $WASM \
-    --instantiate-only-address "$feebucket" \
-    --from "$feebucket" \
-    --keyring-backend="test" \
-    --chain-id="testing" \
-    --gas=auto \
-    --gas-prices="1905nhash" \
-	  --gas-adjustment=1.5 \
-    --broadcast-mode=block \
-    --yes \
-    --testnet $LOCAL_ARGS
+  --instantiate-anyof-addresses "$feebucket" \
+  --from "$feebucket" \
+  --keyring-backend="test" \
+  --chain-id="testing" \
+  --gas=auto \
+  --gas-prices="1905nhash" \
+  --gas-adjustment=1.5 \
+  --broadcast-mode=block \
+  --yes \
+  --testnet
 
 # create the json for instantiating the contract with our merchant address
 export json="{ \"contract_name\": \"tutorial.sc.pb\", \"purchase_denom\": \"purchasecoin\", \"merchant_address\": \"$merchant\", \"fee_percent\": \"0.10\" }"
 
 "$PROV_CMD" tx wasm instantiate 1 "$json" \
-    --admin="$feebucket" \
-    --label="tutorial" \
-    --from="$feebucket" \
-    --keyring-backend="test" \
-    --chain-id="testing" \
-    --gas=auto \
-    --gas-prices="1905nhash" \
-	  --gas-adjustment=1.5 \
-    --broadcast-mode block \
-    --yes \
-    --testnet $LOCAL_ARGS
+  --admin="$feebucket" \
+  --label="tutorial" \
+  --from="$feebucket" \
+  --keyring-backend="test" \
+  --chain-id="testing" \
+  --gas=auto \
+  --gas-prices="1905nhash" \
+  --gas-adjustment=1.5 \
+  --broadcast-mode block \
+  --yes \
+  --testnet
 
 # Query for the contract address so we can execute it
-export contract=$("$PROV_CMD" query wasm list-contract-by-code 1 --testnet --output json $LOCAL_ARGS | jq -r ".contracts[0]")
+export contract=$("$PROV_CMD" query wasm list-contract-by-code 1 --testnet --output json  | jq -r ".contracts[0]")
 
 "$PROV_CMD" tx wasm execute \
-    "$contract" \
-    '{"purchase":{"id":"12345"}}' \
-    --amount 100purchasecoin \
-    --from="$consumer" \
-    --keyring-backend test \
-    --chain-id testing \
-    --gas auto \
-    --gas-prices="1905nhash" \
-	  --gas-adjustment=1.5 \
-    --broadcast-mode block \
-    --yes \
-    --testnet \
-	  --output json $LOCAL_ARGS
+  "$contract" \
+  '{"purchase":{"id":"12345"}}' \
+  --amount 100purchasecoin \
+  --from="$consumer" \
+  --keyring-backend test \
+  --chain-id testing \
+  --gas auto \
+  --gas-prices="1905nhash" \
+  --gas-adjustment=1.5 \
+  --broadcast-mode block \
+  --yes \
+  --testnet \
+  --output json
 
 # Verify that the funds were sent to the correct accounts for the merchant and the feebucket
-export merchant_query=$("$PROV_CMD" query bank balances "$merchant" --testnet --output json $LOCAL_ARGS)
+export merchant_query=$("$PROV_CMD" query bank balances "$merchant" --testnet --output json )
 export merchant_denom=$(echo "$merchant_query" | jq -r ".balances[1].denom")
 export merchant_amount=$(echo "$merchant_query" | jq -r ".balances[1].amount")
 
@@ -211,7 +204,7 @@ if [ "$merchant_amount" != "90" ]; then
   exit 1
 fi
 
-export feebucket_query=$("$PROV_CMD" query bank balances "$feebucket" --testnet --output json $LOCAL_ARGS)
+export feebucket_query=$("$PROV_CMD" query bank balances "$feebucket" --testnet --output json )
 export feebucket_denom=$(echo "$feebucket_query" | jq -r ".balances[1].denom")
 export feebucket_amount=$(echo "$feebucket_query" | jq -r ".balances[1].amount")
 

@@ -84,6 +84,7 @@ pub struct Attribute {
 #[serde(rename_all = "snake_case")]
 pub struct Marker {
     pub address: Addr,
+    pub allow_forced_transfer: bool,
     #[serde(default)]
     pub coins: Vec<Coin>,
     pub account_number: u64,

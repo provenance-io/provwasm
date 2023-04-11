@@ -32,10 +32,11 @@ jobs:
           cd ./contracts/tutorial
           make all
       - name: Smart Contract Test setup
-        uses: provenance-io/provenance-testing-action@v1.1.0
+        uses: provenance-io/provenance-testing-action@34bfd03104a8a2ebd2e03f60c90353581cc5016a
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          provenance_version: "v1.13.1"
+          provenance_version: "v1.14.1"
+          smart_contract_action_version: "34bfd03104a8a2ebd2e03f60c90353581cc5016a"
           test_script: "./scripts/tutorial_test.sh"
           generate_proposals: true
           wasm_path: "./contracts/tutorial/artifacts/provwasm_tutorial.wasm"
@@ -54,10 +55,11 @@ jobs:
           cd ./contracts/attrs
           make all
       - name: Smart Contract Test setup
-        uses: provenance-io/provenance-testing-action@v1.1.0
+        uses: provenance-io/provenance-testing-action@34bfd03104a8a2ebd2e03f60c90353581cc5016a
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          provenance_version: "v1.13.1"
+          provenance_version: "v1.14.1"
+          smart_contract_action_version: "34bfd03104a8a2ebd2e03f60c90353581cc5016a"
           test_script: "./scripts/attrs_test.sh"
           generate_proposals: true
           wasm_path: "./contracts/attrs/artifacts/attrs.wasm"
@@ -76,10 +78,11 @@ jobs:
           cd ./contracts/marker
           make all
       - name: Provenance Test
-        uses: provenance-io/provenance-testing-action@v1.1.0
+        uses: provenance-io/provenance-testing-action@34bfd03104a8a2ebd2e03f60c90353581cc5016a
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          provenance_version: "v1.13.1"
+          provenance_version: "issue/1458"
+          smart_contract_action_version: "34bfd03104a8a2ebd2e03f60c90353581cc5016a"
           test_script: "./scripts/marker_test.sh"
           generate_proposals: true
           wasm_path: "./contracts/marker/artifacts/marker.wasm"
@@ -98,10 +101,11 @@ jobs:
           cd ./contracts/msgfees
           make all
       - name: Provenance Test
-        uses: provenance-io/provenance-testing-action@v1.1.0
+        uses: provenance-io/provenance-testing-action@34bfd03104a8a2ebd2e03f60c90353581cc5016a
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          provenance_version: "v1.13.1"
+          provenance_version: "v1.14.1"
+          smart_contract_action_version: "34bfd03104a8a2ebd2e03f60c90353581cc5016a"
           test_script: "./scripts/msgfees_test.sh"
           generate_proposals: true
           wasm_path: "./contracts/msgfees/artifacts/msgfees.wasm"
@@ -120,10 +124,11 @@ jobs:
           cd ./contracts/name
           make all
       - name: Smart Contract Test setup
-        uses: provenance-io/provenance-testing-action@v1.1.0
+        uses: provenance-io/provenance-testing-action@34bfd03104a8a2ebd2e03f60c90353581cc5016a
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          provenance_version: "v1.13.1"
+          provenance_version: "v1.14.1"
+          smart_contract_action_version: "34bfd03104a8a2ebd2e03f60c90353581cc5016a"
           test_script: "./scripts/name_test.sh"
           generate_proposals: true
           wasm_path: "./contracts/name/artifacts/name.wasm"
@@ -142,10 +147,11 @@ jobs:
           cd ./contracts/scope
           make all
       - name: Smart Contract Test setup
-        uses: provenance-io/provenance-testing-action@v1.1.0
+        uses: provenance-io/provenance-testing-action@34bfd03104a8a2ebd2e03f60c90353581cc5016a
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          provenance_version: "v1.13.1"
+          provenance_version: "v1.14.1"
+          smart_contract_action_version: "34bfd03104a8a2ebd2e03f60c90353581cc5016a"
           test_script: "./scripts/scope_test.sh"
           generate_proposals: true
           wasm_path: "./contracts/scope/artifacts/scope.wasm"
