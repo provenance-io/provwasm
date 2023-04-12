@@ -3,7 +3,7 @@ use serde::{Deserialize, Serialize};
 
 use super::fee::Fee;
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub struct State {
     pub owner: Addr,
     pub fee: Fee,

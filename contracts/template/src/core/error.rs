@@ -33,6 +33,9 @@ pub enum ContractError {
     // Reply Errors
     #[error("Unexpected reply id: {0}")]
     UnexpectedReplyId(u64),
+
+    #[error("Reply id {0} failed: {1}")]
+    ReplyFailure(u64, String),
 }
 
 impl From<semver::Error> for ContractError {
