@@ -15,7 +15,7 @@ pub fn handle(deps: ProvDepsMut, env: Env, owner: Addr, fee: Fee) -> ProvTxRespo
     storage::state::set(deps.storage, &State::new(owner, fee.clone()))?;
     let fee_message = assess_custom_fee(
         fee.amount.clone(),
-        Some("contract fee"),
+        Some("contract_fee"),
         env.contract.address,
         fee.recipient,
     )?;
