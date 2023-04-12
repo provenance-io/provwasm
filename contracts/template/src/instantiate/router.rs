@@ -9,11 +9,11 @@ use super::default;
 
 pub fn route(
     deps: ProvDepsMut,
-    _env: Env,
+    env: Env,
     _info: MessageInfo,
     msg: InstantiateMsg,
 ) -> ProvTxResponse {
     match msg {
-        InstantiateMsg::Default { owner, fee } => default::handle(deps, owner, fee),
+        InstantiateMsg::Default { owner, fee } => default::handle(deps, env, owner, fee),
     }
 }
