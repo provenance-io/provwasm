@@ -4,6 +4,7 @@ use semver::Version;
 use crate::{
     core::{
         constants::{CONTRACT_NAME, CONTRACT_VERSION},
+        error::ContractError,
         msg::MigrateMsg,
     },
     util::validate::{Validate, ValidateResult},
@@ -25,18 +26,86 @@ pub fn validate_migration(storage: &dyn Storage) -> ValidateResult {
     let ver = cw2::get_contract_version(storage)?;
 
     if ver.contract != CONTRACT_NAME {
-        return Err(crate::core::error::ContractError::ContractNameMismatch(
+        return Err(ContractError::ContractNameMismatch(
             ver.contract,
             CONTRACT_NAME.to_string(),
         ));
     }
 
     if storage_version >= version {
-        return Err(crate::core::error::ContractError::InvalidVersion(
+        return Err(ContractError::InvalidVersion(
             version.to_string(),
             storage_version.to_string(),
         ));
     }
 
     Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    use cw2::set_contract_version;
+    use provwasm_mocks::mock_dependencies;
+
+    use crate::{
+        core::{
+            constants::{CONTRACT_NAME, CONTRACT_VERSION},
+            error::ContractError,
+            msg::MigrateMsg,
+        },
+        util::validate::Validate,
+    };
+
+    use super::validate_migration;
+
+    #[test]
+    fn test_validate() {
+        let msg = MigrateMsg::Default {};
+        assert_eq!((), msg.validate().unwrap());
+    }
+
+    #[test]
+    fn test_validate_funds() {
+        let msg = MigrateMsg::Default {};
+        assert_eq!((), msg.validate_funds(&[]).unwrap());
+    }
+
+    #[test]
+    fn test_validate_migration_names_must_match() {
+        let mut deps = mock_dependencies(&[]);
+        let name = "TEST_NAME";
+        let version = CONTRACT_VERSION;
+        set_contract_version(deps.as_mut().storage, name, version).unwrap();
+
+        let err = validate_migration(&deps.storage).unwrap_err();
+        assert_eq!(
+            ContractError::ContractNameMismatch(name.to_string(), CONTRACT_NAME.to_string())
+                .to_string(),
+            err.to_string()
+        );
+    }
+
+    #[test]
+    fn test_validate_migration_version_must_be_greater() {
+        let mut deps = mock_dependencies(&[]);
+        let name = CONTRACT_NAME;
+        let version = CONTRACT_VERSION;
+        set_contract_version(deps.as_mut().storage, name, version).unwrap();
+
+        let err = validate_migration(&deps.storage).unwrap_err();
+        assert_eq!(
+            ContractError::InvalidVersion(version.to_string(), CONTRACT_VERSION.to_string())
+                .to_string(),
+            err.to_string()
+        );
+    }
+
+    #[test]
+    fn test_validate_migration_success() {
+        let mut deps = mock_dependencies(&[]);
+        let name = CONTRACT_NAME;
+        let version = "0.0.1";
+        set_contract_version(deps.as_mut().storage, name, version).unwrap();
+        validate_migration(&deps.storage).unwrap();
+    }
 }
