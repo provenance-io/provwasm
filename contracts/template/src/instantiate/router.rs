@@ -7,6 +7,20 @@ use crate::core::{
 
 use super::default;
 
+/// Routes the instantiate message to the appropriate handler based on the message's variant.
+///
+/// # Arguments
+///
+/// * `deps` - A mutable version of the dependencies. The API, Querier, and storage can all be accessed from it.
+/// * `env` - Information about the Blockchain's environment such as block height.
+/// * `info` - Contains the message signer and any sent funds.
+/// * `msg` - The migration being ran by the user.
+///
+/// # Examples
+/// ```
+/// let msg = InstantiateMsg::Default {owner: Addr::unchecked("owner"), fee: Fee {recipient: Some(Addr::unchecked("owner")), amount: Coin::new(0, "nhash"),},}
+/// let res = route(deps, env, info, msg)?;
+/// ```
 pub fn route(
     deps: ProvDepsMut,
     env: Env,

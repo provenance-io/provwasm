@@ -15,6 +15,22 @@ use crate::{
     },
 };
 
+/// Performs the instantiation logic for the Default variant of InstantiateMsg.
+///
+/// The contract first stores the owner and fee into the state. It then sets the contract version,
+/// and returns a response containing the message fee submessage.
+///
+/// # Arguments
+///
+/// * `deps` - A mutable version of the dependencies. The API, Querier, and storage can all be accessed from it.
+/// * `env` - Information about the Blockchain's environment such as block height.
+/// * `msg` - The Default variant of MigrateMsg provided by the user.
+///
+/// # Examples
+/// ```
+/// let msg = InstantiateMsg::Default {owner: Addr::unchecked("owner"), fee: Fee {recipient: Some(Addr::unchecked("owner")), amount: Coin::new(0, "nhash"),},};
+/// let res = handle(deps, env, msg.owner, msg.fee)?;
+/// ```
 pub fn handle(deps: ProvDepsMut, env: Env, owner: Addr, fee: Fee) -> ProvTxResponse {
     storage::state::set(deps.storage, &State::new(owner, fee.clone()))?;
     set_contract_version(deps.storage, CONTRACT_NAME, CONTRACT_VERSION)?;
