@@ -1,6 +1,8 @@
 # Template Contract
 This contract aims to equip developers with a pre-configured smart contract that streamlines implementation and conforms to the standard Provenance layout. With only the need to add or modify endpoints and integrate their logic, developers can focus on their contract's core functionalities. Additionally, the accompanying documentation and tests provide clear examples for proper documentation practices.
 
+This contract was inspired by the [metadata-bilateral-exchange](https://github.com/provenance-io/metadata-bilateral-exchange) and similar contracts.
+
 ## Concepts
 In the template contract, two crucial concepts that every developer should aim to comprehend are the incorporation of Fees to monetize their contract and the standard structure of the contract.
 
