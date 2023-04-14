@@ -8,6 +8,19 @@ use crate::{
     util::action::{Action, ActionType},
 };
 
+/// Performs the migration logic for the Default variant of MigrateMsg.
+///
+/// # Arguments
+///
+/// * `deps` - A mutable version of the dependencies. The API, Querier, and storage can all be accessed from it.
+/// * `env` - Information about the Blockchain's environment such as block height.
+/// * `msg` - The Default variant of MigrateMsg provided by the user.
+///
+/// # Examples
+/// ```
+/// let msg = MigrateMsg::Default {};
+/// let res = handle(deps, env, msg)?;
+/// ```
 pub fn handle(_deps: &ProvDepsMut, _env: Env, _msg: MigrateMsg) -> ProvTxResponse {
     Ok(Response::new().set_action(ActionType::Migrate {}))
 }

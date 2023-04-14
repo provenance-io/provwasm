@@ -7,6 +7,19 @@ use crate::core::{
 
 use super::default;
 
+/// Routes the migrate message to the appropriate handler based on the message's variant.
+///
+/// # Arguments
+///
+/// * `deps` - A non mutable version of the dependencies. The API, Querier, and storage can all be accessed from it.
+/// * `env` - Information about the Blockchain's environment such as block height.
+/// * `msg` - The migration being ran by the user.
+///
+/// # Examples
+/// ```
+/// let msg = MigrateMsg::Default {};
+/// let res = route(deps, env, msg)?;
+/// ```
 pub fn route(deps: &ProvDepsMut, env: Env, msg: MigrateMsg) -> ProvTxResponse {
     match msg {
         MigrateMsg::Default {} => default::handle(deps, env, msg),

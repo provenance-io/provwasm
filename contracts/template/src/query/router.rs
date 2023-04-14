@@ -7,7 +7,7 @@ use crate::core::{
 
 use super::{query_owner, query_version};
 
-/// Routes the reply to the appropriate handler based on the reply's id.
+/// Routes the query message to the appropriate handler based on the message's variant.
 ///
 /// # Arguments
 ///
@@ -17,7 +17,8 @@ use super::{query_owner, query_version};
 ///
 /// # Examples
 /// ```
-/// let res = route(deps, env, reply)?;
+/// let msg = QueryMsg::QueryVersion {};
+/// let res = route(deps, env, msg)?;
 /// ```
 pub fn route(deps: ProvDeps, _env: Env, msg: QueryMsg) -> ProvQueryResponse {
     match msg {
