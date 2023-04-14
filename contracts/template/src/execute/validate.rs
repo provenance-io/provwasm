@@ -1,12 +1,12 @@
 use cosmwasm_std::Coin;
 
 use crate::{
-    core::{error::ContractError, msg::ExecuteMsg},
+    core::{aliases::ProvDeps, error::ContractError, msg::ExecuteMsg},
     util::validate::{Validate, ValidateResult},
 };
 
 impl Validate for ExecuteMsg {
-    fn validate(&self) -> ValidateResult {
+    fn validate(&self, _deps: ProvDeps) -> ValidateResult {
         Ok(())
     }
 

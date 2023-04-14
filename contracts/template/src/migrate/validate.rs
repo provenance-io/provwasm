@@ -3,6 +3,7 @@ use semver::Version;
 
 use crate::{
     core::{
+        aliases::ProvDeps,
         constants::{CONTRACT_NAME, CONTRACT_VERSION},
         error::ContractError,
         msg::MigrateMsg,
@@ -11,7 +12,7 @@ use crate::{
 };
 
 impl Validate for MigrateMsg {
-    fn validate(&self) -> ValidateResult {
+    fn validate(&self, _deps: ProvDeps) -> ValidateResult {
         Ok(())
     }
 
@@ -61,7 +62,8 @@ mod tests {
     #[test]
     fn test_validate() {
         let msg = MigrateMsg::Default {};
-        assert_eq!((), msg.validate().unwrap());
+        let deps = mock_dependencies(&[]);
+        assert_eq!((), msg.validate(deps.as_ref()).unwrap());
     }
 
     #[test]

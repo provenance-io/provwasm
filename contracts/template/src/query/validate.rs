@@ -1,12 +1,12 @@
 use cosmwasm_std::Coin;
 
 use crate::{
-    core::msg::QueryMsg,
+    core::{aliases::ProvDeps, msg::QueryMsg},
     util::validate::{Validate, ValidateResult},
 };
 
 impl Validate for QueryMsg {
-    fn validate(&self) -> ValidateResult {
+    fn validate(&self, _deps: ProvDeps) -> ValidateResult {
         match self {
             QueryMsg::QueryOwner {} => Ok(()),
             QueryMsg::QueryVersion {} => Ok(()),
@@ -20,18 +20,22 @@ impl Validate for QueryMsg {
 
 #[cfg(test)]
 mod tests {
+    use provwasm_mocks::mock_dependencies;
+
     use crate::{core::msg::QueryMsg, util::validate::Validate};
 
     #[test]
     fn test_query_owner_validate_succeeds() {
         let query = QueryMsg::QueryOwner {};
-        assert_eq!((), query.validate().unwrap())
+        let deps = mock_dependencies(&[]);
+        assert_eq!((), query.validate(deps.as_ref()).unwrap());
     }
 
     #[test]
     fn test_query_version_validate_succeeds() {
         let query = QueryMsg::QueryVersion {};
-        assert_eq!((), query.validate().unwrap())
+        let deps = mock_dependencies(&[]);
+        assert_eq!((), query.validate(deps.as_ref()).unwrap())
     }
 
     #[test]
