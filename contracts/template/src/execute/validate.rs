@@ -6,10 +6,34 @@ use crate::{
 };
 
 impl Validate for ExecuteMsg {
+    /// Performs basic error checking on the ExecuteMsg
+    ///
+    /// # Arguments
+    ///
+    /// * `self` - A reference to the message implementing this trait.
+    /// * `deps` - A non mutable version of the dependencies. The API, Querier, and storage can all be accessed from it.
+    ///
+    /// # Examples
+    /// ```
+    /// let msg = ExecuteMsg::ChangeOwner {new_owner: Addr::unchecked("new_owner")};
+    /// msg.validate(deps)?;
+    /// ```
     fn validate(&self, _deps: ProvDeps) -> ValidateResult {
         Ok(())
     }
 
+    /// Performs basic error checking on ExecuteMsg.
+    ///
+    /// # Arguments
+    ///
+    /// * `self` - A reference to the message implementing this trait.
+    /// * `funds` - A slice representing the funds included with the message.
+    ///
+    /// # Examples
+    /// ```
+    /// let msg = ExecuteMsg::ChangeOwner {new_owner: Addr::unchecked("new_owner")};
+    /// msg.validate_funds(deps, &info.funds)?;
+    /// ```
     fn validate_funds(&self, funds: &[Coin]) -> ValidateResult {
         match self {
             ExecuteMsg::ChangeOwner { new_owner: _ } => {

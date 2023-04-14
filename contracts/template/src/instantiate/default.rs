@@ -24,11 +24,12 @@ use crate::{
 ///
 /// * `deps` - A mutable version of the dependencies. The API, Querier, and storage can all be accessed from it.
 /// * `env` - Information about the Blockchain's environment such as block height.
-/// * `msg` - The Default variant of MigrateMsg provided by the user.
+/// * `owner` - The address of the contract's owner.
+/// * `fee` - The amount of additional funds to charge.
 ///
 /// # Examples
 /// ```
-/// let msg = InstantiateMsg::Default {owner: Addr::unchecked("owner"), fee: Fee {recipient: Some(Addr::unchecked("owner")), amount: Coin::new(0, "nhash"),},};
+/// let msg = InstantiateMsg::Default {owner: Addr::unchecked("owner"), fee: Fee {recipient: Some(Addr::unchecked("owner")), amount: Coin::new(0, "nhash")}};
 /// let res = handle(deps, env, msg.owner, msg.fee)?;
 /// ```
 pub fn handle(deps: ProvDepsMut, env: Env, owner: Addr, fee: Fee) -> ProvTxResponse {

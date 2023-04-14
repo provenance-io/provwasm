@@ -31,7 +31,7 @@ impl Validate for InstantiateMsg {
     ///
     /// # Examples
     /// ```
-    /// let msg = InstantiateMsg::Default {owner: Addr::unchecked("owner"), fee: Fee {recipient: Some(Addr::unchecked("owner")), amount: Coin::new(0, "nhash"),},};
+    /// let msg = InstantiateMsg::Default {owner: Addr::unchecked("owner"), fee: Fee {recipient: Some(Addr::unchecked("owner")), amount: Coin::new(0, "nhash")}};
     /// msg.validate_funds(deps, &info.funds)?;
     /// ```
     fn validate_funds(&self, funds: &[Coin]) -> ValidateResult {

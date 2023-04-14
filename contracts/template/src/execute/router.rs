@@ -7,6 +7,20 @@ use crate::core::{
 
 use super::change_owner;
 
+/// Routes the execute message to the appropriate handler based on the message's variant.
+///
+/// # Arguments
+///
+/// * `deps` - A mutable version of the dependencies. The API, Querier, and storage can all be accessed from it.
+/// * `env` - Information about the Blockchain's environment such as block height.
+/// * `info` - Contains the message signer and any sent funds.
+/// * `msg` - The execute variant being ran by the user.
+///
+/// # Examples
+/// ```
+/// let msg = ExecuteMsg::ChangeOwner {new_owner: Addr::unchecked("new_owner")};
+/// let res = route(deps, env, info, msg)?;
+/// ```
 pub fn route(deps: ProvDepsMut, _env: Env, info: MessageInfo, msg: ExecuteMsg) -> ProvTxResponse {
     match msg {
         ExecuteMsg::ChangeOwner { new_owner } => change_owner::handle(deps, info.sender, new_owner),
