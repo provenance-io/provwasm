@@ -6,6 +6,18 @@ use crate::{
 };
 
 impl Validate for QueryMsg {
+    /// Performs basic error checking on the QueryMsg
+    ///
+    /// # Arguments
+    ///
+    /// * `self` - A reference to the message implementing this trait.
+    /// * `deps` - A non mutable version of the dependencies. The API, Querier, and storage can all be accessed from it.
+    ///
+    /// # Examples
+    /// ```
+    /// let msg = QueryMsg::QueryVersion {};
+    /// msg.validate(deps)?;
+    /// ```
     fn validate(&self, _deps: ProvDeps) -> ValidateResult {
         match self {
             QueryMsg::QueryOwner {} => Ok(()),
@@ -13,6 +25,18 @@ impl Validate for QueryMsg {
         }
     }
 
+    /// Performs basic error checking on QueryMsg.
+    ///
+    /// # Arguments
+    ///
+    /// * `self` - A reference to the message implementing this trait.
+    /// * `funds` - A slice representing the funds included with the message.
+    ///
+    /// # Examples
+    /// ```
+    /// let msg = QueryMsg::QueryVersion {};
+    /// msg.validate_funds(deps, &info.funds)?;
+    /// ```
     fn validate_funds(&self, _funds: &[Coin]) -> ValidateResult {
         Ok(())
     }
