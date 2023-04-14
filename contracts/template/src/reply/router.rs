@@ -8,6 +8,18 @@ use crate::core::{
 
 use super::default;
 
+/// Routes the reply to the appropriate handler based on the reply's id.
+///
+/// # Arguments
+///
+/// * `deps` - A mutable version of the dependencies. The API, Querier, and storage can all be accessed from it.
+/// * `env` - Information about the Blockchain's environment such as block height.
+/// * `reply` - The response sent from the other contract.
+///
+/// # Examples
+/// ```
+/// let res = route(deps, env, reply)?;
+/// ```
 pub fn route(deps: ProvDepsMut, env: Env, reply: Reply) -> ProvTxResponse {
     match reply.id {
         DEFAULT_REPLY => default::handle(deps, env, reply),

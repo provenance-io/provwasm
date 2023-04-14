@@ -5,6 +5,18 @@ use crate::core::{
     error::ContractError,
 };
 
+/// Performs logic on the reply containing the default id.
+///
+/// # Arguments
+///
+/// * `deps` - A mutable version of the dependencies. The API, Querier, and storage can all be accessed from it.
+/// * `env` - Information about the Blockchain's environment such as block height.
+/// * `reply` - The response sent from the other contract.
+///
+/// # Examples
+/// ```
+/// let res = handle(deps, env, reply)?;
+/// ```
 pub fn handle(_deps: ProvDepsMut, _env: Env, reply: Reply) -> ProvTxResponse {
     match reply.result {
         SubMsgResult::Ok(_) => Ok(Response::default()),
