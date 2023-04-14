@@ -1,7 +1,7 @@
 [package]
 name = "template"
 version = "1.0.0"
-authors = ["Matthew Witkowski <4344285+mwitkowski@users.noreply.github.com"]
+authors = ["Matthew Witkowski <mwitkowski@provenance.io"]
 edition = "2021"
 
 exclude = [
