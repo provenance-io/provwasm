@@ -7,6 +7,18 @@ use crate::core::{
 
 use super::{query_owner, query_version};
 
+/// Routes the reply to the appropriate handler based on the reply's id.
+///
+/// # Arguments
+///
+/// * `deps` - A non mutable version of the dependencies. The API, Querier, and storage can all be accessed from it.
+/// * `env` - Information about the Blockchain's environment such as block height.
+/// * `msg` - The query being ran by the user.
+///
+/// # Examples
+/// ```
+/// let res = route(deps, env, reply)?;
+/// ```
 pub fn route(deps: ProvDeps, _env: Env, msg: QueryMsg) -> ProvQueryResponse {
     match msg {
         QueryMsg::QueryOwner {} => query_owner::handle(deps),
