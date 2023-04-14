@@ -2,12 +2,26 @@ use cosmwasm_std::{Addr, Attribute, Event};
 
 use crate::core::constants::{CHANGE_OWNER_EVENT, CHANGE_OWNER_NEW, CHANGE_OWNER_PREVIOUS};
 
+/// An event to represent the contract's owner changing
 pub struct ChangeOwnerEvent {
     pub previous_owner: Addr,
     pub new_owner: Addr,
 }
 
 impl ChangeOwnerEvent {
+    /// Creates a new instance of ChangeOwnerEvent
+    ///
+    /// # Arguments
+    ///
+    /// * `previous_owner` - The address of the contract's current owner.
+    /// * `new_owner` - The address of the contract's next owner.
+    ///
+    /// # Examples
+    /// ```
+    /// let previous_owner = Addr::unchecked("previous");
+    /// let new_owner = Addr::unchecked("new");
+    /// let event = ChangeOwnerEvent::new(previous_owner, new_owner);
+    /// ```
     pub fn new(previous_owner: Addr, new_owner: Addr) -> Self {
         Self {
             previous_owner,
@@ -16,6 +30,7 @@ impl ChangeOwnerEvent {
     }
 }
 
+/// Allows us to easily convert a ChangeOwnerEvent into an Event.
 impl From<ChangeOwnerEvent> for Event {
     fn from(val: ChangeOwnerEvent) -> Self {
         let event = Event::new(CHANGE_OWNER_EVENT);

@@ -3,6 +3,7 @@ use serde::{Deserialize, Serialize};
 
 use super::fee::Fee;
 
+/// A general purpose object that the contract uses to track store its state.
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub struct State {
     pub owner: Addr,
@@ -10,6 +11,19 @@ pub struct State {
 }
 
 impl State {
+    /// Creates a new instance of State
+    ///
+    /// # Arguments
+    ///
+    /// * `owner` - The address of the contract's owner.
+    /// * `fee` - The custom fee to apply to the contract.
+    ///
+    /// # Examples
+    /// ```
+    /// let owner = Addr::unchecked(OWNER);
+    /// let fee = Fee {recipient: None, amount: Coin::new(100, "nhash")};
+    /// let state = State::new(owner, fee);
+    /// ```
     pub fn new(owner: Addr, fee: Fee) -> Self {
         State { owner, fee }
     }
@@ -20,7 +34,7 @@ mod tests {
     use cosmwasm_std::{Addr, Coin};
 
     use crate::{
-        testing::constants::{OWNER, TEST_DENOM},
+        testing::constants::{OWNER, TEST_AMOUNT, TEST_DENOM},
         util::fee::Fee,
     };
 
@@ -31,9 +45,9 @@ mod tests {
         let owner = Addr::unchecked(OWNER);
         let fee = Fee {
             recipient: None,
-            amount: Coin::new(100, TEST_DENOM),
+            amount: Coin::new(TEST_AMOUNT, TEST_DENOM),
         };
-        let state = State::new(Addr::unchecked(OWNER), fee.clone());
+        let state = State::new(owner.clone(), fee.clone());
         assert_eq!(owner, state.owner);
         assert_eq!(fee, state.fee);
     }

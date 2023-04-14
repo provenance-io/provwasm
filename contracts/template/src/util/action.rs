@@ -7,12 +7,14 @@ use crate::core::{
     },
 };
 
+/// The different types of actions performed by the contract
 pub enum ActionType {
     Initialize,
     Migrate,
     ChangeOwner,
 }
 
+/// Provides a simple way to convert the ActionType to a string
 impl ToString for ActionType {
     fn to_string(&self) -> String {
         match self {
@@ -23,16 +25,19 @@ impl ToString for ActionType {
     }
 }
 
+/// Allows us to easily convert an ActionType to an Attribute
 impl From<ActionType> for Attribute {
     fn from(val: ActionType) -> Self {
         Attribute::new(ACTION_ATTRIBUTE, val.to_string())
     }
 }
 
+/// Provides the implementer with the ability to add an ActionType
 pub trait Action {
     fn set_action(self, action_type: ActionType) -> Self;
 }
 
+/// Adds an action attribute to the response
 impl Action for ProvResponse {
     fn set_action(self, action_type: ActionType) -> Self {
         self.add_attribute(ACTION_ATTRIBUTE, action_type.to_string())
