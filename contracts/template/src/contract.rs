@@ -12,6 +12,14 @@ use crate::{
     util::validate::Validate,
 };
 
+/// An entry point that is triggered when a user instantiates an instance of the stored wasm code.
+///
+/// # Arguments
+///
+/// * `deps` - A mutable version of the dependencies. The API, Querier, and storage can all be accessed from it.
+/// * `env` - Information about the Blockchain's environment such as block height.
+/// * `info` - Contains the message signer and any sent funds.
+/// * `msg` - The message enum and its contents used to trigger this endpoint.
 #[entry_point]
 pub fn instantiate(
     deps: ProvDepsMut,
@@ -24,12 +32,27 @@ pub fn instantiate(
     instantiate::router::route(deps, env, info, msg)
 }
 
+/// An entry point that is triggered when a user queries the contract.
+///
+/// # Arguments
+///
+/// * `deps` - A non mutable version of the dependencies. The API, Querier, and storage can all be accessed from it.
+/// * `env` - Information about the Blockchain's environment such as block height.
+/// * `msg` - The message enum and its contents used to trigger this endpoint.
 #[entry_point]
 pub fn query(deps: ProvDeps, env: Env, msg: QueryMsg) -> ProvQueryResponse {
     msg.validate(deps)?;
     query::router::route(deps, env, msg)
 }
 
+/// An entry point that is triggered when a user runs one of the exposed execute messages.
+///
+/// # Arguments
+///
+/// * `deps` - A mutable version of the dependencies. The API, Querier, and storage can all be accessed from it.
+/// * `env` - Information about the Blockchain's environment such as block height.
+/// * `info` - Contains the message signer and any sent funds.
+/// * `msg` - The message enum and its contents used to trigger this endpoint.
 #[entry_point]
 pub fn execute(deps: ProvDepsMut, env: Env, info: MessageInfo, msg: ExecuteMsg) -> ProvTxResponse {
     msg.validate(deps.as_ref())?;
@@ -37,6 +60,13 @@ pub fn execute(deps: ProvDepsMut, env: Env, info: MessageInfo, msg: ExecuteMsg) 
     execute::router::route(deps, env, info, msg)
 }
 
+/// An entry point that is triggered when an admin attempts to migrate the contract.
+///
+/// # Arguments
+///
+/// * `deps` - A mutable version of the dependencies. The API, Querier, and storage can all be accessed from it.
+/// * `env` - Information about the Blockchain's environment such as block height.
+/// * `msg` - The message enum and its contents used to trigger this endpoint.
 #[entry_point]
 pub fn migrate(deps: ProvDepsMut, env: Env, msg: MigrateMsg) -> ProvTxResponse {
     msg.validate(deps.as_ref())?;
@@ -46,6 +76,13 @@ pub fn migrate(deps: ProvDepsMut, env: Env, msg: MigrateMsg) -> ProvTxResponse {
     res
 }
 
+/// An entry point that is triggered when this contract receives a response from another contract.
+///
+/// # Arguments
+///
+/// * `deps` - A mutable version of the dependencies. The API, Querier, and storage can all be accessed from it.
+/// * `env` - Information about the Blockchain's environment such as block height.
+/// * `reply` - The response sent from the other contract.
 #[entry_point]
 pub fn reply(deps: ProvDepsMut, env: Env, reply: Reply) -> ProvTxResponse {
     reply::router::route(deps, env, reply)
