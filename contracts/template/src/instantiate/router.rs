@@ -27,7 +27,7 @@ mod tests {
     use crate::{
         instantiate::router::route,
         testing::{
-            constants::{TEST_AMOUNT, TEST_DENOM},
+            constants::{CREATOR, TEST_AMOUNT, TEST_DENOM},
             msg::mock_instantiate_msg,
             setup::{mock_fee, mock_info},
         },
@@ -41,7 +41,7 @@ mod tests {
         let env = mock_env();
         let fee = mock_fee();
         let msg = mock_instantiate_msg(true);
-        let info = mock_info();
+        let info = mock_info(true, CREATOR);
 
         let res = route(deps.as_mut(), env.clone(), info, msg).unwrap();
 

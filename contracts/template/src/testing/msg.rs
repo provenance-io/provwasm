@@ -1,8 +1,11 @@
 use cosmwasm_std::{Addr, Coin};
 
-use crate::{core::msg::InstantiateMsg, util::fee::Fee};
+use crate::{
+    core::msg::{ExecuteMsg, InstantiateMsg},
+    util::fee::Fee,
+};
 
-use super::constants::{OWNER, TEST_AMOUNT, TEST_DENOM};
+use super::constants::{NEW_OWNER, OWNER, TEST_AMOUNT, TEST_DENOM};
 
 pub fn mock_instantiate_msg(has_fee: bool) -> InstantiateMsg {
     if has_fee {
@@ -21,5 +24,11 @@ pub fn mock_instantiate_msg(has_fee: bool) -> InstantiateMsg {
                 amount: Coin::new(0, TEST_DENOM),
             },
         }
+    }
+}
+
+pub fn mock_change_owner_msg() -> ExecuteMsg {
+    ExecuteMsg::ChangeOwner {
+        new_owner: Addr::unchecked(NEW_OWNER),
     }
 }

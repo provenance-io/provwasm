@@ -14,15 +14,21 @@ pub fn mock_fee() -> Fee {
     }
 }
 
-pub fn mock_info() -> MessageInfo {
-    MessageInfo {
-        sender: Addr::unchecked(CREATOR),
-        funds: vec![Coin::new(TEST_AMOUNT, TEST_DENOM)],
+pub fn mock_info(funds: bool, sender: &str) -> MessageInfo {
+    if funds {
+        return MessageInfo {
+            sender: Addr::unchecked(sender),
+            funds: vec![Coin::new(TEST_AMOUNT, TEST_DENOM)],
+        };
     }
+    return MessageInfo {
+        sender: Addr::unchecked(sender),
+        funds: vec![],
+    };
 }
 
 pub fn mock_contract(deps: ProvDepsMut) {
-    let info = mock_info();
+    let info = mock_info(true, CREATOR);
     let env = mock_env();
     let msg = mock_instantiate_msg(true);
     contract::instantiate(deps, env, info, msg).unwrap();
