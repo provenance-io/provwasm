@@ -8,7 +8,7 @@ use crate::core::{
 pub fn handle(_deps: ProvDepsMut, _env: Env, reply: Reply) -> ProvTxResponse {
     match reply.result {
         SubMsgResult::Ok(_) => Ok(Response::default()),
-        SubMsgResult::Err(err) => Err(ContractError::ReplyFailure(reply.id, err.to_string())),
+        SubMsgResult::Err(err) => Err(ContractError::ReplyFailure(reply.id, err)),
     }
 }
 
