@@ -144,6 +144,10 @@ pub struct MarkerAccount {
     pub supply_fixed: bool,
     #[prost(bool, tag = "9")]
     pub allow_governance_control: bool,
+    #[prost(bool, tag = "10")]
+    pub allow_forced_transfer: bool,
+    #[prost(string, repeated, tag = "11")]
+    pub required_attributes: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
@@ -501,46 +505,6 @@ impl MarkerStatus {
             _ => None,
         }
     }
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
-#[proto_message(type_url = "/provenance.marker.v1.AddMarkerProposal")]
-pub struct AddMarkerProposal {
-    #[prost(string, tag = "1")]
-    pub title: ::prost::alloc::string::String,
-    #[prost(string, tag = "2")]
-    pub description: ::prost::alloc::string::String,
-    #[prost(message, optional, tag = "3")]
-    pub amount: ::core::option::Option<super::super::super::cosmos::base::v1beta1::Coin>,
-    #[prost(string, tag = "4")]
-    pub manager: ::prost::alloc::string::String,
-    #[prost(enumeration = "MarkerStatus", tag = "5")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
-    pub status: i32,
-    #[prost(enumeration = "MarkerType", tag = "6")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
-    pub marker_type: i32,
-    #[prost(message, repeated, tag = "7")]
-    pub access_list: ::prost::alloc::vec::Vec<AccessGrant>,
-    #[prost(bool, tag = "8")]
-    pub supply_fixed: bool,
-    #[prost(bool, tag = "9")]
-    pub allow_governance_control: bool,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
@@ -1178,6 +1142,10 @@ pub struct MsgAddMarkerRequest {
     pub supply_fixed: bool,
     #[prost(bool, tag = "9")]
     pub allow_governance_control: bool,
+    #[prost(bool, tag = "10")]
+    pub allow_forced_transfer: bool,
+    #[prost(string, repeated, tag = "11")]
+    pub required_attributes: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
@@ -1567,6 +1535,10 @@ pub struct MsgAddFinalizeActivateMarkerRequest {
     pub supply_fixed: bool,
     #[prost(bool, tag = "8")]
     pub allow_governance_control: bool,
+    #[prost(bool, tag = "9")]
+    pub allow_forced_transfer: bool,
+    #[prost(string, repeated, tag = "10")]
+    pub required_attributes: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
