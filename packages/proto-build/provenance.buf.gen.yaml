@@ -23,6 +23,8 @@ types:
     - provenance.attribute.v1.QueryAttributesResponse
     - provenance.attribute.v1.QueryScanRequest
     - provenance.attribute.v1.QueryScanResponse
+    - provenance.attribute.v1.QueryAttributeAccountsRequest
+    - provenance.attribute.v1.QueryAttributeAccountsResponse
     - provenance.attribute.v1.MsgAddAttributeRequest
     - provenance.attribute.v1.MsgAddAttributeResponse
     - provenance.attribute.v1.MsgUpdateAttributeRequest
@@ -53,7 +55,6 @@ types:
     - provenance.marker.v1.EventMarkerTransfer
     - provenance.marker.v1.EventMarkerSetDenomMetadata
     - provenance.marker.v1.EventDenomUnit
-    - provenance.marker.v1.AddMarkerProposal
     - provenance.marker.v1.SupplyIncreaseProposal
     - provenance.marker.v1.SupplyDecreaseProposal
     - provenance.marker.v1.SetAdministratorProposal
@@ -109,6 +110,143 @@ types:
     - provenance.marker.v1.MsgAddFinalizeActivateMarkerResponse
     - provenance.marker.v1.MsgSupplyIncreaseProposalRequest
     - provenance.marker.v1.MsgSupplyIncreaseProposalResponse
+    - provenance.metadata.v1.EventTxCompleted
+    - provenance.metadata.v1.EventScopeCreated
+    - provenance.metadata.v1.EventScopeUpdated
+    - provenance.metadata.v1.EventScopeDeleted
+    - provenance.metadata.v1.EventSessionCreated
+    - provenance.metadata.v1.EventSessionUpdated
+    - provenance.metadata.v1.EventSessionDeleted
+    - provenance.metadata.v1.EventRecordCreated
+    - provenance.metadata.v1.EventRecordUpdated
+    - provenance.metadata.v1.EventRecordDeleted
+    - provenance.metadata.v1.EventScopeSpecificationCreated
+    - provenance.metadata.v1.EventScopeSpecificationUpdated
+    - provenance.metadata.v1.EventScopeSpecificationDeleted
+    - provenance.metadata.v1.EventContractSpecificationCreated
+    - provenance.metadata.v1.EventContractSpecificationUpdated
+    - provenance.metadata.v1.EventContractSpecificationDeleted
+    - provenance.metadata.v1.EventRecordSpecificationCreated
+    - provenance.metadata.v1.EventRecordSpecificationUpdated
+    - provenance.metadata.v1.EventRecordSpecificationDeleted
+    - provenance.metadata.v1.EventOSLocatorCreated
+    - provenance.metadata.v1.EventOSLocatorUpdated
+    - provenance.metadata.v1.EventOSLocatorDeleted
+    - provenance.metadata.v1.Params
+    - provenance.metadata.v1.ScopeIdInfo
+    - provenance.metadata.v1.SessionIdInfo
+    - provenance.metadata.v1.RecordIdInfo
+    - provenance.metadata.v1.ScopeSpecIdInfo
+    - provenance.metadata.v1.ContractSpecIdInfo
+    - provenance.metadata.v1.RecordSpecIdInfo
+    - provenance.metadata.v1.ObjectStoreLocator
+    - provenance.metadata.v1.OSLocatorParams
+    - provenance.metadata.v1.Scope
+    - provenance.metadata.v1.Session
+    - provenance.metadata.v1.Record
+    - provenance.metadata.v1.Process
+    - provenance.metadata.v1.RecordInput
+    - provenance.metadata.v1.RecordInputStatus
+    - provenance.metadata.v1.RecordOutput
+    - provenance.metadata.v1.ResultStatus
+    - provenance.metadata.v1.Party
+    - provenance.metadata.v1.AuditFields
+    - provenance.metadata.v1.ScopeSpecification
+    - provenance.metadata.v1.ContractSpecification
+    - provenance.metadata.v1.RecordSpecification
+    - provenance.metadata.v1.InputSpecification
+    - provenance.metadata.v1.Description
+    - provenance.metadata.v1.DefinitionType
+    - provenance.metadata.v1.PartyType
+    - provenance.metadata.v1.MsgWriteScopeRequest
+    - provenance.metadata.v1.MsgWriteScopeResponse
+    - provenance.metadata.v1.MsgDeleteScopeRequest
+    - provenance.metadata.v1.MsgDeleteScopeResponse
+    - provenance.metadata.v1.MsgAddScopeDataAccessRequest
+    - provenance.metadata.v1.MsgAddScopeDataAccessResponse
+    - provenance.metadata.v1.MsgDeleteScopeDataAccessRequest
+    - provenance.metadata.v1.MsgDeleteScopeDataAccessResponse
+    - provenance.metadata.v1.MsgAddScopeOwnerRequest
+    - provenance.metadata.v1.MsgAddScopeOwnerResponse
+    - provenance.metadata.v1.MsgDeleteScopeOwnerRequest
+    - provenance.metadata.v1.MsgDeleteScopeOwnerResponse
+    - provenance.metadata.v1.MsgWriteSessionRequest
+    - provenance.metadata.v1.SessionIdComponents
+    - provenance.metadata.v1.MsgWriteSessionResponse
+    - provenance.metadata.v1.MsgWriteRecordRequest
+    - provenance.metadata.v1.MsgWriteRecordResponse
+    - provenance.metadata.v1.MsgDeleteRecordRequest
+    - provenance.metadata.v1.MsgDeleteRecordResponse
+    - provenance.metadata.v1.MsgWriteScopeSpecificationRequest
+    - provenance.metadata.v1.MsgWriteScopeSpecificationResponse
+    - provenance.metadata.v1.MsgDeleteScopeSpecificationRequest
+    - provenance.metadata.v1.MsgDeleteScopeSpecificationResponse
+    - provenance.metadata.v1.MsgWriteContractSpecificationRequest
+    - provenance.metadata.v1.MsgWriteContractSpecificationResponse
+    - provenance.metadata.v1.MsgAddContractSpecToScopeSpecRequest
+    - provenance.metadata.v1.MsgAddContractSpecToScopeSpecResponse
+    - provenance.metadata.v1.MsgDeleteContractSpecFromScopeSpecRequest
+    - provenance.metadata.v1.MsgDeleteContractSpecFromScopeSpecResponse
+    - provenance.metadata.v1.MsgDeleteContractSpecificationRequest
+    - provenance.metadata.v1.MsgDeleteContractSpecificationResponse
+    - provenance.metadata.v1.MsgWriteRecordSpecificationRequest
+    - provenance.metadata.v1.MsgWriteRecordSpecificationResponse
+    - provenance.metadata.v1.MsgDeleteRecordSpecificationRequest
+    - provenance.metadata.v1.MsgDeleteRecordSpecificationResponse
+    - provenance.metadata.v1.MsgBindOSLocatorRequest
+    - provenance.metadata.v1.MsgBindOSLocatorResponse
+    - provenance.metadata.v1.MsgDeleteOSLocatorRequest
+    - provenance.metadata.v1.MsgDeleteOSLocatorResponse
+    - provenance.metadata.v1.MsgModifyOSLocatorRequest
+    - provenance.metadata.v1.MsgModifyOSLocatorResponse
+    - provenance.metadata.v1.QueryParamsRequest
+    - provenance.metadata.v1.QueryParamsResponse
+    - provenance.metadata.v1.ScopeRequest
+    - provenance.metadata.v1.ScopeResponse
+    - provenance.metadata.v1.ScopeWrapper
+    - provenance.metadata.v1.ScopesAllRequest
+    - provenance.metadata.v1.ScopesAllResponse
+    - provenance.metadata.v1.SessionsRequest
+    - provenance.metadata.v1.SessionsResponse
+    - provenance.metadata.v1.SessionWrapper
+    - provenance.metadata.v1.SessionsAllRequest
+    - provenance.metadata.v1.SessionsAllResponse
+    - provenance.metadata.v1.RecordsRequest
+    - provenance.metadata.v1.RecordsResponse
+    - provenance.metadata.v1.RecordWrapper
+    - provenance.metadata.v1.RecordsAllRequest
+    - provenance.metadata.v1.RecordsAllResponse
+    - provenance.metadata.v1.OwnershipRequest
+    - provenance.metadata.v1.OwnershipResponse
+    - provenance.metadata.v1.ValueOwnershipRequest
+    - provenance.metadata.v1.ValueOwnershipResponse
+    - provenance.metadata.v1.ScopeSpecificationRequest
+    - provenance.metadata.v1.ScopeSpecificationResponse
+    - provenance.metadata.v1.ScopeSpecificationWrapper
+    - provenance.metadata.v1.ScopeSpecificationsAllRequest
+    - provenance.metadata.v1.ScopeSpecificationsAllResponse
+    - provenance.metadata.v1.ContractSpecificationRequest
+    - provenance.metadata.v1.ContractSpecificationResponse
+    - provenance.metadata.v1.ContractSpecificationWrapper
+    - provenance.metadata.v1.ContractSpecificationsAllRequest
+    - provenance.metadata.v1.ContractSpecificationsAllResponse
+    - provenance.metadata.v1.RecordSpecificationsForContractSpecificationRequest
+    - provenance.metadata.v1.RecordSpecificationsForContractSpecificationResponse
+    - provenance.metadata.v1.RecordSpecificationRequest
+    - provenance.metadata.v1.RecordSpecificationResponse
+    - provenance.metadata.v1.RecordSpecificationWrapper
+    - provenance.metadata.v1.RecordSpecificationsAllRequest
+    - provenance.metadata.v1.RecordSpecificationsAllResponse
+    - provenance.metadata.v1.OSLocatorParamsRequest
+    - provenance.metadata.v1.OSLocatorParamsResponse
+    - provenance.metadata.v1.OSLocatorRequest
+    - provenance.metadata.v1.OSLocatorResponse
+    - provenance.metadata.v1.OSLocatorsByURIRequest
+    - provenance.metadata.v1.OSLocatorsByURIResponse
+    - provenance.metadata.v1.OSLocatorsByScopeRequest
+    - provenance.metadata.v1.OSLocatorsByScopeResponse
+    - provenance.metadata.v1.OSAllLocatorsRequest
+    - provenance.metadata.v1.OSAllLocatorsResponse
     - provenance.msgfees.v1.EventMsgFee
     - provenance.msgfees.v1.EventMsgFees
     - provenance.msgfees.v1.MsgFee
