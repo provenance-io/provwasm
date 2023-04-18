@@ -706,52 +706,6 @@ pub struct QueryParamsResponse {
     ::schemars::JsonSchema,
     CosmwasmExt,
 )]
-#[proto_message(type_url = "/provenance.marker.v1.QueryAllMarkersRequest")]
-#[proto_query(
-    path = "/provenance.marker.v1.Query/AllMarkers",
-    response_type = QueryAllMarkersResponse
-)]
-pub struct QueryAllMarkersRequest {
-    #[prost(enumeration = "MarkerStatus", tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
-    pub status: i32,
-    #[prost(message, optional, tag = "2")]
-    pub pagination:
-        ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageRequest>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
-#[proto_message(type_url = "/provenance.marker.v1.QueryAllMarkersResponse")]
-pub struct QueryAllMarkersResponse {
-    #[prost(message, repeated, tag = "1")]
-    pub markers: ::prost::alloc::vec::Vec<crate::shim::Any>,
-    #[prost(message, optional, tag = "2")]
-    pub pagination:
-        ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageResponse>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
 #[proto_message(type_url = "/provenance.marker.v1.QueryMarkerRequest")]
 #[proto_query(
     path = "/provenance.marker.v1.Query/Marker",
@@ -1595,15 +1549,6 @@ impl<'a, Q: cosmwasm_std::CustomQuery> MarkerQuerier<'a, Q> {
     }
     pub fn params(&self) -> Result<QueryParamsResponse, cosmwasm_std::StdError> {
         QueryParamsRequest {}.query(self.querier)
-    }
-    pub fn all_markers(
-        &self,
-        status: i32,
-        pagination: ::core::option::Option<
-            super::super::super::cosmos::base::query::v1beta1::PageRequest,
-        >,
-    ) -> Result<QueryAllMarkersResponse, cosmwasm_std::StdError> {
-        QueryAllMarkersRequest { status, pagination }.query(self.querier)
     }
     pub fn marker(
         &self,

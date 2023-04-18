@@ -131,46 +131,6 @@ pub struct QueryParamsResponse {
     ::schemars::JsonSchema,
     CosmwasmExt,
 )]
-#[proto_message(type_url = "/provenance.msgfees.v1.QueryAllMsgFeesRequest")]
-#[proto_query(
-    path = "/provenance.msgfees.v1.Query/QueryAllMsgFees",
-    response_type = QueryAllMsgFeesResponse
-)]
-pub struct QueryAllMsgFeesRequest {
-    #[prost(message, optional, tag = "2")]
-    pub pagination:
-        ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageRequest>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
-#[proto_message(type_url = "/provenance.msgfees.v1.QueryAllMsgFeesResponse")]
-pub struct QueryAllMsgFeesResponse {
-    #[prost(message, repeated, tag = "1")]
-    pub msg_fees: ::prost::alloc::vec::Vec<MsgFee>,
-    #[prost(message, optional, tag = "2")]
-    pub pagination:
-        ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageResponse>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
 #[proto_message(type_url = "/provenance.msgfees.v1.MsgAssessCustomMsgFeeRequest")]
 pub struct MsgAssessCustomMsgFeeRequest {
     #[prost(string, tag = "1")]
@@ -206,13 +166,5 @@ impl<'a, Q: cosmwasm_std::CustomQuery> MsgfeesQuerier<'a, Q> {
     }
     pub fn params(&self) -> Result<QueryParamsResponse, cosmwasm_std::StdError> {
         QueryParamsRequest {}.query(self.querier)
-    }
-    pub fn query_all_msg_fees(
-        &self,
-        pagination: ::core::option::Option<
-            super::super::super::cosmos::base::query::v1beta1::PageRequest,
-        >,
-    ) -> Result<QueryAllMsgFeesResponse, cosmwasm_std::StdError> {
-        QueryAllMsgFeesRequest { pagination }.query(self.querier)
     }
 }

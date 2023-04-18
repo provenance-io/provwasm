@@ -1250,48 +1250,6 @@ pub struct ScopeWrapper {
     ::schemars::JsonSchema,
     CosmwasmExt,
 )]
-#[proto_message(type_url = "/provenance.metadata.v1.ScopesAllRequest")]
-#[proto_query(
-    path = "/provenance.metadata.v1.Query/ScopesAll",
-    response_type = ScopesAllResponse
-)]
-pub struct ScopesAllRequest {
-    #[prost(message, optional, tag = "99")]
-    pub pagination:
-        ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageRequest>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
-#[proto_message(type_url = "/provenance.metadata.v1.ScopesAllResponse")]
-pub struct ScopesAllResponse {
-    #[prost(message, repeated, tag = "1")]
-    pub scopes: ::prost::alloc::vec::Vec<ScopeWrapper>,
-    #[prost(message, optional, tag = "98")]
-    pub request: ::core::option::Option<ScopesAllRequest>,
-    #[prost(message, optional, tag = "99")]
-    pub pagination:
-        ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageResponse>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
 #[proto_message(type_url = "/provenance.metadata.v1.SessionsRequest")]
 #[proto_query(
     path = "/provenance.metadata.v1.Query/Sessions",
@@ -1364,48 +1322,6 @@ pub struct SessionWrapper {
     ::schemars::JsonSchema,
     CosmwasmExt,
 )]
-#[proto_message(type_url = "/provenance.metadata.v1.SessionsAllRequest")]
-#[proto_query(
-    path = "/provenance.metadata.v1.Query/SessionsAll",
-    response_type = SessionsAllResponse
-)]
-pub struct SessionsAllRequest {
-    #[prost(message, optional, tag = "99")]
-    pub pagination:
-        ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageRequest>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
-#[proto_message(type_url = "/provenance.metadata.v1.SessionsAllResponse")]
-pub struct SessionsAllResponse {
-    #[prost(message, repeated, tag = "1")]
-    pub sessions: ::prost::alloc::vec::Vec<SessionWrapper>,
-    #[prost(message, optional, tag = "98")]
-    pub request: ::core::option::Option<SessionsAllRequest>,
-    #[prost(message, optional, tag = "99")]
-    pub pagination:
-        ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageResponse>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
 #[proto_message(type_url = "/provenance.metadata.v1.RecordsRequest")]
 #[proto_query(
     path = "/provenance.metadata.v1.Query/Records",
@@ -1466,48 +1382,6 @@ pub struct RecordWrapper {
     pub record_id_info: ::core::option::Option<RecordIdInfo>,
     #[prost(message, optional, tag = "3")]
     pub record_spec_id_info: ::core::option::Option<RecordSpecIdInfo>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
-#[proto_message(type_url = "/provenance.metadata.v1.RecordsAllRequest")]
-#[proto_query(
-    path = "/provenance.metadata.v1.Query/RecordsAll",
-    response_type = RecordsAllResponse
-)]
-pub struct RecordsAllRequest {
-    #[prost(message, optional, tag = "99")]
-    pub pagination:
-        ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageRequest>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
-#[proto_message(type_url = "/provenance.metadata.v1.RecordsAllResponse")]
-pub struct RecordsAllResponse {
-    #[prost(message, repeated, tag = "1")]
-    pub records: ::prost::alloc::vec::Vec<RecordWrapper>,
-    #[prost(message, optional, tag = "98")]
-    pub request: ::core::option::Option<RecordsAllRequest>,
-    #[prost(message, optional, tag = "99")]
-    pub pagination:
-        ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageResponse>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
@@ -1672,48 +1546,6 @@ pub struct ScopeSpecificationWrapper {
     ::schemars::JsonSchema,
     CosmwasmExt,
 )]
-#[proto_message(type_url = "/provenance.metadata.v1.ScopeSpecificationsAllRequest")]
-#[proto_query(
-    path = "/provenance.metadata.v1.Query/ScopeSpecificationsAll",
-    response_type = ScopeSpecificationsAllResponse
-)]
-pub struct ScopeSpecificationsAllRequest {
-    #[prost(message, optional, tag = "99")]
-    pub pagination:
-        ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageRequest>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
-#[proto_message(type_url = "/provenance.metadata.v1.ScopeSpecificationsAllResponse")]
-pub struct ScopeSpecificationsAllResponse {
-    #[prost(message, repeated, tag = "1")]
-    pub scope_specifications: ::prost::alloc::vec::Vec<ScopeSpecificationWrapper>,
-    #[prost(message, optional, tag = "98")]
-    pub request: ::core::option::Option<ScopeSpecificationsAllRequest>,
-    #[prost(message, optional, tag = "99")]
-    pub pagination:
-        ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageResponse>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
 #[proto_message(type_url = "/provenance.metadata.v1.ContractSpecificationRequest")]
 #[proto_query(
     path = "/provenance.metadata.v1.Query/ContractSpecification",
@@ -1762,48 +1594,6 @@ pub struct ContractSpecificationWrapper {
     pub specification: ::core::option::Option<ContractSpecification>,
     #[prost(message, optional, tag = "2")]
     pub contract_spec_id_info: ::core::option::Option<ContractSpecIdInfo>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
-#[proto_message(type_url = "/provenance.metadata.v1.ContractSpecificationsAllRequest")]
-#[proto_query(
-    path = "/provenance.metadata.v1.Query/ContractSpecificationsAll",
-    response_type = ContractSpecificationsAllResponse
-)]
-pub struct ContractSpecificationsAllRequest {
-    #[prost(message, optional, tag = "99")]
-    pub pagination:
-        ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageRequest>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
-#[proto_message(type_url = "/provenance.metadata.v1.ContractSpecificationsAllResponse")]
-pub struct ContractSpecificationsAllResponse {
-    #[prost(message, repeated, tag = "1")]
-    pub contract_specifications: ::prost::alloc::vec::Vec<ContractSpecificationWrapper>,
-    #[prost(message, optional, tag = "98")]
-    pub request: ::core::option::Option<ContractSpecificationsAllRequest>,
-    #[prost(message, optional, tag = "99")]
-    pub pagination:
-        ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageResponse>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
@@ -1908,48 +1698,6 @@ pub struct RecordSpecificationWrapper {
     pub specification: ::core::option::Option<RecordSpecification>,
     #[prost(message, optional, tag = "2")]
     pub record_spec_id_info: ::core::option::Option<RecordSpecIdInfo>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
-#[proto_message(type_url = "/provenance.metadata.v1.RecordSpecificationsAllRequest")]
-#[proto_query(
-    path = "/provenance.metadata.v1.Query/RecordSpecificationsAll",
-    response_type = RecordSpecificationsAllResponse
-)]
-pub struct RecordSpecificationsAllRequest {
-    #[prost(message, optional, tag = "99")]
-    pub pagination:
-        ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageRequest>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
-#[proto_message(type_url = "/provenance.metadata.v1.RecordSpecificationsAllResponse")]
-pub struct RecordSpecificationsAllResponse {
-    #[prost(message, repeated, tag = "1")]
-    pub record_specifications: ::prost::alloc::vec::Vec<RecordSpecificationWrapper>,
-    #[prost(message, optional, tag = "98")]
-    pub request: ::core::option::Option<RecordSpecificationsAllRequest>,
-    #[prost(message, optional, tag = "99")]
-    pub pagination:
-        ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageResponse>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
@@ -2886,14 +2634,6 @@ impl<'a, Q: cosmwasm_std::CustomQuery> MetadataQuerier<'a, Q> {
         }
         .query(self.querier)
     }
-    pub fn scopes_all(
-        &self,
-        pagination: ::core::option::Option<
-            super::super::super::cosmos::base::query::v1beta1::PageRequest,
-        >,
-    ) -> Result<ScopesAllResponse, cosmwasm_std::StdError> {
-        ScopesAllRequest { pagination }.query(self.querier)
-    }
     pub fn sessions(
         &self,
         scope_id: ::prost::alloc::string::String,
@@ -2913,14 +2653,6 @@ impl<'a, Q: cosmwasm_std::CustomQuery> MetadataQuerier<'a, Q> {
         }
         .query(self.querier)
     }
-    pub fn sessions_all(
-        &self,
-        pagination: ::core::option::Option<
-            super::super::super::cosmos::base::query::v1beta1::PageRequest,
-        >,
-    ) -> Result<SessionsAllResponse, cosmwasm_std::StdError> {
-        SessionsAllRequest { pagination }.query(self.querier)
-    }
     pub fn records(
         &self,
         record_addr: ::prost::alloc::string::String,
@@ -2939,14 +2671,6 @@ impl<'a, Q: cosmwasm_std::CustomQuery> MetadataQuerier<'a, Q> {
             include_sessions,
         }
         .query(self.querier)
-    }
-    pub fn records_all(
-        &self,
-        pagination: ::core::option::Option<
-            super::super::super::cosmos::base::query::v1beta1::PageRequest,
-        >,
-    ) -> Result<RecordsAllResponse, cosmwasm_std::StdError> {
-        RecordsAllRequest { pagination }.query(self.querier)
     }
     pub fn ownership(
         &self,
@@ -2987,14 +2711,6 @@ impl<'a, Q: cosmwasm_std::CustomQuery> MetadataQuerier<'a, Q> {
         }
         .query(self.querier)
     }
-    pub fn scope_specifications_all(
-        &self,
-        pagination: ::core::option::Option<
-            super::super::super::cosmos::base::query::v1beta1::PageRequest,
-        >,
-    ) -> Result<ScopeSpecificationsAllResponse, cosmwasm_std::StdError> {
-        ScopeSpecificationsAllRequest { pagination }.query(self.querier)
-    }
     pub fn contract_specification(
         &self,
         specification_id: ::prost::alloc::string::String,
@@ -3005,14 +2721,6 @@ impl<'a, Q: cosmwasm_std::CustomQuery> MetadataQuerier<'a, Q> {
             include_record_specs,
         }
         .query(self.querier)
-    }
-    pub fn contract_specifications_all(
-        &self,
-        pagination: ::core::option::Option<
-            super::super::super::cosmos::base::query::v1beta1::PageRequest,
-        >,
-    ) -> Result<ContractSpecificationsAllResponse, cosmwasm_std::StdError> {
-        ContractSpecificationsAllRequest { pagination }.query(self.querier)
     }
     pub fn record_specifications_for_contract_specification(
         &self,
@@ -3030,14 +2738,6 @@ impl<'a, Q: cosmwasm_std::CustomQuery> MetadataQuerier<'a, Q> {
             name,
         }
         .query(self.querier)
-    }
-    pub fn record_specifications_all(
-        &self,
-        pagination: ::core::option::Option<
-            super::super::super::cosmos::base::query::v1beta1::PageRequest,
-        >,
-    ) -> Result<RecordSpecificationsAllResponse, cosmwasm_std::StdError> {
-        RecordSpecificationsAllRequest { pagination }.query(self.querier)
     }
     pub fn os_locator_params(&self) -> Result<OsLocatorParamsResponse, cosmwasm_std::StdError> {
         OsLocatorParamsRequest {}.query(self.querier)

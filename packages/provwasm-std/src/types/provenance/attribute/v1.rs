@@ -369,48 +369,6 @@ pub struct QueryScanResponse {
     ::schemars::JsonSchema,
     CosmwasmExt,
 )]
-#[proto_message(type_url = "/provenance.attribute.v1.QueryAttributeAccountsRequest")]
-#[proto_query(
-    path = "/provenance.attribute.v1.Query/AttributeAccounts",
-    response_type = QueryAttributeAccountsResponse
-)]
-pub struct QueryAttributeAccountsRequest {
-    #[prost(string, tag = "1")]
-    pub attribute_name: ::prost::alloc::string::String,
-    #[prost(message, optional, tag = "99")]
-    pub pagination:
-        ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageRequest>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
-#[proto_message(type_url = "/provenance.attribute.v1.QueryAttributeAccountsResponse")]
-pub struct QueryAttributeAccountsResponse {
-    #[prost(string, repeated, tag = "1")]
-    pub accounts: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    #[prost(message, optional, tag = "99")]
-    pub pagination:
-        ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageResponse>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
 #[proto_message(type_url = "/provenance.attribute.v1.MsgAddAttributeRequest")]
 pub struct MsgAddAttributeRequest {
     #[prost(string, tag = "1")]
@@ -607,19 +565,6 @@ impl<'a, Q: cosmwasm_std::CustomQuery> AttributeQuerier<'a, Q> {
         QueryScanRequest {
             account,
             suffix,
-            pagination,
-        }
-        .query(self.querier)
-    }
-    pub fn attribute_accounts(
-        &self,
-        attribute_name: ::prost::alloc::string::String,
-        pagination: ::core::option::Option<
-            super::super::super::cosmos::base::query::v1beta1::PageRequest,
-        >,
-    ) -> Result<QueryAttributeAccountsResponse, cosmwasm_std::StdError> {
-        QueryAttributeAccountsRequest {
-            attribute_name,
             pagination,
         }
         .query(self.querier)
