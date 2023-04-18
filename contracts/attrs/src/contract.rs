@@ -19,7 +19,7 @@ pub fn instantiate(
     env: Env,
     info: MessageInfo,
     msg: InitMsg,
-) -> Result<Response<ProvenanceMsg>, ContractError> {
+) -> Result<Response, ContractError> {
     // Create and save contract config state.
     config(deps.storage).save(&State {
         contract_owner: info.sender.clone(),
@@ -27,7 +27,7 @@ pub fn instantiate(
     })?;
 
     // Create bind name message.
-    let bind_name_msg = bind_name(&msg.name, env.contract.address, NameBinding::Restricted)?;
+    let bind_name_msg = provwasm_std::
 
     // Dispatch message to handler and add event attributes.
     let res = Response::new()
@@ -42,11 +42,11 @@ pub fn instantiate(
 /// Handle state change requests
 #[entry_point]
 pub fn execute(
-    deps: DepsMut<ProvenanceQuery>,
+    deps: DepsMut,
     env: Env,
     info: MessageInfo,
     msg: ExecuteMsg,
-) -> Result<Response<ProvenanceMsg>, ContractError> {
+) -> Result<Response, ContractError> {
     // Load contract state
     let state = config_read(deps.storage).load()?;
 
@@ -75,7 +75,7 @@ pub fn execute(
 fn try_bind_label_name(
     env: Env,
     attr_name: String,
-) -> Result<Response<ProvenanceMsg>, ContractError> {
+) -> Result<Response, ContractError> {
     let bind_name_msg = bind_name(&attr_name, env.contract.address, NameBinding::Restricted)?;
     let res = Response::new()
         .add_message(bind_name_msg)
@@ -90,7 +90,7 @@ fn try_add_label(
     env: Env,
     attr_name: String,
     text: String,
-) -> Result<Response<ProvenanceMsg>, ContractError> {
+) -> Result<Response, ContractError> {
     let label = Label { text };
     let msg = add_json_attribute(env.contract.address, &attr_name, &label)?;
     let res = Response::new()
@@ -105,7 +105,7 @@ fn try_add_label(
 fn try_delete_labels(
     env: Env,
     attr_name: String,
-) -> Result<Response<ProvenanceMsg>, ContractError> {
+) -> Result<Response, ContractError> {
     let msg = delete_attributes(env.contract.address, &attr_name)?;
     let res = Response::new()
         .add_message(msg)
@@ -120,7 +120,7 @@ fn try_delete_distinct_label(
     env: Env,
     attr_name: String,
     value: String,
-) -> Result<Response<ProvenanceMsg>, ContractError> {
+) -> Result<Response, ContractError> {
     let msg = delete_distinct_attribute(
         env.contract.address,
         &attr_name,
@@ -143,7 +143,7 @@ fn try_update_label(
     attr_name: String,
     original_text: String,
     update_text: String,
-) -> Result<Response<ProvenanceMsg>, ContractError> {
+) -> Result<Response, ContractError> {
     let msg = update_attribute(
         env.contract.address,
         &attr_name,
@@ -165,7 +165,7 @@ fn try_update_label(
 /// Handle label query requests.
 #[entry_point]
 pub fn query(
-    deps: Deps<ProvenanceQuery>,
+    deps: Deps,
     env: Env,
     msg: QueryMsg,
 ) -> Result<QueryResponse, StdError> {
@@ -185,7 +185,7 @@ pub fn query(
 /// Called when migrating a contract instance to a new code ID.
 #[entry_point]
 pub fn migrate(
-    _deps: DepsMut<ProvenanceQuery>,
+    _deps: DepsMut,
     _env: Env,
     _msg: MigrateMsg,
 ) -> Result<Response, ContractError> {
