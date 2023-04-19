@@ -1,12 +1,13 @@
 use cosmwasm_std::{
     entry_point, to_binary, Deps, DepsMut, Env, MessageInfo, QueryResponse, Response, StdError,
 };
-use provwasm_std::{
-    add_json_attribute, bind_name, delete_attributes, delete_distinct_attribute, update_attribute,
-    AttributeValueType, NameBinding, ProvenanceMsg, ProvenanceQuerier, ProvenanceQuery,
-};
+use provwasm_std::types::provenance::attribute::v1::{AttributeQuerier, AttributeType};
 
 use crate::error::ContractError;
+use crate::helpers::{
+    add_json_attribute, bind_name, delete_attributes, delete_distinct_attribute,
+    get_json_attributes, update_attribute,
+};
 use crate::msg::{
     ExecuteMsg, InitMsg, Label, LabelNameResponse, LabelsResponse, MigrateMsg, QueryMsg,
 };
@@ -15,7 +16,7 @@ use crate::state::{config, config_read, State};
 /// Initialize the smart contract config state and bind a name to the contract address.
 #[entry_point]
 pub fn instantiate(
-    deps: DepsMut<ProvenanceQuery>,
+    deps: DepsMut,
     env: Env,
     info: MessageInfo,
     msg: InitMsg,
@@ -27,7 +28,12 @@ pub fn instantiate(
     })?;
 
     // Create bind name message.
-    let bind_name_msg = provwasm_std::
+    let bind_name_msg = bind_name(
+        msg.name.as_str(),
+        &env.contract.address,
+        &env.contract.address,
+        true,
+    )?;
 
     // Dispatch message to handler and add event attributes.
     let res = Response::new()
@@ -72,11 +78,13 @@ pub fn execute(
 }
 
 // Bind the label attibute name to the contract address.
-fn try_bind_label_name(
-    env: Env,
-    attr_name: String,
-) -> Result<Response, ContractError> {
-    let bind_name_msg = bind_name(&attr_name, env.contract.address, NameBinding::Restricted)?;
+fn try_bind_label_name(env: Env, attr_name: String) -> Result<Response, ContractError> {
+    let bind_name_msg = bind_name(
+        attr_name.as_str(),
+        &env.contract.address,
+        &env.contract.address,
+        true,
+    )?;
     let res = Response::new()
         .add_message(bind_name_msg)
         .add_attribute("integration_test", "v2")
@@ -86,13 +94,14 @@ fn try_bind_label_name(
 }
 
 // Add a label attribute.
-fn try_add_label(
-    env: Env,
-    attr_name: String,
-    text: String,
-) -> Result<Response, ContractError> {
+fn try_add_label(env: Env, attr_name: String, text: String) -> Result<Response, ContractError> {
     let label = Label { text };
-    let msg = add_json_attribute(env.contract.address, &attr_name, &label)?;
+    let msg = add_json_attribute(
+        env.contract.address.clone(),
+        env.contract.address,
+        &attr_name,
+        &label,
+    )?;
     let res = Response::new()
         .add_message(msg)
         .add_attribute("integration_test", "v2")
@@ -102,11 +111,12 @@ fn try_add_label(
 }
 
 // Delete all label attributes.
-fn try_delete_labels(
-    env: Env,
-    attr_name: String,
-) -> Result<Response, ContractError> {
-    let msg = delete_attributes(env.contract.address, &attr_name)?;
+fn try_delete_labels(env: Env, attr_name: String) -> Result<Response, ContractError> {
+    let msg = delete_attributes(
+        env.contract.address.clone(),
+        env.contract.address,
+        &attr_name,
+    )?;
     let res = Response::new()
         .add_message(msg)
         .add_attribute("integration_test", "v2")
@@ -122,6 +132,7 @@ fn try_delete_distinct_label(
     value: String,
 ) -> Result<Response, ContractError> {
     let msg = delete_distinct_attribute(
+        env.contract.address.clone(),
         env.contract.address,
         &attr_name,
         to_binary(&Label { text: value })?,
@@ -145,14 +156,15 @@ fn try_update_label(
     update_text: String,
 ) -> Result<Response, ContractError> {
     let msg = update_attribute(
+        env.contract.address.clone(),
         env.contract.address,
         &attr_name,
         to_binary(&Label {
             text: original_text,
         })?,
-        AttributeValueType::Json,
+        AttributeType::Json,
         to_binary(&Label { text: update_text })?,
-        AttributeValueType::Json,
+        AttributeType::Json,
     )?;
     let res = Response::new()
         .add_message(msg)
@@ -164,19 +176,15 @@ fn try_update_label(
 
 /// Handle label query requests.
 #[entry_point]
-pub fn query(
-    deps: Deps,
-    env: Env,
-    msg: QueryMsg,
-) -> Result<QueryResponse, StdError> {
+pub fn query(deps: Deps, env: Env, msg: QueryMsg) -> Result<QueryResponse, StdError> {
     let state = config_read(deps.storage).load()?;
     let attr_name = format!("{}.{}", "label", state.contract_name);
     match msg {
         QueryMsg::GetLabelName {} => to_binary(&LabelNameResponse { name: attr_name }),
         QueryMsg::GetLabels {} => {
-            let querier = ProvenanceQuerier::new(&deps.querier);
+            let querier = AttributeQuerier::new(&deps.querier);
             let labels: Vec<Label> =
-                querier.get_json_attributes(env.contract.address, &attr_name)?;
+                get_json_attributes(querier, env.contract.address, &attr_name)?;
             to_binary(&LabelsResponse { labels })
         }
     }
@@ -184,11 +192,7 @@ pub fn query(
 
 /// Called when migrating a contract instance to a new code ID.
 #[entry_point]
-pub fn migrate(
-    _deps: DepsMut,
-    _env: Env,
-    _msg: MigrateMsg,
-) -> Result<Response, ContractError> {
+pub fn migrate(_deps: DepsMut, _env: Env, _msg: MigrateMsg) -> Result<Response, ContractError> {
     Ok(Response::default())
 }
 
