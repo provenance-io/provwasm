@@ -1,6 +1,8 @@
 use cosmwasm_schema::{cw_serde, QueryResponses};
 use cosmwasm_std::Uint128;
 
+use crate::types;
+
 #[cw_serde]
 pub struct InitMsg {
     pub name: String,
@@ -50,8 +52,8 @@ pub enum ExecuteMsg {
 #[cw_serde]
 #[derive(QueryResponses)]
 pub enum QueryMsg {
-    #[returns(provwasm_std::Marker)]
+    #[returns(types::Marker)]
     GetByAddress { address: String },
-    #[returns(provwasm_std::Marker)]
+    #[returns(types::Marker)]
     GetByDenom { denom: String },
 }

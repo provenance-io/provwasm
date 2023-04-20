@@ -1,20 +1,20 @@
+use std::convert::TryFrom;
+
 use cosmwasm_std::{Addr, CosmosMsg, Empty, StdError, StdResult};
-use provwasm_std::{
-    shim::Any,
-    types::{
-        cosmos::base::v1beta1::Coin,
-        provenance::{
-            marker::v1::{
-                Access, AccessGrant, MarkerAccount, MarkerQuerier, MarkerStatus, MarkerType,
-                MsgActivateRequest, MsgAddAccessRequest, MsgAddMarkerRequest, MsgBurnRequest,
-                MsgCancelRequest, MsgDeleteRequest, MsgFinalizeRequest, MsgMintRequest,
-                MsgTransferRequest, MsgWithdrawRequest, MsgWithdrawResponse,
-            },
-            name::v1::{MsgBindNameRequest, NameRecord},
+use provwasm_std::types::{
+    cosmos::base::v1beta1::Coin,
+    provenance::{
+        marker::v1::{
+            Access, AccessGrant, MarkerAccount, MarkerQuerier, MarkerStatus, MarkerType,
+            MsgActivateRequest, MsgAddAccessRequest, MsgAddMarkerRequest, MsgBurnRequest,
+            MsgCancelRequest, MsgDeleteRequest, MsgFinalizeRequest, MsgMintRequest,
+            MsgTransferRequest, MsgWithdrawRequest,
         },
+        name::v1::{MsgBindNameRequest, NameRecord},
     },
 };
-use serde::Deserialize;
+
+use crate::types::Marker;
 
 pub fn bind_name(
     name: &str,
@@ -55,7 +55,7 @@ pub fn create_marker<S: Into<String>>(
 
     Ok(MsgAddMarkerRequest {
         amount: Some(coin),
-        manager: validate_address(contract_address)?.to_string(),
+        manager: validate_address(contract_address.clone())?.to_string(),
         from_address: validate_address(contract_address)?.to_string(),
         status: MarkerStatus::Proposed.into(),
         marker_type: marker_type.into(),
@@ -202,12 +202,30 @@ pub fn get_marker_by_address<H: Into<Addr>>(
     address: H,
     querier: &MarkerQuerier<Empty>,
 ) -> StdResult<Marker> {
-    let response = querier.marker(validate_address(address)?.to_string())?;
+    get_marker(validate_address(address)?.to_string(), querier)
+}
+
+pub fn get_marker_by_denom<H: Into<String>>(
+    denom: H,
+    querier: &MarkerQuerier<Empty>,
+) -> StdResult<Marker> {
+    get_marker(validate_string(denom, "denom")?.to_string(), querier)
+}
+
+pub fn get_marker(id: String, querier: &MarkerQuerier<Empty>) -> StdResult<Marker> {
+    let response = querier.marker(id)?;
     if let Some(marker) = response.marker {
-    } else {
-        return Err(StdError::generic_err("no marker found for address"));
+        if let Ok(account) = MarkerAccount::try_from(marker) {
+            let escrow = querier.escrow(account.clone().base_account.unwrap().address)?;
+            return Ok(Marker {
+                marker_account: account,
+                coins: escrow.escrow,
+            });
+        } else {
+            return Err(StdError::generic_err("unable to type-cast marker account"));
+        }
     }
-    return Err(StdError::generic_err("no marker found for address"));
+    return Err(StdError::generic_err("no marker found for id"));
 }
 
 pub fn all_access(address: &Addr) -> Vec<AccessGrant> {

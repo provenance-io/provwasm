@@ -8,8 +8,8 @@ use provwasm_std::types::provenance::marker::v1::{AccessGrant, MarkerQuerier, Ma
 use crate::error::ContractError;
 use crate::helpers::{
     activate_marker, all_access, bind_name, burn_marker_supply, cancel_marker, create_marker,
-    destroy_marker, finalize_marker, grant_marker_access, mint_marker_supply,
-    transfer_marker_coins, withdraw_coins,
+    destroy_marker, finalize_marker, get_marker_by_address, get_marker_by_denom,
+    grant_marker_access, mint_marker_supply, transfer_marker_coins, withdraw_coins,
 };
 use crate::msg::{ExecuteMsg, InitMsg, QueryMsg};
 use crate::state::{config, State};
@@ -66,16 +66,19 @@ pub fn execute(
         ExecuteMsg::Burn { amount, denom } => try_burn(amount, denom, env.contract.address),
         ExecuteMsg::Cancel { denom } => try_cancel(denom, env.contract.address),
         ExecuteMsg::Destroy { denom } => try_destroy(denom, env.contract.address),
-        ExecuteMsg::Withdraw { amount, denom } => {
-            try_withdraw(amount, denom, env.contract.address, env.contract.address)
-        }
+        ExecuteMsg::Withdraw { amount, denom } => try_withdraw(
+            amount,
+            denom,
+            env.contract.address.clone(),
+            env.contract.address,
+        ),
         ExecuteMsg::Transfer { amount, denom, to } => {
             let to = deps.api.addr_validate(&to)?;
             try_transfer(
                 amount,
                 denom,
                 to,
-                env.contract.address,
+                env.contract.address.clone(),
                 env.contract.address,
             )
         }
@@ -248,14 +251,14 @@ pub fn query(deps: Deps, _env: Env, msg: QueryMsg) -> Result<QueryResponse, StdE
 fn try_get_marker_by_address(deps: Deps, address: String) -> Result<QueryResponse, StdError> {
     let address = deps.api.addr_validate(&address)?;
     let querier = MarkerQuerier::new(&deps.querier);
-    let marker = querier.get_marker_by_address(address)?;
+    let marker = get_marker_by_address(address, &querier)?;
     to_binary(&marker)
 }
 
 // Query a marker by denom.
 fn try_get_marker_by_denom(deps: Deps, denom: String) -> Result<QueryResponse, StdError> {
-    let querier = ProvenanceQuerier::new(&deps.querier);
-    let marker = querier.get_marker_by_denom(denom)?;
+    let querier = MarkerQuerier::new(&deps.querier);
+    let marker = get_marker_by_denom(denom, &querier)?;
     to_binary(&marker)
 }
 
