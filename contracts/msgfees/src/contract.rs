@@ -1,5 +1,5 @@
-use cosmwasm_std::CosmosMsg::Bank;
-use cosmwasm_std::{entry_point, Addr, BankMsg, Coin, DepsMut, Env, MessageInfo, Response};
+use cosmwasm_std::{entry_point, Addr, Coin, DepsMut, Env, MessageInfo, Response};
+use provwasm_std::types::cosmos::bank::v1beta1::MsgSend;
 
 use crate::error::ContractError;
 use crate::helpers::assess_custom_fee;
@@ -68,7 +68,7 @@ pub fn try_send_funds(
         res = res.add_message(assess_custom_fee(
             fee.to_owned(),
             Some("std_contract_fee"),
-            env.contract.address,
+            env.contract.address.clone(),
             state.fee_recipient.to_owned(),
         )?);
         res = res
@@ -77,10 +77,14 @@ pub fn try_send_funds(
     }
 
     // Create a message that will send funds to the to_address.
-    let send_funds = Bank(BankMsg::Send {
-        amount: vec![funds.to_owned()],
+    let send_funds = MsgSend {
+        from_address: env.contract.address.to_string(),
         to_address: to_address.to_string(),
-    });
+        amount: vec![provwasm_std::types::cosmos::base::v1beta1::Coin {
+            denom: funds.clone().denom,
+            amount: funds.clone().amount.to_string(),
+        }],
+    };
 
     // Dispatch message to handler and emit events
     res = res
