@@ -175,7 +175,7 @@ macro_rules! expand_as_any {
         impl Serialize for Any {
             fn serialize<S>(
                 &self,
-                _serializer: S,
+                serializer: S,
             ) -> Result<<S as ::serde::Serializer>::Ok, <S as ::serde::Serializer>::Error>
             where
                 S: ::serde::Serializer,
@@ -183,7 +183,7 @@ macro_rules! expand_as_any {
                 $(
                     if self.type_url == <$ty>::TYPE_URL {
                         let value: Result<$ty, <S as ::serde::Serializer>::Error> =
-                            prost::Message::decode(self.value.as_slice()).map_err(ser::Error::custom);
+                            prost::Message::decode(self.value.as_slice()).map_err(serde::ser::Error::custom);
 
                         if let Ok(value) = value {
                             return value.serialize(serializer);
@@ -223,7 +223,7 @@ macro_rules! expand_as_any {
 
                 match type_url {
                     // @type found
-                    Some(_t) => {
+                    Some(t) => {
                         $(
                             if t == <$ty>::TYPE_URL {
                                 return <$ty>::deserialize(
