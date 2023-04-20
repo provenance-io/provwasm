@@ -1,11 +1,14 @@
-use ::serde::{Deserialize, Deserializer, Serialize, Serializer};
+use ::serde::{ser, Deserialize, Deserializer, Serialize, Serializer};
 use chrono::{DateTime, NaiveDateTime, Utc};
+use cosmwasm_std::StdResult;
 use serde::de;
 use serde::de::Visitor;
 
 use std::fmt;
 use std::str::FromStr;
 
+use prost::Message;
+use std::iter::FromIterator;
 #[derive(Clone, PartialEq, Eq, ::prost::Message, schemars::JsonSchema)]
 pub struct Timestamp {
     /// Represents seconds of UTC time since Unix epoch
@@ -56,7 +59,10 @@ impl<'de> Deserialize<'de> for Timestamp {
                 E: de::Error,
             {
                 let utc: DateTime<Utc> = chrono::DateTime::from_str(value).map_err(|err| {
-                    de::Error::custom(format!("Failed to parse {} as datetime: {:?}", value, err))
+                    serde::de::Error::custom(format!(
+                        "Failed to parse {} as datetime: {:?}",
+                        value, err
+                    ))
                 })?;
                 let ts = Timestamp::from(utc);
                 Ok(ts)
@@ -183,7 +189,7 @@ macro_rules! expand_as_any {
                 $(
                     if self.type_url == <$ty>::TYPE_URL {
                         let value: Result<$ty, <S as ::serde::Serializer>::Error> =
-                            prost::Message::decode(self.value.as_slice()).map_err(serde::ser::Error::custom);
+                            prost::Message::decode(self.value.as_slice()).map_err(ser::Error::custom);
 
                         if let Ok(value) = value {
                             return value.serialize(serializer);
@@ -327,5 +333,45 @@ impl TryFrom<crate::types::cosmos::base::v1beta1::Coin> for cosmwasm_std::Coin {
             denom,
             amount: amount.parse()?,
         })
+    }
+}
+
+/// Convert a list of `Coin` from provenance proto generated `Coin` type to cosmwasm `Coin` type
+pub fn try_proto_to_cosmwasm_coins(
+    coins: impl IntoIterator<Item = crate::types::cosmos::base::v1beta1::Coin>,
+) -> StdResult<Vec<cosmwasm_std::Coin>> {
+    coins.into_iter().map(|c| c.try_into()).collect()
+}
+
+/// Convert a list of `Coin` from cosmwasm `Coin` type to proto generated `Coin` type
+pub fn cosmwasm_to_proto_coins(
+    coins: impl IntoIterator<Item = cosmwasm_std::Coin>,
+) -> Vec<crate::types::cosmos::base::v1beta1::Coin> {
+    coins.into_iter().map(|c| c.into()).collect()
+}
+
+#[cfg(test)]
+mod tests {
+    use cosmwasm_std::Uint128;
+
+    use super::*;
+
+    #[test]
+    fn test_coins_conversion() {
+        let coins = vec![
+            cosmwasm_std::Coin {
+                denom: "uatom".to_string(),
+                amount: Uint128::new(100),
+            },
+            cosmwasm_std::Coin {
+                denom: "nhash".to_string(),
+                amount: Uint128::new(200),
+            },
+        ];
+
+        let proto_coins = cosmwasm_to_proto_coins(coins.clone());
+        let cosmwasm_coins = try_proto_to_cosmwasm_coins(proto_coins).unwrap();
+
+        assert_eq!(coins, cosmwasm_coins);
     }
 }
