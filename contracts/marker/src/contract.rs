@@ -2,32 +2,38 @@ use cosmwasm_std::{
     attr, entry_point, to_binary, Addr, Deps, DepsMut, Env, MessageInfo, QueryResponse, Response,
     StdError, StdResult, Uint128,
 };
-use provwasm_std::{
-    activate_marker, bind_name, burn_marker_supply, cancel_marker, create_forced_transfer_marker,
-    create_marker, destroy_marker, finalize_marker, grant_marker_access, mint_marker_supply,
-    transfer_marker_coins, withdraw_coins, MarkerAccess, MarkerType, NameBinding, ProvenanceMsg,
-    ProvenanceQuerier, ProvenanceQuery,
-};
+
+use provwasm_std::types::provenance::marker::v1::{AccessGrant, MarkerQuerier, MarkerType};
 
 use crate::error::ContractError;
+use crate::helpers::{
+    activate_marker, all_access, bind_name, burn_marker_supply, cancel_marker, create_marker,
+    destroy_marker, finalize_marker, grant_marker_access, mint_marker_supply,
+    transfer_marker_coins, withdraw_coins,
+};
 use crate::msg::{ExecuteMsg, InitMsg, QueryMsg};
 use crate::state::{config, State};
 
 /// Initialize the smart contract config state, then bind a name to the contract address.
 #[entry_point]
 pub fn instantiate(
-    deps: DepsMut<ProvenanceQuery>,
+    deps: DepsMut,
     env: Env,
     _info: MessageInfo,
     msg: InitMsg,
-) -> Result<Response<ProvenanceMsg>, ContractError> {
+) -> Result<Response, ContractError> {
     // Create and save state
     config(deps.storage).save(&State {
         contract_name: msg.name.clone(),
     })?;
 
     // Create a name for the contract
-    let bind_name_msg = bind_name(&msg.name, env.contract.address, NameBinding::Restricted)?;
+    let bind_name_msg = bind_name(
+        &msg.name,
+        &env.contract.address,
+        &env.contract.address,
+        true,
+    )?;
 
     // Dispatch messages to the name module handler and emit an event.
     Ok(Response::new()
@@ -42,28 +48,36 @@ pub fn instantiate(
 /// Handle messages that create and interact with with native provenance markers.
 #[entry_point]
 pub fn execute(
-    deps: DepsMut<ProvenanceQuery>,
+    deps: DepsMut,
     env: Env,
     _info: MessageInfo,
     msg: ExecuteMsg,
-) -> Result<Response<ProvenanceMsg>, StdError> {
+) -> Result<Response, StdError> {
     match msg {
         ExecuteMsg::Create {
             supply,
             denom,
-            allow_forced_transfer: restricted,
-        } => try_create(supply, denom, restricted),
+            allow_forced_transfer,
+        } => try_create(supply, denom, allow_forced_transfer, env),
         ExecuteMsg::GrantAccess { denom } => try_grant_access(denom, env.contract.address),
-        ExecuteMsg::Finalize { denom } => try_finalize(denom),
-        ExecuteMsg::Activate { denom } => try_activate(denom),
-        ExecuteMsg::Mint { amount, denom } => try_mint(amount, denom),
-        ExecuteMsg::Burn { amount, denom } => try_burn(amount, denom),
-        ExecuteMsg::Cancel { denom } => try_cancel(denom),
-        ExecuteMsg::Destroy { denom } => try_destroy(denom),
-        ExecuteMsg::Withdraw { amount, denom } => try_withdraw(amount, denom, env.contract.address),
+        ExecuteMsg::Finalize { denom } => try_finalize(denom, env.contract.address),
+        ExecuteMsg::Activate { denom } => try_activate(denom, env.contract.address),
+        ExecuteMsg::Mint { amount, denom } => try_mint(amount, denom, env.contract.address),
+        ExecuteMsg::Burn { amount, denom } => try_burn(amount, denom, env.contract.address),
+        ExecuteMsg::Cancel { denom } => try_cancel(denom, env.contract.address),
+        ExecuteMsg::Destroy { denom } => try_destroy(denom, env.contract.address),
+        ExecuteMsg::Withdraw { amount, denom } => {
+            try_withdraw(amount, denom, env.contract.address, env.contract.address)
+        }
         ExecuteMsg::Transfer { amount, denom, to } => {
             let to = deps.api.addr_validate(&to)?;
-            try_transfer(amount, denom, to, env.contract.address)
+            try_transfer(
+                amount,
+                denom,
+                to,
+                env.contract.address,
+                env.contract.address,
+            )
         }
     }
 }
@@ -72,13 +86,16 @@ pub fn execute(
 fn try_create(
     supply: Uint128,
     denom: String,
-    restricted: bool,
-) -> StdResult<Response<ProvenanceMsg>> {
-    let msg = match restricted {
-        true => create_forced_transfer_marker(supply.u128(), &denom)?,
-        false => create_marker(supply.u128(), &denom, MarkerType::Restricted)?,
-    };
-
+    allow_forced_transfer: bool,
+    env: Env,
+) -> StdResult<Response> {
+    let msg = create_marker(
+        supply.u128(),
+        &denom,
+        MarkerType::Restricted,
+        env.contract.address,
+        allow_forced_transfer,
+    )?;
     let res = Response::new()
         .add_message(msg)
         .add_attribute("action", "provwasm.contracts.marker.create")
@@ -89,8 +106,8 @@ fn try_create(
 }
 
 // Create and dispatch a message that will grant all permissions to a marker for an address.
-fn try_grant_access(denom: String, address: Addr) -> StdResult<Response<ProvenanceMsg>> {
-    let msg = grant_marker_access(&denom, address.clone(), MarkerAccess::all())?;
+fn try_grant_access(denom: String, address: Addr) -> StdResult<Response> {
+    let msg = grant_marker_access(&denom, address.clone(), all_access(&address))?;
     let res = Response::new()
         .add_message(msg)
         .add_attribute("action", "provwasm.contracts.marker.grant_access")
@@ -101,8 +118,8 @@ fn try_grant_access(denom: String, address: Addr) -> StdResult<Response<Provenan
 }
 
 // Create and dispatch a message that will finalize a proposed marker.
-fn try_finalize(denom: String) -> StdResult<Response<ProvenanceMsg>> {
-    let msg = finalize_marker(&denom)?;
+fn try_finalize(denom: String, address: Addr) -> StdResult<Response> {
+    let msg = finalize_marker(&denom, address)?;
     let res = Response::new()
         .add_message(msg)
         .add_attribute("action", "provwasm.contracts.marker.finalize")
@@ -112,8 +129,8 @@ fn try_finalize(denom: String) -> StdResult<Response<ProvenanceMsg>> {
 }
 
 // Create and dispatch a message that will activate a finalized marker.
-fn try_activate(denom: String) -> StdResult<Response<ProvenanceMsg>> {
-    let msg = activate_marker(&denom)?;
+fn try_activate(denom: String, address: Addr) -> StdResult<Response> {
+    let msg = activate_marker(&denom, address)?;
     let res = Response::new()
         .add_message(msg)
         .add_attribute("action", "provwasm.contracts.marker.activate")
@@ -127,9 +144,16 @@ fn try_withdraw(
     amount: Uint128,
     denom: String,
     recipient: Addr,
-) -> StdResult<Response<ProvenanceMsg>> {
+    contract_address: Addr,
+) -> StdResult<Response> {
     let marker_denom = denom.clone();
-    let msg = withdraw_coins(&marker_denom, amount.u128(), &denom, recipient.clone())?;
+    let msg = withdraw_coins(
+        &marker_denom,
+        amount.u128(),
+        &denom,
+        recipient.clone(),
+        contract_address,
+    )?;
     let res = Response::new()
         .add_message(msg)
         .add_attribute("action", "provwasm.contracts.marker.withdraw")
@@ -141,8 +165,8 @@ fn try_withdraw(
 }
 
 // Create and dispatch a message that will mint coins into a marker.
-fn try_mint(amount: Uint128, denom: String) -> StdResult<Response<ProvenanceMsg>> {
-    let msg = mint_marker_supply(amount.u128(), &denom)?;
+fn try_mint(amount: Uint128, denom: String, contract_address: Addr) -> StdResult<Response> {
+    let msg = mint_marker_supply(amount.u128(), &denom, contract_address)?;
     let res = Response::new()
         .add_message(msg)
         .add_attribute("action", "provwasm.contracts.marker.mint")
@@ -153,8 +177,8 @@ fn try_mint(amount: Uint128, denom: String) -> StdResult<Response<ProvenanceMsg>
 }
 
 // Create and dispatch a message that will burn coins from a marker.
-fn try_burn(amount: Uint128, denom: String) -> StdResult<Response<ProvenanceMsg>> {
-    let msg = burn_marker_supply(amount.u128(), &denom)?;
+fn try_burn(amount: Uint128, denom: String, contract_address: Addr) -> StdResult<Response> {
+    let msg = burn_marker_supply(amount.u128(), &denom, contract_address)?;
     let res = Response::new()
         .add_message(msg)
         .add_attribute("action", "provwasm.contracts.marker.burn")
@@ -165,8 +189,8 @@ fn try_burn(amount: Uint128, denom: String) -> StdResult<Response<ProvenanceMsg>
 }
 
 // Create and dispatch a message that will cancel a marker.
-fn try_cancel(denom: String) -> StdResult<Response<ProvenanceMsg>> {
-    let msg = cancel_marker(&denom)?;
+fn try_cancel(denom: String, contract_address: Addr) -> StdResult<Response> {
+    let msg = cancel_marker(&denom, contract_address)?;
     let res = Response::new()
         .add_message(msg)
         .add_attribute("action", "provwasm.contracts.marker.cancel")
@@ -176,8 +200,8 @@ fn try_cancel(denom: String) -> StdResult<Response<ProvenanceMsg>> {
 }
 
 // Create and dispatch a message that will destroy a marker.
-fn try_destroy(denom: String) -> StdResult<Response<ProvenanceMsg>> {
-    let msg = destroy_marker(denom.clone())?;
+fn try_destroy(denom: String, contract_address: Addr) -> StdResult<Response> {
+    let msg = destroy_marker(denom.clone(), contract_address)?;
     let res = Response::new()
         .add_message(msg)
         .add_attribute("action", "provwasm.contracts.marker.destroy")
@@ -192,8 +216,15 @@ fn try_transfer(
     denom: String,
     to: Addr,
     from: Addr,
-) -> StdResult<Response<ProvenanceMsg>> {
-    let msg = transfer_marker_coins(amount.u128(), &denom, to.clone(), from.clone())?;
+    contract_address: Addr,
+) -> StdResult<Response> {
+    let msg = transfer_marker_coins(
+        amount.u128(),
+        &denom,
+        to.clone(),
+        from.clone(),
+        contract_address,
+    )?;
     let res = Response::new()
         .add_message(msg)
         .add_attribute("action", "provwasm.contracts.marker.transfer")
@@ -206,11 +237,7 @@ fn try_transfer(
 
 /// Handle query requests for the provenance marker module.
 #[entry_point]
-pub fn query(
-    deps: Deps<ProvenanceQuery>,
-    _env: Env,
-    msg: QueryMsg,
-) -> Result<QueryResponse, StdError> {
+pub fn query(deps: Deps, _env: Env, msg: QueryMsg) -> Result<QueryResponse, StdError> {
     match msg {
         QueryMsg::GetByAddress { address } => try_get_marker_by_address(deps, address),
         QueryMsg::GetByDenom { denom } => try_get_marker_by_denom(deps, denom),
@@ -218,21 +245,15 @@ pub fn query(
 }
 
 // Query a marker by address.
-fn try_get_marker_by_address(
-    deps: Deps<ProvenanceQuery>,
-    address: String,
-) -> Result<QueryResponse, StdError> {
+fn try_get_marker_by_address(deps: Deps, address: String) -> Result<QueryResponse, StdError> {
     let address = deps.api.addr_validate(&address)?;
-    let querier = ProvenanceQuerier::new(&deps.querier);
+    let querier = MarkerQuerier::new(&deps.querier);
     let marker = querier.get_marker_by_address(address)?;
     to_binary(&marker)
 }
 
 // Query a marker by denom.
-fn try_get_marker_by_denom(
-    deps: Deps<ProvenanceQuery>,
-    denom: String,
-) -> Result<QueryResponse, StdError> {
+fn try_get_marker_by_denom(deps: Deps, denom: String) -> Result<QueryResponse, StdError> {
     let querier = ProvenanceQuerier::new(&deps.querier);
     let marker = querier.get_marker_by_denom(denom)?;
     to_binary(&marker)

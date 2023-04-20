@@ -96,6 +96,7 @@ types:
     - provenance.marker.v1.MsgMintResponse
     - provenance.marker.v1.MsgBurnRequest
     - provenance.marker.v1.MsgBurnResponse
+    - provenance.marker.v1.MsgWithdrawRequest
     - provenance.marker.v1.MsgWithdrawResponse
     - provenance.marker.v1.MsgTransferRequest
     - provenance.marker.v1.MsgTransferResponse
