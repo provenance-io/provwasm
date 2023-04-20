@@ -30,7 +30,7 @@ backtraces = []
 cosmwasm-schema = { version = "1.2.5" }
 cosmwasm-std = { version = "1.2.5" }
 cosmwasm-storage = "1.2.5"
-provwasm-std = { path = "../../packages/bindings" }
+provwasm-std = { path = "../../packages/provwasm-std"}
 schemars = "0.8.1"
 serde = { version = "1.0.127", default-features = false, features = ["derive"] }
 thiserror = { version = "1.0.20" }

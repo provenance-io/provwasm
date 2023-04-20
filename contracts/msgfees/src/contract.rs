@@ -1,19 +1,19 @@
 use cosmwasm_std::CosmosMsg::Bank;
 use cosmwasm_std::{entry_point, Addr, BankMsg, Coin, DepsMut, Env, MessageInfo, Response};
-use provwasm_std::{assess_custom_fee, ProvenanceMsg, ProvenanceQuery};
 
 use crate::error::ContractError;
+use crate::helpers::assess_custom_fee;
 use crate::msg::{ExecuteMsg, InitMsg};
 use crate::state::{config, config_read, State};
 
 /// Initialize the smart contract config state and bind a name to the contract address.
 #[entry_point]
 pub fn instantiate(
-    deps: DepsMut<ProvenanceQuery>,
+    deps: DepsMut,
     _: Env,
     _: MessageInfo,
     msg: InitMsg,
-) -> Result<Response<ProvenanceMsg>, ContractError> {
+) -> Result<Response, ContractError> {
     // Create contract config state.
     let state = State {
         fee_amount: msg.fee_amount,
@@ -35,11 +35,11 @@ pub fn instantiate(
 /// Handle messages that bind names under the contract root name.
 #[entry_point]
 pub fn execute(
-    deps: DepsMut<ProvenanceQuery>,
+    deps: DepsMut,
     env: Env,
     info: MessageInfo,
     msg: ExecuteMsg,
-) -> Result<Response<ProvenanceMsg>, ContractError> {
+) -> Result<Response, ContractError> {
     match msg {
         ExecuteMsg::SendFunds { funds, to_address } => {
             try_send_funds(deps, env, info, funds, to_address)
@@ -49,12 +49,12 @@ pub fn execute(
 
 // Send funds to te recipient and assess a fee
 pub fn try_send_funds(
-    deps: DepsMut<ProvenanceQuery>,
+    deps: DepsMut,
     env: Env,
     _: MessageInfo,
     funds: Coin,
     to_address: Addr,
-) -> Result<Response<ProvenanceMsg>, ContractError> {
+) -> Result<Response, ContractError> {
     // Load contract state
     let state = config_read(deps.storage).load()?;
 
