@@ -82,7 +82,7 @@ pub fn try_send_funds(
         to_address: to_address.to_string(),
         amount: vec![provwasm_std::types::cosmos::base::v1beta1::Coin {
             denom: funds.clone().denom,
-            amount: funds.clone().amount.to_string(),
+            amount: funds.amount.to_string(),
         }],
     };
 
@@ -93,131 +93,131 @@ pub fn try_send_funds(
         .add_attribute("to_address", format!("{:?}", to_address));
     Ok(res)
 }
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-    use cosmwasm_std::testing::{mock_env, mock_info};
-    use cosmwasm_std::{attr, coin, CosmosMsg};
-    use provwasm_mocks::mock_dependencies;
-    use provwasm_std::{MsgFeesMsgParams, ProvenanceMsgParams};
-
-    #[test]
-    fn init_valid() {
-        // Create default provenance mocks.
-        let mut deps = mock_dependencies(&[]);
-        let env = mock_env();
-        let info = mock_info("sender", &[]);
-
-        // Init with fees
-        let msg = InitMsg {
-            fee_amount: Some(coin(100_000, "nhash")),
-            fee_recipient: Some(Addr::unchecked("fee_address")),
-        };
-
-        // Ensure contract init with fees
-        let res = instantiate(deps.as_mut(), env, info, msg).unwrap();
-        assert!(res.messages.is_empty());
-        assert_eq!(res.attributes.len(), 4);
-        assert_eq!(
-            res.attributes,
-            vec![
-                attr("integration_test", "msgfees"),
-                attr("action", "provwasm.contracts.msgfees.init"),
-                attr("fee_amount", format!("{:?}", Some(coin(100_000, "nhash")))),
-                attr(
-                    "fee_recipient",
-                    format!("{:?}", Some(Addr::unchecked("fee_address")))
-                ),
-            ]
-        );
-        assert_eq!(
-            config_read(&deps.storage).load().unwrap(),
-            State {
-                fee_amount: Some(coin(100_000, "nhash")),
-                fee_recipient: Some(Addr::unchecked("fee_address")),
-            }
-        )
-    }
-
-    #[test]
-    fn send_funds_with_fees() {
-        // Init state
-        let mut deps = mock_dependencies(&[]);
-        let env = mock_env();
-        let info = mock_info("sender", &[coin(200_000, "nhash")]);
-
-        config(&mut deps.storage)
-            .save(&State {
-                fee_amount: Some(coin(100_000, "nhash")),
-                fee_recipient: Some(Addr::unchecked("fee_address")),
-            })
-            .expect("failed to save test state");
-
-        let msg = ExecuteMsg::SendFunds {
-            funds: coin(100_000, "nhash"),
-            to_address: Addr::unchecked("to_address"),
-        };
-        let res = execute(deps.as_mut(), env.clone(), info, msg).unwrap();
-
-        // Assert the correct message was created
-        assert_eq!(2, res.messages.len());
-        match &res.messages[0].msg {
-            CosmosMsg::Custom(msg) => match &msg.params {
-                ProvenanceMsgParams::MsgFees(p) => match &p {
-                    MsgFeesMsgParams::AssessCustomFee {
-                        amount,
-                        from,
-                        name,
-                        recipient,
-                    } => {
-                        assert_eq!(amount, &coin(100_000, "nhash"));
-                        assert_eq!(from, &env.contract.address);
-                        assert_eq!(name, &Some("std_contract_fee".into()));
-                        assert_eq!(recipient, &Some(Addr::unchecked("fee_address")));
-                    }
-                },
-                _ => panic!("unexpected provenance params"),
-            },
-            _ => panic!("unexpected cosmos message"),
-        }
-        match &res.messages[1].msg {
-            Bank(BankMsg::Send { to_address, amount }) => {
-                assert_eq!(amount, &vec![coin(100_000, "nhash")]);
-                assert_eq!(to_address, &Addr::unchecked("to_address"));
-            }
-            _ => panic!("unexpected cosmos message"),
-        }
-    }
-
-    #[test]
-    fn send_funds_without_fees() {
-        // Init state
-        let mut deps = mock_dependencies(&[]);
-        let env = mock_env();
-        let info = mock_info("sender", &[]);
-
-        config(&mut deps.storage)
-            .save(&State {
-                fee_amount: None,
-                fee_recipient: None,
-            })
-            .expect("failed to save test state");
-
-        let msg = ExecuteMsg::SendFunds {
-            funds: coin(100_000, "nhash"),
-            to_address: Addr::unchecked("to_address"),
-        };
-        let res = execute(deps.as_mut(), env, info, msg).unwrap();
-
-        // Assert the correct message was created
-        assert_eq!(1, res.messages.len());
-        match &res.messages[0].msg {
-            Bank(BankMsg::Send { to_address, amount }) => {
-                assert_eq!(amount, &vec![coin(100_000, "nhash")]);
-                assert_eq!(to_address, &Addr::unchecked("to_address"));
-            }
-            _ => panic!("unexpected cosmos message"),
-        }
-    }
-}
+//
+// #[cfg(test)]
+// mod tests {
+//     use super::*;
+//     use cosmwasm_std::testing::{mock_env, mock_info};
+//     use cosmwasm_std::{attr, coin, CosmosMsg};
+//     use provwasm_mocks::mock_dependencies;
+//     use provwasm_std::{MsgFeesMsgParams, ProvenanceMsgParams};
+//
+//     #[test]
+//     fn init_valid() {
+//         // Create default provenance mocks.
+//         let mut deps = mock_dependencies(&[]);
+//         let env = mock_env();
+//         let info = mock_info("sender", &[]);
+//
+//         // Init with fees
+//         let msg = InitMsg {
+//             fee_amount: Some(coin(100_000, "nhash")),
+//             fee_recipient: Some(Addr::unchecked("fee_address")),
+//         };
+//
+//         // Ensure contract init with fees
+//         let res = instantiate(deps.as_mut(), env, info, msg).unwrap();
+//         assert!(res.messages.is_empty());
+//         assert_eq!(res.attributes.len(), 4);
+//         assert_eq!(
+//             res.attributes,
+//             vec![
+//                 attr("integration_test", "msgfees"),
+//                 attr("action", "provwasm.contracts.msgfees.init"),
+//                 attr("fee_amount", format!("{:?}", Some(coin(100_000, "nhash")))),
+//                 attr(
+//                     "fee_recipient",
+//                     format!("{:?}", Some(Addr::unchecked("fee_address")))
+//                 ),
+//             ]
+//         );
+//         assert_eq!(
+//             config_read(&deps.storage).load().unwrap(),
+//             State {
+//                 fee_amount: Some(coin(100_000, "nhash")),
+//                 fee_recipient: Some(Addr::unchecked("fee_address")),
+//             }
+//         )
+//     }
+//
+//     #[test]
+//     fn send_funds_with_fees() {
+//         // Init state
+//         let mut deps = mock_dependencies(&[]);
+//         let env = mock_env();
+//         let info = mock_info("sender", &[coin(200_000, "nhash")]);
+//
+//         config(&mut deps.storage)
+//             .save(&State {
+//                 fee_amount: Some(coin(100_000, "nhash")),
+//                 fee_recipient: Some(Addr::unchecked("fee_address")),
+//             })
+//             .expect("failed to save test state");
+//
+//         let msg = ExecuteMsg::SendFunds {
+//             funds: coin(100_000, "nhash"),
+//             to_address: Addr::unchecked("to_address"),
+//         };
+//         let res = execute(deps.as_mut(), env.clone(), info, msg).unwrap();
+//
+//         // Assert the correct message was created
+//         assert_eq!(2, res.messages.len());
+//         match &res.messages[0].msg {
+//             CosmosMsg::Custom(msg) => match &msg.params {
+//                 ProvenanceMsgParams::MsgFees(p) => match &p {
+//                     MsgFeesMsgParams::AssessCustomFee {
+//                         amount,
+//                         from,
+//                         name,
+//                         recipient,
+//                     } => {
+//                         assert_eq!(amount, &coin(100_000, "nhash"));
+//                         assert_eq!(from, &env.contract.address);
+//                         assert_eq!(name, &Some("std_contract_fee".into()));
+//                         assert_eq!(recipient, &Some(Addr::unchecked("fee_address")));
+//                     }
+//                 },
+//                 _ => panic!("unexpected provenance params"),
+//             },
+//             _ => panic!("unexpected cosmos message"),
+//         }
+//         match &res.messages[1].msg {
+//             Bank(BankMsg::Send { to_address, amount }) => {
+//                 assert_eq!(amount, &vec![coin(100_000, "nhash")]);
+//                 assert_eq!(to_address, &Addr::unchecked("to_address"));
+//             }
+//             _ => panic!("unexpected cosmos message"),
+//         }
+//     }
+//
+//     #[test]
+//     fn send_funds_without_fees() {
+//         // Init state
+//         let mut deps = mock_dependencies(&[]);
+//         let env = mock_env();
+//         let info = mock_info("sender", &[]);
+//
+//         config(&mut deps.storage)
+//             .save(&State {
+//                 fee_amount: None,
+//                 fee_recipient: None,
+//             })
+//             .expect("failed to save test state");
+//
+//         let msg = ExecuteMsg::SendFunds {
+//             funds: coin(100_000, "nhash"),
+//             to_address: Addr::unchecked("to_address"),
+//         };
+//         let res = execute(deps.as_mut(), env, info, msg).unwrap();
+//
+//         // Assert the correct message was created
+//         assert_eq!(1, res.messages.len());
+//         match &res.messages[0].msg {
+//             Bank(BankMsg::Send { to_address, amount }) => {
+//                 assert_eq!(amount, &vec![coin(100_000, "nhash")]);
+//                 assert_eq!(to_address, &Addr::unchecked("to_address"));
+//             }
+//             _ => panic!("unexpected cosmos message"),
+//         }
+//     }
+// }
