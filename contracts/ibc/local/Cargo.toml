@@ -39,5 +39,5 @@ schemars = "0.8.3"
 serde = { version = "1.0.103", default-features = false, features = ["derive"] }
 
 [dev-dependencies]
-provwasm-mocks = { path = "../../../todo/mocks" }
+#provwasm-mocks = { path = "../../../todo/mocks" }
 
