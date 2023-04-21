@@ -13,7 +13,7 @@ pub fn bind_name(
     contract_address: &Addr,
     restricted: bool,
 ) -> StdResult<CosmosMsg> {
-    let addresses = name.split_once(".");
+    let addresses = name.split_once('.');
     if addresses.is_none() {
         return Err(StdError::generic_err("invalid bind name"));
     }
@@ -21,12 +21,12 @@ pub fn bind_name(
         parent: Some(NameRecord {
             name: addresses.unwrap().1.to_string(),
             address: contract_address.to_string(),
-            restricted: restricted,
+            restricted,
         }),
         record: Some(NameRecord {
             name: addresses.unwrap().0.to_string(),
             address: address.to_string(),
-            restricted: restricted,
+            restricted,
         }),
     }
     .into())
