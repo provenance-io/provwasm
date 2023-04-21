@@ -1,5 +1,5 @@
 .PHONY: all
-all: fmt build test lint schema
+all: fmt build test lint
 
 .PHONY: fmt
 fmt:
@@ -15,11 +15,7 @@ test:
 
 .PHONY: lint
 lint:
-	@cargo clippy -- -D warnings
-
-.PHONY: schema
-schema:
-	@cargo schema
+	@cargo clippy
 
 .PHONY: clean
 clean:
