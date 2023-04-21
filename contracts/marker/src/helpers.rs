@@ -22,7 +22,7 @@ pub fn bind_name(
     contract_address: &Addr,
     restricted: bool,
 ) -> StdResult<CosmosMsg> {
-    let addresses = name.split_once(".");
+    let addresses = name.split_once('.');
     if addresses.is_none() {
         return Err(StdError::generic_err("invalid bind name"));
     }
@@ -30,12 +30,12 @@ pub fn bind_name(
         parent: Some(NameRecord {
             name: addresses.unwrap().1.to_string(),
             address: contract_address.to_string(),
-            restricted: restricted,
+            restricted,
         }),
         record: Some(NameRecord {
             name: addresses.unwrap().0.to_string(),
             address: address.to_string(),
-            restricted: restricted,
+            restricted,
         }),
     }
     .into())
@@ -209,23 +209,23 @@ pub fn get_marker_by_denom<H: Into<String>>(
     denom: H,
     querier: &MarkerQuerier<Empty>,
 ) -> StdResult<Marker> {
-    get_marker(validate_string(denom, "denom")?.to_string(), querier)
+    get_marker(validate_string(denom, "denom")?, querier)
 }
 
 pub fn get_marker(id: String, querier: &MarkerQuerier<Empty>) -> StdResult<Marker> {
     let response = querier.marker(id)?;
     if let Some(marker) = response.marker {
-        if let Ok(account) = MarkerAccount::try_from(marker) {
+        return if let Ok(account) = MarkerAccount::try_from(marker) {
             let escrow = querier.escrow(account.clone().base_account.unwrap().address)?;
-            return Ok(Marker {
+            Ok(Marker {
                 marker_account: account,
                 coins: escrow.escrow,
-            });
+            })
         } else {
-            return Err(StdError::generic_err("unable to type-cast marker account"));
-        }
+            Err(StdError::generic_err("unable to type-cast marker account"))
+        };
     }
-    return Err(StdError::generic_err("no marker found for id"));
+    Err(StdError::generic_err("no marker found for id"))
 }
 
 pub fn all_access(address: &Addr) -> Vec<AccessGrant> {
@@ -247,8 +247,8 @@ pub fn all_access(address: &Addr) -> Vec<AccessGrant> {
 pub fn validate_string<S: Into<String>>(input: S, param_name: &str) -> StdResult<String> {
     let s: String = input.into();
     if s.trim().is_empty() {
-        let errm = format!("{} must not be empty", param_name);
-        Err(StdError::generic_err(errm))
+        let err = format!("{} must not be empty", param_name);
+        Err(StdError::generic_err(err))
     } else {
         Ok(s)
     }
