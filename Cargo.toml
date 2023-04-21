@@ -1,5 +1,5 @@
 [workspace]
-members = ["packages/proto-build", "packages/provwasm-std", "packages/provwasm-std-derive"]
+members = ["packages/provwasm-std-derive", "packages/proto-build", "packages/provwasm-std"]
 exclude = ["contracts", "todo/mocks"]
 
 [profile.release]
