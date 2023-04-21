@@ -1,6 +1,5 @@
 use cosmwasm_schema::{cw_serde, QueryResponses};
-use cosmwasm_std::Addr;
-use provwasm_std::Scope;
+use provwasm_std::types::provenance::metadata::v1::Scope;
 
 #[cw_serde]
 pub struct InitMsg {
@@ -9,18 +8,18 @@ pub struct InitMsg {
 
 #[cw_serde]
 pub enum ExecuteMsg {
-    WriteScope { scope: Scope, signers: Vec<Addr> },
+    WriteScope { scope: Scope, signers: Vec<String> },
 }
 
 #[cw_serde]
 #[derive(QueryResponses)]
 pub enum QueryMsg {
-    #[returns(provwasm_std::Scope)]
+    #[returns(provwasm_std::types::provenance::metadata::v1::Scope)]
     GetScope { id: String },
-    #[returns(provwasm_std::Sessions)]
+    #[returns(provwasm_std::types::provenance::metadata::v1::Session)]
     GetSessions { scope_id: String },
-    #[returns(provwasm_std::Records)]
+    #[returns(Vec<provwasm_std::types::provenance::metadata::v1::Record>)]
     GetRecords { scope_id: String },
-    #[returns(provwasm_std::Record)]
+    #[returns(provwasm_std::types::provenance::metadata::v1::Record)]
     GetRecordByName { scope_id: String, name: String },
 }

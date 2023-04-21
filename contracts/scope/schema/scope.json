@@ -39,7 +39,7 @@
               "signers": {
                 "type": "array",
                 "items": {
-                  "$ref": "#/definitions/Addr"
+                  "type": "string"
                 }
               }
             },
@@ -50,72 +50,70 @@
       }
     ],
     "definitions": {
-      "Addr": {
-        "description": "A human readable address.\n\nIn Cosmos, this is typically bech32 encoded. But for multi-chain smart contracts no assumptions should be made other than being UTF-8 encoded and of reasonable length.\n\nThis type represents a validated address. It can be created in the following ways 1. Use `Addr::unchecked(input)` 2. Use `let checked: Addr = deps.api.addr_validate(input)?` 3. Use `let checked: Addr = deps.api.addr_humanize(canonical_addr)?` 4. Deserialize from JSON. This must only be done from JSON that was validated before such as a contract's state. `Addr` must not be used in messages sent by the user because this would result in unvalidated instances.\n\nThis type is immutable. If you really need to mutate it (Really? Are you sure?), create a mutable copy using `let mut mutable = Addr::to_string()` and operate on that `String` instance.",
-        "type": "string"
-      },
       "Party": {
-        "description": "An address with an associated role.",
         "type": "object",
         "required": [
           "address",
+          "optional",
           "role"
         ],
         "properties": {
           "address": {
-            "$ref": "#/definitions/Addr"
+            "type": "string"
+          },
+          "optional": {
+            "type": "boolean"
           },
           "role": {
-            "$ref": "#/definitions/PartyType"
+            "type": "integer",
+            "format": "int32"
           }
         }
       },
-      "PartyType": {
-        "description": "Roles that can be associated to a party.",
-        "type": "string",
-        "enum": [
-          "originator",
-          "servicer",
-          "investor",
-          "custodian",
-          "owner",
-          "affiliate",
-          "omnibus",
-          "provenance",
-          "unspecified"
-        ]
-      },
       "Scope": {
-        "description": "A collection of records owned by one or more parties.",
         "type": "object",
         "required": [
+          "data_access",
+          "owners",
+          "require_party_rollup",
           "scope_id",
           "specification_id",
           "value_owner_address"
         ],
         "properties": {
           "data_access": {
-            "default": [],
             "type": "array",
             "items": {
-              "$ref": "#/definitions/Addr"
+              "type": "string"
             }
           },
           "owners": {
-            "default": [],
             "type": "array",
             "items": {
               "$ref": "#/definitions/Party"
             }
           },
+          "require_party_rollup": {
+            "type": "boolean"
+          },
           "scope_id": {
-            "type": "string"
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "uint8",
+              "minimum": 0.0
+            }
           },
           "specification_id": {
-            "type": "string"
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "uint8",
+              "minimum": 0.0
+            }
           },
           "value_owner_address": {
-            "$ref": "#/definitions/Addr"
+            "type": "string"
           }
         }
       }
@@ -221,17 +219,16 @@
     "get_record_by_name": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "title": "Record",
-      "description": "A record of fact for a session.",
       "type": "object",
       "required": [
+        "inputs",
         "name",
-        "process",
+        "outputs",
         "session_id",
         "specification_id"
       ],
       "properties": {
         "inputs": {
-          "default": [],
           "type": "array",
           "items": {
             "$ref": "#/definitions/RecordInput"
@@ -241,30 +238,44 @@
           "type": "string"
         },
         "outputs": {
-          "default": [],
           "type": "array",
           "items": {
             "$ref": "#/definitions/RecordOutput"
           }
         },
         "process": {
-          "$ref": "#/definitions/Process"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Process"
+            },
+            {
+              "type": "null"
+            }
+          ]
         },
         "session_id": {
-          "type": "string"
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint8",
+            "minimum": 0.0
+          }
         },
         "specification_id": {
-          "type": "string"
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint8",
+            "minimum": 0.0
+          }
         }
       },
       "definitions": {
         "Process": {
-          "description": "The process that generated a record.",
           "type": "object",
           "required": [
             "method",
-            "name",
-            "process_id"
+            "name"
           ],
           "properties": {
             "method": {
@@ -274,51 +285,39 @@
               "type": "string"
             },
             "process_id": {
-              "$ref": "#/definitions/ProcessId"
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/ProcessId"
+                },
+                {
+                  "type": "null"
+                }
+              ]
             }
           }
         },
         "ProcessId": {
-          "description": "The representations of a process id.",
           "oneOf": [
             {
-              "description": "The on-chain address of a process.",
               "type": "object",
               "required": [
-                "address"
+                "Address"
               ],
               "properties": {
-                "address": {
-                  "type": "object",
-                  "required": [
-                    "address"
-                  ],
-                  "properties": {
-                    "address": {
-                      "type": "string"
-                    }
-                  }
+                "Address": {
+                  "type": "string"
                 }
               },
               "additionalProperties": false
             },
             {
-              "description": "The hash of an off-chain process.",
               "type": "object",
               "required": [
-                "hash"
+                "Hash"
               ],
               "properties": {
-                "hash": {
-                  "type": "object",
-                  "required": [
-                    "hash"
-                  ],
-                  "properties": {
-                    "hash": {
-                      "type": "string"
-                    }
-                  }
+                "Hash": {
+                  "type": "string"
                 }
               },
               "additionalProperties": false
@@ -326,11 +325,9 @@
           ]
         },
         "RecordInput": {
-          "description": "The inputs used to produce a record.",
           "type": "object",
           "required": [
             "name",
-            "source",
             "status",
             "type_name"
           ],
@@ -339,74 +336,25 @@
               "type": "string"
             },
             "source": {
-              "$ref": "#/definitions/RecordInputSource"
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/Source"
+                },
+                {
+                  "type": "null"
+                }
+              ]
             },
             "status": {
-              "$ref": "#/definitions/RecordInputStatus"
+              "type": "integer",
+              "format": "int32"
             },
             "type_name": {
               "type": "string"
             }
           }
         },
-        "RecordInputSource": {
-          "description": "The representations of a record input source.",
-          "oneOf": [
-            {
-              "description": "The address of a record on chain (established records).",
-              "type": "object",
-              "required": [
-                "record"
-              ],
-              "properties": {
-                "record": {
-                  "type": "object",
-                  "required": [
-                    "record_id"
-                  ],
-                  "properties": {
-                    "record_id": {
-                      "type": "string"
-                    }
-                  }
-                }
-              },
-              "additionalProperties": false
-            },
-            {
-              "description": "The hash of an off-chain piece of information (proposed records).",
-              "type": "object",
-              "required": [
-                "hash"
-              ],
-              "properties": {
-                "hash": {
-                  "type": "object",
-                  "required": [
-                    "hash"
-                  ],
-                  "properties": {
-                    "hash": {
-                      "type": "string"
-                    }
-                  }
-                }
-              },
-              "additionalProperties": false
-            }
-          ]
-        },
-        "RecordInputStatus": {
-          "description": "Record input types.",
-          "type": "string",
-          "enum": [
-            "proposed",
-            "record",
-            "unspecified"
-          ]
-        },
         "RecordOutput": {
-          "description": "The output of a process recorded on chain.",
           "type": "object",
           "required": [
             "hash",
@@ -417,46 +365,59 @@
               "type": "string"
             },
             "status": {
-              "$ref": "#/definitions/ResultStatus"
+              "type": "integer",
+              "format": "int32"
             }
           }
         },
-        "ResultStatus": {
-          "description": "Result status types.",
-          "type": "string",
-          "enum": [
-            "pass",
-            "skip",
-            "fail",
-            "unspecified"
+        "Source": {
+          "oneOf": [
+            {
+              "type": "object",
+              "required": [
+                "RecordId"
+              ],
+              "properties": {
+                "RecordId": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer",
+                    "format": "uint8",
+                    "minimum": 0.0
+                  }
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "required": [
+                "Hash"
+              ],
+              "properties": {
+                "Hash": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            }
           ]
         }
       }
     },
     "get_records": {
       "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "Records",
-      "description": "A group of records.",
-      "type": "object",
-      "required": [
-        "records"
-      ],
-      "properties": {
-        "records": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Record"
-          }
-        }
+      "title": "Array_of_Record",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Record"
       },
       "definitions": {
         "Process": {
-          "description": "The process that generated a record.",
           "type": "object",
           "required": [
             "method",
-            "name",
-            "process_id"
+            "name"
           ],
           "properties": {
             "method": {
@@ -466,51 +427,39 @@
               "type": "string"
             },
             "process_id": {
-              "$ref": "#/definitions/ProcessId"
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/ProcessId"
+                },
+                {
+                  "type": "null"
+                }
+              ]
             }
           }
         },
         "ProcessId": {
-          "description": "The representations of a process id.",
           "oneOf": [
             {
-              "description": "The on-chain address of a process.",
               "type": "object",
               "required": [
-                "address"
+                "Address"
               ],
               "properties": {
-                "address": {
-                  "type": "object",
-                  "required": [
-                    "address"
-                  ],
-                  "properties": {
-                    "address": {
-                      "type": "string"
-                    }
-                  }
+                "Address": {
+                  "type": "string"
                 }
               },
               "additionalProperties": false
             },
             {
-              "description": "The hash of an off-chain process.",
               "type": "object",
               "required": [
-                "hash"
+                "Hash"
               ],
               "properties": {
-                "hash": {
-                  "type": "object",
-                  "required": [
-                    "hash"
-                  ],
-                  "properties": {
-                    "hash": {
-                      "type": "string"
-                    }
-                  }
+                "Hash": {
+                  "type": "string"
                 }
               },
               "additionalProperties": false
@@ -518,17 +467,16 @@
           ]
         },
         "Record": {
-          "description": "A record of fact for a session.",
           "type": "object",
           "required": [
+            "inputs",
             "name",
-            "process",
+            "outputs",
             "session_id",
             "specification_id"
           ],
           "properties": {
             "inputs": {
-              "default": [],
               "type": "array",
               "items": {
                 "$ref": "#/definitions/RecordInput"
@@ -538,29 +486,43 @@
               "type": "string"
             },
             "outputs": {
-              "default": [],
               "type": "array",
               "items": {
                 "$ref": "#/definitions/RecordOutput"
               }
             },
             "process": {
-              "$ref": "#/definitions/Process"
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/Process"
+                },
+                {
+                  "type": "null"
+                }
+              ]
             },
             "session_id": {
-              "type": "string"
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
             },
             "specification_id": {
-              "type": "string"
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
             }
           }
         },
         "RecordInput": {
-          "description": "The inputs used to produce a record.",
           "type": "object",
           "required": [
             "name",
-            "source",
             "status",
             "type_name"
           ],
@@ -569,74 +531,25 @@
               "type": "string"
             },
             "source": {
-              "$ref": "#/definitions/RecordInputSource"
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/Source"
+                },
+                {
+                  "type": "null"
+                }
+              ]
             },
             "status": {
-              "$ref": "#/definitions/RecordInputStatus"
+              "type": "integer",
+              "format": "int32"
             },
             "type_name": {
               "type": "string"
             }
           }
         },
-        "RecordInputSource": {
-          "description": "The representations of a record input source.",
-          "oneOf": [
-            {
-              "description": "The address of a record on chain (established records).",
-              "type": "object",
-              "required": [
-                "record"
-              ],
-              "properties": {
-                "record": {
-                  "type": "object",
-                  "required": [
-                    "record_id"
-                  ],
-                  "properties": {
-                    "record_id": {
-                      "type": "string"
-                    }
-                  }
-                }
-              },
-              "additionalProperties": false
-            },
-            {
-              "description": "The hash of an off-chain piece of information (proposed records).",
-              "type": "object",
-              "required": [
-                "hash"
-              ],
-              "properties": {
-                "hash": {
-                  "type": "object",
-                  "required": [
-                    "hash"
-                  ],
-                  "properties": {
-                    "hash": {
-                      "type": "string"
-                    }
-                  }
-                }
-              },
-              "additionalProperties": false
-            }
-          ]
-        },
-        "RecordInputStatus": {
-          "description": "Record input types.",
-          "type": "string",
-          "enum": [
-            "proposed",
-            "record",
-            "unspecified"
-          ]
-        },
         "RecordOutput": {
-          "description": "The output of a process recorded on chain.",
           "type": "object",
           "required": [
             "hash",
@@ -647,18 +560,42 @@
               "type": "string"
             },
             "status": {
-              "$ref": "#/definitions/ResultStatus"
+              "type": "integer",
+              "format": "int32"
             }
           }
         },
-        "ResultStatus": {
-          "description": "Result status types.",
-          "type": "string",
-          "enum": [
-            "pass",
-            "skip",
-            "fail",
-            "unspecified"
+        "Source": {
+          "oneOf": [
+            {
+              "type": "object",
+              "required": [
+                "RecordId"
+              ],
+              "properties": {
+                "RecordId": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer",
+                    "format": "uint8",
+                    "minimum": 0.0
+                  }
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "required": [
+                "Hash"
+              ],
+              "properties": {
+                "Hash": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            }
           ]
         }
       }
@@ -666,160 +603,212 @@
     "get_scope": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "title": "Scope",
-      "description": "A collection of records owned by one or more parties.",
       "type": "object",
       "required": [
+        "data_access",
+        "owners",
+        "require_party_rollup",
         "scope_id",
         "specification_id",
         "value_owner_address"
       ],
       "properties": {
         "data_access": {
-          "default": [],
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Addr"
+            "type": "string"
           }
         },
         "owners": {
-          "default": [],
           "type": "array",
           "items": {
             "$ref": "#/definitions/Party"
           }
         },
+        "require_party_rollup": {
+          "type": "boolean"
+        },
         "scope_id": {
-          "type": "string"
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint8",
+            "minimum": 0.0
+          }
         },
         "specification_id": {
-          "type": "string"
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint8",
+            "minimum": 0.0
+          }
         },
         "value_owner_address": {
-          "$ref": "#/definitions/Addr"
+          "type": "string"
         }
       },
       "definitions": {
-        "Addr": {
-          "description": "A human readable address.\n\nIn Cosmos, this is typically bech32 encoded. But for multi-chain smart contracts no assumptions should be made other than being UTF-8 encoded and of reasonable length.\n\nThis type represents a validated address. It can be created in the following ways 1. Use `Addr::unchecked(input)` 2. Use `let checked: Addr = deps.api.addr_validate(input)?` 3. Use `let checked: Addr = deps.api.addr_humanize(canonical_addr)?` 4. Deserialize from JSON. This must only be done from JSON that was validated before such as a contract's state. `Addr` must not be used in messages sent by the user because this would result in unvalidated instances.\n\nThis type is immutable. If you really need to mutate it (Really? Are you sure?), create a mutable copy using `let mut mutable = Addr::to_string()` and operate on that `String` instance.",
-          "type": "string"
-        },
         "Party": {
-          "description": "An address with an associated role.",
           "type": "object",
           "required": [
             "address",
+            "optional",
             "role"
           ],
           "properties": {
             "address": {
-              "$ref": "#/definitions/Addr"
+              "type": "string"
+            },
+            "optional": {
+              "type": "boolean"
             },
             "role": {
-              "$ref": "#/definitions/PartyType"
+              "type": "integer",
+              "format": "int32"
             }
           }
-        },
-        "PartyType": {
-          "description": "Roles that can be associated to a party.",
-          "type": "string",
-          "enum": [
-            "originator",
-            "servicer",
-            "investor",
-            "custodian",
-            "owner",
-            "affiliate",
-            "omnibus",
-            "provenance",
-            "unspecified"
-          ]
         }
       }
     },
     "get_sessions": {
       "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "Sessions",
-      "description": "A group of sessions.",
+      "title": "Session",
       "type": "object",
       "required": [
-        "sessions"
+        "context",
+        "name",
+        "parties",
+        "session_id",
+        "specification_id"
       ],
       "properties": {
-        "sessions": {
+        "audit": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/AuditFields"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "context": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Session"
+            "type": "integer",
+            "format": "uint8",
+            "minimum": 0.0
+          }
+        },
+        "name": {
+          "type": "string"
+        },
+        "parties": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Party"
+          }
+        },
+        "session_id": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint8",
+            "minimum": 0.0
+          }
+        },
+        "specification_id": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint8",
+            "minimum": 0.0
           }
         }
       },
       "definitions": {
-        "Addr": {
-          "description": "A human readable address.\n\nIn Cosmos, this is typically bech32 encoded. But for multi-chain smart contracts no assumptions should be made other than being UTF-8 encoded and of reasonable length.\n\nThis type represents a validated address. It can be created in the following ways 1. Use `Addr::unchecked(input)` 2. Use `let checked: Addr = deps.api.addr_validate(input)?` 3. Use `let checked: Addr = deps.api.addr_humanize(canonical_addr)?` 4. Deserialize from JSON. This must only be done from JSON that was validated before such as a contract's state. `Addr` must not be used in messages sent by the user because this would result in unvalidated instances.\n\nThis type is immutable. If you really need to mutate it (Really? Are you sure?), create a mutable copy using `let mut mutable = Addr::to_string()` and operate on that `String` instance.",
-          "type": "string"
-        },
-        "Binary": {
-          "description": "Binary is a wrapper around Vec<u8> to add base64 de/serialization with serde. It also adds some helper methods to help encode inline.\n\nThis is only needed as serde-json-{core,wasm} has a horrible encoding for Vec<u8>. See also <https://github.com/CosmWasm/cosmwasm/blob/main/docs/MESSAGE_TYPES.md>.",
-          "type": "string"
+        "AuditFields": {
+          "type": "object",
+          "required": [
+            "created_by",
+            "message",
+            "updated_by",
+            "version"
+          ],
+          "properties": {
+            "created_by": {
+              "type": "string"
+            },
+            "created_date": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/Timestamp"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "message": {
+              "type": "string"
+            },
+            "updated_by": {
+              "type": "string"
+            },
+            "updated_date": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/Timestamp"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "version": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            }
+          }
         },
         "Party": {
-          "description": "An address with an associated role.",
           "type": "object",
           "required": [
             "address",
+            "optional",
             "role"
           ],
           "properties": {
             "address": {
-              "$ref": "#/definitions/Addr"
+              "type": "string"
+            },
+            "optional": {
+              "type": "boolean"
             },
             "role": {
-              "$ref": "#/definitions/PartyType"
+              "type": "integer",
+              "format": "int32"
             }
           }
         },
-        "PartyType": {
-          "description": "Roles that can be associated to a party.",
-          "type": "string",
-          "enum": [
-            "originator",
-            "servicer",
-            "investor",
-            "custodian",
-            "owner",
-            "affiliate",
-            "omnibus",
-            "provenance",
-            "unspecified"
-          ]
-        },
-        "Session": {
-          "description": "The final state of an execution context for a specification instance.",
+        "Timestamp": {
           "type": "object",
           "required": [
-            "context",
-            "name",
-            "session_id",
-            "specification_id"
+            "nanos",
+            "seconds"
           ],
           "properties": {
-            "context": {
-              "$ref": "#/definitions/Binary"
+            "nanos": {
+              "description": "Non-negative fractions of a second at nanosecond resolution. Negative second values with fractions must still have non-negative nanos values that count forward in time. Must be from 0 to 999,999,999 inclusive.",
+              "type": "integer",
+              "format": "int32"
             },
-            "name": {
-              "type": "string"
-            },
-            "parties": {
-              "default": [],
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Party"
-              }
-            },
-            "session_id": {
-              "type": "string"
-            },
-            "specification_id": {
-              "type": "string"
+            "seconds": {
+              "description": "Represents seconds of UTC time since Unix epoch 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to 9999-12-31T23:59:59Z inclusive.",
+              "type": "integer",
+              "format": "int64"
             }
           }
         }
