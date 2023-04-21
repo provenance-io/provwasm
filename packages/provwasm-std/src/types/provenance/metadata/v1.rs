@@ -1865,48 +1865,6 @@ pub struct OsLocatorsByScopeResponse {
     ::schemars::JsonSchema,
     CosmwasmExt,
 )]
-#[proto_message(type_url = "/provenance.metadata.v1.OSAllLocatorsRequest")]
-#[proto_query(
-    path = "/provenance.metadata.v1.Query/OSAllLocators",
-    response_type = OsAllLocatorsResponse
-)]
-pub struct OsAllLocatorsRequest {
-    #[prost(message, optional, tag = "99")]
-    pub pagination:
-        ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageRequest>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
-#[proto_message(type_url = "/provenance.metadata.v1.OSAllLocatorsResponse")]
-pub struct OsAllLocatorsResponse {
-    #[prost(message, repeated, tag = "1")]
-    pub locators: ::prost::alloc::vec::Vec<ObjectStoreLocator>,
-    #[prost(message, optional, tag = "98")]
-    pub request: ::core::option::Option<OsAllLocatorsRequest>,
-    #[prost(message, optional, tag = "99")]
-    pub pagination:
-        ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageResponse>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgWriteScopeRequest")]
 pub struct MsgWriteScopeRequest {
     #[prost(message, optional, tag = "1")]
@@ -2762,13 +2720,5 @@ impl<'a, Q: cosmwasm_std::CustomQuery> MetadataQuerier<'a, Q> {
         scope_id: ::prost::alloc::string::String,
     ) -> Result<OsLocatorsByScopeResponse, cosmwasm_std::StdError> {
         OsLocatorsByScopeRequest { scope_id }.query(self.querier)
-    }
-    pub fn os_all_locators(
-        &self,
-        pagination: ::core::option::Option<
-            super::super::super::cosmos::base::query::v1beta1::PageRequest,
-        >,
-    ) -> Result<OsAllLocatorsResponse, cosmwasm_std::StdError> {
-        OsAllLocatorsRequest { pagination }.query(self.querier)
     }
 }

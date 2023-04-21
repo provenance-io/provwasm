@@ -230,8 +230,6 @@ types:
     - provenance.metadata.v1.OSLocatorsByURIResponse
     - provenance.metadata.v1.OSLocatorsByScopeRequest
     - provenance.metadata.v1.OSLocatorsByScopeResponse
-    - provenance.metadata.v1.OSAllLocatorsRequest
-    - provenance.metadata.v1.OSAllLocatorsResponse
     - provenance.msgfees.v1.EventMsgFee
     - provenance.msgfees.v1.EventMsgFees
     - provenance.msgfees.v1.MsgFee
