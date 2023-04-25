@@ -168,3 +168,19 @@ The QueryVersion message will return the contract's current owner.
     }
 }
 ```
+
+## Plugins
+The following is a list of plugins that we used to increase our development productivity:
+
+- rust-analyzer
+- crates
+- CodeLLDB
+- Better TOML
+- Error Lens
+
+## Contributors
+We are extremely grateful for all the contributions and suggestions made by the following users:
+
+- Matthew Witkowski [taztingo](https://github.com/taztingo)
+- Ken Talley [kwtalley](https://github.com/kwtalley)
+- Ira Miller [iramiller](https://github.com/iramiller)
