@@ -7,7 +7,7 @@ use crate::{
         msg::{ExecuteMsg, InstantiateMsg, MigrateMsg, QueryMsg},
     },
     execute, instantiate,
-    migrate::{self, validate::validate_migration},
+    migrate::{self},
     query, reply,
     util::validate::Validate,
 };
@@ -70,7 +70,6 @@ pub fn execute(deps: ProvDepsMut, env: Env, info: MessageInfo, msg: ExecuteMsg) 
 #[entry_point]
 pub fn migrate(deps: ProvDepsMut, env: Env, msg: MigrateMsg) -> ProvTxResponse {
     msg.validate(deps.as_ref())?;
-    validate_migration(deps.storage)?;
     let res = migrate::router::route(&deps, env, msg);
     cw2::set_contract_version(deps.storage, CONTRACT_NAME, CONTRACT_VERSION)?;
     res

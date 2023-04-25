@@ -1,4 +1,4 @@
-use cosmwasm_std::{Coin, Storage};
+use cosmwasm_std::Coin;
 use semver::Version;
 
 use crate::{
@@ -24,7 +24,26 @@ impl Validate for MigrateMsg {
     /// let msg = MigrateMsg::Default {};
     /// msg.validate(deps)?;
     /// ```
-    fn validate(&self, _deps: ProvDeps) -> ValidateResult {
+    fn validate(&self, deps: ProvDeps) -> ValidateResult {
+        let storage = deps.storage;
+        let version: Version = CONTRACT_VERSION.parse()?;
+        let storage_version: Version = cw2::get_contract_version(storage)?.version.parse().unwrap();
+        let ver = cw2::get_contract_version(storage)?;
+
+        if ver.contract != CONTRACT_NAME {
+            return Err(ContractError::ContractNameMismatch(
+                ver.contract,
+                CONTRACT_NAME.to_string(),
+            ));
+        }
+
+        if storage_version >= version {
+            return Err(ContractError::InvalidVersion(
+                version.to_string(),
+                storage_version.to_string(),
+            ));
+        }
+
         Ok(())
     }
 
@@ -45,28 +64,6 @@ impl Validate for MigrateMsg {
     }
 }
 
-pub fn validate_migration(storage: &dyn Storage) -> ValidateResult {
-    let version: Version = CONTRACT_VERSION.parse()?;
-    let storage_version: Version = cw2::get_contract_version(storage)?.version.parse().unwrap();
-    let ver = cw2::get_contract_version(storage)?;
-
-    if ver.contract != CONTRACT_NAME {
-        return Err(ContractError::ContractNameMismatch(
-            ver.contract,
-            CONTRACT_NAME.to_string(),
-        ));
-    }
-
-    if storage_version >= version {
-        return Err(ContractError::InvalidVersion(
-            version.to_string(),
-            storage_version.to_string(),
-        ));
-    }
-
-    Ok(())
-}
-
 #[cfg(test)]
 mod tests {
     use cw2::set_contract_version;
@@ -81,15 +78,6 @@ mod tests {
         util::validate::Validate,
     };
 
-    use super::validate_migration;
-
-    #[test]
-    fn test_validate() {
-        let msg = MigrateMsg::Default {};
-        let deps = mock_dependencies(&[]);
-        assert_eq!((), msg.validate(deps.as_ref()).unwrap());
-    }
-
     #[test]
     fn test_validate_funds() {
         let msg = MigrateMsg::Default {};
@@ -97,13 +85,14 @@ mod tests {
     }
 
     #[test]
-    fn test_validate_migration_names_must_match() {
+    fn test_validate_names_must_match() {
         let mut deps = mock_dependencies(&[]);
+        let msg = MigrateMsg::Default {};
         let name = "TEST_NAME";
         let version = CONTRACT_VERSION;
         set_contract_version(deps.as_mut().storage, name, version).unwrap();
 
-        let err = validate_migration(&deps.storage).unwrap_err();
+        let err = msg.validate(deps.as_ref()).unwrap_err();
         assert_eq!(
             ContractError::ContractNameMismatch(name.to_string(), CONTRACT_NAME.to_string())
                 .to_string(),
@@ -112,13 +101,14 @@ mod tests {
     }
 
     #[test]
-    fn test_validate_migration_version_must_be_greater() {
+    fn test_validate_version_must_be_greater() {
         let mut deps = mock_dependencies(&[]);
+        let msg = MigrateMsg::Default {};
         let name = CONTRACT_NAME;
         let version = CONTRACT_VERSION;
         set_contract_version(deps.as_mut().storage, name, version).unwrap();
 
-        let err = validate_migration(&deps.storage).unwrap_err();
+        let err = msg.validate(deps.as_ref()).unwrap_err();
         assert_eq!(
             ContractError::InvalidVersion(version.to_string(), CONTRACT_VERSION.to_string())
                 .to_string(),
@@ -127,11 +117,12 @@ mod tests {
     }
 
     #[test]
-    fn test_validate_migration_success() {
+    fn test_validate_success() {
         let mut deps = mock_dependencies(&[]);
+        let msg = MigrateMsg::Default {};
         let name = CONTRACT_NAME;
         let version = "0.0.1";
         set_contract_version(deps.as_mut().storage, name, version).unwrap();
-        validate_migration(&deps.storage).unwrap();
+        msg.validate(deps.as_ref()).unwrap();
     }
 }
