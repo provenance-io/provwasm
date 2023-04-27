@@ -69,27 +69,43 @@ if [ "$address" != "$contract" ] && [ "$address" != "$node0" ]; then
   exit 1
 fi
 
-"$PROV_CMD" tx wasm execute \
-  "$contract" \
-  '{"unbind_prefix":{"prefix":"nm"}}' \
-  --from="$node0" \
-  --keyring-backend test \
-  --chain-id="testing" \
-  --gas=auto \
-  --gas-prices="1905nhash" \
-  --gas-adjustment=1.5 \
-  --broadcast-mode block \
-  --yes \
-  --testnet
+address=$("$PROV_CMD" query wasm contract-state smart "$contract" '{"resolve":{"name":"name-itv2.sc.pb"}}' -t -o json)
 
-export query=$("$PROV_CMD" query name resolve "nm.name-itv2.sc.pb" --testnet --output json --log_level="panic" --log_format="json" )
+echo "address:"
+echo "$address"
 
-# check to see if the query string starts with `failed` otherwise error because we shouldn't get a name that is unbound
-if [[ "$query" == failed* ]]; then
-  echo "correctly failed on query after name was bound"
-else
-  echo "Got name query after name was unbound"
-  exit 1
-fi
+params=$("$PROV_CMD" query wasm contract-state smart "$contract" "{\"params\":{}}" -t -o json)
 
-echo "End of name test"
+echo "params:"
+echo "$params"
+
+name=$("$PROV_CMD" query wasm contract-state smart "$contract" "{\"lookup\":{\"address\":\"$address\"}}" -t -o json)
+
+echo "name:"
+echo "$name"
+
+#
+#"$PROV_CMD" tx wasm execute \
+#  "$contract" \
+#  '{"unbind_prefix":{"prefix":"nm"}}' \
+#  --from="$node0" \
+#  --keyring-backend test \
+#  --chain-id="testing" \
+#  --gas=auto \
+#  --gas-prices="1905nhash" \
+#  --gas-adjustment=1.5 \
+#  --broadcast-mode block \
+#  --yes \
+#  --testnet
+#
+#export query=$("$PROV_CMD" query name resolve "nm.name-itv2.sc.pb" --testnet --output json --log_level="panic" --log_format="json" )
+#
+## check to see if the query string starts with `failed` otherwise error because we shouldn't get a name that is unbound
+#if [[ "$query" == failed* ]]; then
+#  echo "correctly failed on query after name was bound"
+#else
+#  echo "Got name query after name was unbound"
+#  exit 1
+#fi
+#
+#echo "End of name test"

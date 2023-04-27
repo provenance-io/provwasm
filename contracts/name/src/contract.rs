@@ -26,24 +26,39 @@ pub fn instantiate(
     // Save contract config state.
     config(deps.storage).save(&state)?;
 
-    // Create a bind name message
-    let bind_name_msg = MsgBindNameRequest {
-        parent: None,
-        record: Some(NameRecord {
-            name: msg.name.clone(),
-            address: env.contract.address.to_string(),
-            restricted: true,
-        }),
-    };
+    let split: Vec<&str> = msg.name.splitn(2, '.').collect();
+    let record = split.first();
+    let parent = split.last();
 
-    // Dispatch bind name message and add event attributes.
-    let res = Response::new()
-        .add_message(bind_name_msg)
-        .add_attribute("integration_test", "v2")
-        .add_attribute("action", "provwasm.contracts.name.init")
-        .add_attribute("contract_name", msg.name)
-        .add_attribute("contract_owner", info.sender);
-    Ok(res)
+    match (parent, record) {
+        (Some(parent), Some(record)) => {
+            // Create a bind name message
+            let bind_name_msg = MsgBindNameRequest {
+                parent: Some(NameRecord {
+                    name: parent.to_string(),
+                    address: env.contract.address.to_string(),
+                    restricted: true,
+                }),
+                record: Some(NameRecord {
+                    name: record.to_string(),
+                    address: env.contract.address.to_string(),
+                    restricted: true,
+                }),
+            };
+
+            // Dispatch bind name message and add event attributes.
+            let res = Response::new()
+                .add_message(bind_name_msg)
+                .add_attribute("integration_test", "v2")
+                .add_attribute("action", "provwasm.contracts.name.init")
+                .add_attribute("contract_name", msg.name)
+                .add_attribute("contract_owner", info.sender);
+            Ok(res)
+        }
+        (_, _) => Err(ContractError::Std(StdError::GenericErr {
+            msg: "Invalid contract name".to_string(),
+        })),
+    }
 }
 
 /// Handle messages that bind names under the contract root name.
@@ -145,6 +160,7 @@ pub fn query(deps: Deps, _env: Env, msg: QueryMsg) -> Result<QueryResponse, StdE
     match msg {
         QueryMsg::Resolve { name } => try_resolve(deps, name),
         QueryMsg::Lookup { address } => try_lookup(deps, address),
+        QueryMsg::Params {} => try_params(deps),
     }
 }
 
@@ -152,16 +168,25 @@ pub fn query(deps: Deps, _env: Env, msg: QueryMsg) -> Result<QueryResponse, StdE
 fn try_resolve(deps: Deps, name: String) -> Result<QueryResponse, StdError> {
     let querier = NameQuerier::new(&deps.querier);
     let name = querier.resolve(name)?;
-    to_binary(&name)
+    to_binary(&name.address)
+}
+
+// Use a ProvenanceQuerier to resolve the address for a name.
+fn try_params(deps: Deps) -> Result<QueryResponse, StdError> {
+    let querier = NameQuerier::new(&deps.querier);
+    let params = querier.params()?;
+    to_binary(&params)
 }
 
 // Use a ProvenanceQuerier to lookup all names bound to the contract address.
 fn try_lookup(deps: Deps, address: String) -> Result<QueryResponse, StdError> {
-    let querier = NameQuerier::new(&deps.querier);
     deps.api.addr_validate(&address)?;
+    let querier = NameQuerier::new(&deps.querier);
     let names = querier.reverse_lookup(address, None)?;
-    to_binary(&names.name)
+    let first = names.name.first().unwrap();
+    to_binary(&first)
 }
+
 //
 // #[cfg(test)]
 // mod tests {

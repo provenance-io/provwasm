@@ -16,6 +16,8 @@ pub enum ExecuteMsg {
 pub enum QueryMsg {
     #[returns(provwasm_std::types::provenance::name::v1::QueryResolveResponse)]
     Resolve { name: String },
-    #[returns(Vec<String>)]
+    #[returns(provwasm_std::types::provenance::name::v1::QueryReverseLookupResponse)]
     Lookup { address: String },
+    #[returns(provwasm_std::types::provenance::name::v1::QueryParamsResponse)]
+    Params {},
 }

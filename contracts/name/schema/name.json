@@ -109,6 +109,19 @@
           }
         },
         "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "params"
+        ],
+        "properties": {
+          "params": {
+            "type": "object",
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
       }
     ]
   },
@@ -117,10 +130,103 @@
   "responses": {
     "lookup": {
       "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "Array_of_String",
-      "type": "array",
-      "items": {
-        "type": "string"
+      "title": "QueryReverseLookupResponse",
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "pagination": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/PageResponse"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "definitions": {
+        "PageResponse": {
+          "description": "PageResponse is to be embedded in gRPC response messages where the corresponding request message has used PageRequest.\n\nmessage SomeResponse { repeated Bar results = 1; PageResponse page = 2; }",
+          "type": "object",
+          "required": [
+            "next_key",
+            "total"
+          ],
+          "properties": {
+            "next_key": {
+              "description": "next_key is the key to be passed to PageRequest.key to query the next page most efficiently. It will be empty if there are no more results.",
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "total": {
+              "description": "total is total number of results available if PageRequest.count_total was set, its value is undefined otherwise",
+              "type": "integer",
+              "format": "uint64",
+              "minimum": 0.0
+            }
+          }
+        }
+      }
+    },
+    "params": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "QueryParamsResponse",
+      "type": "object",
+      "properties": {
+        "params": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Params"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "definitions": {
+        "Params": {
+          "type": "object",
+          "required": [
+            "allow_unrestricted_names",
+            "max_name_levels",
+            "max_segment_length",
+            "min_segment_length"
+          ],
+          "properties": {
+            "allow_unrestricted_names": {
+              "type": "boolean"
+            },
+            "max_name_levels": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "max_segment_length": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "min_segment_length": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            }
+          }
+        }
       }
     },
     "resolve": {
