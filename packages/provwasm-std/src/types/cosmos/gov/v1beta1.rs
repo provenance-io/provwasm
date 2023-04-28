@@ -16,10 +16,6 @@ use provwasm_std_derive::CosmwasmExt;
 #[proto_message(type_url = "/cosmos.gov.v1beta1.WeightedVoteOption")]
 pub struct WeightedVoteOption {
     #[prost(enumeration = "VoteOption", tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub option: i32,
     #[prost(string, tag = "2")]
     pub weight: ::prost::alloc::string::String,
@@ -93,10 +89,6 @@ pub struct Proposal {
     #[prost(message, optional, tag = "2")]
     pub content: ::core::option::Option<crate::shim::Any>,
     #[prost(enumeration = "ProposalStatus", tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub status: i32,
     /// final_tally_result is the final tally result of the proposal. When
     /// querying a proposal via gRPC, this field is not populated until the
@@ -165,10 +157,6 @@ pub struct Vote {
     /// other cases, this field will default to VOTE_OPTION_UNSPECIFIED.
     #[deprecated]
     #[prost(enumeration = "VoteOption", tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub option: i32,
     /// Since: cosmos-sdk 0.43
     #[prost(message, repeated, tag = "4")]
@@ -436,10 +424,6 @@ pub struct QueryProposalResponse {
 pub struct QueryProposalsRequest {
     /// proposal_status defines the status of the proposals.
     #[prost(enumeration = "ProposalStatus", tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub proposal_status: i32,
     /// voter defines the voter address for the proposals.
     #[prost(string, tag = "2")]
@@ -822,10 +806,6 @@ pub struct MsgVote {
     #[prost(string, tag = "2")]
     pub voter: ::prost::alloc::string::String,
     #[prost(enumeration = "VoteOption", tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub option: i32,
 }
 /// MsgVoteResponse defines the Msg/Vote response type.

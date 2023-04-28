@@ -311,10 +311,6 @@ pub struct Proposal {
     pub group_policy_version: u64,
     /// status represents the high level position in the life cycle of the proposal. Initial value is Submitted.
     #[prost(enumeration = "ProposalStatus", tag = "8")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub status: i32,
     /// final_tally_result contains the sums of all weighted votes for this
     /// proposal for each vote option. It is empty at submission, and only
@@ -331,10 +327,6 @@ pub struct Proposal {
     pub voting_period_end: ::core::option::Option<crate::shim::Timestamp>,
     /// executor_result is the final result of the proposal execution. Initial value is NotRun.
     #[prost(enumeration = "ProposalExecutorResult", tag = "11")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub executor_result: i32,
     /// messages is a list of `sdk.Msg`s that will be executed if the proposal passes.
     #[prost(message, repeated, tag = "12")]
@@ -393,10 +385,6 @@ pub struct Vote {
     pub voter: ::prost::alloc::string::String,
     /// option is the voter's choice on the proposal.
     #[prost(enumeration = "VoteOption", tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub option: i32,
     /// metadata is any arbitrary metadata to attached to the vote.
     #[prost(string, tag = "4")]
@@ -705,10 +693,6 @@ pub struct EventExec {
     pub proposal_id: u64,
     /// result is the proposal execution result.
     #[prost(enumeration = "ProposalExecutorResult", tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub result: i32,
     /// logs contains error logs in case the execution result is FAILURE.
     #[prost(string, tag = "3")]
@@ -1818,10 +1802,6 @@ pub struct MsgSubmitProposal {
     /// whether it should be executed immediately on creation or not.
     /// If so, proposers signatures are considered as Yes votes.
     #[prost(enumeration = "Exec", tag = "5")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub exec: i32,
 }
 /// MsgSubmitProposalResponse is the Msg/SubmitProposal response type.
@@ -1911,10 +1891,6 @@ pub struct MsgVote {
     pub voter: ::prost::alloc::string::String,
     /// option is the voter's choice on the proposal.
     #[prost(enumeration = "VoteOption", tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub option: i32,
     /// metadata is any arbitrary metadata to attached to the vote.
     #[prost(string, tag = "4")]
@@ -1922,10 +1898,6 @@ pub struct MsgVote {
     /// exec defines whether the proposal should be executed
     /// immediately after voting or not.
     #[prost(enumeration = "Exec", tag = "5")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub exec: i32,
 }
 /// MsgVoteResponse is the Msg/Vote response type.
@@ -1983,10 +1955,6 @@ pub struct MsgExec {
 pub struct MsgExecResponse {
     /// result is the final result of the proposal execution.
     #[prost(enumeration = "ProposalExecutorResult", tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub result: i32,
 }
 /// MsgLeaveGroup is the Msg/LeaveGroup request type.

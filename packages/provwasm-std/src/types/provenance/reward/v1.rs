@@ -73,10 +73,6 @@ pub struct RewardProgram {
     )]
     pub max_rollover_claim_periods: u64,
     #[prost(enumeration = "reward_program::State", tag = "19")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub state: i32,
     #[prost(uint64, tag = "20")]
     #[serde(
@@ -202,10 +198,6 @@ pub struct RewardAccountState {
     )]
     pub shares_earned: u64,
     #[prost(enumeration = "reward_account_state::ClaimStatus", tag = "6")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub claim_status: i32,
 }
 /// Nested message and enum types in `RewardAccountState`.
@@ -483,10 +475,6 @@ pub struct QueryRewardProgramByIdResponse {
 )]
 pub struct QueryRewardProgramsRequest {
     #[prost(enumeration = "query_reward_programs_request::QueryType", tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub query_type: i32,
     #[prost(message, optional, tag = "99")]
     pub pagination:
@@ -660,10 +648,6 @@ pub struct QueryRewardDistributionsByAddressRequest {
     #[prost(string, tag = "1")]
     pub address: ::prost::alloc::string::String,
     #[prost(enumeration = "reward_account_state::ClaimStatus", tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub claim_status: i32,
     #[prost(message, optional, tag = "99")]
     pub pagination:
@@ -713,10 +697,6 @@ pub struct RewardAccountResponse {
     pub total_reward_claim:
         ::core::option::Option<super::super::super::cosmos::base::v1beta1::Coin>,
     #[prost(enumeration = "reward_account_state::ClaimStatus", tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub claim_status: i32,
     #[prost(uint64, tag = "4")]
     #[serde(

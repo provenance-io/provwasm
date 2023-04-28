@@ -634,10 +634,6 @@ pub struct RecordSpecification {
     #[prost(string, tag = "4")]
     pub type_name: ::prost::alloc::string::String,
     #[prost(enumeration = "DefinitionType", tag = "5")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub result_type: i32,
     #[prost(enumeration = "PartyType", repeated, packed = "false", tag = "6")]
     pub responsible_parties: ::prost::alloc::vec::Vec<i32>,
@@ -927,10 +923,6 @@ pub struct RecordInput {
     #[prost(string, tag = "4")]
     pub type_name: ::prost::alloc::string::String,
     #[prost(enumeration = "RecordInputStatus", tag = "5")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub status: i32,
     #[prost(oneof = "record_input::Source", tags = "2, 3")]
     pub source: ::core::option::Option<record_input::Source>,
@@ -971,10 +963,6 @@ pub struct RecordOutput {
     #[prost(string, tag = "1")]
     pub hash: ::prost::alloc::string::String,
     #[prost(enumeration = "ResultStatus", tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub status: i32,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -993,10 +981,6 @@ pub struct Party {
     #[prost(string, tag = "1")]
     pub address: ::prost::alloc::string::String,
     #[prost(enumeration = "PartyType", tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub role: i32,
     #[prost(bool, tag = "3")]
     pub optional: bool,
@@ -1023,10 +1007,6 @@ pub struct AuditFields {
     #[prost(string, tag = "4")]
     pub updated_by: ::prost::alloc::string::String,
     #[prost(uint32, tag = "5")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub version: u32,
     #[prost(string, tag = "6")]
     pub message: ::prost::alloc::string::String,
@@ -1128,10 +1108,6 @@ pub struct ObjectStoreLocator {
 #[proto_message(type_url = "/provenance.metadata.v1.OSLocatorParams")]
 pub struct OsLocatorParams {
     #[prost(uint32, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub max_uri_length: u32,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]

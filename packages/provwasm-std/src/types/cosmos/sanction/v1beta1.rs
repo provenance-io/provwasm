@@ -135,10 +135,6 @@ pub struct TemporaryEntry {
     pub proposal_id: u64,
     /// status is whether the entry is a sanction or unsanction.
     #[prost(enumeration = "TempStatus", tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub status: i32,
 }
 /// TempStatus is whether a temporary entry is a sanction or unsanction.

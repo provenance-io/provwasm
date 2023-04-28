@@ -125,20 +125,12 @@ pub struct MarkerAccount {
     #[prost(message, repeated, tag = "3")]
     pub access_control: ::prost::alloc::vec::Vec<AccessGrant>,
     #[prost(enumeration = "MarkerStatus", tag = "4")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub status: i32,
     #[prost(string, tag = "5")]
     pub denom: ::prost::alloc::string::String,
     #[prost(string, tag = "6")]
     pub supply: ::prost::alloc::string::String,
     #[prost(enumeration = "MarkerType", tag = "7")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub marker_type: i32,
     #[prost(bool, tag = "8")]
     pub supply_fixed: bool,
@@ -612,10 +604,6 @@ pub struct ChangeStatusProposal {
     #[prost(string, tag = "3")]
     pub denom: ::prost::alloc::string::String,
     #[prost(enumeration = "MarkerStatus", tag = "4")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub new_status: i32,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -1079,16 +1067,8 @@ pub struct MsgAddMarkerRequest {
     #[prost(string, tag = "4")]
     pub from_address: ::prost::alloc::string::String,
     #[prost(enumeration = "MarkerStatus", tag = "5")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub status: i32,
     #[prost(enumeration = "MarkerType", tag = "6")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub marker_type: i32,
     #[prost(message, repeated, tag = "7")]
     pub access_list: ::prost::alloc::vec::Vec<AccessGrant>,
@@ -1500,10 +1480,6 @@ pub struct MsgAddFinalizeActivateMarkerRequest {
     #[prost(string, tag = "4")]
     pub from_address: ::prost::alloc::string::String,
     #[prost(enumeration = "MarkerType", tag = "5")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub marker_type: i32,
     #[prost(message, repeated, tag = "6")]
     pub access_list: ::prost::alloc::vec::Vec<AccessGrant>,

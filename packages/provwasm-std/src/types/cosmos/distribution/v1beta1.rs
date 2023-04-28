@@ -50,10 +50,6 @@ pub struct ValidatorHistoricalRewards {
     #[prost(message, repeated, tag = "1")]
     pub cumulative_reward_ratio: ::prost::alloc::vec::Vec<super::super::base::v1beta1::DecCoin>,
     #[prost(uint32, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub reference_count: u32,
 }
 /// ValidatorCurrentRewards represents current rewards and current

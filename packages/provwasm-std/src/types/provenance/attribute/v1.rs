@@ -13,10 +13,6 @@ use provwasm_std_derive::CosmwasmExt;
 #[proto_message(type_url = "/provenance.attribute.v1.Params")]
 pub struct Params {
     #[prost(uint32, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub max_value_length: u32,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -37,10 +33,6 @@ pub struct Attribute {
     #[prost(bytes = "vec", tag = "2")]
     pub value: ::prost::alloc::vec::Vec<u8>,
     #[prost(enumeration = "AttributeType", tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub attribute_type: i32,
     #[prost(string, tag = "4")]
     pub address: ::prost::alloc::string::String,
@@ -376,10 +368,6 @@ pub struct MsgAddAttributeRequest {
     #[prost(bytes = "vec", tag = "2")]
     pub value: ::prost::alloc::vec::Vec<u8>,
     #[prost(enumeration = "AttributeType", tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub attribute_type: i32,
     #[prost(string, tag = "4")]
     pub account: ::prost::alloc::string::String,
@@ -419,16 +407,8 @@ pub struct MsgUpdateAttributeRequest {
     #[prost(bytes = "vec", tag = "3")]
     pub update_value: ::prost::alloc::vec::Vec<u8>,
     #[prost(enumeration = "AttributeType", tag = "4")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub original_attribute_type: i32,
     #[prost(enumeration = "AttributeType", tag = "5")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub update_attribute_type: i32,
     #[prost(string, tag = "6")]
     pub account: ::prost::alloc::string::String,

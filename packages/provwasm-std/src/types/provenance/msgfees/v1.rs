@@ -43,10 +43,6 @@ pub struct MsgFee {
     #[prost(string, tag = "3")]
     pub recipient: ::prost::alloc::string::String,
     #[prost(uint32, tag = "4")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub recipient_basis_points: u32,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]

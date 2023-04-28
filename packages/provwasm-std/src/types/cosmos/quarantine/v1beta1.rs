@@ -120,10 +120,6 @@ pub struct AutoResponseEntry {
     pub from_address: ::prost::alloc::string::String,
     /// response is the auto-response setting for these two addresses.
     #[prost(enumeration = "AutoResponse", tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub response: i32,
 }
 /// AutoResponseUpdate defines a quarantine auto response update that should be applied.
@@ -146,10 +142,6 @@ pub struct AutoResponseUpdate {
     /// response is the automatic action to take on funds sent from from_address.
     /// Provide AUTO_RESPONSE_UNSPECIFIED to turn off an auto-response.
     #[prost(enumeration = "AutoResponse", tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub response: i32,
 }
 /// QuarantineRecord defines information regarding quarantined funds that is stored in state.
