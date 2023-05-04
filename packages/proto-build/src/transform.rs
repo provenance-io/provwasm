@@ -1,5 +1,6 @@
 use heck::ToUpperCamelCase;
 use log::debug;
+use prettyplease;
 use prost_types::FileDescriptorSet;
 use quote::ToTokens;
 use regex::Regex;
@@ -13,16 +14,8 @@ use walkdir::WalkDir;
 use crate::transformers;
 
 /// Protos belonging to these Protobuf packages will be excluded
-const EXCLUDED_PROTO_PACKAGES: &[&str] = &[];
-const EXCLUDED_PROTO_TYPES: &[&str] = &[
-    // "MsgDeleteRecordSpecificationResponse",
-    // "MsgWriteP8eContractSpecRequest",
-    // "MsgWriteP8eContractSpecResponse",
-    // "MsgP8eMemorializeContractRequest",
-    // "MsgP8eMemorializeContractResponse",
-    // "CalculateTxFeesRequest",
-    // "CalculateTxFeesResponse",
-];
+/// (i.e. because they are sourced from `tendermint-proto`)
+const EXCLUDED_PROTO_PACKAGES: &[&str] = &["cosmos_proto", "gogoproto", "google", "tendermint"];
 
 pub fn copy_and_transform_all(from_dir: &Path, to_dir: &Path, descriptor: &FileDescriptorSet) {
     let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
@@ -108,28 +101,6 @@ fn transform_module(
     nested_mod: bool,
 ) -> Vec<Item> {
     let items = transform_items(items, src, ancestors, descriptor);
-    let items = prepend(items);
-
-    append(items, src, descriptor, nested_mod)
-}
-
-fn prepend(items: Vec<Item>) -> Vec<Item> {
-    let mut items = items;
-
-    let mut prepending_items = vec![syn::parse_quote! {
-        use provwasm_std_derive::CosmwasmExt;
-    }];
-
-    items.splice(0..0, prepending_items.drain(..));
-    items
-}
-
-fn append(
-    items: Vec<Item>,
-    src: &Path,
-    descriptor: &FileDescriptorSet,
-    nested_mod: bool,
-) -> Vec<Item> {
     transformers::append_querier(items, src, nested_mod, descriptor)
 }
 
@@ -162,39 +133,23 @@ fn transform_items(
         }
         _ => i,
     };
+
     items
         .into_iter()
-        .map(|i| match i {
+        .map(|i| match i.clone() {
             Item::Struct(s) => Item::Struct({
-                let s = transformers::add_derive_eq_struct(&s);
-                let s = transformers::append_attrs_struct(src, &s, descriptor);
-                let s = transformers::serde_alias_id_with_uppercased(s);
-                let s = transformers::allow_serde_int_as_str(s);
-                transformers::allow_serde_vec_as_null(s)
+                let s = transformers::append_struct_attrs(src, &s, descriptor);
+                let s = transformers::allow_serde_number_as_str(s);
+                let s = transformers::allow_serde_byte_as_base64(s);
+                transformers::allow_serde_enum_as_custom_enum(s)
             }),
-
-            Item::Enum(e) => Item::Enum({
-                let e = transformers::add_derive_eq_enum(&e);
-                transformers::append_attrs_enum(src, &e, descriptor)
-            }),
-
-            // This is a temporary hack to fix the issue with clashing stake authorization validators
-            Item::Mod(m) => Item::Mod(transformers::fix_clashing_stake_authorization_validators(m)),
-
-            i => i,
+            Item::Enum(s) => Item::Enum(transformers::append_enum_attrs(&s)),
+            Item::Impl(s) => Item::Impl(transformers::add_serde_impl_for_enum_impl(&s)),
+            _ => i,
         })
         // TODO: Remove this temporary hack when cosmos & tendermint code gen is supported
         .map(remove_struct_fields_that_depends_on_tendermint_proto)
         .map(|i: Item| transform_nested_mod(i, src, ancestors, descriptor))
-        .filter(|i: &Item| match i {
-            Item::Struct(s) => {
-                if EXCLUDED_PROTO_TYPES.contains(&&s.ident.to_string()[..]) {
-                    return false;
-                }
-                true
-            }
-            _ => true,
-        })
         .collect::<Vec<Item>>()
 }
 
