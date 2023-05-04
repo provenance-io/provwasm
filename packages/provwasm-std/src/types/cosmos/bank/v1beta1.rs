@@ -45,6 +45,42 @@ pub struct SendEnabled {
     serde::Deserialize,
     provwasm_std_derive::CosmwasmExt,
 )]
+#[proto_message(type_url = "/cosmos.bank.v1beta1.Input")]
+#[serde(rename_all = "snake_case")]
+pub struct Input {
+    #[prost(string, tag = "1")]
+    pub address: ::prost::alloc::string::String,
+    #[prost(message, repeated, tag = "2")]
+    pub coins: ::prost::alloc::vec::Vec<super::super::base::v1beta1::Coin>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(
+    Clone,
+    PartialEq,
+    ::prost::Message,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
+)]
+#[proto_message(type_url = "/cosmos.bank.v1beta1.Output")]
+#[serde(rename_all = "snake_case")]
+pub struct Output {
+    #[prost(string, tag = "1")]
+    pub address: ::prost::alloc::string::String,
+    #[prost(message, repeated, tag = "2")]
+    pub coins: ::prost::alloc::vec::Vec<super::super::base::v1beta1::Coin>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(
+    Clone,
+    PartialEq,
+    ::prost::Message,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
+)]
 #[proto_message(type_url = "/cosmos.bank.v1beta1.DenomUnit")]
 #[serde(rename_all = "snake_case")]
 pub struct DenomUnit {
@@ -228,6 +264,70 @@ pub struct QueryDenomMetadataResponse {
     #[prost(message, optional, tag = "1")]
     pub metadata: ::core::option::Option<Metadata>,
 }
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(
+    Clone,
+    PartialEq,
+    ::prost::Message,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
+)]
+#[proto_message(type_url = "/cosmos.bank.v1beta1.MsgSend")]
+#[serde(rename_all = "snake_case")]
+pub struct MsgSend {
+    #[prost(string, tag = "1")]
+    pub from_address: ::prost::alloc::string::String,
+    #[prost(string, tag = "2")]
+    pub to_address: ::prost::alloc::string::String,
+    #[prost(message, repeated, tag = "3")]
+    pub amount: ::prost::alloc::vec::Vec<super::super::base::v1beta1::Coin>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(
+    Clone,
+    PartialEq,
+    ::prost::Message,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
+)]
+#[proto_message(type_url = "/cosmos.bank.v1beta1.MsgSendResponse")]
+#[serde(rename_all = "snake_case")]
+pub struct MsgSendResponse {}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(
+    Clone,
+    PartialEq,
+    ::prost::Message,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
+)]
+#[proto_message(type_url = "/cosmos.bank.v1beta1.MsgMultiSend")]
+#[serde(rename_all = "snake_case")]
+pub struct MsgMultiSend {
+    #[prost(message, repeated, tag = "1")]
+    pub inputs: ::prost::alloc::vec::Vec<Input>,
+    #[prost(message, repeated, tag = "2")]
+    pub outputs: ::prost::alloc::vec::Vec<Output>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(
+    Clone,
+    PartialEq,
+    ::prost::Message,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
+)]
+#[proto_message(type_url = "/cosmos.bank.v1beta1.MsgMultiSendResponse")]
+#[serde(rename_all = "snake_case")]
+pub struct MsgMultiSendResponse {}
 pub struct BankQuerier<'a, Q: cosmwasm_std::CustomQuery> {
     querier: &'a cosmwasm_std::QuerierWrapper<'a, Q>,
 }

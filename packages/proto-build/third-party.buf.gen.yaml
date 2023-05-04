@@ -23,6 +23,10 @@ types:
     - cosmos.base.v1beta1.DecCoin
     - cosmos.base.v1beta1.IntProto
     - cosmos.base.v1beta1.DecProto
+    - cosmos.bank.v1beta1.MsgSend
+    - cosmos.bank.v1beta1.MsgSendResponse
+    - cosmos.bank.v1beta1.MsgMultiSend
+    - cosmos.bank.v1beta1.MsgMultiSendResponse
     - cosmos.bank.v1beta1.QueryBalanceRequest
     - cosmos.bank.v1beta1.QueryBalanceResponse
     - cosmos.bank.v1beta1.QueryDenomMetadataRequest
