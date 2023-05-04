@@ -1,16 +1,15 @@
-use provwasm_std_derive::CosmwasmExt;
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.name.v1.Params")]
+#[serde(rename_all = "snake_case")]
 pub struct Params {
     #[prost(uint32, tag = "1")]
     pub max_segment_length: u32,
@@ -25,14 +24,14 @@ pub struct Params {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.name.v1.NameRecord")]
+#[serde(rename_all = "snake_case")]
 pub struct NameRecord {
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
@@ -45,14 +44,14 @@ pub struct NameRecord {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.name.v1.CreateRootNameProposal")]
+#[serde(rename_all = "snake_case")]
 pub struct CreateRootNameProposal {
     #[prost(string, tag = "1")]
     pub title: ::prost::alloc::string::String,
@@ -69,14 +68,14 @@ pub struct CreateRootNameProposal {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.name.v1.EventNameBound")]
+#[serde(rename_all = "snake_case")]
 pub struct EventNameBound {
     #[prost(string, tag = "1")]
     pub address: ::prost::alloc::string::String,
@@ -89,14 +88,14 @@ pub struct EventNameBound {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.name.v1.EventNameUnbound")]
+#[serde(rename_all = "snake_case")]
 pub struct EventNameUnbound {
     #[prost(string, tag = "1")]
     pub address: ::prost::alloc::string::String,
@@ -109,14 +108,14 @@ pub struct EventNameUnbound {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.name.v1.EventNameUpdate")]
+#[serde(rename_all = "snake_case")]
 pub struct EventNameUpdate {
     #[prost(string, tag = "1")]
     pub address: ::prost::alloc::string::String,
@@ -129,14 +128,14 @@ pub struct EventNameUpdate {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.name.v1.QueryParamsRequest")]
+#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/provenance.name.v1.Query/Params",
     response_type = QueryParamsResponse
@@ -146,14 +145,14 @@ pub struct QueryParamsRequest {}
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.name.v1.QueryParamsResponse")]
+#[serde(rename_all = "snake_case")]
 pub struct QueryParamsResponse {
     #[prost(message, optional, tag = "1")]
     pub params: ::core::option::Option<Params>,
@@ -162,14 +161,14 @@ pub struct QueryParamsResponse {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.name.v1.QueryResolveRequest")]
+#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/provenance.name.v1.Query/Resolve",
     response_type = QueryResolveResponse
@@ -182,14 +181,14 @@ pub struct QueryResolveRequest {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.name.v1.QueryResolveResponse")]
+#[serde(rename_all = "snake_case")]
 pub struct QueryResolveResponse {
     #[prost(string, tag = "1")]
     pub address: ::prost::alloc::string::String,
@@ -200,14 +199,14 @@ pub struct QueryResolveResponse {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.name.v1.QueryReverseLookupRequest")]
+#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/provenance.name.v1.Query/ReverseLookup",
     response_type = QueryReverseLookupResponse
@@ -223,14 +222,14 @@ pub struct QueryReverseLookupRequest {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.name.v1.QueryReverseLookupResponse")]
+#[serde(rename_all = "snake_case")]
 pub struct QueryReverseLookupResponse {
     #[prost(string, repeated, tag = "1")]
     pub name: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
@@ -242,14 +241,14 @@ pub struct QueryReverseLookupResponse {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.name.v1.MsgBindNameRequest")]
+#[serde(rename_all = "snake_case")]
 pub struct MsgBindNameRequest {
     #[prost(message, optional, tag = "1")]
     pub parent: ::core::option::Option<NameRecord>,
@@ -260,27 +259,27 @@ pub struct MsgBindNameRequest {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.name.v1.MsgBindNameResponse")]
+#[serde(rename_all = "snake_case")]
 pub struct MsgBindNameResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.name.v1.MsgDeleteNameRequest")]
+#[serde(rename_all = "snake_case")]
 pub struct MsgDeleteNameRequest {
     #[prost(message, optional, tag = "1")]
     pub record: ::core::option::Option<NameRecord>,
@@ -289,27 +288,27 @@ pub struct MsgDeleteNameRequest {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.name.v1.MsgDeleteNameResponse")]
+#[serde(rename_all = "snake_case")]
 pub struct MsgDeleteNameResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.name.v1.MsgCreateRootNameRequest")]
+#[serde(rename_all = "snake_case")]
 pub struct MsgCreateRootNameRequest {
     #[prost(string, tag = "1")]
     pub authority: ::prost::alloc::string::String,
@@ -320,27 +319,27 @@ pub struct MsgCreateRootNameRequest {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.name.v1.MsgCreateRootNameResponse")]
+#[serde(rename_all = "snake_case")]
 pub struct MsgCreateRootNameResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.name.v1.MsgModifyNameRequest")]
+#[serde(rename_all = "snake_case")]
 pub struct MsgModifyNameRequest {
     #[prost(string, tag = "1")]
     pub authority: ::prost::alloc::string::String,
@@ -351,14 +350,14 @@ pub struct MsgModifyNameRequest {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.name.v1.MsgModifyNameResponse")]
+#[serde(rename_all = "snake_case")]
 pub struct MsgModifyNameResponse {}
 pub struct NameQuerier<'a, Q: cosmwasm_std::CustomQuery> {
     querier: &'a cosmwasm_std::QuerierWrapper<'a, Q>,
@@ -367,13 +366,13 @@ impl<'a, Q: cosmwasm_std::CustomQuery> NameQuerier<'a, Q> {
     pub fn new(querier: &'a cosmwasm_std::QuerierWrapper<'a, Q>) -> Self {
         Self { querier }
     }
-    pub fn params(&self) -> Result<QueryParamsResponse, cosmwasm_std::StdError> {
+    pub fn params(&self) -> std::result::Result<QueryParamsResponse, cosmwasm_std::StdError> {
         QueryParamsRequest {}.query(self.querier)
     }
     pub fn resolve(
         &self,
         name: ::prost::alloc::string::String,
-    ) -> Result<QueryResolveResponse, cosmwasm_std::StdError> {
+    ) -> std::result::Result<QueryResolveResponse, cosmwasm_std::StdError> {
         QueryResolveRequest { name }.query(self.querier)
     }
     pub fn reverse_lookup(
@@ -382,7 +381,7 @@ impl<'a, Q: cosmwasm_std::CustomQuery> NameQuerier<'a, Q> {
         pagination: ::core::option::Option<
             super::super::super::cosmos::base::query::v1beta1::PageRequest,
         >,
-    ) -> Result<QueryReverseLookupResponse, cosmwasm_std::StdError> {
+    ) -> std::result::Result<QueryReverseLookupResponse, cosmwasm_std::StdError> {
         QueryReverseLookupRequest {
             address,
             pagination,

@@ -1,16 +1,15 @@
-use provwasm_std_derive::CosmwasmExt;
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.EventTxCompleted")]
+#[serde(rename_all = "snake_case")]
 pub struct EventTxCompleted {
     #[prost(string, tag = "1")]
     pub module: ::prost::alloc::string::String,
@@ -23,14 +22,14 @@ pub struct EventTxCompleted {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.EventScopeCreated")]
+#[serde(rename_all = "snake_case")]
 pub struct EventScopeCreated {
     #[prost(string, tag = "1")]
     pub scope_addr: ::prost::alloc::string::String,
@@ -39,14 +38,14 @@ pub struct EventScopeCreated {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.EventScopeUpdated")]
+#[serde(rename_all = "snake_case")]
 pub struct EventScopeUpdated {
     #[prost(string, tag = "1")]
     pub scope_addr: ::prost::alloc::string::String,
@@ -55,14 +54,14 @@ pub struct EventScopeUpdated {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.EventScopeDeleted")]
+#[serde(rename_all = "snake_case")]
 pub struct EventScopeDeleted {
     #[prost(string, tag = "1")]
     pub scope_addr: ::prost::alloc::string::String,
@@ -71,14 +70,14 @@ pub struct EventScopeDeleted {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.EventSessionCreated")]
+#[serde(rename_all = "snake_case")]
 pub struct EventSessionCreated {
     #[prost(string, tag = "1")]
     pub session_addr: ::prost::alloc::string::String,
@@ -89,14 +88,14 @@ pub struct EventSessionCreated {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.EventSessionUpdated")]
+#[serde(rename_all = "snake_case")]
 pub struct EventSessionUpdated {
     #[prost(string, tag = "1")]
     pub session_addr: ::prost::alloc::string::String,
@@ -107,14 +106,14 @@ pub struct EventSessionUpdated {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.EventSessionDeleted")]
+#[serde(rename_all = "snake_case")]
 pub struct EventSessionDeleted {
     #[prost(string, tag = "1")]
     pub session_addr: ::prost::alloc::string::String,
@@ -125,14 +124,14 @@ pub struct EventSessionDeleted {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.EventRecordCreated")]
+#[serde(rename_all = "snake_case")]
 pub struct EventRecordCreated {
     #[prost(string, tag = "1")]
     pub record_addr: ::prost::alloc::string::String,
@@ -145,14 +144,14 @@ pub struct EventRecordCreated {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.EventRecordUpdated")]
+#[serde(rename_all = "snake_case")]
 pub struct EventRecordUpdated {
     #[prost(string, tag = "1")]
     pub record_addr: ::prost::alloc::string::String,
@@ -165,14 +164,14 @@ pub struct EventRecordUpdated {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.EventRecordDeleted")]
+#[serde(rename_all = "snake_case")]
 pub struct EventRecordDeleted {
     #[prost(string, tag = "1")]
     pub record_addr: ::prost::alloc::string::String,
@@ -183,14 +182,14 @@ pub struct EventRecordDeleted {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.EventScopeSpecificationCreated")]
+#[serde(rename_all = "snake_case")]
 pub struct EventScopeSpecificationCreated {
     #[prost(string, tag = "1")]
     pub scope_specification_addr: ::prost::alloc::string::String,
@@ -199,14 +198,14 @@ pub struct EventScopeSpecificationCreated {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.EventScopeSpecificationUpdated")]
+#[serde(rename_all = "snake_case")]
 pub struct EventScopeSpecificationUpdated {
     #[prost(string, tag = "1")]
     pub scope_specification_addr: ::prost::alloc::string::String,
@@ -215,14 +214,14 @@ pub struct EventScopeSpecificationUpdated {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.EventScopeSpecificationDeleted")]
+#[serde(rename_all = "snake_case")]
 pub struct EventScopeSpecificationDeleted {
     #[prost(string, tag = "1")]
     pub scope_specification_addr: ::prost::alloc::string::String,
@@ -231,14 +230,14 @@ pub struct EventScopeSpecificationDeleted {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.EventContractSpecificationCreated")]
+#[serde(rename_all = "snake_case")]
 pub struct EventContractSpecificationCreated {
     #[prost(string, tag = "1")]
     pub contract_specification_addr: ::prost::alloc::string::String,
@@ -247,14 +246,14 @@ pub struct EventContractSpecificationCreated {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.EventContractSpecificationUpdated")]
+#[serde(rename_all = "snake_case")]
 pub struct EventContractSpecificationUpdated {
     #[prost(string, tag = "1")]
     pub contract_specification_addr: ::prost::alloc::string::String,
@@ -263,14 +262,14 @@ pub struct EventContractSpecificationUpdated {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.EventContractSpecificationDeleted")]
+#[serde(rename_all = "snake_case")]
 pub struct EventContractSpecificationDeleted {
     #[prost(string, tag = "1")]
     pub contract_specification_addr: ::prost::alloc::string::String,
@@ -279,14 +278,14 @@ pub struct EventContractSpecificationDeleted {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.EventRecordSpecificationCreated")]
+#[serde(rename_all = "snake_case")]
 pub struct EventRecordSpecificationCreated {
     #[prost(string, tag = "1")]
     pub record_specification_addr: ::prost::alloc::string::String,
@@ -297,14 +296,14 @@ pub struct EventRecordSpecificationCreated {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.EventRecordSpecificationUpdated")]
+#[serde(rename_all = "snake_case")]
 pub struct EventRecordSpecificationUpdated {
     #[prost(string, tag = "1")]
     pub record_specification_addr: ::prost::alloc::string::String,
@@ -315,14 +314,14 @@ pub struct EventRecordSpecificationUpdated {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.EventRecordSpecificationDeleted")]
+#[serde(rename_all = "snake_case")]
 pub struct EventRecordSpecificationDeleted {
     #[prost(string, tag = "1")]
     pub record_specification_addr: ::prost::alloc::string::String,
@@ -333,14 +332,14 @@ pub struct EventRecordSpecificationDeleted {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.EventOSLocatorCreated")]
+#[serde(rename_all = "snake_case")]
 pub struct EventOsLocatorCreated {
     #[prost(string, tag = "1")]
     pub owner: ::prost::alloc::string::String,
@@ -349,14 +348,14 @@ pub struct EventOsLocatorCreated {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.EventOSLocatorUpdated")]
+#[serde(rename_all = "snake_case")]
 pub struct EventOsLocatorUpdated {
     #[prost(string, tag = "1")]
     pub owner: ::prost::alloc::string::String,
@@ -365,14 +364,14 @@ pub struct EventOsLocatorUpdated {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.EventOSLocatorDeleted")]
+#[serde(rename_all = "snake_case")]
 pub struct EventOsLocatorDeleted {
     #[prost(string, tag = "1")]
     pub owner: ::prost::alloc::string::String,
@@ -381,36 +380,45 @@ pub struct EventOsLocatorDeleted {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.Params")]
+#[serde(rename_all = "snake_case")]
 pub struct Params {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.ScopeIdInfo")]
+#[serde(rename_all = "snake_case")]
 pub struct ScopeIdInfo {
     #[prost(bytes = "vec", tag = "1")]
-    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
+    #[serde(
+        serialize_with = "crate::serde::as_base64::serialize",
+        deserialize_with = "crate::serde::as_base64::deserialize"
+    )]
     pub scope_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "2")]
-    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
+    #[serde(
+        serialize_with = "crate::serde::as_base64::serialize",
+        deserialize_with = "crate::serde::as_base64::deserialize"
+    )]
     pub scope_id_prefix: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "3")]
-    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
+    #[serde(
+        serialize_with = "crate::serde::as_base64::serialize",
+        deserialize_with = "crate::serde::as_base64::deserialize"
+    )]
     pub scope_id_scope_uuid: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, tag = "4")]
     pub scope_addr: ::prost::alloc::string::String,
@@ -421,26 +429,38 @@ pub struct ScopeIdInfo {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.SessionIdInfo")]
+#[serde(rename_all = "snake_case")]
 pub struct SessionIdInfo {
     #[prost(bytes = "vec", tag = "1")]
-    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
+    #[serde(
+        serialize_with = "crate::serde::as_base64::serialize",
+        deserialize_with = "crate::serde::as_base64::deserialize"
+    )]
     pub session_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "2")]
-    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
+    #[serde(
+        serialize_with = "crate::serde::as_base64::serialize",
+        deserialize_with = "crate::serde::as_base64::deserialize"
+    )]
     pub session_id_prefix: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "3")]
-    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
+    #[serde(
+        serialize_with = "crate::serde::as_base64::serialize",
+        deserialize_with = "crate::serde::as_base64::deserialize"
+    )]
     pub session_id_scope_uuid: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "4")]
-    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
+    #[serde(
+        serialize_with = "crate::serde::as_base64::serialize",
+        deserialize_with = "crate::serde::as_base64::deserialize"
+    )]
     pub session_id_session_uuid: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, tag = "5")]
     pub session_addr: ::prost::alloc::string::String,
@@ -453,26 +473,38 @@ pub struct SessionIdInfo {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.RecordIdInfo")]
+#[serde(rename_all = "snake_case")]
 pub struct RecordIdInfo {
     #[prost(bytes = "vec", tag = "1")]
-    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
+    #[serde(
+        serialize_with = "crate::serde::as_base64::serialize",
+        deserialize_with = "crate::serde::as_base64::deserialize"
+    )]
     pub record_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "2")]
-    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
+    #[serde(
+        serialize_with = "crate::serde::as_base64::serialize",
+        deserialize_with = "crate::serde::as_base64::deserialize"
+    )]
     pub record_id_prefix: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "3")]
-    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
+    #[serde(
+        serialize_with = "crate::serde::as_base64::serialize",
+        deserialize_with = "crate::serde::as_base64::deserialize"
+    )]
     pub record_id_scope_uuid: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "4")]
-    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
+    #[serde(
+        serialize_with = "crate::serde::as_base64::serialize",
+        deserialize_with = "crate::serde::as_base64::deserialize"
+    )]
     pub record_id_hashed_name: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, tag = "5")]
     pub record_addr: ::prost::alloc::string::String,
@@ -483,23 +515,32 @@ pub struct RecordIdInfo {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.ScopeSpecIdInfo")]
+#[serde(rename_all = "snake_case")]
 pub struct ScopeSpecIdInfo {
     #[prost(bytes = "vec", tag = "1")]
-    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
+    #[serde(
+        serialize_with = "crate::serde::as_base64::serialize",
+        deserialize_with = "crate::serde::as_base64::deserialize"
+    )]
     pub scope_spec_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "2")]
-    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
+    #[serde(
+        serialize_with = "crate::serde::as_base64::serialize",
+        deserialize_with = "crate::serde::as_base64::deserialize"
+    )]
     pub scope_spec_id_prefix: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "3")]
-    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
+    #[serde(
+        serialize_with = "crate::serde::as_base64::serialize",
+        deserialize_with = "crate::serde::as_base64::deserialize"
+    )]
     pub scope_spec_id_scope_spec_uuid: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, tag = "4")]
     pub scope_spec_addr: ::prost::alloc::string::String,
@@ -510,23 +551,32 @@ pub struct ScopeSpecIdInfo {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.ContractSpecIdInfo")]
+#[serde(rename_all = "snake_case")]
 pub struct ContractSpecIdInfo {
     #[prost(bytes = "vec", tag = "1")]
-    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
+    #[serde(
+        serialize_with = "crate::serde::as_base64::serialize",
+        deserialize_with = "crate::serde::as_base64::deserialize"
+    )]
     pub contract_spec_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "2")]
-    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
+    #[serde(
+        serialize_with = "crate::serde::as_base64::serialize",
+        deserialize_with = "crate::serde::as_base64::deserialize"
+    )]
     pub contract_spec_id_prefix: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "3")]
-    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
+    #[serde(
+        serialize_with = "crate::serde::as_base64::serialize",
+        deserialize_with = "crate::serde::as_base64::deserialize"
+    )]
     pub contract_spec_id_contract_spec_uuid: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, tag = "4")]
     pub contract_spec_addr: ::prost::alloc::string::String,
@@ -537,26 +587,38 @@ pub struct ContractSpecIdInfo {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.RecordSpecIdInfo")]
+#[serde(rename_all = "snake_case")]
 pub struct RecordSpecIdInfo {
     #[prost(bytes = "vec", tag = "1")]
-    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
+    #[serde(
+        serialize_with = "crate::serde::as_base64::serialize",
+        deserialize_with = "crate::serde::as_base64::deserialize"
+    )]
     pub record_spec_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "2")]
-    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
+    #[serde(
+        serialize_with = "crate::serde::as_base64::serialize",
+        deserialize_with = "crate::serde::as_base64::deserialize"
+    )]
     pub record_spec_id_prefix: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "3")]
-    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
+    #[serde(
+        serialize_with = "crate::serde::as_base64::serialize",
+        deserialize_with = "crate::serde::as_base64::deserialize"
+    )]
     pub record_spec_id_contract_spec_uuid: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "4")]
-    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
+    #[serde(
+        serialize_with = "crate::serde::as_base64::serialize",
+        deserialize_with = "crate::serde::as_base64::deserialize"
+    )]
     pub record_spec_id_hashed_name: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, tag = "5")]
     pub record_spec_addr: ::prost::alloc::string::String,
@@ -567,67 +629,116 @@ pub struct RecordSpecIdInfo {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.ScopeSpecification")]
+#[serde(rename_all = "snake_case")]
 pub struct ScopeSpecification {
     #[prost(bytes = "vec", tag = "1")]
-    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
+    #[serde(
+        serialize_with = "crate::serde::as_base64::serialize",
+        deserialize_with = "crate::serde::as_base64::deserialize"
+    )]
     pub specification_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "2")]
     pub description: ::core::option::Option<Description>,
     #[prost(string, repeated, tag = "3")]
     pub owner_addresses: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
     #[prost(enumeration = "PartyType", repeated, packed = "false", tag = "4")]
+    #[serde(
+        serialize_with = "serialize_party_type_vec",
+        deserialize_with = "deserialize_party_type_vec"
+    )]
     pub parties_involved: ::prost::alloc::vec::Vec<i32>,
     #[prost(bytes = "vec", repeated, tag = "5")]
     pub contract_spec_ids: ::prost::alloc::vec::Vec<::prost::alloc::vec::Vec<u8>>,
+}
+pub fn serialize_party_type_vec<S>(
+    v: &Vec<i32>,
+    serializer: S,
+) -> std::result::Result<S::Ok, S::Error>
+where
+    S: serde::Serializer,
+{
+    use serde::ser::SerializeTuple;
+
+    let mut enum_strs: Vec<&str> = Vec::new();
+    for ord in v {
+        let enum_value = PartyType::from_repr(*ord);
+        match enum_value {
+            Some(v) => {
+                enum_strs.push(v.as_str_name());
+            }
+            None => return Err(serde::ser::Error::custom("unknown value")),
+        }
+    }
+    let mut seq = serializer.serialize_tuple(enum_strs.len())?;
+    for item in enum_strs {
+        seq.serialize_element(item)?;
+    }
+    seq.end()
+}
+fn deserialize_party_type_vec<'de, D>(deserializer: D) -> Result<Vec<i32>, D::Error>
+where
+    D: serde::Deserializer<'de>,
+{
+    use serde::de::{Deserialize, Error};
+
+    let strs: Vec<String> = Vec::deserialize(deserializer)?;
+    let mut ords: Vec<i32> = Vec::new();
+    for str_name in strs {
+        let enum_value = PartyType::from_str_name(&str_name)
+            .ok_or_else(|| Error::custom(format!("unknown enum string: {}", str_name)))?;
+        ords.push(enum_value as i32);
+    }
+    Ok(ords)
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.ContractSpecification")]
+#[serde(rename_all = "snake_case")]
 pub struct ContractSpecification {
     #[prost(bytes = "vec", tag = "1")]
-    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
+    #[serde(
+        serialize_with = "crate::serde::as_base64::serialize",
+        deserialize_with = "crate::serde::as_base64::deserialize"
+    )]
     pub specification_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "2")]
     pub description: ::core::option::Option<Description>,
     #[prost(string, repeated, tag = "3")]
     pub owner_addresses: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
     #[prost(enumeration = "PartyType", repeated, packed = "false", tag = "4")]
+    #[serde(
+        serialize_with = "serialize_party_type_vec",
+        deserialize_with = "deserialize_party_type_vec"
+    )]
     pub parties_involved: ::prost::alloc::vec::Vec<i32>,
     #[prost(string, tag = "7")]
     pub class_name: ::prost::alloc::string::String,
     #[prost(oneof = "contract_specification::Source", tags = "5, 6")]
+    #[serde(flatten)]
     pub source: ::core::option::Option<contract_specification::Source>,
 }
 /// Nested message and enum types in `ContractSpecification`.
 pub mod contract_specification {
-    use provwasm_std_derive::CosmwasmExt;
     #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(
-        Clone,
-        PartialEq,
-        Eq,
-        ::prost::Oneof,
-        ::serde::Serialize,
-        ::serde::Deserialize,
-        ::schemars::JsonSchema,
+        Clone, PartialEq, ::prost::Oneof, serde::Serialize, serde::Deserialize, schemars::JsonSchema,
     )]
+    #[serde(rename_all = "snake_case")]
     pub enum Source {
         #[prost(bytes, tag = "5")]
         ResourceId(::prost::alloc::vec::Vec<u8>),
@@ -639,17 +750,20 @@ pub mod contract_specification {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.RecordSpecification")]
+#[serde(rename_all = "snake_case")]
 pub struct RecordSpecification {
     #[prost(bytes = "vec", tag = "1")]
-    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
+    #[serde(
+        serialize_with = "crate::serde::as_base64::serialize",
+        deserialize_with = "crate::serde::as_base64::deserialize"
+    )]
     pub specification_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, tag = "2")]
     pub name: ::prost::alloc::string::String,
@@ -658,43 +772,46 @@ pub struct RecordSpecification {
     #[prost(string, tag = "4")]
     pub type_name: ::prost::alloc::string::String,
     #[prost(enumeration = "DefinitionType", tag = "5")]
+    #[serde(
+        serialize_with = "DefinitionType::serialize",
+        deserialize_with = "DefinitionType::deserialize"
+    )]
     pub result_type: i32,
     #[prost(enumeration = "PartyType", repeated, packed = "false", tag = "6")]
+    #[serde(
+        serialize_with = "serialize_party_type_vec",
+        deserialize_with = "deserialize_party_type_vec"
+    )]
     pub responsible_parties: ::prost::alloc::vec::Vec<i32>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.InputSpecification")]
+#[serde(rename_all = "snake_case")]
 pub struct InputSpecification {
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
     pub type_name: ::prost::alloc::string::String,
     #[prost(oneof = "input_specification::Source", tags = "3, 4")]
+    #[serde(flatten)]
     pub source: ::core::option::Option<input_specification::Source>,
 }
 /// Nested message and enum types in `InputSpecification`.
 pub mod input_specification {
-    use provwasm_std_derive::CosmwasmExt;
     #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(
-        Clone,
-        PartialEq,
-        Eq,
-        ::prost::Oneof,
-        ::serde::Serialize,
-        ::serde::Deserialize,
-        ::schemars::JsonSchema,
+        Clone, PartialEq, ::prost::Oneof, serde::Serialize, serde::Deserialize, schemars::JsonSchema,
     )]
+    #[serde(rename_all = "snake_case")]
     pub enum Source {
         #[prost(bytes, tag = "3")]
         RecordId(::prost::alloc::vec::Vec<u8>),
@@ -706,14 +823,14 @@ pub mod input_specification {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.Description")]
+#[serde(rename_all = "snake_case")]
 pub struct Description {
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
@@ -726,7 +843,8 @@ pub struct Description {
 }
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
+#[derive(strum_macros::FromRepr, serde::Serialize, serde::Deserialize, schemars::JsonSchema)]
+#[serde(rename_all = "snake_case")]
 pub enum DefinitionType {
     Unspecified = 0,
     Proposed = 1,
@@ -756,10 +874,32 @@ impl DefinitionType {
             _ => None,
         }
     }
+    pub fn serialize<S>(v: &i32, serializer: S) -> std::result::Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        let enum_value = Self::from_repr(*v);
+        match enum_value {
+            Some(v) => serializer.serialize_str(v.as_str_name()),
+            None => Err(serde::ser::Error::custom("unknown value")),
+        }
+    }
+    pub fn deserialize<'de, D>(deserializer: D) -> std::result::Result<i32, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        use serde::de::Deserialize;
+        let s = String::deserialize(deserializer)?;
+        match Self::from_str_name(&s) {
+            Some(v) => Ok(v.into()),
+            None => Err(serde::de::Error::custom("unknown value")),
+        }
+    }
 }
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
+#[derive(strum_macros::FromRepr, serde::Serialize, serde::Deserialize, schemars::JsonSchema)]
+#[serde(rename_all = "snake_case")]
 pub enum PartyType {
     Unspecified = 0,
     Originator = 1,
@@ -810,25 +950,52 @@ impl PartyType {
             _ => None,
         }
     }
+    pub fn serialize<S>(v: &i32, serializer: S) -> std::result::Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        let enum_value = Self::from_repr(*v);
+        match enum_value {
+            Some(v) => serializer.serialize_str(v.as_str_name()),
+            None => Err(serde::ser::Error::custom("unknown value")),
+        }
+    }
+    pub fn deserialize<'de, D>(deserializer: D) -> std::result::Result<i32, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        use serde::de::Deserialize;
+        let s = String::deserialize(deserializer)?;
+        match Self::from_str_name(&s) {
+            Some(v) => Ok(v.into()),
+            None => Err(serde::de::Error::custom("unknown value")),
+        }
+    }
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.Scope")]
+#[serde(rename_all = "snake_case")]
 pub struct Scope {
     #[prost(bytes = "vec", tag = "1")]
-    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
+    #[serde(
+        serialize_with = "crate::serde::as_base64::serialize",
+        deserialize_with = "crate::serde::as_base64::deserialize"
+    )]
     pub scope_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "2")]
-    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
+    #[serde(
+        serialize_with = "crate::serde::as_base64::serialize",
+        deserialize_with = "crate::serde::as_base64::deserialize"
+    )]
     pub specification_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, repeated, tag = "3")]
     pub owners: ::prost::alloc::vec::Vec<Party>,
@@ -843,27 +1010,36 @@ pub struct Scope {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.Session")]
+#[serde(rename_all = "snake_case")]
 pub struct Session {
     #[prost(bytes = "vec", tag = "1")]
-    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
+    #[serde(
+        serialize_with = "crate::serde::as_base64::serialize",
+        deserialize_with = "crate::serde::as_base64::deserialize"
+    )]
     pub session_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "2")]
-    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
+    #[serde(
+        serialize_with = "crate::serde::as_base64::serialize",
+        deserialize_with = "crate::serde::as_base64::deserialize"
+    )]
     pub specification_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, repeated, tag = "3")]
     pub parties: ::prost::alloc::vec::Vec<Party>,
     #[prost(string, tag = "4")]
     pub name: ::prost::alloc::string::String,
     #[prost(bytes = "vec", tag = "5")]
-    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
+    #[serde(
+        serialize_with = "crate::serde::as_base64::serialize",
+        deserialize_with = "crate::serde::as_base64::deserialize"
+    )]
     pub context: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "99")]
     pub audit: ::core::option::Option<AuditFields>,
@@ -872,19 +1048,22 @@ pub struct Session {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.Record")]
+#[serde(rename_all = "snake_case")]
 pub struct Record {
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
     #[prost(bytes = "vec", tag = "2")]
-    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
+    #[serde(
+        serialize_with = "crate::serde::as_base64::serialize",
+        deserialize_with = "crate::serde::as_base64::deserialize"
+    )]
     pub session_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "3")]
     pub process: ::core::option::Option<Process>,
@@ -893,42 +1072,40 @@ pub struct Record {
     #[prost(message, repeated, tag = "5")]
     pub outputs: ::prost::alloc::vec::Vec<RecordOutput>,
     #[prost(bytes = "vec", tag = "6")]
-    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
+    #[serde(
+        serialize_with = "crate::serde::as_base64::serialize",
+        deserialize_with = "crate::serde::as_base64::deserialize"
+    )]
     pub specification_id: ::prost::alloc::vec::Vec<u8>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.Process")]
+#[serde(rename_all = "snake_case")]
 pub struct Process {
     #[prost(string, tag = "3")]
     pub name: ::prost::alloc::string::String,
     #[prost(string, tag = "4")]
     pub method: ::prost::alloc::string::String,
     #[prost(oneof = "process::ProcessId", tags = "1, 2")]
+    #[serde(flatten)]
     pub process_id: ::core::option::Option<process::ProcessId>,
 }
 /// Nested message and enum types in `Process`.
 pub mod process {
-    use provwasm_std_derive::CosmwasmExt;
     #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(
-        Clone,
-        PartialEq,
-        Eq,
-        ::prost::Oneof,
-        ::serde::Serialize,
-        ::serde::Deserialize,
-        ::schemars::JsonSchema,
+        Clone, PartialEq, ::prost::Oneof, serde::Serialize, serde::Deserialize, schemars::JsonSchema,
     )]
+    #[serde(rename_all = "snake_case")]
     pub enum ProcessId {
         #[prost(string, tag = "1")]
         Address(::prost::alloc::string::String),
@@ -940,37 +1117,36 @@ pub mod process {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.RecordInput")]
+#[serde(rename_all = "snake_case")]
 pub struct RecordInput {
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
     #[prost(string, tag = "4")]
     pub type_name: ::prost::alloc::string::String,
     #[prost(enumeration = "RecordInputStatus", tag = "5")]
+    #[serde(
+        serialize_with = "RecordInputStatus::serialize",
+        deserialize_with = "RecordInputStatus::deserialize"
+    )]
     pub status: i32,
     #[prost(oneof = "record_input::Source", tags = "2, 3")]
+    #[serde(flatten)]
     pub source: ::core::option::Option<record_input::Source>,
 }
 /// Nested message and enum types in `RecordInput`.
 pub mod record_input {
-    use provwasm_std_derive::CosmwasmExt;
     #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(
-        Clone,
-        PartialEq,
-        Eq,
-        ::prost::Oneof,
-        ::serde::Serialize,
-        ::serde::Deserialize,
-        ::schemars::JsonSchema,
+        Clone, PartialEq, ::prost::Oneof, serde::Serialize, serde::Deserialize, schemars::JsonSchema,
     )]
+    #[serde(rename_all = "snake_case")]
     pub enum Source {
         #[prost(bytes, tag = "2")]
         RecordId(::prost::alloc::vec::Vec<u8>),
@@ -982,36 +1158,44 @@ pub mod record_input {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.RecordOutput")]
+#[serde(rename_all = "snake_case")]
 pub struct RecordOutput {
     #[prost(string, tag = "1")]
     pub hash: ::prost::alloc::string::String,
     #[prost(enumeration = "ResultStatus", tag = "2")]
+    #[serde(
+        serialize_with = "ResultStatus::serialize",
+        deserialize_with = "ResultStatus::deserialize"
+    )]
     pub status: i32,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.Party")]
+#[serde(rename_all = "snake_case")]
 pub struct Party {
     #[prost(string, tag = "1")]
     pub address: ::prost::alloc::string::String,
     #[prost(enumeration = "PartyType", tag = "2")]
+    #[serde(
+        serialize_with = "PartyType::serialize",
+        deserialize_with = "PartyType::deserialize"
+    )]
     pub role: i32,
     #[prost(bool, tag = "3")]
     pub optional: bool,
@@ -1020,14 +1204,14 @@ pub struct Party {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.AuditFields")]
+#[serde(rename_all = "snake_case")]
 pub struct AuditFields {
     #[prost(message, optional, tag = "1")]
     pub created_date: ::core::option::Option<crate::shim::Timestamp>,
@@ -1044,7 +1228,8 @@ pub struct AuditFields {
 }
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
+#[derive(strum_macros::FromRepr, serde::Serialize, serde::Deserialize, schemars::JsonSchema)]
+#[serde(rename_all = "snake_case")]
 pub enum RecordInputStatus {
     Unspecified = 0,
     Proposed = 1,
@@ -1071,10 +1256,32 @@ impl RecordInputStatus {
             _ => None,
         }
     }
+    pub fn serialize<S>(v: &i32, serializer: S) -> std::result::Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        let enum_value = Self::from_repr(*v);
+        match enum_value {
+            Some(v) => serializer.serialize_str(v.as_str_name()),
+            None => Err(serde::ser::Error::custom("unknown value")),
+        }
+    }
+    pub fn deserialize<'de, D>(deserializer: D) -> std::result::Result<i32, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        use serde::de::Deserialize;
+        let s = String::deserialize(deserializer)?;
+        match Self::from_str_name(&s) {
+            Some(v) => Ok(v.into()),
+            None => Err(serde::de::Error::custom("unknown value")),
+        }
+    }
 }
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
+#[derive(strum_macros::FromRepr, serde::Serialize, serde::Deserialize, schemars::JsonSchema)]
+#[serde(rename_all = "snake_case")]
 pub enum ResultStatus {
     Unspecified = 0,
     Pass = 1,
@@ -1104,19 +1311,40 @@ impl ResultStatus {
             _ => None,
         }
     }
+    pub fn serialize<S>(v: &i32, serializer: S) -> std::result::Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        let enum_value = Self::from_repr(*v);
+        match enum_value {
+            Some(v) => serializer.serialize_str(v.as_str_name()),
+            None => Err(serde::ser::Error::custom("unknown value")),
+        }
+    }
+    pub fn deserialize<'de, D>(deserializer: D) -> std::result::Result<i32, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        use serde::de::Deserialize;
+        let s = String::deserialize(deserializer)?;
+        match Self::from_str_name(&s) {
+            Some(v) => Ok(v.into()),
+            None => Err(serde::de::Error::custom("unknown value")),
+        }
+    }
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.ObjectStoreLocator")]
+#[serde(rename_all = "snake_case")]
 pub struct ObjectStoreLocator {
     #[prost(string, tag = "1")]
     pub owner: ::prost::alloc::string::String,
@@ -1129,14 +1357,14 @@ pub struct ObjectStoreLocator {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.OSLocatorParams")]
+#[serde(rename_all = "snake_case")]
 pub struct OsLocatorParams {
     #[prost(uint32, tag = "1")]
     pub max_uri_length: u32,
@@ -1145,14 +1373,14 @@ pub struct OsLocatorParams {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.QueryParamsRequest")]
+#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/provenance.metadata.v1.Query/Params",
     response_type = QueryParamsResponse
@@ -1162,14 +1390,14 @@ pub struct QueryParamsRequest {}
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.QueryParamsResponse")]
+#[serde(rename_all = "snake_case")]
 pub struct QueryParamsResponse {
     #[prost(message, optional, tag = "1")]
     pub params: ::core::option::Option<Params>,
@@ -1180,14 +1408,14 @@ pub struct QueryParamsResponse {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.ScopeRequest")]
+#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/provenance.metadata.v1.Query/Scope",
     response_type = ScopeResponse
@@ -1208,14 +1436,14 @@ pub struct ScopeRequest {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.ScopeResponse")]
+#[serde(rename_all = "snake_case")]
 pub struct ScopeResponse {
     #[prost(message, optional, tag = "1")]
     pub scope: ::core::option::Option<ScopeWrapper>,
@@ -1230,14 +1458,14 @@ pub struct ScopeResponse {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.ScopeWrapper")]
+#[serde(rename_all = "snake_case")]
 pub struct ScopeWrapper {
     #[prost(message, optional, tag = "1")]
     pub scope: ::core::option::Option<Scope>,
@@ -1250,14 +1478,14 @@ pub struct ScopeWrapper {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.SessionsRequest")]
+#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/provenance.metadata.v1.Query/Sessions",
     response_type = SessionsResponse
@@ -1280,14 +1508,14 @@ pub struct SessionsRequest {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.SessionsResponse")]
+#[serde(rename_all = "snake_case")]
 pub struct SessionsResponse {
     #[prost(message, optional, tag = "1")]
     pub scope: ::core::option::Option<ScopeWrapper>,
@@ -1302,14 +1530,14 @@ pub struct SessionsResponse {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.SessionWrapper")]
+#[serde(rename_all = "snake_case")]
 pub struct SessionWrapper {
     #[prost(message, optional, tag = "1")]
     pub session: ::core::option::Option<Session>,
@@ -1322,14 +1550,14 @@ pub struct SessionWrapper {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.RecordsRequest")]
+#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/provenance.metadata.v1.Query/Records",
     response_type = RecordsResponse
@@ -1352,14 +1580,14 @@ pub struct RecordsRequest {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.RecordsResponse")]
+#[serde(rename_all = "snake_case")]
 pub struct RecordsResponse {
     #[prost(message, optional, tag = "1")]
     pub scope: ::core::option::Option<ScopeWrapper>,
@@ -1374,14 +1602,14 @@ pub struct RecordsResponse {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.RecordWrapper")]
+#[serde(rename_all = "snake_case")]
 pub struct RecordWrapper {
     #[prost(message, optional, tag = "1")]
     pub record: ::core::option::Option<Record>,
@@ -1394,14 +1622,14 @@ pub struct RecordWrapper {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.OwnershipRequest")]
+#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/provenance.metadata.v1.Query/Ownership",
     response_type = OwnershipResponse
@@ -1417,14 +1645,14 @@ pub struct OwnershipRequest {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.OwnershipResponse")]
+#[serde(rename_all = "snake_case")]
 pub struct OwnershipResponse {
     #[prost(string, repeated, tag = "1")]
     pub scope_uuids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
@@ -1438,14 +1666,14 @@ pub struct OwnershipResponse {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.ValueOwnershipRequest")]
+#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/provenance.metadata.v1.Query/ValueOwnership",
     response_type = ValueOwnershipResponse
@@ -1461,14 +1689,14 @@ pub struct ValueOwnershipRequest {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.ValueOwnershipResponse")]
+#[serde(rename_all = "snake_case")]
 pub struct ValueOwnershipResponse {
     #[prost(string, repeated, tag = "1")]
     pub scope_uuids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
@@ -1482,14 +1710,14 @@ pub struct ValueOwnershipResponse {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.ScopeSpecificationRequest")]
+#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/provenance.metadata.v1.Query/ScopeSpecification",
     response_type = ScopeSpecificationResponse
@@ -1506,14 +1734,14 @@ pub struct ScopeSpecificationRequest {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.ScopeSpecificationResponse")]
+#[serde(rename_all = "snake_case")]
 pub struct ScopeSpecificationResponse {
     #[prost(message, optional, tag = "1")]
     pub scope_specification: ::core::option::Option<ScopeSpecificationWrapper>,
@@ -1528,14 +1756,14 @@ pub struct ScopeSpecificationResponse {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.ScopeSpecificationWrapper")]
+#[serde(rename_all = "snake_case")]
 pub struct ScopeSpecificationWrapper {
     #[prost(message, optional, tag = "1")]
     pub specification: ::core::option::Option<ScopeSpecification>,
@@ -1546,14 +1774,14 @@ pub struct ScopeSpecificationWrapper {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.ContractSpecificationRequest")]
+#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/provenance.metadata.v1.Query/ContractSpecification",
     response_type = ContractSpecificationResponse
@@ -1568,14 +1796,14 @@ pub struct ContractSpecificationRequest {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.ContractSpecificationResponse")]
+#[serde(rename_all = "snake_case")]
 pub struct ContractSpecificationResponse {
     #[prost(message, optional, tag = "1")]
     pub contract_specification: ::core::option::Option<ContractSpecificationWrapper>,
@@ -1588,14 +1816,14 @@ pub struct ContractSpecificationResponse {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.ContractSpecificationWrapper")]
+#[serde(rename_all = "snake_case")]
 pub struct ContractSpecificationWrapper {
     #[prost(message, optional, tag = "1")]
     pub specification: ::core::option::Option<ContractSpecification>,
@@ -1606,16 +1834,16 @@ pub struct ContractSpecificationWrapper {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(
     type_url = "/provenance.metadata.v1.RecordSpecificationsForContractSpecificationRequest"
 )]
+#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/provenance.metadata.v1.Query/RecordSpecificationsForContractSpecification",
     response_type = RecordSpecificationsForContractSpecificationResponse
@@ -1628,16 +1856,16 @@ pub struct RecordSpecificationsForContractSpecificationRequest {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(
     type_url = "/provenance.metadata.v1.RecordSpecificationsForContractSpecificationResponse"
 )]
+#[serde(rename_all = "snake_case")]
 pub struct RecordSpecificationsForContractSpecificationResponse {
     #[prost(message, repeated, tag = "1")]
     pub record_specifications: ::prost::alloc::vec::Vec<RecordSpecificationWrapper>,
@@ -1652,14 +1880,14 @@ pub struct RecordSpecificationsForContractSpecificationResponse {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.RecordSpecificationRequest")]
+#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/provenance.metadata.v1.Query/RecordSpecification",
     response_type = RecordSpecificationResponse
@@ -1674,14 +1902,14 @@ pub struct RecordSpecificationRequest {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.RecordSpecificationResponse")]
+#[serde(rename_all = "snake_case")]
 pub struct RecordSpecificationResponse {
     #[prost(message, optional, tag = "1")]
     pub record_specification: ::core::option::Option<RecordSpecificationWrapper>,
@@ -1692,14 +1920,14 @@ pub struct RecordSpecificationResponse {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.RecordSpecificationWrapper")]
+#[serde(rename_all = "snake_case")]
 pub struct RecordSpecificationWrapper {
     #[prost(message, optional, tag = "1")]
     pub specification: ::core::option::Option<RecordSpecification>,
@@ -1710,14 +1938,14 @@ pub struct RecordSpecificationWrapper {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.OSLocatorParamsRequest")]
+#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/provenance.metadata.v1.Query/OSLocatorParams",
     response_type = OsLocatorParamsResponse
@@ -1727,14 +1955,14 @@ pub struct OsLocatorParamsRequest {}
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.OSLocatorParamsResponse")]
+#[serde(rename_all = "snake_case")]
 pub struct OsLocatorParamsResponse {
     #[prost(message, optional, tag = "1")]
     pub params: ::core::option::Option<OsLocatorParams>,
@@ -1745,14 +1973,14 @@ pub struct OsLocatorParamsResponse {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.OSLocatorRequest")]
+#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/provenance.metadata.v1.Query/OSLocator",
     response_type = OsLocatorResponse
@@ -1765,14 +1993,14 @@ pub struct OsLocatorRequest {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.OSLocatorResponse")]
+#[serde(rename_all = "snake_case")]
 pub struct OsLocatorResponse {
     #[prost(message, optional, tag = "1")]
     pub locator: ::core::option::Option<ObjectStoreLocator>,
@@ -1783,14 +2011,14 @@ pub struct OsLocatorResponse {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.OSLocatorsByURIRequest")]
+#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/provenance.metadata.v1.Query/OSLocatorsByURI",
     response_type = OsLocatorsByUriResponse
@@ -1806,14 +2034,14 @@ pub struct OsLocatorsByUriRequest {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.OSLocatorsByURIResponse")]
+#[serde(rename_all = "snake_case")]
 pub struct OsLocatorsByUriResponse {
     #[prost(message, repeated, tag = "1")]
     pub locators: ::prost::alloc::vec::Vec<ObjectStoreLocator>,
@@ -1827,14 +2055,14 @@ pub struct OsLocatorsByUriResponse {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.OSLocatorsByScopeRequest")]
+#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/provenance.metadata.v1.Query/OSLocatorsByScope",
     response_type = OsLocatorsByScopeResponse
@@ -1847,14 +2075,14 @@ pub struct OsLocatorsByScopeRequest {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.OSLocatorsByScopeResponse")]
+#[serde(rename_all = "snake_case")]
 pub struct OsLocatorsByScopeResponse {
     #[prost(message, repeated, tag = "1")]
     pub locators: ::prost::alloc::vec::Vec<ObjectStoreLocator>,
@@ -1865,14 +2093,14 @@ pub struct OsLocatorsByScopeResponse {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgWriteScopeRequest")]
+#[serde(rename_all = "snake_case")]
 pub struct MsgWriteScopeRequest {
     #[prost(message, optional, tag = "1")]
     pub scope: ::core::option::Option<Scope>,
@@ -1887,14 +2115,14 @@ pub struct MsgWriteScopeRequest {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgWriteScopeResponse")]
+#[serde(rename_all = "snake_case")]
 pub struct MsgWriteScopeResponse {
     #[prost(message, optional, tag = "1")]
     pub scope_id_info: ::core::option::Option<ScopeIdInfo>,
@@ -1903,17 +2131,20 @@ pub struct MsgWriteScopeResponse {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgDeleteScopeRequest")]
+#[serde(rename_all = "snake_case")]
 pub struct MsgDeleteScopeRequest {
     #[prost(bytes = "vec", tag = "1")]
-    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
+    #[serde(
+        serialize_with = "crate::serde::as_base64::serialize",
+        deserialize_with = "crate::serde::as_base64::deserialize"
+    )]
     pub scope_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, repeated, tag = "2")]
     pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
@@ -1922,30 +2153,33 @@ pub struct MsgDeleteScopeRequest {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgDeleteScopeResponse")]
+#[serde(rename_all = "snake_case")]
 pub struct MsgDeleteScopeResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgAddScopeDataAccessRequest")]
+#[serde(rename_all = "snake_case")]
 pub struct MsgAddScopeDataAccessRequest {
     #[prost(bytes = "vec", tag = "1")]
-    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
+    #[serde(
+        serialize_with = "crate::serde::as_base64::serialize",
+        deserialize_with = "crate::serde::as_base64::deserialize"
+    )]
     pub scope_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, repeated, tag = "2")]
     pub data_access: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
@@ -1956,30 +2190,33 @@ pub struct MsgAddScopeDataAccessRequest {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgAddScopeDataAccessResponse")]
+#[serde(rename_all = "snake_case")]
 pub struct MsgAddScopeDataAccessResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgDeleteScopeDataAccessRequest")]
+#[serde(rename_all = "snake_case")]
 pub struct MsgDeleteScopeDataAccessRequest {
     #[prost(bytes = "vec", tag = "1")]
-    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
+    #[serde(
+        serialize_with = "crate::serde::as_base64::serialize",
+        deserialize_with = "crate::serde::as_base64::deserialize"
+    )]
     pub scope_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, repeated, tag = "2")]
     pub data_access: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
@@ -1990,30 +2227,33 @@ pub struct MsgDeleteScopeDataAccessRequest {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgDeleteScopeDataAccessResponse")]
+#[serde(rename_all = "snake_case")]
 pub struct MsgDeleteScopeDataAccessResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgAddScopeOwnerRequest")]
+#[serde(rename_all = "snake_case")]
 pub struct MsgAddScopeOwnerRequest {
     #[prost(bytes = "vec", tag = "1")]
-    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
+    #[serde(
+        serialize_with = "crate::serde::as_base64::serialize",
+        deserialize_with = "crate::serde::as_base64::deserialize"
+    )]
     pub scope_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, repeated, tag = "2")]
     pub owners: ::prost::alloc::vec::Vec<Party>,
@@ -2024,30 +2264,33 @@ pub struct MsgAddScopeOwnerRequest {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgAddScopeOwnerResponse")]
+#[serde(rename_all = "snake_case")]
 pub struct MsgAddScopeOwnerResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgDeleteScopeOwnerRequest")]
+#[serde(rename_all = "snake_case")]
 pub struct MsgDeleteScopeOwnerRequest {
     #[prost(bytes = "vec", tag = "1")]
-    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
+    #[serde(
+        serialize_with = "crate::serde::as_base64::serialize",
+        deserialize_with = "crate::serde::as_base64::deserialize"
+    )]
     pub scope_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, repeated, tag = "2")]
     pub owners: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
@@ -2058,27 +2301,27 @@ pub struct MsgDeleteScopeOwnerRequest {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgDeleteScopeOwnerResponse")]
+#[serde(rename_all = "snake_case")]
 pub struct MsgDeleteScopeOwnerResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgWriteSessionRequest")]
+#[serde(rename_all = "snake_case")]
 pub struct MsgWriteSessionRequest {
     #[prost(message, optional, tag = "1")]
     pub session: ::core::option::Option<Session>,
@@ -2093,33 +2336,28 @@ pub struct MsgWriteSessionRequest {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.SessionIdComponents")]
+#[serde(rename_all = "snake_case")]
 pub struct SessionIdComponents {
     #[prost(string, tag = "3")]
     pub session_uuid: ::prost::alloc::string::String,
     #[prost(oneof = "session_id_components::ScopeIdentifier", tags = "1, 2")]
+    #[serde(flatten)]
     pub scope_identifier: ::core::option::Option<session_id_components::ScopeIdentifier>,
 }
 /// Nested message and enum types in `SessionIdComponents`.
 pub mod session_id_components {
-    use provwasm_std_derive::CosmwasmExt;
     #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(
-        Clone,
-        PartialEq,
-        Eq,
-        ::prost::Oneof,
-        ::serde::Serialize,
-        ::serde::Deserialize,
-        ::schemars::JsonSchema,
+        Clone, PartialEq, ::prost::Oneof, serde::Serialize, serde::Deserialize, schemars::JsonSchema,
     )]
+    #[serde(rename_all = "snake_case")]
     pub enum ScopeIdentifier {
         #[prost(string, tag = "1")]
         ScopeUuid(::prost::alloc::string::String),
@@ -2131,14 +2369,14 @@ pub mod session_id_components {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgWriteSessionResponse")]
+#[serde(rename_all = "snake_case")]
 pub struct MsgWriteSessionResponse {
     #[prost(message, optional, tag = "1")]
     pub session_id_info: ::core::option::Option<SessionIdInfo>,
@@ -2147,14 +2385,14 @@ pub struct MsgWriteSessionResponse {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgWriteRecordRequest")]
+#[serde(rename_all = "snake_case")]
 pub struct MsgWriteRecordRequest {
     #[prost(message, optional, tag = "1")]
     pub record: ::core::option::Option<Record>,
@@ -2171,14 +2409,14 @@ pub struct MsgWriteRecordRequest {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgWriteRecordResponse")]
+#[serde(rename_all = "snake_case")]
 pub struct MsgWriteRecordResponse {
     #[prost(message, optional, tag = "1")]
     pub record_id_info: ::core::option::Option<RecordIdInfo>,
@@ -2187,17 +2425,20 @@ pub struct MsgWriteRecordResponse {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgDeleteRecordRequest")]
+#[serde(rename_all = "snake_case")]
 pub struct MsgDeleteRecordRequest {
     #[prost(bytes = "vec", tag = "1")]
-    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
+    #[serde(
+        serialize_with = "crate::serde::as_base64::serialize",
+        deserialize_with = "crate::serde::as_base64::deserialize"
+    )]
     pub record_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, repeated, tag = "2")]
     pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
@@ -2206,27 +2447,27 @@ pub struct MsgDeleteRecordRequest {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgDeleteRecordResponse")]
+#[serde(rename_all = "snake_case")]
 pub struct MsgDeleteRecordResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgWriteScopeSpecificationRequest")]
+#[serde(rename_all = "snake_case")]
 pub struct MsgWriteScopeSpecificationRequest {
     #[prost(message, optional, tag = "1")]
     pub specification: ::core::option::Option<ScopeSpecification>,
@@ -2239,14 +2480,14 @@ pub struct MsgWriteScopeSpecificationRequest {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgWriteScopeSpecificationResponse")]
+#[serde(rename_all = "snake_case")]
 pub struct MsgWriteScopeSpecificationResponse {
     #[prost(message, optional, tag = "1")]
     pub scope_spec_id_info: ::core::option::Option<ScopeSpecIdInfo>,
@@ -2255,17 +2496,20 @@ pub struct MsgWriteScopeSpecificationResponse {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgDeleteScopeSpecificationRequest")]
+#[serde(rename_all = "snake_case")]
 pub struct MsgDeleteScopeSpecificationRequest {
     #[prost(bytes = "vec", tag = "1")]
-    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
+    #[serde(
+        serialize_with = "crate::serde::as_base64::serialize",
+        deserialize_with = "crate::serde::as_base64::deserialize"
+    )]
     pub specification_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, repeated, tag = "2")]
     pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
@@ -2274,27 +2518,27 @@ pub struct MsgDeleteScopeSpecificationRequest {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgDeleteScopeSpecificationResponse")]
+#[serde(rename_all = "snake_case")]
 pub struct MsgDeleteScopeSpecificationResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgWriteContractSpecificationRequest")]
+#[serde(rename_all = "snake_case")]
 pub struct MsgWriteContractSpecificationRequest {
     #[prost(message, optional, tag = "1")]
     pub specification: ::core::option::Option<ContractSpecification>,
@@ -2307,14 +2551,14 @@ pub struct MsgWriteContractSpecificationRequest {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgWriteContractSpecificationResponse")]
+#[serde(rename_all = "snake_case")]
 pub struct MsgWriteContractSpecificationResponse {
     #[prost(message, optional, tag = "1")]
     pub contract_spec_id_info: ::core::option::Option<ContractSpecIdInfo>,
@@ -2323,20 +2567,26 @@ pub struct MsgWriteContractSpecificationResponse {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgAddContractSpecToScopeSpecRequest")]
+#[serde(rename_all = "snake_case")]
 pub struct MsgAddContractSpecToScopeSpecRequest {
     #[prost(bytes = "vec", tag = "1")]
-    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
+    #[serde(
+        serialize_with = "crate::serde::as_base64::serialize",
+        deserialize_with = "crate::serde::as_base64::deserialize"
+    )]
     pub contract_specification_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "2")]
-    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
+    #[serde(
+        serialize_with = "crate::serde::as_base64::serialize",
+        deserialize_with = "crate::serde::as_base64::deserialize"
+    )]
     pub scope_specification_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, repeated, tag = "3")]
     pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
@@ -2345,33 +2595,39 @@ pub struct MsgAddContractSpecToScopeSpecRequest {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgAddContractSpecToScopeSpecResponse")]
+#[serde(rename_all = "snake_case")]
 pub struct MsgAddContractSpecToScopeSpecResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgDeleteContractSpecFromScopeSpecRequest")]
+#[serde(rename_all = "snake_case")]
 pub struct MsgDeleteContractSpecFromScopeSpecRequest {
     #[prost(bytes = "vec", tag = "1")]
-    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
+    #[serde(
+        serialize_with = "crate::serde::as_base64::serialize",
+        deserialize_with = "crate::serde::as_base64::deserialize"
+    )]
     pub contract_specification_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "2")]
-    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
+    #[serde(
+        serialize_with = "crate::serde::as_base64::serialize",
+        deserialize_with = "crate::serde::as_base64::deserialize"
+    )]
     pub scope_specification_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, repeated, tag = "3")]
     pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
@@ -2380,30 +2636,33 @@ pub struct MsgDeleteContractSpecFromScopeSpecRequest {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgDeleteContractSpecFromScopeSpecResponse")]
+#[serde(rename_all = "snake_case")]
 pub struct MsgDeleteContractSpecFromScopeSpecResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgDeleteContractSpecificationRequest")]
+#[serde(rename_all = "snake_case")]
 pub struct MsgDeleteContractSpecificationRequest {
     #[prost(bytes = "vec", tag = "1")]
-    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
+    #[serde(
+        serialize_with = "crate::serde::as_base64::serialize",
+        deserialize_with = "crate::serde::as_base64::deserialize"
+    )]
     pub specification_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, repeated, tag = "2")]
     pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
@@ -2412,27 +2671,27 @@ pub struct MsgDeleteContractSpecificationRequest {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgDeleteContractSpecificationResponse")]
+#[serde(rename_all = "snake_case")]
 pub struct MsgDeleteContractSpecificationResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgWriteRecordSpecificationRequest")]
+#[serde(rename_all = "snake_case")]
 pub struct MsgWriteRecordSpecificationRequest {
     #[prost(message, optional, tag = "1")]
     pub specification: ::core::option::Option<RecordSpecification>,
@@ -2445,14 +2704,14 @@ pub struct MsgWriteRecordSpecificationRequest {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgWriteRecordSpecificationResponse")]
+#[serde(rename_all = "snake_case")]
 pub struct MsgWriteRecordSpecificationResponse {
     #[prost(message, optional, tag = "1")]
     pub record_spec_id_info: ::core::option::Option<RecordSpecIdInfo>,
@@ -2461,17 +2720,20 @@ pub struct MsgWriteRecordSpecificationResponse {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgDeleteRecordSpecificationRequest")]
+#[serde(rename_all = "snake_case")]
 pub struct MsgDeleteRecordSpecificationRequest {
     #[prost(bytes = "vec", tag = "1")]
-    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
+    #[serde(
+        serialize_with = "crate::serde::as_base64::serialize",
+        deserialize_with = "crate::serde::as_base64::deserialize"
+    )]
     pub specification_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, repeated, tag = "2")]
     pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
@@ -2480,27 +2742,27 @@ pub struct MsgDeleteRecordSpecificationRequest {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgDeleteRecordSpecificationResponse")]
+#[serde(rename_all = "snake_case")]
 pub struct MsgDeleteRecordSpecificationResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgBindOSLocatorRequest")]
+#[serde(rename_all = "snake_case")]
 pub struct MsgBindOsLocatorRequest {
     #[prost(message, optional, tag = "1")]
     pub locator: ::core::option::Option<ObjectStoreLocator>,
@@ -2509,14 +2771,14 @@ pub struct MsgBindOsLocatorRequest {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgBindOSLocatorResponse")]
+#[serde(rename_all = "snake_case")]
 pub struct MsgBindOsLocatorResponse {
     #[prost(message, optional, tag = "1")]
     pub locator: ::core::option::Option<ObjectStoreLocator>,
@@ -2525,14 +2787,14 @@ pub struct MsgBindOsLocatorResponse {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgDeleteOSLocatorRequest")]
+#[serde(rename_all = "snake_case")]
 pub struct MsgDeleteOsLocatorRequest {
     #[prost(message, optional, tag = "1")]
     pub locator: ::core::option::Option<ObjectStoreLocator>,
@@ -2541,14 +2803,14 @@ pub struct MsgDeleteOsLocatorRequest {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgDeleteOSLocatorResponse")]
+#[serde(rename_all = "snake_case")]
 pub struct MsgDeleteOsLocatorResponse {
     #[prost(message, optional, tag = "1")]
     pub locator: ::core::option::Option<ObjectStoreLocator>,
@@ -2557,14 +2819,14 @@ pub struct MsgDeleteOsLocatorResponse {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgModifyOSLocatorRequest")]
+#[serde(rename_all = "snake_case")]
 pub struct MsgModifyOsLocatorRequest {
     #[prost(message, optional, tag = "1")]
     pub locator: ::core::option::Option<ObjectStoreLocator>,
@@ -2573,14 +2835,14 @@ pub struct MsgModifyOsLocatorRequest {
 #[derive(
     Clone,
     PartialEq,
-    Eq,
     ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_std_derive::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgModifyOSLocatorResponse")]
+#[serde(rename_all = "snake_case")]
 pub struct MsgModifyOsLocatorResponse {
     #[prost(message, optional, tag = "1")]
     pub locator: ::core::option::Option<ObjectStoreLocator>,
@@ -2592,7 +2854,7 @@ impl<'a, Q: cosmwasm_std::CustomQuery> MetadataQuerier<'a, Q> {
     pub fn new(querier: &'a cosmwasm_std::QuerierWrapper<'a, Q>) -> Self {
         Self { querier }
     }
-    pub fn params(&self) -> Result<QueryParamsResponse, cosmwasm_std::StdError> {
+    pub fn params(&self) -> std::result::Result<QueryParamsResponse, cosmwasm_std::StdError> {
         QueryParamsRequest {}.query(self.querier)
     }
     pub fn scope(
@@ -2602,7 +2864,7 @@ impl<'a, Q: cosmwasm_std::CustomQuery> MetadataQuerier<'a, Q> {
         record_addr: ::prost::alloc::string::String,
         include_sessions: bool,
         include_records: bool,
-    ) -> Result<ScopeResponse, cosmwasm_std::StdError> {
+    ) -> std::result::Result<ScopeResponse, cosmwasm_std::StdError> {
         ScopeRequest {
             scope_id,
             session_addr,
@@ -2620,7 +2882,7 @@ impl<'a, Q: cosmwasm_std::CustomQuery> MetadataQuerier<'a, Q> {
         record_name: ::prost::alloc::string::String,
         include_scope: bool,
         include_records: bool,
-    ) -> Result<SessionsResponse, cosmwasm_std::StdError> {
+    ) -> std::result::Result<SessionsResponse, cosmwasm_std::StdError> {
         SessionsRequest {
             scope_id,
             session_id,
@@ -2639,7 +2901,7 @@ impl<'a, Q: cosmwasm_std::CustomQuery> MetadataQuerier<'a, Q> {
         name: ::prost::alloc::string::String,
         include_scope: bool,
         include_sessions: bool,
-    ) -> Result<RecordsResponse, cosmwasm_std::StdError> {
+    ) -> std::result::Result<RecordsResponse, cosmwasm_std::StdError> {
         RecordsRequest {
             record_addr,
             scope_id,
@@ -2656,7 +2918,7 @@ impl<'a, Q: cosmwasm_std::CustomQuery> MetadataQuerier<'a, Q> {
         pagination: ::core::option::Option<
             super::super::super::cosmos::base::query::v1beta1::PageRequest,
         >,
-    ) -> Result<OwnershipResponse, cosmwasm_std::StdError> {
+    ) -> std::result::Result<OwnershipResponse, cosmwasm_std::StdError> {
         OwnershipRequest {
             address,
             pagination,
@@ -2669,7 +2931,7 @@ impl<'a, Q: cosmwasm_std::CustomQuery> MetadataQuerier<'a, Q> {
         pagination: ::core::option::Option<
             super::super::super::cosmos::base::query::v1beta1::PageRequest,
         >,
-    ) -> Result<ValueOwnershipResponse, cosmwasm_std::StdError> {
+    ) -> std::result::Result<ValueOwnershipResponse, cosmwasm_std::StdError> {
         ValueOwnershipRequest {
             address,
             pagination,
@@ -2681,7 +2943,7 @@ impl<'a, Q: cosmwasm_std::CustomQuery> MetadataQuerier<'a, Q> {
         specification_id: ::prost::alloc::string::String,
         include_contract_specs: bool,
         include_record_specs: bool,
-    ) -> Result<ScopeSpecificationResponse, cosmwasm_std::StdError> {
+    ) -> std::result::Result<ScopeSpecificationResponse, cosmwasm_std::StdError> {
         ScopeSpecificationRequest {
             specification_id,
             include_contract_specs,
@@ -2693,7 +2955,7 @@ impl<'a, Q: cosmwasm_std::CustomQuery> MetadataQuerier<'a, Q> {
         &self,
         specification_id: ::prost::alloc::string::String,
         include_record_specs: bool,
-    ) -> Result<ContractSpecificationResponse, cosmwasm_std::StdError> {
+    ) -> std::result::Result<ContractSpecificationResponse, cosmwasm_std::StdError> {
         ContractSpecificationRequest {
             specification_id,
             include_record_specs,
@@ -2703,27 +2965,32 @@ impl<'a, Q: cosmwasm_std::CustomQuery> MetadataQuerier<'a, Q> {
     pub fn record_specifications_for_contract_specification(
         &self,
         specification_id: ::prost::alloc::string::String,
-    ) -> Result<RecordSpecificationsForContractSpecificationResponse, cosmwasm_std::StdError> {
+    ) -> std::result::Result<
+        RecordSpecificationsForContractSpecificationResponse,
+        cosmwasm_std::StdError,
+    > {
         RecordSpecificationsForContractSpecificationRequest { specification_id }.query(self.querier)
     }
     pub fn record_specification(
         &self,
         specification_id: ::prost::alloc::string::String,
         name: ::prost::alloc::string::String,
-    ) -> Result<RecordSpecificationResponse, cosmwasm_std::StdError> {
+    ) -> std::result::Result<RecordSpecificationResponse, cosmwasm_std::StdError> {
         RecordSpecificationRequest {
             specification_id,
             name,
         }
         .query(self.querier)
     }
-    pub fn os_locator_params(&self) -> Result<OsLocatorParamsResponse, cosmwasm_std::StdError> {
+    pub fn os_locator_params(
+        &self,
+    ) -> std::result::Result<OsLocatorParamsResponse, cosmwasm_std::StdError> {
         OsLocatorParamsRequest {}.query(self.querier)
     }
     pub fn os_locator(
         &self,
         owner: ::prost::alloc::string::String,
-    ) -> Result<OsLocatorResponse, cosmwasm_std::StdError> {
+    ) -> std::result::Result<OsLocatorResponse, cosmwasm_std::StdError> {
         OsLocatorRequest { owner }.query(self.querier)
     }
     pub fn os_locators_by_uri(
@@ -2732,13 +2999,13 @@ impl<'a, Q: cosmwasm_std::CustomQuery> MetadataQuerier<'a, Q> {
         pagination: ::core::option::Option<
             super::super::super::cosmos::base::query::v1beta1::PageRequest,
         >,
-    ) -> Result<OsLocatorsByUriResponse, cosmwasm_std::StdError> {
+    ) -> std::result::Result<OsLocatorsByUriResponse, cosmwasm_std::StdError> {
         OsLocatorsByUriRequest { uri, pagination }.query(self.querier)
     }
     pub fn os_locators_by_scope(
         &self,
         scope_id: ::prost::alloc::string::String,
-    ) -> Result<OsLocatorsByScopeResponse, cosmwasm_std::StdError> {
+    ) -> std::result::Result<OsLocatorsByScopeResponse, cosmwasm_std::StdError> {
         OsLocatorsByScopeRequest { scope_id }.query(self.querier)
     }
 }
