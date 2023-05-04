@@ -177,4 +177,6 @@ fi
   --yes \
   --testnet
 
+"$PROV_CMD" q wasm contract-state smart "$contract" '{"get_by_denom":{"denom":"faustiancoin"}}' --testnet -o json
+
 echo "Finished marker test script"
