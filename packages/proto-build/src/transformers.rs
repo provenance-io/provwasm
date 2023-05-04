@@ -178,6 +178,36 @@ pub fn allow_serde_int_as_str(s: ItemStruct) -> ItemStruct {
     syn::ItemStruct { fields, ..s }
 }
 
+pub fn allow_serde_vec_as_null(s: ItemStruct) -> ItemStruct {
+    let fields_vec = s
+        .fields
+        .clone()
+        .into_iter()
+        .map(|mut field| {
+            let null_types = vec![parse_quote!(::prost::alloc::vec::Vec<u8>)];
+
+            if null_types.contains(&field.ty) {
+                let from_null: syn::Attribute = parse_quote! {
+                    #[serde(
+                        deserialize_with = "crate::serde::as_vec::deserialize"
+                    )]
+                };
+                field.attrs.append(&mut vec![from_null]);
+                field
+            } else {
+                field
+            }
+        })
+        .collect::<Vec<syn::Field>>();
+
+    let fields_named: syn::FieldsNamed = parse_quote! {
+        { #(#fields_vec,)* }
+    };
+    let fields = syn::Fields::Named(fields_named);
+
+    syn::ItemStruct { fields, ..s }
+}
+
 /// some of proto's fields in osmosis' modules are named `ID` but prost generates `id` field
 /// this function adds `#[serde(alias = "ID")]` to the `id` field
 /// so that serde can deserialize `ID` field to `id` field.

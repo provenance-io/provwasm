@@ -404,10 +404,13 @@ pub struct Params {}
 #[proto_message(type_url = "/provenance.metadata.v1.ScopeIdInfo")]
 pub struct ScopeIdInfo {
     #[prost(bytes = "vec", tag = "1")]
+    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
     pub scope_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "2")]
+    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
     pub scope_id_prefix: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "3")]
+    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
     pub scope_id_scope_uuid: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, tag = "4")]
     pub scope_addr: ::prost::alloc::string::String,
@@ -428,12 +431,16 @@ pub struct ScopeIdInfo {
 #[proto_message(type_url = "/provenance.metadata.v1.SessionIdInfo")]
 pub struct SessionIdInfo {
     #[prost(bytes = "vec", tag = "1")]
+    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
     pub session_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "2")]
+    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
     pub session_id_prefix: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "3")]
+    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
     pub session_id_scope_uuid: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "4")]
+    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
     pub session_id_session_uuid: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, tag = "5")]
     pub session_addr: ::prost::alloc::string::String,
@@ -456,12 +463,16 @@ pub struct SessionIdInfo {
 #[proto_message(type_url = "/provenance.metadata.v1.RecordIdInfo")]
 pub struct RecordIdInfo {
     #[prost(bytes = "vec", tag = "1")]
+    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
     pub record_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "2")]
+    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
     pub record_id_prefix: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "3")]
+    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
     pub record_id_scope_uuid: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "4")]
+    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
     pub record_id_hashed_name: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, tag = "5")]
     pub record_addr: ::prost::alloc::string::String,
@@ -482,10 +493,13 @@ pub struct RecordIdInfo {
 #[proto_message(type_url = "/provenance.metadata.v1.ScopeSpecIdInfo")]
 pub struct ScopeSpecIdInfo {
     #[prost(bytes = "vec", tag = "1")]
+    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
     pub scope_spec_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "2")]
+    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
     pub scope_spec_id_prefix: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "3")]
+    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
     pub scope_spec_id_scope_spec_uuid: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, tag = "4")]
     pub scope_spec_addr: ::prost::alloc::string::String,
@@ -506,10 +520,13 @@ pub struct ScopeSpecIdInfo {
 #[proto_message(type_url = "/provenance.metadata.v1.ContractSpecIdInfo")]
 pub struct ContractSpecIdInfo {
     #[prost(bytes = "vec", tag = "1")]
+    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
     pub contract_spec_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "2")]
+    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
     pub contract_spec_id_prefix: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "3")]
+    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
     pub contract_spec_id_contract_spec_uuid: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, tag = "4")]
     pub contract_spec_addr: ::prost::alloc::string::String,
@@ -530,12 +547,16 @@ pub struct ContractSpecIdInfo {
 #[proto_message(type_url = "/provenance.metadata.v1.RecordSpecIdInfo")]
 pub struct RecordSpecIdInfo {
     #[prost(bytes = "vec", tag = "1")]
+    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
     pub record_spec_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "2")]
+    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
     pub record_spec_id_prefix: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "3")]
+    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
     pub record_spec_id_contract_spec_uuid: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "4")]
+    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
     pub record_spec_id_hashed_name: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, tag = "5")]
     pub record_spec_addr: ::prost::alloc::string::String,
@@ -556,6 +577,7 @@ pub struct RecordSpecIdInfo {
 #[proto_message(type_url = "/provenance.metadata.v1.ScopeSpecification")]
 pub struct ScopeSpecification {
     #[prost(bytes = "vec", tag = "1")]
+    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
     pub specification_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "2")]
     pub description: ::core::option::Option<Description>,
@@ -580,6 +602,7 @@ pub struct ScopeSpecification {
 #[proto_message(type_url = "/provenance.metadata.v1.ContractSpecification")]
 pub struct ContractSpecification {
     #[prost(bytes = "vec", tag = "1")]
+    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
     pub specification_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "2")]
     pub description: ::core::option::Option<Description>,
@@ -626,6 +649,7 @@ pub mod contract_specification {
 #[proto_message(type_url = "/provenance.metadata.v1.RecordSpecification")]
 pub struct RecordSpecification {
     #[prost(bytes = "vec", tag = "1")]
+    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
     pub specification_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, tag = "2")]
     pub name: ::prost::alloc::string::String,
@@ -801,8 +825,10 @@ impl PartyType {
 #[proto_message(type_url = "/provenance.metadata.v1.Scope")]
 pub struct Scope {
     #[prost(bytes = "vec", tag = "1")]
+    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
     pub scope_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "2")]
+    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
     pub specification_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, repeated, tag = "3")]
     pub owners: ::prost::alloc::vec::Vec<Party>,
@@ -827,14 +853,17 @@ pub struct Scope {
 #[proto_message(type_url = "/provenance.metadata.v1.Session")]
 pub struct Session {
     #[prost(bytes = "vec", tag = "1")]
+    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
     pub session_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "2")]
+    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
     pub specification_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, repeated, tag = "3")]
     pub parties: ::prost::alloc::vec::Vec<Party>,
     #[prost(string, tag = "4")]
     pub name: ::prost::alloc::string::String,
     #[prost(bytes = "vec", tag = "5")]
+    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
     pub context: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "99")]
     pub audit: ::core::option::Option<AuditFields>,
@@ -855,6 +884,7 @@ pub struct Record {
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
     #[prost(bytes = "vec", tag = "2")]
+    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
     pub session_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "3")]
     pub process: ::core::option::Option<Process>,
@@ -863,6 +893,7 @@ pub struct Record {
     #[prost(message, repeated, tag = "5")]
     pub outputs: ::prost::alloc::vec::Vec<RecordOutput>,
     #[prost(bytes = "vec", tag = "6")]
+    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
     pub specification_id: ::prost::alloc::vec::Vec<u8>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -1882,6 +1913,7 @@ pub struct MsgWriteScopeResponse {
 #[proto_message(type_url = "/provenance.metadata.v1.MsgDeleteScopeRequest")]
 pub struct MsgDeleteScopeRequest {
     #[prost(bytes = "vec", tag = "1")]
+    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
     pub scope_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, repeated, tag = "2")]
     pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
@@ -1913,6 +1945,7 @@ pub struct MsgDeleteScopeResponse {}
 #[proto_message(type_url = "/provenance.metadata.v1.MsgAddScopeDataAccessRequest")]
 pub struct MsgAddScopeDataAccessRequest {
     #[prost(bytes = "vec", tag = "1")]
+    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
     pub scope_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, repeated, tag = "2")]
     pub data_access: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
@@ -1946,6 +1979,7 @@ pub struct MsgAddScopeDataAccessResponse {}
 #[proto_message(type_url = "/provenance.metadata.v1.MsgDeleteScopeDataAccessRequest")]
 pub struct MsgDeleteScopeDataAccessRequest {
     #[prost(bytes = "vec", tag = "1")]
+    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
     pub scope_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, repeated, tag = "2")]
     pub data_access: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
@@ -1979,6 +2013,7 @@ pub struct MsgDeleteScopeDataAccessResponse {}
 #[proto_message(type_url = "/provenance.metadata.v1.MsgAddScopeOwnerRequest")]
 pub struct MsgAddScopeOwnerRequest {
     #[prost(bytes = "vec", tag = "1")]
+    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
     pub scope_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, repeated, tag = "2")]
     pub owners: ::prost::alloc::vec::Vec<Party>,
@@ -2012,6 +2047,7 @@ pub struct MsgAddScopeOwnerResponse {}
 #[proto_message(type_url = "/provenance.metadata.v1.MsgDeleteScopeOwnerRequest")]
 pub struct MsgDeleteScopeOwnerRequest {
     #[prost(bytes = "vec", tag = "1")]
+    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
     pub scope_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, repeated, tag = "2")]
     pub owners: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
@@ -2161,6 +2197,7 @@ pub struct MsgWriteRecordResponse {
 #[proto_message(type_url = "/provenance.metadata.v1.MsgDeleteRecordRequest")]
 pub struct MsgDeleteRecordRequest {
     #[prost(bytes = "vec", tag = "1")]
+    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
     pub record_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, repeated, tag = "2")]
     pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
@@ -2228,6 +2265,7 @@ pub struct MsgWriteScopeSpecificationResponse {
 #[proto_message(type_url = "/provenance.metadata.v1.MsgDeleteScopeSpecificationRequest")]
 pub struct MsgDeleteScopeSpecificationRequest {
     #[prost(bytes = "vec", tag = "1")]
+    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
     pub specification_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, repeated, tag = "2")]
     pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
@@ -2295,8 +2333,10 @@ pub struct MsgWriteContractSpecificationResponse {
 #[proto_message(type_url = "/provenance.metadata.v1.MsgAddContractSpecToScopeSpecRequest")]
 pub struct MsgAddContractSpecToScopeSpecRequest {
     #[prost(bytes = "vec", tag = "1")]
+    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
     pub contract_specification_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "2")]
+    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
     pub scope_specification_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, repeated, tag = "3")]
     pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
@@ -2328,8 +2368,10 @@ pub struct MsgAddContractSpecToScopeSpecResponse {}
 #[proto_message(type_url = "/provenance.metadata.v1.MsgDeleteContractSpecFromScopeSpecRequest")]
 pub struct MsgDeleteContractSpecFromScopeSpecRequest {
     #[prost(bytes = "vec", tag = "1")]
+    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
     pub contract_specification_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "2")]
+    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
     pub scope_specification_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, repeated, tag = "3")]
     pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
@@ -2361,6 +2403,7 @@ pub struct MsgDeleteContractSpecFromScopeSpecResponse {}
 #[proto_message(type_url = "/provenance.metadata.v1.MsgDeleteContractSpecificationRequest")]
 pub struct MsgDeleteContractSpecificationRequest {
     #[prost(bytes = "vec", tag = "1")]
+    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
     pub specification_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, repeated, tag = "2")]
     pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
@@ -2428,6 +2471,7 @@ pub struct MsgWriteRecordSpecificationResponse {
 #[proto_message(type_url = "/provenance.metadata.v1.MsgDeleteRecordSpecificationRequest")]
 pub struct MsgDeleteRecordSpecificationRequest {
     #[prost(bytes = "vec", tag = "1")]
+    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
     pub specification_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, repeated, tag = "2")]
     pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,

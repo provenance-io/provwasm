@@ -31,6 +31,7 @@ pub struct Attribute {
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
     #[prost(bytes = "vec", tag = "2")]
+    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
     pub value: ::prost::alloc::vec::Vec<u8>,
     #[prost(enumeration = "AttributeType", tag = "3")]
     pub attribute_type: i32,
@@ -366,6 +367,7 @@ pub struct MsgAddAttributeRequest {
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
     #[prost(bytes = "vec", tag = "2")]
+    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
     pub value: ::prost::alloc::vec::Vec<u8>,
     #[prost(enumeration = "AttributeType", tag = "3")]
     pub attribute_type: i32,
@@ -403,8 +405,10 @@ pub struct MsgUpdateAttributeRequest {
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
     #[prost(bytes = "vec", tag = "2")]
+    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
     pub original_value: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "3")]
+    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
     pub update_value: ::prost::alloc::vec::Vec<u8>,
     #[prost(enumeration = "AttributeType", tag = "4")]
     pub original_attribute_type: i32,
@@ -477,6 +481,7 @@ pub struct MsgDeleteDistinctAttributeRequest {
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
     #[prost(bytes = "vec", tag = "2")]
+    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
     pub value: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, tag = "3")]
     pub account: ::prost::alloc::string::String,

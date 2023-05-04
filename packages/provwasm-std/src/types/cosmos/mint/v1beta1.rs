@@ -149,6 +149,7 @@ pub struct QueryInflationRequest {}
 pub struct QueryInflationResponse {
     /// inflation is the current minting inflation value.
     #[prost(bytes = "vec", tag = "1")]
+    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
     pub inflation: ::prost::alloc::vec::Vec<u8>,
 }
 /// QueryAnnualProvisionsRequest is the request type for the
@@ -187,6 +188,7 @@ pub struct QueryAnnualProvisionsRequest {}
 pub struct QueryAnnualProvisionsResponse {
     /// annual_provisions is the current minting annual provisions value.
     #[prost(bytes = "vec", tag = "1")]
+    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
     pub annual_provisions: ::prost::alloc::vec::Vec<u8>,
 }
 pub struct MintQuerier<'a, Q: cosmwasm_std::CustomQuery> {

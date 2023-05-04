@@ -379,6 +379,7 @@ pub struct Bech32PrefixResponse {
 )]
 pub struct AddressBytesToStringRequest {
     #[prost(bytes = "vec", tag = "1")]
+    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
     pub address_bytes: ::prost::alloc::vec::Vec<u8>,
 }
 /// AddressBytesToStringResponse is the response type for AddressString rpc method.
@@ -440,6 +441,7 @@ pub struct AddressStringToBytesRequest {
 #[proto_message(type_url = "/cosmos.auth.v1beta1.AddressStringToBytesResponse")]
 pub struct AddressStringToBytesResponse {
     #[prost(bytes = "vec", tag = "1")]
+    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
     pub address_bytes: ::prost::alloc::vec::Vec<u8>,
 }
 /// QueryAccountAddressByIDRequest is the request type for AccountAddressByID rpc method

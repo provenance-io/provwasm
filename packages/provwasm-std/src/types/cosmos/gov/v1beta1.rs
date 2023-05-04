@@ -219,13 +219,16 @@ pub struct TallyParams {
     ///   Minimum percentage of total stake needed to vote for a result to be
     ///   considered valid.
     #[prost(bytes = "vec", tag = "1")]
+    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
     pub quorum: ::prost::alloc::vec::Vec<u8>,
     ///   Minimum proportion of Yes votes for proposal to pass. Default value: 0.5.
     #[prost(bytes = "vec", tag = "2")]
+    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
     pub threshold: ::prost::alloc::vec::Vec<u8>,
     ///   Minimum value of Veto votes to Total votes ratio for proposal to be
     ///   vetoed. Default value: 1/3.
     #[prost(bytes = "vec", tag = "3")]
+    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
     pub veto_threshold: ::prost::alloc::vec::Vec<u8>,
 }
 /// VoteOption enumerates the valid vote options for a given governance proposal.

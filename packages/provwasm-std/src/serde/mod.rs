@@ -20,3 +20,17 @@ pub mod as_str {
         serializer.serialize_str(&value.to_string())
     }
 }
+
+pub mod as_vec {
+    use serde::{de, Deserialize, Deserializer};
+
+    pub fn deserialize<'de, D, T>(deserializer: D) -> Result<T, D::Error>
+    where
+        T: Default + Deserialize<'de>,
+        D: Deserializer<'de>,
+    {
+        let option = Option::deserialize(deserializer)?;
+
+        Ok(option.unwrap_or_default())
+    }
+}

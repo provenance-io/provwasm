@@ -69,6 +69,7 @@ pub struct GenesisState {
 pub struct QueryEvidenceRequest {
     /// evidence_hash defines the hash of the requested evidence.
     #[prost(bytes = "vec", tag = "1")]
+    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
     pub evidence_hash: ::prost::alloc::vec::Vec<u8>,
 }
 /// QueryEvidenceResponse is the response type for the Query/Evidence RPC method.
@@ -170,6 +171,7 @@ pub struct MsgSubmitEvidence {
 pub struct MsgSubmitEvidenceResponse {
     /// hash defines the hash of the evidence.
     #[prost(bytes = "vec", tag = "4")]
+    #[serde(deserialize_with = "crate::serde::as_vec::deserialize")]
     pub hash: ::prost::alloc::vec::Vec<u8>,
 }
 pub struct EvidenceQuerier<'a, Q: cosmwasm_std::CustomQuery> {
