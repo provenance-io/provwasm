@@ -2,7 +2,7 @@ use itertools::Itertools;
 use proc_macro::TokenStream;
 use proc_macro2::TokenTree;
 use quote::quote;
-use syn::{parse_macro_input, DeriveInput};
+use syn::{parse_macro_input, punctuated::Punctuated, DeriveInput};
 
 macro_rules! match_kv_attr {
     ($key:expr, $value_type:tt) => {
@@ -54,6 +54,23 @@ pub fn derive_cosmwasm_ext(input: TokenStream) -> TokenStream {
             pub fn query(self, querier: &cosmwasm_std::QuerierWrapper<impl cosmwasm_std::CustomQuery>) -> cosmwasm_std::StdResult<#res> {
                 querier.query::<#res>(&self.into())
             }
+
+            pub fn mock_response<T: mock::MockableQuerier>(querier: &mut T, response: #res) {
+                querier.register_custom_query(#path.to_string(), Box::new(move |data| {
+                    cosmwasm_std::SystemResult::Ok(cosmwasm_std::ContractResult::Ok(
+                        cosmwasm_std::to_binary(&response)
+                        .unwrap()))
+                }))
+            }
+
+            pub fn mock_failed_response<T: mock::MockableQuerier>(querier: &mut T, error: String) {
+                querier.register_custom_query(#path.to_string(), Box::new(move |data| {
+                    cosmwasm_std::SystemResult::Err(cosmwasm_std::SystemError::InvalidResponse {
+                        error: error.clone(),
+                        response: cosmwasm_std::Binary::default(),
+                    })
+                }))
+            }
         };
 
         (query_request_conversion, cosmwasm_query)
@@ -91,7 +108,7 @@ pub fn derive_cosmwasm_ext(input: TokenStream) -> TokenStream {
         impl TryFrom<cosmwasm_std::Binary> for #ident {
             type Error = cosmwasm_std::StdError;
 
-            fn try_from(binary: cosmwasm_std::Binary) -> Result<Self, Self::Error> {
+            fn try_from(binary: cosmwasm_std::Binary) -> std::result::Result<Self, Self::Error> {
                 use ::prost::Message;
                 Self::decode(&binary[..]).map_err(|e| {
                     cosmwasm_std::StdError::ParseErr {
@@ -106,89 +123,74 @@ pub fn derive_cosmwasm_ext(input: TokenStream) -> TokenStream {
                 })
             }
         }
-
-        impl TryFrom<cosmwasm_std::SubMsgResult> for #ident {
-            type Error = cosmwasm_std::StdError;
-
-            fn try_from(result: cosmwasm_std::SubMsgResult) -> Result<Self, Self::Error> {
-                result
-                    .into_result()
-                    .map_err(|e| cosmwasm_std::StdError::GenericErr { msg: e })?
-                    .data
-                    .ok_or_else(|| cosmwasm_std::StdError::NotFound {
-                        kind: "cosmwasm_std::SubMsgResult::<T>".to_string(),
-                    })?
-                    .try_into()
-            }
-        }
     }).into()
 }
 
-fn get_type_url(attrs: &[syn::Attribute]) -> proc_macro2::TokenStream {
-    let proto_message = get_attr("proto_message", attrs).and_then(|a| a.parse_meta().ok());
+fn get_type_url(attrs: &Vec<syn::Attribute>) -> proc_macro2::TokenStream {
+    let proto_message = get_attr("proto_message", attrs).and_then(|a| Some(a.meta.clone()));
 
     if let Some(syn::Meta::List(meta)) = proto_message.clone() {
-        match meta.nested[0].clone() {
-            syn::NestedMeta::Meta(syn::Meta::NameValue(meta)) => {
-                if meta.path.is_ident("type_url") {
-                    match meta.lit {
-                        syn::Lit::Str(s) => quote!(#s),
-                        _ => proto_message_attr_error(meta.lit),
-                    }
-                } else {
-                    proto_message_attr_error(meta.path)
+        let nested = meta
+            .parse_args_with(Punctuated::<syn::Meta, syn::Token![,]>::parse_terminated)
+            .unwrap();
+        if let syn::Meta::NameValue(meta) = nested[0].clone() {
+            if !meta.path.is_ident("type_url") {
+                return proto_message_attr_error(meta.value);
+            }
+
+            if let syn::Expr::Lit(expr_lit) = &meta.value {
+                if let syn::Lit::Str(lit_str) = &expr_lit.lit {
+                    return quote!(#lit_str);
                 }
             }
-            t => proto_message_attr_error(t),
+
+            return proto_message_attr_error(meta.value);
         }
-    } else {
-        proto_message_attr_error(proto_message)
     }
+
+    proto_message_attr_error(proto_message)
 }
 
-fn get_query_attrs<F>(attrs: &[syn::Attribute], f: F) -> proc_macro2::TokenStream
+fn get_query_attrs<F>(attrs: &Vec<syn::Attribute>, f: F) -> proc_macro2::TokenStream
 where
     F: FnMut(&Vec<TokenTree>) -> Option<proc_macro2::TokenStream>,
 {
     let proto_query = get_attr("proto_query", attrs);
 
     if let Some(attr) = proto_query {
-        if attr.tokens.clone().into_iter().count() != 1 {
-            return proto_query_attr_error(proto_query);
-        }
+        let list = attr.meta.require_list().unwrap();
 
-        if let Some(TokenTree::Group(group)) = attr.tokens.clone().into_iter().next() {
-            let kv_groups = group.stream().into_iter().group_by(|t| {
-                if let TokenTree::Punct(punct) = t {
-                    punct.as_char() != ','
-                } else {
-                    true
-                }
-            });
-            let mut key_values: Vec<Vec<TokenTree>> = vec![];
-
-            for (non_sep, g) in &kv_groups {
-                if non_sep {
-                    key_values.push(g.collect());
-                }
+        let kv_groups = list.tokens.clone().into_iter().group_by(|t| {
+            if let TokenTree::Punct(punct) = t {
+                punct.as_char() != ','
+            } else {
+                true
             }
+        });
+        let mut key_values: Vec<Vec<TokenTree>> = vec![];
 
-            return key_values
-                .iter()
-                .find_map(f)
-                .unwrap_or_else(|| proto_query_attr_error(proto_query));
+        for (non_sep, g) in &kv_groups {
+            if non_sep {
+                key_values.push(g.collect());
+            }
         }
 
-        proto_query_attr_error(proto_query)
-    } else {
-        proto_query_attr_error(proto_query)
+        return key_values
+            .iter()
+            .find_map(f)
+            .unwrap_or_else(|| proto_query_attr_error(proto_query));
     }
+
+    proto_query_attr_error(proto_query)
 }
 
-fn get_attr<'a>(attr_ident: &str, attrs: &'a [syn::Attribute]) -> Option<&'a syn::Attribute> {
-    attrs
-        .iter()
-        .find(|&attr| attr.path.segments.len() == 1 && attr.path.segments[0].ident == attr_ident)
+fn get_attr<'a>(attr_ident: &str, attrs: &'a Vec<syn::Attribute>) -> Option<&'a syn::Attribute> {
+    for attr in attrs {
+        if attr.path().segments.len() == 1 && attr.path().segments[0].ident == attr_ident {
+            return Some(attr);
+        }
+    }
+    None
 }
 
 fn proto_message_attr_error<T: quote::ToTokens>(tokens: T) -> proc_macro2::TokenStream {
