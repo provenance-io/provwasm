@@ -48,18 +48,36 @@ pub fn instantiate(
     })?;
 
     // Create a message that will bind a restricted name to the contract address.
-    let msg = MsgBindNameRequest {
-        parent: None,
-        record: Some(NameRecord {
-            name: msg.contract_name,
-            address: env.contract.address.to_string(),
-            restricted: true,
-        }),
-    };
+    let split: Vec<&str> = msg.contract_name.splitn(2, '.').collect();
+    let record = split.first();
+    let parent = split.last();
 
-    Ok(Response::new()
-        .add_message(msg)
-        .add_attribute("action", "init"))
+    match (parent, record) {
+        (Some(parent), Some(record)) => {
+            // Create a bind name message
+            let bind_name_msg = MsgBindNameRequest {
+                parent: Some(NameRecord {
+                    name: parent.to_string(),
+                    address: env.contract.address.to_string(),
+                    restricted: true,
+                }),
+                record: Some(NameRecord {
+                    name: record.to_string(),
+                    address: env.contract.address.to_string(),
+                    restricted: true,
+                }),
+            };
+
+            // Dispatch bind name message and add event attributes.
+            let res = Response::new()
+                .add_message(bind_name_msg)
+                .add_attribute("action", "init");
+            Ok(res)
+        }
+        (_, _) => Err(StdError::GenericErr {
+            msg: "Invalid contract name".to_string(),
+        }),
+    }
 }
 
 /// Query contract state.
