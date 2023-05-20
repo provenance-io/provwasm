@@ -14,12 +14,14 @@ pub enum ExecuteMsg {
 #[cw_serde]
 #[derive(QueryResponses)]
 pub enum QueryMsg {
-    #[returns(provwasm_std::types::provenance::metadata::v1::Scope)]
+    #[returns(provwasm_std::types::provenance::metadata::v1::ContractSpecificationResponse)]
+    GetContractSpec { id: String },
+    #[returns(provwasm_std::types::provenance::metadata::v1::ScopeResponse)]
     GetScope { id: String },
-    #[returns(provwasm_std::types::provenance::metadata::v1::Session)]
+    #[returns(provwasm_std::types::provenance::metadata::v1::SessionsResponse)]
     GetSessions { scope_id: String },
-    #[returns(Vec<provwasm_std::types::provenance::metadata::v1::Record>)]
+    #[returns(Vec<provwasm_std::types::provenance::metadata::v1::RecordsResponse>)]
     GetRecords { scope_id: String },
-    #[returns(provwasm_std::types::provenance::metadata::v1::Record)]
+    #[returns(provwasm_std::types::provenance::metadata::v1::RecordsResponse)]
     GetRecordByName { scope_id: String, name: String },
 }
