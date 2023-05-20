@@ -6,7 +6,7 @@ attrs:
 	@make -C attrs
 
 .PHONY: ibc
-attrs:
+ibc:
 	@make -C ibc
 
 .PHONY: marker
@@ -32,6 +32,7 @@ tutorial:
 .PHONY: clean
 clean:
 	@make -C attrs clean
+	@make -C ibc clean
 	@make -C marker clean
 	@make -C msgfees clean
 	@make -C name clean
