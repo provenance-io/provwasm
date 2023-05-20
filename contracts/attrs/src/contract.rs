@@ -195,6 +195,23 @@ pub fn query(deps: Deps, env: Env, msg: QueryMsg) -> Result<QueryResponse, StdEr
 pub fn migrate(_deps: DepsMut, _env: Env, _msg: MigrateMsg) -> Result<Response, ContractError> {
     Ok(Response::default())
 }
+
+#[cfg(test)]
+mod tests {
+    use cosmwasm_std::{from_binary, to_binary, Binary, StdResult};
+    use provwasm_std::types::provenance::attribute::v1::QueryAttributesResponse;
+
+    #[test]
+    fn deser() -> StdResult<()> {
+        let s = Binary::from_base64("eyJhY2NvdW50IjoidHAxNGhqMnRhdnE4ZnBlc2R3eHhjdTQ0cnR5M2hoOTB2aHVqcnZjbXN0bDR6cjN0eG1mdnc5czk2bHJnOCIsImF0dHJpYnV0ZXMiOlt7Im5hbWUiOiJsYWJlbC5hdHRycy1pdHYyLnNjLnBiIiwidmFsdWUiOiJleUowWlhoMElqb2lkMkZ6YlNKOSIsImF0dHJpYnV0ZV90eXBlIjoiQVRUUklCVVRFX1RZUEVfSlNPTiIsImFkZHJlc3MiOiJ0cDE0aGoydGF2cThmcGVzZHd4eGN1NDRydHkzaGg5MHZodWpydmNtc3RsNHpyM3R4bWZ2dzlzOTZscmc4In0seyJuYW1lIjoibGFiZWwuYXR0cnMtaXR2Mi5zYy5wYiIsInZhbHVlIjoiZXlKMFpYaDBJam9pYUdWc2JHOGlmUT09IiwiYXR0cmlidXRlX3R5cGUiOiJBVFRSSUJVVEVfVFlQRV9KU09OIiwiYWRkcmVzcyI6InRwMTRoajJ0YXZxOGZwZXNkd3h4Y3U0NHJ0eTNoaDkwdmh1anJ2Y21zdGw0enIzdHhtZnZ3OXM5NmxyZzgifV0sInBhZ2luYXRpb24iOnsibmV4dF9rZXkiOm51bGwsInRvdGFsIjoiMiJ9fQ==")?;
+        // let s = Binary::from_base64("eyJhY2NvdW50IjoidHAxNGhqMnRhdnE4ZnBlc2R3eHhjdTQ0cnR5M2hoOTB2aHVqcnZjbXN0bDR6cjN0eG1mdnc5czk2bHJnOCIsImF0dHJpYnV0ZXMiOlt7Im5hbWUiOiJsYWJlbC5hdHRycy1pdHYyLnNjLnBiIiwidmFsdWUiOltdLCJhdHRyaWJ1dGVfdHlwZSI6IkFUVFJJQlVURV9UWVBFX0pTT04iLCJhZGRyZXNzIjoidHAxNGhqMnRhdnE4ZnBlc2R3eHhjdTQ0cnR5M2hoOTB2aHVqcnZjbXN0bDR6cjN0eG1mdnc5czk2bHJnOCJ9XSwicGFnaW5hdGlvbiI6eyJuZXh0X2tleSI6bnVsbCwidG90YWwiOiIyIn19")?;
+
+        let res: QueryAttributesResponse = from_binary(&s)?;
+
+        Ok(())
+    }
+}
+
 //
 // #[cfg(test)]
 // mod tests {
