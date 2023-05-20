@@ -771,7 +771,6 @@ dependencies = [
  "chrono",
  "cosmwasm-std",
  "mock",
- "num-traits",
  "prost",
  "prost-types",
  "provwasm-std-derive",
