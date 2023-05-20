@@ -54,7 +54,6 @@ pub mod signature_descriptor {
     #[serde(rename_all = "snake_case")]
     pub struct Data {
         #[prost(oneof = "data::Sum", tags = "1, 2")]
-        #[serde(flatten)]
         pub sum: ::core::option::Option<data::Sum>,
     }
     /// Nested message and enum types in `Data`.

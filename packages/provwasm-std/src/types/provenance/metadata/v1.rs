@@ -729,7 +729,6 @@ pub struct ContractSpecification {
     #[prost(string, tag = "7")]
     pub class_name: ::prost::alloc::string::String,
     #[prost(oneof = "contract_specification::Source", tags = "5, 6")]
-    #[serde(flatten)]
     pub source: ::core::option::Option<contract_specification::Source>,
 }
 /// Nested message and enum types in `ContractSpecification`.
@@ -802,7 +801,6 @@ pub struct InputSpecification {
     #[prost(string, tag = "2")]
     pub type_name: ::prost::alloc::string::String,
     #[prost(oneof = "input_specification::Source", tags = "3, 4")]
-    #[serde(flatten)]
     pub source: ::core::option::Option<input_specification::Source>,
 }
 /// Nested message and enum types in `InputSpecification`.
@@ -1096,7 +1094,6 @@ pub struct Process {
     #[prost(string, tag = "4")]
     pub method: ::prost::alloc::string::String,
     #[prost(oneof = "process::ProcessId", tags = "1, 2")]
-    #[serde(flatten)]
     pub process_id: ::core::option::Option<process::ProcessId>,
 }
 /// Nested message and enum types in `Process`.
@@ -1137,7 +1134,6 @@ pub struct RecordInput {
     )]
     pub status: i32,
     #[prost(oneof = "record_input::Source", tags = "2, 3")]
-    #[serde(flatten)]
     pub source: ::core::option::Option<record_input::Source>,
 }
 /// Nested message and enum types in `RecordInput`.
@@ -2348,7 +2344,6 @@ pub struct SessionIdComponents {
     #[prost(string, tag = "3")]
     pub session_uuid: ::prost::alloc::string::String,
     #[prost(oneof = "session_id_components::ScopeIdentifier", tags = "1, 2")]
-    #[serde(flatten)]
     pub scope_identifier: ::core::option::Option<session_id_components::ScopeIdentifier>,
 }
 /// Nested message and enum types in `SessionIdComponents`.

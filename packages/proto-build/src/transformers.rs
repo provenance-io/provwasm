@@ -170,13 +170,13 @@ pub fn allow_serde_enum_as_custom_enum(s: ItemStruct) -> ItemStruct {
             }
 
             // Add serde flatten for filed having one of attribute
-            if has_prost_one_of_attr(&field.attrs) {
-                let flatten: syn::Attribute = parse_quote! {
-                    #[serde(flatten)]
-                };
-
-                field.attrs.append(&mut vec![flatten]);
-            }
+            // if has_prost_one_of_attr(&field.attrs) {
+            //     let flatten: syn::Attribute = parse_quote! {
+            //         #[serde(flatten)]
+            //     };
+            //
+            //     field.attrs.append(&mut vec![flatten]);
+            // }
 
             field
         })

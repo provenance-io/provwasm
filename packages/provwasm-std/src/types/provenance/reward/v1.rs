@@ -306,7 +306,6 @@ pub mod reward_account_state {
 #[serde(rename_all = "snake_case")]
 pub struct QualifyingAction {
     #[prost(oneof = "qualifying_action::Type", tags = "1, 2, 3")]
-    #[serde(flatten)]
     pub r#type: ::core::option::Option<qualifying_action::Type>,
 }
 /// Nested message and enum types in `QualifyingAction`.
