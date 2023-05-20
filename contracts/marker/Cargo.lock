@@ -548,7 +548,6 @@ dependencies = [
  "chrono",
  "cosmwasm-std",
  "mock",
- "num-traits",
  "prost",
  "prost-types",
  "provwasm-std-derive",
@@ -565,7 +564,7 @@ dependencies = [
  "itertools",
  "proc-macro2",
  "quote",
- "syn 1.0.109",
+ "syn 2.0.15",
 ]
 
 [[package]]
