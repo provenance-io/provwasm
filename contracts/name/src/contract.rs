@@ -168,7 +168,7 @@ pub fn query(deps: Deps, _env: Env, msg: QueryMsg) -> Result<QueryResponse, StdE
 fn try_resolve(deps: Deps, name: String) -> Result<QueryResponse, StdError> {
     let querier = NameQuerier::new(&deps.querier);
     let name = querier.resolve(name)?;
-    to_binary(&name.address)
+    to_binary(&name)
 }
 
 // Use a ProvenanceQuerier to resolve the address for a name.
@@ -183,8 +183,7 @@ fn try_lookup(deps: Deps, address: String) -> Result<QueryResponse, StdError> {
     deps.api.addr_validate(&address)?;
     let querier = NameQuerier::new(&deps.querier);
     let names = querier.reverse_lookup(address, None)?;
-    let first = names.name.first().unwrap();
-    to_binary(&first)
+    to_binary(&names)
 }
 
 //
