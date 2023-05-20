@@ -39,3 +39,24 @@ pub mod as_base64 {
         base64::decode(base64_value.as_bytes()).map_err(serde::de::Error::custom)
     }
 }
+
+pub mod str_as_bytes {
+    use serde::{Deserialize, Deserializer, Serializer};
+    use std::str::from_utf8;
+
+    pub fn deserialize<'de, D>(deserializer: D) -> Result<Vec<u8>, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        let s = String::deserialize(deserializer)?;
+        Ok(s.into_bytes())
+    }
+
+    pub fn serialize<S>(value: &[u8], serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        let y = from_utf8(value).map_err(serde::ser::Error::custom)?;
+        serializer.serialize_str(y)
+    }
+}
