@@ -4,6 +4,7 @@ use provwasm_std::{Name, NameQueryParams, Names};
 use std::collections::HashMap;
 
 /// A mock for testing provenance name module queries.
+#[deprecated(since = "2.0.0")]
 #[derive(Clone, Default)]
 pub struct NameQuerier {
     records: HashMap<String, Name>,

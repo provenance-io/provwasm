@@ -4,12 +4,14 @@ use provwasm_std::{Attribute, AttributeQueryParams, AttributeValueType, Attribut
 use std::collections::HashMap;
 
 /// A mock for testing provenance account attribute queries.
+#[deprecated(since = "2.0.0")]
 #[derive(Clone, Default)]
 pub struct AttributeQuerier {
     records: HashMap<Addr, Vec<Attribute>>,
 }
 
 // Helper function to convert string to attribute value type.
+#[deprecated(since = "2.0.0")]
 fn determine_attr_type(typ: &str) -> AttributeValueType {
     if typ == "json" {
         AttributeValueType::Json

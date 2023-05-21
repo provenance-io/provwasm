@@ -12,6 +12,7 @@ use std::marker::PhantomData;
 
 /// A drop-in replacement for cosmwasm_std::testing::mock_dependencies that uses the mock
 /// provenance querier.
+#[deprecated(since = "2.0.0")]
 pub fn mock_dependencies(
     contract_balance: &[Coin],
 ) -> OwnedDeps<MockStorage, MockApi, ProvenanceMockQuerier, ProvenanceQuery> {
@@ -26,6 +27,7 @@ pub fn mock_dependencies(
 
 /// Initializes the mock querier with the account balances provided. NOTE: contract balance must
 /// be set in the balances slice passed if required.
+#[deprecated(since = "2.0.0")]
 pub fn mock_dependencies_with_balances(
     balances: &[(&str, &[Coin])],
 ) -> OwnedDeps<MockStorage, MockApi, ProvenanceMockQuerier, ProvenanceQuery> {
@@ -37,7 +39,8 @@ pub fn mock_dependencies_with_balances(
         custom_query_type: PhantomData,
     }
 }
-#[deprecated]
+
+#[deprecated(since = "2.0.0")]
 pub struct ProvenanceMockQuerier {
     pub base: MockQuerier,
     name: NameQuerier,

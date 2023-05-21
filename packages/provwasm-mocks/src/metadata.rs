@@ -4,6 +4,7 @@ use provwasm_std::{MetadataQueryParams, Records, Scope, Sessions};
 use std::collections::HashMap;
 
 /// A mock for testing provenance metadata module queries.
+#[deprecated(since = "2.0.0")]
 #[derive(Clone, Default)]
 pub struct MetadataQuerier {
     scope_store: HashMap<String, Scope>,

@@ -4,6 +4,7 @@ use provwasm_std::{Marker, MarkerQueryParams};
 use std::collections::HashMap;
 
 /// A mock for testing provenance marker module queries.
+#[deprecated(since = "2.0.0")]
 #[derive(Clone, Default)]
 pub struct MarkerQuerier {
     denom_records: HashMap<String, Marker>,
