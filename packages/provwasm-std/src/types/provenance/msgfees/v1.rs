@@ -6,7 +6,7 @@
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.msgfees.v1.Params")]
 #[serde(rename_all = "snake_case")]
@@ -30,7 +30,7 @@ pub struct Params {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.msgfees.v1.MsgFee")]
 #[serde(rename_all = "snake_case")]
@@ -52,7 +52,7 @@ pub struct MsgFee {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.msgfees.v1.EventMsgFee")]
 #[serde(rename_all = "snake_case")]
@@ -74,7 +74,7 @@ pub struct EventMsgFee {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.msgfees.v1.EventMsgFees")]
 #[serde(rename_all = "snake_case")]
@@ -90,7 +90,7 @@ pub struct EventMsgFees {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.msgfees.v1.QueryParamsRequest")]
 #[serde(rename_all = "snake_case")]
@@ -107,7 +107,7 @@ pub struct QueryParamsRequest {}
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.msgfees.v1.QueryParamsResponse")]
 #[serde(rename_all = "snake_case")]
@@ -123,7 +123,7 @@ pub struct QueryParamsResponse {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.msgfees.v1.MsgAssessCustomMsgFeeRequest")]
 #[serde(rename_all = "snake_case")]
@@ -147,7 +147,7 @@ pub struct MsgAssessCustomMsgFeeRequest {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.msgfees.v1.MsgAssessCustomMsgFeeResponse")]
 #[serde(rename_all = "snake_case")]

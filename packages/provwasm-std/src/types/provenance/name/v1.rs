@@ -6,7 +6,7 @@
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.name.v1.Params")]
 #[serde(rename_all = "snake_case")]
@@ -28,7 +28,7 @@ pub struct Params {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.name.v1.NameRecord")]
 #[serde(rename_all = "snake_case")]
@@ -48,7 +48,7 @@ pub struct NameRecord {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.name.v1.CreateRootNameProposal")]
 #[serde(rename_all = "snake_case")]
@@ -72,7 +72,7 @@ pub struct CreateRootNameProposal {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.name.v1.EventNameBound")]
 #[serde(rename_all = "snake_case")]
@@ -92,7 +92,7 @@ pub struct EventNameBound {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.name.v1.EventNameUnbound")]
 #[serde(rename_all = "snake_case")]
@@ -112,7 +112,7 @@ pub struct EventNameUnbound {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.name.v1.EventNameUpdate")]
 #[serde(rename_all = "snake_case")]
@@ -132,7 +132,7 @@ pub struct EventNameUpdate {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.name.v1.QueryParamsRequest")]
 #[serde(rename_all = "snake_case")]
@@ -149,7 +149,7 @@ pub struct QueryParamsRequest {}
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.name.v1.QueryParamsResponse")]
 #[serde(rename_all = "snake_case")]
@@ -165,7 +165,7 @@ pub struct QueryParamsResponse {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.name.v1.QueryResolveRequest")]
 #[serde(rename_all = "snake_case")]
@@ -185,7 +185,7 @@ pub struct QueryResolveRequest {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.name.v1.QueryResolveResponse")]
 #[serde(rename_all = "snake_case")]
@@ -203,7 +203,7 @@ pub struct QueryResolveResponse {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.name.v1.QueryReverseLookupRequest")]
 #[serde(rename_all = "snake_case")]
@@ -226,7 +226,7 @@ pub struct QueryReverseLookupRequest {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.name.v1.QueryReverseLookupResponse")]
 #[serde(rename_all = "snake_case")]
@@ -245,7 +245,7 @@ pub struct QueryReverseLookupResponse {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.name.v1.MsgBindNameRequest")]
 #[serde(rename_all = "snake_case")]
@@ -263,7 +263,7 @@ pub struct MsgBindNameRequest {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.name.v1.MsgBindNameResponse")]
 #[serde(rename_all = "snake_case")]
@@ -276,7 +276,7 @@ pub struct MsgBindNameResponse {}
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.name.v1.MsgDeleteNameRequest")]
 #[serde(rename_all = "snake_case")]
@@ -292,7 +292,7 @@ pub struct MsgDeleteNameRequest {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.name.v1.MsgDeleteNameResponse")]
 #[serde(rename_all = "snake_case")]
@@ -305,7 +305,7 @@ pub struct MsgDeleteNameResponse {}
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.name.v1.MsgCreateRootNameRequest")]
 #[serde(rename_all = "snake_case")]
@@ -323,7 +323,7 @@ pub struct MsgCreateRootNameRequest {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.name.v1.MsgCreateRootNameResponse")]
 #[serde(rename_all = "snake_case")]
@@ -336,7 +336,7 @@ pub struct MsgCreateRootNameResponse {}
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.name.v1.MsgModifyNameRequest")]
 #[serde(rename_all = "snake_case")]
@@ -354,7 +354,7 @@ pub struct MsgModifyNameRequest {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.name.v1.MsgModifyNameResponse")]
 #[serde(rename_all = "snake_case")]

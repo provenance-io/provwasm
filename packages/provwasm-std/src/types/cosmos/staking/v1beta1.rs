@@ -6,7 +6,7 @@
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.staking.v1beta1.CommissionRates")]
 #[serde(rename_all = "snake_case")]
@@ -26,7 +26,7 @@ pub struct CommissionRates {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.staking.v1beta1.Commission")]
 #[serde(rename_all = "snake_case")]
@@ -44,7 +44,7 @@ pub struct Commission {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.staking.v1beta1.Description")]
 #[serde(rename_all = "snake_case")]
@@ -68,7 +68,7 @@ pub struct Description {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.staking.v1beta1.Validator")]
 #[serde(rename_all = "snake_case")]
@@ -112,7 +112,7 @@ pub struct Validator {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.staking.v1beta1.Delegation")]
 #[serde(rename_all = "snake_case")]
@@ -132,7 +132,7 @@ pub struct Delegation {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.staking.v1beta1.Params")]
 #[serde(rename_all = "snake_case")]
@@ -158,7 +158,7 @@ pub struct Params {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.staking.v1beta1.DelegationResponse")]
 #[serde(rename_all = "snake_case")]
@@ -231,7 +231,7 @@ impl BondStatus {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.staking.v1beta1.QueryValidatorRequest")]
 #[serde(rename_all = "snake_case")]
@@ -251,7 +251,7 @@ pub struct QueryValidatorRequest {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.staking.v1beta1.QueryValidatorResponse")]
 #[serde(rename_all = "snake_case")]
@@ -267,7 +267,7 @@ pub struct QueryValidatorResponse {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.staking.v1beta1.QueryDelegationRequest")]
 #[serde(rename_all = "snake_case")]
@@ -289,7 +289,7 @@ pub struct QueryDelegationRequest {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.staking.v1beta1.QueryDelegationResponse")]
 #[serde(rename_all = "snake_case")]
@@ -305,7 +305,7 @@ pub struct QueryDelegationResponse {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.staking.v1beta1.QueryParamsRequest")]
 #[serde(rename_all = "snake_case")]
@@ -322,7 +322,7 @@ pub struct QueryParamsRequest {}
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.staking.v1beta1.QueryParamsResponse")]
 #[serde(rename_all = "snake_case")]

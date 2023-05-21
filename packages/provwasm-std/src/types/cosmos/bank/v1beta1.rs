@@ -6,7 +6,7 @@
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.bank.v1beta1.Params")]
 #[serde(rename_all = "snake_case")]
@@ -25,7 +25,7 @@ pub struct Params {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.bank.v1beta1.SendEnabled")]
 #[serde(rename_all = "snake_case")]
@@ -43,7 +43,7 @@ pub struct SendEnabled {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.bank.v1beta1.Input")]
 #[serde(rename_all = "snake_case")]
@@ -61,7 +61,7 @@ pub struct Input {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.bank.v1beta1.Output")]
 #[serde(rename_all = "snake_case")]
@@ -79,7 +79,7 @@ pub struct Output {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.bank.v1beta1.DenomUnit")]
 #[serde(rename_all = "snake_case")]
@@ -99,7 +99,7 @@ pub struct DenomUnit {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.bank.v1beta1.Metadata")]
 #[serde(rename_all = "snake_case")]
@@ -129,7 +129,7 @@ pub struct Metadata {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.bank.v1beta1.QueryBalanceRequest")]
 #[serde(rename_all = "snake_case")]
@@ -151,7 +151,7 @@ pub struct QueryBalanceRequest {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.bank.v1beta1.QueryBalanceResponse")]
 #[serde(rename_all = "snake_case")]
@@ -167,7 +167,7 @@ pub struct QueryBalanceResponse {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.bank.v1beta1.QuerySupplyOfRequest")]
 #[serde(rename_all = "snake_case")]
@@ -187,7 +187,7 @@ pub struct QuerySupplyOfRequest {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.bank.v1beta1.QuerySupplyOfResponse")]
 #[serde(rename_all = "snake_case")]
@@ -203,7 +203,7 @@ pub struct QuerySupplyOfResponse {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.bank.v1beta1.QueryParamsRequest")]
 #[serde(rename_all = "snake_case")]
@@ -220,7 +220,7 @@ pub struct QueryParamsRequest {}
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.bank.v1beta1.QueryParamsResponse")]
 #[serde(rename_all = "snake_case")]
@@ -236,7 +236,7 @@ pub struct QueryParamsResponse {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.bank.v1beta1.QueryDenomMetadataRequest")]
 #[serde(rename_all = "snake_case")]
@@ -256,7 +256,7 @@ pub struct QueryDenomMetadataRequest {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.bank.v1beta1.QueryDenomMetadataResponse")]
 #[serde(rename_all = "snake_case")]
@@ -272,7 +272,7 @@ pub struct QueryDenomMetadataResponse {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.bank.v1beta1.MsgSend")]
 #[serde(rename_all = "snake_case")]
@@ -292,7 +292,7 @@ pub struct MsgSend {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.bank.v1beta1.MsgSendResponse")]
 #[serde(rename_all = "snake_case")]
@@ -305,7 +305,7 @@ pub struct MsgSendResponse {}
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.bank.v1beta1.MsgMultiSend")]
 #[serde(rename_all = "snake_case")]
@@ -323,7 +323,7 @@ pub struct MsgMultiSend {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.bank.v1beta1.MsgMultiSendResponse")]
 #[serde(rename_all = "snake_case")]

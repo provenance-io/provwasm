@@ -6,7 +6,7 @@
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.gov.v1beta1.WeightedVoteOption")]
 #[serde(rename_all = "snake_case")]
@@ -28,7 +28,7 @@ pub struct WeightedVoteOption {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.gov.v1beta1.Deposit")]
 #[serde(rename_all = "snake_case")]
@@ -52,7 +52,7 @@ pub struct Deposit {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.gov.v1beta1.Vote")]
 #[serde(rename_all = "snake_case")]
@@ -83,7 +83,7 @@ pub struct Vote {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.gov.v1beta1.DepositParams")]
 #[serde(rename_all = "snake_case")]
@@ -101,7 +101,7 @@ pub struct DepositParams {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.gov.v1beta1.VotingParams")]
 #[serde(rename_all = "snake_case")]
@@ -117,7 +117,7 @@ pub struct VotingParams {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.gov.v1beta1.TallyParams")]
 #[serde(rename_all = "snake_case")]
@@ -207,7 +207,7 @@ impl VoteOption {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.gov.v1beta1.QueryVoteRequest")]
 #[serde(rename_all = "snake_case")]
@@ -233,7 +233,7 @@ pub struct QueryVoteRequest {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.gov.v1beta1.QueryVoteResponse")]
 #[serde(rename_all = "snake_case")]
@@ -249,7 +249,7 @@ pub struct QueryVoteResponse {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.gov.v1beta1.QueryParamsRequest")]
 #[serde(rename_all = "snake_case")]
@@ -269,7 +269,7 @@ pub struct QueryParamsRequest {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.gov.v1beta1.QueryParamsResponse")]
 #[serde(rename_all = "snake_case")]
@@ -289,7 +289,7 @@ pub struct QueryParamsResponse {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.gov.v1beta1.QueryDepositRequest")]
 #[serde(rename_all = "snake_case")]
@@ -315,7 +315,7 @@ pub struct QueryDepositRequest {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.gov.v1beta1.QueryDepositResponse")]
 #[serde(rename_all = "snake_case")]

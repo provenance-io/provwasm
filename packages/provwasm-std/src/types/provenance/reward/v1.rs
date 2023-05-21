@@ -6,7 +6,7 @@
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.reward.v1.RewardProgram")]
 #[serde(rename_all = "snake_case")]
@@ -156,7 +156,7 @@ pub mod reward_program {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.reward.v1.ClaimPeriodRewardDistribution")]
 #[serde(rename_all = "snake_case")]
@@ -195,7 +195,7 @@ pub struct ClaimPeriodRewardDistribution {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.reward.v1.RewardAccountState")]
 #[serde(rename_all = "snake_case")]
@@ -300,7 +300,7 @@ pub mod reward_account_state {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.reward.v1.QualifyingAction")]
 #[serde(rename_all = "snake_case")]
@@ -332,7 +332,7 @@ pub mod qualifying_action {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.reward.v1.QualifyingActions")]
 #[serde(rename_all = "snake_case")]
@@ -348,7 +348,7 @@ pub struct QualifyingActions {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.reward.v1.ActionDelegate")]
 #[serde(rename_all = "snake_case")]
@@ -384,7 +384,7 @@ pub struct ActionDelegate {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.reward.v1.ActionTransfer")]
 #[serde(rename_all = "snake_case")]
@@ -413,7 +413,7 @@ pub struct ActionTransfer {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.reward.v1.ActionVote")]
 #[serde(rename_all = "snake_case")]
@@ -448,7 +448,7 @@ pub struct ActionVote {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.reward.v1.ActionCounter")]
 #[serde(rename_all = "snake_case")]
@@ -470,7 +470,7 @@ pub struct ActionCounter {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.reward.v1.QueryRewardProgramByIDRequest")]
 #[serde(rename_all = "snake_case")]
@@ -494,7 +494,7 @@ pub struct QueryRewardProgramByIdRequest {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.reward.v1.QueryRewardProgramByIDResponse")]
 #[serde(rename_all = "snake_case")]
@@ -510,7 +510,7 @@ pub struct QueryRewardProgramByIdResponse {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.reward.v1.QueryRewardProgramsRequest")]
 #[serde(rename_all = "snake_case")]
@@ -603,7 +603,7 @@ pub mod query_reward_programs_request {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.reward.v1.QueryRewardProgramsResponse")]
 #[serde(rename_all = "snake_case")]
@@ -622,7 +622,7 @@ pub struct QueryRewardProgramsResponse {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.reward.v1.QueryClaimPeriodRewardDistributionsRequest")]
 #[serde(rename_all = "snake_case")]
@@ -643,7 +643,7 @@ pub struct QueryClaimPeriodRewardDistributionsRequest {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.reward.v1.QueryClaimPeriodRewardDistributionsResponse")]
 #[serde(rename_all = "snake_case")]
@@ -662,7 +662,7 @@ pub struct QueryClaimPeriodRewardDistributionsResponse {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.reward.v1.QueryClaimPeriodRewardDistributionsByIDRequest")]
 #[serde(rename_all = "snake_case")]
@@ -692,7 +692,7 @@ pub struct QueryClaimPeriodRewardDistributionsByIdRequest {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.reward.v1.QueryClaimPeriodRewardDistributionsByIDResponse")]
 #[serde(rename_all = "snake_case")]
@@ -708,7 +708,7 @@ pub struct QueryClaimPeriodRewardDistributionsByIdResponse {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.reward.v1.QueryRewardDistributionsByAddressRequest")]
 #[serde(rename_all = "snake_case")]
@@ -737,7 +737,7 @@ pub struct QueryRewardDistributionsByAddressRequest {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.reward.v1.QueryRewardDistributionsByAddressResponse")]
 #[serde(rename_all = "snake_case")]
@@ -758,7 +758,7 @@ pub struct QueryRewardDistributionsByAddressResponse {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.reward.v1.RewardAccountResponse")]
 #[serde(rename_all = "snake_case")]
@@ -793,7 +793,7 @@ pub struct RewardAccountResponse {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.reward.v1.MsgCreateRewardProgramRequest")]
 #[serde(rename_all = "snake_case")]
@@ -846,7 +846,7 @@ pub struct MsgCreateRewardProgramRequest {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.reward.v1.MsgCreateRewardProgramResponse")]
 #[serde(rename_all = "snake_case")]
@@ -866,7 +866,7 @@ pub struct MsgCreateRewardProgramResponse {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.reward.v1.MsgEndRewardProgramRequest")]
 #[serde(rename_all = "snake_case")]
@@ -888,7 +888,7 @@ pub struct MsgEndRewardProgramRequest {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.reward.v1.MsgEndRewardProgramResponse")]
 #[serde(rename_all = "snake_case")]
@@ -901,7 +901,7 @@ pub struct MsgEndRewardProgramResponse {}
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.reward.v1.MsgClaimRewardsRequest")]
 #[serde(rename_all = "snake_case")]
@@ -923,7 +923,7 @@ pub struct MsgClaimRewardsRequest {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.reward.v1.MsgClaimRewardsResponse")]
 #[serde(rename_all = "snake_case")]
@@ -939,7 +939,7 @@ pub struct MsgClaimRewardsResponse {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.reward.v1.MsgClaimAllRewardsRequest")]
 #[serde(rename_all = "snake_case")]
@@ -955,7 +955,7 @@ pub struct MsgClaimAllRewardsRequest {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.reward.v1.MsgClaimAllRewardsResponse")]
 #[serde(rename_all = "snake_case")]
@@ -974,7 +974,7 @@ pub struct MsgClaimAllRewardsResponse {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.reward.v1.ClaimedRewardPeriodDetail")]
 #[serde(rename_all = "snake_case")]
@@ -1003,7 +1003,7 @@ pub struct ClaimedRewardPeriodDetail {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.reward.v1.RewardProgramClaimDetail")]
 #[serde(rename_all = "snake_case")]

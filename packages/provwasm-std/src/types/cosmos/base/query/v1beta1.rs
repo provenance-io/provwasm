@@ -6,7 +6,7 @@
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.base.query.v1beta1.PageRequest")]
 #[serde(rename_all = "snake_case")]
@@ -42,7 +42,7 @@ pub struct PageRequest {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.base.query.v1beta1.PageResponse")]
 #[serde(rename_all = "snake_case")]

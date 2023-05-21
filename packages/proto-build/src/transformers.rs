@@ -46,7 +46,7 @@ pub fn append_struct_attrs(
     let type_url = get_type_url(src, &s.ident, descriptor);
 
     s.attrs.append(&mut vec![
-        syn::parse_quote! { #[derive(schemars::JsonSchema, serde::Serialize, serde::Deserialize, provwasm_std_derive::CosmwasmExt)] },
+        syn::parse_quote! { #[derive(schemars::JsonSchema, serde::Serialize, serde::Deserialize, provwasm_proc_macro::CosmwasmExt)] },
         syn::parse_quote! { #[proto_message(type_url = #type_url)] },
         syn::parse_quote! { #[serde(rename_all = "snake_case")] },
     ]);

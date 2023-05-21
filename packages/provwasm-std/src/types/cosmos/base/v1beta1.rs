@@ -6,7 +6,7 @@
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.base.v1beta1.Coin")]
 #[serde(rename_all = "snake_case")]
@@ -24,7 +24,7 @@ pub struct Coin {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.base.v1beta1.DecCoin")]
 #[serde(rename_all = "snake_case")]
@@ -42,7 +42,7 @@ pub struct DecCoin {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.base.v1beta1.IntProto")]
 #[serde(rename_all = "snake_case")]
@@ -58,7 +58,7 @@ pub struct IntProto {
     schemars::JsonSchema,
     serde::Serialize,
     serde::Deserialize,
-    provwasm_std_derive::CosmwasmExt,
+    provwasm_proc_macro::CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.base.v1beta1.DecProto")]
 #[serde(rename_all = "snake_case")]

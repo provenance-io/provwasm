@@ -55,7 +55,7 @@ pub fn derive_cosmwasm_ext(input: TokenStream) -> TokenStream {
                 querier.query::<#res>(&self.into())
             }
 
-            pub fn mock_response<T: mock::MockableQuerier>(querier: &mut T, response: #res) {
+            pub fn mock_response<T: provwasm_common::MockableQuerier>(querier: &mut T, response: #res) {
                 querier.register_custom_query(#path.to_string(), Box::new(move |data| {
                     cosmwasm_std::SystemResult::Ok(cosmwasm_std::ContractResult::Ok(
                         cosmwasm_std::to_binary(&response)
@@ -63,7 +63,7 @@ pub fn derive_cosmwasm_ext(input: TokenStream) -> TokenStream {
                 }))
             }
 
-            pub fn mock_failed_response<T: mock::MockableQuerier>(querier: &mut T, error: String) {
+            pub fn mock_failed_response<T: provwasm_common::MockableQuerier>(querier: &mut T, error: String) {
                 querier.register_custom_query(#path.to_string(), Box::new(move |data| {
                     cosmwasm_std::SystemResult::Err(cosmwasm_std::SystemError::InvalidResponse {
                         error: error.clone(),

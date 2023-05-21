@@ -1,5 +1,5 @@
 use cosmwasm_std::{Empty, QueryRequest};
-use provwasm_std_derive::CosmwasmExt;
+use provwasm_proc_macro::CosmwasmExt;
 
 #[derive(
     Clone, PartialEq, Eq, ::prost::Message, serde::Serialize, serde::Deserialize, CosmwasmExt,
