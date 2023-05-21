@@ -1,6 +1,6 @@
 [workspace]
-members = ["packages/provwasm-std-derive", "packages/proto-build", "packages/provwasm-std"]
-exclude = ["contracts", "todo/mocks"]
+members = ["packages/proto-build", "packages/provwasm-common", "packages/provwasm-proc-macro", "packages/provwasm-std", "packages/provwasm-mocks"]
+exclude = ["contracts"]
 
 [profile.release]
 opt-level = 3

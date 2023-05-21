@@ -588,13 +588,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2dffe52ecf27772e601905b7522cb4ef790d2cc203488bbd0e2fe85fcb74566d"
 
 [[package]]
-name = "mock"
-version = "0.1.0"
-dependencies = [
- "cosmwasm-std",
-]
-
-[[package]]
 name = "multimap"
 version = "0.8.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -764,35 +757,52 @@ dependencies = [
 ]
 
 [[package]]
+name = "provwasm-common"
+version = "0.1.0"
+dependencies = [
+ "cosmwasm-std",
+]
+
+[[package]]
+name = "provwasm-mocks"
+version = "2.0.0"
+dependencies = [
+ "cosmwasm-std",
+ "provwasm-std",
+ "schemars",
+ "serde",
+]
+
+[[package]]
+name = "provwasm-proc-macro"
+version = "0.1.0"
+dependencies = [
+ "cosmwasm-std",
+ "itertools",
+ "proc-macro2",
+ "prost",
+ "provwasm-common",
+ "quote",
+ "serde",
+ "syn 2.0.16",
+ "trybuild",
+]
+
+[[package]]
 name = "provwasm-std"
 version = "2.0.0"
 dependencies = [
  "base64 0.21.1",
  "chrono",
  "cosmwasm-std",
- "mock",
  "prost",
  "prost-types",
- "provwasm-std-derive",
+ "provwasm-common",
+ "provwasm-proc-macro",
  "schemars",
  "serde",
  "serde-cw-value",
  "strum_macros",
-]
-
-[[package]]
-name = "provwasm-std-derive"
-version = "2.0.0"
-dependencies = [
- "cosmwasm-std",
- "itertools",
- "mock",
- "proc-macro2",
- "prost",
- "quote",
- "serde",
- "syn 2.0.16",
- "trybuild",
 ]
 
 [[package]]
