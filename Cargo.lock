@@ -792,6 +792,7 @@ name = "provwasm-mocks"
 version = "2.0.0"
 dependencies = [
  "cosmwasm-std",
+ "provwasm-common",
  "provwasm-std",
  "schemars",
  "serde",
