@@ -126,6 +126,7 @@ pub struct MockProvenanceQuerier<C: DeserializeOwned = Empty> {
     /// Default CosmWASM mock querier.
     pub mock_querier: MockQuerier<C>,
     /// Registered custom queries using proto request for testing.
+    #[allow(clippy::complexity)]
     pub registered_custom_queries: HashMap<String, Box<dyn Fn(&Binary) -> QuerierResult>>,
 }
 
