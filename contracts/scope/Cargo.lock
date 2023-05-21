@@ -521,22 +521,49 @@ dependencies = [
 ]
 
 [[package]]
+name = "provwasm-common"
+version = "0.1.0"
+dependencies = [
+ "cosmwasm-std",
+]
+
+[[package]]
+name = "provwasm-mocks"
+version = "2.0.0"
+dependencies = [
+ "cosmwasm-std",
+ "provwasm-common",
+ "provwasm-std",
+ "schemars",
+ "serde",
+]
+
+[[package]]
+name = "provwasm-proc-macro"
+version = "0.1.0"
+dependencies = [
+ "itertools",
+ "proc-macro2",
+ "quote",
+ "syn 2.0.15",
+]
+
+[[package]]
 name = "provwasm-std"
 version = "2.0.0"
 dependencies = [
  "base64 0.21.0",
  "chrono",
+ "cosmwasm-schema",
  "cosmwasm-std",
- "itertools",
- "proc-macro2",
  "prost",
  "prost-types",
- "quote",
+ "provwasm-common",
+ "provwasm-proc-macro",
  "schemars",
  "serde",
  "serde-cw-value",
  "strum_macros",
- "syn 2.0.15",
 ]
 
 [[package]]
@@ -612,11 +639,12 @@ dependencies = [
 
 [[package]]
 name = "scope"
-version = "1.2.0"
+version = "2.0.0"
 dependencies = [
  "cosmwasm-schema",
  "cosmwasm-std",
  "cosmwasm-storage",
+ "provwasm-mocks",
  "provwasm-std",
  "schemars",
  "serde",
