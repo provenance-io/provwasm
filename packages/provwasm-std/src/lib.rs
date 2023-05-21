@@ -1,15 +1,19 @@
 /// The version (commit hash) of the Cosmos SDK used when generating this library.
 pub const PROVENANCE_VERSION: &str = include_str!("types/PROVENANCE_COMMIT");
 
-#[allow(clippy::all)]
 mod common;
+#[allow(deprecated)]
 mod msg;
+#[allow(deprecated)]
 mod querier;
+#[allow(deprecated)]
 mod query;
 mod serde;
 pub mod shim;
+#[allow(deprecated)]
 pub mod types;
 
+#[allow(deprecated)]
 pub use msg::{
     activate_marker, add_attribute, add_json_attribute, assess_custom_fee, bind_name,
     burn_marker_supply, cancel_marker, create_forced_transfer_marker, create_marker,
@@ -19,11 +23,14 @@ pub use msg::{
     MarkerMsgParams, MetadataMsgParams, MsgFeesMsgParams, NameMsgParams, ProvenanceMsg,
     ProvenanceMsgParams,
 };
+#[allow(deprecated)]
 pub use querier::ProvenanceQuerier;
+#[allow(deprecated)]
 pub use query::{
     AttributeQueryParams, MarkerQueryParams, MetadataQueryParams, NameQueryParams, ProvenanceQuery,
     ProvenanceQueryParams,
 };
+#[allow(deprecated)]
 pub use types::{
     AccessGrant, Attribute, AttributeValueType, Attributes, Marker, MarkerAccess, MarkerStatus,
     MarkerType, Name, NameBinding, Names, Party, PartyType, Process, ProcessId, ProvenanceRoute,
