@@ -29,10 +29,14 @@
           "create": {
             "type": "object",
             "required": [
+              "allow_forced_transfer",
               "denom",
               "supply"
             ],
             "properties": {
+              "allow_forced_transfer": {
+                "type": "boolean"
+              },
               "denom": {
                 "type": "string"
               },
