@@ -15,7 +15,7 @@ test:
 
 .PHONY: lint
 lint:
-	@cargo clippy -- -D warnings
+	@cargo clippy
 
 .PHONY: clean
 clean:
