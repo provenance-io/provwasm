@@ -1,6 +1,6 @@
 use crate::common::query_result;
 use cosmwasm_std::{to_binary, Addr, Binary, QuerierResult};
-use provwasm_std::types::provenance::attribute::v1::{Attribute, AttributeType};
+use provwasm_std::{Attribute, AttributeQueryParams, AttributeValueType, Attributes};
 use std::collections::HashMap;
 
 /// A mock for testing provenance account attribute queries.
@@ -10,23 +10,23 @@ pub struct AttributeQuerier {
 }
 
 // Helper function to convert string to attribute value type.
-fn determine_attr_type(typ: &str) -> AttributeType {
+fn determine_attr_type(typ: &str) -> AttributeValueType {
     if typ == "json" {
-        AttributeType::Json
+        AttributeValueType::Json
     } else if typ == "bytes" {
-        AttributeType::Bytes
+        AttributeValueType::Bytes
     } else if typ == "uuid" {
-        AttributeType::Uuid
+        AttributeValueType::Uuid
     } else if typ == "uri" {
-        AttributeType::Uri
+        AttributeValueType::Uri
     } else if typ == "proto" {
-        AttributeType::Proto
+        AttributeValueType::Proto
     } else if typ == "int" {
-        AttributeType::Int
+        AttributeValueType::Int
     } else if typ == "float" {
-        AttributeType::Float
+        AttributeValueType::Float
     } else {
-        AttributeType::String
+        AttributeValueType::String
     }
 }
 
@@ -86,6 +86,7 @@ impl AttributeQuerier {
 mod test {
     use super::*;
     use cosmwasm_std::from_binary;
+    use provwasm_std::{AttributeQueryParams, Attributes};
 
     #[test]
     fn get_attributes() {
