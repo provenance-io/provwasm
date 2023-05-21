@@ -1,8 +1,8 @@
 [package]
 name = "name"
-version = "1.2.0"
+version = "2.0.0"
 authors = ["Ken Talley <ktalley@provenance.io"]
-edition = "2018"
+edition = "2021"
 
 exclude = [
   "name.wasm",
@@ -32,9 +32,9 @@ cosmwasm-std = { version = "1.2.5" }
 cosmwasm-storage = { version = "1.2.5" }
 jsonformat = "2.0.0"
 provwasm-std = { path = "../../packages/provwasm-std" }
-schemars = "0.8.1"
-serde = { version = "1.0.127", default-features = false, features = ["derive"] }
-thiserror = { version = "1.0.20" }
+schemars = "0.8.12"
+serde = { version = "1.0.163", default-features = false, features = ["derive"] }
+thiserror = { version = "1.0.40" }
 
 [dev-dependencies]
-#provwasm-mocks = { path = "../../todo/mocks" }
+provwasm-mocks = { path = "../../packages/provwasm-mocks" }

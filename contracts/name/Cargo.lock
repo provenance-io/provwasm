@@ -446,12 +446,13 @@ checksum = "2b00cc1c228a6782d0f076e7b232802e0c5689d41bb5df366f2a6b6621cfdfe1"
 
 [[package]]
 name = "name"
-version = "1.2.0"
+version = "2.0.0"
 dependencies = [
  "cosmwasm-schema",
  "cosmwasm-std",
  "cosmwasm-storage",
  "jsonformat",
+ "provwasm-mocks",
  "provwasm-std",
  "schemars",
  "serde",
@@ -541,22 +542,49 @@ dependencies = [
 ]
 
 [[package]]
+name = "provwasm-common"
+version = "0.1.0"
+dependencies = [
+ "cosmwasm-std",
+]
+
+[[package]]
+name = "provwasm-mocks"
+version = "2.0.0"
+dependencies = [
+ "cosmwasm-std",
+ "provwasm-common",
+ "provwasm-std",
+ "schemars",
+ "serde",
+]
+
+[[package]]
+name = "provwasm-proc-macro"
+version = "0.1.0"
+dependencies = [
+ "itertools",
+ "proc-macro2",
+ "quote",
+ "syn 2.0.15",
+]
+
+[[package]]
 name = "provwasm-std"
 version = "2.0.0"
 dependencies = [
  "base64 0.21.0",
  "chrono",
+ "cosmwasm-schema",
  "cosmwasm-std",
- "itertools",
- "proc-macro2",
  "prost",
  "prost-types",
- "quote",
+ "provwasm-common",
+ "provwasm-proc-macro",
  "schemars",
  "serde",
  "serde-cw-value",
  "strum_macros",
- "syn 2.0.15",
 ]
 
 [[package]]
