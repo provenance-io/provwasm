@@ -65,7 +65,7 @@ pub struct Vote {
     pub proposal_id: u64,
     #[prost(string, tag = "2")]
     pub voter: ::prost::alloc::string::String,
-    #[deprecated]
+    #[deprecated(since = "2.0.0")]
     #[prost(enumeration = "VoteOption", tag = "3")]
     #[serde(
         serialize_with = "VoteOption::serialize",

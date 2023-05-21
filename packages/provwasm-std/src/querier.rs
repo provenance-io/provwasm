@@ -15,7 +15,7 @@ use crate::types::{
 static QUERY_DATAFMT_VERSION: &str = "2.0.0";
 
 /// A type for simplifying provenance custom queries.
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 pub struct ProvenanceQuerier<'a> {
     querier: &'a QuerierWrapper<'a, ProvenanceQuery>,
 }

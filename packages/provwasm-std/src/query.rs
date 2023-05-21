@@ -5,7 +5,7 @@ use serde::{Deserialize, Serialize};
 use crate::types::ProvenanceRoute;
 
 /// Represents a request to query a custom provenance module.
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub struct ProvenanceQuery {
@@ -19,7 +19,7 @@ pub struct ProvenanceQuery {
 impl CustomQuery for ProvenanceQuery {}
 
 /// Input params for custom provenance queriers.
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum ProvenanceQueryParams {
@@ -30,7 +30,7 @@ pub enum ProvenanceQueryParams {
 }
 
 /// Params for name queries.
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum NameQueryParams {
@@ -39,7 +39,7 @@ pub enum NameQueryParams {
 }
 
 /// Params for attribute queries.
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum AttributeQueryParams {
@@ -48,7 +48,7 @@ pub enum AttributeQueryParams {
 }
 
 /// Params for marker queries.
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum MarkerQueryParams {
@@ -57,7 +57,7 @@ pub enum MarkerQueryParams {
 }
 
 /// Params for metadata queries
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum MetadataQueryParams {

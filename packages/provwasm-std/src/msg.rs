@@ -13,7 +13,7 @@ use crate::types::{
 static MSG_DATAFMT_VERSION: &str = "2.0.0";
 
 /// Represents a request to encode custom provenance messages.
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub struct ProvenanceMsg {
@@ -32,7 +32,7 @@ impl From<ProvenanceMsg> for CosmosMsg<ProvenanceMsg> {
 }
 
 /// Input params for custom provenance message encoders.
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 pub enum ProvenanceMsgParams {
     Name(NameMsgParams),
@@ -43,7 +43,7 @@ pub enum ProvenanceMsgParams {
 }
 
 /// Input params for creating name module messages.
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum NameMsgParams {
@@ -58,7 +58,7 @@ pub enum NameMsgParams {
 }
 
 // Create a custom cosmos message using name module params.
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 fn create_name_msg(params: NameMsgParams) -> CosmosMsg<ProvenanceMsg> {
     CosmosMsg::Custom(ProvenanceMsg {
         route: ProvenanceRoute::Name,
@@ -86,7 +86,7 @@ fn create_name_msg(params: NameMsgParams) -> CosmosMsg<ProvenanceMsg> {
 ///    Ok(res)
 /// }
 /// ```
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 pub fn bind_name<S: Into<String>, H: Into<Addr>>(
     name: S,
     address: H,
@@ -115,7 +115,7 @@ pub fn bind_name<S: Into<String>, H: Into<Addr>>(
 ///     Ok(res)
 /// }
 /// ```
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 pub fn unbind_name<S: Into<String>>(name: S) -> StdResult<CosmosMsg<ProvenanceMsg>> {
     Ok(create_name_msg(NameMsgParams::DeleteName {
         name: validate_string(name, "name")?,
@@ -123,7 +123,7 @@ pub fn unbind_name<S: Into<String>>(name: S) -> StdResult<CosmosMsg<ProvenanceMs
 }
 
 /// Input params for creating attribute module messages.
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum AttributeMsgParams {
@@ -153,7 +153,7 @@ pub enum AttributeMsgParams {
 }
 
 // Create a custom cosmos message using attribute module params.
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 fn create_attribute_msg(params: AttributeMsgParams) -> CosmosMsg<ProvenanceMsg> {
     CosmosMsg::Custom(ProvenanceMsg {
         route: ProvenanceRoute::Attribute,
@@ -190,7 +190,7 @@ fn create_attribute_msg(params: AttributeMsgParams) -> CosmosMsg<ProvenanceMsg> 
 ///     Ok(res)
 /// }
 /// ```
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 pub fn add_attribute<H: Into<Addr>, S: Into<String>, B: Into<Binary>>(
     address: H,
     name: S,
@@ -245,7 +245,7 @@ pub fn add_attribute<H: Into<Addr>, S: Into<String>, B: Into<Binary>>(
 /// }
 ///
 /// ```
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 pub fn add_json_attribute<H: Into<Addr>, S: Into<String>, T: Serialize + ?Sized>(
     address: H,
     name: S,
@@ -276,7 +276,7 @@ pub fn add_json_attribute<H: Into<Addr>, S: Into<String>, T: Serialize + ?Sized>
 ///     Ok(res)
 /// }
 /// ```
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 pub fn delete_attributes<H: Into<Addr>, S: Into<String>>(
     address: H,
     name: S,
@@ -307,7 +307,7 @@ pub fn delete_attributes<H: Into<Addr>, S: Into<String>>(
 ///     Ok(res)
 /// }
 /// ```
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 pub fn delete_distinct_attribute<H: Into<Addr>, S: Into<String>, B: Into<Binary>>(
     address: H,
     name: S,
@@ -353,7 +353,7 @@ pub fn delete_distinct_attribute<H: Into<Addr>, S: Into<String>, B: Into<Binary>
 ///     Ok(res)
 /// }
 /// ```
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 pub fn update_attribute<H: Into<Addr>, S: Into<String>, B: Into<Binary>>(
     address: H,
     name: S,
@@ -383,7 +383,7 @@ pub fn update_attribute<H: Into<Addr>, S: Into<String>, B: Into<Binary>>(
 }
 
 /// Input params for creating marker module messages.
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum MarkerMsgParams {
@@ -432,7 +432,7 @@ pub enum MarkerMsgParams {
 }
 
 // Create a custom cosmos message using marker module params.
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 fn create_marker_msg(params: MarkerMsgParams) -> CosmosMsg<ProvenanceMsg> {
     CosmosMsg::Custom(ProvenanceMsg {
         route: ProvenanceRoute::Marker,
@@ -460,7 +460,7 @@ fn create_marker_msg(params: MarkerMsgParams) -> CosmosMsg<ProvenanceMsg> {
 ///     Ok(res)
 /// }
 /// ```
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 pub fn create_marker<S: Into<String>>(
     amount: u128,
     denom: S,
@@ -493,7 +493,7 @@ pub fn create_marker<S: Into<String>>(
 ///     Ok(res)
 /// }
 /// ```
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 pub fn create_forced_transfer_marker<S: Into<String>>(
     amount: u128,
     denom: S,
@@ -526,7 +526,7 @@ pub fn create_forced_transfer_marker<S: Into<String>>(
 ///     Ok(res)
 /// }
 /// ```
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 pub fn grant_marker_access<S: Into<String>, H: Into<Addr>>(
     denom: S,
     address: H,
@@ -558,7 +558,7 @@ pub fn grant_marker_access<S: Into<String>, H: Into<Addr>>(
 ///     Ok(res)
 /// }
 /// ```
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 pub fn revoke_marker_access<S: Into<String>, H: Into<Addr>>(
     denom: S,
     address: H,
@@ -585,7 +585,7 @@ pub fn revoke_marker_access<S: Into<String>, H: Into<Addr>>(
 ///     Ok(res)
 /// }
 /// ```
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 pub fn finalize_marker<S: Into<String>>(denom: S) -> StdResult<CosmosMsg<ProvenanceMsg>> {
     Ok(create_marker_msg(MarkerMsgParams::FinalizeMarker {
         denom: validate_string(denom, "denom")?,
@@ -608,7 +608,7 @@ pub fn finalize_marker<S: Into<String>>(denom: S) -> StdResult<CosmosMsg<Provena
 ///     Ok(res)
 /// }
 /// ```
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 pub fn activate_marker<S: Into<String>>(denom: S) -> StdResult<CosmosMsg<ProvenanceMsg>> {
     Ok(create_marker_msg(MarkerMsgParams::ActivateMarker {
         denom: validate_string(denom, "denom")?,
@@ -631,7 +631,7 @@ pub fn activate_marker<S: Into<String>>(denom: S) -> StdResult<CosmosMsg<Provena
 ///     Ok(res)
 /// }
 /// ```
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 pub fn cancel_marker<S: Into<String>>(denom: S) -> StdResult<CosmosMsg<ProvenanceMsg>> {
     Ok(create_marker_msg(MarkerMsgParams::CancelMarker {
         denom: validate_string(denom, "denom")?,
@@ -654,7 +654,7 @@ pub fn cancel_marker<S: Into<String>>(denom: S) -> StdResult<CosmosMsg<Provenanc
 ///     Ok(res)
 /// }
 /// ```
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 pub fn destroy_marker<S: Into<String>>(denom: S) -> StdResult<CosmosMsg<ProvenanceMsg>> {
     Ok(create_marker_msg(MarkerMsgParams::DestroyMarker {
         denom: validate_string(denom, "denom")?,
@@ -677,7 +677,7 @@ pub fn destroy_marker<S: Into<String>>(denom: S) -> StdResult<CosmosMsg<Provenan
 ///     Ok(res)
 /// }
 /// ```
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 pub fn mint_marker_supply<S: Into<String>>(
     amount: u128,
     denom: S,
@@ -707,7 +707,7 @@ pub fn mint_marker_supply<S: Into<String>>(
 ///     Ok(res)
 /// }
 /// ```
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 pub fn burn_marker_supply<S: Into<String>>(
     amount: u128,
     denom: S,
@@ -742,7 +742,7 @@ pub fn burn_marker_supply<S: Into<String>>(
 ///     Ok(res)
 /// }
 /// ```
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 pub fn withdraw_coins<S: Into<String>, H: Into<Addr>>(
     marker_denom: S,
     amount: u128,
@@ -782,7 +782,7 @@ pub fn withdraw_coins<S: Into<String>, H: Into<Addr>>(
 ///     Ok(res)
 /// }
 /// ```
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 pub fn transfer_marker_coins<S: Into<String>, H: Into<Addr>>(
     amount: u128,
     denom: S,
@@ -802,7 +802,7 @@ pub fn transfer_marker_coins<S: Into<String>, H: Into<Addr>>(
 }
 
 /// Input params for creating marker module messages.
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum MetadataMsgParams {
@@ -810,7 +810,7 @@ pub enum MetadataMsgParams {
 }
 
 // Create a custom cosmos message using metadata module params.
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 fn create_metadata_msg(params: MetadataMsgParams) -> CosmosMsg<ProvenanceMsg> {
     CosmosMsg::Custom(ProvenanceMsg {
         route: ProvenanceRoute::Metadata,
@@ -835,7 +835,7 @@ fn create_metadata_msg(params: MetadataMsgParams) -> CosmosMsg<ProvenanceMsg> {
 ///     Ok(res)
 /// }
 /// ```
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 pub fn write_scope<S: Into<Scope>, H: Into<Addr>>(
     scope: S,
     signers: Vec<H>,
@@ -850,7 +850,7 @@ pub fn write_scope<S: Into<Scope>, H: Into<Addr>>(
 }
 
 /// Input params for creating msgfee module messages.
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum MsgFeesMsgParams {
@@ -863,7 +863,7 @@ pub enum MsgFeesMsgParams {
 }
 
 // Create a custom cosmos message using msgfees module params.
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 fn create_msgfees_msg(params: MsgFeesMsgParams) -> CosmosMsg<ProvenanceMsg> {
     CosmosMsg::Custom(ProvenanceMsg {
         route: ProvenanceRoute::Msgfees,
@@ -885,7 +885,7 @@ fn create_msgfees_msg(params: MsgFeesMsgParams) -> CosmosMsg<ProvenanceMsg> {
 ///     Ok(res)
 /// }
 /// ```
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 pub fn assess_custom_fee<S: Into<String>>(
     amount: Coin,
     name: Option<S>,

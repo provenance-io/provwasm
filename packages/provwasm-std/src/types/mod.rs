@@ -7,7 +7,7 @@ use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
 /// Supported provenance module router keys.
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum ProvenanceRoute {
@@ -19,7 +19,7 @@ pub enum ProvenanceRoute {
 }
 
 /// A collection of bound names.
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub struct Names {
@@ -27,7 +27,7 @@ pub struct Names {
 }
 
 /// A name bound to an address.
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub struct Name {
@@ -37,7 +37,7 @@ pub struct Name {
 }
 
 /// A type for name bindings
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 #[derive(Serialize, Deserialize, Clone, Debug, Hash, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum NameBinding {
@@ -53,7 +53,7 @@ impl Default for NameBinding {
 }
 
 /// A collection of attributes associated with an account address.
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub struct Attributes {
@@ -63,7 +63,7 @@ pub struct Attributes {
 }
 
 /// Allowed attribute value types.
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum AttributeValueType {
@@ -79,7 +79,7 @@ pub enum AttributeValueType {
 }
 
 /// A typed key-value pair.
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub struct Attribute {
@@ -90,7 +90,7 @@ pub struct Attribute {
 }
 
 /// A marker account
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub struct Marker {
@@ -118,7 +118,7 @@ impl Marker {
 }
 
 /// Marker permissions granted to another account.
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub struct AccessGrant {
@@ -127,7 +127,7 @@ pub struct AccessGrant {
 }
 
 /// Marker permission types.
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum MarkerAccess {
@@ -157,7 +157,7 @@ impl MarkerAccess {
 }
 
 /// Marker types.
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum MarkerType {
@@ -167,7 +167,7 @@ pub enum MarkerType {
 }
 
 /// Marker status types.
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum MarkerStatus {
@@ -180,7 +180,7 @@ pub enum MarkerStatus {
 }
 
 /// A collection of records owned by one or more parties.
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub struct Scope {
@@ -194,7 +194,7 @@ pub struct Scope {
 }
 
 /// The final state of an execution context for a specification instance.
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub struct Session {
@@ -207,7 +207,7 @@ pub struct Session {
 }
 
 /// A group of sessions.
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub struct Sessions {
@@ -215,7 +215,7 @@ pub struct Sessions {
 }
 
 /// A record of fact for a session.
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub struct Record {
@@ -230,7 +230,7 @@ pub struct Record {
 }
 
 /// A group of records.
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub struct Records {
@@ -238,7 +238,7 @@ pub struct Records {
 }
 
 /// An address with an associated role.
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub struct Party {
@@ -247,7 +247,7 @@ pub struct Party {
 }
 
 /// Roles that can be associated to a party.
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum PartyType {
@@ -263,7 +263,7 @@ pub enum PartyType {
 }
 
 /// The process that generated a record.
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub struct Process {
@@ -273,7 +273,7 @@ pub struct Process {
 }
 
 /// The representations of a process id.
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum ProcessId {
@@ -284,7 +284,7 @@ pub enum ProcessId {
 }
 
 /// The inputs used to produce a record.
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub struct RecordInput {
@@ -295,7 +295,7 @@ pub struct RecordInput {
 }
 
 /// The representations of a record input source.
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum RecordInputSource {
@@ -306,7 +306,7 @@ pub enum RecordInputSource {
 }
 
 /// Record input types.
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum RecordInputStatus {
@@ -316,7 +316,7 @@ pub enum RecordInputStatus {
 }
 
 /// The output of a process recorded on chain.
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub struct RecordOutput {
@@ -325,7 +325,7 @@ pub struct RecordOutput {
 }
 
 /// Result status types.
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum ResultStatus {
@@ -335,7 +335,7 @@ pub enum ResultStatus {
     Unspecified,
 }
 
-#[deprecated]
+#[deprecated(since = "2.0.0")]
 #[cw_serde]
 pub struct Fee {
     pub recipient: Option<Addr>,
