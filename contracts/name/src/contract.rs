@@ -186,252 +186,280 @@ fn try_lookup(deps: Deps, address: String) -> Result<QueryResponse, StdError> {
     to_binary(&names)
 }
 
-//
-// #[cfg(test)]
-// mod tests {
-//     use super::*;
-//     use cosmwasm_std::testing::{mock_env, mock_info};
-//     use cosmwasm_std::{from_binary, CosmosMsg, StdError};
-//     use provwasm_mocks::mock_dependencies;
-//     use provwasm_std::{NameMsgParams, Names, ProvenanceMsgParams};
-//
-//     #[test]
-//     fn init_test() {
-//         // Create default provenance mocks.
-//         let mut deps = mock_dependencies(&[]);
-//         let env = mock_env();
-//         let info = mock_info("sender", &[]);
-//
-//         // Give the contract a name
-//         let msg = InitMsg {
-//             name: "contract.pb".into(),
-//         };
-//
-//         // Ensure a message was created to bind the name to the contract address.
-//         let res = instantiate(deps.as_mut(), env, info, msg).unwrap();
-//         assert_eq!(1, res.messages.len());
-//         match &res.messages[0].msg {
-//             CosmosMsg::Custom(msg) => match &msg.params {
-//                 ProvenanceMsgParams::Name(p) => match &p {
-//                     NameMsgParams::BindName { name, .. } => assert_eq!(name, "contract.pb"),
-//                     _ => panic!("unexpected name params"),
-//                 },
-//                 _ => panic!("unexpected provenance params"),
-//             },
-//             _ => panic!("unexpected cosmos message"),
-//         }
-//     }
-//
-//     #[test]
-//     fn bind_name_success() {
-//         // Init state
-//         let mut deps = mock_dependencies(&[]);
-//         let env = mock_env();
-//         let info = mock_info("sender", &[]);
-//         let msg = InitMsg {
-//             name: "contract.pb".into(),
-//         };
-//         let _ = instantiate(deps.as_mut(), env, info, msg).unwrap(); // Panics on error
-//
-//         // Bind a name
-//         let env = mock_env();
-//         let info = mock_info("sender", &[]);
-//         let msg = ExecuteMsg::BindPrefix {
-//             prefix: "test".into(),
-//         };
-//         let res = execute(deps.as_mut(), env, info, msg).unwrap();
-//
-//         // Assert the correct message was created
-//         assert_eq!(1, res.messages.len());
-//         match &res.messages[0].msg {
-//             CosmosMsg::Custom(msg) => match &msg.params {
-//                 ProvenanceMsgParams::Name(p) => match &p {
-//                     NameMsgParams::BindName { name, .. } => assert_eq!(name, "test.contract.pb"),
-//                     _ => panic!("unexpected name params"),
-//                 },
-//                 _ => panic!("unexpected provenance params"),
-//             },
-//             _ => panic!("unexpected cosmos message"),
-//         }
-//     }
-//     #[test]
-//     fn unbind_name_success() {
-//         // Init state
-//         let mut deps = mock_dependencies(&[]);
-//         let env = mock_env();
-//         let info = mock_info("sender", &[]);
-//         let msg = InitMsg {
-//             name: "contract.pb".into(),
-//         };
-//         let _ = instantiate(deps.as_mut(), env, info, msg).unwrap(); // Panics on error
-//
-//         // Bind a name
-//         let env = mock_env();
-//         let info = mock_info("sender", &[]);
-//         let msg = ExecuteMsg::UnbindPrefix {
-//             prefix: "test".into(),
-//         };
-//         let res = execute(deps.as_mut(), env, info, msg).unwrap();
-//
-//         // Assert the correct message was created
-//         assert_eq!(1, res.messages.len());
-//         match &res.messages[0].msg {
-//             CosmosMsg::Custom(msg) => match &msg.params {
-//                 ProvenanceMsgParams::Name(p) => match &p {
-//                     NameMsgParams::DeleteName { name, .. } => assert_eq!(name, "test.contract.pb"),
-//                     _ => panic!("unexpected name params"),
-//                 },
-//                 _ => panic!("unexpected provenance params"),
-//             },
-//             _ => panic!("unexpected cosmos message"),
-//         }
-//     }
-//
-//     #[test]
-//     fn bind_name_unauthorized() {
-//         // Init state
-//         let mut deps = mock_dependencies(&[]);
-//         let env = mock_env();
-//         let info = mock_info("sender", &[]);
-//         let msg = InitMsg {
-//             name: "contract.pb".into(),
-//         };
-//         let _ = instantiate(deps.as_mut(), env, info, msg).unwrap(); // Panics on error
-//
-//         // Try to bind a name with some other sender address
-//         let env = mock_env();
-//         let info = mock_info("other", &[]); // error: not 'sender'
-//         let msg = ExecuteMsg::BindPrefix {
-//             prefix: "test".into(),
-//         };
-//         let err = execute(deps.as_mut(), env, info, msg).unwrap_err();
-//
-//         // Assert an unauthorized error was returned
-//         match err {
-//             ContractError::Unauthorized {} => {}
-//             e => panic!("unexpected error: {:?}", e),
-//         }
-//     }
-//
-//     #[test]
-//     fn unbind_name_unauthorized() {
-//         // Init state
-//         let mut deps = mock_dependencies(&[]);
-//         let env = mock_env();
-//         let info = mock_info("sender", &[]);
-//         let msg = InitMsg {
-//             name: "contract.pb".into(),
-//         };
-//         let _ = instantiate(deps.as_mut(), env, info, msg).unwrap(); // Panics on error
-//
-//         // Try to bind a name with some other sender address
-//         let env = mock_env();
-//         let info = mock_info("other", &[]); // error: not 'sender'
-//         let msg = ExecuteMsg::UnbindPrefix {
-//             prefix: "test".into(),
-//         };
-//         let err = execute(deps.as_mut(), env, info, msg).unwrap_err();
-//
-//         // Assert an unauthorized error was returned
-//         match err {
-//             ContractError::Unauthorized {} => {}
-//             e => panic!("unexpected error: {:?}", e),
-//         }
-//     }
-//
-//     #[test]
-//     fn query_resolve() {
-//         // Create provenance mock deps with a single bound name.
-//         let mut deps = mock_dependencies(&[]);
-//         deps.querier
-//             .with_names(&[("a.pb", "tp1y0txdp3sqmxjvfdaa8hfvwcljl8ugcfv26uync", false)]);
-//
-//         // Call the smart contract query function to resolve the address for our test name.
-//         let bin = query(
-//             deps.as_ref(),
-//             mock_env(),
-//             QueryMsg::Resolve {
-//                 name: "a.pb".into(),
-//             },
-//         )
-//         .unwrap();
-//
-//         // Ensure that we got the expected address.
-//         let rep: Name = from_binary(&bin).unwrap();
-//         assert_eq!(rep.address, "tp1y0txdp3sqmxjvfdaa8hfvwcljl8ugcfv26uync")
-//     }
-//
-//     #[test]
-//     fn query_resolve_name_not_bound() {
-//         // Create provenance mock deps with a single bound name.
-//         let mut deps = mock_dependencies(&[]);
-//         deps.querier
-//             .with_names(&[("b.pb", "tp1y0txdp3sqmxjvfdaa8hfvwcljl8ugcfv26uync", false)]);
-//
-//         // Call the smart contract query function to resolve an address that is not bound.
-//         let err = query(
-//             deps.as_ref(),
-//             mock_env(),
-//             QueryMsg::Resolve {
-//                 name: "a.pb".into(),
-//             },
-//         )
-//         .unwrap_err();
-//
-//         // Ensure the expected error was returned.
-//         match err {
-//             StdError::GenericErr { msg, .. } => {
-//                 assert_eq!(true, msg.contains("no address bound to name"))
-//             }
-//             _ => panic!("unexpected error"),
-//         }
-//     }
-//
-//     #[test]
-//     fn query_lookup() {
-//         // Create provenance mock deps with two bound names.
-//         let mut deps = mock_dependencies(&[]);
-//         deps.querier
-//             .with_names(&[("b.pb", "address", false), ("a.pb", "address", false)]);
-//
-//         // Call the smart contract query function to lookup names bound to an address.
-//         let bin = query(
-//             deps.as_ref(),
-//             mock_env(),
-//             QueryMsg::Lookup {
-//                 address: "address".into(),
-//             },
-//         )
-//         .unwrap();
-//
-//         // Ensure that we got the expected number of records.
-//         let rep: Names = from_binary(&bin).unwrap();
-//         assert_eq!(rep.records.len(), 2);
-//
-//         // Ensure that we got the expected names.
-//         let names: Vec<&str> = rep.records.iter().map(|r| r.name.as_str()).collect();
-//         assert_eq!(true, names.contains(&"a.pb"));
-//         assert_eq!(true, names.contains(&"b.pb"))
-//     }
-//
-//     #[test]
-//     fn query_lookup_empty() {
-//         // Create provenance mock deps with a bound name.
-//         let mut deps = mock_dependencies(&[]);
-//         deps.querier.with_names(&[("a.pb", "address1", false)]);
-//
-//         // Call the smart contract query function to lookup names bound to an address.
-//         let bin = query(
-//             deps.as_ref(),
-//             mock_env(),
-//             QueryMsg::Lookup {
-//                 address: "address2".into(),
-//             },
-//         )
-//         .unwrap();
-//
-//         // Ensure that we got zero records.
-//         let rep: Names = from_binary(&bin).unwrap();
-//         assert_eq!(rep.records.len(), 0);
-//     }
-// }
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use cosmwasm_std::testing::{mock_env, mock_info};
+    use cosmwasm_std::{from_binary, Binary, CosmosMsg};
+    use provwasm_mocks::mock_provenance_dependencies;
+    use provwasm_std::types::provenance::name::v1::{
+        QueryResolveRequest, QueryResolveResponse, QueryReverseLookupRequest,
+        QueryReverseLookupResponse,
+    };
+    use std::convert::TryInto;
+
+    #[test]
+    fn init_test() {
+        // Create default provenance mocks.
+        let mut deps = mock_provenance_dependencies();
+        let env = mock_env();
+        let info = mock_info("sender", &[]);
+
+        // Give the contract a name
+        let msg = InitMsg {
+            name: "contract.pb".into(),
+        };
+
+        let contract_address = env.contract.address.to_string();
+
+        // Ensure a message was created to bind the name to the contract address.
+        let res = instantiate(deps.as_mut(), env, info, msg).unwrap();
+        assert_eq!(1, res.messages.len());
+
+        match &res.messages[0].msg {
+            CosmosMsg::Stargate { type_url, value } => {
+                let expected: Binary = MsgBindNameRequest {
+                    parent: Some(NameRecord {
+                        name: "pb".to_string(),
+                        address: contract_address.clone(),
+                        restricted: true,
+                    }),
+                    record: Some(NameRecord {
+                        name: "contract".to_string(),
+                        address: contract_address,
+                        restricted: true,
+                    }),
+                }
+                .try_into()
+                .unwrap();
+
+                assert_eq!(type_url, "/provenance.name.v1.MsgBindNameRequest");
+                assert_eq!(value, &expected)
+            }
+            _ => panic!("unexpected cosmos message"),
+        }
+    }
+
+    #[test]
+    fn bind_name_success() {
+        // Init state
+        let mut deps = mock_provenance_dependencies();
+        let env = mock_env();
+        let info = mock_info("sender", &[]);
+        let msg = InitMsg {
+            name: "contract.pb".into(),
+        };
+        let _ = instantiate(deps.as_mut(), env, info, msg).unwrap(); // Panics on error
+
+        // Bind a name
+        let env = mock_env();
+        let info = mock_info("sender", &[]);
+        let msg = ExecuteMsg::BindPrefix {
+            prefix: "test".into(),
+        };
+
+        let contract_address = env.contract.address.to_string();
+
+        let res = execute(deps.as_mut(), env, info, msg).unwrap();
+
+        // Assert the correct message was created
+        match &res.messages[0].msg {
+            CosmosMsg::Stargate { type_url, value } => {
+                let expected: Binary = MsgBindNameRequest {
+                    parent: Some(NameRecord {
+                        name: "contract.pb".to_string(),
+                        address: contract_address.clone(),
+                        restricted: true,
+                    }),
+                    record: Some(NameRecord {
+                        name: "test".to_string(),
+                        address: contract_address,
+                        restricted: true,
+                    }),
+                }
+                .try_into()
+                .unwrap();
+
+                assert_eq!(type_url, "/provenance.name.v1.MsgBindNameRequest");
+                assert_eq!(value, &expected)
+            }
+            _ => panic!("unexpected cosmos message"),
+        }
+    }
+
+    #[test]
+    fn unbind_name_success() {
+        // Init state
+        let mut deps = mock_provenance_dependencies();
+        let env = mock_env();
+        let info = mock_info("sender", &[]);
+        let msg = InitMsg {
+            name: "contract.pb".into(),
+        };
+        let _ = instantiate(deps.as_mut(), env, info, msg).unwrap(); // Panics on error
+
+        // Bind a name
+        let env = mock_env();
+        let info = mock_info("sender", &[]);
+        let msg = ExecuteMsg::UnbindPrefix {
+            prefix: "test".into(),
+        };
+
+        let contract_address = env.contract.address.to_string();
+
+        let res = execute(deps.as_mut(), env, info, msg).unwrap();
+
+        // Assert the correct message was created
+        assert_eq!(1, res.messages.len());
+        match &res.messages[0].msg {
+            CosmosMsg::Stargate { type_url, value } => {
+                let expected: Binary = MsgDeleteNameRequest {
+                    record: Some(NameRecord {
+                        name: "test.contract.pb".to_string(),
+                        address: contract_address,
+                        restricted: true,
+                    }),
+                }
+                .try_into()
+                .unwrap();
+
+                assert_eq!(type_url, "/provenance.name.v1.MsgDeleteNameRequest");
+                assert_eq!(value, &expected)
+            }
+            _ => panic!("unexpected cosmos message"),
+        }
+    }
+
+    #[test]
+    fn bind_name_unauthorized() {
+        // Init state
+        let mut deps = mock_provenance_dependencies();
+        let env = mock_env();
+        let info = mock_info("sender", &[]);
+        let msg = InitMsg {
+            name: "contract.pb".into(),
+        };
+        let _ = instantiate(deps.as_mut(), env, info, msg).unwrap(); // Panics on error
+
+        // Try to bind a name with some other sender address
+        let env = mock_env();
+        let info = mock_info("other", &[]); // error: not 'sender'
+        let msg = ExecuteMsg::BindPrefix {
+            prefix: "test".into(),
+        };
+        let err = execute(deps.as_mut(), env, info, msg).unwrap_err();
+
+        // Assert an unauthorized error was returned
+        match err {
+            ContractError::Unauthorized {} => {}
+            e => panic!("unexpected error: {:?}", e),
+        }
+    }
+
+    #[test]
+    fn unbind_name_unauthorized() {
+        // Init state
+        let mut deps = mock_provenance_dependencies();
+        let env = mock_env();
+        let info = mock_info("sender", &[]);
+        let msg = InitMsg {
+            name: "contract.pb".into(),
+        };
+        let _ = instantiate(deps.as_mut(), env, info, msg).unwrap(); // Panics on error
+
+        // Try to bind a name with some other sender address
+        let env = mock_env();
+        let info = mock_info("other", &[]); // error: not 'sender'
+        let msg = ExecuteMsg::UnbindPrefix {
+            prefix: "test".into(),
+        };
+        let err = execute(deps.as_mut(), env, info, msg).unwrap_err();
+
+        // Assert an unauthorized error was returned
+        match err {
+            ContractError::Unauthorized {} => {}
+            e => panic!("unexpected error: {:?}", e),
+        }
+    }
+
+    #[test]
+    fn query_resolve() {
+        // Create provenance mock deps with a single bound name.
+
+        let mut deps = mock_provenance_dependencies();
+
+        let mock_response = QueryResolveResponse {
+            address: "tp1y0txdp3sqmxjvfdaa8hfvwcljl8ugcfv26uync".to_string(),
+            restricted: false,
+        };
+
+        QueryResolveRequest::mock_response(&mut deps.querier, mock_response);
+
+        // Call the smart contract query function to resolve the address for our test name.
+        let bin = query(
+            deps.as_ref(),
+            mock_env(),
+            QueryMsg::Resolve {
+                name: "a.pb".into(),
+            },
+        )
+        .unwrap();
+
+        // Ensure that we got the expected address.
+        let rep: QueryResolveResponse = from_binary(&bin).unwrap();
+        assert_eq!(rep.address, "tp1y0txdp3sqmxjvfdaa8hfvwcljl8ugcfv26uync")
+    }
+
+    #[test]
+    fn query_lookup() {
+        // Create provenance mock deps with two bound names.
+        let mut deps = mock_provenance_dependencies();
+
+        let mock_response = QueryReverseLookupResponse {
+            name: vec!["b.pb".to_string(), "a.pb".to_string()],
+            pagination: None,
+        };
+
+        QueryReverseLookupRequest::mock_response(&mut deps.querier, mock_response.clone());
+
+        // Call the smart contract query function to lookup names bound to an address.
+        let bin = query(
+            deps.as_ref(),
+            mock_env(),
+            QueryMsg::Lookup {
+                address: "address".into(),
+            },
+        )
+        .unwrap();
+
+        // Ensure that we got the expected number of records.
+        let rep: QueryReverseLookupResponse = from_binary(&bin).unwrap();
+        assert_eq!(rep, mock_response);
+    }
+
+    #[test]
+    fn query_lookup_empty() {
+        // Create provenance mock deps with a bound name.
+        let mut deps = mock_provenance_dependencies();
+        let mock_response = QueryReverseLookupResponse {
+            name: vec![],
+            pagination: None,
+        };
+
+        QueryReverseLookupRequest::mock_response(&mut deps.querier, mock_response.clone());
+
+        // Call the smart contract query function to lookup names bound to an address.
+        let bin = query(
+            deps.as_ref(),
+            mock_env(),
+            QueryMsg::Lookup {
+                address: "address2".into(),
+            },
+        )
+        .unwrap();
+
+        // Ensure that we got zero records.
+        let rep: QueryReverseLookupResponse = from_binary(&bin).unwrap();
+        assert_eq!(rep, mock_response);
+    }
+}
