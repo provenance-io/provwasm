@@ -261,379 +261,522 @@ fn try_get_marker_by_denom(deps: Deps, denom: String) -> Result<QueryResponse, S
     let marker = get_marker_by_denom(denom, &querier)?;
     to_binary(&marker)
 }
-//
-// #[cfg(test)]
-// mod tests {
-//     use super::*;
-//     use cosmwasm_std::testing::{mock_env, mock_info};
-//     use cosmwasm_std::{coin, from_binary, CosmosMsg};
-//     use provwasm_mocks::{mock_dependencies, must_read_binary_file};
-//     use provwasm_std::{Marker, MarkerMsgParams, ProvenanceMsgParams};
-//
-//     // A helper function that will extract marker message params from a custom cosmos message.
-//     fn unwrap_marker_params(msg: &CosmosMsg<ProvenanceMsg>) -> &MarkerMsgParams {
-//         match &msg {
-//             CosmosMsg::Custom(msg) => match &msg.params {
-//                 ProvenanceMsgParams::Marker(mp) => mp,
-//                 _ => panic!("unexpected provenance params"),
-//             },
-//             _ => panic!("unexpected cosmos message"),
-//         }
-//     }
-//
-//     #[test]
-//     fn valid_init() {
-//         // Create default provenance mocks.
-//         let mut deps = mock_dependencies(&[]);
-//         // Call init
-//         let res = instantiate(
-//             deps.as_mut(),
-//             mock_env(),
-//             mock_info("sender", &[]),
-//             InitMsg {
-//                 name: "contract.pb".into(),
-//             },
-//         )
-//         .unwrap();
-//         // Ensure a message was created to bind the name to the contract address.
-//         assert_eq!(1, res.messages.len());
-//     }
-//
-//     #[test]
-//     fn create_marker() {
-//         // Create default provenance mocks.
-//         let mut deps = mock_dependencies(&[]);
-//         let env = mock_env();
-//         let info = mock_info("sender", &[]);
-//
-//         // Expected marker supply
-//         let expected_coin = coin(420, "budz");
-//
-//         // Create marker execute message
-//         let msg = ExecuteMsg::Create {
-//             supply: Uint128::new(420),
-//             denom: "budz".into(),
-//             allow_forced_transfer: false,
-//         };
-//
-//         // Call execute and ensure a cosmos message was dispatched
-//         let res = execute(deps.as_mut(), env, info, msg).unwrap();
-//         assert_eq!(1, res.messages.len());
-//
-//         // Assert the correct params were created
-//         match unwrap_marker_params(&res.messages[0].msg) {
-//             MarkerMsgParams::CreateMarker {
-//                 coin,
-//                 marker_type,
-//                 allow_forced_transfer,
-//             } => {
-//                 assert_eq!(*coin, expected_coin);
-//                 assert_eq!(*marker_type, MarkerType::Restricted);
-//                 assert!(!*allow_forced_transfer);
-//             }
-//             _ => panic!("expected marker create params"),
-//         }
-//     }
-//
-//     #[test]
-//     fn create_forced_transfer_marker() {
-//         // Create default provenance mocks.
-//         let mut deps = mock_dependencies(&[]);
-//         let env = mock_env();
-//         let info = mock_info("sender", &[]);
-//
-//         // Expected marker supply
-//         let expected_coin = coin(420, "budz");
-//
-//         // Create marker execute message
-//         let msg = ExecuteMsg::Create {
-//             supply: Uint128::new(420),
-//             denom: "budz".into(),
-//             allow_forced_transfer: true,
-//         };
-//
-//         // Call execute and ensure a cosmos message was dispatched
-//         let res = execute(deps.as_mut(), env, info, msg).unwrap();
-//         assert_eq!(1, res.messages.len());
-//
-//         // Assert the correct params were created
-//         match unwrap_marker_params(&res.messages[0].msg) {
-//             MarkerMsgParams::CreateMarker {
-//                 coin,
-//                 marker_type,
-//                 allow_forced_transfer,
-//             } => {
-//                 assert_eq!(*coin, expected_coin);
-//                 assert_eq!(*marker_type, MarkerType::Restricted);
-//                 assert!(*allow_forced_transfer);
-//             }
-//             _ => panic!("expected marker create params"),
-//         }
-//     }
-//
-//     #[test]
-//     fn grant_access() {
-//         // Create default provenance mocks.
-//         let mut deps = mock_dependencies(&[]);
-//         let env = mock_env();
-//         let info = mock_info("sender", &[]);
-//
-//         // Create expected access permissions (all)
-//         let expected_permissions = MarkerAccess::all();
-//
-//         // Create an access grant execute message
-//         let msg = ExecuteMsg::GrantAccess {
-//             denom: "budz".into(),
-//         };
-//
-//         // Call execute and ensure a cosmos message was dispatched
-//         let res = execute(deps.as_mut(), mock_env(), info, msg).unwrap();
-//         assert_eq!(1, res.messages.len());
-//
-//         // Assert the correct params were created
-//         match unwrap_marker_params(&res.messages[0].msg) {
-//             MarkerMsgParams::GrantMarkerAccess {
-//                 denom,
-//                 address,
-//                 permissions,
-//             } => {
-//                 assert_eq!(denom, "budz");
-//                 assert_eq!(address, &env.contract.address);
-//                 assert_eq!(*permissions, expected_permissions);
-//             }
-//             _ => panic!("expected marker grant params"),
-//         }
-//     }
-//
-//     #[test]
-//     fn finalize_marker() {
-//         // Create default provenance mocks.
-//         let mut deps = mock_dependencies(&[]);
-//         let env = mock_env();
-//         let info = mock_info("sender", &[]);
-//
-//         // Create a finalize marker execute message
-//         let msg = ExecuteMsg::Finalize {
-//             denom: "budz".into(),
-//         };
-//
-//         // Call execute and ensure a cosmos message was dispatched
-//         let res = execute(deps.as_mut(), env, info, msg).unwrap();
-//         assert_eq!(1, res.messages.len());
-//
-//         // Assert the correct params were created
-//         match unwrap_marker_params(&res.messages[0].msg) {
-//             MarkerMsgParams::FinalizeMarker { denom } => {
-//                 assert_eq!(denom, "budz");
-//             }
-//             _ => panic!("expected marker finalize params"),
-//         }
-//     }
-//
-//     #[test]
-//     fn activate_marker() {
-//         // Create default provenance mocks.
-//         let mut deps = mock_dependencies(&[]);
-//         let env = mock_env();
-//         let info = mock_info("sender", &[]);
-//
-//         // Create an activate marker execute message
-//         let msg = ExecuteMsg::Activate {
-//             denom: "budz".into(),
-//         };
-//
-//         // Call execute and ensure a cosmos message was dispatched
-//         let res = execute(deps.as_mut(), env, info, msg).unwrap();
-//         assert_eq!(1, res.messages.len());
-//
-//         // Assert the correct params were created
-//         match unwrap_marker_params(&res.messages[0].msg) {
-//             MarkerMsgParams::ActivateMarker { denom } => {
-//                 assert_eq!(denom, "budz");
-//             }
-//             _ => panic!("expected marker activate params"),
-//         }
-//     }
-//
-//     #[test]
-//     fn withdraw_coins() {
-//         // Create default provenance mocks.
-//         let mut deps = mock_dependencies(&[]);
-//         let env = mock_env();
-//         let info = mock_info("sender", &[]);
-//
-//         // Expected withdraw amount
-//         let expected_coin = coin(20, "budz");
-//
-//         // Create a withdraw execute message
-//         let msg = ExecuteMsg::Withdraw {
-//             amount: Uint128::new(20),
-//             denom: "budz".into(),
-//         };
-//
-//         // Call execute and ensure a cosmos message was dispatched
-//         let res = execute(deps.as_mut(), mock_env(), info, msg).unwrap();
-//         assert_eq!(1, res.messages.len());
-//
-//         // Assert the correct params were created
-//         match unwrap_marker_params(&res.messages[0].msg) {
-//             MarkerMsgParams::WithdrawCoins {
-//                 marker_denom,
-//                 coin,
-//                 recipient,
-//             } => {
-//                 assert_eq!(marker_denom, "budz");
-//                 assert_eq!(*coin, expected_coin);
-//                 assert_eq!(recipient, &env.contract.address);
-//             }
-//             _ => panic!("expected marker withdraw params"),
-//         }
-//     }
-//
-//     #[test]
-//     fn mint_coins() {
-//         // Create default provenance mocks.
-//         let mut deps = mock_dependencies(&[]);
-//         let env = mock_env();
-//         let info = mock_info("sender", &[]);
-//
-//         // Expect to mint this amount
-//         let expected_coin = coin(20, "budz");
-//
-//         // Create a mint coins marker handler message
-//         let msg = ExecuteMsg::Mint {
-//             amount: Uint128::new(20),
-//             denom: "budz".into(),
-//         };
-//
-//         // Call handle and ensure a cosmos message was dispatched
-//         let res = execute(deps.as_mut(), env, info, msg).unwrap();
-//         assert_eq!(1, res.messages.len());
-//
-//         // Assert the correct params were created
-//         match unwrap_marker_params(&res.messages[0].msg) {
-//             MarkerMsgParams::MintMarkerSupply { coin } => assert_eq!(*coin, expected_coin),
-//             _ => panic!("expected marker mint params"),
-//         }
-//     }
-//
-//     #[test]
-//     fn burn_coins() {
-//         // Create default provenance mocks.
-//         let mut deps = mock_dependencies(&[]);
-//         let env = mock_env();
-//         let info = mock_info("sender", &[]);
-//
-//         // Expect to burn this amount
-//         let expected_coin = coin(20, "budz");
-//
-//         // Create a burn coins marker handler message
-//         let msg = ExecuteMsg::Burn {
-//             amount: Uint128::new(20),
-//             denom: "budz".into(),
-//         };
-//
-//         // Call handle and ensure a cosmos message was dispatched
-//         let res = execute(deps.as_mut(), env, info, msg).unwrap();
-//         assert_eq!(1, res.messages.len());
-//
-//         // Assert the correct params were created
-//         match unwrap_marker_params(&res.messages[0].msg) {
-//             MarkerMsgParams::BurnMarkerSupply { coin } => assert_eq!(*coin, expected_coin),
-//             _ => panic!("expected marker burn params"),
-//         }
-//     }
-//
-//     #[test]
-//     fn cancel_marker() {
-//         // Create default provenance mocks.
-//         let mut deps = mock_dependencies(&[]);
-//         let env = mock_env();
-//         let info = mock_info("sender", &[]);
-//
-//         // Create a cancel marker handler message
-//         let msg = ExecuteMsg::Cancel {
-//             denom: "budz".into(),
-//         };
-//
-//         // Call handle and ensure a cosmos message was dispatched
-//         let res = execute(deps.as_mut(), env, info, msg).unwrap();
-//         assert_eq!(1, res.messages.len());
-//
-//         // Assert the correct params were created
-//         match unwrap_marker_params(&res.messages[0].msg) {
-//             MarkerMsgParams::CancelMarker { denom } => assert_eq!(denom, "budz"),
-//             _ => panic!("expected marker cancel params"),
-//         }
-//     }
-//
-//     #[test]
-//     fn destroy_marker() {
-//         // Create default provenance mocks.
-//         let mut deps = mock_dependencies(&[]);
-//         let env = mock_env();
-//         let info = mock_info("sender", &[]);
-//
-//         // Create a destroy marker handler message
-//         let msg = ExecuteMsg::Destroy {
-//             denom: "budz".into(),
-//         };
-//
-//         // Call handle and ensure a cosmos message was dispatched
-//         let res = execute(deps.as_mut(), env, info, msg).unwrap();
-//         assert_eq!(1, res.messages.len());
-//
-//         // Assert the correct params were created
-//         match unwrap_marker_params(&res.messages[0].msg) {
-//             MarkerMsgParams::DestroyMarker { denom } => assert_eq!(denom, "budz"),
-//             _ => panic!("expected marker destroy params"),
-//         }
-//     }
-//
-//     #[test]
-//     fn transfer_coins() {
-//         // Create default provenance mocks.
-//         let mut deps = mock_dependencies(&[]);
-//         let env = mock_env();
-//         let info = mock_info("sender", &[]);
-//
-//         // Create a transfer execute message
-//         let msg = ExecuteMsg::Transfer {
-//             amount: Uint128::new(20),
-//             denom: "budz".into(),
-//             to: "toaddress".into(),
-//         };
-//
-//         // Call execute and ensure a cosmos message was dispatched
-//         let res = execute(deps.as_mut(), mock_env(), info, msg).unwrap();
-//         assert_eq!(1, res.messages.len());
-//
-//         // Assert the correct params were created
-//         let expected_coin = coin(20, "budz");
-//         match unwrap_marker_params(&res.messages[0].msg) {
-//             MarkerMsgParams::TransferMarkerCoins { coin, to, from } => {
-//                 assert_eq!(*coin, expected_coin);
-//                 assert_eq!(*to, Addr::unchecked("toaddress"));
-//                 assert_eq!(from, &env.contract.address);
-//             }
-//             _ => panic!("expected marker transfer params"),
-//         }
-//     }
-//
-//     #[test]
-//     fn query_marker() {
-//         // Create a mock querier with our expected marker.
-//         let bin = must_read_binary_file("testdata/marker.json");
-//         let expected_marker: Marker = from_binary(&bin).unwrap();
-//         let mut deps = mock_dependencies(&[]);
-//         deps.querier.with_markers(vec![expected_marker.clone()]);
-//         // Query and ensure we got the expected marker
-//         let req = QueryMsg::GetByDenom {
-//             denom: "nugz".into(),
-//         };
-//         let bin = query(deps.as_ref(), mock_env(), req).unwrap();
-//         let marker: Marker = from_binary(&bin).unwrap();
-//         assert_eq!(marker, expected_marker);
-//         assert_eq!(marker.address, "tp18vmzryrvwaeykmdtu6cfrz5sau3dhc5c73ms0u")
-//     }
-// }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::types::Marker;
+    use cosmwasm_std::testing::{mock_env, mock_info};
+    use cosmwasm_std::{from_binary, Binary, CosmosMsg};
+    use prost::Message;
+    use provwasm_mocks::mock_provenance_dependencies;
+    use provwasm_std::shim::Any;
+    use provwasm_std::types::cosmos::auth::v1beta1::BaseAccount;
+    use provwasm_std::types::cosmos::base::v1beta1::Coin;
+    use provwasm_std::types::provenance::marker::v1::{
+        AccessGrant, MarkerAccount, MarkerStatus, MsgActivateRequest, MsgAddAccessRequest,
+        MsgAddMarkerRequest, MsgBurnRequest, MsgCancelRequest, MsgDeleteRequest,
+        MsgFinalizeRequest, MsgMintRequest, MsgTransferRequest, MsgWithdrawRequest,
+        QueryEscrowRequest, QueryEscrowResponse, QueryMarkerRequest, QueryMarkerResponse,
+    };
+    use std::convert::TryInto;
+
+    #[test]
+    fn valid_init() {
+        // Create default provenance mocks.
+        let mut deps = mock_provenance_dependencies();
+        // Call init
+        let res = instantiate(
+            deps.as_mut(),
+            mock_env(),
+            mock_info("sender", &[]),
+            InitMsg {
+                name: "contract.pb".into(),
+            },
+        )
+        .unwrap();
+        // Ensure a message was created to bind the name to the contract address.
+        assert_eq!(1, res.messages.len());
+    }
+
+    #[test]
+    fn create_marker() {
+        // Create default provenance mocks.
+        let mut deps = mock_provenance_dependencies();
+        let env = mock_env();
+        let info = mock_info("sender", &[]);
+        let contract_address = env.contract.address.to_string();
+
+        // Expected marker supply
+        let expected_msg: Binary = MsgAddMarkerRequest {
+            amount: Some(Coin {
+                denom: "budz".to_string(),
+                amount: "420".to_string(),
+            }),
+            manager: contract_address.clone(),
+            from_address: contract_address,
+            status: MarkerStatus::Proposed.into(),
+            marker_type: MarkerType::Restricted.into(),
+            access_list: vec![],
+            supply_fixed: false,
+            allow_governance_control: false,
+            allow_forced_transfer: false,
+            required_attributes: vec![],
+        }
+        .try_into()
+        .unwrap();
+
+        // Create marker execute message
+        let msg = ExecuteMsg::Create {
+            supply: Uint128::new(420),
+            denom: "budz".into(),
+            allow_forced_transfer: false,
+        };
+
+        // Call execute and ensure a cosmos message was dispatched
+        let res = execute(deps.as_mut(), env, info, msg).unwrap();
+        assert_eq!(1, res.messages.len());
+
+        // Assert the correct params were created
+
+        match &res.messages[0].msg {
+            CosmosMsg::Stargate { type_url, value } => {
+                assert_eq!(type_url, "/provenance.marker.v1.MsgAddMarkerRequest");
+                assert_eq!(value, &expected_msg)
+            }
+            _ => panic!("unexpected cosmos message"),
+        }
+    }
+
+    #[test]
+    fn create_forced_transfer_marker() {
+        // Create default provenance mocks.
+        let mut deps = mock_provenance_dependencies();
+        let env = mock_env();
+        let info = mock_info("sender", &[]);
+        let contract_address = env.contract.address.to_string();
+
+        // Expected marker supply
+        let expected_msg: Binary = MsgAddMarkerRequest {
+            amount: Some(Coin {
+                denom: "budz".to_string(),
+                amount: "420".to_string(),
+            }),
+            manager: contract_address.clone(),
+            from_address: contract_address,
+            status: MarkerStatus::Proposed.into(),
+            marker_type: MarkerType::Restricted.into(),
+            access_list: vec![],
+            supply_fixed: false,
+            allow_governance_control: false,
+            allow_forced_transfer: true,
+            required_attributes: vec![],
+        }
+        .try_into()
+        .unwrap();
+
+        // Create marker execute message
+        let msg = ExecuteMsg::Create {
+            supply: Uint128::new(420),
+            denom: "budz".into(),
+            allow_forced_transfer: true,
+        };
+
+        // Call execute and ensure a cosmos message was dispatched
+        let res = execute(deps.as_mut(), env, info, msg).unwrap();
+        assert_eq!(1, res.messages.len());
+
+        // Assert the correct params were created
+
+        match &res.messages[0].msg {
+            CosmosMsg::Stargate { type_url, value } => {
+                assert_eq!(type_url, "/provenance.marker.v1.MsgAddMarkerRequest");
+                assert_eq!(value, &expected_msg)
+            }
+            _ => panic!("unexpected cosmos message"),
+        }
+    }
+
+    #[test]
+    fn grant_access() {
+        // Create default provenance mocks.
+        let mut deps = mock_provenance_dependencies();
+        let env = mock_env();
+        let info = mock_info("sender", &[]);
+        let contract_address = env.contract.address.to_string();
+
+        let expected_msg: Binary = MsgAddAccessRequest {
+            denom: "budz".into(),
+            administrator: contract_address,
+            access: all_access(&env.contract.address),
+        }
+        .try_into()
+        .unwrap();
+
+        // Create an access grant execute message
+        let msg = ExecuteMsg::GrantAccess {
+            denom: "budz".into(),
+        };
+
+        // Call execute and ensure a cosmos message was dispatched
+        let res = execute(deps.as_mut(), mock_env(), info, msg).unwrap();
+        assert_eq!(1, res.messages.len());
+
+        // Assert the correct params were created
+        match &res.messages[0].msg {
+            CosmosMsg::Stargate { type_url, value } => {
+                assert_eq!(type_url, "/provenance.marker.v1.MsgAddAccessRequest");
+                assert_eq!(value, &expected_msg)
+            }
+            _ => panic!("unexpected cosmos message"),
+        }
+    }
+
+    #[test]
+    fn finalize_marker() {
+        // Create default provenance mocks.
+        let mut deps = mock_provenance_dependencies();
+        let env = mock_env();
+        let info = mock_info("sender", &[]);
+
+        let expected_msg: Binary = MsgFinalizeRequest {
+            denom: "budz".to_string(),
+            administrator: env.contract.address.to_string(),
+        }
+        .try_into()
+        .unwrap();
+
+        // Create a finalize marker execute message
+        let msg = ExecuteMsg::Finalize {
+            denom: "budz".into(),
+        };
+
+        // Call execute and ensure a cosmos message was dispatched
+        let res = execute(deps.as_mut(), env, info, msg).unwrap();
+        assert_eq!(1, res.messages.len());
+
+        // Assert the correct params were created
+        match &res.messages[0].msg {
+            CosmosMsg::Stargate { type_url, value } => {
+                assert_eq!(type_url, "/provenance.marker.v1.MsgFinalizeRequest");
+                assert_eq!(value, &expected_msg)
+            }
+            _ => panic!("unexpected cosmos message"),
+        }
+    }
+
+    #[test]
+    fn activate_marker() {
+        // Create default provenance mocks.
+        let mut deps = mock_provenance_dependencies();
+        let env = mock_env();
+        let info = mock_info("sender", &[]);
+
+        let expected_msg: Binary = MsgActivateRequest {
+            denom: "budz".to_string(),
+            administrator: env.contract.address.to_string(),
+        }
+        .try_into()
+        .unwrap();
+
+        // Create an activate marker execute message
+        let msg = ExecuteMsg::Activate {
+            denom: "budz".into(),
+        };
+
+        // Call execute and ensure a cosmos message was dispatched
+        let res = execute(deps.as_mut(), env, info, msg).unwrap();
+        assert_eq!(1, res.messages.len());
+
+        // Assert the correct params were created
+        match &res.messages[0].msg {
+            CosmosMsg::Stargate { type_url, value } => {
+                assert_eq!(type_url, "/provenance.marker.v1.MsgActivateRequest");
+                assert_eq!(value, &expected_msg)
+            }
+            _ => panic!("unexpected cosmos message"),
+        }
+    }
+
+    #[test]
+    fn withdraw_coins() {
+        // Create default provenance mocks.
+        let mut deps = mock_provenance_dependencies();
+        let env = mock_env();
+        let info = mock_info("sender", &[]);
+        let contract_address = env.contract.address.to_string();
+
+        let expected_msg: Binary = MsgWithdrawRequest {
+            denom: "budz".to_string(),
+            administrator: contract_address.clone(),
+            to_address: contract_address,
+            amount: vec![Coin {
+                denom: "budz".to_string(),
+                amount: "20".to_string(),
+            }],
+        }
+        .try_into()
+        .unwrap();
+
+        // Create a withdraw execute message
+        let msg = ExecuteMsg::Withdraw {
+            amount: Uint128::new(20),
+            denom: "budz".into(),
+        };
+
+        // Call execute and ensure a cosmos message was dispatched
+        let res = execute(deps.as_mut(), mock_env(), info, msg).unwrap();
+        assert_eq!(1, res.messages.len());
+
+        // Assert the correct params were created
+        match &res.messages[0].msg {
+            CosmosMsg::Stargate { type_url, value } => {
+                assert_eq!(type_url, "/provenance.marker.v1.MsgWithdrawRequest");
+                assert_eq!(value, &expected_msg)
+            }
+            _ => panic!("unexpected cosmos message"),
+        }
+    }
+
+    #[test]
+    fn mint_coins() {
+        // Create default provenance mocks.
+        let mut deps = mock_provenance_dependencies();
+        let env = mock_env();
+        let info = mock_info("sender", &[]);
+
+        let expected_msg: Binary = MsgMintRequest {
+            amount: Some(Coin {
+                denom: "budz".to_string(),
+                amount: "20".to_string(),
+            }),
+            administrator: env.contract.address.to_string(),
+        }
+        .try_into()
+        .unwrap();
+
+        // Create a mint coins marker handler message
+        let msg = ExecuteMsg::Mint {
+            amount: Uint128::new(20),
+            denom: "budz".into(),
+        };
+
+        // Call handle and ensure a cosmos message was dispatched
+        let res = execute(deps.as_mut(), env, info, msg).unwrap();
+        assert_eq!(1, res.messages.len());
+
+        // Assert the correct params were created
+        match &res.messages[0].msg {
+            CosmosMsg::Stargate { type_url, value } => {
+                assert_eq!(type_url, "/provenance.marker.v1.MsgMintRequest");
+                assert_eq!(value, &expected_msg)
+            }
+            _ => panic!("unexpected cosmos message"),
+        }
+    }
+
+    #[test]
+    fn burn_coins() {
+        // Create default provenance mocks.
+        let mut deps = mock_provenance_dependencies();
+        let env = mock_env();
+        let info = mock_info("sender", &[]);
+
+        let expected_msg: Binary = MsgBurnRequest {
+            amount: Some(Coin {
+                denom: "budz".to_string(),
+                amount: "20".to_string(),
+            }),
+            administrator: env.contract.address.to_string(),
+        }
+        .try_into()
+        .unwrap();
+
+        // Create a burn coins marker handler message
+        let msg = ExecuteMsg::Burn {
+            amount: Uint128::new(20),
+            denom: "budz".into(),
+        };
+
+        // Call handle and ensure a cosmos message was dispatched
+        let res = execute(deps.as_mut(), env, info, msg).unwrap();
+        assert_eq!(1, res.messages.len());
+
+        // Assert the correct params were created
+        match &res.messages[0].msg {
+            CosmosMsg::Stargate { type_url, value } => {
+                assert_eq!(type_url, "/provenance.marker.v1.MsgBurnRequest");
+                assert_eq!(value, &expected_msg)
+            }
+            _ => panic!("unexpected cosmos message"),
+        }
+    }
+
+    #[test]
+    fn cancel_marker() {
+        // Create default provenance mocks.
+        let mut deps = mock_provenance_dependencies();
+        let env = mock_env();
+        let info = mock_info("sender", &[]);
+
+        let expected_msg: Binary = MsgCancelRequest {
+            denom: "budz".to_string(),
+            administrator: env.contract.address.to_string(),
+        }
+        .try_into()
+        .unwrap();
+
+        // Create a cancel marker handler message
+        let msg = ExecuteMsg::Cancel {
+            denom: "budz".into(),
+        };
+
+        // Call handle and ensure a cosmos message was dispatched
+        let res = execute(deps.as_mut(), env, info, msg).unwrap();
+        assert_eq!(1, res.messages.len());
+
+        // Assert the correct params were created
+        match &res.messages[0].msg {
+            CosmosMsg::Stargate { type_url, value } => {
+                assert_eq!(type_url, "/provenance.marker.v1.MsgCancelRequest");
+                assert_eq!(value, &expected_msg)
+            }
+            _ => panic!("unexpected cosmos message"),
+        }
+    }
+
+    #[test]
+    fn destroy_marker() {
+        // Create default provenance mocks.
+        let mut deps = mock_provenance_dependencies();
+        let env = mock_env();
+        let info = mock_info("sender", &[]);
+
+        let expected_msg: Binary = MsgDeleteRequest {
+            denom: "budz".to_string(),
+            administrator: env.contract.address.to_string(),
+        }
+        .try_into()
+        .unwrap();
+
+        // Create a destroy marker handler message
+        let msg = ExecuteMsg::Destroy {
+            denom: "budz".into(),
+        };
+
+        // Call handle and ensure a cosmos message was dispatched
+        let res = execute(deps.as_mut(), env, info, msg).unwrap();
+        assert_eq!(1, res.messages.len());
+
+        // Assert the correct params were created
+        match &res.messages[0].msg {
+            CosmosMsg::Stargate { type_url, value } => {
+                assert_eq!(type_url, "/provenance.marker.v1.MsgDeleteRequest");
+                assert_eq!(value, &expected_msg)
+            }
+            _ => panic!("unexpected cosmos message"),
+        }
+    }
+
+    #[test]
+    fn transfer_coins() {
+        // Create default provenance mocks.
+        let mut deps = mock_provenance_dependencies();
+        let env = mock_env();
+        let info = mock_info("sender", &[]);
+
+        let expected_msg: Binary = MsgTransferRequest {
+            amount: Some(Coin {
+                denom: "budz".to_string(),
+                amount: "20".to_string(),
+            }),
+            administrator: env.contract.address.to_string(),
+            from_address: env.contract.address.to_string(),
+            to_address: "toaddress".to_string(),
+        }
+        .try_into()
+        .unwrap();
+
+        // Create a transfer execute message
+        let msg = ExecuteMsg::Transfer {
+            amount: Uint128::new(20),
+            denom: "budz".into(),
+            to: "toaddress".into(),
+        };
+
+        // Call execute and ensure a cosmos message was dispatched
+        let res = execute(deps.as_mut(), mock_env(), info, msg).unwrap();
+        assert_eq!(1, res.messages.len());
+
+        // Assert the correct params were created
+        match &res.messages[0].msg {
+            CosmosMsg::Stargate { type_url, value } => {
+                assert_eq!(type_url, "/provenance.marker.v1.MsgTransferRequest");
+                assert_eq!(value, &expected_msg)
+            }
+            _ => panic!("unexpected cosmos message"),
+        }
+    }
+
+    #[test]
+    fn query_marker() {
+        let mut deps = mock_provenance_dependencies();
+        let env = mock_env();
+
+        // Create a mock querier with our expected marker.
+        let expected_marker = MarkerAccount {
+            base_account: Some(BaseAccount {
+                address: "tp18vmzryrvwaeykmdtu6cfrz5sau3dhc5c73ms0u".to_string(),
+                pub_key: None,
+                account_number: 10,
+                sequence: 0,
+            }),
+            manager: env.contract.address.to_string(),
+            access_control: vec![AccessGrant {
+                address: "tp18vd8fpwxzck93qlwghaj6arh4p7c5n89x8kskz".to_string(),
+                permissions: vec![1, 2, 3, 4, 5, 6, 7],
+            }],
+            status: MarkerStatus::Active.into(),
+            denom: "nugz".to_string(),
+            supply: "420".to_string(),
+            marker_type: 0,
+            supply_fixed: false,
+            allow_governance_control: false,
+            allow_forced_transfer: false,
+            required_attributes: vec![],
+        };
+
+        let mock_marker_response = QueryMarkerResponse {
+            marker: Some(Any {
+                type_url: "/provenance.marker.v1.MarkerAccount".to_string(),
+                value: expected_marker.encode_to_vec(),
+            }),
+        };
+
+        QueryMarkerRequest::mock_response(&mut deps.querier, mock_marker_response);
+
+        QueryEscrowRequest::mock_response(
+            &mut deps.querier,
+            QueryEscrowResponse {
+                escrow: vec![Coin {
+                    denom: "budz".to_string(),
+                    amount: "20".to_string(),
+                }],
+            },
+        );
+
+        // Query and ensure we got the expected marker
+        let req = QueryMsg::GetByDenom {
+            denom: "nugz".into(),
+        };
+
+        let bin = query(deps.as_ref(), mock_env(), req).unwrap();
+
+        let marker: Marker = from_binary(&bin).unwrap();
+        assert_eq!(marker.marker_account, expected_marker);
+        assert_eq!(
+            marker.marker_account.base_account.unwrap().address,
+            "tp18vmzryrvwaeykmdtu6cfrz5sau3dhc5c73ms0u"
+        )
+    }
+}
