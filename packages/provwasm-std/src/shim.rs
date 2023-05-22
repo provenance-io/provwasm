@@ -182,7 +182,6 @@ pub struct Any {
 macro_rules! expand_as_any {
     ($($ty:path,)*) => {
 
-        // TODO: make serialized data contains `@type` (https://github.com/osmosis-labs/osmosis-rust/issues/43)
         impl Serialize for Any {
             fn serialize<S>(
                 &self,
