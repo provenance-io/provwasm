@@ -37,7 +37,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           provenance_version: "v1.15.0"
           smart_contract_action_version: "7705ee7eaa780449ba25e1f1b1426a1ac523218b"
-          test_script: "./scripts/tutorial_test.sh"
+          test_script: "./scripts/gh-action-test/tutorial_test.sh"
           generate_proposals: true
           wasm_path: "./contracts/tutorial/artifacts/provwasm_tutorial.wasm"
 
@@ -60,7 +60,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           provenance_version: "v1.15.0"
           smart_contract_action_version: "7705ee7eaa780449ba25e1f1b1426a1ac523218b"
-          test_script: "./scripts/attrs_test.sh"
+          test_script: "./scripts/gh-action-test/attrs_test.sh"
           generate_proposals: true
           wasm_path: "./contracts/attrs/artifacts/attrs.wasm"
 
@@ -83,7 +83,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           provenance_version: "v1.15.0"
           smart_contract_action_version: "7705ee7eaa780449ba25e1f1b1426a1ac523218b"
-          test_script: "./scripts/marker_test.sh"
+          test_script: "./scripts/gh-action-test/marker_test.sh"
           generate_proposals: true
           wasm_path: "./contracts/marker/artifacts/marker.wasm"
 
@@ -106,7 +106,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           provenance_version: "v1.15.0"
           smart_contract_action_version: "7705ee7eaa780449ba25e1f1b1426a1ac523218b"
-          test_script: "./scripts/msgfees_test.sh"
+          test_script: "./scripts/gh-action-test/msgfees_test.sh"
           generate_proposals: true
           wasm_path: "./contracts/msgfees/artifacts/msgfees.wasm"
 
@@ -129,7 +129,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           provenance_version: "v1.15.0"
           smart_contract_action_version: "7705ee7eaa780449ba25e1f1b1426a1ac523218b"
-          test_script: "./scripts/name_test.sh"
+          test_script: "./scripts/gh-action-test/name_test.sh"
           generate_proposals: true
           wasm_path: "./contracts/name/artifacts/name.wasm"
 
@@ -152,6 +152,6 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           provenance_version: "v1.15.0"
           smart_contract_action_version: "7705ee7eaa780449ba25e1f1b1426a1ac523218b"
-          test_script: "./scripts/scope_test.sh"
+          test_script: "./scripts/gh-action-test/scope_test.sh"
           generate_proposals: true
           wasm_path: "./contracts/scope/artifacts/scope.wasm"
