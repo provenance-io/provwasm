@@ -1,13 +1,9 @@
 .PHONY: all
-all: bindings mocks contracts
+all: provwasm-std contracts
 
-.PHONY: bindings
-bindings:
-	@make -C packages/bindings
-
-.PHONY: mocks
-mocks:
-	@make -C packages/mocks
+.PHONY: provwasm-std
+provwasm-std:
+	@make -C packages/provwasm-std
 
 .PHONY: contracts
 contracts:
@@ -15,8 +11,7 @@ contracts:
 
 .PHONY: clean
 clean:
-	@make -C packages/bindings clean
-	@make -C packages/mocks clean
+	@make -C packages/provwasm-std clean
 	@make -C contracts clean
 
 .PHONY: tutorial

@@ -1,0 +1,3 @@
+[submodule "dependencies/provenance"]
+	path = dependencies/provenance
+	url = https://github.com/provenance-io/provenance.git

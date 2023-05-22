@@ -14,8 +14,10 @@ pub enum ExecuteMsg {
 #[cw_serde]
 #[derive(QueryResponses)]
 pub enum QueryMsg {
-    #[returns(provwasm_std::Name)]
+    #[returns(provwasm_std::types::provenance::name::v1::QueryResolveResponse)]
     Resolve { name: String },
-    #[returns(provwasm_std::Names)]
+    #[returns(provwasm_std::types::provenance::name::v1::QueryReverseLookupResponse)]
     Lookup { address: String },
+    #[returns(provwasm_std::types::provenance::name::v1::QueryParamsResponse)]
+    Params {},
 }

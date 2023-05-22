@@ -1,6 +1,6 @@
 {
   "contract_name": "name",
-  "contract_version": "1.2.0",
+  "contract_version": "2.0.0",
   "idl_version": "1.0.0",
   "instantiate": {
     "$schema": "http://json-schema.org/draft-07/schema#",
@@ -109,6 +109,19 @@
           }
         },
         "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "params"
+        ],
+        "properties": {
+          "params": {
+            "type": "object",
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
       }
     ]
   },
@@ -117,42 +130,97 @@
   "responses": {
     "lookup": {
       "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "Names",
-      "description": "A collection of bound names.",
+      "title": "QueryReverseLookupResponse",
       "type": "object",
       "required": [
-        "records"
+        "name"
       ],
       "properties": {
-        "records": {
+        "name": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Name"
+            "type": "string"
           }
+        },
+        "pagination": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/PageResponse"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "definitions": {
-        "Addr": {
-          "description": "A human readable address.\n\nIn Cosmos, this is typically bech32 encoded. But for multi-chain smart contracts no assumptions should be made other than being UTF-8 encoded and of reasonable length.\n\nThis type represents a validated address. It can be created in the following ways 1. Use `Addr::unchecked(input)` 2. Use `let checked: Addr = deps.api.addr_validate(input)?` 3. Use `let checked: Addr = deps.api.addr_humanize(canonical_addr)?` 4. Deserialize from JSON. This must only be done from JSON that was validated before such as a contract's state. `Addr` must not be used in messages sent by the user because this would result in unvalidated instances.\n\nThis type is immutable. If you really need to mutate it (Really? Are you sure?), create a mutable copy using `let mut mutable = Addr::to_string()` and operate on that `String` instance.",
-          "type": "string"
-        },
-        "Name": {
-          "description": "A name bound to an address.",
+        "PageResponse": {
           "type": "object",
           "required": [
-            "address",
-            "name",
-            "restricted"
+            "next_key",
+            "total"
           ],
           "properties": {
-            "address": {
-              "$ref": "#/definitions/Addr"
+            "next_key": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
             },
-            "name": {
-              "type": "string"
+            "total": {
+              "type": "integer",
+              "format": "uint64",
+              "minimum": 0.0
+            }
+          }
+        }
+      }
+    },
+    "params": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "QueryParamsResponse",
+      "type": "object",
+      "properties": {
+        "params": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Params"
             },
-            "restricted": {
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "definitions": {
+        "Params": {
+          "type": "object",
+          "required": [
+            "allow_unrestricted_names",
+            "max_name_levels",
+            "max_segment_length",
+            "min_segment_length"
+          ],
+          "properties": {
+            "allow_unrestricted_names": {
               "type": "boolean"
+            },
+            "max_name_levels": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "max_segment_length": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "min_segment_length": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
             }
           }
         }
@@ -160,29 +228,18 @@
     },
     "resolve": {
       "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "Name",
-      "description": "A name bound to an address.",
+      "title": "QueryResolveResponse",
       "type": "object",
       "required": [
         "address",
-        "name",
         "restricted"
       ],
       "properties": {
         "address": {
-          "$ref": "#/definitions/Addr"
-        },
-        "name": {
           "type": "string"
         },
         "restricted": {
           "type": "boolean"
-        }
-      },
-      "definitions": {
-        "Addr": {
-          "description": "A human readable address.\n\nIn Cosmos, this is typically bech32 encoded. But for multi-chain smart contracts no assumptions should be made other than being UTF-8 encoded and of reasonable length.\n\nThis type represents a validated address. It can be created in the following ways 1. Use `Addr::unchecked(input)` 2. Use `let checked: Addr = deps.api.addr_validate(input)?` 3. Use `let checked: Addr = deps.api.addr_humanize(canonical_addr)?` 4. Deserialize from JSON. This must only be done from JSON that was validated before such as a contract's state. `Addr` must not be used in messages sent by the user because this would result in unvalidated instances.\n\nThis type is immutable. If you really need to mutate it (Really? Are you sure?), create a mutable copy using `let mut mutable = Addr::to_string()` and operate on that `String` instance.",
-          "type": "string"
         }
       }
     }

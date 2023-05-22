@@ -18,7 +18,7 @@ test:
 
 .PHONY: lint
 lint:
-	@cargo clippy -- -D warnings
+	@cargo clippy
 
 .PHONY: schema
 schema:

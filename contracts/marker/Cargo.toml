@@ -1,6 +1,6 @@
 [package]
 name = "marker"
-version = "1.2.0"
+version = "2.0.0-rc1"
 authors = ["Phil Story <pstory@figure.com>", "Ken Talley <ktalley@provenance.io"]
 edition = "2018"
 
@@ -31,10 +31,11 @@ backtraces = []
 cosmwasm-schema = { version = "1.2.5" }
 cosmwasm-std = { version = "1.2.5" }
 cosmwasm-storage = { version = "1.2.5" }
-provwasm-std = { path = "../../packages/bindings" }
-schemars = "0.8.1"
-serde = { version = "1.0.127", default-features = false, features = ["derive"] }
-thiserror = { version = "1.0.20" }
+provwasm-std = { path = "../../packages/provwasm-std" }
+schemars = "0.8.12"
+serde = { version = "1.0.163", default-features = false, features = ["derive"] }
+thiserror = { version = "1.0.40" }
 
 [dev-dependencies]
-provwasm-mocks = { path = "../../packages/mocks" }
+prost = {version = "0.11.0", default-features = false}
+provwasm-mocks = { path = "../../packages/provwasm-mocks" }

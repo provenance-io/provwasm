@@ -18,5 +18,8 @@ target/
 # contract artifacts
 **/artifacts
 
+# contract intermediate schemas
+**/raw
+
 # zip
 *.zip

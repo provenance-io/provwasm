@@ -50,8 +50,8 @@ pub enum ExecuteMsg {
 #[cw_serde]
 #[derive(QueryResponses)]
 pub enum QueryMsg {
-    #[returns(provwasm_std::Marker)]
+    #[returns(crate::types::Marker)]
     GetByAddress { address: String },
-    #[returns(provwasm_std::Marker)]
+    #[returns(crate::types::Marker)]
     GetByDenom { denom: String },
 }

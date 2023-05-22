@@ -1,8 +1,8 @@
 [package]
 name = "provwasm-tutorial"
-version = "1.2.0"
+version = "2.0.0-rc1"
 authors = ["fkneeland <fkneeland@figure.com>"]
-edition = "2018"
+edition = "2021"
 license = "Apache-2.0"
 repository = "https://github.com/provenance-io/fkneeland-figure/smart-contract-tutorial"
 description = "A simple smart contract used for testing inside of the Provenance blockchain"
@@ -40,10 +40,10 @@ backtraces = []
 cosmwasm-schema = { version = "1.2.5" }
 cosmwasm-std = { version = "1.2.5", default-features = false }
 cosmwasm-storage = { version = "1.2.5" }
-provwasm-std = { path = "../../packages/bindings" }
+provwasm-std = { path = "../../packages/provwasm-std" }
 schemars = "0.8.3"
 serde = { version = "1.0.127", default-features = false, features = ["derive"] }
 thiserror = { version = "1.0.26" }
 
 [dev-dependencies]
-provwasm-mocks = { path = "../../packages/mocks" }
+#provwasm-mocks = { path = "../../todo/mocks" }

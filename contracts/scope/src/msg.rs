@@ -1,6 +1,5 @@
 use cosmwasm_schema::{cw_serde, QueryResponses};
-use cosmwasm_std::Addr;
-use provwasm_std::Scope;
+use provwasm_std::types::provenance::metadata::v1::Scope;
 
 #[cw_serde]
 pub struct InitMsg {
@@ -9,18 +8,20 @@ pub struct InitMsg {
 
 #[cw_serde]
 pub enum ExecuteMsg {
-    WriteScope { scope: Scope, signers: Vec<Addr> },
+    WriteScope { scope: Scope, signers: Vec<String> },
 }
 
 #[cw_serde]
 #[derive(QueryResponses)]
 pub enum QueryMsg {
-    #[returns(provwasm_std::Scope)]
+    #[returns(provwasm_std::types::provenance::metadata::v1::ContractSpecificationResponse)]
+    GetContractSpec { id: String },
+    #[returns(provwasm_std::types::provenance::metadata::v1::ScopeResponse)]
     GetScope { id: String },
-    #[returns(provwasm_std::Sessions)]
+    #[returns(provwasm_std::types::provenance::metadata::v1::SessionsResponse)]
     GetSessions { scope_id: String },
-    #[returns(provwasm_std::Records)]
+    #[returns(Vec<provwasm_std::types::provenance::metadata::v1::RecordsResponse>)]
     GetRecords { scope_id: String },
-    #[returns(provwasm_std::Record)]
+    #[returns(provwasm_std::types::provenance::metadata::v1::RecordsResponse)]
     GetRecordByName { scope_id: String, name: String },
 }

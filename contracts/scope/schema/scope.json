@@ -1,6 +1,6 @@
 {
   "contract_name": "scope",
-  "contract_version": "1.2.0",
+  "contract_version": "2.0.0",
   "idl_version": "1.0.0",
   "instantiate": {
     "$schema": "http://json-schema.org/draft-07/schema#",
@@ -39,7 +39,7 @@
               "signers": {
                 "type": "array",
                 "items": {
-                  "$ref": "#/definitions/Addr"
+                  "type": "string"
                 }
               }
             },
@@ -50,72 +50,70 @@
       }
     ],
     "definitions": {
-      "Addr": {
-        "description": "A human readable address.\n\nIn Cosmos, this is typically bech32 encoded. But for multi-chain smart contracts no assumptions should be made other than being UTF-8 encoded and of reasonable length.\n\nThis type represents a validated address. It can be created in the following ways 1. Use `Addr::unchecked(input)` 2. Use `let checked: Addr = deps.api.addr_validate(input)?` 3. Use `let checked: Addr = deps.api.addr_humanize(canonical_addr)?` 4. Deserialize from JSON. This must only be done from JSON that was validated before such as a contract's state. `Addr` must not be used in messages sent by the user because this would result in unvalidated instances.\n\nThis type is immutable. If you really need to mutate it (Really? Are you sure?), create a mutable copy using `let mut mutable = Addr::to_string()` and operate on that `String` instance.",
-        "type": "string"
-      },
       "Party": {
-        "description": "An address with an associated role.",
         "type": "object",
         "required": [
           "address",
+          "optional",
           "role"
         ],
         "properties": {
           "address": {
-            "$ref": "#/definitions/Addr"
+            "type": "string"
+          },
+          "optional": {
+            "type": "boolean"
           },
           "role": {
-            "$ref": "#/definitions/PartyType"
+            "type": "integer",
+            "format": "int32"
           }
         }
       },
-      "PartyType": {
-        "description": "Roles that can be associated to a party.",
-        "type": "string",
-        "enum": [
-          "originator",
-          "servicer",
-          "investor",
-          "custodian",
-          "owner",
-          "affiliate",
-          "omnibus",
-          "provenance",
-          "unspecified"
-        ]
-      },
       "Scope": {
-        "description": "A collection of records owned by one or more parties.",
         "type": "object",
         "required": [
+          "data_access",
+          "owners",
+          "require_party_rollup",
           "scope_id",
           "specification_id",
           "value_owner_address"
         ],
         "properties": {
           "data_access": {
-            "default": [],
             "type": "array",
             "items": {
-              "$ref": "#/definitions/Addr"
+              "type": "string"
             }
           },
           "owners": {
-            "default": [],
             "type": "array",
             "items": {
               "$ref": "#/definitions/Party"
             }
           },
+          "require_party_rollup": {
+            "type": "boolean"
+          },
           "scope_id": {
-            "type": "string"
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "uint8",
+              "minimum": 0.0
+            }
           },
           "specification_id": {
-            "type": "string"
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "uint8",
+              "minimum": 0.0
+            }
           },
           "value_owner_address": {
-            "$ref": "#/definitions/Addr"
+            "type": "string"
           }
         }
       }
@@ -125,6 +123,27 @@
     "$schema": "http://json-schema.org/draft-07/schema#",
     "title": "QueryMsg",
     "oneOf": [
+      {
+        "type": "object",
+        "required": [
+          "get_contract_spec"
+        ],
+        "properties": {
+          "get_contract_spec": {
+            "type": "object",
+            "required": [
+              "id"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
       {
         "type": "object",
         "required": [
@@ -218,120 +237,206 @@
   "migrate": null,
   "sudo": null,
   "responses": {
-    "get_record_by_name": {
+    "get_contract_spec": {
       "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "Record",
-      "description": "A record of fact for a session.",
+      "title": "ContractSpecificationResponse",
       "type": "object",
       "required": [
-        "name",
-        "process",
-        "session_id",
-        "specification_id"
+        "record_specifications"
       ],
       "properties": {
-        "inputs": {
-          "default": [],
+        "contract_specification": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ContractSpecificationWrapper"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "record_specifications": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/RecordInput"
+            "$ref": "#/definitions/RecordSpecificationWrapper"
           }
         },
-        "name": {
-          "type": "string"
-        },
-        "outputs": {
-          "default": [],
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/RecordOutput"
-          }
-        },
-        "process": {
-          "$ref": "#/definitions/Process"
-        },
-        "session_id": {
-          "type": "string"
-        },
-        "specification_id": {
-          "type": "string"
+        "request": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ContractSpecificationRequest"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "definitions": {
-        "Process": {
-          "description": "The process that generated a record.",
+        "ContractSpecIdInfo": {
           "type": "object",
           "required": [
-            "method",
-            "name",
-            "process_id"
+            "contract_spec_addr",
+            "contract_spec_id",
+            "contract_spec_id_contract_spec_uuid",
+            "contract_spec_id_prefix",
+            "contract_spec_uuid"
           ],
           "properties": {
-            "method": {
+            "contract_spec_addr": {
+              "type": "string"
+            },
+            "contract_spec_id": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "contract_spec_id_contract_spec_uuid": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "contract_spec_id_prefix": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "contract_spec_uuid": {
+              "type": "string"
+            }
+          }
+        },
+        "ContractSpecification": {
+          "type": "object",
+          "required": [
+            "class_name",
+            "owner_addresses",
+            "parties_involved",
+            "specification_id"
+          ],
+          "properties": {
+            "class_name": {
+              "type": "string"
+            },
+            "description": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/Description"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "owner_addresses": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "parties_involved": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int32"
+              }
+            },
+            "source": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/Source"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "specification_id": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            }
+          }
+        },
+        "ContractSpecificationRequest": {
+          "type": "object",
+          "required": [
+            "include_record_specs",
+            "specification_id"
+          ],
+          "properties": {
+            "include_record_specs": {
+              "type": "boolean"
+            },
+            "specification_id": {
+              "type": "string"
+            }
+          }
+        },
+        "ContractSpecificationWrapper": {
+          "type": "object",
+          "properties": {
+            "contract_spec_id_info": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/ContractSpecIdInfo"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "specification": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/ContractSpecification"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
+        },
+        "Description": {
+          "type": "object",
+          "required": [
+            "description",
+            "icon_url",
+            "name",
+            "website_url"
+          ],
+          "properties": {
+            "description": {
+              "type": "string"
+            },
+            "icon_url": {
               "type": "string"
             },
             "name": {
               "type": "string"
             },
-            "process_id": {
-              "$ref": "#/definitions/ProcessId"
+            "website_url": {
+              "type": "string"
             }
           }
         },
-        "ProcessId": {
-          "description": "The representations of a process id.",
-          "oneOf": [
-            {
-              "description": "The on-chain address of a process.",
-              "type": "object",
-              "required": [
-                "address"
-              ],
-              "properties": {
-                "address": {
-                  "type": "object",
-                  "required": [
-                    "address"
-                  ],
-                  "properties": {
-                    "address": {
-                      "type": "string"
-                    }
-                  }
-                }
-              },
-              "additionalProperties": false
-            },
-            {
-              "description": "The hash of an off-chain process.",
-              "type": "object",
-              "required": [
-                "hash"
-              ],
-              "properties": {
-                "hash": {
-                  "type": "object",
-                  "required": [
-                    "hash"
-                  ],
-                  "properties": {
-                    "hash": {
-                      "type": "string"
-                    }
-                  }
-                }
-              },
-              "additionalProperties": false
-            }
-          ]
-        },
-        "RecordInput": {
-          "description": "The inputs used to produce a record.",
+        "InputSpecification": {
           "type": "object",
           "required": [
             "name",
-            "source",
-            "status",
             "type_name"
           ],
           "properties": {
@@ -339,124 +444,336 @@
               "type": "string"
             },
             "source": {
-              "$ref": "#/definitions/RecordInputSource"
-            },
-            "status": {
-              "$ref": "#/definitions/RecordInputStatus"
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/Source"
+                },
+                {
+                  "type": "null"
+                }
+              ]
             },
             "type_name": {
               "type": "string"
             }
           }
         },
-        "RecordInputSource": {
-          "description": "The representations of a record input source.",
+        "RecordSpecIdInfo": {
+          "type": "object",
+          "required": [
+            "record_spec_addr",
+            "record_spec_id",
+            "record_spec_id_contract_spec_uuid",
+            "record_spec_id_hashed_name",
+            "record_spec_id_prefix"
+          ],
+          "properties": {
+            "contract_spec_id_info": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/ContractSpecIdInfo"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "record_spec_addr": {
+              "type": "string"
+            },
+            "record_spec_id": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "record_spec_id_contract_spec_uuid": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "record_spec_id_hashed_name": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "record_spec_id_prefix": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            }
+          }
+        },
+        "RecordSpecification": {
+          "type": "object",
+          "required": [
+            "inputs",
+            "name",
+            "responsible_parties",
+            "result_type",
+            "specification_id",
+            "type_name"
+          ],
+          "properties": {
+            "inputs": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/InputSpecification"
+              }
+            },
+            "name": {
+              "type": "string"
+            },
+            "responsible_parties": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int32"
+              }
+            },
+            "result_type": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "specification_id": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "type_name": {
+              "type": "string"
+            }
+          }
+        },
+        "RecordSpecificationWrapper": {
+          "type": "object",
+          "properties": {
+            "record_spec_id_info": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/RecordSpecIdInfo"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "specification": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/RecordSpecification"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
+        },
+        "Source": {
           "oneOf": [
             {
-              "description": "The address of a record on chain (established records).",
               "type": "object",
               "required": [
-                "record"
+                "resource_id"
               ],
               "properties": {
-                "record": {
-                  "type": "object",
-                  "required": [
-                    "record_id"
-                  ],
-                  "properties": {
-                    "record_id": {
-                      "type": "string"
-                    }
+                "resource_id": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer",
+                    "format": "uint8",
+                    "minimum": 0.0
                   }
                 }
               },
               "additionalProperties": false
             },
             {
-              "description": "The hash of an off-chain piece of information (proposed records).",
               "type": "object",
               "required": [
                 "hash"
               ],
               "properties": {
                 "hash": {
-                  "type": "object",
-                  "required": [
-                    "hash"
-                  ],
-                  "properties": {
-                    "hash": {
-                      "type": "string"
-                    }
-                  }
+                  "type": "string"
                 }
               },
               "additionalProperties": false
             }
           ]
-        },
-        "RecordInputStatus": {
-          "description": "Record input types.",
-          "type": "string",
-          "enum": [
-            "proposed",
-            "record",
-            "unspecified"
-          ]
-        },
-        "RecordOutput": {
-          "description": "The output of a process recorded on chain.",
-          "type": "object",
-          "required": [
-            "hash",
-            "status"
-          ],
-          "properties": {
-            "hash": {
-              "type": "string"
-            },
-            "status": {
-              "$ref": "#/definitions/ResultStatus"
-            }
-          }
-        },
-        "ResultStatus": {
-          "description": "Result status types.",
-          "type": "string",
-          "enum": [
-            "pass",
-            "skip",
-            "fail",
-            "unspecified"
-          ]
         }
       }
     },
-    "get_records": {
+    "get_record_by_name": {
       "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "Records",
-      "description": "A group of records.",
+      "title": "RecordsResponse",
       "type": "object",
       "required": [
-        "records"
+        "records",
+        "sessions"
       ],
       "properties": {
         "records": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Record"
+            "$ref": "#/definitions/RecordWrapper"
+          }
+        },
+        "request": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/RecordsRequest"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "scope": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ScopeWrapper"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sessions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SessionWrapper"
           }
         }
       },
       "definitions": {
+        "AuditFields": {
+          "type": "object",
+          "required": [
+            "created_by",
+            "message",
+            "updated_by",
+            "version"
+          ],
+          "properties": {
+            "created_by": {
+              "type": "string"
+            },
+            "created_date": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/Timestamp"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "message": {
+              "type": "string"
+            },
+            "updated_by": {
+              "type": "string"
+            },
+            "updated_date": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/Timestamp"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "version": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            }
+          }
+        },
+        "ContractSpecIdInfo": {
+          "type": "object",
+          "required": [
+            "contract_spec_addr",
+            "contract_spec_id",
+            "contract_spec_id_contract_spec_uuid",
+            "contract_spec_id_prefix",
+            "contract_spec_uuid"
+          ],
+          "properties": {
+            "contract_spec_addr": {
+              "type": "string"
+            },
+            "contract_spec_id": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "contract_spec_id_contract_spec_uuid": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "contract_spec_id_prefix": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "contract_spec_uuid": {
+              "type": "string"
+            }
+          }
+        },
+        "Party": {
+          "type": "object",
+          "required": [
+            "address",
+            "optional",
+            "role"
+          ],
+          "properties": {
+            "address": {
+              "type": "string"
+            },
+            "optional": {
+              "type": "boolean"
+            },
+            "role": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        },
         "Process": {
-          "description": "The process that generated a record.",
           "type": "object",
           "required": [
             "method",
-            "name",
-            "process_id"
+            "name"
           ],
           "properties": {
             "method": {
@@ -466,51 +783,39 @@
               "type": "string"
             },
             "process_id": {
-              "$ref": "#/definitions/ProcessId"
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/ProcessId"
+                },
+                {
+                  "type": "null"
+                }
+              ]
             }
           }
         },
         "ProcessId": {
-          "description": "The representations of a process id.",
           "oneOf": [
             {
-              "description": "The on-chain address of a process.",
               "type": "object",
               "required": [
                 "address"
               ],
               "properties": {
                 "address": {
-                  "type": "object",
-                  "required": [
-                    "address"
-                  ],
-                  "properties": {
-                    "address": {
-                      "type": "string"
-                    }
-                  }
+                  "type": "string"
                 }
               },
               "additionalProperties": false
             },
             {
-              "description": "The hash of an off-chain process.",
               "type": "object",
               "required": [
                 "hash"
               ],
               "properties": {
                 "hash": {
-                  "type": "object",
-                  "required": [
-                    "hash"
-                  ],
-                  "properties": {
-                    "hash": {
-                      "type": "string"
-                    }
-                  }
+                  "type": "string"
                 }
               },
               "additionalProperties": false
@@ -518,17 +823,16 @@
           ]
         },
         "Record": {
-          "description": "A record of fact for a session.",
           "type": "object",
           "required": [
+            "inputs",
             "name",
-            "process",
+            "outputs",
             "session_id",
             "specification_id"
           ],
           "properties": {
             "inputs": {
-              "default": [],
               "type": "array",
               "items": {
                 "$ref": "#/definitions/RecordInput"
@@ -538,29 +842,100 @@
               "type": "string"
             },
             "outputs": {
-              "default": [],
               "type": "array",
               "items": {
                 "$ref": "#/definitions/RecordOutput"
               }
             },
             "process": {
-              "$ref": "#/definitions/Process"
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/Process"
+                },
+                {
+                  "type": "null"
+                }
+              ]
             },
             "session_id": {
-              "type": "string"
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
             },
             "specification_id": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            }
+          }
+        },
+        "RecordIdInfo": {
+          "type": "object",
+          "required": [
+            "record_addr",
+            "record_id",
+            "record_id_hashed_name",
+            "record_id_prefix",
+            "record_id_scope_uuid"
+          ],
+          "properties": {
+            "record_addr": {
               "type": "string"
+            },
+            "record_id": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "record_id_hashed_name": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "record_id_prefix": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "record_id_scope_uuid": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "scope_id_info": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/ScopeIdInfo"
+                },
+                {
+                  "type": "null"
+                }
+              ]
             }
           }
         },
         "RecordInput": {
-          "description": "The inputs used to produce a record.",
           "type": "object",
           "required": [
             "name",
-            "source",
             "status",
             "type_name"
           ],
@@ -569,74 +944,25 @@
               "type": "string"
             },
             "source": {
-              "$ref": "#/definitions/RecordInputSource"
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/Source"
+                },
+                {
+                  "type": "null"
+                }
+              ]
             },
             "status": {
-              "$ref": "#/definitions/RecordInputStatus"
+              "type": "integer",
+              "format": "int32"
             },
             "type_name": {
               "type": "string"
             }
           }
         },
-        "RecordInputSource": {
-          "description": "The representations of a record input source.",
-          "oneOf": [
-            {
-              "description": "The address of a record on chain (established records).",
-              "type": "object",
-              "required": [
-                "record"
-              ],
-              "properties": {
-                "record": {
-                  "type": "object",
-                  "required": [
-                    "record_id"
-                  ],
-                  "properties": {
-                    "record_id": {
-                      "type": "string"
-                    }
-                  }
-                }
-              },
-              "additionalProperties": false
-            },
-            {
-              "description": "The hash of an off-chain piece of information (proposed records).",
-              "type": "object",
-              "required": [
-                "hash"
-              ],
-              "properties": {
-                "hash": {
-                  "type": "object",
-                  "required": [
-                    "hash"
-                  ],
-                  "properties": {
-                    "hash": {
-                      "type": "string"
-                    }
-                  }
-                }
-              },
-              "additionalProperties": false
-            }
-          ]
-        },
-        "RecordInputStatus": {
-          "description": "Record input types.",
-          "type": "string",
-          "enum": [
-            "proposed",
-            "record",
-            "unspecified"
-          ]
-        },
         "RecordOutput": {
-          "description": "The output of a process recorded on chain.",
           "type": "object",
           "required": [
             "hash",
@@ -647,179 +973,3061 @@
               "type": "string"
             },
             "status": {
-              "$ref": "#/definitions/ResultStatus"
+              "type": "integer",
+              "format": "int32"
             }
           }
         },
-        "ResultStatus": {
-          "description": "Result status types.",
-          "type": "string",
-          "enum": [
-            "pass",
-            "skip",
-            "fail",
-            "unspecified"
-          ]
-        }
-      }
-    },
-    "get_scope": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "Scope",
-      "description": "A collection of records owned by one or more parties.",
-      "type": "object",
-      "required": [
-        "scope_id",
-        "specification_id",
-        "value_owner_address"
-      ],
-      "properties": {
-        "data_access": {
-          "default": [],
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Addr"
-          }
-        },
-        "owners": {
-          "default": [],
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Party"
-          }
-        },
-        "scope_id": {
-          "type": "string"
-        },
-        "specification_id": {
-          "type": "string"
-        },
-        "value_owner_address": {
-          "$ref": "#/definitions/Addr"
-        }
-      },
-      "definitions": {
-        "Addr": {
-          "description": "A human readable address.\n\nIn Cosmos, this is typically bech32 encoded. But for multi-chain smart contracts no assumptions should be made other than being UTF-8 encoded and of reasonable length.\n\nThis type represents a validated address. It can be created in the following ways 1. Use `Addr::unchecked(input)` 2. Use `let checked: Addr = deps.api.addr_validate(input)?` 3. Use `let checked: Addr = deps.api.addr_humanize(canonical_addr)?` 4. Deserialize from JSON. This must only be done from JSON that was validated before such as a contract's state. `Addr` must not be used in messages sent by the user because this would result in unvalidated instances.\n\nThis type is immutable. If you really need to mutate it (Really? Are you sure?), create a mutable copy using `let mut mutable = Addr::to_string()` and operate on that `String` instance.",
-          "type": "string"
-        },
-        "Party": {
-          "description": "An address with an associated role.",
+        "RecordSpecIdInfo": {
           "type": "object",
           "required": [
-            "address",
-            "role"
+            "record_spec_addr",
+            "record_spec_id",
+            "record_spec_id_contract_spec_uuid",
+            "record_spec_id_hashed_name",
+            "record_spec_id_prefix"
           ],
           "properties": {
-            "address": {
-              "$ref": "#/definitions/Addr"
+            "contract_spec_id_info": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/ContractSpecIdInfo"
+                },
+                {
+                  "type": "null"
+                }
+              ]
             },
-            "role": {
-              "$ref": "#/definitions/PartyType"
+            "record_spec_addr": {
+              "type": "string"
+            },
+            "record_spec_id": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "record_spec_id_contract_spec_uuid": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "record_spec_id_hashed_name": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "record_spec_id_prefix": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
             }
           }
         },
-        "PartyType": {
-          "description": "Roles that can be associated to a party.",
-          "type": "string",
-          "enum": [
-            "originator",
-            "servicer",
-            "investor",
-            "custodian",
-            "owner",
-            "affiliate",
-            "omnibus",
-            "provenance",
-            "unspecified"
-          ]
-        }
-      }
-    },
-    "get_sessions": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "Sessions",
-      "description": "A group of sessions.",
-      "type": "object",
-      "required": [
-        "sessions"
-      ],
-      "properties": {
-        "sessions": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Session"
+        "RecordWrapper": {
+          "type": "object",
+          "properties": {
+            "record": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/Record"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "record_id_info": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/RecordIdInfo"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "record_spec_id_info": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/RecordSpecIdInfo"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
           }
-        }
-      },
-      "definitions": {
-        "Addr": {
-          "description": "A human readable address.\n\nIn Cosmos, this is typically bech32 encoded. But for multi-chain smart contracts no assumptions should be made other than being UTF-8 encoded and of reasonable length.\n\nThis type represents a validated address. It can be created in the following ways 1. Use `Addr::unchecked(input)` 2. Use `let checked: Addr = deps.api.addr_validate(input)?` 3. Use `let checked: Addr = deps.api.addr_humanize(canonical_addr)?` 4. Deserialize from JSON. This must only be done from JSON that was validated before such as a contract's state. `Addr` must not be used in messages sent by the user because this would result in unvalidated instances.\n\nThis type is immutable. If you really need to mutate it (Really? Are you sure?), create a mutable copy using `let mut mutable = Addr::to_string()` and operate on that `String` instance.",
-          "type": "string"
         },
-        "Binary": {
-          "description": "Binary is a wrapper around Vec<u8> to add base64 de/serialization with serde. It also adds some helper methods to help encode inline.\n\nThis is only needed as serde-json-{core,wasm} has a horrible encoding for Vec<u8>. See also <https://github.com/CosmWasm/cosmwasm/blob/main/docs/MESSAGE_TYPES.md>.",
-          "type": "string"
-        },
-        "Party": {
-          "description": "An address with an associated role.",
+        "RecordsRequest": {
           "type": "object",
           "required": [
-            "address",
-            "role"
+            "include_scope",
+            "include_sessions",
+            "name",
+            "record_addr",
+            "scope_id",
+            "session_id"
           ],
           "properties": {
-            "address": {
-              "$ref": "#/definitions/Addr"
+            "include_scope": {
+              "type": "boolean"
             },
-            "role": {
-              "$ref": "#/definitions/PartyType"
+            "include_sessions": {
+              "type": "boolean"
+            },
+            "name": {
+              "type": "string"
+            },
+            "record_addr": {
+              "type": "string"
+            },
+            "scope_id": {
+              "type": "string"
+            },
+            "session_id": {
+              "type": "string"
             }
           }
         },
-        "PartyType": {
-          "description": "Roles that can be associated to a party.",
-          "type": "string",
-          "enum": [
-            "originator",
-            "servicer",
-            "investor",
-            "custodian",
-            "owner",
-            "affiliate",
-            "omnibus",
-            "provenance",
-            "unspecified"
-          ]
+        "Scope": {
+          "type": "object",
+          "required": [
+            "data_access",
+            "owners",
+            "require_party_rollup",
+            "scope_id",
+            "specification_id",
+            "value_owner_address"
+          ],
+          "properties": {
+            "data_access": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "owners": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Party"
+              }
+            },
+            "require_party_rollup": {
+              "type": "boolean"
+            },
+            "scope_id": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "specification_id": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "value_owner_address": {
+              "type": "string"
+            }
+          }
+        },
+        "ScopeIdInfo": {
+          "type": "object",
+          "required": [
+            "scope_addr",
+            "scope_id",
+            "scope_id_prefix",
+            "scope_id_scope_uuid",
+            "scope_uuid"
+          ],
+          "properties": {
+            "scope_addr": {
+              "type": "string"
+            },
+            "scope_id": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "scope_id_prefix": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "scope_id_scope_uuid": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "scope_uuid": {
+              "type": "string"
+            }
+          }
+        },
+        "ScopeSpecIdInfo": {
+          "type": "object",
+          "required": [
+            "scope_spec_addr",
+            "scope_spec_id",
+            "scope_spec_id_prefix",
+            "scope_spec_id_scope_spec_uuid",
+            "scope_spec_uuid"
+          ],
+          "properties": {
+            "scope_spec_addr": {
+              "type": "string"
+            },
+            "scope_spec_id": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "scope_spec_id_prefix": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "scope_spec_id_scope_spec_uuid": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "scope_spec_uuid": {
+              "type": "string"
+            }
+          }
+        },
+        "ScopeWrapper": {
+          "type": "object",
+          "properties": {
+            "scope": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/Scope"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "scope_id_info": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/ScopeIdInfo"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "scope_spec_id_info": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/ScopeSpecIdInfo"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
         },
         "Session": {
-          "description": "The final state of an execution context for a specification instance.",
           "type": "object",
           "required": [
             "context",
             "name",
+            "parties",
             "session_id",
             "specification_id"
           ],
           "properties": {
+            "audit": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/AuditFields"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
             "context": {
-              "$ref": "#/definitions/Binary"
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
             },
             "name": {
               "type": "string"
             },
             "parties": {
-              "default": [],
               "type": "array",
               "items": {
                 "$ref": "#/definitions/Party"
               }
             },
             "session_id": {
-              "type": "string"
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
             },
             "specification_id": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            }
+          }
+        },
+        "SessionIdInfo": {
+          "type": "object",
+          "required": [
+            "session_addr",
+            "session_id",
+            "session_id_prefix",
+            "session_id_scope_uuid",
+            "session_id_session_uuid",
+            "session_uuid"
+          ],
+          "properties": {
+            "scope_id_info": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/ScopeIdInfo"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "session_addr": {
               "type": "string"
+            },
+            "session_id": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "session_id_prefix": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "session_id_scope_uuid": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "session_id_session_uuid": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "session_uuid": {
+              "type": "string"
+            }
+          }
+        },
+        "SessionWrapper": {
+          "type": "object",
+          "properties": {
+            "contract_spec_id_info": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/ContractSpecIdInfo"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "session": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/Session"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "session_id_info": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/SessionIdInfo"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
+        },
+        "Source": {
+          "oneOf": [
+            {
+              "type": "object",
+              "required": [
+                "record_id"
+              ],
+              "properties": {
+                "record_id": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer",
+                    "format": "uint8",
+                    "minimum": 0.0
+                  }
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "required": [
+                "hash"
+              ],
+              "properties": {
+                "hash": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "Timestamp": {
+          "type": "object",
+          "required": [
+            "nanos",
+            "seconds"
+          ],
+          "properties": {
+            "nanos": {
+              "description": "Non-negative fractions of a second at nanosecond resolution. Negative second values with fractions must still have non-negative nanos values that count forward in time. Must be from 0 to 999,999,999 inclusive.",
+              "type": "integer",
+              "format": "int32"
+            },
+            "seconds": {
+              "description": "Represents seconds of UTC time since Unix epoch 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to 9999-12-31T23:59:59Z inclusive.",
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        }
+      }
+    },
+    "get_records": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Array_of_RecordsResponse",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/RecordsResponse"
+      },
+      "definitions": {
+        "AuditFields": {
+          "type": "object",
+          "required": [
+            "created_by",
+            "message",
+            "updated_by",
+            "version"
+          ],
+          "properties": {
+            "created_by": {
+              "type": "string"
+            },
+            "created_date": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/Timestamp"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "message": {
+              "type": "string"
+            },
+            "updated_by": {
+              "type": "string"
+            },
+            "updated_date": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/Timestamp"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "version": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            }
+          }
+        },
+        "ContractSpecIdInfo": {
+          "type": "object",
+          "required": [
+            "contract_spec_addr",
+            "contract_spec_id",
+            "contract_spec_id_contract_spec_uuid",
+            "contract_spec_id_prefix",
+            "contract_spec_uuid"
+          ],
+          "properties": {
+            "contract_spec_addr": {
+              "type": "string"
+            },
+            "contract_spec_id": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "contract_spec_id_contract_spec_uuid": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "contract_spec_id_prefix": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "contract_spec_uuid": {
+              "type": "string"
+            }
+          }
+        },
+        "Party": {
+          "type": "object",
+          "required": [
+            "address",
+            "optional",
+            "role"
+          ],
+          "properties": {
+            "address": {
+              "type": "string"
+            },
+            "optional": {
+              "type": "boolean"
+            },
+            "role": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        },
+        "Process": {
+          "type": "object",
+          "required": [
+            "method",
+            "name"
+          ],
+          "properties": {
+            "method": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "process_id": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/ProcessId"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
+        },
+        "ProcessId": {
+          "oneOf": [
+            {
+              "type": "object",
+              "required": [
+                "address"
+              ],
+              "properties": {
+                "address": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "required": [
+                "hash"
+              ],
+              "properties": {
+                "hash": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "Record": {
+          "type": "object",
+          "required": [
+            "inputs",
+            "name",
+            "outputs",
+            "session_id",
+            "specification_id"
+          ],
+          "properties": {
+            "inputs": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/RecordInput"
+              }
+            },
+            "name": {
+              "type": "string"
+            },
+            "outputs": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/RecordOutput"
+              }
+            },
+            "process": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/Process"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "session_id": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "specification_id": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            }
+          }
+        },
+        "RecordIdInfo": {
+          "type": "object",
+          "required": [
+            "record_addr",
+            "record_id",
+            "record_id_hashed_name",
+            "record_id_prefix",
+            "record_id_scope_uuid"
+          ],
+          "properties": {
+            "record_addr": {
+              "type": "string"
+            },
+            "record_id": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "record_id_hashed_name": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "record_id_prefix": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "record_id_scope_uuid": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "scope_id_info": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/ScopeIdInfo"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
+        },
+        "RecordInput": {
+          "type": "object",
+          "required": [
+            "name",
+            "status",
+            "type_name"
+          ],
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "source": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/Source"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "status": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "type_name": {
+              "type": "string"
+            }
+          }
+        },
+        "RecordOutput": {
+          "type": "object",
+          "required": [
+            "hash",
+            "status"
+          ],
+          "properties": {
+            "hash": {
+              "type": "string"
+            },
+            "status": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        },
+        "RecordSpecIdInfo": {
+          "type": "object",
+          "required": [
+            "record_spec_addr",
+            "record_spec_id",
+            "record_spec_id_contract_spec_uuid",
+            "record_spec_id_hashed_name",
+            "record_spec_id_prefix"
+          ],
+          "properties": {
+            "contract_spec_id_info": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/ContractSpecIdInfo"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "record_spec_addr": {
+              "type": "string"
+            },
+            "record_spec_id": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "record_spec_id_contract_spec_uuid": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "record_spec_id_hashed_name": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "record_spec_id_prefix": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            }
+          }
+        },
+        "RecordWrapper": {
+          "type": "object",
+          "properties": {
+            "record": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/Record"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "record_id_info": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/RecordIdInfo"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "record_spec_id_info": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/RecordSpecIdInfo"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
+        },
+        "RecordsRequest": {
+          "type": "object",
+          "required": [
+            "include_scope",
+            "include_sessions",
+            "name",
+            "record_addr",
+            "scope_id",
+            "session_id"
+          ],
+          "properties": {
+            "include_scope": {
+              "type": "boolean"
+            },
+            "include_sessions": {
+              "type": "boolean"
+            },
+            "name": {
+              "type": "string"
+            },
+            "record_addr": {
+              "type": "string"
+            },
+            "scope_id": {
+              "type": "string"
+            },
+            "session_id": {
+              "type": "string"
+            }
+          }
+        },
+        "RecordsResponse": {
+          "type": "object",
+          "required": [
+            "records",
+            "sessions"
+          ],
+          "properties": {
+            "records": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/RecordWrapper"
+              }
+            },
+            "request": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/RecordsRequest"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "scope": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/ScopeWrapper"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "sessions": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/SessionWrapper"
+              }
+            }
+          }
+        },
+        "Scope": {
+          "type": "object",
+          "required": [
+            "data_access",
+            "owners",
+            "require_party_rollup",
+            "scope_id",
+            "specification_id",
+            "value_owner_address"
+          ],
+          "properties": {
+            "data_access": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "owners": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Party"
+              }
+            },
+            "require_party_rollup": {
+              "type": "boolean"
+            },
+            "scope_id": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "specification_id": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "value_owner_address": {
+              "type": "string"
+            }
+          }
+        },
+        "ScopeIdInfo": {
+          "type": "object",
+          "required": [
+            "scope_addr",
+            "scope_id",
+            "scope_id_prefix",
+            "scope_id_scope_uuid",
+            "scope_uuid"
+          ],
+          "properties": {
+            "scope_addr": {
+              "type": "string"
+            },
+            "scope_id": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "scope_id_prefix": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "scope_id_scope_uuid": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "scope_uuid": {
+              "type": "string"
+            }
+          }
+        },
+        "ScopeSpecIdInfo": {
+          "type": "object",
+          "required": [
+            "scope_spec_addr",
+            "scope_spec_id",
+            "scope_spec_id_prefix",
+            "scope_spec_id_scope_spec_uuid",
+            "scope_spec_uuid"
+          ],
+          "properties": {
+            "scope_spec_addr": {
+              "type": "string"
+            },
+            "scope_spec_id": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "scope_spec_id_prefix": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "scope_spec_id_scope_spec_uuid": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "scope_spec_uuid": {
+              "type": "string"
+            }
+          }
+        },
+        "ScopeWrapper": {
+          "type": "object",
+          "properties": {
+            "scope": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/Scope"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "scope_id_info": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/ScopeIdInfo"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "scope_spec_id_info": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/ScopeSpecIdInfo"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
+        },
+        "Session": {
+          "type": "object",
+          "required": [
+            "context",
+            "name",
+            "parties",
+            "session_id",
+            "specification_id"
+          ],
+          "properties": {
+            "audit": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/AuditFields"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "context": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "name": {
+              "type": "string"
+            },
+            "parties": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Party"
+              }
+            },
+            "session_id": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "specification_id": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            }
+          }
+        },
+        "SessionIdInfo": {
+          "type": "object",
+          "required": [
+            "session_addr",
+            "session_id",
+            "session_id_prefix",
+            "session_id_scope_uuid",
+            "session_id_session_uuid",
+            "session_uuid"
+          ],
+          "properties": {
+            "scope_id_info": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/ScopeIdInfo"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "session_addr": {
+              "type": "string"
+            },
+            "session_id": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "session_id_prefix": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "session_id_scope_uuid": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "session_id_session_uuid": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "session_uuid": {
+              "type": "string"
+            }
+          }
+        },
+        "SessionWrapper": {
+          "type": "object",
+          "properties": {
+            "contract_spec_id_info": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/ContractSpecIdInfo"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "session": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/Session"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "session_id_info": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/SessionIdInfo"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
+        },
+        "Source": {
+          "oneOf": [
+            {
+              "type": "object",
+              "required": [
+                "record_id"
+              ],
+              "properties": {
+                "record_id": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer",
+                    "format": "uint8",
+                    "minimum": 0.0
+                  }
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "required": [
+                "hash"
+              ],
+              "properties": {
+                "hash": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "Timestamp": {
+          "type": "object",
+          "required": [
+            "nanos",
+            "seconds"
+          ],
+          "properties": {
+            "nanos": {
+              "description": "Non-negative fractions of a second at nanosecond resolution. Negative second values with fractions must still have non-negative nanos values that count forward in time. Must be from 0 to 999,999,999 inclusive.",
+              "type": "integer",
+              "format": "int32"
+            },
+            "seconds": {
+              "description": "Represents seconds of UTC time since Unix epoch 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to 9999-12-31T23:59:59Z inclusive.",
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        }
+      }
+    },
+    "get_scope": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "ScopeResponse",
+      "type": "object",
+      "required": [
+        "records",
+        "sessions"
+      ],
+      "properties": {
+        "records": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RecordWrapper"
+          }
+        },
+        "request": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ScopeRequest"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "scope": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ScopeWrapper"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sessions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SessionWrapper"
+          }
+        }
+      },
+      "definitions": {
+        "AuditFields": {
+          "type": "object",
+          "required": [
+            "created_by",
+            "message",
+            "updated_by",
+            "version"
+          ],
+          "properties": {
+            "created_by": {
+              "type": "string"
+            },
+            "created_date": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/Timestamp"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "message": {
+              "type": "string"
+            },
+            "updated_by": {
+              "type": "string"
+            },
+            "updated_date": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/Timestamp"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "version": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            }
+          }
+        },
+        "ContractSpecIdInfo": {
+          "type": "object",
+          "required": [
+            "contract_spec_addr",
+            "contract_spec_id",
+            "contract_spec_id_contract_spec_uuid",
+            "contract_spec_id_prefix",
+            "contract_spec_uuid"
+          ],
+          "properties": {
+            "contract_spec_addr": {
+              "type": "string"
+            },
+            "contract_spec_id": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "contract_spec_id_contract_spec_uuid": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "contract_spec_id_prefix": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "contract_spec_uuid": {
+              "type": "string"
+            }
+          }
+        },
+        "Party": {
+          "type": "object",
+          "required": [
+            "address",
+            "optional",
+            "role"
+          ],
+          "properties": {
+            "address": {
+              "type": "string"
+            },
+            "optional": {
+              "type": "boolean"
+            },
+            "role": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        },
+        "Process": {
+          "type": "object",
+          "required": [
+            "method",
+            "name"
+          ],
+          "properties": {
+            "method": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "process_id": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/ProcessId"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
+        },
+        "ProcessId": {
+          "oneOf": [
+            {
+              "type": "object",
+              "required": [
+                "address"
+              ],
+              "properties": {
+                "address": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "required": [
+                "hash"
+              ],
+              "properties": {
+                "hash": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "Record": {
+          "type": "object",
+          "required": [
+            "inputs",
+            "name",
+            "outputs",
+            "session_id",
+            "specification_id"
+          ],
+          "properties": {
+            "inputs": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/RecordInput"
+              }
+            },
+            "name": {
+              "type": "string"
+            },
+            "outputs": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/RecordOutput"
+              }
+            },
+            "process": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/Process"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "session_id": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "specification_id": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            }
+          }
+        },
+        "RecordIdInfo": {
+          "type": "object",
+          "required": [
+            "record_addr",
+            "record_id",
+            "record_id_hashed_name",
+            "record_id_prefix",
+            "record_id_scope_uuid"
+          ],
+          "properties": {
+            "record_addr": {
+              "type": "string"
+            },
+            "record_id": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "record_id_hashed_name": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "record_id_prefix": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "record_id_scope_uuid": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "scope_id_info": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/ScopeIdInfo"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
+        },
+        "RecordInput": {
+          "type": "object",
+          "required": [
+            "name",
+            "status",
+            "type_name"
+          ],
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "source": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/Source"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "status": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "type_name": {
+              "type": "string"
+            }
+          }
+        },
+        "RecordOutput": {
+          "type": "object",
+          "required": [
+            "hash",
+            "status"
+          ],
+          "properties": {
+            "hash": {
+              "type": "string"
+            },
+            "status": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        },
+        "RecordSpecIdInfo": {
+          "type": "object",
+          "required": [
+            "record_spec_addr",
+            "record_spec_id",
+            "record_spec_id_contract_spec_uuid",
+            "record_spec_id_hashed_name",
+            "record_spec_id_prefix"
+          ],
+          "properties": {
+            "contract_spec_id_info": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/ContractSpecIdInfo"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "record_spec_addr": {
+              "type": "string"
+            },
+            "record_spec_id": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "record_spec_id_contract_spec_uuid": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "record_spec_id_hashed_name": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "record_spec_id_prefix": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            }
+          }
+        },
+        "RecordWrapper": {
+          "type": "object",
+          "properties": {
+            "record": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/Record"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "record_id_info": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/RecordIdInfo"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "record_spec_id_info": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/RecordSpecIdInfo"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
+        },
+        "Scope": {
+          "type": "object",
+          "required": [
+            "data_access",
+            "owners",
+            "require_party_rollup",
+            "scope_id",
+            "specification_id",
+            "value_owner_address"
+          ],
+          "properties": {
+            "data_access": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "owners": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Party"
+              }
+            },
+            "require_party_rollup": {
+              "type": "boolean"
+            },
+            "scope_id": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "specification_id": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "value_owner_address": {
+              "type": "string"
+            }
+          }
+        },
+        "ScopeIdInfo": {
+          "type": "object",
+          "required": [
+            "scope_addr",
+            "scope_id",
+            "scope_id_prefix",
+            "scope_id_scope_uuid",
+            "scope_uuid"
+          ],
+          "properties": {
+            "scope_addr": {
+              "type": "string"
+            },
+            "scope_id": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "scope_id_prefix": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "scope_id_scope_uuid": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "scope_uuid": {
+              "type": "string"
+            }
+          }
+        },
+        "ScopeRequest": {
+          "type": "object",
+          "required": [
+            "include_records",
+            "include_sessions",
+            "record_addr",
+            "scope_id",
+            "session_addr"
+          ],
+          "properties": {
+            "include_records": {
+              "type": "boolean"
+            },
+            "include_sessions": {
+              "type": "boolean"
+            },
+            "record_addr": {
+              "type": "string"
+            },
+            "scope_id": {
+              "type": "string"
+            },
+            "session_addr": {
+              "type": "string"
+            }
+          }
+        },
+        "ScopeSpecIdInfo": {
+          "type": "object",
+          "required": [
+            "scope_spec_addr",
+            "scope_spec_id",
+            "scope_spec_id_prefix",
+            "scope_spec_id_scope_spec_uuid",
+            "scope_spec_uuid"
+          ],
+          "properties": {
+            "scope_spec_addr": {
+              "type": "string"
+            },
+            "scope_spec_id": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "scope_spec_id_prefix": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "scope_spec_id_scope_spec_uuid": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "scope_spec_uuid": {
+              "type": "string"
+            }
+          }
+        },
+        "ScopeWrapper": {
+          "type": "object",
+          "properties": {
+            "scope": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/Scope"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "scope_id_info": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/ScopeIdInfo"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "scope_spec_id_info": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/ScopeSpecIdInfo"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
+        },
+        "Session": {
+          "type": "object",
+          "required": [
+            "context",
+            "name",
+            "parties",
+            "session_id",
+            "specification_id"
+          ],
+          "properties": {
+            "audit": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/AuditFields"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "context": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "name": {
+              "type": "string"
+            },
+            "parties": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Party"
+              }
+            },
+            "session_id": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "specification_id": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            }
+          }
+        },
+        "SessionIdInfo": {
+          "type": "object",
+          "required": [
+            "session_addr",
+            "session_id",
+            "session_id_prefix",
+            "session_id_scope_uuid",
+            "session_id_session_uuid",
+            "session_uuid"
+          ],
+          "properties": {
+            "scope_id_info": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/ScopeIdInfo"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "session_addr": {
+              "type": "string"
+            },
+            "session_id": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "session_id_prefix": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "session_id_scope_uuid": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "session_id_session_uuid": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "session_uuid": {
+              "type": "string"
+            }
+          }
+        },
+        "SessionWrapper": {
+          "type": "object",
+          "properties": {
+            "contract_spec_id_info": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/ContractSpecIdInfo"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "session": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/Session"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "session_id_info": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/SessionIdInfo"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
+        },
+        "Source": {
+          "oneOf": [
+            {
+              "type": "object",
+              "required": [
+                "record_id"
+              ],
+              "properties": {
+                "record_id": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer",
+                    "format": "uint8",
+                    "minimum": 0.0
+                  }
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "required": [
+                "hash"
+              ],
+              "properties": {
+                "hash": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "Timestamp": {
+          "type": "object",
+          "required": [
+            "nanos",
+            "seconds"
+          ],
+          "properties": {
+            "nanos": {
+              "description": "Non-negative fractions of a second at nanosecond resolution. Negative second values with fractions must still have non-negative nanos values that count forward in time. Must be from 0 to 999,999,999 inclusive.",
+              "type": "integer",
+              "format": "int32"
+            },
+            "seconds": {
+              "description": "Represents seconds of UTC time since Unix epoch 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to 9999-12-31T23:59:59Z inclusive.",
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        }
+      }
+    },
+    "get_sessions": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "SessionsResponse",
+      "type": "object",
+      "required": [
+        "records",
+        "sessions"
+      ],
+      "properties": {
+        "records": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RecordWrapper"
+          }
+        },
+        "request": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/SessionsRequest"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "scope": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ScopeWrapper"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sessions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SessionWrapper"
+          }
+        }
+      },
+      "definitions": {
+        "AuditFields": {
+          "type": "object",
+          "required": [
+            "created_by",
+            "message",
+            "updated_by",
+            "version"
+          ],
+          "properties": {
+            "created_by": {
+              "type": "string"
+            },
+            "created_date": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/Timestamp"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "message": {
+              "type": "string"
+            },
+            "updated_by": {
+              "type": "string"
+            },
+            "updated_date": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/Timestamp"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "version": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            }
+          }
+        },
+        "ContractSpecIdInfo": {
+          "type": "object",
+          "required": [
+            "contract_spec_addr",
+            "contract_spec_id",
+            "contract_spec_id_contract_spec_uuid",
+            "contract_spec_id_prefix",
+            "contract_spec_uuid"
+          ],
+          "properties": {
+            "contract_spec_addr": {
+              "type": "string"
+            },
+            "contract_spec_id": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "contract_spec_id_contract_spec_uuid": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "contract_spec_id_prefix": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "contract_spec_uuid": {
+              "type": "string"
+            }
+          }
+        },
+        "Party": {
+          "type": "object",
+          "required": [
+            "address",
+            "optional",
+            "role"
+          ],
+          "properties": {
+            "address": {
+              "type": "string"
+            },
+            "optional": {
+              "type": "boolean"
+            },
+            "role": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        },
+        "Process": {
+          "type": "object",
+          "required": [
+            "method",
+            "name"
+          ],
+          "properties": {
+            "method": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "process_id": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/ProcessId"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
+        },
+        "ProcessId": {
+          "oneOf": [
+            {
+              "type": "object",
+              "required": [
+                "address"
+              ],
+              "properties": {
+                "address": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "required": [
+                "hash"
+              ],
+              "properties": {
+                "hash": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "Record": {
+          "type": "object",
+          "required": [
+            "inputs",
+            "name",
+            "outputs",
+            "session_id",
+            "specification_id"
+          ],
+          "properties": {
+            "inputs": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/RecordInput"
+              }
+            },
+            "name": {
+              "type": "string"
+            },
+            "outputs": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/RecordOutput"
+              }
+            },
+            "process": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/Process"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "session_id": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "specification_id": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            }
+          }
+        },
+        "RecordIdInfo": {
+          "type": "object",
+          "required": [
+            "record_addr",
+            "record_id",
+            "record_id_hashed_name",
+            "record_id_prefix",
+            "record_id_scope_uuid"
+          ],
+          "properties": {
+            "record_addr": {
+              "type": "string"
+            },
+            "record_id": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "record_id_hashed_name": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "record_id_prefix": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "record_id_scope_uuid": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "scope_id_info": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/ScopeIdInfo"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
+        },
+        "RecordInput": {
+          "type": "object",
+          "required": [
+            "name",
+            "status",
+            "type_name"
+          ],
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "source": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/Source"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "status": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "type_name": {
+              "type": "string"
+            }
+          }
+        },
+        "RecordOutput": {
+          "type": "object",
+          "required": [
+            "hash",
+            "status"
+          ],
+          "properties": {
+            "hash": {
+              "type": "string"
+            },
+            "status": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        },
+        "RecordSpecIdInfo": {
+          "type": "object",
+          "required": [
+            "record_spec_addr",
+            "record_spec_id",
+            "record_spec_id_contract_spec_uuid",
+            "record_spec_id_hashed_name",
+            "record_spec_id_prefix"
+          ],
+          "properties": {
+            "contract_spec_id_info": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/ContractSpecIdInfo"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "record_spec_addr": {
+              "type": "string"
+            },
+            "record_spec_id": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "record_spec_id_contract_spec_uuid": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "record_spec_id_hashed_name": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "record_spec_id_prefix": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            }
+          }
+        },
+        "RecordWrapper": {
+          "type": "object",
+          "properties": {
+            "record": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/Record"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "record_id_info": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/RecordIdInfo"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "record_spec_id_info": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/RecordSpecIdInfo"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
+        },
+        "Scope": {
+          "type": "object",
+          "required": [
+            "data_access",
+            "owners",
+            "require_party_rollup",
+            "scope_id",
+            "specification_id",
+            "value_owner_address"
+          ],
+          "properties": {
+            "data_access": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "owners": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Party"
+              }
+            },
+            "require_party_rollup": {
+              "type": "boolean"
+            },
+            "scope_id": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "specification_id": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "value_owner_address": {
+              "type": "string"
+            }
+          }
+        },
+        "ScopeIdInfo": {
+          "type": "object",
+          "required": [
+            "scope_addr",
+            "scope_id",
+            "scope_id_prefix",
+            "scope_id_scope_uuid",
+            "scope_uuid"
+          ],
+          "properties": {
+            "scope_addr": {
+              "type": "string"
+            },
+            "scope_id": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "scope_id_prefix": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "scope_id_scope_uuid": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "scope_uuid": {
+              "type": "string"
+            }
+          }
+        },
+        "ScopeSpecIdInfo": {
+          "type": "object",
+          "required": [
+            "scope_spec_addr",
+            "scope_spec_id",
+            "scope_spec_id_prefix",
+            "scope_spec_id_scope_spec_uuid",
+            "scope_spec_uuid"
+          ],
+          "properties": {
+            "scope_spec_addr": {
+              "type": "string"
+            },
+            "scope_spec_id": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "scope_spec_id_prefix": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "scope_spec_id_scope_spec_uuid": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "scope_spec_uuid": {
+              "type": "string"
+            }
+          }
+        },
+        "ScopeWrapper": {
+          "type": "object",
+          "properties": {
+            "scope": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/Scope"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "scope_id_info": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/ScopeIdInfo"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "scope_spec_id_info": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/ScopeSpecIdInfo"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
+        },
+        "Session": {
+          "type": "object",
+          "required": [
+            "context",
+            "name",
+            "parties",
+            "session_id",
+            "specification_id"
+          ],
+          "properties": {
+            "audit": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/AuditFields"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "context": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "name": {
+              "type": "string"
+            },
+            "parties": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Party"
+              }
+            },
+            "session_id": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "specification_id": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            }
+          }
+        },
+        "SessionIdInfo": {
+          "type": "object",
+          "required": [
+            "session_addr",
+            "session_id",
+            "session_id_prefix",
+            "session_id_scope_uuid",
+            "session_id_session_uuid",
+            "session_uuid"
+          ],
+          "properties": {
+            "scope_id_info": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/ScopeIdInfo"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "session_addr": {
+              "type": "string"
+            },
+            "session_id": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "session_id_prefix": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "session_id_scope_uuid": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "session_id_session_uuid": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "session_uuid": {
+              "type": "string"
+            }
+          }
+        },
+        "SessionWrapper": {
+          "type": "object",
+          "properties": {
+            "contract_spec_id_info": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/ContractSpecIdInfo"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "session": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/Session"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "session_id_info": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/SessionIdInfo"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
+        },
+        "SessionsRequest": {
+          "type": "object",
+          "required": [
+            "include_records",
+            "include_scope",
+            "record_addr",
+            "record_name",
+            "scope_id",
+            "session_id"
+          ],
+          "properties": {
+            "include_records": {
+              "type": "boolean"
+            },
+            "include_scope": {
+              "type": "boolean"
+            },
+            "record_addr": {
+              "type": "string"
+            },
+            "record_name": {
+              "type": "string"
+            },
+            "scope_id": {
+              "type": "string"
+            },
+            "session_id": {
+              "type": "string"
+            }
+          }
+        },
+        "Source": {
+          "oneOf": [
+            {
+              "type": "object",
+              "required": [
+                "record_id"
+              ],
+              "properties": {
+                "record_id": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer",
+                    "format": "uint8",
+                    "minimum": 0.0
+                  }
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "required": [
+                "hash"
+              ],
+              "properties": {
+                "hash": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "Timestamp": {
+          "type": "object",
+          "required": [
+            "nanos",
+            "seconds"
+          ],
+          "properties": {
+            "nanos": {
+              "description": "Non-negative fractions of a second at nanosecond resolution. Negative second values with fractions must still have non-negative nanos values that count forward in time. Must be from 0 to 999,999,999 inclusive.",
+              "type": "integer",
+              "format": "int32"
+            },
+            "seconds": {
+              "description": "Represents seconds of UTC time since Unix epoch 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to 9999-12-31T23:59:59Z inclusive.",
+              "type": "integer",
+              "format": "int64"
             }
           }
         }

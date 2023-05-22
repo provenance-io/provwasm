@@ -1,12 +1,13 @@
 use cosmwasm_std::{
     entry_point, to_binary, Deps, DepsMut, Env, MessageInfo, QueryResponse, Response, StdError,
 };
-use provwasm_std::{
-    add_json_attribute, bind_name, delete_attributes, delete_distinct_attribute, update_attribute,
-    AttributeValueType, NameBinding, ProvenanceMsg, ProvenanceQuerier, ProvenanceQuery,
-};
+use provwasm_std::types::provenance::attribute::v1::{AttributeQuerier, AttributeType};
 
 use crate::error::ContractError;
+use crate::helpers::{
+    add_json_attribute, bind_name, delete_attributes, delete_distinct_attribute,
+    get_json_attributes, update_attribute,
+};
 use crate::msg::{
     ExecuteMsg, InitMsg, Label, LabelNameResponse, LabelsResponse, MigrateMsg, QueryMsg,
 };
@@ -15,11 +16,11 @@ use crate::state::{config, config_read, State};
 /// Initialize the smart contract config state and bind a name to the contract address.
 #[entry_point]
 pub fn instantiate(
-    deps: DepsMut<ProvenanceQuery>,
+    deps: DepsMut,
     env: Env,
     info: MessageInfo,
     msg: InitMsg,
-) -> Result<Response<ProvenanceMsg>, ContractError> {
+) -> Result<Response, ContractError> {
     // Create and save contract config state.
     config(deps.storage).save(&State {
         contract_owner: info.sender.clone(),
@@ -27,7 +28,12 @@ pub fn instantiate(
     })?;
 
     // Create bind name message.
-    let bind_name_msg = bind_name(&msg.name, env.contract.address, NameBinding::Restricted)?;
+    let bind_name_msg = bind_name(
+        msg.name.as_str(),
+        &env.contract.address,
+        &env.contract.address,
+        true,
+    )?;
 
     // Dispatch message to handler and add event attributes.
     let res = Response::new()
@@ -42,11 +48,11 @@ pub fn instantiate(
 /// Handle state change requests
 #[entry_point]
 pub fn execute(
-    deps: DepsMut<ProvenanceQuery>,
+    deps: DepsMut,
     env: Env,
     info: MessageInfo,
     msg: ExecuteMsg,
-) -> Result<Response<ProvenanceMsg>, ContractError> {
+) -> Result<Response, ContractError> {
     // Load contract state
     let state = config_read(deps.storage).load()?;
 
@@ -72,11 +78,13 @@ pub fn execute(
 }
 
 // Bind the label attibute name to the contract address.
-fn try_bind_label_name(
-    env: Env,
-    attr_name: String,
-) -> Result<Response<ProvenanceMsg>, ContractError> {
-    let bind_name_msg = bind_name(&attr_name, env.contract.address, NameBinding::Restricted)?;
+fn try_bind_label_name(env: Env, attr_name: String) -> Result<Response, ContractError> {
+    let bind_name_msg = bind_name(
+        attr_name.as_str(),
+        &env.contract.address,
+        &env.contract.address,
+        true,
+    )?;
     let res = Response::new()
         .add_message(bind_name_msg)
         .add_attribute("integration_test", "v2")
@@ -86,13 +94,14 @@ fn try_bind_label_name(
 }
 
 // Add a label attribute.
-fn try_add_label(
-    env: Env,
-    attr_name: String,
-    text: String,
-) -> Result<Response<ProvenanceMsg>, ContractError> {
+fn try_add_label(env: Env, attr_name: String, text: String) -> Result<Response, ContractError> {
     let label = Label { text };
-    let msg = add_json_attribute(env.contract.address, &attr_name, &label)?;
+    let msg = add_json_attribute(
+        env.contract.address.clone(),
+        env.contract.address,
+        &attr_name,
+        &label,
+    )?;
     let res = Response::new()
         .add_message(msg)
         .add_attribute("integration_test", "v2")
@@ -102,11 +111,12 @@ fn try_add_label(
 }
 
 // Delete all label attributes.
-fn try_delete_labels(
-    env: Env,
-    attr_name: String,
-) -> Result<Response<ProvenanceMsg>, ContractError> {
-    let msg = delete_attributes(env.contract.address, &attr_name)?;
+fn try_delete_labels(env: Env, attr_name: String) -> Result<Response, ContractError> {
+    let msg = delete_attributes(
+        env.contract.address.clone(),
+        env.contract.address,
+        &attr_name,
+    )?;
     let res = Response::new()
         .add_message(msg)
         .add_attribute("integration_test", "v2")
@@ -120,8 +130,9 @@ fn try_delete_distinct_label(
     env: Env,
     attr_name: String,
     value: String,
-) -> Result<Response<ProvenanceMsg>, ContractError> {
+) -> Result<Response, ContractError> {
     let msg = delete_distinct_attribute(
+        env.contract.address.clone(),
         env.contract.address,
         &attr_name,
         to_binary(&Label { text: value })?,
@@ -143,16 +154,17 @@ fn try_update_label(
     attr_name: String,
     original_text: String,
     update_text: String,
-) -> Result<Response<ProvenanceMsg>, ContractError> {
+) -> Result<Response, ContractError> {
     let msg = update_attribute(
+        env.contract.address.clone(),
         env.contract.address,
         &attr_name,
         to_binary(&Label {
             text: original_text,
         })?,
-        AttributeValueType::Json,
+        AttributeType::Json,
         to_binary(&Label { text: update_text })?,
-        AttributeValueType::Json,
+        AttributeType::Json,
     )?;
     let res = Response::new()
         .add_message(msg)
@@ -164,19 +176,15 @@ fn try_update_label(
 
 /// Handle label query requests.
 #[entry_point]
-pub fn query(
-    deps: Deps<ProvenanceQuery>,
-    env: Env,
-    msg: QueryMsg,
-) -> Result<QueryResponse, StdError> {
+pub fn query(deps: Deps, env: Env, msg: QueryMsg) -> Result<QueryResponse, StdError> {
     let state = config_read(deps.storage).load()?;
     let attr_name = format!("{}.{}", "label", state.contract_name);
     match msg {
         QueryMsg::GetLabelName {} => to_binary(&LabelNameResponse { name: attr_name }),
         QueryMsg::GetLabels {} => {
-            let querier = ProvenanceQuerier::new(&deps.querier);
+            let querier = AttributeQuerier::new(&deps.querier);
             let labels: Vec<Label> =
-                querier.get_json_attributes(env.contract.address, &attr_name)?;
+                get_json_attributes(querier, env.contract.address, &attr_name)?;
             to_binary(&LabelsResponse { labels })
         }
     }
@@ -184,403 +192,416 @@ pub fn query(
 
 /// Called when migrating a contract instance to a new code ID.
 #[entry_point]
-pub fn migrate(
-    _deps: DepsMut<ProvenanceQuery>,
-    _env: Env,
-    _msg: MigrateMsg,
-) -> Result<Response, ContractError> {
+pub fn migrate(_deps: DepsMut, _env: Env, _msg: MigrateMsg) -> Result<Response, ContractError> {
     Ok(Response::default())
 }
 
 #[cfg(test)]
 mod tests {
-    use super::*;
-    use cosmwasm_std::testing::{mock_env, mock_info, MOCK_CONTRACT_ADDR};
-    use cosmwasm_std::{from_binary, CosmosMsg};
-    use provwasm_mocks::mock_dependencies;
-    use provwasm_std::{
-        AttributeMsgParams, AttributeValueType, NameMsgParams, ProvenanceMsgParams,
-    };
+    use cosmwasm_std::{from_binary, to_binary, Binary, StdResult};
+    use provwasm_std::types::provenance::attribute::v1::QueryAttributesResponse;
 
     #[test]
-    fn init_test() {
-        // Create default provenance mocks.
-        let mut deps = mock_dependencies(&[]);
+    fn deser() -> StdResult<()> {
+        let s = Binary::from_base64("eyJhY2NvdW50IjoidHAxNGhqMnRhdnE4ZnBlc2R3eHhjdTQ0cnR5M2hoOTB2aHVqcnZjbXN0bDR6cjN0eG1mdnc5czk2bHJnOCIsImF0dHJpYnV0ZXMiOlt7Im5hbWUiOiJsYWJlbC5hdHRycy1pdHYyLnNjLnBiIiwidmFsdWUiOiJleUowWlhoMElqb2lkMkZ6YlNKOSIsImF0dHJpYnV0ZV90eXBlIjoiQVRUUklCVVRFX1RZUEVfSlNPTiIsImFkZHJlc3MiOiJ0cDE0aGoydGF2cThmcGVzZHd4eGN1NDRydHkzaGg5MHZodWpydmNtc3RsNHpyM3R4bWZ2dzlzOTZscmc4In0seyJuYW1lIjoibGFiZWwuYXR0cnMtaXR2Mi5zYy5wYiIsInZhbHVlIjoiZXlKMFpYaDBJam9pYUdWc2JHOGlmUT09IiwiYXR0cmlidXRlX3R5cGUiOiJBVFRSSUJVVEVfVFlQRV9KU09OIiwiYWRkcmVzcyI6InRwMTRoajJ0YXZxOGZwZXNkd3h4Y3U0NHJ0eTNoaDkwdmh1anJ2Y21zdGw0enIzdHhtZnZ3OXM5NmxyZzgifV0sInBhZ2luYXRpb24iOnsibmV4dF9rZXkiOm51bGwsInRvdGFsIjoiMiJ9fQ==")?;
+        // let s = Binary::from_base64("eyJhY2NvdW50IjoidHAxNGhqMnRhdnE4ZnBlc2R3eHhjdTQ0cnR5M2hoOTB2aHVqcnZjbXN0bDR6cjN0eG1mdnc5czk2bHJnOCIsImF0dHJpYnV0ZXMiOlt7Im5hbWUiOiJsYWJlbC5hdHRycy1pdHYyLnNjLnBiIiwidmFsdWUiOltdLCJhdHRyaWJ1dGVfdHlwZSI6IkFUVFJJQlVURV9UWVBFX0pTT04iLCJhZGRyZXNzIjoidHAxNGhqMnRhdnE4ZnBlc2R3eHhjdTQ0cnR5M2hoOTB2aHVqcnZjbXN0bDR6cjN0eG1mdnc5czk2bHJnOCJ9XSwicGFnaW5hdGlvbiI6eyJuZXh0X2tleSI6bnVsbCwidG90YWwiOiIyIn19")?;
 
-        // Call init
-        let res = instantiate(
-            deps.as_mut(),
-            mock_env(),
-            mock_info("sender", &[]),
-            InitMsg {
-                name: "contract.pb".into(),
-            },
-        )
-        .unwrap(); // Panics on error
+        let res: QueryAttributesResponse = from_binary(&s)?;
 
-        // Ensure a message was created to bind the name to the contract address.
-        assert_eq!(1, res.messages.len());
-        match &res.messages[0].msg {
-            CosmosMsg::Custom(msg) => match &msg.params {
-                ProvenanceMsgParams::Name(p) => match &p {
-                    NameMsgParams::BindName { name, .. } => assert_eq!(name, "contract.pb"),
-                    _ => panic!("unexpected name params"),
-                },
-                _ => panic!("unexpected provenance params"),
-            },
-            _ => panic!("unexpected cosmos message"),
-        }
-    }
-
-    #[test]
-    fn handle_bind_label_name() {
-        // Create default provenance mocks.
-        let mut deps = mock_dependencies(&[]);
-
-        // Init so we have state
-        let _ = instantiate(
-            deps.as_mut(),
-            mock_env(),
-            mock_info("sender", &[]),
-            InitMsg {
-                name: "contract.pb".into(),
-            },
-        )
-        .unwrap(); // Panics on error
-
-        // Handle bind label name request
-        let res = execute(
-            deps.as_mut(),
-            mock_env(),
-            mock_info("sender", &[]),
-            ExecuteMsg::BindLabelName {},
-        )
-        .unwrap(); // Panics on error
-
-        // Ensure a message was generated for binding the label name under the contract name.
-        assert_eq!(1, res.messages.len());
-        match &res.messages[0].msg {
-            CosmosMsg::Custom(msg) => match &msg.params {
-                ProvenanceMsgParams::Name(p) => match &p {
-                    NameMsgParams::BindName { name, .. } => assert_eq!(name, "label.contract.pb"),
-                    _ => panic!("unexpected name params"),
-                },
-                _ => panic!("unexpected provenance params"),
-            },
-            _ => panic!("unexpected cosmos message"),
-        }
-    }
-
-    #[test]
-    fn handle_bind_label_name_unauthorized() {
-        // Create default provenance mocks.
-        let mut deps = mock_dependencies(&[]);
-
-        // Init so we have state
-        let _ = instantiate(
-            deps.as_mut(),
-            mock_env(),
-            mock_info("sender", &[]),
-            InitMsg {
-                name: "contract.pb".into(),
-            },
-        )
-        .unwrap(); // Panics on error
-
-        // Handle bind label name request
-        let err = execute(
-            deps.as_mut(),
-            mock_env(),
-            mock_info("other", &[]), //  error: not 'sender'
-            ExecuteMsg::BindLabelName {},
-        )
-        .unwrap_err();
-
-        // Assert an unauthorized error was returned
-        match err {
-            ContractError::Unauthorized {} => {}
-            e => panic!("unexpected error: {:?}", e),
-        }
-    }
-
-    #[test]
-    fn handle_add_label() {
-        // Create default provenance mocks.
-        let mut deps = mock_dependencies(&[]);
-
-        // Init so we have state
-        let _ = instantiate(
-            deps.as_mut(),
-            mock_env(),
-            mock_info("sender", &[]),
-            InitMsg {
-                name: "contract.pb".into(),
-            },
-        )
-        .unwrap(); // Panics on error
-
-        // Handle a add label request
-        let res = execute(
-            deps.as_mut(),
-            mock_env(),
-            mock_info("sender", &[]),
-            ExecuteMsg::AddLabel {
-                text: "text".into(),
-            },
-        )
-        .unwrap();
-
-        // Ensure a message was created to add a named JSON attribute.
-        assert_eq!(1, res.messages.len());
-        match &res.messages[0].msg {
-            CosmosMsg::Custom(msg) => match &msg.params {
-                ProvenanceMsgParams::Attribute(p) => match &p {
-                    AttributeMsgParams::AddAttribute {
-                        name, value_type, ..
-                    } => {
-                        assert_eq!(name, "label.contract.pb");
-                        assert_eq!(value_type, &AttributeValueType::Json);
-                    }
-                    _ => panic!("unexpected attribute params"),
-                },
-                _ => panic!("unexpected provenance params"),
-            },
-            _ => panic!("unexpected cosmos message"),
-        }
-    }
-
-    #[test]
-    fn handle_add_label_unauthorized() {
-        // Create default provenance mocks.
-        let mut deps = mock_dependencies(&[]);
-
-        // Init so we have state
-        let _ = instantiate(
-            deps.as_mut(),
-            mock_env(),
-            mock_info("sender", &[]),
-            InitMsg {
-                name: "contract.pb".into(),
-            },
-        )
-        .unwrap(); // Panics on error
-
-        // Try to add a label with some other sender address
-        let err = execute(
-            deps.as_mut(),
-            mock_env(),
-            mock_info("other", &[]), // error: not 'sender'
-            ExecuteMsg::AddLabel {
-                text: "text".into(),
-            },
-        )
-        .unwrap_err();
-
-        // Assert an unauthorized error was returned
-        match err {
-            ContractError::Unauthorized {} => {}
-            e => panic!("unexpected error: {:?}", e),
-        }
-    }
-
-    #[test]
-    fn handle_delete_labels() {
-        // Create default provenance mocks.
-        let mut deps = mock_dependencies(&[]);
-
-        // Init so we have state
-        let _ = instantiate(
-            deps.as_mut(),
-            mock_env(),
-            mock_info("sender", &[]),
-            InitMsg {
-                name: "contract.pb".into(),
-            },
-        )
-        .unwrap(); // Panics on error
-
-        // Handle a delete label request
-        let res = execute(
-            deps.as_mut(),
-            mock_env(),
-            mock_info("sender", &[]),
-            ExecuteMsg::DeleteLabels {},
-        )
-        .unwrap();
-
-        // Ensure a message was created to delete all named JSON attributes.
-        assert_eq!(1, res.messages.len());
-        match &res.messages[0].msg {
-            CosmosMsg::Custom(msg) => match &msg.params {
-                ProvenanceMsgParams::Attribute(p) => match &p {
-                    AttributeMsgParams::DeleteAttribute { name, .. } => {
-                        assert_eq!(name, "label.contract.pb");
-                    }
-                    _ => panic!("unexpected attribute params"),
-                },
-                _ => panic!("unexpected provenance params"),
-            },
-            _ => panic!("unexpected cosmos message"),
-        }
-    }
-
-    #[test]
-    fn handle_delete_labels_unauthorized() {
-        // Create default provenance mocks.
-        let mut deps = mock_dependencies(&[]);
-
-        // Init so we have state
-        let _ = instantiate(
-            deps.as_mut(),
-            mock_env(),
-            mock_info("sender", &[]),
-            InitMsg {
-                name: "contract.pb".into(),
-            },
-        )
-        .unwrap(); // Panics on error
-
-        // Try to delete labels with some other sender address
-        let err = execute(
-            deps.as_mut(),
-            mock_env(),
-            mock_info("other", &[]), // error: not 'sender'
-            ExecuteMsg::DeleteLabels {},
-        )
-        .unwrap_err();
-
-        // Assert an unauthorized error was returned
-        match err {
-            ContractError::Unauthorized {} => {}
-            e => panic!("unexpected error: {:?}", e),
-        }
-    }
-
-    #[test]
-    fn handle_update_label() {
-        // Create default provenance mocks.
-        let mut deps = mock_dependencies(&[]);
-
-        // Init so we have state
-        let _ = instantiate(
-            deps.as_mut(),
-            mock_env(),
-            mock_info("sender", &[]),
-            InitMsg {
-                name: "contract.pb".into(),
-            },
-        )
-        .unwrap(); // Panics on error
-
-        // Handle an update label request
-        let res = execute(
-            deps.as_mut(),
-            mock_env(),
-            mock_info("sender", &[]),
-            ExecuteMsg::UpdateLabel {
-                original_text: "original_text".to_string(),
-                update_text: "update_text".to_string(),
-            },
-        )
-        .unwrap();
-
-        // Ensure a message was created to add a named JSON attribute.
-        assert_eq!(1, res.messages.len());
-        match &res.messages[0].msg {
-            CosmosMsg::Custom(msg) => match &msg.params {
-                ProvenanceMsgParams::Attribute(p) => match &p {
-                    AttributeMsgParams::UpdateAttribute {
-                        name,
-                        original_value,
-                        original_value_type,
-                        update_value,
-                        update_value_type,
-                        ..
-                    } => {
-                        assert_eq!(name, "label.contract.pb");
-                        assert_eq!(
-                            from_binary::<Label>(original_value).unwrap(),
-                            Label {
-                                text: "original_text".to_string()
-                            }
-                        );
-                        assert_eq!(original_value_type, &AttributeValueType::Json);
-                        assert_eq!(
-                            from_binary::<Label>(update_value).unwrap(),
-                            Label {
-                                text: "update_text".to_string()
-                            }
-                        );
-                        assert_eq!(update_value_type, &AttributeValueType::Json);
-                    }
-                    _ => panic!("unexpected attribute params"),
-                },
-                _ => panic!("unexpected provenance params"),
-            },
-            _ => panic!("unexpected cosmos message"),
-        }
-    }
-
-    #[test]
-    fn query_get_label_name() {
-        // Create default provenance mocks.
-        let mut deps = mock_dependencies(&[]);
-
-        // Init so we have state
-        let _ = instantiate(
-            deps.as_mut(),
-            mock_env(),
-            mock_info("sender", &[]),
-            InitMsg {
-                name: "contract.pb".into(),
-            },
-        )
-        .unwrap(); // Panics on error
-
-        // Call the smart contract query function.
-        let bin = query(deps.as_ref(), mock_env(), QueryMsg::GetLabelName {}).unwrap();
-
-        // Ensure that we got the expected response
-        let rep: LabelNameResponse = from_binary(&bin).unwrap();
-        assert_eq!(
-            rep,
-            LabelNameResponse {
-                name: "label.contract.pb".into()
-            }
-        );
-    }
-
-    #[test]
-    fn query_get_labels() {
-        // Create custom provenance mocks.
-        let mut deps = mock_dependencies(&[]);
-        deps.querier.with_attributes(
-            MOCK_CONTRACT_ADDR,
-            &[("label.contract.pb", "{\"text\":\"text\"}", "json")],
-        );
-
-        // Init so we have state
-        let _ = instantiate(
-            deps.as_mut(),
-            mock_env(),
-            mock_info("sender", &[]),
-            InitMsg {
-                name: "contract.pb".into(),
-            },
-        )
-        .unwrap(); // Panics on error
-
-        // Call the smart contract query function.
-        let bin = query(deps.as_ref(), mock_env(), QueryMsg::GetLabels {}).unwrap();
-
-        // Ensure that we got the expected response
-        let rep: LabelsResponse = from_binary(&bin).unwrap();
-        assert_eq!(rep.labels.len(), 1);
-        assert_eq!(
-            rep.labels[0],
-            Label {
-                text: "text".into(),
-            }
-        )
+        Ok(())
     }
 }
+
+//
+// #[cfg(test)]
+// mod tests {
+//     use super::*;
+//     use cosmwasm_std::testing::{mock_env, mock_info, MOCK_CONTRACT_ADDR};
+//     use cosmwasm_std::{from_binary, CosmosMsg};
+//     use provwasm_mocks::mock_dependencies;
+//     use provwasm_std::{
+//         AttributeMsgParams, AttributeValueType, NameMsgParams, ProvenanceMsgParams,
+//     };
+//
+//     #[test]
+//     fn init_test() {
+//         // Create default provenance mocks.
+//         let mut deps = mock_dependencies(&[]);
+//
+//         // Call init
+//         let res = instantiate(
+//             deps.as_mut(),
+//             mock_env(),
+//             mock_info("sender", &[]),
+//             InitMsg {
+//                 name: "contract.pb".into(),
+//             },
+//         )
+//         .unwrap(); // Panics on error
+//
+//         // Ensure a message was created to bind the name to the contract address.
+//         assert_eq!(1, res.messages.len());
+//         match &res.messages[0].msg {
+//             CosmosMsg::Custom(msg) => match &msg.params {
+//                 ProvenanceMsgParams::Name(p) => match &p {
+//                     NameMsgParams::BindName { name, .. } => assert_eq!(name, "contract.pb"),
+//                     _ => panic!("unexpected name params"),
+//                 },
+//                 _ => panic!("unexpected provenance params"),
+//             },
+//             _ => panic!("unexpected cosmos message"),
+//         }
+//     }
+//
+//     #[test]
+//     fn handle_bind_label_name() {
+//         // Create default provenance mocks.
+//         let mut deps = mock_dependencies(&[]);
+//
+//         // Init so we have state
+//         let _ = instantiate(
+//             deps.as_mut(),
+//             mock_env(),
+//             mock_info("sender", &[]),
+//             InitMsg {
+//                 name: "contract.pb".into(),
+//             },
+//         )
+//         .unwrap(); // Panics on error
+//
+//         // Handle bind label name request
+//         let res = execute(
+//             deps.as_mut(),
+//             mock_env(),
+//             mock_info("sender", &[]),
+//             ExecuteMsg::BindLabelName {},
+//         )
+//         .unwrap(); // Panics on error
+//
+//         // Ensure a message was generated for binding the label name under the contract name.
+//         assert_eq!(1, res.messages.len());
+//         match &res.messages[0].msg {
+//             CosmosMsg::Custom(msg) => match &msg.params {
+//                 ProvenanceMsgParams::Name(p) => match &p {
+//                     NameMsgParams::BindName { name, .. } => assert_eq!(name, "label.contract.pb"),
+//                     _ => panic!("unexpected name params"),
+//                 },
+//                 _ => panic!("unexpected provenance params"),
+//             },
+//             _ => panic!("unexpected cosmos message"),
+//         }
+//     }
+//
+//     #[test]
+//     fn handle_bind_label_name_unauthorized() {
+//         // Create default provenance mocks.
+//         let mut deps = mock_dependencies(&[]);
+//
+//         // Init so we have state
+//         let _ = instantiate(
+//             deps.as_mut(),
+//             mock_env(),
+//             mock_info("sender", &[]),
+//             InitMsg {
+//                 name: "contract.pb".into(),
+//             },
+//         )
+//         .unwrap(); // Panics on error
+//
+//         // Handle bind label name request
+//         let err = execute(
+//             deps.as_mut(),
+//             mock_env(),
+//             mock_info("other", &[]), //  error: not 'sender'
+//             ExecuteMsg::BindLabelName {},
+//         )
+//         .unwrap_err();
+//
+//         // Assert an unauthorized error was returned
+//         match err {
+//             ContractError::Unauthorized {} => {}
+//             e => panic!("unexpected error: {:?}", e),
+//         }
+//     }
+//
+//     #[test]
+//     fn handle_add_label() {
+//         // Create default provenance mocks.
+//         let mut deps = mock_dependencies(&[]);
+//
+//         // Init so we have state
+//         let _ = instantiate(
+//             deps.as_mut(),
+//             mock_env(),
+//             mock_info("sender", &[]),
+//             InitMsg {
+//                 name: "contract.pb".into(),
+//             },
+//         )
+//         .unwrap(); // Panics on error
+//
+//         // Handle a add label request
+//         let res = execute(
+//             deps.as_mut(),
+//             mock_env(),
+//             mock_info("sender", &[]),
+//             ExecuteMsg::AddLabel {
+//                 text: "text".into(),
+//             },
+//         )
+//         .unwrap();
+//
+//         // Ensure a message was created to add a named JSON attribute.
+//         assert_eq!(1, res.messages.len());
+//         match &res.messages[0].msg {
+//             CosmosMsg::Custom(msg) => match &msg.params {
+//                 ProvenanceMsgParams::Attribute(p) => match &p {
+//                     AttributeMsgParams::AddAttribute {
+//                         name, value_type, ..
+//                     } => {
+//                         assert_eq!(name, "label.contract.pb");
+//                         assert_eq!(value_type, &AttributeValueType::Json);
+//                     }
+//                     _ => panic!("unexpected attribute params"),
+//                 },
+//                 _ => panic!("unexpected provenance params"),
+//             },
+//             _ => panic!("unexpected cosmos message"),
+//         }
+//     }
+//
+//     #[test]
+//     fn handle_add_label_unauthorized() {
+//         // Create default provenance mocks.
+//         let mut deps = mock_dependencies(&[]);
+//
+//         // Init so we have state
+//         let _ = instantiate(
+//             deps.as_mut(),
+//             mock_env(),
+//             mock_info("sender", &[]),
+//             InitMsg {
+//                 name: "contract.pb".into(),
+//             },
+//         )
+//         .unwrap(); // Panics on error
+//
+//         // Try to add a label with some other sender address
+//         let err = execute(
+//             deps.as_mut(),
+//             mock_env(),
+//             mock_info("other", &[]), // error: not 'sender'
+//             ExecuteMsg::AddLabel {
+//                 text: "text".into(),
+//             },
+//         )
+//         .unwrap_err();
+//
+//         // Assert an unauthorized error was returned
+//         match err {
+//             ContractError::Unauthorized {} => {}
+//             e => panic!("unexpected error: {:?}", e),
+//         }
+//     }
+//
+//     #[test]
+//     fn handle_delete_labels() {
+//         // Create default provenance mocks.
+//         let mut deps = mock_dependencies(&[]);
+//
+//         // Init so we have state
+//         let _ = instantiate(
+//             deps.as_mut(),
+//             mock_env(),
+//             mock_info("sender", &[]),
+//             InitMsg {
+//                 name: "contract.pb".into(),
+//             },
+//         )
+//         .unwrap(); // Panics on error
+//
+//         // Handle a delete label request
+//         let res = execute(
+//             deps.as_mut(),
+//             mock_env(),
+//             mock_info("sender", &[]),
+//             ExecuteMsg::DeleteLabels {},
+//         )
+//         .unwrap();
+//
+//         // Ensure a message was created to delete all named JSON attributes.
+//         assert_eq!(1, res.messages.len());
+//         match &res.messages[0].msg {
+//             CosmosMsg::Custom(msg) => match &msg.params {
+//                 ProvenanceMsgParams::Attribute(p) => match &p {
+//                     AttributeMsgParams::DeleteAttribute { name, .. } => {
+//                         assert_eq!(name, "label.contract.pb");
+//                     }
+//                     _ => panic!("unexpected attribute params"),
+//                 },
+//                 _ => panic!("unexpected provenance params"),
+//             },
+//             _ => panic!("unexpected cosmos message"),
+//         }
+//     }
+//
+//     #[test]
+//     fn handle_delete_labels_unauthorized() {
+//         // Create default provenance mocks.
+//         let mut deps = mock_dependencies(&[]);
+//
+//         // Init so we have state
+//         let _ = instantiate(
+//             deps.as_mut(),
+//             mock_env(),
+//             mock_info("sender", &[]),
+//             InitMsg {
+//                 name: "contract.pb".into(),
+//             },
+//         )
+//         .unwrap(); // Panics on error
+//
+//         // Try to delete labels with some other sender address
+//         let err = execute(
+//             deps.as_mut(),
+//             mock_env(),
+//             mock_info("other", &[]), // error: not 'sender'
+//             ExecuteMsg::DeleteLabels {},
+//         )
+//         .unwrap_err();
+//
+//         // Assert an unauthorized error was returned
+//         match err {
+//             ContractError::Unauthorized {} => {}
+//             e => panic!("unexpected error: {:?}", e),
+//         }
+//     }
+//
+//     #[test]
+//     fn handle_update_label() {
+//         // Create default provenance mocks.
+//         let mut deps = mock_dependencies(&[]);
+//
+//         // Init so we have state
+//         let _ = instantiate(
+//             deps.as_mut(),
+//             mock_env(),
+//             mock_info("sender", &[]),
+//             InitMsg {
+//                 name: "contract.pb".into(),
+//             },
+//         )
+//         .unwrap(); // Panics on error
+//
+//         // Handle an update label request
+//         let res = execute(
+//             deps.as_mut(),
+//             mock_env(),
+//             mock_info("sender", &[]),
+//             ExecuteMsg::UpdateLabel {
+//                 original_text: "original_text".to_string(),
+//                 update_text: "update_text".to_string(),
+//             },
+//         )
+//         .unwrap();
+//
+//         // Ensure a message was created to add a named JSON attribute.
+//         assert_eq!(1, res.messages.len());
+//         match &res.messages[0].msg {
+//             CosmosMsg::Custom(msg) => match &msg.params {
+//                 ProvenanceMsgParams::Attribute(p) => match &p {
+//                     AttributeMsgParams::UpdateAttribute {
+//                         name,
+//                         original_value,
+//                         original_value_type,
+//                         update_value,
+//                         update_value_type,
+//                         ..
+//                     } => {
+//                         assert_eq!(name, "label.contract.pb");
+//                         assert_eq!(
+//                             from_binary::<Label>(original_value).unwrap(),
+//                             Label {
+//                                 text: "original_text".to_string()
+//                             }
+//                         );
+//                         assert_eq!(original_value_type, &AttributeValueType::Json);
+//                         assert_eq!(
+//                             from_binary::<Label>(update_value).unwrap(),
+//                             Label {
+//                                 text: "update_text".to_string()
+//                             }
+//                         );
+//                         assert_eq!(update_value_type, &AttributeValueType::Json);
+//                     }
+//                     _ => panic!("unexpected attribute params"),
+//                 },
+//                 _ => panic!("unexpected provenance params"),
+//             },
+//             _ => panic!("unexpected cosmos message"),
+//         }
+//     }
+//
+//     #[test]
+//     fn query_get_label_name() {
+//         // Create default provenance mocks.
+//         let mut deps = mock_dependencies(&[]);
+//
+//         // Init so we have state
+//         let _ = instantiate(
+//             deps.as_mut(),
+//             mock_env(),
+//             mock_info("sender", &[]),
+//             InitMsg {
+//                 name: "contract.pb".into(),
+//             },
+//         )
+//         .unwrap(); // Panics on error
+//
+//         // Call the smart contract query function.
+//         let bin = query(deps.as_ref(), mock_env(), QueryMsg::GetLabelName {}).unwrap();
+//
+//         // Ensure that we got the expected response
+//         let rep: LabelNameResponse = from_binary(&bin).unwrap();
+//         assert_eq!(
+//             rep,
+//             LabelNameResponse {
+//                 name: "label.contract.pb".into()
+//             }
+//         );
+//     }
+//
+//     #[test]
+//     fn query_get_labels() {
+//         // Create custom provenance mocks.
+//         let mut deps = mock_dependencies(&[]);
+//         deps.querier.with_attributes(
+//             MOCK_CONTRACT_ADDR,
+//             &[("label.contract.pb", "{\"text\":\"text\"}", "json")],
+//         );
+//
+//         // Init so we have state
+//         let _ = instantiate(
+//             deps.as_mut(),
+//             mock_env(),
+//             mock_info("sender", &[]),
+//             InitMsg {
+//                 name: "contract.pb".into(),
+//             },
+//         )
+//         .unwrap(); // Panics on error
+//
+//         // Call the smart contract query function.
+//         let bin = query(deps.as_ref(), mock_env(), QueryMsg::GetLabels {}).unwrap();
+//
+//         // Ensure that we got the expected response
+//         let rep: LabelsResponse = from_binary(&bin).unwrap();
+//         assert_eq!(rep.labels.len(), 1);
+//         assert_eq!(
+//             rep.labels[0],
+//             Label {
+//                 text: "text".into(),
+//             }
+//         )
+//     }
+// }

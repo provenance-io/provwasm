@@ -1,8 +1,8 @@
 [package]
 name = "attrs"
-version = "1.2.0"
+version = "2.0.0-rc1"
 authors = ["Ken Talley <ktalley@provenance.io"]
-edition = "2018"
+edition = "2021"
 
 exclude = [
   "attrs.wasm",
@@ -30,10 +30,11 @@ backtraces = []
 cosmwasm-schema = { version = "1.2.5" }
 cosmwasm-std = { version = "1.2.5", default-features = false }
 cosmwasm-storage = { version = "1.2.5" }
-provwasm-std = { path = "../../packages/bindings" }
+provwasm-std = { path = "../../packages/provwasm-std" }
 schemars = "0.8.1"
 serde = { version = "1.0.127", default-features = false, features = ["derive"] }
 thiserror = { version = "1.0.20" }
 
 [dev-dependencies]
-provwasm-mocks = { path = "../../packages/mocks" }
+serde_json = { version = "1.0.96", features = ["std"]}
+#provwasm-mocks = { path = "../../todo/mocks" }
