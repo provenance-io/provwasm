@@ -439,13 +439,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2b00cc1c228a6782d0f076e7b232802e0c5689d41bb5df366f2a6b6621cfdfe1"
 
 [[package]]
-name = "mock"
-version = "0.1.0"
-dependencies = [
- "cosmwasm-std",
-]
-
-[[package]]
 name = "num-integer"
 version = "0.1.45"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -528,16 +521,34 @@ dependencies = [
 ]
 
 [[package]]
+name = "provwasm-common"
+version = "0.1.0"
+dependencies = [
+ "cosmwasm-std",
+]
+
+[[package]]
+name = "provwasm-proc-macro"
+version = "0.1.0"
+dependencies = [
+ "itertools",
+ "proc-macro2",
+ "quote",
+ "syn 2.0.16",
+]
+
+[[package]]
 name = "provwasm-std"
 version = "2.0.0"
 dependencies = [
  "base64 0.21.0",
  "chrono",
+ "cosmwasm-schema",
  "cosmwasm-std",
- "mock",
  "prost",
  "prost-types",
- "provwasm-std-derive",
+ "provwasm-common",
+ "provwasm-proc-macro",
  "schemars",
  "serde",
  "serde-cw-value",
@@ -545,18 +556,8 @@ dependencies = [
 ]
 
 [[package]]
-name = "provwasm-std-derive"
-version = "2.0.0"
-dependencies = [
- "itertools",
- "proc-macro2",
- "quote",
- "syn 2.0.15",
-]
-
-[[package]]
 name = "provwasm-tutorial"
-version = "1.2.0"
+version = "2.0.0"
 dependencies = [
  "cosmwasm-schema",
  "cosmwasm-std",
