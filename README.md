@@ -39,11 +39,18 @@ In addition to the core CosmWasm functionality, the provenance bindings include
 
 All queries are available for these Provenance modules:
 - [Attribute](./packages/provwasm-std/src/types/provenance/attribute)
+  - The following has deserialization issues and will be `None` until fixed:
+    - `ContractSpecification.source`
+    - `InputSpecification.source`
+    - `Process.process_id`
+    - `SessionIdComponents.scope_identifier`
 - [Marker](./packages/provwasm-std/src/types/provenance/marker)
 - [Metadata](./packages/provwasm-std/src/types/provenance/metadata)
 - [MsgFees](./packages/provwasm-std/src/types/provenance/msgfees)
 - [Name](./packages/provwasm-std/src/types/provenance/name)
 - [Reward](./packages/provwasm-std/src/types/provenance/reward)
+  - The following has deserialization issues and will be `None` until fixed:
+    - `QualifyingAction.type`
 
 ### Message Encoding
 
