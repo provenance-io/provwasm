@@ -12,13 +12,14 @@ blockchain modules.
 
 The following table shows provwasm version compatibility for smart contract development and testing.
 
-| provwasm | wasmd   | cosmos  | provenance        | module support                         |
-|----------|---------|---------|-------------------|----------------------------------------|
-| v1.2.0   | v0.30.X | v0.46.X | v1.15.X           | attribute,marker,metadata,msgfees,name |
-| v1.1.2   | v0.29.X | v0.46.X | v1.13.X           | attribute,marker,metadata,msgfees,name |
-| v1.1.1   | v0.29.X | v0.46.X | v1.13.X           | attribute,marker,metadata,msgfees,name |
-| v1.1.0   | v0.26.X | v0.45.X | v1.10.X - v1.12.X | attribute,marker,metadata,msgfees,name |
-| v1.0.0   | v0.26.X | v0.45.X | v1.8.X - v1.9.X   | attribute,marker,metadata,name         |
+| provwasm | wasmd   | cosmos  | provenance        | module support                                 |
+|----------|---------|---------|-------------------|------------------------------------------------|
+| v2.0.0   | v0.30.X | v0.46.X | v1.15.X           | attribute,marker,metadata,msgfees,name, reward |
+| v1.2.0   | v0.30.X | v0.46.X | v1.15.X           | attribute,marker,metadata,msgfees,name         |
+| v1.1.2   | v0.29.X | v0.46.X | v1.13.X           | attribute,marker,metadata,msgfees,name         |
+| v1.1.1   | v0.29.X | v0.46.X | v1.13.X           | attribute,marker,metadata,msgfees,name         |
+| v1.1.0   | v0.26.X | v0.45.X | v1.10.X - v1.12.X | attribute,marker,metadata,msgfees,name         |
+| v1.0.0   | v0.26.X | v0.45.X | v1.8.X - v1.9.X   | attribute,marker,metadata,name                 |
 
 ## Getting Started
 
@@ -36,44 +37,23 @@ In addition to the core CosmWasm functionality, the provenance bindings include
 
 ### Query Support
 
-- Names
-  - Resolve the address for a name.
-  - Lookup all names bound to an address.
-- Account Metadata
-  - Get all attributes for an account.
-  - Get attributes for an account by name.
-- Markers
-  - Get marker by denom.
-  - Get marker by address.
-- Metadata
-  - Get scope by ID.
-  - Get scope sessions.
-  - Get scope records.
-  - Get scope record by name.
+All queries are available for these Provenance modules:
+- [Attribute](./packages/provwasm-std/src/types/provenance/attribute)
+- [Marker](./packages/provwasm-std/src/types/provenance/marker)
+- [Metadata](./packages/provwasm-std/src/types/provenance/metadata)
+- [MsgFees](./packages/provwasm-std/src/types/provenance/msgfees)
+- [Name](./packages/provwasm-std/src/types/provenance/name)
+- [Reward](./packages/provwasm-std/src/types/provenance/reward)
 
 ### Message Encoding
 
-- Names
-  - Bind name
-  - Delete name
-- Account Metadata
-  - Add attribute
-  - Delete all attributes
-  - Delete distinct attribute
-  - Update attribute
-- Markers
-  - Create
-  - Grant access
-  - Revoke access
-  - Finalize
-  - Activate
-  - Cancel
-  - Destroy
-  - Mint supply
-  - Burn supply
-  - Withdraw coins
-  - Transfer coins
-- Metadata
-  - Write Scope
-- MsgFees
-  - Assess custom fee
+All messages are available for these Provenance modules:
+- [Attribute](./packages/provwasm-std/src/types/provenance/attribute)
+- [Marker](./packages/provwasm-std/src/types/provenance/marker)
+- [Metadata](./packages/provwasm-std/src/types/provenance/metadata)
+- [MsgFees](./packages/provwasm-std/src/types/provenance/msgfees)
+- [Name](./packages/provwasm-std/src/types/provenance/name)
+- [Reward](./packages/provwasm-std/src/types/provenance/reward)
+
+## Migration
+Please see this [guide](./MIGRATION.md) for information regarding api changes and upgrading contracts
