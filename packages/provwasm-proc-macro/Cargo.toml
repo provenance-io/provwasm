@@ -1,6 +1,6 @@
 [package]
 name = "provwasm-proc-macro"
-version = "0.1.0"
+version = "0.1.0-rc1"
 authors = ["Ken Talley <ktalley@figure.com>"]
 edition = "2021"
 license = "Apache-2.0"
@@ -23,4 +23,4 @@ cosmwasm-std = {version = "1.2.5", features = ["stargate"]}
 prost = "0.11.9"
 serde = "1.0.163"
 trybuild = {version = "1.0.80", features = ["diff"]}
-provwasm-common = { version = "0.1.0", path = "../provwasm-common" }
+provwasm-common = { version = "0.1.0-rc1", path = "../provwasm-common" }
