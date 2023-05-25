@@ -37,18 +37,52 @@ In addition to the core CosmWasm functionality, the provenance bindings include
 
 ### Query Support
 
-All queries are available for these Provenance modules:
+Queries are available for these Provenance modules:
 - [Attribute](./packages/provwasm-std/src/types/provenance/attribute)
+  - provenance.attribute.v1.QueryParamsRequest
+  - provenance.attribute.v1.QueryAttributeRequest
+  - provenance.attribute.v1.QueryAttributesRequest
+  - provenance.attribute.v1.QueryScanRequest
+- [Marker](./packages/provwasm-std/src/types/provenance/marker)
+  - provenance.marker.v1.QueryParamsRequest
+  - provenance.marker.v1.QueryMarkerRequest
+  - provenance.marker.v1.QueryHoldingRequest
+  - provenance.marker.v1.QuerySupplyRequest
+  - provenance.marker.v1.QueryEscrowRequest
+  - provenance.marker.v1.QueryAccessRequest
+  - provenance.marker.v1.QueryDenomMetadataRequest
+- [Metadata](./packages/provwasm-std/src/types/provenance/metadata)
+  - provenance.metadata.v1.QueryParamsRequest
+  - provenance.metadata.v1.ScopeRequest
+  - provenance.metadata.v1.SessionsRequest
+  - provenance.metadata.v1.RecordsRequest
+  - provenance.metadata.v1.OwnershipRequest
+  - provenance.metadata.v1.ValueOwnershipRequest
+  - provenance.metadata.v1.ScopeSpecificationRequest
+  - provenance.metadata.v1.ContractSpecificationRequest
+  - provenance.metadata.v1.RecordSpecificationsForContractSpecificationRequest
+  - provenance.metadata.v1.RecordSpecificationRequest
+  - provenance.metadata.v1.OSLocatorParamsRequest
+  - provenance.metadata.v1.OSLocatorRequest
+  - provenance.metadata.v1.OSLocatorsByURIRequest
+  - provenance.metadata.v1.OSLocatorsByScopeRequest
   - The following has deserialization issues and will be `None` until fixed:
     - `ContractSpecification.source`
     - `InputSpecification.source`
     - `Process.process_id`
     - `SessionIdComponents.scope_identifier`
-- [Marker](./packages/provwasm-std/src/types/provenance/marker)
-- [Metadata](./packages/provwasm-std/src/types/provenance/metadata)
 - [MsgFees](./packages/provwasm-std/src/types/provenance/msgfees)
+  - provenance.msgfees.v1.QueryParamsRequest
 - [Name](./packages/provwasm-std/src/types/provenance/name)
+  - provenance.name.v1.QueryParamsRequest
+  - provenance.name.v1.QueryResolveRequest
+  - provenance.name.v1.QueryReverseLookupRequest
 - [Reward](./packages/provwasm-std/src/types/provenance/reward)
+  - provenance.reward.v1.QueryRewardProgramByIDRequest
+  - provenance.reward.v1.QueryRewardProgramsRequest
+  - provenance.reward.v1.QueryClaimPeriodRewardDistributionsRequest
+  - provenance.reward.v1.QueryClaimPeriodRewardDistributionsByIDRequest
+  - provenance.reward.v1.QueryRewardDistributionsByAddressRequest
   - The following has deserialization issues and will be `None` until fixed:
     - `QualifyingAction.type`
 
