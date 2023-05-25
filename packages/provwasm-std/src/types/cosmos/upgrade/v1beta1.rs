@@ -13,7 +13,7 @@
 pub struct Plan {
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
-    #[deprecated(since = "2.0.0")]
+    #[deprecated]
     #[prost(message, optional, tag = "2")]
     pub time: ::core::option::Option<crate::shim::Timestamp>,
     #[prost(int64, tag = "3")]
@@ -24,7 +24,7 @@ pub struct Plan {
     pub height: i64,
     #[prost(string, tag = "4")]
     pub info: ::prost::alloc::string::String,
-    #[deprecated(since = "2.0.0")]
+    #[deprecated]
     #[prost(message, optional, tag = "5")]
     pub upgraded_client_state: ::core::option::Option<crate::shim::Any>,
 }
