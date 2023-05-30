@@ -2,9 +2,11 @@
 
 ## Unreleased changes
 
-* Use protos instead of json for bindings ([#101](https://github.com/provenance-io/provwasm/issues/101))
-
 ## Releases
+
+### [v2.0.0](https://github.com/provenance-io/provwasm/tree/v2.0.0)
+
+* Use protos instead of json for bindings ([#101](https://github.com/provenance-io/provwasm/issues/101))
 
 ### [v1.2.0](https://github.com/provenance-io/provwasm/tree/v1.2.0)
 

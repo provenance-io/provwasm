@@ -11,7 +11,7 @@
 #[proto_message(type_url = "/cosmos.bank.v1beta1.Params")]
 #[serde(rename_all = "snake_case")]
 pub struct Params {
-    #[deprecated(since = "2.0.0")]
+    #[deprecated]
     #[prost(message, repeated, tag = "1")]
     pub send_enabled: ::prost::alloc::vec::Vec<SendEnabled>,
     #[prost(bool, tag = "2")]

@@ -7,7 +7,7 @@ license = "Apache-2.0"
 repository = "https://github.com/provenance-io/provwasm/tree/main/packages/provwasm-common"
 description = "Common library for ProvWasm internal"
 keywords = ["provenance", "blockchain", "smart-contracts", "defi", "finance"]
-categories = ["cryptography::cryptocurrencies", "wasm", "common"]
+categories = ["cryptography::cryptocurrencies", "wasm"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

@@ -234,6 +234,8 @@ pub struct EventMarkerAdd {
     pub manager: ::prost::alloc::string::String,
     #[prost(string, tag = "5")]
     pub marker_type: ::prost::alloc::string::String,
+    #[prost(string, tag = "6")]
+    pub address: ::prost::alloc::string::String,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
