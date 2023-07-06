@@ -1,6 +1,6 @@
 [package]
 name = "provwasm-common"
-version = "0.1.0-rc1"
+version = "0.1.0"
 authors = ["Ken Talley <ktalley@figure.com>"]
 edition = "2021"
 license = "Apache-2.0"
