@@ -745,7 +745,6 @@ pub mod contract_specification {
         Hash(::prost::alloc::string::String),
     }
 }
-
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
