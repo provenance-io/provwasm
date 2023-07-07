@@ -52,6 +52,7 @@ pub fn add_attribute<H: Into<Addr>, S: Into<String>, B: Into<Binary>>(
         attribute_type: value_type.into(),
         account: validate_address(address)?.to_string(),
         owner: validate_address(contract_address)?.to_string(),
+        expiration_date: None,
     }
     .into())
 }
