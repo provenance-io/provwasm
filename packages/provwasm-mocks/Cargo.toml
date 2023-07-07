@@ -1,6 +1,6 @@
 [package]
 name = "provwasm-mocks"
-version = "2.0.0"
+version = "2.0.1"
 authors = ["Ken Talley <ktalley@provenance.io"]
 edition = "2021"
 license = "Apache-2.0"
@@ -12,7 +12,7 @@ categories = ["development-tools::testing", "cryptography::cryptocurrencies", "w
 
 [dependencies]
 provwasm-common = { version = "0.1.0", path = "../provwasm-common"}
-provwasm-std = { version = "2.0.0", path = "../provwasm-std" }
+provwasm-std = { version = "2.0.1", path = "../provwasm-std" }
 cosmwasm-std = { version = "1.2.5", default-features = false }
 schemars = "0.8.8"
 serde = { version = "1.0.163", default-features = false, features = ["derive"] }
