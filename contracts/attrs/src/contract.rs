@@ -376,6 +376,7 @@ mod tests {
                     attribute_type: AttributeType::Json.into(),
                     account: MOCK_CONTRACT_ADDR.to_string(),
                     owner: MOCK_CONTRACT_ADDR.to_string(),
+                    expiration_date: None,
                 }
                 .try_into()
                 .unwrap();
@@ -610,6 +611,7 @@ mod tests {
                     .0,
                     attribute_type: AttributeType::Json.into(),
                     address: "".to_string(),
+                    expiration_date: None,
                 }],
                 pagination: None,
             },
