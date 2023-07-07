@@ -1,3 +1,3 @@
-### [v2.0.0](https://github.com/provenance-io/provwasm/tree/v2.0.0)
+### [v2.0.1](https://github.com/provenance-io/provwasm/tree/v2.0.1)
 
-* Use protos instead of json for bindings ([#101](https://github.com/provenance-io/provwasm/issues/101))
+* Update to provenance 1.16 ([#118](https://github.com/provenance-io/provwasm/issues/118))
