@@ -2,11 +2,11 @@
 all: local remote
 
 .PHONY: local
-attrs:
+local:
 	@make -C local
 
 .PHONY: remote
-marker:
+remote:
 	@make -C remote
 
 .PHONY: clean
