@@ -529,7 +529,7 @@ dependencies = [
 
 [[package]]
 name = "provwasm-mocks"
-version = "2.0.0"
+version = "2.0.1"
 dependencies = [
  "cosmwasm-std",
  "provwasm-common",
@@ -550,7 +550,7 @@ dependencies = [
 
 [[package]]
 name = "provwasm-std"
-version = "2.0.0"
+version = "2.0.1"
 dependencies = [
  "base64 0.21.0",
  "chrono",
@@ -639,7 +639,7 @@ dependencies = [
 
 [[package]]
 name = "scope"
-version = "2.0.0"
+version = "2.0.1"
 dependencies = [
  "cosmwasm-schema",
  "cosmwasm-std",
