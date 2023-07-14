@@ -86,6 +86,8 @@ Queries are available for these Provenance modules:
   - provenance.reward.v1.QueryRewardDistributionsByAddressRequest
   - The following has deserialization issues and will be `None` until fixed:
     - `QualifyingAction.type`
+- [Trigger](./packages/provwasm-std/src/types/provenance/trigger)
+  - Query support unavailable until [#123](https://github.com/provenance-io/provwasm/issues/123) is resolved
 
 ### Message Encoding
 
@@ -96,6 +98,7 @@ All messages are available for these Provenance modules:
 - [MsgFees](./packages/provwasm-std/src/types/provenance/msgfees)
 - [Name](./packages/provwasm-std/src/types/provenance/name)
 - [Reward](./packages/provwasm-std/src/types/provenance/reward)
+- [Trigger](./packages/provwasm-std/src/types/provenance/trigger)
 
 ## Migration
 Please see this [guide](./MIGRATION.md) for information regarding api changes and upgrading contracts
