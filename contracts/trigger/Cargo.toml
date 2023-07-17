@@ -1,0 +1,40 @@
+[package]
+name = "trigger"
+version = "2.0.1"
+authors = ["Ken Talley <ktalley@provenance.io"]
+edition = "2021"
+
+exclude = [
+  "trigger.wasm",
+  "checksums.txt",
+]
+
+[profile.release]
+opt-level = 3
+debug = false
+rpath = false
+lto = true
+debug-assertions = false
+codegen-units = 1
+panic = 'abort'
+incremental = false
+overflow-checks = true
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[features]
+backtraces = []
+
+[dependencies]
+cosmwasm-schema = { version = "1.2.5" }
+cosmwasm-std = { version = "1.2.5" }
+cosmwasm-storage = { version = "1.2.5" }
+jsonformat = "2.0.0"
+provwasm-std = { path = "../../packages/provwasm-std" }
+schemars = "0.8.12"
+serde = { version = "1.0.163", default-features = false, features = ["derive"] }
+thiserror = { version = "1.0.40" }
+
+[dev-dependencies]
+provwasm-mocks = { path = "../../packages/provwasm-mocks" }
