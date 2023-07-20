@@ -296,3 +296,8 @@ types:
     - provenance.trigger.v1.QueryTriggerByIDResponse
     - provenance.trigger.v1.QueryTriggersRequest
     - provenance.trigger.v1.QueryTriggersResponse
+    - provenance.trigger.v1.Trigger
+    - provenance.trigger.v1.BlockHeightEvent
+    - provenance.trigger.v1.BlockTimeEvent
+    - provenance.trigger.v1.TransactionEvent
+    - provenance.trigger.v1.Attribute

@@ -34,6 +34,78 @@ pub struct Trigger {
     serde::Deserialize,
     provwasm_proc_macro::CosmwasmExt,
 )]
+#[proto_message(type_url = "/provenance.trigger.v1.BlockHeightEvent")]
+#[serde(rename_all = "snake_case")]
+pub struct BlockHeightEvent {
+    #[prost(uint64, tag = "1")]
+    #[serde(
+        serialize_with = "crate::serde::as_str::serialize",
+        deserialize_with = "crate::serde::as_str::deserialize"
+    )]
+    pub block_height: u64,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(
+    Clone,
+    PartialEq,
+    ::prost::Message,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_proc_macro::CosmwasmExt,
+)]
+#[proto_message(type_url = "/provenance.trigger.v1.BlockTimeEvent")]
+#[serde(rename_all = "snake_case")]
+pub struct BlockTimeEvent {
+    #[prost(message, optional, tag = "1")]
+    pub time: ::core::option::Option<crate::shim::Timestamp>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(
+    Clone,
+    PartialEq,
+    ::prost::Message,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_proc_macro::CosmwasmExt,
+)]
+#[proto_message(type_url = "/provenance.trigger.v1.TransactionEvent")]
+#[serde(rename_all = "snake_case")]
+pub struct TransactionEvent {
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    #[prost(message, repeated, tag = "2")]
+    pub attributes: ::prost::alloc::vec::Vec<Attribute>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(
+    Clone,
+    PartialEq,
+    ::prost::Message,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_proc_macro::CosmwasmExt,
+)]
+#[proto_message(type_url = "/provenance.trigger.v1.Attribute")]
+#[serde(rename_all = "snake_case")]
+pub struct Attribute {
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    #[prost(string, tag = "2")]
+    pub value: ::prost::alloc::string::String,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(
+    Clone,
+    PartialEq,
+    ::prost::Message,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_proc_macro::CosmwasmExt,
+)]
 #[proto_message(type_url = "/provenance.trigger.v1.QueryTriggerByIDRequest")]
 #[serde(rename_all = "snake_case")]
 #[proto_query(
