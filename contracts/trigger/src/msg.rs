@@ -14,7 +14,7 @@ pub struct InitMsg {}
 #[cw_serde]
 pub enum ExecuteMsg {
     CreateTrigger { event: Event, to_address: String },
-    DeleteTrigger {},
+    DeleteTrigger { id: Uint64 },
 }
 
 #[cw_serde]

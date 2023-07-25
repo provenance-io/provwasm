@@ -1,10 +1,11 @@
 use cosmwasm_std::{
-    entry_point, Deps, DepsMut, Env, MessageInfo, QueryResponse, Response, StdError,
+    entry_point, Deps, DepsMut, Env, MessageInfo, QueryResponse, Response, StdError, Uint64,
 };
 use provwasm_std::shim::Any;
 use provwasm_std::types::cosmos::bank::v1beta1::MsgSend;
 use provwasm_std::types::provenance::trigger::v1::{
-    BlockHeightEvent, BlockTimeEvent, MsgCreateTriggerRequest, TransactionEvent,
+    BlockHeightEvent, BlockTimeEvent, MsgCreateTriggerRequest, MsgDestroyTriggerRequest,
+    TransactionEvent,
 };
 
 use crate::error::ContractError;
@@ -34,7 +35,7 @@ pub fn execute(
         ExecuteMsg::CreateTrigger { event, to_address } => {
             create_trigger(deps, env, info, event, to_address)
         }
-        ExecuteMsg::DeleteTrigger {} => delete_trigger(deps, env, info),
+        ExecuteMsg::DeleteTrigger { id } => delete_trigger(deps, env, info, id),
     }
 }
 
@@ -85,12 +86,18 @@ pub fn create_trigger(
 // delete an existing trigger
 pub fn delete_trigger(
     _deps: DepsMut,
-    _env: Env,
+    env: Env,
     _info: MessageInfo,
+    id: Uint64,
 ) -> Result<Response, ContractError> {
-    Err(ContractError::Std(StdError::GenericErr {
-        msg: "not implemented".to_string(),
-    }))
+    let msg = MsgDestroyTriggerRequest {
+        id: id.into(),
+        authority: env.contract.address.to_string(),
+    };
+
+    Ok(Response::new()
+        .add_message(msg)
+        .add_attribute("action", "provwasm.contracts.trigger.delete_trigger"))
 }
 
 /// Handle query requests for the provenance trigger module

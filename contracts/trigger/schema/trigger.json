@@ -45,6 +45,14 @@
         "properties": {
           "delete_trigger": {
             "type": "object",
+            "required": [
+              "id"
+            ],
+            "properties": {
+              "id": {
+                "$ref": "#/definitions/Uint64"
+              }
+            },
             "additionalProperties": false
           }
         },
