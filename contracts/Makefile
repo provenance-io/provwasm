@@ -26,7 +26,7 @@ scope:
 	@make -C scope
 
 .PHONY: trigger
-scope:
+trigger:
 	@make -C trigger
 
 .PHONY: tutorial
