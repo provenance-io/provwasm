@@ -78,17 +78,80 @@ echo "Instantiating contract"
 # Query for the contract address so we can execute it
 export contract=$("$PROV_CMD" query wasm list-contract-by-code 1 -t -o json | jq -r ".contracts[0]")
 
-# get block height and add delay for trigger
-export current_height=$PROV_CMD q block | jq .block.last_commit.height
+########################################################
+# Create block height trigger test
+########################################################
 
-echo "Executing contract (create_trigger)"
+echo -e "\n\n#########################################################"
+echo "Executing contract (block height test)"
+echo "#########################################################"
+
+# get block height and add delay for trigger
+export current_height=$PROV_CMD q block | jq .block.header.height
+
 "$PROV_CMD" tx wasm execute \
   "$contract" \
   "{
   	\"create_trigger\": {
   		\"event\": {
   			\"block_height_event\": {
-  				\"block_height\": \"$((current_height + "8"))\"
+  				\"block_height\": \"$((current_height + "10"))\"
+  			}
+  		},
+  		\"to_address\": \"$receiver\"
+  	}
+  }" \
+  --amount 90000nhash \
+  --from="$sender" \
+  --keyring-backend test \
+  --chain-id testing \
+  --gas auto \
+  --gas-prices="1906nhash" \
+  --gas-adjustment=1.5 \
+  --broadcast-mode block \
+  --yes \
+  --testnet \
+  --output json
+
+sleep 12
+
+# Verify that the funds were sent to the receiver
+export receiver_query=$("$PROV_CMD" query bank balances "$receiver" --testnet --output json )
+export receiver_denom=$(echo "$receiver_query" | jq -r ".balances[0].denom")
+export receiver_amount=$(echo "$receiver_query" | jq -r ".balances[0].amount")
+
+if [ "$receiver_denom" != "nhash" ]; then
+  echo "receiver does not have nhash"
+  exit 1
+fi
+
+if [ "$receiver_amount" != "90000" ]; then
+  echo "receiver does not have 90000 coins"
+  exit 1
+fi
+
+#########################################################
+# Create block time trigger test
+#########################################################
+
+echo -e "\n\n#########################################################"
+echo "Executing contract (block time test)"
+echo "#########################################################"
+
+# get timestamp and add delay for trigger
+export current_time=$(date +%s)
+export target_time=$(($current_time + 4 ))
+
+echo "current time = $current_time"
+echo "target time = $target_time"
+
+"$PROV_CMD" tx wasm execute \
+  "$contract" \
+  "{
+  	\"create_trigger\": {
+  		\"event\": {
+  			\"block_time_event\": {
+  				\"timestamp\": \"$target_time\"
   			}
   		},
   		\"to_address\": \"$receiver\"
@@ -110,20 +173,31 @@ sleep 8
 
 # Verify that the funds were sent to the receiver
 export receiver_query=$("$PROV_CMD" query bank balances "$receiver" --testnet --output json )
-export receiver_denom=$(echo "$receiver_query" | jq -r ".balances[0].denom")
 export receiver_amount=$(echo "$receiver_query" | jq -r ".balances[0].amount")
 
-if [ "$receiver_denom" != "nhash" ]; then
-  echo "receiver does not have nhash"
+if [ "$receiver_amount" != "180000" ]; then
+  echo "receiver does not have 180000 coins"
   exit 1
 fi
 
-if [ "$receiver_amount" != "90000" ]; then
-  echo "receiver does not have 90000 coins"
+#########################################################
+# Delete trigger test
+#########################################################
+
+echo -e "\n\n#########################################################"
+echo "Executing contract (delete trigger test)"
+echo "#########################################################"
+
+export trigger_count=$($PROV_CMD q trigger list all -o json | jq '.triggers | length')
+
+if [ "$trigger_count" != "0" ]; then
+  echo "trigger count should be 0"
   exit 1
 fi
 
-echo "Executing contract (create_trigger)"
+echo "creating trigger"
+
+export current_height=$PROV_CMD q block | jq .block.header.height
 "$PROV_CMD" tx wasm execute \
   "$contract" \
   "{
@@ -148,8 +222,6 @@ echo "Executing contract (create_trigger)"
   --testnet \
   --output json
 
-
-
 export trigger_count=$($PROV_CMD q trigger list all -o json | jq '.triggers | length')
 
 if [ "$trigger_count" != "1" ]; then
@@ -162,7 +234,7 @@ echo "Executing contract (delete_trigger)"
   "$contract" \
   "{
   	\"delete_trigger\": {
-  		\"id\": \"2\"
+  		\"id\": \"3\"
   	}
   }" \
   --amount 90000nhash \

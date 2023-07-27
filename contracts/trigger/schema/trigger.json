@@ -63,13 +63,6 @@
       "Event": {
         "oneOf": [
           {
-            "type": "string",
-            "enum": [
-              "block_time_event",
-              "transaction_event"
-            ]
-          },
-          {
             "type": "object",
             "required": [
               "block_height_event"
@@ -82,6 +75,27 @@
                 ],
                 "properties": {
                   "block_height": {
+                    "$ref": "#/definitions/Uint64"
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "required": [
+              "block_time_event"
+            ],
+            "properties": {
+              "block_time_event": {
+                "type": "object",
+                "required": [
+                  "timestamp"
+                ],
+                "properties": {
+                  "timestamp": {
                     "$ref": "#/definitions/Uint64"
                   }
                 },

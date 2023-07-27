@@ -1,11 +1,10 @@
 use cosmwasm_std::{
     entry_point, Deps, DepsMut, Env, MessageInfo, QueryResponse, Response, StdError, Uint64,
 };
-use provwasm_std::shim::Any;
+use provwasm_std::shim::{Any, Timestamp};
 use provwasm_std::types::cosmos::bank::v1beta1::MsgSend;
 use provwasm_std::types::provenance::trigger::v1::{
     BlockHeightEvent, BlockTimeEvent, MsgCreateTriggerRequest, MsgDestroyTriggerRequest,
-    TransactionEvent,
 };
 
 use crate::error::ContractError;
@@ -57,10 +56,11 @@ pub fn create_trigger(
         }
         .try_into()
         .unwrap(),
-        Event::BlockTimeEvent => BlockTimeEvent { time: None }.try_into().unwrap(),
-        Event::TransactionEvent => TransactionEvent {
-            name: "".to_string(),
-            attributes: vec![],
+        Event::BlockTimeEvent { timestamp } => BlockTimeEvent {
+            time: Some(Timestamp {
+                seconds: timestamp.u64() as i64,
+                nanos: 0,
+            }),
         }
         .try_into()
         .unwrap(),
@@ -106,4 +106,20 @@ pub fn query(_deps: Deps, _env: Env, _msg: QueryMsg) -> Result<QueryResponse, Co
     Err(ContractError::Std(StdError::GenericErr {
         msg: "not implemented".to_string(),
     }))
+}
+
+#[cfg(test)]
+pub mod test {
+    use provwasm_std::shim::Timestamp;
+
+    #[test]
+    pub fn timestamp_test() {
+        let time = 1690500001u64;
+        let timestamp = Timestamp {
+            seconds: time as i64,
+            nanos: 0,
+        };
+
+        println!("timestamp: {:?}", timestamp);
+    }
 }

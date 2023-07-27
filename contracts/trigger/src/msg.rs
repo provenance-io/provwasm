@@ -4,8 +4,7 @@ use cosmwasm_std::Uint64;
 #[cw_serde]
 pub enum Event {
     BlockHeightEvent { block_height: Uint64 },
-    BlockTimeEvent,
-    TransactionEvent,
+    BlockTimeEvent { timestamp: Uint64 },
 }
 
 #[cw_serde]
