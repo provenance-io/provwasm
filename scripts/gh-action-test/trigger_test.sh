@@ -9,11 +9,19 @@ WASM="./contracts/trigger/artifacts/trigger.wasm"
 "$PROV_CMD" keys add receiver --keyring-backend test --testnet --hd-path "44'/1'/0'/0/0"
 
 # setup key variables
-export node0=$("$PROV_CMD" keys show -a validator --keyring-backend test --testnet )
-export sender=$("$PROV_CMD" keys show -a sender --keyring-backend test --testnet )
-export receiver=$("$PROV_CMD" keys show -a receiver --keyring-backend test --testnet )
+node0=$("$PROV_CMD" keys show -a validator --keyring-backend test --testnet )
+sender=$("$PROV_CMD" keys show -a sender --keyring-backend test --testnet )
+receiver=$("$PROV_CMD" keys show -a receiver --keyring-backend test --testnet )
 
-echo "Sending coins to different keys"
+########################################################
+# Test setup
+########################################################
+
+echo -e "\n\n#########################################################"
+echo "Test setup"
+echo "#########################################################"
+
+echo "sending coins to different keys"
 
 "$PROV_CMD" tx bank send \
   "$node0" \
@@ -30,7 +38,7 @@ echo "Sending coins to different keys"
   --testnet \
   --output json
 
-echo "Binding name"
+echo "binding name"
 # Setup name and new COIN for the smart contract
 "$PROV_CMD" tx name bind \
   "sc" \
@@ -47,7 +55,7 @@ echo "Binding name"
   --testnet \
   --output json
 
-echo "Storing wasm"
+echo "storing wasm"
 # Run the contract
 "$PROV_CMD" tx wasm store "$WASM" \
   --instantiate-anyof-addresses "$node0" \
@@ -61,7 +69,7 @@ echo "Storing wasm"
   --yes \
   -t
 
-echo "Instantiating contract"
+echo "instantiating contract"
 "$PROV_CMD" tx wasm instantiate 1 '{}' \
   --admin="$node0" \
   --label="trigger" \
@@ -76,18 +84,22 @@ echo "Instantiating contract"
   --testnet
 
 # Query for the contract address so we can execute it
-export contract=$("$PROV_CMD" query wasm list-contract-by-code 1 -t -o json | jq -r ".contracts[0]")
+contract=$("$PROV_CMD" query wasm list-contract-by-code 1 -t -o json | jq -r ".contracts[0]")
 
 ########################################################
 # Create block height trigger test
 ########################################################
 
 echo -e "\n\n#########################################################"
-echo "Executing contract (block height test)"
+echo "Create block height trigger test"
 echo "#########################################################"
 
 # get block height and add delay for trigger
-export current_height=$PROV_CMD q block | jq .block.header.height
+current_height=$($PROV_CMD q block | jq -r .block.header.height)
+target_height=$((current_height + 10))
+
+echo "current block height: $current_height"
+echo "target block height: $target_height"
 
 "$PROV_CMD" tx wasm execute \
   "$contract" \
@@ -95,7 +107,7 @@ export current_height=$PROV_CMD q block | jq .block.header.height
   	\"create_trigger\": {
   		\"event\": {
   			\"block_height_event\": {
-  				\"block_height\": \"$((current_height + "10"))\"
+  				\"block_height\": \"$target_height\"
   			}
   		},
   		\"to_address\": \"$receiver\"
@@ -116,9 +128,9 @@ export current_height=$PROV_CMD q block | jq .block.header.height
 sleep 12
 
 # Verify that the funds were sent to the receiver
-export receiver_query=$("$PROV_CMD" query bank balances "$receiver" --testnet --output json )
-export receiver_denom=$(echo "$receiver_query" | jq -r ".balances[0].denom")
-export receiver_amount=$(echo "$receiver_query" | jq -r ".balances[0].amount")
+receiver_query=$("$PROV_CMD" query bank balances "$receiver" --testnet --output json )
+receiver_denom=$(echo "$receiver_query" | jq -r ".balances[0].denom")
+receiver_amount=$(echo "$receiver_query" | jq -r ".balances[0].amount")
 
 if [ "$receiver_denom" != "nhash" ]; then
   echo "receiver does not have nhash"
@@ -135,12 +147,12 @@ fi
 #########################################################
 
 echo -e "\n\n#########################################################"
-echo "Executing contract (block time test)"
+echo "Create block time trigger test"
 echo "#########################################################"
 
 # get timestamp and add delay for trigger
-export current_time=$(date +%s)
-export target_time=$(($current_time + 4 ))
+current_time=$(date +%s)
+target_time=$(($current_time + 4))
 
 echo "current time = $current_time"
 echo "target time = $target_time"
@@ -172,8 +184,8 @@ echo "target time = $target_time"
 sleep 8
 
 # Verify that the funds were sent to the receiver
-export receiver_query=$("$PROV_CMD" query bank balances "$receiver" --testnet --output json )
-export receiver_amount=$(echo "$receiver_query" | jq -r ".balances[0].amount")
+receiver_query=$("$PROV_CMD" query bank balances "$receiver" --testnet --output json )
+receiver_amount=$(echo "$receiver_query" | jq -r ".balances[0].amount")
 
 if [ "$receiver_amount" != "180000" ]; then
   echo "receiver does not have 180000 coins"
@@ -185,10 +197,10 @@ fi
 #########################################################
 
 echo -e "\n\n#########################################################"
-echo "Executing contract (delete trigger test)"
+echo "Delete trigger test"
 echo "#########################################################"
 
-export trigger_count=$($PROV_CMD q trigger list all -o json | jq '.triggers | length')
+trigger_count=$($PROV_CMD q trigger list all -o json | jq '.triggers | length')
 
 if [ "$trigger_count" != "0" ]; then
   echo "trigger count should be 0"
@@ -197,7 +209,7 @@ fi
 
 echo "creating trigger"
 
-export current_height=$PROV_CMD q block | jq .block.header.height
+current_height=$PROV_CMD q block | jq .block.header.height
 "$PROV_CMD" tx wasm execute \
   "$contract" \
   "{
@@ -222,14 +234,14 @@ export current_height=$PROV_CMD q block | jq .block.header.height
   --testnet \
   --output json
 
-export trigger_count=$($PROV_CMD q trigger list all -o json | jq '.triggers | length')
+trigger_count=$($PROV_CMD q trigger list all -o json | jq '.triggers | length')
 
 if [ "$trigger_count" != "1" ]; then
   echo "failed creating trigger"
   exit 1
 fi
 
-echo "Executing contract (delete_trigger)"
+echo "deleting trigger"
 "$PROV_CMD" tx wasm execute \
   "$contract" \
   "{
@@ -249,11 +261,11 @@ echo "Executing contract (delete_trigger)"
   --testnet \
   --output json
 
-export trigger_count=$($PROV_CMD q trigger list all -o json | jq '.triggers | length')
+trigger_count=$($PROV_CMD q trigger list all -o json | jq '.triggers | length')
 
 if [ "$trigger_count" != "0" ]; then
   echo "failed deleting trigger"
   exit 1
 fi
 
-echo "All good!"
+echo "Trigger tests successful"
