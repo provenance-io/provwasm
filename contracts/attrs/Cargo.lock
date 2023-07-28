@@ -21,7 +21,7 @@ checksum = "7de8ce5e0f9f8d88245311066a578d72b7af3e7088f32783804676302df237e4"
 
 [[package]]
 name = "attrs"
-version = "2.0.1"
+version = "2.1.0"
 dependencies = [
  "cosmwasm-schema",
  "cosmwasm-std",
@@ -537,14 +537,14 @@ dependencies = [
 
 [[package]]
 name = "provwasm-common"
-version = "0.1.0"
+version = "2.1.0"
 dependencies = [
  "cosmwasm-std",
 ]
 
 [[package]]
 name = "provwasm-mocks"
-version = "2.0.1"
+version = "2.1.0"
 dependencies = [
  "cosmwasm-std",
  "provwasm-common",
@@ -555,7 +555,7 @@ dependencies = [
 
 [[package]]
 name = "provwasm-proc-macro"
-version = "0.1.0"
+version = "2.1.0"
 dependencies = [
  "itertools",
  "proc-macro2",
@@ -565,7 +565,7 @@ dependencies = [
 
 [[package]]
 name = "provwasm-std"
-version = "2.0.1"
+version = "2.1.0"
 dependencies = [
  "base64 0.21.0",
  "chrono",
