@@ -1,10 +1,11 @@
 use cosmwasm_std::{
-    entry_point, Deps, DepsMut, Env, MessageInfo, QueryResponse, Response, StdError, Uint64,
+    entry_point, to_binary, Deps, DepsMut, Env, MessageInfo, QueryResponse, Response, Uint64,
 };
 use provwasm_std::shim::{Any, Timestamp};
 use provwasm_std::types::cosmos::bank::v1beta1::MsgSend;
 use provwasm_std::types::provenance::trigger::v1::{
     BlockHeightEvent, BlockTimeEvent, MsgCreateTriggerRequest, MsgDestroyTriggerRequest,
+    TriggerQuerier,
 };
 
 use crate::error::ContractError;
@@ -102,24 +103,18 @@ pub fn delete_trigger(
 
 /// Handle query requests for the provenance trigger module
 #[entry_point]
-pub fn query(_deps: Deps, _env: Env, _msg: QueryMsg) -> Result<QueryResponse, ContractError> {
-    Err(ContractError::Std(StdError::GenericErr {
-        msg: "not implemented".to_string(),
-    }))
+pub fn query(deps: Deps, _env: Env, msg: QueryMsg) -> Result<QueryResponse, ContractError> {
+    match msg {
+        QueryMsg::GetById { id } => get_trigger(deps, Some(id)),
+        QueryMsg::GetAll {} => get_trigger(deps, None),
+    }
 }
 
-#[cfg(test)]
-pub mod test {
-    use provwasm_std::shim::Timestamp;
+pub fn get_trigger(deps: Deps, id: Option<Uint64>) -> Result<QueryResponse, ContractError> {
+    let trigger_querier = TriggerQuerier::new(&deps.querier);
 
-    #[test]
-    pub fn timestamp_test() {
-        let time = 1690500001u64;
-        let timestamp = Timestamp {
-            seconds: time as i64,
-            nanos: 0,
-        };
-
-        println!("timestamp: {:?}", timestamp);
+    match id {
+        Some(id) => Ok(to_binary(&trigger_querier.trigger_by_id(id.u64())?)?),
+        None => Ok(to_binary(&trigger_querier.triggers(None)?)?),
     }
 }

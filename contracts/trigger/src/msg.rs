@@ -18,4 +18,9 @@ pub enum ExecuteMsg {
 
 #[cw_serde]
 #[derive(QueryResponses)]
-pub enum QueryMsg {}
+pub enum QueryMsg {
+    #[returns(provwasm_std::types::provenance::trigger::v1::QueryTriggerByIdResponse)]
+    GetById { id: Uint64 },
+    #[returns(provwasm_std::types::provenance::trigger::v1::QueryTriggersResponse)]
+    GetAll {},
+}

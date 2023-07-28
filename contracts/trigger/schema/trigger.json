@@ -115,10 +115,232 @@
   "query": {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "title": "QueryMsg",
-    "type": "string",
-    "enum": []
+    "oneOf": [
+      {
+        "type": "object",
+        "required": [
+          "get_by_id"
+        ],
+        "properties": {
+          "get_by_id": {
+            "type": "object",
+            "required": [
+              "id"
+            ],
+            "properties": {
+              "id": {
+                "$ref": "#/definitions/Uint64"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "get_all"
+        ],
+        "properties": {
+          "get_all": {
+            "type": "object",
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    ],
+    "definitions": {
+      "Uint64": {
+        "description": "A thin wrapper around u64 that is using strings for JSON encoding/decoding, such that the full u64 range can be used for clients that convert JSON numbers to floats, like JavaScript and jq.\n\n# Examples\n\nUse `from` to create instances of this and `u64` to get the value out:\n\n``` # use cosmwasm_std::Uint64; let a = Uint64::from(42u64); assert_eq!(a.u64(), 42);\n\nlet b = Uint64::from(70u32); assert_eq!(b.u64(), 70); ```",
+        "type": "string"
+      }
+    }
   },
   "migrate": null,
   "sudo": null,
-  "responses": {}
+  "responses": {
+    "get_all": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "QueryTriggersResponse",
+      "type": "object",
+      "required": [
+        "triggers"
+      ],
+      "properties": {
+        "pagination": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/PageResponse"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "triggers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Trigger"
+          }
+        }
+      },
+      "definitions": {
+        "Any": {
+          "type": "object",
+          "required": [
+            "type_url",
+            "value"
+          ],
+          "properties": {
+            "type_url": {
+              "description": "A URL/resource name that uniquely identifies the type of the serialized protocol buffer message. This string must contain at least one \"/\" character. The last segment of the URL's path must represent the fully qualified name of the type (as in `path/google.protobuf.Duration`). The name should be in a canonical form (e.g., leading \".\" is not accepted).\n\nIn practice, teams usually precompile into the binary all types that they expect it to use in the context of Any. However, for URLs which use the scheme `http`, `https`, or no scheme, one can optionally set up a type server that maps type URLs to message definitions as follows:\n\n* If no scheme is provided, `https` is assumed. * An HTTP GET on the URL must yield a \\[google.protobuf.Type][\\] value in binary format, or produce an error. * Applications are allowed to cache lookup results based on the URL, or have them precompiled into a binary to avoid any lookup. Therefore, binary compatibility needs to be preserved on changes to types. (Use versioned type names to manage breaking changes.)\n\nNote: this functionality is not currently available in the official protobuf release, and it is not used for type URLs beginning with type.googleapis.com.\n\nSchemes other than `http`, `https` (or the empty scheme) might be used with implementation specific semantics.",
+              "type": "string"
+            },
+            "value": {
+              "description": "Must be a valid serialized protocol buffer of the above specified type.",
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            }
+          }
+        },
+        "PageResponse": {
+          "type": "object",
+          "required": [
+            "next_key",
+            "total"
+          ],
+          "properties": {
+            "next_key": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            },
+            "total": {
+              "type": "integer",
+              "format": "uint64",
+              "minimum": 0.0
+            }
+          }
+        },
+        "Trigger": {
+          "type": "object",
+          "required": [
+            "actions",
+            "id",
+            "owner"
+          ],
+          "properties": {
+            "actions": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Any"
+              }
+            },
+            "event": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/Any"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "id": {
+              "type": "integer",
+              "format": "uint64",
+              "minimum": 0.0
+            },
+            "owner": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "get_by_id": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "QueryTriggerByIdResponse",
+      "type": "object",
+      "properties": {
+        "trigger": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Trigger"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "definitions": {
+        "Any": {
+          "type": "object",
+          "required": [
+            "type_url",
+            "value"
+          ],
+          "properties": {
+            "type_url": {
+              "description": "A URL/resource name that uniquely identifies the type of the serialized protocol buffer message. This string must contain at least one \"/\" character. The last segment of the URL's path must represent the fully qualified name of the type (as in `path/google.protobuf.Duration`). The name should be in a canonical form (e.g., leading \".\" is not accepted).\n\nIn practice, teams usually precompile into the binary all types that they expect it to use in the context of Any. However, for URLs which use the scheme `http`, `https`, or no scheme, one can optionally set up a type server that maps type URLs to message definitions as follows:\n\n* If no scheme is provided, `https` is assumed. * An HTTP GET on the URL must yield a \\[google.protobuf.Type][\\] value in binary format, or produce an error. * Applications are allowed to cache lookup results based on the URL, or have them precompiled into a binary to avoid any lookup. Therefore, binary compatibility needs to be preserved on changes to types. (Use versioned type names to manage breaking changes.)\n\nNote: this functionality is not currently available in the official protobuf release, and it is not used for type URLs beginning with type.googleapis.com.\n\nSchemes other than `http`, `https` (or the empty scheme) might be used with implementation specific semantics.",
+              "type": "string"
+            },
+            "value": {
+              "description": "Must be a valid serialized protocol buffer of the above specified type.",
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint8",
+                "minimum": 0.0
+              }
+            }
+          }
+        },
+        "Trigger": {
+          "type": "object",
+          "required": [
+            "actions",
+            "id",
+            "owner"
+          ],
+          "properties": {
+            "actions": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Any"
+              }
+            },
+            "event": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/Any"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "id": {
+              "type": "integer",
+              "format": "uint64",
+              "minimum": 0.0
+            },
+            "owner": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
 }
