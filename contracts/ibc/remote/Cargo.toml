@@ -1,6 +1,6 @@
 [package]
 name = "ibc-remote"
-version = "2.0.0-rc1"
+version = "2.0.0"
 authors = ["Ken Talley <4344285+kwtalley@users.noreply.github.com"]
 edition = "2021"
 
