@@ -43,6 +43,8 @@ pub struct Attribute {
     pub attribute_type: i32,
     #[prost(string, tag = "4")]
     pub address: ::prost::alloc::string::String,
+    #[prost(message, optional, tag = "5")]
+    pub expiration_date: ::core::option::Option<crate::shim::Timestamp>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
@@ -67,6 +69,8 @@ pub struct EventAttributeAdd {
     pub account: ::prost::alloc::string::String,
     #[prost(string, tag = "5")]
     pub owner: ::prost::alloc::string::String,
+    #[prost(string, tag = "6")]
+    pub expiration: ::prost::alloc::string::String,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
@@ -410,6 +414,8 @@ pub struct MsgAddAttributeRequest {
     pub account: ::prost::alloc::string::String,
     #[prost(string, tag = "5")]
     pub owner: ::prost::alloc::string::String,
+    #[prost(message, optional, tag = "6")]
+    pub expiration_date: ::core::option::Option<crate::shim::Timestamp>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(

@@ -271,16 +271,6 @@ macro_rules! expand_as_any {
                 ))
             }
         }
-
-        $(
-            impl TryFrom<Any> for $ty {
-                type Error = prost::DecodeError;
-
-                fn try_from(value: Any) -> Result<Self, Self::Error> {
-                    prost::Message::decode(value.value.as_slice())
-                }
-            }
-        )*
     };
 }
 

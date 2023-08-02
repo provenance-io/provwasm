@@ -4,3 +4,4 @@ pub mod metadata;
 pub mod msgfees;
 pub mod name;
 pub mod reward;
+pub mod trigger;

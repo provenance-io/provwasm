@@ -1,5 +1,5 @@
 .PHONY: all
-all: attrs ibc marker msgfees name scope tutorial
+all: attrs ibc marker msgfees name scope trigger tutorial
 
 .PHONY: attrs
 attrs:
@@ -24,6 +24,10 @@ name:
 .PHONY: scope
 scope:
 	@make -C scope
+
+.PHONY: trigger
+trigger:
+	@make -C trigger
 
 .PHONY: tutorial
 tutorial:

@@ -4,6 +4,11 @@
 
 ## Releases
 
+### [v2.1.0](https://github.com/provenance-io/provwasm/tree/v2.1.0)
+
+* Update to provenance 1.16 ([#118](https://github.com/provenance-io/provwasm/issues/118))
+* Add trigger module message types ([#120](https://github.com/provenance-io/provwasm/issues/120))
+
 ### [v2.0.0](https://github.com/provenance-io/provwasm/tree/v2.0.0)
 
 * Use protos instead of json for bindings ([#101](https://github.com/provenance-io/provwasm/issues/101))

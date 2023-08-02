@@ -1,6 +1,6 @@
 [package]
 name = "ibc-remote"
-version = "2.0.0"
+version = "2.1.0"
 authors = ["Ken Talley <4344285+kwtalley@users.noreply.github.com"]
 edition = "2021"
 
@@ -28,7 +28,7 @@ backtraces = []
 
 [dependencies]
 cosmwasm-schema = { version = "1.2.5" }
-cosmwasm-std = { version = "1.2.5", features = ["iterator", "staking", "stargate"] }
+cosmwasm-std = { version = "1.2.5", features = ["ibc3", "iterator", "staking", "stargate"] }
 cosmwasm-storage = { version = "1.2.5" }
 provwasm-std = { path = "../../../packages/provwasm-std" }
 schemars = "0.8.3"

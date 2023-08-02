@@ -752,7 +752,7 @@ dependencies = [
 
 [[package]]
 name = "proto-build"
-version = "2.0.0"
+version = "2.1.0"
 dependencies = [
  "heck",
  "itertools",
@@ -771,14 +771,14 @@ dependencies = [
 
 [[package]]
 name = "provwasm-common"
-version = "0.1.0"
+version = "2.1.0"
 dependencies = [
  "cosmwasm-std",
 ]
 
 [[package]]
 name = "provwasm-mocks"
-version = "2.0.0"
+version = "2.1.0"
 dependencies = [
  "cosmwasm-std",
  "provwasm-common",
@@ -789,7 +789,7 @@ dependencies = [
 
 [[package]]
 name = "provwasm-proc-macro"
-version = "0.1.0"
+version = "2.1.0"
 dependencies = [
  "cosmwasm-std",
  "itertools",
@@ -804,7 +804,7 @@ dependencies = [
 
 [[package]]
 name = "provwasm-std"
-version = "2.0.0"
+version = "2.1.0"
 dependencies = [
  "base64 0.21.1",
  "chrono",
