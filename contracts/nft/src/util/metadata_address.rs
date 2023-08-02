@@ -11,6 +11,7 @@ pub enum KeyType {
 
 pub struct MetadataAddress {
     pub bech32: String,
+    pub bytes: Vec<u8>,
     pub key_type: KeyType,
     pub uuid: Uuid,
 }
@@ -19,24 +20,23 @@ impl MetadataAddress {
     pub fn new(key_type: KeyType, uuid: Uuid) -> Result<MetadataAddress, ContractError> {
         match key_type {
             KeyType::ContractSpecification => {
-                let addr = bech32::encode(
-                    "contractspec",
-                    [ContractSpecification as u8]
-                        .iter()
-                        .cloned()
-                        .chain(
-                            hex::decode(uuid.simple().encode_lower(&mut Uuid::encode_buffer()))
-                                .unwrap()
-                                .into_iter(),
-                        )
-                        .collect::<Vec<u8>>()
-                        .to_base32(),
-                    bech32::Variant::Bech32,
-                )
-                .unwrap();
+                let bytes = [ContractSpecification as u8]
+                    .iter()
+                    .cloned()
+                    .chain(
+                        hex::decode(uuid.simple().encode_lower(&mut Uuid::encode_buffer()))
+                            .unwrap()
+                            .into_iter(),
+                    )
+                    .collect::<Vec<u8>>();
+
+                let addr =
+                    bech32::encode("contractspec", bytes.to_base32(), bech32::Variant::Bech32)
+                        .unwrap();
 
                 Ok(MetadataAddress {
                     bech32: addr,
+                    bytes,
                     key_type,
                     uuid,
                 })
