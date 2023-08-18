@@ -123,6 +123,27 @@ jobs:
           smart_contract_action_version: "v1.2.0"
           test_script: "./scripts/gh-action-test/name_test.sh"
 
+  test_nft_smart_contract:
+    runs-on: ubuntu-latest
+    name: Test NFT Smart Contract
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Add wasm32 target
+        run: |
+          rustup target add wasm32-unknown-unknown
+      - name: Build wasm binary
+        run: |
+          cd ./contracts/nft
+          make all
+      - name: Smart Contract Test setup
+        uses: provenance-io/provenance-testing-action@v1.2.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          provenance_version: "v1.16.0"
+          smart_contract_action_version: "v1.2.0"
+          test_script: "./scripts/gh-action-test/nft_test.sh"
+
   test_scope_smart_contract:
     runs-on: ubuntu-latest
     name: Test Scope Smart Contract
