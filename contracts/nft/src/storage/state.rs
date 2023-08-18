@@ -1,4 +1,4 @@
-use cosmwasm_std::{Addr, Storage};
+use cosmwasm_std::Storage;
 use cw_storage_plus::Item;
 use serde::{Deserialize, Serialize};
 
@@ -8,12 +8,16 @@ pub const STATE: Item<State> = Item::new(STATE_KEY);
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub struct State {
-    pub owner: Addr,
+    pub contract_spec_uuid: String,
+    pub scope_spec_uuid: String,
 }
 
 impl State {
-    pub fn new(owner: Addr) -> Self {
-        State { owner }
+    pub fn new(contract_spec_uuid: String, scope_spec_uuid: String) -> Self {
+        State {
+            contract_spec_uuid,
+            scope_spec_uuid,
+        }
     }
 }
 
@@ -27,8 +31,6 @@ pub fn set(storage: &mut dyn Storage, state: &State) -> Result<(), ContractError
 
 #[cfg(test)]
 mod tests {
-    use cosmwasm_std::Addr;
-
     use provwasm_mocks::mock_provenance_dependencies;
 
     use crate::storage::state::{set, State};
@@ -44,7 +46,10 @@ mod tests {
     #[test]
     fn test_get_set() {
         let mut deps = mock_provenance_dependencies();
-        let expected = State::new(Addr::unchecked("addr1"));
+        let expected = State::new(
+            "contract_spec_uuid".to_string(),
+            "scope_spec_uuid".to_string(),
+        );
         set(deps.as_mut().storage, &expected).unwrap();
         let state = get(&deps.storage).unwrap();
         assert_eq!(expected, state);

@@ -10,6 +10,18 @@
       "properties": {
         "default": {
           "type": "object",
+          "required": [
+            "contract_spec_uuid",
+            "scope_spec_uuid"
+          ],
+          "properties": {
+            "contract_spec_uuid": {
+              "type": "string"
+            },
+            "scope_spec_uuid": {
+              "type": "string"
+            }
+          },
           "additionalProperties": false
         }
       },
