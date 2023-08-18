@@ -8,6 +8,7 @@ pub const STATE_KEY: &str = "state_key";
 // Actions
 pub const ACTION_ATTRIBUTE: &str = "action";
 pub const ACTION_TYPE_INITIALIZE: &str = "initialize";
+pub const ACTION_TYPE_EXECUTE: &str = "execute";
 pub const ACTION_TYPE_MIGRATE: &str = "migrate";
 
 // Events

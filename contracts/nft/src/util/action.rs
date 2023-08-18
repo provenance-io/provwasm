@@ -1,10 +1,11 @@
 use cosmwasm_std::{Attribute, Response};
 
-use crate::core::constants::{ACTION_ATTRIBUTE, ACTION_TYPE_INITIALIZE};
+use crate::core::constants::{ACTION_ATTRIBUTE, ACTION_TYPE_EXECUTE, ACTION_TYPE_INITIALIZE};
 
 /// The different types of actions performed by the contract
 pub enum ActionType {
     Initialize,
+    Execute,
 }
 
 /// Provides a simple way to convert the ActionType to a string
@@ -12,6 +13,7 @@ impl ToString for ActionType {
     fn to_string(&self) -> String {
         match self {
             ActionType::Initialize => ACTION_TYPE_INITIALIZE.to_string(),
+            ActionType::Execute => ACTION_TYPE_EXECUTE.to_string(),
         }
     }
 }

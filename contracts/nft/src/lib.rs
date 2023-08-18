@@ -1,6 +1,7 @@
 pub mod contract;
 pub mod core;
 pub mod events;
+pub mod execute;
 pub mod instantiate;
 pub mod storage;
 #[cfg(test)]

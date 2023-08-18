@@ -36,9 +36,8 @@ pub enum ExecuteMsg {
     //     operator: String,
     // },
     Mint {
-        token_id: String,
-        owner: String,
-        token_uri: Option<String>,
+        scope_uuid: String,
+        session_uuid: String,
     },
     // Burn {
     //     token_id: String,
