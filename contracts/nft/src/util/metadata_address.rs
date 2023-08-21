@@ -170,7 +170,7 @@ pub mod test {
         let meta_addr = MetadataAddress::contract_specification(
             Uuid::from_str("9fe17f9a-56e1-4158-a8af-450680ac9e60").unwrap(),
         )
-        .unwsrap();
+        .unwrap();
 
         assert_eq!(
             meta_addr,
