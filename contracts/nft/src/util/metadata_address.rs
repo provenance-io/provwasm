@@ -40,7 +40,7 @@ pub struct MetadataAddress {
 }
 
 impl MetadataAddress {
-    pub fn for_contract_specification(
+    pub fn contract_specification(
         contract_specification_uuid: Uuid,
     ) -> Result<MetadataAddress, ContractError> {
         let key_type_byte = ContractSpecification as u8;
@@ -59,7 +59,7 @@ impl MetadataAddress {
         })
     }
 
-    pub fn for_scope_specification(
+    pub fn scope_specification(
         scope_specification_uuid: Uuid,
     ) -> Result<MetadataAddress, ContractError> {
         let key_type_byte = ScopeSpecification as u8;
@@ -78,15 +78,12 @@ impl MetadataAddress {
         })
     }
 
-    pub fn for_record(
-        contract_spec_uuid: Uuid,
-        record_name: String,
-    ) -> Result<MetadataAddress, ContractError> {
+    pub fn record(scope_uuid: Uuid, record_name: String) -> Result<MetadataAddress, ContractError> {
         let key_type_byte = Record as u8;
         let bytes = [key_type_byte]
             .iter()
             .cloned()
-            .chain(Self::hex_encode_uuid(contract_spec_uuid))
+            .chain(Self::hex_encode_uuid(scope_uuid))
             .chain(Self::hash_bytes(record_name))
             .collect::<Vec<u8>>();
 
@@ -99,7 +96,7 @@ impl MetadataAddress {
         })
     }
 
-    pub fn for_record_specification(
+    pub fn record_specification(
         contract_specification_uuid: Uuid,
         record_specification_name: String,
     ) -> Result<MetadataAddress, ContractError> {
@@ -120,10 +117,7 @@ impl MetadataAddress {
         })
     }
 
-    pub fn for_session(
-        scope_uuid: Uuid,
-        session_uuid: Uuid,
-    ) -> Result<MetadataAddress, ContractError> {
+    pub fn session(scope_uuid: Uuid, session_uuid: Uuid) -> Result<MetadataAddress, ContractError> {
         let key_type_byte = Session as u8;
         let bytes = [key_type_byte]
             .iter()
@@ -157,9 +151,9 @@ impl MetadataAddress {
         )
     }
 
-    fn hash_bytes(data: String) -> Vec<u8> {
+    pub fn hash_bytes(data: String) -> Vec<u8> {
         let hash = Sha256::digest(data.trim().to_lowercase().as_bytes());
-        hash[0..15].to_vec()
+        hash[0..16].to_vec()
     }
 }
 
@@ -173,61 +167,83 @@ pub mod test {
 
     #[test]
     pub fn new_contract_spec() {
-        let meta_addr = MetadataAddress::for_contract_specification(
+        let meta_addr = MetadataAddress::contract_specification(
             Uuid::from_str("9fe17f9a-56e1-4158-a8af-450680ac9e60").unwrap(),
         )
-        .unwrap();
+        .unwsrap();
 
         assert_eq!(
+            meta_addr,
             MetadataAddress {
                 bech32: "contractspec1qw07zlu62ms5zk9g4azsdq9vnesqy4dtgm".to_string(),
                 bytes: vec![
                     3, 159, 225, 127, 154, 86, 225, 65, 88, 168, 175, 69, 6, 128, 172, 158, 96
                 ],
                 key_type: KeyType::ContractSpecification,
-            },
-            meta_addr
+            }
         );
     }
 
     #[test]
     pub fn new_scope_spec() {
-        let meta_addr = MetadataAddress::for_scope_specification(
+        let meta_addr = MetadataAddress::scope_specification(
             Uuid::from_str("9fe17f9a-56e1-4158-a8af-450680ac9e60").unwrap(),
         )
         .unwrap();
 
         assert_eq!(
+            meta_addr,
             MetadataAddress {
                 bech32: "scopespec1qj07zlu62ms5zk9g4azsdq9vnesqxcv7hd".to_string(),
                 bytes: vec![
                     4, 159, 225, 127, 154, 86, 225, 65, 88, 168, 175, 69, 6, 128, 172, 158, 96
                 ],
                 key_type: KeyType::ScopeSpecification,
-            },
-            meta_addr
+            }
         );
     }
 
     #[test]
     pub fn new_record_spec() {
-        let meta_addr = MetadataAddress::for_record_specification(
+        let meta_addr = MetadataAddress::record_specification(
             Uuid::from_str("9fe17f9a-56e1-4158-a8af-450680ac9e60").unwrap(),
-            "record_name".to_string(),
+            "nft_record_spec_name".to_string(),
         )
         .unwrap();
 
         assert_eq!(
+            meta_addr,
             MetadataAddress {
-                bech32: "recspec1qk07zlu62ms5zk9g4azsdq9vnes24xxmll3eutfyu20du6l4htuqdqxt6j"
+                bech32: "recspec1qk07zlu62ms5zk9g4azsdq9vneswsu3m8wtqu0zfqu9edf8r7l4juadl3c0"
                     .to_string(),
                 bytes: vec![
                     5, 159, 225, 127, 154, 86, 225, 65, 88, 168, 175, 69, 6, 128, 172, 158, 96,
-                    170, 152, 219, 255, 227, 158, 45, 36, 226, 158, 222, 107, 245, 186, 248
+                    232, 114, 59, 59, 150, 14, 60, 73, 7, 11, 150, 164, 227, 247, 235, 46
                 ],
                 key_type: KeyType::RecordSpecification,
-            },
-            meta_addr
+            }
+        );
+    }
+
+    #[test]
+    pub fn new_record() {
+        let meta_addr = MetadataAddress::record(
+            Uuid::from_str("9fe17f9a-56e1-4158-a8af-450680ac9e60").unwrap(),
+            "nft_record_spec_name".to_string(),
+        )
+        .unwrap();
+
+        assert_eq!(
+            meta_addr,
+            MetadataAddress {
+                bech32: "record1q207zlu62ms5zk9g4azsdq9vneswsu3m8wtqu0zfqu9edf8r7l4jugz3hcl"
+                    .to_string(),
+                bytes: vec![
+                    2, 159, 225, 127, 154, 86, 225, 65, 88, 168, 175, 69, 6, 128, 172, 158, 96,
+                    232, 114, 59, 59, 150, 14, 60, 73, 7, 11, 150, 164, 227, 247, 235, 46
+                ],
+                key_type: KeyType::Record,
+            }
         );
     }
 }
