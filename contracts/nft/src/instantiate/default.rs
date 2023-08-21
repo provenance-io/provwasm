@@ -53,7 +53,7 @@ pub fn handle(
         owner_addresses: vec![env.contract.address.to_string()],
         parties_involved: vec![PartyType::Provenance.into()],
         contract_spec_ids: vec![
-            MetadataAddress::for_contract_specification(contract_spec_uuid)
+            MetadataAddress::contract_specification(contract_spec_uuid)
                 .unwrap()
                 .bytes,
         ],

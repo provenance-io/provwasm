@@ -34,7 +34,7 @@ pub fn handle(
 
     let scope = Scope {
         scope_id: vec![],
-        specification_id: MetadataAddress::for_scope_specification(scope_spec_uuid)
+        specification_id: MetadataAddress::scope_specification(scope_spec_uuid)
             .unwrap()
             .bytes,
         owners: vec![Party {
@@ -55,10 +55,10 @@ pub fn handle(
     };
 
     let session = Session {
-        session_id: MetadataAddress::for_session(scope_uuid, session_uuid)
+        session_id: MetadataAddress::session(scope_uuid, session_uuid)
             .unwrap()
             .bytes,
-        specification_id: MetadataAddress::for_contract_specification(contract_spec_uuid)
+        specification_id: MetadataAddress::contract_specification(contract_spec_uuid)
             .unwrap()
             .bytes,
         parties: vec![Party {
@@ -79,7 +79,11 @@ pub fn handle(
     };
 
     let record_specification = RecordSpecification {
-        specification_id: vec![],
+        specification_id: MetadataAddress::record_specification(
+            contract_spec_uuid,
+            "nft_record_spec_name".to_string(),
+        )?
+        .bytes,
         name: "nft_record_spec_name".to_string(),
         inputs: vec![InputSpecification {
             name: "mint_msg".to_string(),
@@ -117,50 +121,18 @@ pub fn handle(
             ))),
         }],
         outputs: vec![RecordOutput {
-            hash: "nft_record_output_hash".to_string(),
+            hash: "".to_string(),
             status: ResultStatus::Pass.into(),
         }],
-        specification_id: vec![],
+        specification_id: MetadataAddress::record_specification(
+            contract_spec_uuid,
+            "nft_record_spec_name".to_string(),
+        )?
+        .bytes,
     };
 
     let write_record_msg = MsgWriteRecordRequest {
         record: Some(record),
-        signers: vec![env.contract.address.to_string()],
-        session_id_components: None,
-        contract_spec_uuid: contract_spec_uuid.to_string(),
-        parties: vec![Party {
-            address: env.contract.address.to_string(),
-            role: PartyType::Provenance.into(),
-            optional: false,
-        }],
-    };
-
-    let record2 = Record {
-        name: "nft_record_spec_name".to_string(),
-        session_id: session.session_id,
-        process: Some(Process {
-            name: "nft_process_name".to_string(),
-            method: "mint".to_string(),
-            process_id: Some(ProcessId::Address(env.contract.address.to_string())),
-        }),
-        inputs: vec![RecordInput {
-            name: "mint_msg".to_string(),
-            type_name: "nft::core::msg::Execute::Mint".to_string(),
-            status: RecordInputStatus::Proposed.into(),
-            source: Some(Source::Hash(format!(
-                "{:x}",
-                Sha256::digest(serde_json::to_string(&msg).unwrap())
-            ))),
-        }],
-        outputs: vec![RecordOutput {
-            hash: "nft_record_output_hash".to_string(),
-            status: ResultStatus::Pass.into(),
-        }],
-        specification_id: vec![],
-    };
-
-    let write_record_msg2 = MsgWriteRecordRequest {
-        record: Some(record2),
         signers: vec![env.contract.address.to_string()],
         session_id_components: None,
         contract_spec_uuid: contract_spec_uuid.to_string(),
@@ -176,8 +148,7 @@ pub fn handle(
         .add_message(write_scope_msg)
         .add_message(write_session_msg)
         .add_message(write_record_spec_msg)
-        .add_message(write_record_msg)
-        .add_message(write_record_msg2))
+        .add_message(write_record_msg))
 }
 
 #[cfg(test)]
