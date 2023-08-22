@@ -4,6 +4,7 @@ pub const CONTRACT_VERSION: &str = env!("CARGO_PKG_VERSION");
 
 // Storage
 pub const STATE_KEY: &str = "state_key";
+pub const NFT_KEY: &str = "nft_key";
 
 // Actions
 pub const ACTION_ATTRIBUTE: &str = "action";
