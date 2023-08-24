@@ -13,6 +13,7 @@ impl Validate for ExecuteMsg {
     fn validate_funds(&self, _funds: &[Coin]) -> ValidateResult {
         match self {
             ExecuteMsg::Mint { .. } => Ok(()),
+            ExecuteMsg::Burn { .. } => Ok(()),
         }
     }
 }
