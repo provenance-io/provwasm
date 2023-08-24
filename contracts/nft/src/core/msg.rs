@@ -39,7 +39,7 @@ pub enum ExecuteMsg {
         scope_uuid: String,
         session_uuid: String,
     },
-    // Burn {
-    //     token_id: String,
-    // },
+    Burn {
+        id: String,
+    },
 }
