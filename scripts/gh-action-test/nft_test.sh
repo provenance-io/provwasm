@@ -96,27 +96,22 @@ export node0=$("$PROV_CMD" keys show -a validator --keyring-backend test --testn
   --testnet
 
 
-#"$PROV_CMD" tx wasm execute \
-#  "$contract" \
-#  '{
-#    "write_scope":{
-#      "scope":{
-#        "scope_id":"scopeid",
-#        "specification_id":"scopeid",
-#        "owners":['"$node0"'],
-#        "data_access":"access",
-#        "value_owner_address":"",
-#        "require_party_rollup":false,
-#      },
-#      "signers": ["one"],
-#    }
-#  }' \
-#  --from="$node0" \
-#  --keyring-backend test \
-#  --chain-id="testing" \
-#  --gas=auto \
-#  --gas-prices="1905nhash" \
-#  --gas-adjustment=1.5 \
-#  --broadcast-mode block \
-#  --yes \
-#  --testnet
+"$PROV_CMD" tx wasm execute \
+ "$contract" \
+ '{
+   "burn":{
+     "scope":{
+       "id":"fe8a2073-1284-421f-9e85-34edd18dec85",
+     },
+     "signers": ["one"],
+   }
+ }' \
+ --from="$node0" \
+ --keyring-backend test \
+ --chain-id="testing" \
+ --gas=auto \
+ --gas-prices="1905nhash" \
+ --gas-adjustment=1.5 \
+ --broadcast-mode block \
+ --yes \
+ --testnet
