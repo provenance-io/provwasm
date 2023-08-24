@@ -78,6 +78,23 @@ impl MetadataAddress {
         })
     }
 
+    pub fn scope(scope_uuid: Uuid) -> Result<MetadataAddress, ContractError> {
+        let key_type_byte = Scope as u8;
+        let bytes = [key_type_byte]
+            .iter()
+            .cloned()
+            .chain(Self::hex_encode_uuid(scope_uuid))
+            .collect::<Vec<u8>>();
+
+        let addr = Self::encode_bech32(Scope, &bytes).unwrap();
+
+        Ok(MetadataAddress {
+            bech32: addr,
+            bytes,
+            key_type: Scope,
+        })
+    }
+
     pub fn record(scope_uuid: Uuid, record_name: String) -> Result<MetadataAddress, ContractError> {
         let key_type_byte = Record as u8;
         let bytes = [key_type_byte]
@@ -199,6 +216,24 @@ pub mod test {
                     4, 159, 225, 127, 154, 86, 225, 65, 88, 168, 175, 69, 6, 128, 172, 158, 96
                 ],
                 key_type: KeyType::ScopeSpecification,
+            }
+        );
+    }
+
+    #[test]
+    pub fn new_scope() {
+        let meta_addr =
+            MetadataAddress::scope(Uuid::from_str("9fe17f9a-56e1-4158-a8af-450680ac9e60").unwrap())
+                .unwrap();
+
+        assert_eq!(
+            meta_addr,
+            MetadataAddress {
+                bech32: "scope1qz07zlu62ms5zk9g4azsdq9vnesqg74ssc".to_string(),
+                bytes: vec![
+                    0, 159, 225, 127, 154, 86, 225, 65, 88, 168, 175, 69, 6, 128, 172, 158, 96
+                ],
+                key_type: KeyType::Scope,
             }
         );
     }
