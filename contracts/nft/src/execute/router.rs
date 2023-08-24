@@ -4,7 +4,7 @@ use cosmwasm_std::{DepsMut, Env, MessageInfo, Response};
 use std::str::FromStr;
 use uuid::Uuid;
 
-use crate::execute::mint;
+use crate::execute::{burn, mint};
 
 pub fn route(
     deps: DepsMut,
