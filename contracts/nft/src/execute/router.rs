@@ -45,6 +45,6 @@ pub fn route(
         //     token_id,
         //     msg,
         // } => send::handle(deps, env, info, contract, token_id, msg),
-        ExecuteMsg::Burn { id } => burn::handle(deps, env, info, id.clone()),
+        ExecuteMsg::Burn { id } => burn::handle(deps, env, info, Uuid::from_str(id).unwrap()),
     }
 }

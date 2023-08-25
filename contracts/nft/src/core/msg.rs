@@ -40,6 +40,7 @@ pub enum ExecuteMsg {
         session_uuid: String,
     },
     Burn {
+        // this is a Scope UUID
         id: String,
     },
 }
