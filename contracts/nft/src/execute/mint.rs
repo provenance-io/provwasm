@@ -26,7 +26,6 @@ pub fn handle(
     env: Env,
     scope_uuid: Uuid,
     session_uuid: Uuid,
-    msg: ExecuteMsg,
 ) -> Result<Response, ContractError> {
     let state = storage::state::get(deps.storage)?;
     let contract_spec_uuid = Uuid::from_str(&state.contract_spec_uuid).unwrap();
@@ -81,18 +80,18 @@ pub fn handle(
     let record_specification = RecordSpecification {
         specification_id: MetadataAddress::record_specification(
             contract_spec_uuid,
-            "nft_record_spec_name".to_string(),
+            "nft_owner_record_spec".to_string(),
         )?
         .bytes,
-        name: "nft_record_spec_name".to_string(),
+        name: "nft_owner_record_spec".to_string(),
         inputs: vec![InputSpecification {
-            name: "mint_msg".to_string(),
-            type_name: "nft::core::msg::Execute::Mint".to_string(),
+            name: "owner".to_string(),
+            type_name: "cosmwasm_std::Addr".to_string(),
             source: Some(input_specification::Source::Hash(
-                "hash_of_nft::core::msg::Execute::Mint".to_string(),
+                "hash_of_cosmwasm_std::Addr".to_string(),
             )),
         }],
-        type_name: "nft_record_spec_type_name".to_string(),
+        type_name: "NFT_OWNER_RECORD_SPEC".to_string(),
         result_type: DefinitionType::Record.into(),
         responsible_parties: vec![PartyType::Provenance.into()],
     };
@@ -104,29 +103,29 @@ pub fn handle(
     };
 
     let record = Record {
-        name: "nft_record_spec_name".to_string(),
+        name: "nft_owner_record_spec".to_string(),
         session_id: session.session_id.clone(),
         process: Some(Process {
             name: "nft_process_name".to_string(),
-            method: "mint".to_string(),
+            method: "set_owner".to_string(),
             process_id: Some(ProcessId::Address(env.contract.address.to_string())),
         }),
         inputs: vec![RecordInput {
-            name: "mint_msg".to_string(),
-            type_name: "nft::core::msg::Execute::Mint".to_string(),
+            name: "owner".to_string(),
+            type_name: "cosmwasm_std::Addr".to_string(),
             status: RecordInputStatus::Proposed.into(),
             source: Some(Source::Hash(format!(
                 "{:x}",
-                Sha256::digest(serde_json::to_string(&msg).unwrap())
+                Sha256::digest(info.sender.to_string())
             ))),
         }],
         outputs: vec![RecordOutput {
-            hash: "".to_string(),
+            hash: MetadataAddress::scope(scope_uuid)?.bech32,
             status: ResultStatus::Pass.into(),
         }],
         specification_id: MetadataAddress::record_specification(
             contract_spec_uuid,
-            "nft_record_spec_name".to_string(),
+            "nft_owner_record_spec".to_string(),
         )?
         .bytes,
     };
@@ -153,8 +152,9 @@ pub fn handle(
 
 #[cfg(test)]
 pub mod test {
-    use crate::core::msg::ExecuteMsg;
     use sha2::{Digest, Sha256};
+
+    use crate::core::msg::ExecuteMsg;
 
     #[test]
     pub fn sha_test() {
