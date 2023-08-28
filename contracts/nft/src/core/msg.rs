@@ -1,4 +1,5 @@
 use cosmwasm_schema::cw_serde;
+use cosmwasm_std::Addr;
 
 #[cw_serde]
 pub enum InstantiateMsg {
@@ -10,10 +11,11 @@ pub enum InstantiateMsg {
 
 #[cw_serde]
 pub enum ExecuteMsg {
-    // TransferNft {
-    //     recipient: String,
-    //     token_id: String,
-    // },
+    TransferNft {
+        // this is a Scope UUID
+        id: String,
+        recipient: Addr,
+    },
     // SendNft {
     //     contract: String,
     //     token_id: String,

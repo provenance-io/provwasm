@@ -14,6 +14,7 @@ impl Validate for ExecuteMsg {
         match self {
             ExecuteMsg::Mint { .. } => Ok(()),
             ExecuteMsg::Burn { .. } => Ok(()),
+            ExecuteMsg::TransferNft { .. } => Ok(()),
         }
     }
 }

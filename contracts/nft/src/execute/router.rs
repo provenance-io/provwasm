@@ -4,7 +4,7 @@ use cosmwasm_std::{DepsMut, Env, MessageInfo, Response};
 use std::str::FromStr;
 use uuid::Uuid;
 
-use crate::execute::{burn, mint};
+use crate::execute::{burn, mint, transfer};
 
 pub fn route(
     deps: DepsMut,
@@ -12,7 +12,7 @@ pub fn route(
     info: MessageInfo,
     msg: ExecuteMsg,
 ) -> Result<Response, ContractError> {
-    match &msg {
+    match msg {
         ExecuteMsg::Mint {
             scope_uuid,
             session_uuid,
@@ -22,7 +22,6 @@ pub fn route(
             env,
             Uuid::from_str(scope_uuid.as_str()).unwrap(),
             Uuid::from_str(session_uuid.as_str()).unwrap(),
-            msg.clone(),
         ),
         // ExecuteMsg::Approve {
         //     spender,
@@ -36,15 +35,18 @@ pub fn route(
         //     approve_all::handle(deps, env, info, operator, expires)
         // }
         // ExecuteMsg::RevokeAll { operator } => revoke_all::handle(deps, env, info, operator),
-        // ExecuteMsg::TransferNft {
-        //     recipient,
-        //     token_id,
-        // } => transfer::handle(deps, env, info, recipient, token_id),
+        ExecuteMsg::TransferNft { id, recipient } => transfer::handle(
+            deps,
+            env,
+            info,
+            recipient.clone(),
+            Uuid::from_str(id.as_str()).unwrap(),
+        ),
         // ExecuteMsg::SendNft {
         //     contract,
         //     token_id,
         //     msg,
         // } => send::handle(deps, env, info, contract, token_id, msg),
-        ExecuteMsg::Burn { id } => burn::handle(deps, env, info, Uuid::from_str(id).unwrap()),
+        ExecuteMsg::Burn { id } => burn::handle(deps, env, info, Uuid::from_str(&id).unwrap()),
     }
 }

@@ -6,5 +6,5 @@ mod mint;
 // mod revoke_all;
 pub mod router;
 // mod send;
-// mod transfer;
+mod transfer;
 pub mod validate;
