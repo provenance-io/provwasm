@@ -12,7 +12,6 @@ use provwasm_std::types::provenance::metadata::v1::{
 use sha2::{Digest, Sha256};
 use uuid::Uuid;
 
-use crate::core::msg::ExecuteMsg;
 use crate::util::metadata_address::MetadataAddress;
 use crate::{
     core::error::ContractError,
