@@ -1,23 +1,23 @@
 use std::str::FromStr;
 
 use cosmwasm_std::{DepsMut, Env, MessageInfo, Response};
-use provwasm_std::types::provenance::metadata::v1::process::ProcessId;
-use provwasm_std::types::provenance::metadata::v1::record_input::Source;
 use provwasm_std::types::provenance::metadata::v1::{
-    input_specification, DefinitionType, InputSpecification, MsgWriteRecordRequest,
+    DefinitionType, input_specification, InputSpecification, MsgWriteRecordRequest,
     MsgWriteRecordSpecificationRequest, MsgWriteScopeRequest, MsgWriteSessionRequest, Party,
     PartyType, Process, Record, RecordInput, RecordInputStatus, RecordOutput, RecordSpecification,
     ResultStatus, Scope, Session,
 };
+use provwasm_std::types::provenance::metadata::v1::process::ProcessId;
+use provwasm_std::types::provenance::metadata::v1::record_input::Source;
 use sha2::{Digest, Sha256};
 use uuid::Uuid;
 
-use crate::util::metadata_address::MetadataAddress;
 use crate::{
     core::error::ContractError,
     storage,
     util::action::{Action, ActionType},
 };
+use crate::util::metadata_address::MetadataAddress;
 
 pub fn handle(
     deps: DepsMut,

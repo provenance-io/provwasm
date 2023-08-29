@@ -4,10 +4,8 @@ use cosmwasm_std::{Addr, DepsMut, Env, MessageInfo, Response};
 use provwasm_std::types::provenance::metadata::v1::process::ProcessId;
 use provwasm_std::types::provenance::metadata::v1::record_input::Source;
 use provwasm_std::types::provenance::metadata::v1::{
-    input_specification, DefinitionType, InputSpecification, MsgWriteRecordRequest,
-    MsgWriteRecordSpecificationRequest, MsgWriteScopeRequest, MsgWriteSessionRequest, Party,
-    PartyType, Process, Record, RecordInput, RecordInputStatus, RecordOutput, RecordSpecification,
-    ResultStatus, Scope, Session,
+    MsgWriteRecordRequest, MsgWriteScopeRequest, MsgWriteSessionRequest, Party, PartyType, Process,
+    Record, RecordInput, RecordInputStatus, RecordOutput, ResultStatus, Scope, Session,
 };
 use sha2::{Digest, Sha256};
 use uuid::Uuid;
