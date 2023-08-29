@@ -153,19 +153,19 @@ echo "Sending coins to different keys"
   --yes \
   --testnet
   
-# "$PROV_CMD" tx wasm execute \
-#  "$contract" \
-#  '{
-#    "burn":{
-#        "id":"fe8a2073-1284-421f-9e85-34edd18dec85"
-#     }
-#   }' \
-#  --from="$owner_B" \
-#  --keyring-backend test \
-#  --chain-id="testing" \
-#  --gas=auto \
-#  --gas-prices="1905nhash" \
-#  --gas-adjustment=1.5 \
-#  --broadcast-mode block \
-#  --yes \
-#  --testnet
+"$PROV_CMD" tx wasm execute \
+ "$contract" \
+ '{
+   "burn":{
+       "id":"fe8a2073-1284-421f-9e85-34edd18dec85"
+    }
+  }' \
+ --from="$owner_B" \
+ --keyring-backend test \
+ --chain-id="testing" \
+ --gas=auto \
+ --gas-prices="1905nhash" \
+ --gas-adjustment=1.5 \
+ --broadcast-mode block \
+ --yes \
+ --testnet
