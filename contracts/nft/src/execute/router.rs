@@ -35,12 +35,17 @@ pub fn route(
         //     approve_all::handle(deps, env, info, operator, expires)
         // }
         // ExecuteMsg::RevokeAll { operator } => revoke_all::handle(deps, env, info, operator),
-        ExecuteMsg::TransferNft { id, recipient } => transfer::handle(
+        ExecuteMsg::TransferNft {
+            id,
+            recipient,
+            session_uuid,
+        } => transfer::handle(
             deps,
             env,
             info,
             recipient.clone(),
             Uuid::from_str(id.as_str()).unwrap(),
+            Uuid::from_str(session_uuid.as_str()).unwrap(),
         ),
         // ExecuteMsg::SendNft {
         //     contract,

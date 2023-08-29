@@ -15,6 +15,7 @@ pub enum ExecuteMsg {
         // this is a Scope UUID
         id: String,
         recipient: Addr,
+        session_uuid: String,
     },
     // SendNft {
     //     contract: String,

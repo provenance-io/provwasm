@@ -4,7 +4,47 @@
 PROV_CMD="provenanced"
 WASM="./contracts/nft/artifacts/nft.wasm"
 
+# setup all of the necessary keys
+"$PROV_CMD" keys add owner_A --keyring-backend test --testnet --hd-path "44'/1'/0'/0/0"
+"$PROV_CMD" keys add owner_B --keyring-backend test --testnet --hd-path "44'/1'/0'/0/0"
+
+# setup key variables
 export node0=$("$PROV_CMD" keys show -a validator --keyring-backend test --testnet )
+export owner_A=$("$PROV_CMD" keys show -a owner_A --keyring-backend test --testnet )
+export owner_B=$("$PROV_CMD" keys show -a owner_B --keyring-backend test --testnet )
+
+echo "Sending coins to different keys"
+
+"$PROV_CMD" tx bank send \
+  "$node0" \
+  "$owner_A" \
+  200000000000nhash \
+  --from="$node0" \
+  --keyring-backend=test \
+  --chain-id="testing" \
+  --gas=auto \
+  --gas-prices="1905nhash" \
+  --gas-adjustment=1.5 \
+  --broadcast-mode=block \
+  --yes \
+  --testnet \
+  --output json
+
+
+"$PROV_CMD" tx bank send \
+  "$node0" \
+  "$owner_B" \
+  200000000000nhash \
+  --from="$node0" \
+  --keyring-backend=test \
+  --chain-id="testing" \
+  --gas=auto \
+  --gas-prices="1905nhash" \
+  --gas-adjustment=1.5 \
+  --broadcast-mode=block \
+  --yes \
+  --testnet \
+  --output json
 
 "$PROV_CMD" tx name bind \
   "sc" \
@@ -56,7 +96,7 @@ export node0=$("$PROV_CMD" keys show -a validator --keyring-backend test --testn
 
  "$PROV_CMD" tx authz grant $contract generic \
    --msg-type=/provenance.metadata.v1.MsgWriteScopeRequest \
-   --from="$node0" \
+   --from="$owner_A" \
    --keyring-backend test \
    --chain-id="testing" \
    --gas=auto \
@@ -68,7 +108,7 @@ export node0=$("$PROV_CMD" keys show -a validator --keyring-backend test --testn
 
   "$PROV_CMD" tx authz grant $contract generic \
    --msg-type=/provenance.metadata.v1.MsgWriteSessionRequest \
-   --from="$node0" \
+   --from="$owner_A" \
    --keyring-backend test \
    --chain-id="testing" \
    --gas=auto \
@@ -85,7 +125,7 @@ export node0=$("$PROV_CMD" keys show -a validator --keyring-backend test --testn
       "session_uuid":"bbd5b2df-5adb-4557-9f87-ed678281bef8"
     }
   }' \
-  --from="$node0" \
+  --from="$owner_A" \
   --keyring-backend test \
   --chain-id="testing" \
   --gas=auto \
@@ -95,20 +135,37 @@ export node0=$("$PROV_CMD" keys show -a validator --keyring-backend test --testn
   --yes \
   --testnet
 
-
-"$PROV_CMD" tx wasm execute \
- "$contract" \
+"$PROV_CMD" tx wasm execute $contract \
  '{
-   "burn":{
-       "id":"fe8a2073-1284-421f-9e85-34edd18dec85"
+    "transfer_nft":{
+      "id": "fe8a2073-1284-421f-9e85-34edd18dec85",
+      "recipient":"'"$owner_B"'",
+      "session_uuid":"bbd5b2df-5adb-4557-9f87-ed678281bef8"
     }
   }' \
- --from="$node0" \
- --keyring-backend test \
- --chain-id="testing" \
- --gas=auto \
- --gas-prices="1905nhash" \
- --gas-adjustment=1.5 \
- --broadcast-mode block \
- --yes \
- --testnet
+  --from="$owner_A" \
+  --keyring-backend test \
+  --chain-id="testing" \
+  --gas=auto \
+  --gas-prices="1905nhash" \
+  --gas-adjustment=1.5 \
+  --broadcast-mode block \
+  --yes \
+  --testnet
+  
+# "$PROV_CMD" tx wasm execute \
+#  "$contract" \
+#  '{
+#    "burn":{
+#        "id":"fe8a2073-1284-421f-9e85-34edd18dec85"
+#     }
+#   }' \
+#  --from="$owner_B" \
+#  --keyring-backend test \
+#  --chain-id="testing" \
+#  --gas=auto \
+#  --gas-prices="1905nhash" \
+#  --gas-adjustment=1.5 \
+#  --broadcast-mode block \
+#  --yes \
+#  --testnet
