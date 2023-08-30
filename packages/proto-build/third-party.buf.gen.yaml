@@ -17,6 +17,18 @@ types:
     - cosmos.authz.v1beta1.Grant
     - cosmos.authz.v1beta1.GrantAuthorization
     - cosmos.authz.v1beta1.GrantQueueItem
+    - cosmos.authz.v1beta1.MsgExec
+    - cosmos.authz.v1beta1.MsgExecResponse
+    - cosmos.authz.v1beta1.MsgGrant
+    - cosmos.authz.v1beta1.MsgGrantResponse
+    - cosmos.authz.v1beta1.MsgRevoke
+    - cosmos.authz.v1beta1.MsgRevokeResponse
+    - cosmos.authz.v1beta1.QueryGrantsRequest
+    - cosmos.authz.v1beta1.QueryGrantsResponse
+    - cosmos.authz.v1beta1.QueryGranterGrantsRequest
+    - cosmos.authz.v1beta1.QueryGranterGrantsResponse
+    - cosmos.authz.v1beta1.QueryGranteeGrantsRequest
+    - cosmos.authz.v1beta1.QueryGranteeGrantsResponse
     - cosmos.base.query.v1beta1.PageRequest
     - cosmos.base.query.v1beta1.PageResponse
     - cosmos.base.v1beta1.Coin
