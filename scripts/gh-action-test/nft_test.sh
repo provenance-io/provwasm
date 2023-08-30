@@ -95,30 +95,30 @@ echo "Sending coins to different keys"
   export contract=$("$PROV_CMD" query wasm list-contract-by-code 1 --testnet --output json  | jq -r ".contracts[0]")
 
  "$PROV_CMD" tx authz grant $contract generic \
-   --msg-type=/provenance.metadata.v1.MsgWriteScopeRequest \
-   --from="$owner_A" \
-   --keyring-backend test \
-   --chain-id="testing" \
-   --gas=auto \
-   --gas-prices="1905nhash" \
-   --gas-adjustment=1.5 \
-   --broadcast-mode block \
-   --yes \
-   --testnet
+  --msg-type=/provenance.metadata.v1.MsgWriteScopeRequest \
+  --from="$owner_A" \
+  --keyring-backend test \
+  --chain-id="testing" \
+  --gas=auto \
+  --gas-prices="1905nhash" \
+  --gas-adjustment=1.5 \
+  --broadcast-mode block \
+  --yes \
+  --testnet
 
-  "$PROV_CMD" tx authz grant $contract generic \
-   --msg-type=/provenance.metadata.v1.MsgWriteSessionRequest \
-   --from="$owner_A" \
-   --keyring-backend test \
-   --chain-id="testing" \
-   --gas=auto \
-   --gas-prices="1905nhash" \
-   --gas-adjustment=1.5 \
-   --broadcast-mode block \
-   --yes \
-   --testnet
+"$PROV_CMD" tx authz grant $contract generic \
+  --msg-type=/provenance.metadata.v1.MsgWriteSessionRequest \
+  --from="$owner_A" \
+  --keyring-backend test \
+  --chain-id="testing" \
+  --gas=auto \
+  --gas-prices="1905nhash" \
+  --gas-adjustment=1.5 \
+  --broadcast-mode block \
+  --yes \
+  --testnet
 
-"$PROV_CMD" tx wasm execute $contract \
+"$PROV_CMD" tx wasm execute $contract \ 
  '{
     "mint":{
       "scope_uuid": "fe8a2073-1284-421f-9e85-34edd18dec85",
@@ -153,19 +153,18 @@ echo "Sending coins to different keys"
   --yes \
   --testnet
   
-"$PROV_CMD" tx wasm execute \
- "$contract" \
- '{
-   "burn":{
-       "id":"fe8a2073-1284-421f-9e85-34edd18dec85"
+"$PROV_CMD" tx wasm execute "$contract" \
+  '{
+    "burn":{
+      "id":"fe8a2073-1284-421f-9e85-34edd18dec85"
     }
   }' \
- --from="$owner_B" \
- --keyring-backend test \
- --chain-id="testing" \
- --gas=auto \
- --gas-prices="1905nhash" \
- --gas-adjustment=1.5 \
- --broadcast-mode block \
- --yes \
- --testnet
+  --from="$owner_B" \
+  --keyring-backend test \
+  --chain-id="testing" \
+  --gas=auto \
+  --gas-prices="1905nhash" \
+  --gas-adjustment=1.5 \
+  --broadcast-mode block \
+  --yes \
+  --testnet
