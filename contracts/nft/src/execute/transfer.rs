@@ -4,8 +4,8 @@ use cosmwasm_std::{Addr, DepsMut, Env, MessageInfo, Response};
 use provwasm_std::types::provenance::metadata::v1::process::ProcessId;
 use provwasm_std::types::provenance::metadata::v1::record_input::Source;
 use provwasm_std::types::provenance::metadata::v1::{
-    MsgWriteRecordRequest, MsgWriteScopeRequest, MsgWriteSessionRequest, Party, PartyType, Process,
-    Record, RecordInput, RecordInputStatus, RecordOutput, ResultStatus, Scope, Session,
+    MsgUpdateValueOwnersRequest, MsgWriteRecordRequest, MsgWriteSessionRequest, Party, PartyType,
+    Process, Record, RecordInput, RecordInputStatus, RecordOutput, ResultStatus, Session,
 };
 use sha2::{Digest, Sha256};
 use uuid::Uuid;
@@ -27,28 +27,11 @@ pub fn handle(
 ) -> Result<Response, ContractError> {
     let state = storage::state::get(deps.storage)?;
     let contract_spec_uuid = Uuid::from_str(&state.contract_spec_uuid).unwrap();
-    let scope_spec_uuid = Uuid::from_str(&state.scope_spec_uuid).unwrap();
 
-    let scope = Scope {
-        scope_id: vec![],
-        specification_id: MetadataAddress::scope_specification(scope_spec_uuid)
-            .unwrap()
-            .bytes,
-        owners: vec![Party {
-            address: env.contract.address.to_string(),
-            role: PartyType::Provenance.into(),
-            optional: false,
-        }],
-        data_access: vec![],
+    let update_scope_value_owner_msg = MsgUpdateValueOwnersRequest {
+        scope_ids: vec![MetadataAddress::scope(scope_uuid).unwrap().bytes],
         value_owner_address: recipient.to_string(),
-        require_party_rollup: false,
-    };
-
-    let write_scope_msg = MsgWriteScopeRequest {
-        scope: Some(scope),
         signers: vec![env.contract.address.to_string(), info.sender.to_string()],
-        scope_uuid: scope_uuid.to_string(),
-        spec_uuid: scope_spec_uuid.to_string(),
     };
 
     let session = Session {
@@ -117,7 +100,8 @@ pub fn handle(
 
     Ok(Response::default()
         .set_action(ActionType::Execute)
-        .add_message(write_scope_msg)
+        // .add_message(write_scope_msg)
+        .add_message(update_scope_value_owner_msg)
         .add_message(write_session_msg)
         .add_message(write_record_msg))
 }
