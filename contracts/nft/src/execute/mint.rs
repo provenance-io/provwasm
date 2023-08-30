@@ -1,23 +1,23 @@
 use std::str::FromStr;
 
 use cosmwasm_std::{DepsMut, Env, MessageInfo, Response};
+use provwasm_std::types::provenance::metadata::v1::process::ProcessId;
+use provwasm_std::types::provenance::metadata::v1::record_input::Source;
 use provwasm_std::types::provenance::metadata::v1::{
-    DefinitionType, input_specification, InputSpecification, MsgWriteRecordRequest,
+    input_specification, DefinitionType, InputSpecification, MsgWriteRecordRequest,
     MsgWriteRecordSpecificationRequest, MsgWriteScopeRequest, MsgWriteSessionRequest, Party,
     PartyType, Process, Record, RecordInput, RecordInputStatus, RecordOutput, RecordSpecification,
     ResultStatus, Scope, Session,
 };
-use provwasm_std::types::provenance::metadata::v1::process::ProcessId;
-use provwasm_std::types::provenance::metadata::v1::record_input::Source;
 use sha2::{Digest, Sha256};
 use uuid::Uuid;
 
+use crate::util::metadata_address::MetadataAddress;
 use crate::{
     core::error::ContractError,
     storage,
     util::action::{Action, ActionType},
 };
-use crate::util::metadata_address::MetadataAddress;
 
 pub fn handle(
     deps: DepsMut,
@@ -87,7 +87,7 @@ pub fn handle(
             name: "owner".to_string(),
             type_name: "cosmwasm_std::Addr".to_string(),
             source: Some(input_specification::Source::Hash(
-                "hash_of_cosmwasm_std::Addr".to_string(),
+                "hash_of_cosmwasm_std".to_string(),
             )),
         }],
         type_name: "NFT_OWNER_RECORD_SPEC".to_string(),
