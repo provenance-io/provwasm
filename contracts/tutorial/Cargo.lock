@@ -528,6 +528,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "provwasm-mocks"
+version = "2.1.0"
+dependencies = [
+ "cosmwasm-std",
+ "provwasm-common",
+ "provwasm-std",
+ "schemars",
+ "serde",
+]
+
+[[package]]
 name = "provwasm-proc-macro"
 version = "2.1.0"
 dependencies = [
@@ -562,6 +573,7 @@ dependencies = [
  "cosmwasm-schema",
  "cosmwasm-std",
  "cosmwasm-storage",
+ "provwasm-mocks",
  "provwasm-std",
  "schemars",
  "serde",
