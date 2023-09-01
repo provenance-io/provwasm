@@ -106,26 +106,15 @@ echo "Sending coins to different keys"
   --yes \
   --testnet
 
-"$PROV_CMD" tx authz grant $contract generic \
-  --msg-type=/provenance.metadata.v1.MsgWriteSessionRequest \
-  --from="$owner_A" \
-  --keyring-backend test \
-  --chain-id="testing" \
-  --gas=auto \
-  --gas-prices="1905nhash" \
-  --gas-adjustment=1.5 \
-  --broadcast-mode block \
-  --yes \
-  --testnet
-
-"$PROV_CMD" tx wasm execute $contract \ 
+"$PROV_CMD" tx wasm execute "$contract" \
  '{
     "mint":{
       "scope_uuid": "fe8a2073-1284-421f-9e85-34edd18dec85",
-      "session_uuid":"bbd5b2df-5adb-4557-9f87-ed678281bef8"
+      "session_uuid":"bbd5b2df-5adb-4557-9f87-ed678281bef8",
+      "recipient": "'"$owner_A"'"
     }
   }' \
-  --from="$owner_A" \
+  --from="$node0" \
   --keyring-backend test \
   --chain-id="testing" \
   --gas=auto \
@@ -135,7 +124,7 @@ echo "Sending coins to different keys"
   --yes \
   --testnet
 
-"$PROV_CMD" tx wasm execute $contract \
+"$PROV_CMD" tx wasm execute "$contract" \
  '{
     "transfer_nft":{
       "id": "fe8a2073-1284-421f-9e85-34edd18dec85",
@@ -152,7 +141,16 @@ echo "Sending coins to different keys"
   --broadcast-mode block \
   --yes \
   --testnet
-  
+
+"$PROV_CMD" q wasm contract-state smart "$contract" \
+  '{
+    "nft_info":{
+      "id":"fe8a2073-1284-421f-9e85-34edd18dec85"
+    }
+  }' \
+  -o json \
+  --testnet | jq
+
 "$PROV_CMD" tx wasm execute "$contract" \
   '{
     "burn":{
