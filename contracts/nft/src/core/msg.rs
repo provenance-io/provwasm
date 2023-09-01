@@ -48,3 +48,21 @@ pub enum ExecuteMsg {
         id: String,
     },
 }
+
+// #[cw_ownable_query]
+#[cw_serde]
+#[derive(QueryResponses)]
+pub enum QueryMsg {
+    #[returns(NftInfoResponse)]
+    NftInfo { id: String },
+}
+#[cw_serde]
+pub struct NftInfoResponse {
+    pub id: String,
+    pub owner: Addr,
+}
+
+#[cw_serde]
+pub struct MinterResponse {
+    pub minter: Option<String>,
+}

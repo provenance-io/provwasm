@@ -1,21 +1,13 @@
-use cosmwasm_std::{to_binary, Deps};
+use cosmwasm_std::{to_binary, Binary, Deps, Env};
 
-use crate::core::aliases::Result<Binary, ContractError>;
-use crate::storage;
+use crate::core::error::ContractError;
+use crate::core::msg::NftInfoResponse;
+use crate::storage::nft::TOKENS;
 
-/// Performs the logic for the QueryOwner message and obtains the contract's owner.
-///
-/// # Arguments
-///
-/// * `deps` - A non mutable version of the dependencies. The API, Querier, and storage can all be accessed from it.
-///
-/// # Examples
-/// ```
-/// let res = handle(deps)?;
-/// ```
-pub fn handle(deps: Deps, token_id: String) -> Result<Binary, ContractError> {
-    let res = QueryOwnerResponse {
-        owner: storage::state::get_owner(deps.storage)?,
-    };
-    Ok(to_binary(&res)?)
+pub fn handle(deps: Deps, _env: Env, token_id: String) -> Result<Binary, ContractError> {
+    let info = TOKENS.load(deps.storage, &token_id)?;
+    Ok(to_binary(&NftInfoResponse {
+        id: info.id,
+        owner: info.owner,
+    })?)
 }

@@ -1,8 +1,8 @@
-use cosmwasm_std::{entry_point, DepsMut, Env, MessageInfo, Response};
+use cosmwasm_std::{entry_point, Binary, Deps, DepsMut, Env, MessageInfo, Response};
 
 use crate::core::error::ContractError;
-use crate::core::msg::ExecuteMsg;
-use crate::{core::msg::InstantiateMsg, execute, instantiate, util::validate::Validate};
+use crate::core::msg::{ExecuteMsg, QueryMsg};
+use crate::{core::msg::InstantiateMsg, execute, instantiate, query, util::validate::Validate};
 
 #[entry_point]
 pub fn instantiate(
@@ -26,4 +26,10 @@ pub fn execute(
     msg.validate(deps.as_ref())?;
     msg.validate_funds(&info.funds)?;
     execute::router::route(deps, env, info, msg)
+}
+
+#[entry_point]
+pub fn query(deps: Deps, env: Env, msg: QueryMsg) -> Result<Binary, ContractError> {
+    msg.validate(deps)?;
+    query::router::route(deps, env, msg)
 }
