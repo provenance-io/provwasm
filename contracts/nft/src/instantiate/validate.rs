@@ -2,15 +2,15 @@ use cosmwasm_std::{Coin, Deps};
 
 use crate::{
     core::{error::ContractError, msg::InstantiateMsg},
-    util::validate::{Validate, ValidateResult},
+    util::validate::Validate,
 };
 
 impl Validate for InstantiateMsg {
-    fn validate(&self, _deps: Deps) -> ValidateResult {
+    fn validate(&self, _deps: Deps) -> Result<(), ContractError> {
         Ok(())
     }
 
-    fn validate_funds(&self, funds: &[Coin]) -> ValidateResult {
+    fn validate_funds(&self, funds: &[Coin]) -> Result<(), ContractError> {
         if !funds.is_empty() {
             return Err(ContractError::FundsPresent {});
         }
