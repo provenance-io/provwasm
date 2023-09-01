@@ -1,4 +1,4 @@
-use cosmwasm_schema::cw_serde;
+use cosmwasm_schema::{cw_serde, QueryResponses};
 use cosmwasm_std::Addr;
 
 #[cw_serde]
@@ -41,6 +41,7 @@ pub enum ExecuteMsg {
     Mint {
         scope_uuid: String,
         session_uuid: String,
+        recipient: Addr,
     },
     Burn {
         // this is a Scope UUID

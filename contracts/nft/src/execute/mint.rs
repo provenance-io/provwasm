@@ -1,6 +1,6 @@
 use std::str::FromStr;
 
-use cosmwasm_std::{DepsMut, Env, MessageInfo, Response};
+use cosmwasm_std::{Addr, DepsMut, Env, MessageInfo, Response};
 use provwasm_std::types::provenance::metadata::v1::process::ProcessId;
 use provwasm_std::types::provenance::metadata::v1::record_input::Source;
 use provwasm_std::types::provenance::metadata::v1::{
@@ -12,6 +12,8 @@ use provwasm_std::types::provenance::metadata::v1::{
 use sha2::{Digest, Sha256};
 use uuid::Uuid;
 
+use crate::storage::nft::{Nft, TOKENS};
+use crate::storage::nft_count;
 use crate::util::metadata_address::MetadataAddress;
 use crate::{
     core::error::ContractError,
@@ -21,10 +23,11 @@ use crate::{
 
 pub fn handle(
     deps: DepsMut,
-    info: MessageInfo,
+    _info: MessageInfo,
     env: Env,
     scope_uuid: Uuid,
     session_uuid: Uuid,
+    recipient: Addr,
 ) -> Result<Response, ContractError> {
     let state = storage::state::get(deps.storage)?;
     let contract_spec_uuid = Uuid::from_str(&state.contract_spec_uuid).unwrap();
@@ -41,13 +44,13 @@ pub fn handle(
             optional: false,
         }],
         data_access: vec![],
-        value_owner_address: info.sender.to_string(),
+        value_owner_address: recipient.to_string(),
         require_party_rollup: false,
     };
 
     let write_scope_msg = MsgWriteScopeRequest {
         scope: Some(scope),
-        signers: vec![env.contract.address.to_string(), info.sender.to_string()],
+        signers: vec![env.contract.address.to_string(), recipient.to_string()],
         scope_uuid: scope_uuid.to_string(),
         spec_uuid: scope_spec_uuid.to_string(),
     };
@@ -86,8 +89,9 @@ pub fn handle(
         inputs: vec![InputSpecification {
             name: "owner".to_string(),
             type_name: "cosmwasm_std::Addr".to_string(),
+            // hash of cosmwasm_std v1.3.1 (from Cargo.lock)
             source: Some(input_specification::Source::Hash(
-                "hash_of_cosmwasm_std".to_string(),
+                "eb5e05a95fd2a420cca50f4e94eb7e70648dac64db45e90403997ebefeb143bd".to_string(),
             )),
         }],
         type_name: "NFT_OWNER_RECORD_SPEC".to_string(),
@@ -97,7 +101,7 @@ pub fn handle(
 
     let write_record_spec_msg = MsgWriteRecordSpecificationRequest {
         specification: Some(record_specification.clone()),
-        signers: vec![env.contract.address.to_string(), info.sender.to_string()],
+        signers: vec![env.contract.address.to_string(), recipient.to_string()],
         contract_spec_uuid: contract_spec_uuid.to_string(),
     };
 
@@ -115,7 +119,7 @@ pub fn handle(
             status: RecordInputStatus::Proposed.into(),
             source: Some(Source::Hash(format!(
                 "{:x}",
-                Sha256::digest(info.sender.to_string())
+                Sha256::digest(recipient.to_string())
             ))),
         }],
         outputs: vec![RecordOutput {
@@ -141,28 +145,23 @@ pub fn handle(
         }],
     };
 
+    TOKENS.update(deps.storage, &scope_uuid.to_string(), |old| match old {
+        Some(_) => Err(ContractError::TokenExists {
+            id: scope_uuid.to_string(),
+        }),
+        None => Ok(Nft {
+            id: scope_uuid.to_string(),
+            owner: recipient,
+            approvals: vec![],
+        }),
+    })?;
+
+    nft_count::increment_nft_count(deps.storage)?;
+
     Ok(Response::default()
         .set_action(ActionType::Execute)
         .add_message(write_scope_msg)
         .add_message(write_session_msg)
         .add_message(write_record_spec_msg)
         .add_message(write_record_msg))
-}
-
-#[cfg(test)]
-pub mod test {
-    use sha2::{Digest, Sha256};
-
-    use crate::core::msg::ExecuteMsg;
-
-    #[test]
-    pub fn sha_test() {
-        let msg = ExecuteMsg::Mint {
-            scope_uuid: "uuid1".to_string(),
-            session_uuid: "uuid2".to_string(),
-        };
-        let x = format!("{:x}", Sha256::digest(serde_json::to_string(&msg).unwrap()));
-
-        println!("sha: {}", x);
-    }
 }

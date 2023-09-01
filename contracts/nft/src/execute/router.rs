@@ -17,12 +17,14 @@ pub fn route(
         ExecuteMsg::Mint {
             scope_uuid,
             session_uuid,
+            recipient,
         } => mint::handle(
             deps,
             info,
             env,
             Uuid::from_str(scope_uuid.as_str()).unwrap(),
             Uuid::from_str(session_uuid.as_str()).unwrap(),
+            recipient,
         ),
         // ExecuteMsg::Approve {
         //     spender,

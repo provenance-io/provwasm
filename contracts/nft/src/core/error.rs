@@ -7,6 +7,9 @@ pub enum ContractError {
     #[error("{0}")]
     Std(#[from] StdError),
 
+    #[error("Token already exists with id: {id}")]
+    TokenExists { id: String },
+
     #[error("Funds present")]
     FundsPresent {},
 
