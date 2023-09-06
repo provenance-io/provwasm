@@ -1,5 +1,6 @@
 use cosmwasm_schema::{cw_serde, QueryResponses};
 use cosmwasm_std::Addr;
+use cw_utils::Expiration;
 
 #[cw_serde]
 pub enum InstantiateMsg {
@@ -22,11 +23,11 @@ pub enum ExecuteMsg {
     //     token_id: String,
     //     msg: Binary,
     // },
-    // Approve {
-    //     spender: String,
-    //     token_id: String,
-    //     expires: Option<Expiration>,
-    // },
+    Approve {
+        spender: String,
+        token_id: String,
+        expires: Option<Expiration>,
+    },
     // Revoke {
     //     spender: String,
     //     token_id: String,

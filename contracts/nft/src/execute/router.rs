@@ -5,7 +5,7 @@ use uuid::Uuid;
 
 use crate::core::error::ContractError;
 use crate::core::msg::ExecuteMsg;
-use crate::execute::{burn, mint, transfer};
+use crate::execute::{approve, burn, mint, transfer};
 
 pub fn route(
     deps: DepsMut,
@@ -26,11 +26,11 @@ pub fn route(
             Uuid::from_str(session_uuid.as_str()).unwrap(),
             recipient,
         ),
-        // ExecuteMsg::Approve {
-        //     spender,
-        //     token_id,
-        //     expires,
-        // } => approve::handle(deps, env, info, spender, token_id, expires),
+        ExecuteMsg::Approve {
+            spender,
+            token_id,
+            expires,
+        } => approve::handle(deps, env, info, spender, token_id, expires),
         // ExecuteMsg::Revoke { spender, token_id } => {
         //     revoke::handle(deps, env, info, spender, token_id)
         // }
