@@ -36,9 +36,9 @@ pub enum ExecuteMsg {
         operator: Addr,
         expires: Option<Expiration>,
     },
-    // RevokeAll {
-    //     operator: String,
-    // },
+    RevokeAll {
+        operator: Addr,
+    },
     Mint {
         scope_uuid: String,
         session_uuid: String,
