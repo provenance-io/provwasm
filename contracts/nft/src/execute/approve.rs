@@ -1,4 +1,4 @@
-use cosmwasm_std::{DepsMut, Env, MessageInfo, Response};
+use cosmwasm_std::{Addr, DepsMut, Env, MessageInfo, Response};
 use cw_utils::Expiration;
 
 use crate::core::error::ContractError;
@@ -9,7 +9,7 @@ pub fn handle(
     deps: DepsMut,
     env: &Env,
     info: &MessageInfo,
-    spender: &str,
+    spender: Addr,
     token_id: &str,
     expires: Option<Expiration>,
 ) -> Result<Response, ContractError> {

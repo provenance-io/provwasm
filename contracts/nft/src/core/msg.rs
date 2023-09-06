@@ -24,7 +24,7 @@ pub enum ExecuteMsg {
     //     msg: Binary,
     // },
     Approve {
-        spender: String,
+        spender: Addr,
         token_id: String,
         expires: Option<Expiration>,
     },

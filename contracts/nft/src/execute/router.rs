@@ -30,7 +30,7 @@ pub fn route(
             spender,
             token_id,
             expires,
-        } => approve::handle(deps, env, info, spender, token_id, expires),
+        } => approve::handle(deps, &env, &info, spender, &token_id, expires),
         // ExecuteMsg::Revoke { spender, token_id } => {
         //     revoke::handle(deps, env, info, spender, token_id)
         // }

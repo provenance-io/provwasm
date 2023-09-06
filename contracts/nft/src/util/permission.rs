@@ -1,4 +1,4 @@
-use cosmwasm_std::{Deps, DepsMut, Env, MessageInfo};
+use cosmwasm_std::{Addr, Deps, DepsMut, Env, MessageInfo};
 use cw_ownable::OwnershipError;
 use cw_utils::Expiration;
 
@@ -64,13 +64,13 @@ pub fn can_send(
     }
 }
 
-pub fn handle(
+pub fn modify_approvals(
     deps: DepsMut,
     env: &Env,
     info: &MessageInfo,
-    spender: &str,
+    spender: Addr,
     token_id: &str,
-    // if add == false, remove. if add == true, remove then set with this expiration
+    // if add == false, remove only. if add == true, remove then set with this expiration
     add: bool,
     expires: Option<Expiration>,
 ) -> Result<Nft, ContractError> {
@@ -79,8 +79,7 @@ pub fn handle(
     can_approve(deps.as_ref(), env, info, &nft)?;
 
     // update the approval list (remove any for the same spender before adding)
-    let spender_addr = deps.api.addr_validate(spender)?;
-    nft.approvals.retain(|apr| apr.spender != spender_addr);
+    nft.approvals.retain(|apr| apr.spender != spender);
 
     // only difference between approve and revoke
     if add {
@@ -89,10 +88,7 @@ pub fn handle(
         if expires.is_expired(&env.block) {
             return Err(ContractError::Expired {});
         }
-        let approval = Approval {
-            spender: spender_addr,
-            expires,
-        };
+        let approval = Approval { spender, expires };
         nft.approvals.push(approval);
     }
 
