@@ -1,4 +1,4 @@
-use cosmwasm_std::{DepsMut, Env, MessageInfo, Response};
+use cosmwasm_std::{Addr, DepsMut, Env, MessageInfo, Response};
 use cw_utils::Expiration;
 
 use crate::core::error::ContractError;
@@ -9,7 +9,7 @@ pub fn handle(
     deps: DepsMut,
     env: Env,
     info: MessageInfo,
-    operator: String,
+    operator: Addr,
     expires: Option<Expiration>,
 ) -> Result<Response, ContractError> {
     // reject expired data as invalid
@@ -19,8 +19,7 @@ pub fn handle(
     }
 
     // set the operator for us
-    let operator_addr = deps.api.addr_validate(&operator)?;
-    OPERATORS.save(deps.storage, (&info.sender, &operator_addr), &expires)?;
+    OPERATORS.save(deps.storage, (&info.sender, &operator), &expires)?;
 
     Ok(Response::default().set_action(ActionType::ApproveAll))
 }

@@ -33,7 +33,7 @@ pub enum ExecuteMsg {
     //     token_id: String,
     // },
     ApproveAll {
-        operator: String,
+        operator: Addr,
         expires: Option<Expiration>,
     },
     // RevokeAll {
