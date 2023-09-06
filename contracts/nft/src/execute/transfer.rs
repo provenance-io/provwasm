@@ -10,7 +10,9 @@ use provwasm_std::types::provenance::metadata::v1::{
 use sha2::{Digest, Sha256};
 use uuid::Uuid;
 
+use crate::storage::nft::TOKENS;
 use crate::util::metadata_address::MetadataAddress;
+use crate::util::permission;
 use crate::{
     core::error::ContractError,
     storage,
@@ -25,6 +27,14 @@ pub fn handle(
     scope_uuid: Uuid,
     session_uuid: Uuid,
 ) -> Result<Response, ContractError> {
+    // check if sender can transfer token
+    let mut nft = TOKENS.load(deps.storage, &scope_uuid.to_string())?;
+    permission::can_send(deps.as_ref(), &env, &info, &nft)?;
+    // set new owner and clear old approvals
+    nft.owner = recipient;
+    nft.approvals = vec![];
+    TOKENS.save(deps.storage, &scope_uuid.to_string(), &nft)?;
+
     let state = storage::state::get(deps.storage)?;
     let contract_spec_uuid = Uuid::from_str(&state.contract_spec_uuid).unwrap();
 
