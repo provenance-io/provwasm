@@ -159,7 +159,7 @@ pub fn handle(
     nft_count::increment_nft_count(deps.storage)?;
 
     Ok(Response::default()
-        .set_action(ActionType::Execute)
+        .set_action(ActionType::Mint)
         .add_message(write_scope_msg)
         .add_message(write_session_msg)
         .add_message(write_record_spec_msg)

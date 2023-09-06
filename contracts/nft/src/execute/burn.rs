@@ -18,6 +18,6 @@ pub fn handle(
     };
 
     Ok(Response::default()
-        .set_action(ActionType::Execute {})
+        .set_action(ActionType::Burn {})
         .add_message(burn_msg))
 }

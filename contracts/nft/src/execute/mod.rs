@@ -1,4 +1,4 @@
-// mod approve;
+mod approve;
 // mod approve_all;
 mod burn;
 mod mint;

@@ -99,7 +99,7 @@ pub fn handle(
     };
 
     Ok(Response::default()
-        .set_action(ActionType::Execute)
+        .set_action(ActionType::Transfer)
         // .add_message(write_scope_msg)
         .add_message(update_scope_value_owner_msg)
         .add_message(write_session_msg)
