@@ -32,10 +32,10 @@ pub enum ExecuteMsg {
     //     spender: String,
     //     token_id: String,
     // },
-    // ApproveAll {
-    //     operator: String,
-    //     expires: Option<Expiration>,
-    // },
+    ApproveAll {
+        operator: String,
+        expires: Option<Expiration>,
+    },
     // RevokeAll {
     //     operator: String,
     // },

@@ -1,5 +1,5 @@
 mod approve;
-// mod approve_all;
+mod approve_all;
 mod burn;
 mod mint;
 // mod revoke;
