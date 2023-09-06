@@ -14,7 +14,7 @@ pub enum InstantiateMsg {
 pub enum ExecuteMsg {
     TransferNft {
         // this is a Scope UUID
-        id: String,
+        token_id: String,
         recipient: Addr,
         session_uuid: String,
     },
@@ -46,7 +46,7 @@ pub enum ExecuteMsg {
     },
     Burn {
         // this is a Scope UUID
-        id: String,
+        token_id: String,
     },
 }
 

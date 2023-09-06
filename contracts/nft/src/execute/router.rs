@@ -39,7 +39,7 @@ pub fn route(
         }
         ExecuteMsg::RevokeAll { operator } => revoke_all::handle(deps, env, info, operator),
         ExecuteMsg::TransferNft {
-            id,
+            token_id: id,
             recipient,
             session_uuid,
         } => transfer::handle(
@@ -55,6 +55,8 @@ pub fn route(
         //     token_id,
         //     msg,
         // } => send::handle(deps, env, info, contract, token_id, msg),
-        ExecuteMsg::Burn { id } => burn::handle(deps, env, info, Uuid::from_str(&id).unwrap()),
+        ExecuteMsg::Burn { token_id: id } => {
+            burn::handle(deps, env, info, Uuid::from_str(&id).unwrap())
+        }
     }
 }
