@@ -46,14 +46,6 @@ impl Nft {
     }
 }
 
-// pub fn get(storage: &dyn Storage) -> Result<Nft, ContractError> {
-//     Ok(NFT.load(storage)?)
-// }
-//
-// pub fn set(storage: &mut dyn Storage, state: &Nft) -> Result<(), ContractError> {
-//     Ok(NFT.save(storage, state)?)
-// }
-
 pub struct TokenIndexes<'a> {
     pub owner: MultiIndex<'a, Addr, Nft, String>,
 }
@@ -68,29 +60,3 @@ impl<'a> IndexList<Nft> for TokenIndexes<'a> {
 pub fn token_owner_idx(_pk: &[u8], d: &Nft) -> Addr {
     d.owner.clone()
 }
-//
-// #[cfg(test)]
-// mod tests {
-//     use cosmwasm_std::Addr;
-//     use provwasm_mocks::mock_provenance_dependencies;
-//
-//     use crate::storage::nft::set;
-//     use crate::storage::nft::Nft;
-//
-//     use super::get;
-//
-//     #[test]
-//     fn test_invalid_get() {
-//         let deps = mock_provenance_dependencies();
-//         get(&deps.storage).unwrap_err();
-//     }
-//
-//     #[test]
-//     fn test_get_set() {
-//         let mut deps = mock_provenance_dependencies();
-//         let expected = Nft::new("scope_uuid".to_string(), Addr::unchecked("owner"));
-//         set(deps.as_mut().storage, &expected).unwrap();
-//         let nft = get(&deps.storage).unwrap();
-//         assert_eq!(expected, nft);
-//     }
-// }
