@@ -28,10 +28,10 @@ pub enum ExecuteMsg {
         token_id: String,
         expires: Option<Expiration>,
     },
-    // Revoke {
-    //     spender: String,
-    //     token_id: String,
-    // },
+    Revoke {
+        spender: Addr,
+        token_id: String,
+    },
     ApproveAll {
         operator: Addr,
         expires: Option<Expiration>,

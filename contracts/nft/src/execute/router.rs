@@ -5,7 +5,7 @@ use uuid::Uuid;
 
 use crate::core::error::ContractError;
 use crate::core::msg::ExecuteMsg;
-use crate::execute::{approve, approve_all, burn, mint, transfer};
+use crate::execute::{approve, approve_all, burn, mint, revoke, transfer};
 
 pub fn route(
     deps: DepsMut,
@@ -34,9 +34,9 @@ pub fn route(
         ExecuteMsg::ApproveAll { operator, expires } => {
             approve_all::handle(deps, env, info, operator, expires)
         }
-        // ExecuteMsg::Revoke { spender, token_id } => {
-        //     revoke::handle(deps, env, info, spender, token_id)
-        // }
+        ExecuteMsg::Revoke { spender, token_id } => {
+            revoke::handle(deps, &env, &info, spender, &token_id)
+        }
         // ExecuteMsg::RevokeAll { operator } => revoke_all::handle(deps, env, info, operator),
         ExecuteMsg::TransferNft {
             id,
