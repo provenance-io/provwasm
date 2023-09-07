@@ -30,7 +30,7 @@ pub fn handle(
         specification_id: vec![], // ignore since provenance generates using uuid
         description: Some(Description {
             name: "NFT Manager Contract".to_string(),
-            description: "A contrac that manages an NFT".to_string(),
+            description: "A contract specification that manages an NFT".to_string(),
             website_url: "https://github.com/provenance-io/provwasm/contracts/nft".to_string(),
             icon_url: "https://github.com/provenance-io/provwasm/contracts/nft/public/icon.png"
                 .to_string(),
@@ -49,7 +49,12 @@ pub fn handle(
 
     let scope_spec = ScopeSpecification {
         specification_id: vec![],
-        description: None,
+        description: Some(Description {
+            name: "NFT Specification".to_string(),
+            description: "A specification of an NFT".to_string(),
+            website_url: "https://provenance.io/nft".to_string(),
+            icon_url: "https://provenance.io/nft/public/icon.png".to_string(),
+        }),
         owner_addresses: vec![env.contract.address.to_string()],
         parties_involved: vec![PartyType::Provenance.into()],
         contract_spec_ids: vec![
