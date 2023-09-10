@@ -5,9 +5,9 @@
 // mod approvals;
 // mod contract_info;
 pub mod nft_info;
-// mod num_tokens;
-// mod operator;
-// mod owner_of;
+mod num_tokens;
+mod operator;
+mod owner_of;
 // mod query_version;
 pub mod router;
 //mod tokens;

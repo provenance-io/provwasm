@@ -1,7 +1,6 @@
-use cosmwasm_std::{Addr, BlockInfo};
-use cw721::Expiration;
+use cosmwasm_std::Addr;
+use cw721::Approval;
 use cw_storage_plus::{Index, IndexList, IndexedMap, MultiIndex};
-use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
 use crate::core::constants::NFT_KEY;
@@ -13,20 +12,6 @@ pub const INDEXES: TokenIndexes = TokenIndexes {
 };
 pub const TOKENS: IndexedMap<'static, &'static str, Nft, TokenIndexes<'static>> =
     IndexedMap::new(NFT_KEY, INDEXES);
-
-#[derive(Serialize, Deserialize, Clone, PartialEq, JsonSchema, Debug)]
-pub struct Approval {
-    /// Account that can transfer/send the token
-    pub spender: Addr,
-    /// When the Approval expires (maybe Expiration::never)
-    pub expires: Expiration,
-}
-
-impl Approval {
-    pub fn is_expired(&self, block: &BlockInfo) -> bool {
-        self.expires.is_expired(block)
-    }
-}
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub struct Nft {

@@ -1,18 +1,9 @@
-use cosmwasm_std::{to_binary, Deps, Env};
+use cosmwasm_std::{to_binary, Binary, Deps, Env, StdError};
+use cw721::OperatorResponse;
 
-use crate::core::aliases::Result<Binary, ContractError>;
-use crate::storage;
+use crate::core::error::ContractError;
+use crate::storage::operators::OPERATORS;
 
-/// Performs the logic for the QueryOwner message and obtains the contract's owner.
-///
-/// # Arguments
-///
-/// * `deps` - A non mutable version of the dependencies. The API, Querier, and storage can all be accessed from it.
-///
-/// # Examples
-/// ```
-/// let res = handle(deps)?;
-/// ```
 pub fn handle(
     deps: Deps,
     env: Env,
@@ -20,9 +11,26 @@ pub fn handle(
     operator: String,
     include_expired: bool,
 ) -> Result<Binary, ContractError> {
-    let res = QueryOwnerResponse {
-        owner: storage::state::get_owner(deps.storage)?,
-    };
-    Ok(to_binary(&res)?)
-}
+    let owner_addr = deps.api.addr_validate(&owner)?;
+    let operator_addr = deps.api.addr_validate(&operator)?;
 
+    let info = OPERATORS.may_load(deps.storage, (&owner_addr, &operator_addr))?;
+
+    if let Some(expires) = info {
+        if !include_expired && expires.is_expired(&env.block) {
+            return Err(ContractError::Std(StdError::not_found(
+                "Approval not found",
+            )));
+        }
+        return Ok(to_binary(&OperatorResponse {
+            approval: cw721::Approval {
+                spender: operator,
+                expires,
+            },
+        })?);
+    }
+
+    Err(ContractError::Std(StdError::not_found(
+        "Approval not found",
+    )))
+}
