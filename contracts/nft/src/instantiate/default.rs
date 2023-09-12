@@ -1,4 +1,4 @@
-use cosmwasm_std::{DepsMut, Env, MessageInfo, Response};
+use cosmwasm_std::{Addr, DepsMut, Env, MessageInfo, Response};
 use cw2::set_contract_version;
 use provwasm_std::types::provenance::metadata::v1::contract_specification::Source;
 use provwasm_std::types::provenance::metadata::v1::{
@@ -8,6 +8,8 @@ use provwasm_std::types::provenance::metadata::v1::{
 use uuid::Uuid;
 
 use crate::core::error::ContractError;
+use crate::core::msg::ContractInfoResponse;
+use crate::storage::contract_info::CONTRACT_INFO;
 use crate::storage::state::State;
 use crate::util::metadata_address::MetadataAddress;
 use crate::{
@@ -19,12 +21,25 @@ use crate::{
 pub fn handle(
     deps: DepsMut,
     env: Env,
-    info: MessageInfo,
+    _info: MessageInfo,
+    minter: Addr,
+    name: String,
+    symbol: String,
     contract_spec_uuid: Uuid,
     scope_spec_uuid: Uuid,
 ) -> Result<Response, ContractError> {
+    cw_ownable::initialize_owner(deps.storage, deps.api, Some(minter.as_str()))?;
+    CONTRACT_INFO.save(
+        deps.storage,
+        &ContractInfoResponse {
+            minter,
+            name,
+            symbol,
+            contract_spec_uuid: contract_spec_uuid.to_string(),
+            scope_spec_uuid: scope_spec_uuid.to_string(),
+        },
+    )?;
     set_contract_version(deps.storage, CONTRACT_NAME, CONTRACT_VERSION)?;
-    cw_ownable::initialize_owner(deps.storage, deps.api, Some(info.sender.as_str()))?;
 
     let contract_spec = ContractSpecification {
         specification_id: vec![], // ignore since provenance generates using uuid

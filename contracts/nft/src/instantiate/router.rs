@@ -16,11 +16,17 @@ pub fn route(
     match msg {
         InstantiateMsg::Default {
             contract_spec_uuid,
+            minter,
+            name,
             scope_spec_uuid,
+            symbol,
         } => default::handle(
             deps,
             env,
             info,
+            minter,
+            name,
+            symbol,
             Uuid::from_str(contract_spec_uuid.as_str()).unwrap(),
             Uuid::from_str(scope_spec_uuid.as_str()).unwrap(),
         ),
