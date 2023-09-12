@@ -1,17 +1,22 @@
-use crate::storage::nft::Approval;
 use cosmwasm_schema::{cw_serde, QueryResponses};
 use cosmwasm_std::Addr;
+use cw2::ContractVersion;
+use cw_ownable::{cw_ownable_execute, cw_ownable_query};
 use cw_utils::Expiration;
 use provwasm_std::types::provenance::metadata::v1::ScopeResponse;
 
 #[cw_serde]
 pub enum InstantiateMsg {
     Default {
+        minter: Addr,
+        name: String,
+        symbol: String,
         contract_spec_uuid: String,
         scope_spec_uuid: String,
     },
 }
 
+#[cw_ownable_execute]
 #[cw_serde]
 pub enum ExecuteMsg {
     TransferNft {
@@ -52,7 +57,7 @@ pub enum ExecuteMsg {
     },
 }
 
-// #[cw_ownable_query]
+#[cw_ownable_query]
 #[cw_serde]
 #[derive(QueryResponses)]
 pub enum QueryMsg {
@@ -134,6 +139,8 @@ pub enum QueryMsg {
     /// Return the minter
     #[returns(MinterResponse)]
     Minter {},
+    #[returns(ContractVersionResponse)]
+    ContractVersion {},
 }
 
 #[cw_serde]
@@ -142,16 +149,21 @@ pub struct MinterResponse {
 }
 
 #[cw_serde]
-pub struct OwnerOfResponse {
-    /// Owner of the token
-    pub owner: String,
-    /// If set this address is approved to transfer/send the token as well
-    pub approvals: Vec<Approval>,
-}
-
-#[cw_serde]
 pub struct NftData {
     pub id: String,
     pub owner: Addr,
     pub data: ScopeResponse,
+}
+
+#[cw_serde]
+pub struct ContractInfoResponse {
+    pub minter: Addr,
+    pub name: String,
+    pub symbol: String,
+    pub contract_spec_uuid: String,
+    pub scope_spec_uuid: String,
+}
+#[cw_serde]
+pub struct ContractVersionResponse {
+    pub contract_version: ContractVersion,
 }
