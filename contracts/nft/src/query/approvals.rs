@@ -1,26 +1,25 @@
-use cosmwasm_std::{to_binary, Deps, Env};
+use cosmwasm_std::{to_binary, Binary, Deps, Env};
+use cw721::ApprovalsResponse;
 
-use crate::core::aliases::Result<Binary, ContractError>;
-use crate::storage;
+use crate::core::error::ContractError;
+use crate::storage::nft::TOKENS;
 
-/// Performs the logic for the QueryOwner message and obtains the contract's owner.
-///
-/// # Arguments
-///
-/// * `deps` - A non mutable version of the dependencies. The API, Querier, and storage can all be accessed from it.
-///
-/// # Examples
-/// ```
-/// let res = handle(deps)?;
-/// ```
 pub fn handle(
     deps: Deps,
     env: Env,
     token_id: String,
     include_expired: bool,
 ) -> Result<Binary, ContractError> {
-    let res = QueryOwnerResponse {
-        owner: storage::state::get_owner(deps.storage)?,
-    };
-    Ok(to_binary(&res)?)
+    let token = TOKENS.load(deps.storage, &token_id)?;
+    let approvals: Vec<_> = token
+        .approvals
+        .into_iter()
+        .filter(|t| include_expired || !t.is_expired(&env.block))
+        .map(|a| cw721::Approval {
+            spender: a.spender.into_string(),
+            expires: a.expires,
+        })
+        .collect();
+
+    Ok(to_binary(&ApprovalsResponse { approvals })?)
 }
