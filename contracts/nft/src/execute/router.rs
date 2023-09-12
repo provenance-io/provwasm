@@ -5,7 +5,9 @@ use uuid::Uuid;
 
 use crate::core::error::ContractError;
 use crate::core::msg::ExecuteMsg;
-use crate::execute::{approve, approve_all, burn, mint, revoke, revoke_all, transfer};
+use crate::execute::{
+    approve, approve_all, burn, mint, revoke, revoke_all, transfer, update_ownership,
+};
 
 pub fn route(
     deps: DepsMut,
@@ -58,5 +60,6 @@ pub fn route(
         ExecuteMsg::Burn { token_id: id } => {
             burn::handle(deps, env, info, Uuid::from_str(&id).unwrap())
         }
+        ExecuteMsg::UpdateOwnership(action) => update_ownership::handle(deps, env, info, action),
     }
 }
