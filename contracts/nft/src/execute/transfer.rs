@@ -30,10 +30,6 @@ pub fn handle(
     // check if sender can transfer token
     let mut nft = TOKENS.load(deps.storage, &scope_uuid.to_string())?;
     permission::can_send(deps.as_ref(), &env, &info, &nft)?;
-    // set new owner and clear old approvals
-    nft.owner = recipient;
-    nft.approvals = vec![];
-    TOKENS.save(deps.storage, &scope_uuid.to_string(), &nft)?;
 
     let state = storage::state::get(deps.storage)?;
     let contract_spec_uuid = Uuid::from_str(&state.contract_spec_uuid).unwrap();
@@ -107,6 +103,11 @@ pub fn handle(
             optional: false,
         }],
     };
+
+    // set new owner and clear old approvals
+    nft.owner = recipient;
+    nft.approvals = vec![];
+    TOKENS.save(deps.storage, &scope_uuid.to_string(), &nft)?;
 
     Ok(Response::default()
         .set_action(ActionType::Transfer)
