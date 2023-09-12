@@ -13,6 +13,11 @@ impl Validate for ExecuteMsg {
             ExecuteMsg::Mint { .. } => Ok(()),
             ExecuteMsg::Burn { .. } => Ok(()),
             ExecuteMsg::TransferNft { .. } => Ok(()),
+            ExecuteMsg::Approve { .. } => Ok(()),
+            ExecuteMsg::Revoke { .. } => Ok(()),
+            ExecuteMsg::ApproveAll { .. } => Ok(()),
+            ExecuteMsg::RevokeAll { .. } => Ok(()),
+            ExecuteMsg::UpdateOwnership(_) => Ok(()),
         }
     }
 }
