@@ -1,5 +1,6 @@
-use cosmwasm_std::{to_binary, Binary, Deps, Env};
-use provwasm_std::types::provenance::metadata::v1::MetadataQuerier;
+use cosmwasm_std::{to_binary, Binary, Deps, Env, QuerierWrapper, StdError};
+use cw721::NftInfoResponse;
+use provwasm_std::types::provenance::metadata::v1::{MetadataQuerier, ScopeResponse};
 
 use crate::core::error::ContractError;
 use crate::core::msg::NftData;
@@ -8,20 +9,16 @@ use crate::storage::nft::TOKENS;
 pub fn handle(deps: Deps, _env: Env, token_id: String) -> Result<Binary, ContractError> {
     let info = TOKENS.load(deps.storage, &token_id)?;
 
-    let scope_response = MetadataQuerier::new(&deps.querier).scope(
-        token_id,
-        "".to_string(),
-        "".to_string(),
-        true,
-        true,
-    )?;
-
-    Ok(to_binary(&cw721::NftInfoResponse {
+    Ok(to_binary(&NftInfoResponse {
         token_uri: None,
         extension: &NftData {
             id: info.id,
             owner: info.owner,
-            data: scope_response,
+            data: load_scope(token_id, deps.querier)?,
         },
     })?)
+}
+
+pub fn load_scope(scope_id: String, querier: QuerierWrapper) -> Result<ScopeResponse, StdError> {
+    MetadataQuerier::new(&querier).scope(scope_id, "".to_string(), "".to_string(), true, true)
 }
