@@ -7,4 +7,5 @@ mod revoke_all;
 pub mod router;
 // mod send;
 mod transfer;
+mod update_ownership;
 pub mod validate;
