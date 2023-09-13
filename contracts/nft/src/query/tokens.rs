@@ -1,26 +1,28 @@
-use cosmwasm_std::{to_binary, Deps};
+use cosmwasm_std::{to_binary, Binary, Deps, Order, StdResult};
+use cw721::TokensResponse;
+use cw_storage_plus::Bound;
 
-use crate::core::aliases::Result<Binary, ContractError>;
-use crate::storage;
+use crate::core::constants::{DEFAULT_LIMIT, MAX_LIMIT};
+use crate::core::error::ContractError;
+use crate::storage::nft::TOKENS;
 
-/// Performs the logic for the QueryOwner message and obtains the contract's owner.
-///
-/// # Arguments
-///
-/// * `deps` - A non mutable version of the dependencies. The API, Querier, and storage can all be accessed from it.
-///
-/// # Examples
-/// ```
-/// let res = handle(deps)?;
-/// ```
 pub fn handle(
     deps: Deps,
     owner: String,
     start_after: Option<String>,
     limit: Option<u32>,
 ) -> Result<Binary, ContractError> {
-    let res = QueryOwnerResponse {
-        owner: storage::state::get_owner(deps.storage)?,
-    };
-    Ok(to_binary(&res)?)
+    let limit = limit.unwrap_or(DEFAULT_LIMIT).min(MAX_LIMIT) as usize;
+    let start = start_after.map(|s| Bound::ExclusiveRaw(s.into()));
+
+    let owner_addr = deps.api.addr_validate(&owner)?;
+    let tokens: Vec<String> = TOKENS
+        .idx
+        .owner
+        .prefix(owner_addr)
+        .keys(deps.storage, start, None, Order::Ascending)
+        .take(limit)
+        .collect::<StdResult<Vec<_>>>()?;
+
+    Ok(to_binary(&TokensResponse { tokens })?)
 }
