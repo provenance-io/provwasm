@@ -19,18 +19,27 @@
           ],
           "properties": {
             "contract_spec_uuid": {
+              "description": "Generated UUID to use for creating the Contract Specification",
               "type": "string"
             },
             "minter": {
-              "$ref": "#/definitions/Addr"
+              "description": "The only address which can create new NFTs",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Addr"
+                }
+              ]
             },
             "name": {
+              "description": "Name of the NFT contract",
               "type": "string"
             },
             "scope_spec_uuid": {
+              "description": "Generated UUID to use for creating the Scope Specification",
               "type": "string"
             },
             "symbol": {
+              "description": "Symbol of the NFT contract",
               "type": "string"
             }
           },

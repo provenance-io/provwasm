@@ -1,5 +1,5 @@
 use cosmwasm_schema::{cw_serde, QueryResponses};
-use cosmwasm_std::Addr;
+use cosmwasm_std::{Addr, Binary};
 use cw2::ContractVersion;
 use cw_ownable::{cw_ownable_execute, cw_ownable_query};
 use cw_utils::Expiration;
@@ -8,52 +8,84 @@ use provwasm_std::types::provenance::metadata::v1::ScopeResponse;
 #[cw_serde]
 pub enum InstantiateMsg {
     Default {
+        /// The only address which can create new NFTs
         minter: Addr,
+        /// Name of the NFT contract
         name: String,
+        /// Symbol of the NFT contract
         symbol: String,
+        /// Generated UUID to use for creating the Contract Specification
         contract_spec_uuid: String,
+        /// Generated UUID to use for creating the Scope Specification
         scope_spec_uuid: String,
     },
 }
 
+/// CW721 execute methods in addition to `Mint`, `Burn`, and `Change Ownership`
 #[cw_ownable_execute]
 #[cw_serde]
 pub enum ExecuteMsg {
-    TransferNft {
-        // this is a Scope UUID
-        token_id: String,
-        recipient: Addr,
-        session_uuid: String,
-    },
-    // SendNft {
-    //     contract: String,
-    //     token_id: String,
-    //     msg: Binary,
-    // },
+    /// Allow operator to transfer / send the token from the owner's account.
+    /// If expiration is set, then this allowance has a time/height limit
     Approve {
         spender: Addr,
+        /// Token ID in UUID format (Scope UUID)
         token_id: String,
         expires: Option<Expiration>,
     },
-    Revoke {
-        spender: Addr,
-        token_id: String,
-    },
+
+    /// Allows operator to transfer / send any token from the owner's account.
+    /// If expiration is set, then this allowance has a time/height limit
     ApproveAll {
         operator: Addr,
         expires: Option<Expiration>,
     },
-    RevokeAll {
-        operator: Addr,
+
+    /// Burn an NFT the sender has access to
+    Burn {
+        /// Token ID in UUID format (Scope UUID)
+        token_id: String,
     },
+
+    /// Mint a new NFT, can only be called by the contract minter
     Mint {
+        /// Generated UUID to use for creating the NFT (Scope)
         scope_uuid: String,
+        /// Generated UUID to use for creating the Session which encapsulates an owner data record
         session_uuid: String,
+        /// Recipient of the NFT
         recipient: Addr,
     },
-    Burn {
-        // this is a Scope UUID
+
+    /// Remove previously granted Approval
+    Revoke {
+        spender: Addr,
+        /// Token ID in UUID format (Scope UUID)
         token_id: String,
+    },
+
+    /// Remove previously granted ApproveAll permission
+    RevokeAll { operator: Addr },
+
+    /// Transfer a token to a contract and trigger an action on the receiving contract.
+    SendNft {
+        /// Generated `UUID` to use for creating the `NFT`/`Scope`
+        token_id: String,
+        /// Generated `UUID` to use for creating the `Session` to write the new owner record
+        session_uuid: String,
+        /// Receiving Contract Address
+        contract: Addr,
+        /// Message to send to receiving contract
+        msg: Binary,
+    },
+
+    /// Transfer a token to another account without triggering actions
+    TransferNft {
+        /// Generated `UUID` to use for creating the `NFT`/`Scope`
+        token_id: String,
+        recipient: Addr,
+        /// Generated `UUID` to use for creating the `Session` to write the new owner record
+        session_uuid: String,
     },
 }
 
@@ -61,38 +93,55 @@ pub enum ExecuteMsg {
 #[cw_serde]
 #[derive(QueryResponses)]
 pub enum QueryMsg {
-    /// Return the owner of the given token, error if token does not exist
-    #[returns(cw721::OwnerOfResponse)]
-    OwnerOf {
-        token_id: String,
-        /// unset or false will filter out expired approvals, you must set to true to see them
-        include_expired: Option<bool>,
-    },
-    /// Return operator that can access all of the owner's tokens.
+    /// Returns the operator approval details for a given token
     #[returns(cw721::ApprovalResponse)]
     Approval {
         token_id: String,
         spender: String,
         include_expired: Option<bool>,
     },
-    /// Return approvals that a token has
+    /// Returns all operator approvals details for a given token
     #[returns(cw721::ApprovalsResponse)]
     Approvals {
+        /// Token ID in UUID format (Scope UUID)
         token_id: String,
         include_expired: Option<bool>,
     },
-    /// Return approval of a given operator for all tokens of an owner, error if not set
+
+    /// MetaData Extension
+    /// Returns metadata about the contract
+    #[returns(cw721::ContractInfoResponse)]
+    ContractInfo {},
+
+    /// MetaData Extension
+    /// Returns the contract version information
+    #[returns(ContractVersionResponse)]
+    ContractVersion {},
+
+    /// Returns the `minter`
+    #[returns(MinterResponse)]
+    Minter {},
+
+    /// Returns the owner of the given token, error if token does not exist
+    #[returns(cw721::OwnerOfResponse)]
+    OwnerOf {
+        /// Token ID in UUID format (Scope UUID)
+        token_id: String,
+        /// unset or false will filter out expired approvals, you must set to true to see them
+        include_expired: Option<bool>,
+    },
+
+    /// Returns the operator approval details for all tokens of a given owner or an error if not set
     #[returns(cw721::OperatorResponse)]
     Operator {
         owner: String,
         operator: String,
         include_expired: Option<bool>,
     },
-    /// List all operators that can access all of the owner's tokens
+    /// Returns all operator approvals details for all tokens of a given owner
     #[returns(cw721::OperatorsResponse)]
     AllOperators {
         owner: String,
-        /// unset or false will filter out expired items, you must set to true to see them
         include_expired: Option<bool>,
         start_after: Option<String>,
         limit: Option<u32>,
@@ -101,26 +150,23 @@ pub enum QueryMsg {
     #[returns(cw721::NumTokensResponse)]
     NumTokens {},
 
-    /// With MetaData Extension.
-    /// Returns top-level metadata about the contract
-    #[returns(cw721::ContractInfoResponse)]
-    ContractInfo {},
-    /// With MetaData Extension.
+    /// MetaData Extension
     /// Returns metadata about one particular token, based on *ERC721 Metadata JSON Schema*
     /// but directly from the contract
     #[returns(cw721::NftInfoResponse<ScopeResponse>)]
     NftInfo { token_id: String },
-    /// With MetaData Extension.
+    /// MetaData Extension
     /// Returns the result of both `NftInfo` and `OwnerOf` as one query as an optimization
     /// for clients
     #[returns(cw721::AllNftInfoResponse<ScopeResponse>)]
     AllNftInfo {
+        /// Token ID in UUID format (Scope UUID)
         token_id: String,
         /// unset or false will filter out expired approvals, you must set to true to see them
         include_expired: Option<bool>,
     },
 
-    /// With Enumerable extension.
+    /// Enumerable extension
     /// Returns all tokens owned by the given address, [] if unset.
     #[returns(cw721::TokensResponse)]
     Tokens {
@@ -128,19 +174,13 @@ pub enum QueryMsg {
         start_after: Option<String>,
         limit: Option<u32>,
     },
-    /// With Enumerable extension.
+    /// Enumerable extension
     /// Requires pagination. Lists all token_ids controlled by the contract.
     #[returns(cw721::TokensResponse)]
     AllTokens {
         start_after: Option<String>,
         limit: Option<u32>,
     },
-
-    /// Return the minter
-    #[returns(MinterResponse)]
-    Minter {},
-    #[returns(ContractVersionResponse)]
-    ContractVersion {},
 }
 
 #[cw_serde]
