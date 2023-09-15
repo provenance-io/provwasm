@@ -104,14 +104,13 @@ pub fn handle(
         }],
     };
 
-    // set new owner and clear old approvals
+    // set new owner and clear existing approvals
     nft.owner = recipient;
     nft.approvals = vec![];
     TOKENS.save(deps.storage, &scope_uuid.to_string(), &nft)?;
 
     Ok(Response::default()
         .set_action(ActionType::Transfer)
-        // .add_message(write_scope_msg)
         .add_message(update_scope_value_owner_msg)
         .add_message(write_session_msg)
         .add_message(write_record_msg))
