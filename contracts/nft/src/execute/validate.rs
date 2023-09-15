@@ -17,6 +17,7 @@ impl Validate for ExecuteMsg {
             ExecuteMsg::Revoke { .. } => Ok(()),
             ExecuteMsg::ApproveAll { .. } => Ok(()),
             ExecuteMsg::RevokeAll { .. } => Ok(()),
+            ExecuteMsg::SendNft { .. } => Ok(()),
             ExecuteMsg::UpdateOwnership(_) => Ok(()),
         }
     }

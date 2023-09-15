@@ -1,91 +1,125 @@
 use cosmwasm_std::{Addr, Binary, DepsMut, Env, MessageInfo, Response};
-
-use crate::core::msg::ExecuteMsg;
-use crate::{
-    core::{
-        aliases::{ProvDepsMut, ProvTxResponse},
-        error::ContractError,
-    },
-    events::change_owner::ChangeOwnerEvent,
-    storage,
-    util::action::{Action, ActionType},
+use cw721::Cw721ReceiveMsg;
+use provwasm_std::types::provenance::metadata::v1::process::ProcessId;
+use provwasm_std::types::provenance::metadata::v1::record_input::Source;
+use provwasm_std::types::provenance::metadata::v1::{
+    MsgUpdateValueOwnersRequest, MsgWriteRecordRequest, MsgWriteSessionRequest, Party, PartyType,
+    Process, Record, RecordInput, RecordInputStatus, RecordOutput, ResultStatus, Session,
 };
+use sha2::{Digest, Sha256};
+use std::str::FromStr;
 
-/// Performs the execute logic for the Send variant of ExecuteMsg.
-///
-/// If the sender is the owner of the contract, then the contract will update its owner
-/// to the address of new_owner.
-///
-/// # Arguments
-///
-/// * `deps` - A mutable version of the dependencies. The API, Querier, and storage can all be accessed from it.
-/// * `sender` - The address of the message signer.
-/// * `new_owner` - The address of the contract's new owner.
-///
-/// # Examples
-/// ```
-/// let msg = ExecuteMsg::ChangeOwner {new_owner: Addr::unchecked("new_owner")};
-/// let res = handle(deps, env, info.sender, msg.new_owner)?;
-/// ```
+use uuid::Uuid;
+
+use crate::core::error::ContractError;
+use crate::storage;
+use crate::storage::nft::TOKENS;
+use crate::util::action::{Action, ActionType};
+use crate::util::metadata_address::MetadataAddress;
+use crate::util::permission;
+
 pub fn handle(
     deps: DepsMut,
     env: Env,
     info: MessageInfo,
-    contract: String,
-    token_id: String,
+    scope_uuid: Uuid,
+    session_uuid: Uuid,
+    contract: Addr,
     msg: Binary,
-) -> ProvTxResponse {
-    if !storage::state::is_owner(deps.storage, &sender)? {
-        return Err(ContractError::Unauthorized {});
-    }
+) -> Result<Response, ContractError> {
+    // check if sender can transfer token
+    let mut nft = TOKENS.load(deps.storage, &scope_uuid.to_string())?;
+    permission::can_send(deps.as_ref(), &env, &info, &nft)?;
 
-    storage::state::set_owner(deps.storage, new_owner.clone())?;
+    let state = storage::state::get(deps.storage)?;
+    let contract_spec_uuid = Uuid::from_str(&state.contract_spec_uuid).unwrap();
 
-    Ok(Response::default()
-        .set_action(ActionType::ChangeOwner {})
-        .add_event(ChangeOwnerEvent::new(sender, new_owner).into()))
-}
-
-#[cfg(test)]
-mod tests {
-    use cosmwasm_std::{Addr, Attribute};
-    use provwasm_mocks::mock_dependencies;
-
-    use crate::{
-        core::error::ContractError,
-        execute::mint::handle,
-        testing::{
-            constants::{CREATOR, NEW_OWNER, OWNER},
-            setup::{self, mock_info},
-        },
-        util::action::ActionType,
+    let update_scope_value_owner_msg = MsgUpdateValueOwnersRequest {
+        scope_ids: vec![MetadataAddress::scope(scope_uuid).unwrap().bytes],
+        value_owner_address: contract.to_string(),
+        signers: vec![env.contract.address.to_string(), info.sender.to_string()],
     };
 
-    #[test]
-    fn test_handle_success() {
-        let mut deps = mock_dependencies(&[]);
-        let info = mock_info(false, OWNER);
-        let new_owner = Addr::unchecked(NEW_OWNER);
+    let session = Session {
+        session_id: MetadataAddress::session(scope_uuid, session_uuid)
+            .unwrap()
+            .bytes,
+        specification_id: MetadataAddress::contract_specification(contract_spec_uuid)
+            .unwrap()
+            .bytes,
+        parties: vec![Party {
+            address: env.contract.address.to_string(),
+            role: PartyType::Provenance.into(),
+            optional: false,
+        }],
+        name: "nft_session".to_string(),
+        context: vec![],
+        audit: None,
+    };
 
-        setup::mock_contract(deps.as_mut());
+    let write_session_msg = MsgWriteSessionRequest {
+        session: Some(session.clone()),
+        signers: vec![env.contract.address.to_string()],
+        session_id_components: None,
+        spec_uuid: contract_spec_uuid.to_string(),
+    };
 
-        let res = handle(deps.as_mut(), info.sender, new_owner).unwrap();
-        assert_eq!(
-            vec![Attribute::from(ActionType::ChangeOwner {})],
-            res.attributes
-        );
-        assert_eq!(0, res.messages.len());
+    let record = Record {
+        name: "nft_owner_record_spec".to_string(),
+        session_id: session.session_id.clone(),
+        process: Some(Process {
+            name: "nft_process_name".to_string(),
+            method: "set_owner".to_string(),
+            process_id: Some(ProcessId::Address(env.contract.address.to_string())),
+        }),
+        inputs: vec![RecordInput {
+            name: "owner".to_string(),
+            type_name: "cosmwasm_std::Addr".to_string(),
+            status: RecordInputStatus::Proposed.into(),
+            source: Some(Source::Hash(format!(
+                "{:x}",
+                Sha256::digest(info.sender.to_string())
+            ))),
+        }],
+        outputs: vec![RecordOutput {
+            hash: MetadataAddress::scope(scope_uuid)?.bech32,
+            status: ResultStatus::Pass.into(),
+        }],
+        specification_id: MetadataAddress::record_specification(
+            contract_spec_uuid,
+            "nft_owner_record_spec".to_string(),
+        )?
+        .bytes,
+    };
+
+    let write_record_msg = MsgWriteRecordRequest {
+        record: Some(record),
+        signers: vec![env.contract.address.to_string()],
+        session_id_components: None,
+        contract_spec_uuid: contract_spec_uuid.to_string(),
+        parties: vec![Party {
+            address: env.contract.address.to_string(),
+            role: PartyType::Provenance.into(),
+            optional: false,
+        }],
+    };
+
+    let contract_msg = Cw721ReceiveMsg {
+        sender: info.sender.to_string(),
+        token_id: scope_uuid.to_string(),
+        msg,
     }
+    .into_cosmos_msg(contract.to_string())?;
 
-    #[test]
-    fn test_handle_is_not_owner() {
-        let mut deps = mock_dependencies(&[]);
-        let info = mock_info(false, CREATOR);
-        let new_owner = Addr::unchecked(NEW_OWNER);
+    // set new owner and clear existing approvals
+    nft.owner = contract;
+    nft.approvals = vec![];
+    TOKENS.save(deps.storage, &scope_uuid.to_string(), &nft)?;
 
-        setup::mock_contract(deps.as_mut());
-
-        let err = handle(deps.as_mut(), info.sender, new_owner).unwrap_err();
-        assert_eq!(ContractError::Unauthorized {}.to_string(), err.to_string());
-    }
+    Ok(Response::default()
+        .set_action(ActionType::Send)
+        .add_message(update_scope_value_owner_msg)
+        .add_message(write_session_msg)
+        .add_message(write_record_msg)
+        .add_message(contract_msg))
 }
