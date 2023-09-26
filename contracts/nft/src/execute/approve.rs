@@ -2,6 +2,7 @@ use cosmwasm_std::{Addr, DepsMut, Env, MessageInfo, Response};
 use cw_utils::Expiration;
 
 use crate::core::error::ContractError;
+use crate::events::EventApprove;
 use crate::util::action::{Action, ActionType};
 use crate::util::permission;
 
@@ -13,7 +14,9 @@ pub fn handle(
     token_id: &str,
     expires: Option<Expiration>,
 ) -> Result<Response, ContractError> {
-    permission::modify_approvals(deps, env, info, spender, token_id, true, expires)?;
+    permission::modify_approvals(deps, env, info, spender.clone(), token_id, true, expires)?;
 
-    Ok(Response::default().set_action(ActionType::Approve))
+    Ok(Response::default()
+        .set_action(ActionType::Approve)
+        .add_event(EventApprove { spender, token_id }.into()))
 }
