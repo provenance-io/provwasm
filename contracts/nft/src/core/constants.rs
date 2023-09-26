@@ -28,6 +28,12 @@ pub const DEFAULT_LIMIT: u32 = 10;
 pub const MAX_LIMIT: u32 = 100;
 
 // Events
+pub const TOKEN_ID: &str = "token_id";
+// Approve Event
 pub const EVENT_APPROVE: &str = ACTION_TYPE_APPROVE;
 pub const EVENT_APPROVE_SPENDER: &str = "spender";
-pub const EVENT_APPROVE_TOKEN_ID: &str = "token_id";
+pub const EVENT_APPROVE_TOKEN_ID: &str = TOKEN_ID;
+// Approve All Event
+pub const EVENT_APPROVE_ALL: &str = ACTION_TYPE_APPROVE_ALL;
+pub const EVENT_APPROVE_ALL_OPERATOR: &str = "operator";
+pub const EVENT_APPROVE_ALL_SENDER: &str = "sender";
