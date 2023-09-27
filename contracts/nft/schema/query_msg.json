@@ -17,15 +17,18 @@
           ],
           "properties": {
             "include_expired": {
+              "description": "unset or false will filter out expired approvals, you must set to true to see them",
               "type": [
                 "boolean",
                 "null"
               ]
             },
             "spender": {
+              "description": "The operator allowed transfer / send of the token",
               "type": "string"
             },
             "token_id": {
+              "description": "Token ID in UUID format (Scope UUID)",
               "type": "string"
             }
           },
@@ -48,6 +51,7 @@
           ],
           "properties": {
             "include_expired": {
+              "description": "unset or false will filter out expired approvals, you must set to true to see them",
               "type": [
                 "boolean",
                 "null"
@@ -78,7 +82,7 @@
       "additionalProperties": false
     },
     {
-      "description": "Returns the contract version information",
+      "description": "MetaData Extension Returns the contract version information",
       "type": "object",
       "required": [
         "contract_version"
@@ -150,15 +154,18 @@
           ],
           "properties": {
             "include_expired": {
+              "description": "unset or false will filter out expired approvals, you must set to true to see them",
               "type": [
                 "boolean",
                 "null"
               ]
             },
             "operator": {
+              "description": "The operator allowed transfer / send of the token",
               "type": "string"
             },
             "owner": {
+              "description": "Owner of the NFT",
               "type": "string"
             }
           },
@@ -181,12 +188,14 @@
           ],
           "properties": {
             "include_expired": {
+              "description": "unset or false will filter out expired approvals, you must set to true to see them",
               "type": [
                 "boolean",
                 "null"
               ]
             },
             "limit": {
+              "description": "The total number of operator details to return",
               "type": [
                 "integer",
                 "null"
@@ -195,9 +204,11 @@
               "minimum": 0.0
             },
             "owner": {
+              "description": "Owner of the NFT",
               "type": "string"
             },
             "start_after": {
+              "description": "The operator id to index from",
               "type": [
                 "string",
                 "null"
@@ -289,6 +300,7 @@
           ],
           "properties": {
             "limit": {
+              "description": "The total number of token details to return",
               "type": [
                 "integer",
                 "null"
@@ -297,9 +309,11 @@
               "minimum": 0.0
             },
             "owner": {
+              "description": "Owner of the NFT",
               "type": "string"
             },
             "start_after": {
+              "description": "The token id to index from",
               "type": [
                 "string",
                 "null"
@@ -322,6 +336,7 @@
           "type": "object",
           "properties": {
             "limit": {
+              "description": "The total number of token details to return",
               "type": [
                 "integer",
                 "null"
@@ -330,6 +345,7 @@
               "minimum": 0.0
             },
             "start_after": {
+              "description": "The token id to index from",
               "type": [
                 "string",
                 "null"

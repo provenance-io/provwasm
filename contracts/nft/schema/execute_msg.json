@@ -18,6 +18,7 @@
           ],
           "properties": {
             "expires": {
+              "description": "An optional expiration of the approval",
               "anyOf": [
                 {
                   "$ref": "#/definitions/Expiration"
@@ -28,7 +29,12 @@
               ]
             },
             "spender": {
-              "$ref": "#/definitions/Addr"
+              "description": "The operator to be allowed transfer / send of the token",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Addr"
+                }
+              ]
             },
             "token_id": {
               "description": "Token ID in UUID format (Scope UUID)",
@@ -54,6 +60,7 @@
           ],
           "properties": {
             "expires": {
+              "description": "An optional expiration of the approval",
               "anyOf": [
                 {
                   "$ref": "#/definitions/Expiration"
@@ -64,7 +71,12 @@
               ]
             },
             "operator": {
-              "$ref": "#/definitions/Addr"
+              "description": "The operator to be allowed transfer / send of the token",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Addr"
+                }
+              ]
             }
           },
           "additionalProperties": false
@@ -147,7 +159,12 @@
           ],
           "properties": {
             "spender": {
-              "$ref": "#/definitions/Addr"
+              "description": "The operator to be removed from previous granted permission to transfer / send the token",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Addr"
+                }
+              ]
             },
             "token_id": {
               "description": "Token ID in UUID format (Scope UUID)",
@@ -173,7 +190,12 @@
           ],
           "properties": {
             "operator": {
-              "$ref": "#/definitions/Addr"
+              "description": "The operator to be removed from previous granted permission to transfer / send the token",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Addr"
+                }
+              ]
             }
           },
           "additionalProperties": false
@@ -243,7 +265,12 @@
           ],
           "properties": {
             "recipient": {
-              "$ref": "#/definitions/Addr"
+              "description": "Recipient of the NFT",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Addr"
+                }
+              ]
             },
             "session_uuid": {
               "description": "Generated `UUID` to use for creating the `Session` to write the new owner record",
