@@ -29,10 +29,11 @@ pub const MAX_LIMIT: u32 = 100;
 
 // Events
 pub const TOKEN_ID: &str = "token_id";
+pub const SPENDER: &str = "spender";
 
 // Approve Event
 pub const EVENT_APPROVE: &str = ACTION_TYPE_APPROVE;
-pub const EVENT_APPROVE_SPENDER: &str = "spender";
+pub const EVENT_APPROVE_SPENDER: &str = SPENDER;
 pub const EVENT_APPROVE_TOKEN_ID: &str = TOKEN_ID;
 
 // Approve All Event
@@ -48,3 +49,8 @@ pub const EVENT_BURN_TOKEN_ID: &str = TOKEN_ID;
 pub const EVENT_MINT: &str = ACTION_TYPE_MINT;
 pub const EVENT_MINT_RECIPIENT: &str = "recipient";
 pub const EVENT_MINT_TOKEN_ID: &str = TOKEN_ID;
+
+// Revoke Event
+pub const EVENT_REVOKE: &str = ACTION_TYPE_REVOKE;
+pub const EVENT_REVOKE_SPENDER: &str = SPENDER;
+pub const EVENT_REVOKE_TOKEN_ID: &str = TOKEN_ID;
