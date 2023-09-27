@@ -12,6 +12,7 @@ use provwasm_std::types::provenance::metadata::v1::{
 use sha2::{Digest, Sha256};
 use uuid::Uuid;
 
+use crate::events::mint::EventMint;
 use crate::storage::nft::{Nft, TOKENS};
 use crate::storage::nft_count;
 use crate::util::metadata_address::MetadataAddress;
@@ -25,7 +26,7 @@ pub fn handle(
     deps: DepsMut,
     _info: MessageInfo,
     env: Env,
-    scope_uuid: Uuid,
+    token_id: Uuid,
     session_uuid: Uuid,
     recipient: Addr,
 ) -> Result<Response, ContractError> {
@@ -51,12 +52,12 @@ pub fn handle(
     let write_scope_msg = MsgWriteScopeRequest {
         scope: Some(scope),
         signers: vec![env.contract.address.to_string(), recipient.to_string()],
-        scope_uuid: scope_uuid.to_string(),
+        scope_uuid: token_id.to_string(),
         spec_uuid: scope_spec_uuid.to_string(),
     };
 
     let session = Session {
-        session_id: MetadataAddress::session(scope_uuid, session_uuid)
+        session_id: MetadataAddress::session(token_id, session_uuid)
             .unwrap()
             .bytes,
         specification_id: MetadataAddress::contract_specification(contract_spec_uuid)
@@ -123,7 +124,7 @@ pub fn handle(
             ))),
         }],
         outputs: vec![RecordOutput {
-            hash: MetadataAddress::scope(scope_uuid)?.bech32,
+            hash: MetadataAddress::scope(token_id)?.bech32,
             status: ResultStatus::Pass.into(),
         }],
         specification_id: MetadataAddress::record_specification(
@@ -145,13 +146,13 @@ pub fn handle(
         }],
     };
 
-    TOKENS.update(deps.storage, &scope_uuid.to_string(), |old| match old {
+    TOKENS.update(deps.storage, &token_id.to_string(), |old| match old {
         Some(_) => Err(ContractError::TokenExists {
-            id: scope_uuid.to_string(),
+            id: token_id.to_string(),
         }),
         None => Ok(Nft {
-            id: scope_uuid.to_string(),
-            owner: recipient,
+            id: token_id.to_string(),
+            owner: recipient.clone(),
             approvals: vec![],
         }),
     })?;
@@ -160,6 +161,13 @@ pub fn handle(
 
     Ok(Response::default()
         .set_action(ActionType::Mint)
+        .add_event(
+            EventMint {
+                recipient,
+                token_id,
+            }
+            .into(),
+        )
         .add_message(write_scope_msg)
         .add_message(write_session_msg)
         .add_message(write_record_spec_msg)

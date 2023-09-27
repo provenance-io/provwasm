@@ -43,3 +43,8 @@ pub const EVENT_APPROVE_ALL_SENDER: &str = "sender";
 // Burn Event
 pub const EVENT_BURN: &str = ACTION_TYPE_BURN;
 pub const EVENT_BURN_TOKEN_ID: &str = TOKEN_ID;
+
+// Mint Event
+pub const EVENT_MINT: &str = ACTION_TYPE_MINT;
+pub const EVENT_MINT_RECIPIENT: &str = "recipient";
+pub const EVENT_MINT_TOKEN_ID: &str = TOKEN_ID;
