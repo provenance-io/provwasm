@@ -10,6 +10,7 @@ use provwasm_std::types::provenance::metadata::v1::{
 use sha2::{Digest, Sha256};
 use uuid::Uuid;
 
+use crate::events::transfer::EventTransfer;
 use crate::storage::nft::TOKENS;
 use crate::util::metadata_address::MetadataAddress;
 use crate::util::permission;
@@ -24,24 +25,24 @@ pub fn handle(
     env: Env,
     info: MessageInfo,
     recipient: Addr,
-    scope_uuid: Uuid,
+    token_id: Uuid,
     session_uuid: Uuid,
 ) -> Result<Response, ContractError> {
     // check if sender can transfer token
-    let mut nft = TOKENS.load(deps.storage, &scope_uuid.to_string())?;
+    let mut nft = TOKENS.load(deps.storage, &token_id.to_string())?;
     permission::can_send(deps.as_ref(), &env, &info, &nft)?;
 
     let state = storage::state::get(deps.storage)?;
     let contract_spec_uuid = Uuid::from_str(&state.contract_spec_uuid).unwrap();
 
     let update_scope_value_owner_msg = MsgUpdateValueOwnersRequest {
-        scope_ids: vec![MetadataAddress::scope(scope_uuid).unwrap().bytes],
+        scope_ids: vec![MetadataAddress::scope(token_id).unwrap().bytes],
         value_owner_address: recipient.to_string(),
         signers: vec![env.contract.address.to_string(), info.sender.to_string()],
     };
 
     let session = Session {
-        session_id: MetadataAddress::session(scope_uuid, session_uuid)
+        session_id: MetadataAddress::session(token_id, session_uuid)
             .unwrap()
             .bytes,
         specification_id: MetadataAddress::contract_specification(contract_spec_uuid)
@@ -82,7 +83,7 @@ pub fn handle(
             ))),
         }],
         outputs: vec![RecordOutput {
-            hash: MetadataAddress::scope(scope_uuid)?.bech32,
+            hash: MetadataAddress::scope(token_id)?.bech32,
             status: ResultStatus::Pass.into(),
         }],
         specification_id: MetadataAddress::record_specification(
@@ -105,12 +106,19 @@ pub fn handle(
     };
 
     // set new owner and clear existing approvals
-    nft.owner = recipient;
+    nft.owner = recipient.clone();
     nft.approvals = vec![];
-    TOKENS.save(deps.storage, &scope_uuid.to_string(), &nft)?;
+    TOKENS.save(deps.storage, &token_id.to_string(), &nft)?;
 
     Ok(Response::default()
         .set_action(ActionType::Transfer)
+        .add_event(
+            EventTransfer {
+                recipient,
+                token_id,
+            }
+            .into(),
+        )
         .add_message(update_scope_value_owner_msg)
         .add_message(write_session_msg)
         .add_message(write_record_msg))
