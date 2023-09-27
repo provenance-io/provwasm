@@ -1,10 +1,7 @@
 use cosmwasm_std::{Attribute, Event};
 use uuid::Uuid;
 
-use crate::core::constants::{
-    EVENT_BURN,
-    EVENT_BURN_TOKEN_ID,
-};
+use crate::core::constants::{EVENT_BURN, EVENT_BURN_TOKEN_ID};
 
 pub struct EventBurn {
     pub token_id: Uuid,
