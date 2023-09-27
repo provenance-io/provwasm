@@ -24,12 +24,13 @@ use crate::{
 
 pub fn handle(
     deps: DepsMut,
-    _info: MessageInfo,
+    info: MessageInfo,
     env: Env,
     token_id: Uuid,
     session_uuid: Uuid,
     recipient: Addr,
 ) -> Result<Response, ContractError> {
+    cw_ownable::assert_owner(deps.storage, &info.sender)?;
     let state = storage::state::get(deps.storage)?;
     let contract_spec_uuid = Uuid::from_str(&state.contract_spec_uuid).unwrap();
     let scope_spec_uuid = Uuid::from_str(&state.scope_spec_uuid).unwrap();
