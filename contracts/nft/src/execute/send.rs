@@ -12,6 +12,7 @@ use std::str::FromStr;
 use uuid::Uuid;
 
 use crate::core::error::ContractError;
+use crate::events::send::EventSend;
 use crate::storage;
 use crate::storage::nft::TOKENS;
 use crate::util::action::{Action, ActionType};
@@ -22,26 +23,26 @@ pub fn handle(
     deps: DepsMut,
     env: Env,
     info: MessageInfo,
-    scope_uuid: Uuid,
+    token_id: Uuid,
     session_uuid: Uuid,
     contract: Addr,
     msg: Binary,
 ) -> Result<Response, ContractError> {
     // check if sender can transfer token
-    let mut nft = TOKENS.load(deps.storage, &scope_uuid.to_string())?;
+    let mut nft = TOKENS.load(deps.storage, &token_id.to_string())?;
     permission::can_send(deps.as_ref(), &env, &info, &nft)?;
 
     let state = storage::state::get(deps.storage)?;
     let contract_spec_uuid = Uuid::from_str(&state.contract_spec_uuid).unwrap();
 
     let update_scope_value_owner_msg = MsgUpdateValueOwnersRequest {
-        scope_ids: vec![MetadataAddress::scope(scope_uuid).unwrap().bytes],
+        scope_ids: vec![MetadataAddress::scope(token_id).unwrap().bytes],
         value_owner_address: contract.to_string(),
         signers: vec![env.contract.address.to_string(), info.sender.to_string()],
     };
 
     let session = Session {
-        session_id: MetadataAddress::session(scope_uuid, session_uuid)
+        session_id: MetadataAddress::session(token_id, session_uuid)
             .unwrap()
             .bytes,
         specification_id: MetadataAddress::contract_specification(contract_spec_uuid)
@@ -82,7 +83,7 @@ pub fn handle(
             ))),
         }],
         outputs: vec![RecordOutput {
-            hash: MetadataAddress::scope(scope_uuid)?.bech32,
+            hash: MetadataAddress::scope(token_id)?.bech32,
             status: ResultStatus::Pass.into(),
         }],
         specification_id: MetadataAddress::record_specification(
@@ -106,18 +107,19 @@ pub fn handle(
 
     let contract_msg = Cw721ReceiveMsg {
         sender: info.sender.to_string(),
-        token_id: scope_uuid.to_string(),
+        token_id: token_id.to_string(),
         msg,
     }
     .into_cosmos_msg(contract.to_string())?;
 
     // set new owner and clear existing approvals
-    nft.owner = contract;
+    nft.owner = contract.clone();
     nft.approvals = vec![];
-    TOKENS.save(deps.storage, &scope_uuid.to_string(), &nft)?;
+    TOKENS.save(deps.storage, &token_id.to_string(), &nft)?;
 
     Ok(Response::default()
         .set_action(ActionType::Send)
+        .add_event(EventSend { contract, token_id }.into())
         .add_message(update_scope_value_owner_msg)
         .add_message(write_session_msg)
         .add_message(write_record_msg)

@@ -62,3 +62,8 @@ pub const EVENT_REVOKE_TOKEN_ID: &str = TOKEN_ID;
 pub const EVENT_REVOKE_ALL: &str = ACTION_TYPE_REVOKE_ALL;
 pub const EVENT_REVOKE_ALL_OPERATOR: &str = OPERATOR;
 pub const EVENT_REVOKE_ALL_SENDER: &str = SENDER;
+
+// Send Event
+pub const EVENT_SEND: &str = ACTION_TYPE_SEND;
+pub const EVENT_SEND_CONTRACT: &str = "contract";
+pub const EVENT_SEND_TOKEN_ID: &str = TOKEN_ID;
