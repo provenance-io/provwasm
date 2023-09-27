@@ -10,12 +10,9 @@ pub struct EventMint {
 
 impl From<EventMint> for Event {
     fn from(value: EventMint) -> Self {
-        Event::new(EVENT_MINT).add_attributes([Attribute::new(
-            EVENT_MINT_RECIPIENT,
-            value.recipient.to_string(),
-        ),Attribute::new(
-            EVENT_MINT_TOKEN_ID,
-            value.token_id.to_string(),
-        )])
+        Event::new(EVENT_MINT).add_attributes([
+            Attribute::new(EVENT_MINT_RECIPIENT, value.recipient.as_str()),
+            Attribute::new(EVENT_MINT_TOKEN_ID, value.token_id.to_string()),
+        ])
     }
 }

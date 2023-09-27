@@ -9,7 +9,7 @@ pub struct EventApprove<'a> {
 impl<'a> From<EventApprove<'a>> for Event {
     fn from(value: EventApprove) -> Self {
         Event::new(EVENT_APPROVE).add_attributes([
-            Attribute::new(EVENT_APPROVE_SPENDER, value.spender),
+            Attribute::new(EVENT_APPROVE_SPENDER, value.spender.as_str()),
             Attribute::new(EVENT_APPROVE_TOKEN_ID, value.token_id),
         ])
     }
