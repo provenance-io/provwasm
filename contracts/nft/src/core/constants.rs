@@ -28,7 +28,10 @@ pub const DEFAULT_LIMIT: u32 = 10;
 pub const MAX_LIMIT: u32 = 100;
 
 // Events
+pub const OPERATOR: &str = "operator";
 pub const TOKEN_ID: &str = "token_id";
+// sender is not the same as spender. should be refactored to something like `owner`
+pub const SENDER: &str = "sender";
 pub const SPENDER: &str = "spender";
 
 // Approve Event
@@ -38,8 +41,8 @@ pub const EVENT_APPROVE_TOKEN_ID: &str = TOKEN_ID;
 
 // Approve All Event
 pub const EVENT_APPROVE_ALL: &str = ACTION_TYPE_APPROVE_ALL;
-pub const EVENT_APPROVE_ALL_OPERATOR: &str = "operator";
-pub const EVENT_APPROVE_ALL_SENDER: &str = "sender";
+pub const EVENT_APPROVE_ALL_OPERATOR: &str = OPERATOR;
+pub const EVENT_APPROVE_ALL_SENDER: &str = SENDER;
 
 // Burn Event
 pub const EVENT_BURN: &str = ACTION_TYPE_BURN;
@@ -54,3 +57,8 @@ pub const EVENT_MINT_TOKEN_ID: &str = TOKEN_ID;
 pub const EVENT_REVOKE: &str = ACTION_TYPE_REVOKE;
 pub const EVENT_REVOKE_SPENDER: &str = SPENDER;
 pub const EVENT_REVOKE_TOKEN_ID: &str = TOKEN_ID;
+
+// Revoke All Event
+pub const EVENT_REVOKE_ALL: &str = ACTION_TYPE_REVOKE_ALL;
+pub const EVENT_REVOKE_ALL_OPERATOR: &str = OPERATOR;
+pub const EVENT_REVOKE_ALL_SENDER: &str = SENDER;
