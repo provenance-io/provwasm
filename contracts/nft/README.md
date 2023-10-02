@@ -49,7 +49,7 @@ NFTs can be represented using the `metadata module` via the following mappings:
 - `AllTokens`
 ### [Additional Execution](src/execute/README.md#additional-execution-methods)
 - `Burn`
-- `Mint`
+- `Mint` *in this nft example, the minter has already received funds OOB since they are the only one authorized to call the mint function*
 - `Update Ownership`
 
 ---

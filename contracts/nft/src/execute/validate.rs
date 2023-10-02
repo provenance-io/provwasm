@@ -8,17 +8,11 @@ impl Validate for ExecuteMsg {
         Ok(())
     }
 
-    fn validate_funds(&self, _funds: &[Coin]) -> Result<(), ContractError> {
-        match self {
-            ExecuteMsg::Mint { .. } => Ok(()),
-            ExecuteMsg::Burn { .. } => Ok(()),
-            ExecuteMsg::TransferNft { .. } => Ok(()),
-            ExecuteMsg::Approve { .. } => Ok(()),
-            ExecuteMsg::Revoke { .. } => Ok(()),
-            ExecuteMsg::ApproveAll { .. } => Ok(()),
-            ExecuteMsg::RevokeAll { .. } => Ok(()),
-            ExecuteMsg::SendNft { .. } => Ok(()),
-            ExecuteMsg::UpdateOwnership(_) => Ok(()),
+    // in this nft example, the minter has already received funds OOB since they are the only one authorized to call the mint function
+    fn validate_funds(&self, funds: &[Coin]) -> Result<(), ContractError> {
+        if !funds.is_empty() {
+            return Err(ContractError::FundsPresent {});
         }
+        Ok(())
     }
 }

@@ -17,9 +17,6 @@ pub enum ContractError {
     #[error("Funds present")]
     FundsPresent {},
 
-    #[error("Funds missing")]
-    FundsMissing {},
-
     #[error(transparent)]
     Ownership(#[from] OwnershipError),
 
