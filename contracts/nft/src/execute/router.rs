@@ -1,13 +1,11 @@
-use std::str::FromStr;
-
 use cosmwasm_std::{DepsMut, Env, MessageInfo, Response};
-use uuid::Uuid;
 
 use crate::core::error::ContractError;
 use crate::core::msg::ExecuteMsg;
 use crate::execute::{
     approve, approve_all, burn, mint, revoke, revoke_all, send, transfer, update_ownership,
 };
+use crate::util::parse_uuid;
 
 pub fn route(
     deps: DepsMut,
@@ -17,15 +15,15 @@ pub fn route(
 ) -> Result<Response, ContractError> {
     match msg {
         ExecuteMsg::Mint {
-            scope_uuid,
+            token_id,
             session_uuid,
             recipient,
         } => mint::handle(
             deps,
             info,
             env,
-            Uuid::from_str(scope_uuid.as_str()).unwrap(),
-            Uuid::from_str(session_uuid.as_str()).unwrap(),
+            parse_uuid(&token_id)?,
+            parse_uuid(&session_uuid)?,
             recipient,
         ),
         ExecuteMsg::Approve {
@@ -49,8 +47,8 @@ pub fn route(
             env,
             info,
             recipient.clone(),
-            Uuid::from_str(&token_id).unwrap(),
-            Uuid::from_str(&session_uuid).unwrap(),
+            parse_uuid(&token_id)?,
+            parse_uuid(&session_uuid)?,
         ),
         ExecuteMsg::SendNft {
             token_id,
@@ -61,14 +59,12 @@ pub fn route(
             deps,
             env,
             info,
-            Uuid::from_str(&token_id).unwrap(),
-            Uuid::from_str(&session_uuid).unwrap(),
+            parse_uuid(&token_id)?,
+            parse_uuid(&session_uuid)?,
             contract,
             msg,
         ),
-        ExecuteMsg::Burn { token_id: id } => {
-            burn::handle(deps, env, info, Uuid::from_str(&id).unwrap())
-        }
+        ExecuteMsg::Burn { token_id } => burn::handle(deps, env, info, parse_uuid(&token_id)?),
         ExecuteMsg::UpdateOwnership(action) => update_ownership::handle(deps, env, info, action),
     }
 }

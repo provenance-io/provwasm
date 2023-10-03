@@ -1,5 +1,3 @@
-use std::str::FromStr;
-
 use cosmwasm_std::{Addr, DepsMut, Env, MessageInfo, Response};
 use provwasm_std::types::provenance::metadata::v1::process::ProcessId;
 use provwasm_std::types::provenance::metadata::v1::record_input::Source;
@@ -16,6 +14,7 @@ use crate::events::mint::EventMint;
 use crate::storage::nft::{Nft, TOKENS};
 use crate::storage::nft_count;
 use crate::util::metadata_address::MetadataAddress;
+use crate::util::parse_uuid;
 use crate::{
     core::error::ContractError,
     storage,
@@ -32,8 +31,8 @@ pub fn handle(
 ) -> Result<Response, ContractError> {
     cw_ownable::assert_owner(deps.storage, &info.sender)?;
     let state = storage::state::get(deps.storage)?;
-    let contract_spec_uuid = Uuid::from_str(&state.contract_spec_uuid).unwrap();
-    let scope_spec_uuid = Uuid::from_str(&state.scope_spec_uuid).unwrap();
+    let contract_spec_uuid = parse_uuid(&state.contract_spec_uuid)?;
+    let scope_spec_uuid = parse_uuid(&state.scope_spec_uuid)?;
 
     let scope = Scope {
         scope_id: vec![],

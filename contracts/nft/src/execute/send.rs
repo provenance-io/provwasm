@@ -7,8 +7,6 @@ use provwasm_std::types::provenance::metadata::v1::{
     Process, Record, RecordInput, RecordInputStatus, RecordOutput, ResultStatus, Session,
 };
 use sha2::{Digest, Sha256};
-use std::str::FromStr;
-
 use uuid::Uuid;
 
 use crate::core::error::ContractError;
@@ -17,7 +15,7 @@ use crate::storage;
 use crate::storage::nft::TOKENS;
 use crate::util::action::{Action, ActionType};
 use crate::util::metadata_address::MetadataAddress;
-use crate::util::permission;
+use crate::util::{parse_uuid, permission};
 
 pub fn handle(
     deps: DepsMut,
@@ -33,7 +31,7 @@ pub fn handle(
     permission::can_send(deps.as_ref(), &env, &info, &nft)?;
 
     let state = storage::state::get(deps.storage)?;
-    let contract_spec_uuid = Uuid::from_str(&state.contract_spec_uuid).unwrap();
+    let contract_spec_uuid = parse_uuid(&state.contract_spec_uuid)?;
 
     let update_scope_value_owner_msg = MsgUpdateValueOwnersRequest {
         scope_ids: vec![MetadataAddress::scope(token_id).unwrap().bytes],
