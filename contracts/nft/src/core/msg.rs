@@ -54,7 +54,7 @@ pub enum ExecuteMsg {
     /// Mint a new NFT, can only be called by the contract minter
     Mint {
         /// Generated UUID to use for creating the NFT (Scope)
-        scope_uuid: String,
+        token_id: String,
         /// Generated UUID to use for creating the Session which encapsulates an owner data record
         session_uuid: String,
         /// Recipient of the NFT
