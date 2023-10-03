@@ -1,6 +1,7 @@
 use cosmwasm_std::StdError;
 use cw_ownable::OwnershipError;
 use thiserror::Error;
+use uuid::Error;
 
 #[derive(Error, Debug)]
 pub enum ContractError {
@@ -22,4 +23,7 @@ pub enum ContractError {
 
     #[error("Unauthorized")]
     Unauthorized {},
+
+    #[error("Could not parse to UUID: {error}")]
+    Uuid { error: Error },
 }
