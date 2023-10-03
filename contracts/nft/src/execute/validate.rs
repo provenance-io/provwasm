@@ -1,10 +1,38 @@
 use cosmwasm_std::{Coin, Deps};
 
 use crate::core::error::ContractError;
+use crate::util::parse_uuid;
 use crate::{core::msg::ExecuteMsg, util::validate::Validate};
 
 impl Validate for ExecuteMsg {
     fn validate(&self, _deps: Deps) -> Result<(), ContractError> {
+        match self {
+            ExecuteMsg::Approve { token_id, .. }
+            | ExecuteMsg::Burn { token_id }
+            | ExecuteMsg::Revoke { token_id, .. } => {
+                parse_uuid(token_id)?;
+            }
+            ExecuteMsg::Mint {
+                session_uuid,
+                token_id,
+                ..
+            }
+            | ExecuteMsg::SendNft {
+                session_uuid,
+                token_id,
+                ..
+            }
+            | ExecuteMsg::TransferNft {
+                session_uuid,
+                token_id,
+                ..
+            } => {
+                parse_uuid(session_uuid)?;
+                parse_uuid(token_id)?;
+            }
+            _ => {}
+        }
+
         Ok(())
     }
 

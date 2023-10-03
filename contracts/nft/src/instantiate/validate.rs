@@ -21,7 +21,6 @@ impl Validate for InstantiateMsg {
 #[cfg(test)]
 mod tests {
     use cosmwasm_std::Coin;
-
     use provwasm_mocks::mock_provenance_dependencies;
 
     use crate::{
