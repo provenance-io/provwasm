@@ -126,7 +126,7 @@ use cosmwasm_std::Decimal;
 pub struct InstantiateMsg {  
     pub contract_name: String,  
     pub purchase_denom: String,  
-    pub merchant_address: Addr,  
+    pub merchant_address: String,  
     pub fee_percent: Decimal,  
 }  
   
