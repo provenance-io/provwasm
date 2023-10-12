@@ -5,6 +5,7 @@ use uuid::Uuid;
 use crate::core::error::ContractError;
 use crate::events::burn::EventBurn;
 use crate::storage::nft::TOKENS;
+use crate::storage::nft_count;
 use crate::util::action::{Action, ActionType};
 use crate::util::metadata_address::MetadataAddress;
 use crate::util::permission;
@@ -23,6 +24,8 @@ pub fn handle(
         scope_id: MetadataAddress::scope(token_id)?.bytes,
         signers: vec![env.contract.address.to_string(), info.sender.to_string()],
     };
+
+    nft_count::decrement_nft_count(deps.storage)?;
 
     Ok(Response::default()
         .set_action(ActionType::Burn {})
