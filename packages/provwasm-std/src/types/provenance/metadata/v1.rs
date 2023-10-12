@@ -2316,6 +2316,72 @@ pub struct MsgDeleteScopeOwnerResponse {}
     serde::Deserialize,
     provwasm_proc_macro::CosmwasmExt,
 )]
+#[proto_message(type_url = "/provenance.metadata.v1.MsgUpdateValueOwnersRequest")]
+#[serde(rename_all = "snake_case")]
+pub struct MsgUpdateValueOwnersRequest {
+    #[prost(bytes = "vec", repeated, tag = "1")]
+    pub scope_ids: ::prost::alloc::vec::Vec<::prost::alloc::vec::Vec<u8>>,
+    #[prost(string, tag = "2")]
+    pub value_owner_address: ::prost::alloc::string::String,
+    #[prost(string, repeated, tag = "3")]
+    pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(
+    Clone,
+    PartialEq,
+    ::prost::Message,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_proc_macro::CosmwasmExt,
+)]
+#[proto_message(type_url = "/provenance.metadata.v1.MsgUpdateValueOwnersResponse")]
+#[serde(rename_all = "snake_case")]
+pub struct MsgUpdateValueOwnersResponse {}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(
+    Clone,
+    PartialEq,
+    ::prost::Message,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_proc_macro::CosmwasmExt,
+)]
+#[proto_message(type_url = "/provenance.metadata.v1.MsgMigrateValueOwnerRequest")]
+#[serde(rename_all = "snake_case")]
+pub struct MsgMigrateValueOwnerRequest {
+    #[prost(string, tag = "1")]
+    pub existing: ::prost::alloc::string::String,
+    #[prost(string, tag = "2")]
+    pub proposed: ::prost::alloc::string::String,
+    #[prost(string, repeated, tag = "3")]
+    pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(
+    Clone,
+    PartialEq,
+    ::prost::Message,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_proc_macro::CosmwasmExt,
+)]
+#[proto_message(type_url = "/provenance.metadata.v1.MsgMigrateValueOwnerResponse")]
+#[serde(rename_all = "snake_case")]
+pub struct MsgMigrateValueOwnerResponse {}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(
+    Clone,
+    PartialEq,
+    ::prost::Message,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_proc_macro::CosmwasmExt,
+)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgWriteSessionRequest")]
 #[serde(rename_all = "snake_case")]
 pub struct MsgWriteSessionRequest {

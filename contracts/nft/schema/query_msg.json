@@ -1,0 +1,375 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "QueryMsg",
+  "oneOf": [
+    {
+      "description": "Returns the operator approval details for a given token",
+      "type": "object",
+      "required": [
+        "approval"
+      ],
+      "properties": {
+        "approval": {
+          "type": "object",
+          "required": [
+            "spender",
+            "token_id"
+          ],
+          "properties": {
+            "include_expired": {
+              "description": "unset or false will filter out expired approvals, you must set to true to see them",
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "spender": {
+              "description": "The operator allowed transfer / send of the token",
+              "type": "string"
+            },
+            "token_id": {
+              "description": "Token ID in UUID format (Scope UUID)",
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "description": "Returns all operator approvals details for a given token",
+      "type": "object",
+      "required": [
+        "approvals"
+      ],
+      "properties": {
+        "approvals": {
+          "type": "object",
+          "required": [
+            "token_id"
+          ],
+          "properties": {
+            "include_expired": {
+              "description": "unset or false will filter out expired approvals, you must set to true to see them",
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "token_id": {
+              "description": "Token ID in UUID format (Scope UUID)",
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "description": "MetaData Extension Returns metadata about the contract",
+      "type": "object",
+      "required": [
+        "contract_info"
+      ],
+      "properties": {
+        "contract_info": {
+          "type": "object",
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "description": "MetaData Extension Returns the contract version information",
+      "type": "object",
+      "required": [
+        "contract_version"
+      ],
+      "properties": {
+        "contract_version": {
+          "type": "object",
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "description": "Returns the `minter`",
+      "type": "object",
+      "required": [
+        "minter"
+      ],
+      "properties": {
+        "minter": {
+          "type": "object",
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "description": "Returns the owner of the given token, error if token does not exist",
+      "type": "object",
+      "required": [
+        "owner_of"
+      ],
+      "properties": {
+        "owner_of": {
+          "type": "object",
+          "required": [
+            "token_id"
+          ],
+          "properties": {
+            "include_expired": {
+              "description": "unset or false will filter out expired approvals, you must set to true to see them",
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "token_id": {
+              "description": "Token ID in UUID format (Scope UUID)",
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "description": "Returns the operator approval details for all tokens of a given owner or an error if not set",
+      "type": "object",
+      "required": [
+        "operator"
+      ],
+      "properties": {
+        "operator": {
+          "type": "object",
+          "required": [
+            "operator",
+            "owner"
+          ],
+          "properties": {
+            "include_expired": {
+              "description": "unset or false will filter out expired approvals, you must set to true to see them",
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "operator": {
+              "description": "The operator allowed transfer / send of the token",
+              "type": "string"
+            },
+            "owner": {
+              "description": "Owner of the NFT",
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "description": "Returns all operator approvals details for all tokens of a given owner",
+      "type": "object",
+      "required": [
+        "all_operators"
+      ],
+      "properties": {
+        "all_operators": {
+          "type": "object",
+          "required": [
+            "owner"
+          ],
+          "properties": {
+            "include_expired": {
+              "description": "unset or false will filter out expired approvals, you must set to true to see them",
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "limit": {
+              "description": "The total number of operator details to return",
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "owner": {
+              "description": "Owner of the NFT",
+              "type": "string"
+            },
+            "start_after": {
+              "description": "The operator id to index from",
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "description": "Total number of tokens issued",
+      "type": "object",
+      "required": [
+        "num_tokens"
+      ],
+      "properties": {
+        "num_tokens": {
+          "type": "object",
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "description": "MetaData Extension Returns metadata about one particular token, based on *ERC721 Metadata JSON Schema* but directly from the contract",
+      "type": "object",
+      "required": [
+        "nft_info"
+      ],
+      "properties": {
+        "nft_info": {
+          "type": "object",
+          "required": [
+            "token_id"
+          ],
+          "properties": {
+            "token_id": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "description": "MetaData Extension Returns the result of both `NftInfo` and `OwnerOf` as one query as an optimization for clients",
+      "type": "object",
+      "required": [
+        "all_nft_info"
+      ],
+      "properties": {
+        "all_nft_info": {
+          "type": "object",
+          "required": [
+            "token_id"
+          ],
+          "properties": {
+            "include_expired": {
+              "description": "unset or false will filter out expired approvals, you must set to true to see them",
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "token_id": {
+              "description": "Token ID in UUID format (Scope UUID)",
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "description": "Enumerable extension Returns all tokens owned by the given address, [] if unset.",
+      "type": "object",
+      "required": [
+        "tokens"
+      ],
+      "properties": {
+        "tokens": {
+          "type": "object",
+          "required": [
+            "owner"
+          ],
+          "properties": {
+            "limit": {
+              "description": "The total number of token details to return",
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "owner": {
+              "description": "Owner of the NFT",
+              "type": "string"
+            },
+            "start_after": {
+              "description": "The token id to index from",
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "description": "Enumerable extension Requires pagination. Lists all token_ids controlled by the contract.",
+      "type": "object",
+      "required": [
+        "all_tokens"
+      ],
+      "properties": {
+        "all_tokens": {
+          "type": "object",
+          "properties": {
+            "limit": {
+              "description": "The total number of token details to return",
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "start_after": {
+              "description": "The token id to index from",
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "description": "Query the contract's ownership information",
+      "type": "object",
+      "required": [
+        "ownership"
+      ],
+      "properties": {
+        "ownership": {
+          "type": "object",
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  ]
+}

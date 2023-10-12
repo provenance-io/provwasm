@@ -167,6 +167,10 @@ types:
     - provenance.metadata.v1.MsgAddScopeOwnerResponse
     - provenance.metadata.v1.MsgDeleteScopeOwnerRequest
     - provenance.metadata.v1.MsgDeleteScopeOwnerResponse
+    - provenance.metadata.v1.MsgUpdateValueOwnersRequest
+    - provenance.metadata.v1.MsgUpdateValueOwnersResponse
+    - provenance.metadata.v1.MsgMigrateValueOwnerRequest
+    - provenance.metadata.v1.MsgMigrateValueOwnerResponse
     - provenance.metadata.v1.MsgWriteSessionRequest
     - provenance.metadata.v1.SessionIdComponents
     - provenance.metadata.v1.MsgWriteSessionResponse
