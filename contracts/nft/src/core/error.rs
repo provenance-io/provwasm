@@ -17,6 +17,9 @@ pub enum ContractError {
 
     #[error("Funds present")]
     FundsPresent {},
+    
+    #[error("Limit exceeds maximum of: {max_limit}")]
+    MaxLimitExceeded { max_limit: u32 },
 
     #[error(transparent)]
     Ownership(#[from] OwnershipError),
