@@ -57,6 +57,8 @@ types:
     - provenance.exchange.v1.Order
     - provenance.exchange.v1.AskOrder
     - provenance.exchange.v1.BidOrder
+    - provenance.exchange.v1.Params
+    - provenance.exchange.v1.DenomSplit
     - provenance.marker.v1.AccessGrant
     - provenance.marker.v1.Access
     - provenance.marker.v1.MarkerTransferAuthorization
