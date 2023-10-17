@@ -59,6 +59,32 @@ types:
     - provenance.exchange.v1.BidOrder
     - provenance.exchange.v1.Params
     - provenance.exchange.v1.DenomSplit
+    - provenance.exchange.v1.QueryOrderFeeCalcRequest
+    - provenance.exchange.v1.QueryOrderFeeCalcResponse
+    - provenance.exchange.v1.QueryGetOrderRequest
+    - provenance.exchange.v1.QueryGetOrderResponse
+    - provenance.exchange.v1.QueryGetOrderByExternalIDRequest
+    - provenance.exchange.v1.QueryGetOrderByExternalIDResponse
+    - provenance.exchange.v1.QueryGetMarketOrdersRequest
+    - provenance.exchange.v1.QueryGetMarketOrdersResponse
+    - provenance.exchange.v1.QueryGetOwnerOrdersRequest
+    - provenance.exchange.v1.QueryGetOwnerOrdersResponse
+    - provenance.exchange.v1.QueryGetAssetOrdersRequest
+    - provenance.exchange.v1.QueryGetAssetOrdersResponse
+    - provenance.exchange.v1.QueryGetAllOrdersRequest
+    - provenance.exchange.v1.QueryGetAllOrdersResponse
+    - provenance.exchange.v1.QueryGetMarketRequest
+    - provenance.exchange.v1.QueryGetMarketResponse
+    - provenance.exchange.v1.QueryGetAllMarketsRequest
+    - provenance.exchange.v1.QueryGetAllMarketsResponse
+    - provenance.exchange.v1.QueryParamsRequest
+    - provenance.exchange.v1.QueryParamsResponse
+    - provenance.exchange.v1.QueryValidateCreateMarketRequest
+    - provenance.exchange.v1.QueryValidateCreateMarketResponse
+    - provenance.exchange.v1.QueryValidateMarketRequest
+    - provenance.exchange.v1.QueryValidateMarketResponse
+    - provenance.exchange.v1.QueryValidateManageFeesRequest
+    - provenance.exchange.v1.QueryValidateManageFeesResponse
     - provenance.marker.v1.AccessGrant
     - provenance.marker.v1.Access
     - provenance.marker.v1.MarkerTransferAuthorization
