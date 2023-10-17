@@ -31,6 +31,22 @@ types:
     - provenance.attribute.v1.MsgDeleteAttributeResponse
     - provenance.attribute.v1.MsgDeleteDistinctAttributeRequest
     - provenance.attribute.v1.MsgDeleteDistinctAttributeResponse
+    - provenance.exchange.v1.EventOrderCreated
+    - provenance.exchange.v1.EventOrderCancelled
+    - provenance.exchange.v1.EventOrderFilled
+    - provenance.exchange.v1.EventOrderPartiallyFilled
+    - provenance.exchange.v1.EventOrderExternalIDUpdated
+    - provenance.exchange.v1.EventMarketWithdraw
+    - provenance.exchange.v1.EventMarketDetailsUpdated
+    - provenance.exchange.v1.EventMarketEnabled
+    - provenance.exchange.v1.EventMarketDisabled
+    - provenance.exchange.v1.EventMarketUserSettleEnabled
+    - provenance.exchange.v1.EventMarketUserSettleDisabled
+    - provenance.exchange.v1.EventMarketPermissionsUpdated
+    - provenance.exchange.v1.EventMarketReqAttrUpdated
+    - provenance.exchange.v1.EventMarketCreated
+    - provenance.exchange.v1.EventMarketFeesUpdated
+    - provenance.exchange.v1.EventParamsUpdated
     - provenance.marker.v1.AccessGrant
     - provenance.marker.v1.Access
     - provenance.marker.v1.MarkerTransferAuthorization
