@@ -47,6 +47,13 @@ types:
     - provenance.exchange.v1.EventMarketCreated
     - provenance.exchange.v1.EventMarketFeesUpdated
     - provenance.exchange.v1.EventParamsUpdated
+    - provenance.exchange.v1.MarketAccount
+    - provenance.exchange.v1.MarketDetails
+    - provenance.exchange.v1.MarketBrief
+    - provenance.exchange.v1.Market
+    - provenance.exchange.v1.FeeRatio
+    - provenance.exchange.v1.AccessGrant
+    - provenance.exchange.v1.Permission
     - provenance.marker.v1.AccessGrant
     - provenance.marker.v1.Access
     - provenance.marker.v1.MarkerTransferAuthorization
