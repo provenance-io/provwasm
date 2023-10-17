@@ -85,6 +85,38 @@ types:
     - provenance.exchange.v1.QueryValidateMarketResponse
     - provenance.exchange.v1.QueryValidateManageFeesRequest
     - provenance.exchange.v1.QueryValidateManageFeesResponse
+    - provenance.exchange.v1.MsgCreateAskRequest
+    - provenance.exchange.v1.MsgCreateAskResponse
+    - provenance.exchange.v1.MsgCreateBidRequest
+    - provenance.exchange.v1.MsgCreateBidResponse
+    - provenance.exchange.v1.MsgCancelOrderRequest
+    - provenance.exchange.v1.MsgCancelOrderResponse
+    - provenance.exchange.v1.MsgFillBidsRequest
+    - provenance.exchange.v1.MsgFillBidsResponse
+    - provenance.exchange.v1.MsgFillAsksRequest
+    - provenance.exchange.v1.MsgFillAsksResponse
+    - provenance.exchange.v1.MsgMarketSettleRequest
+    - provenance.exchange.v1.MsgMarketSettleResponse
+    - provenance.exchange.v1.MsgMarketSetOrderExternalIDRequest
+    - provenance.exchange.v1.MsgMarketSetOrderExternalIDResponse
+    - provenance.exchange.v1.MsgMarketWithdrawRequest
+    - provenance.exchange.v1.MsgMarketWithdrawResponse
+    - provenance.exchange.v1.MsgMarketUpdateDetailsRequest
+    - provenance.exchange.v1.MsgMarketUpdateDetailsResponse
+    - provenance.exchange.v1.MsgMarketUpdateEnabledRequest
+    - provenance.exchange.v1.MsgMarketUpdateEnabledResponse
+    - provenance.exchange.v1.MsgMarketUpdateUserSettleRequest
+    - provenance.exchange.v1.MsgMarketUpdateUserSettleResponse
+    - provenance.exchange.v1.MsgMarketManagePermissionsRequest
+    - provenance.exchange.v1.MsgMarketManagePermissionsResponse
+    - provenance.exchange.v1.MsgMarketManageReqAttrsRequest
+    - provenance.exchange.v1.MsgMarketManageReqAttrsResponse
+    - provenance.exchange.v1.MsgGovCreateMarketRequest
+    - provenance.exchange.v1.MsgGovCreateMarketResponse
+    - provenance.exchange.v1.MsgGovManageFeesRequest
+    - provenance.exchange.v1.MsgGovManageFeesResponse
+    - provenance.exchange.v1.MsgGovUpdateParamsRequest
+    - provenance.exchange.v1.MsgGovUpdateParamsResponse
     - provenance.marker.v1.AccessGrant
     - provenance.marker.v1.Access
     - provenance.marker.v1.MarkerTransferAuthorization
