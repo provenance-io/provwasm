@@ -54,6 +54,9 @@ types:
     - provenance.exchange.v1.FeeRatio
     - provenance.exchange.v1.AccessGrant
     - provenance.exchange.v1.Permission
+    - provenance.exchange.v1.Order
+    - provenance.exchange.v1.AskOrder
+    - provenance.exchange.v1.BidOrder
     - provenance.marker.v1.AccessGrant
     - provenance.marker.v1.Access
     - provenance.marker.v1.MarkerTransferAuthorization
