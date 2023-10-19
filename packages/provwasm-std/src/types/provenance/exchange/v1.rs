@@ -1290,7 +1290,7 @@ pub struct MsgGovUpdateParamsResponse {}
 #[proto_message(type_url = "/provenance.exchange.v1.QueryOrderFeeCalcRequest")]
 #[serde(rename_all = "snake_case")]
 #[proto_query(
-    path = "/provenance.exchange.v1.Query/QueryOrderFeeCalc",
+    path = "/provenance.exchange.v1.Query/OrderFeeCalc",
     response_type = QueryOrderFeeCalcResponse
 )]
 pub struct QueryOrderFeeCalcRequest {
@@ -1335,7 +1335,7 @@ pub struct QueryOrderFeeCalcResponse {
 #[proto_message(type_url = "/provenance.exchange.v1.QueryGetOrderRequest")]
 #[serde(rename_all = "snake_case")]
 #[proto_query(
-    path = "/provenance.exchange.v1.Query/QueryGetOrder",
+    path = "/provenance.exchange.v1.Query/GetOrder",
     response_type = QueryGetOrderResponse
 )]
 pub struct QueryGetOrderRequest {
@@ -1375,7 +1375,7 @@ pub struct QueryGetOrderResponse {
 #[proto_message(type_url = "/provenance.exchange.v1.QueryGetOrderByExternalIDRequest")]
 #[serde(rename_all = "snake_case")]
 #[proto_query(
-    path = "/provenance.exchange.v1.Query/QueryGetOrderByExternalID",
+    path = "/provenance.exchange.v1.Query/GetOrderByExternalID",
     response_type = QueryGetOrderByExternalIdResponse
 )]
 pub struct QueryGetOrderByExternalIdRequest {
@@ -1413,7 +1413,7 @@ pub struct QueryGetOrderByExternalIdResponse {
 #[proto_message(type_url = "/provenance.exchange.v1.QueryGetMarketOrdersRequest")]
 #[serde(rename_all = "snake_case")]
 #[proto_query(
-    path = "/provenance.exchange.v1.Query/QueryGetMarketOrders",
+    path = "/provenance.exchange.v1.Query/GetMarketOrders",
     response_type = QueryGetMarketOrdersResponse
 )]
 pub struct QueryGetMarketOrdersRequest {
@@ -1463,7 +1463,7 @@ pub struct QueryGetMarketOrdersResponse {
 #[proto_message(type_url = "/provenance.exchange.v1.QueryGetOwnerOrdersRequest")]
 #[serde(rename_all = "snake_case")]
 #[proto_query(
-    path = "/provenance.exchange.v1.Query/QueryGetOwnerOrders",
+    path = "/provenance.exchange.v1.Query/GetOwnerOrders",
     response_type = QueryGetOwnerOrdersResponse
 )]
 pub struct QueryGetOwnerOrdersRequest {
@@ -1513,7 +1513,7 @@ pub struct QueryGetOwnerOrdersResponse {
 #[proto_message(type_url = "/provenance.exchange.v1.QueryGetAssetOrdersRequest")]
 #[serde(rename_all = "snake_case")]
 #[proto_query(
-    path = "/provenance.exchange.v1.Query/QueryGetAssetOrders",
+    path = "/provenance.exchange.v1.Query/GetAssetOrders",
     response_type = QueryGetAssetOrdersResponse
 )]
 pub struct QueryGetAssetOrdersRequest {
@@ -1563,7 +1563,7 @@ pub struct QueryGetAssetOrdersResponse {
 #[proto_message(type_url = "/provenance.exchange.v1.QueryGetAllOrdersRequest")]
 #[serde(rename_all = "snake_case")]
 #[proto_query(
-    path = "/provenance.exchange.v1.Query/QueryGetAllOrders",
+    path = "/provenance.exchange.v1.Query/GetAllOrders",
     response_type = QueryGetAllOrdersResponse
 )]
 pub struct QueryGetAllOrdersRequest {
@@ -1603,7 +1603,7 @@ pub struct QueryGetAllOrdersResponse {
 #[proto_message(type_url = "/provenance.exchange.v1.QueryGetMarketRequest")]
 #[serde(rename_all = "snake_case")]
 #[proto_query(
-    path = "/provenance.exchange.v1.Query/QueryGetMarket",
+    path = "/provenance.exchange.v1.Query/GetMarket",
     response_type = QueryGetMarketResponse
 )]
 pub struct QueryGetMarketRequest {
@@ -1641,7 +1641,7 @@ pub struct QueryGetMarketResponse {
 #[proto_message(type_url = "/provenance.exchange.v1.QueryGetAllMarketsRequest")]
 #[serde(rename_all = "snake_case")]
 #[proto_query(
-    path = "/provenance.exchange.v1.Query/QueryGetAllMarkets",
+    path = "/provenance.exchange.v1.Query/GetAllMarkets",
     response_type = QueryGetAllMarketsResponse
 )]
 pub struct QueryGetAllMarketsRequest {
@@ -1681,7 +1681,7 @@ pub struct QueryGetAllMarketsResponse {
 #[proto_message(type_url = "/provenance.exchange.v1.QueryParamsRequest")]
 #[serde(rename_all = "snake_case")]
 #[proto_query(
-    path = "/provenance.exchange.v1.Query/QueryParams",
+    path = "/provenance.exchange.v1.Query/Params",
     response_type = QueryParamsResponse
 )]
 pub struct QueryParamsRequest {}
@@ -1714,7 +1714,7 @@ pub struct QueryParamsResponse {
 #[proto_message(type_url = "/provenance.exchange.v1.QueryValidateCreateMarketRequest")]
 #[serde(rename_all = "snake_case")]
 #[proto_query(
-    path = "/provenance.exchange.v1.Query/QueryValidateCreateMarket",
+    path = "/provenance.exchange.v1.Query/ValidateCreateMarket",
     response_type = QueryValidateCreateMarketResponse
 )]
 pub struct QueryValidateCreateMarketRequest {
@@ -1752,7 +1752,7 @@ pub struct QueryValidateCreateMarketResponse {
 #[proto_message(type_url = "/provenance.exchange.v1.QueryValidateMarketRequest")]
 #[serde(rename_all = "snake_case")]
 #[proto_query(
-    path = "/provenance.exchange.v1.Query/QueryValidateMarket",
+    path = "/provenance.exchange.v1.Query/ValidateMarket",
     response_type = QueryValidateMarketResponse
 )]
 pub struct QueryValidateMarketRequest {
@@ -1788,7 +1788,7 @@ pub struct QueryValidateMarketResponse {
 #[proto_message(type_url = "/provenance.exchange.v1.QueryValidateManageFeesRequest")]
 #[serde(rename_all = "snake_case")]
 #[proto_query(
-    path = "/provenance.exchange.v1.Query/QueryValidateManageFees",
+    path = "/provenance.exchange.v1.Query/ValidateManageFees",
     response_type = QueryValidateManageFeesResponse
 )]
 pub struct QueryValidateManageFeesRequest {
@@ -1820,7 +1820,7 @@ impl<'a, Q: cosmwasm_std::CustomQuery> ExchangeQuerier<'a, Q> {
     pub fn new(querier: &'a cosmwasm_std::QuerierWrapper<'a, Q>) -> Self {
         Self { querier }
     }
-    pub fn query_order_fee_calc(
+    pub fn order_fee_calc(
         &self,
         ask_order: ::core::option::Option<AskOrder>,
         bid_order: ::core::option::Option<BidOrder>,
@@ -1831,13 +1831,13 @@ impl<'a, Q: cosmwasm_std::CustomQuery> ExchangeQuerier<'a, Q> {
         }
         .query(self.querier)
     }
-    pub fn query_get_order(
+    pub fn get_order(
         &self,
         order_id: u64,
     ) -> std::result::Result<QueryGetOrderResponse, cosmwasm_std::StdError> {
         QueryGetOrderRequest { order_id }.query(self.querier)
     }
-    pub fn query_get_order_by_external_id(
+    pub fn get_order_by_external_id(
         &self,
         market_id: u32,
         external_id: ::prost::alloc::string::String,
@@ -1848,7 +1848,7 @@ impl<'a, Q: cosmwasm_std::CustomQuery> ExchangeQuerier<'a, Q> {
         }
         .query(self.querier)
     }
-    pub fn query_get_market_orders(
+    pub fn get_market_orders(
         &self,
         market_id: u32,
         order_type: ::prost::alloc::string::String,
@@ -1865,7 +1865,7 @@ impl<'a, Q: cosmwasm_std::CustomQuery> ExchangeQuerier<'a, Q> {
         }
         .query(self.querier)
     }
-    pub fn query_get_owner_orders(
+    pub fn get_owner_orders(
         &self,
         owner: ::prost::alloc::string::String,
         order_type: ::prost::alloc::string::String,
@@ -1882,7 +1882,7 @@ impl<'a, Q: cosmwasm_std::CustomQuery> ExchangeQuerier<'a, Q> {
         }
         .query(self.querier)
     }
-    pub fn query_get_asset_orders(
+    pub fn get_asset_orders(
         &self,
         asset: ::prost::alloc::string::String,
         order_type: ::prost::alloc::string::String,
@@ -1899,7 +1899,7 @@ impl<'a, Q: cosmwasm_std::CustomQuery> ExchangeQuerier<'a, Q> {
         }
         .query(self.querier)
     }
-    pub fn query_get_all_orders(
+    pub fn get_all_orders(
         &self,
         pagination: ::core::option::Option<
             super::super::super::cosmos::base::query::v1beta1::PageRequest,
@@ -1907,13 +1907,13 @@ impl<'a, Q: cosmwasm_std::CustomQuery> ExchangeQuerier<'a, Q> {
     ) -> std::result::Result<QueryGetAllOrdersResponse, cosmwasm_std::StdError> {
         QueryGetAllOrdersRequest { pagination }.query(self.querier)
     }
-    pub fn query_get_market(
+    pub fn get_market(
         &self,
         market_id: u32,
     ) -> std::result::Result<QueryGetMarketResponse, cosmwasm_std::StdError> {
         QueryGetMarketRequest { market_id }.query(self.querier)
     }
-    pub fn query_get_all_markets(
+    pub fn get_all_markets(
         &self,
         pagination: ::core::option::Option<
             super::super::super::cosmos::base::query::v1beta1::PageRequest,
@@ -1921,10 +1921,10 @@ impl<'a, Q: cosmwasm_std::CustomQuery> ExchangeQuerier<'a, Q> {
     ) -> std::result::Result<QueryGetAllMarketsResponse, cosmwasm_std::StdError> {
         QueryGetAllMarketsRequest { pagination }.query(self.querier)
     }
-    pub fn query_params(&self) -> std::result::Result<QueryParamsResponse, cosmwasm_std::StdError> {
+    pub fn params(&self) -> std::result::Result<QueryParamsResponse, cosmwasm_std::StdError> {
         QueryParamsRequest {}.query(self.querier)
     }
-    pub fn query_validate_create_market(
+    pub fn validate_create_market(
         &self,
         create_market_request: ::core::option::Option<MsgGovCreateMarketRequest>,
     ) -> std::result::Result<QueryValidateCreateMarketResponse, cosmwasm_std::StdError> {
@@ -1933,13 +1933,13 @@ impl<'a, Q: cosmwasm_std::CustomQuery> ExchangeQuerier<'a, Q> {
         }
         .query(self.querier)
     }
-    pub fn query_validate_market(
+    pub fn validate_market(
         &self,
         market_id: u32,
     ) -> std::result::Result<QueryValidateMarketResponse, cosmwasm_std::StdError> {
         QueryValidateMarketRequest { market_id }.query(self.querier)
     }
-    pub fn query_validate_manage_fees(
+    pub fn validate_manage_fees(
         &self,
         manage_fees_request: ::core::option::Option<MsgGovManageFeesRequest>,
     ) -> std::result::Result<QueryValidateManageFeesResponse, cosmwasm_std::StdError> {
