@@ -519,26 +519,42 @@ impl Permission {
             _ => None,
         }
     }
-    pub fn serialize<S>(v: &i32, serializer: S) -> std::result::Result<S::Ok, S::Error>
+    pub fn serialize<S>(v: &Vec<i32>, serializer: S) -> std::result::Result<S::Ok, S::Error>
     where
         S: serde::Serializer,
     {
-        let enum_value = Self::from_repr(*v);
-        match enum_value {
-            Some(v) => serializer.serialize_str(v.as_str_name()),
-            None => Err(serde::ser::Error::custom("unknown value")),
+        use serde::ser::SerializeTuple;
+
+        let mut permission_vec: Vec<&str> = Vec::new();
+        for permission_i32 in v {
+            let enum_value = Permission::from_repr(*permission_i32);
+            match enum_value {
+                Some(v) => {
+                    permission_vec.push(v.as_str_name());
+                }
+                None => return Err(serde::ser::Error::custom("unknown value")),
+            }
         }
+        let mut seq = serializer.serialize_tuple(permission_vec.len())?;
+        for item in permission_vec {
+            seq.serialize_element(item)?;
+        }
+        seq.end()
     }
-    pub fn deserialize<'de, D>(deserializer: D) -> std::result::Result<i32, D::Error>
+    fn deserialize<'de, D>(deserializer: D) -> Result<Vec<i32>, D::Error>
     where
         D: serde::Deserializer<'de>,
     {
-        use serde::de::Deserialize;
-        let s = String::deserialize(deserializer)?;
-        match Self::from_str_name(&s) {
-            Some(v) => Ok(v.into()),
-            None => Err(serde::de::Error::custom("unknown value")),
+        use serde::de::{Deserialize, Error};
+
+        let strs: Vec<String> = Vec::deserialize(deserializer)?;
+        let mut ords: Vec<i32> = Vec::new();
+        for str_name in strs {
+            let enum_value = Permission::from_str_name(&str_name)
+                .ok_or_else(|| Error::custom(format!("unknown enum string: {}", str_name)))?;
+            ords.push(enum_value as i32);
         }
+        Ok(ords)
     }
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
