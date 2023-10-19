@@ -117,6 +117,13 @@ types:
     - provenance.exchange.v1.MsgGovManageFeesResponse
     - provenance.exchange.v1.MsgGovUpdateParamsRequest
     - provenance.exchange.v1.MsgGovUpdateParamsResponse
+    - provenance.hold.v1.EventHoldAdded
+    - provenance.hold.v1.EventHoldReleased
+    - provenance.hold.v1.AccountHold
+    - provenance.hold.v1.GetHoldsRequest
+    - provenance.hold.v1.GetHoldsResponse
+    - provenance.hold.v1.GetAllHoldsRequest
+    - provenance.hold.v1.GetAllHoldsResponse
     - provenance.marker.v1.AccessGrant
     - provenance.marker.v1.Access
     - provenance.marker.v1.MarkerTransferAuthorization
