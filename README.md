@@ -12,15 +12,15 @@ blockchain modules.
 
 The following table shows provwasm version compatibility for smart contract development and testing.
 
-| provwasm | wasmd   | cosmos  | provenance        | module support                                 |
-|----------|---------|---------|-------------------|------------------------------------------------|
-| v2.1.0   | v0.30.X | v0.46.X | v1.16.X           | attribute,marker,metadata,msgfees,name, reward |
-| v2.0.0   | v0.30.X | v0.46.X | v1.15.X           | attribute,marker,metadata,msgfees,name, reward |
-| v1.2.0   | v0.30.X | v0.46.X | v1.15.X           | attribute,marker,metadata,msgfees,name         |
-| v1.1.2   | v0.29.X | v0.46.X | v1.13.X           | attribute,marker,metadata,msgfees,name         |
-| v1.1.1   | v0.29.X | v0.46.X | v1.13.X           | attribute,marker,metadata,msgfees,name         |
-| v1.1.0   | v0.26.X | v0.45.X | v1.10.X - v1.12.X | attribute,marker,metadata,msgfees,name         |
-| v1.0.0   | v0.26.X | v0.45.X | v1.8.X - v1.9.X   | attribute,marker,metadata,name                 |
+| provwasm | wasmd   | cosmos  | provenance        | module support                                                      |
+|----------|---------|---------|-------------------|---------------------------------------------------------------------|
+| v2.1.0   | v0.30.X | v0.46.X | v1.17.X           | attribute,exchange,hold,marker,metadata,msgfees,name,reward,trigger |
+| v2.0.0   | v0.30.X | v0.46.X | v1.15.X           | attribute,marker,metadata,msgfees,name,reward                       |
+| v1.2.0   | v0.30.X | v0.46.X | v1.15.X           | attribute,marker,metadata,msgfees,name                              |
+| v1.1.2   | v0.29.X | v0.46.X | v1.13.X           | attribute,marker,metadata,msgfees,name                              |
+| v1.1.1   | v0.29.X | v0.46.X | v1.13.X           | attribute,marker,metadata,msgfees,name                              |
+| v1.1.0   | v0.26.X | v0.45.X | v1.10.X - v1.12.X | attribute,marker,metadata,msgfees,name                              |
+| v1.0.0   | v0.26.X | v0.45.X | v1.8.X - v1.9.X   | attribute,marker,metadata,name                                      |
 
 ## Getting Started
 
@@ -44,6 +44,23 @@ Queries are available for these Provenance modules:
   - provenance.attribute.v1.QueryAttributeRequest
   - provenance.attribute.v1.QueryAttributesRequest
   - provenance.attribute.v1.QueryScanRequest
+- [Exchange](./packages/provwasm-std/src/types/provenance/exchange)
+  - provenance.exchange.v1.QueryOrderFeeCalcRequest
+  - provenance.exchange.v1.QueryGetOrderRequest
+  - provenance.exchange.v1.QueryGetOrderByExternalIDRequest
+  - provenance.exchange.v1.QueryGetMarketOrdersRequest
+  - provenance.exchange.v1.QueryGetOwnerOrdersRequest
+  - provenance.exchange.v1.QueryGetAssetOrdersRequest
+  - provenance.exchange.v1.QueryGetAllOrdersRequest
+  - provenance.exchange.v1.QueryGetMarketRequest
+  - provenance.exchange.v1.QueryGetAllMarketsRequest
+  - provenance.exchange.v1.QueryParamsRequest
+  - provenance.exchange.v1.QueryValidateCreateMarketRequest
+  - provenance.exchange.v1.QueryValidateMarketRequest
+  - provenance.exchange.v1.QueryValidateManageFeesRequest
+- [Hold](./packages/provwasm-std/src/types/provenance/hold)
+  - provenance.hold.v1.GetHoldsRequest
+  - provenance.hold.v1.GetAllHoldsRequest
 - [Marker](./packages/provwasm-std/src/types/provenance/marker)
   - provenance.marker.v1.QueryParamsRequest
   - provenance.marker.v1.QueryMarkerRequest
@@ -93,6 +110,8 @@ Queries are available for these Provenance modules:
 
 All messages are available for these Provenance modules:
 - [Attribute](./packages/provwasm-std/src/types/provenance/attribute)
+- [Exchange](./packages/provwasm-std/src/types/provenance/exchange)
+- [Hold](./packages/provwasm-std/src/types/provenance/hold)
 - [Marker](./packages/provwasm-std/src/types/provenance/marker)
 - [Metadata](./packages/provwasm-std/src/types/provenance/metadata)
 - [MsgFees](./packages/provwasm-std/src/types/provenance/msgfees)
