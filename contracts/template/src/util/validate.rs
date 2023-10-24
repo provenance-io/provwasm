@@ -1,6 +1,6 @@
-use cosmwasm_std::Coin;
+use cosmwasm_std::{Coin, Deps};
 
-use crate::core::{aliases::ProvDeps, error::ContractError};
+use crate::core::error::ContractError;
 
 pub type ValidateResult = Result<(), ContractError>;
 
@@ -17,7 +17,7 @@ pub trait Validate {
     /// let msg = MigrateMsg::Default {};
     /// msg.validate(deps)?;
     /// ```
-    fn validate(&self, deps: ProvDeps) -> ValidateResult;
+    fn validate(&self, deps: Deps) -> ValidateResult;
 
     /// Performs basic error checking on the messages that implement this trait.
     ///

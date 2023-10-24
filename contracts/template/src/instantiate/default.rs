@@ -1,10 +1,10 @@
-use cosmwasm_std::{Addr, Env, Response};
+use cosmwasm_std::{Addr, DepsMut, Env, Response};
 use cw2::set_contract_version;
 use provwasm_std::assess_custom_fee;
 
 use crate::{
     core::{
-        aliases::{ProvDepsMut, ProvTxResponse},
+        aliases::ProvTxResponse,
         constants::{CONTRACT_NAME, CONTRACT_VERSION},
     },
     storage,
@@ -32,7 +32,7 @@ use crate::{
 /// let msg = InstantiateMsg::Default {owner: Addr::unchecked("owner"), fee: Fee {recipient: Some(Addr::unchecked("owner")), amount: Coin::new(0, "nhash")}};
 /// let res = handle(deps, env, msg.owner, msg.fee)?;
 /// ```
-pub fn handle(deps: ProvDepsMut, env: Env, owner: Addr, fee: Fee) -> ProvTxResponse {
+pub fn handle(deps: DepsMut, env: Env, owner: Addr, fee: Fee) -> ProvTxResponse {
     storage::state::set(deps.storage, &State::new(owner, fee.clone()))?;
     set_contract_version(deps.storage, CONTRACT_NAME, CONTRACT_VERSION)?;
     let fee_message = assess_custom_fee(
@@ -50,16 +50,13 @@ pub fn handle(deps: ProvDepsMut, env: Env, owner: Addr, fee: Fee) -> ProvTxRespo
 mod tests {
     use cosmwasm_std::{testing::mock_env, Addr, Attribute, Coin, SubMsg};
     use cw2::get_contract_version;
-    use provwasm_mocks::mock_dependencies;
+    use provwasm_mocks::mock_provenance_dependencies;
     use provwasm_std::assess_custom_fee;
 
     use crate::{
         core::constants::{CONTRACT_NAME, CONTRACT_VERSION},
         storage,
-        testing::{
-            constants::{OWNER, TEST_AMOUNT, TEST_DENOM},
-            setup::mock_fee,
-        },
+        testing::{constants::OWNER, setup::mock_fee},
         util::{action::ActionType, state::State},
     };
 
@@ -67,7 +64,7 @@ mod tests {
 
     #[test]
     fn test_handle() {
-        let mut deps = mock_dependencies(&[Coin::new(TEST_AMOUNT, TEST_DENOM)]);
+        let mut deps = mock_provenance_dependencies();
         let env = mock_env();
         let owner = Addr::unchecked(OWNER);
         let fee = mock_fee();

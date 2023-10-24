@@ -1,9 +1,6 @@
-use cosmwasm_std::{Env, MessageInfo};
+use cosmwasm_std::{DepsMut, Env, MessageInfo};
 
-use crate::core::{
-    aliases::{ProvDepsMut, ProvTxResponse},
-    msg::ExecuteMsg,
-};
+use crate::core::{aliases::ProvTxResponse, msg::ExecuteMsg};
 
 use super::change_owner;
 
@@ -21,7 +18,7 @@ use super::change_owner;
 /// let msg = ExecuteMsg::ChangeOwner {new_owner: Addr::unchecked("new_owner")};
 /// let res = route(deps, env, info, msg)?;
 /// ```
-pub fn route(deps: ProvDepsMut, _env: Env, info: MessageInfo, msg: ExecuteMsg) -> ProvTxResponse {
+pub fn route(deps: DepsMut, _env: Env, info: MessageInfo, msg: ExecuteMsg) -> ProvTxResponse {
     match msg {
         ExecuteMsg::ChangeOwner { new_owner } => change_owner::handle(deps, info.sender, new_owner),
     }
@@ -30,7 +27,7 @@ pub fn route(deps: ProvDepsMut, _env: Env, info: MessageInfo, msg: ExecuteMsg) -
 #[cfg(test)]
 mod tests {
     use cosmwasm_std::{testing::mock_env, Attribute};
-    use provwasm_mocks::mock_dependencies;
+    use provwasm_mocks::mock_provenance_dependencies;
 
     use crate::{
         testing::{
@@ -45,7 +42,7 @@ mod tests {
 
     #[test]
     fn test_change_owner_route() {
-        let mut deps = mock_dependencies(&[]);
+        let mut deps = mock_provenance_dependencies();
         let env = mock_env();
         let info = mock_info(false, OWNER);
         let msg = mock_change_owner_msg();

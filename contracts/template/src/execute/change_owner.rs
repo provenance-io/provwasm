@@ -1,10 +1,7 @@
-use cosmwasm_std::{Addr, Response};
+use cosmwasm_std::{Addr, DepsMut, Response};
 
 use crate::{
-    core::{
-        aliases::{ProvDepsMut, ProvTxResponse},
-        error::ContractError,
-    },
+    core::{aliases::ProvTxResponse, error::ContractError},
     events::change_owner::ChangeOwnerEvent,
     storage,
     util::action::{Action, ActionType},
@@ -26,7 +23,7 @@ use crate::{
 /// let msg = ExecuteMsg::ChangeOwner {new_owner: Addr::unchecked("new_owner")};
 /// let res = handle(deps, env, info.sender, msg.new_owner)?;
 /// ```
-pub fn handle(deps: ProvDepsMut, sender: Addr, new_owner: Addr) -> ProvTxResponse {
+pub fn handle(deps: DepsMut, sender: Addr, new_owner: Addr) -> ProvTxResponse {
     if !storage::state::is_owner(deps.storage, &sender)? {
         return Err(ContractError::Unauthorized {});
     }
@@ -41,7 +38,7 @@ pub fn handle(deps: ProvDepsMut, sender: Addr, new_owner: Addr) -> ProvTxRespons
 #[cfg(test)]
 mod tests {
     use cosmwasm_std::{Addr, Attribute};
-    use provwasm_mocks::mock_dependencies;
+    use provwasm_mocks::mock_provenance_dependencies;
 
     use crate::{
         core::error::ContractError,
@@ -55,7 +52,7 @@ mod tests {
 
     #[test]
     fn test_handle_success() {
-        let mut deps = mock_dependencies(&[]);
+        let mut deps = mock_provenance_dependencies();
         let info = mock_info(false, OWNER);
         let new_owner = Addr::unchecked(NEW_OWNER);
 
@@ -71,7 +68,7 @@ mod tests {
 
     #[test]
     fn test_handle_is_not_owner() {
-        let mut deps = mock_dependencies(&[]);
+        let mut deps = mock_provenance_dependencies();
         let info = mock_info(false, CREATOR);
         let new_owner = Addr::unchecked(NEW_OWNER);
 

@@ -105,7 +105,7 @@ pub fn set_owner(storage: &mut dyn Storage, owner: Addr) -> Result<(), ContractE
 #[cfg(test)]
 mod tests {
     use cosmwasm_std::{Addr, Coin};
-    use provwasm_mocks::mock_dependencies;
+    use provwasm_mocks::mock_provenance_dependencies;
 
     use crate::{
         storage::state::{get_fee, get_owner, is_owner, set, set_owner},
@@ -116,13 +116,13 @@ mod tests {
 
     #[test]
     fn test_invalid_get() {
-        let deps = mock_dependencies(&[]);
+        let deps = mock_provenance_dependencies();
         get(&deps.storage).unwrap_err();
     }
 
     #[test]
     fn test_get_set() {
-        let mut deps = mock_dependencies(&[]);
+        let mut deps = mock_provenance_dependencies();
         let expected = State::new(
             Addr::unchecked("addr1"),
             Fee {
@@ -137,7 +137,7 @@ mod tests {
 
     #[test]
     fn test_get_owner() {
-        let mut deps = mock_dependencies(&[]);
+        let mut deps = mock_provenance_dependencies();
         let expected = State::new(
             Addr::unchecked("addr1"),
             Fee {
@@ -152,7 +152,7 @@ mod tests {
 
     #[test]
     fn test_get_set_owner() {
-        let mut deps = mock_dependencies(&[]);
+        let mut deps = mock_provenance_dependencies();
         let state = State::new(
             Addr::unchecked("addr1"),
             Fee {
@@ -170,7 +170,7 @@ mod tests {
 
     #[test]
     fn test_get_fee() {
-        let mut deps = mock_dependencies(&[]);
+        let mut deps = mock_provenance_dependencies();
         let expected = State::new(
             Addr::unchecked("addr1"),
             Fee {
@@ -185,7 +185,7 @@ mod tests {
 
     #[test]
     fn test_is_owner_success() {
-        let mut deps = mock_dependencies(&[]);
+        let mut deps = mock_provenance_dependencies();
         let expected = State::new(
             Addr::unchecked("addr1"),
             Fee {
@@ -200,7 +200,7 @@ mod tests {
 
     #[test]
     fn test_is_owner_failed() {
-        let mut deps = mock_dependencies(&[]);
+        let mut deps = mock_provenance_dependencies();
         let expected = State::new(
             Addr::unchecked("addr1"),
             Fee {

@@ -1,9 +1,8 @@
-use cosmwasm_std::Coin;
+use cosmwasm_std::{Coin, Deps};
 use semver::Version;
 
 use crate::{
     core::{
-        aliases::ProvDeps,
         constants::{CONTRACT_NAME, CONTRACT_VERSION},
         error::ContractError,
         msg::MigrateMsg,
@@ -24,7 +23,7 @@ impl Validate for MigrateMsg {
     /// let msg = MigrateMsg::Default {};
     /// msg.validate(deps)?;
     /// ```
-    fn validate(&self, deps: ProvDeps) -> ValidateResult {
+    fn validate(&self, deps: Deps) -> ValidateResult {
         let storage = deps.storage;
         let version: Version = CONTRACT_VERSION.parse()?;
         let storage_version: Version = cw2::get_contract_version(storage)?.version.parse().unwrap();
@@ -67,7 +66,7 @@ impl Validate for MigrateMsg {
 #[cfg(test)]
 mod tests {
     use cw2::set_contract_version;
-    use provwasm_mocks::mock_dependencies;
+    use provwasm_mocks::mock_provenance_dependencies;
 
     use crate::{
         core::{
@@ -86,7 +85,7 @@ mod tests {
 
     #[test]
     fn test_validate_names_must_match() {
-        let mut deps = mock_dependencies(&[]);
+        let mut deps = mock_provenance_dependencies();
         let msg = MigrateMsg::Default {};
         let name = "TEST_NAME";
         let version = CONTRACT_VERSION;
@@ -102,7 +101,7 @@ mod tests {
 
     #[test]
     fn test_validate_version_must_be_greater() {
-        let mut deps = mock_dependencies(&[]);
+        let mut deps = mock_provenance_dependencies();
         let msg = MigrateMsg::Default {};
         let name = CONTRACT_NAME;
         let version = CONTRACT_VERSION;
@@ -118,7 +117,7 @@ mod tests {
 
     #[test]
     fn test_validate_success() {
-        let mut deps = mock_dependencies(&[]);
+        let mut deps = mock_provenance_dependencies();
         let msg = MigrateMsg::Default {};
         let name = CONTRACT_NAME;
         let version = "0.0.1";

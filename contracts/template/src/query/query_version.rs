@@ -1,10 +1,7 @@
-use cosmwasm_std::to_binary;
+use cosmwasm_std::{to_binary, Deps};
 use cw2::get_contract_version;
 
-use crate::core::{
-    aliases::{ProvDeps, ProvQueryResponse},
-    msg::QueryVersionResponse,
-};
+use crate::core::{aliases::ProvQueryResponse, msg::QueryVersionResponse};
 
 /// Performs the logic for the QueryVersion message and obtains the contract version.
 ///
@@ -16,7 +13,7 @@ use crate::core::{
 /// ```
 /// let res = handle(deps)?;
 /// ```
-pub fn handle(deps: ProvDeps) -> ProvQueryResponse {
+pub fn handle(deps: Deps) -> ProvQueryResponse {
     let res = QueryVersionResponse {
         contract_version: get_contract_version(deps.storage)?,
     };
@@ -25,22 +22,22 @@ pub fn handle(deps: ProvDeps) -> ProvQueryResponse {
 
 #[cfg(test)]
 mod tests {
-    use cosmwasm_std::{from_binary, Coin};
-    use provwasm_mocks::mock_dependencies;
+    use cosmwasm_std::from_binary;
+    use provwasm_mocks::mock_provenance_dependencies;
 
     use crate::{
         core::{
             constants::{CONTRACT_NAME, CONTRACT_VERSION},
             msg::QueryVersionResponse,
         },
-        testing::{constants::TEST_DENOM, setup},
+        testing::setup,
     };
 
     use super::handle;
 
     #[test]
     fn test_query_version_has_correct_response() {
-        let mut deps = mock_dependencies(&[Coin::new(1000000000, TEST_DENOM)]);
+        let mut deps = mock_provenance_dependencies();
         setup::mock_contract(deps.as_mut());
         let bin = handle(deps.as_ref()).unwrap();
         let response: QueryVersionResponse = from_binary(&bin).unwrap();

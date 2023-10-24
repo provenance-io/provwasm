@@ -1,7 +1,7 @@
-use cosmwasm_std::Coin;
+use cosmwasm_std::{Coin, Deps};
 
 use crate::{
-    core::{aliases::ProvDeps, error::ContractError, msg::ExecuteMsg},
+    core::{error::ContractError, msg::ExecuteMsg},
     util::validate::{Validate, ValidateResult},
 };
 
@@ -18,7 +18,7 @@ impl Validate for ExecuteMsg {
     /// let msg = ExecuteMsg::ChangeOwner {new_owner: Addr::unchecked("new_owner")};
     /// msg.validate(deps)?;
     /// ```
-    fn validate(&self, _deps: ProvDeps) -> ValidateResult {
+    fn validate(&self, _deps: Deps) -> ValidateResult {
         Ok(())
     }
 
@@ -49,7 +49,7 @@ impl Validate for ExecuteMsg {
 #[cfg(test)]
 mod tests {
     use cosmwasm_std::Coin;
-    use provwasm_mocks::mock_dependencies;
+    use provwasm_mocks::mock_provenance_dependencies;
 
     use crate::{
         core::error::ContractError,
@@ -62,7 +62,7 @@ mod tests {
 
     #[test]
     fn test_validate_always_succeeds() {
-        let deps = mock_dependencies(&[]);
+        let deps = mock_provenance_dependencies();
         let msg = mock_change_owner_msg();
 
         let res = msg.validate(deps.as_ref()).unwrap();
