@@ -28,16 +28,15 @@ pub fn route(deps: DepsMut, env: Env, _info: MessageInfo, msg: InstantiateMsg) -
 mod tests {
     use cosmwasm_std::{testing::mock_env, Addr, Attribute, SubMsg};
     use provwasm_mocks::mock_provenance_dependencies;
-    use provwasm_std::assess_custom_fee;
 
     use crate::{
         instantiate::router::route,
         testing::{
-            constants::{CREATOR, TEST_AMOUNT, TEST_DENOM},
+            constants::CREATOR,
             msg::mock_instantiate_msg,
             setup::{mock_fee, mock_info},
         },
-        util::action::ActionType,
+        util::{action::ActionType, fee::assess_custom_fee},
     };
 
     #[test]

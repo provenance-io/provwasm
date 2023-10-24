@@ -1,6 +1,5 @@
 use cosmwasm_std::{Addr, DepsMut, Env, Response};
 use cw2::set_contract_version;
-use provwasm_std::assess_custom_fee;
 
 use crate::{
     core::{
@@ -10,7 +9,7 @@ use crate::{
     storage,
     util::{
         action::{Action, ActionType},
-        fee::Fee,
+        fee::{assess_custom_fee, Fee},
         state::State,
     },
 };
@@ -48,16 +47,15 @@ pub fn handle(deps: DepsMut, env: Env, owner: Addr, fee: Fee) -> ProvTxResponse 
 
 #[cfg(test)]
 mod tests {
-    use cosmwasm_std::{testing::mock_env, Addr, Attribute, Coin, SubMsg};
+    use cosmwasm_std::{testing::mock_env, Addr, Attribute, SubMsg};
     use cw2::get_contract_version;
     use provwasm_mocks::mock_provenance_dependencies;
-    use provwasm_std::assess_custom_fee;
 
     use crate::{
         core::constants::{CONTRACT_NAME, CONTRACT_VERSION},
         storage,
         testing::{constants::OWNER, setup::mock_fee},
-        util::{action::ActionType, state::State},
+        util::{action::ActionType, fee::assess_custom_fee, state::State},
     };
 
     use super::handle;

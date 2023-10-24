@@ -1,4 +1,4 @@
-use cosmwasm_std::{testing::mock_env, Addr, Coin, MessageInfo, DepsMut};
+use cosmwasm_std::{testing::mock_env, Addr, Coin, DepsMut, MessageInfo};
 
 use crate::{contract, util::fee::Fee};
 
