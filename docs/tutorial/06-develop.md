@@ -377,7 +377,7 @@ mod tests {
             InstantiateMsg {  
                 contract_name: "tutorial.sc.pb".into(),  
                 purchase_denom: "purchasecoin".into(),  
-                merchant_address: "merchant".into(),  
+                merchant_address: Addr::unchecked("merchant"),  
                 fee_percent: Decimal::percent(10),  
             },  
         )  
@@ -410,7 +410,7 @@ mod tests {
             InstantiateMsg {  
                 contract_name: "tutorial.sc.pb".into(),  
                 purchase_denom: "purchasecoin".into(),  
-                merchant_address: "merchant".into(),  
+                merchant_address: Addr::unchecked("merchant"),  
                 fee_percent: Decimal::percent(10),  
             },  
         )  
@@ -438,7 +438,7 @@ mod tests {
             InstantiateMsg {  
                 contract_name: "tutorial.sc.pb".into(),  
                 purchase_denom: "purchasecoin".into(),  
-                merchant_address: "merchant".into(),  
+                merchant_address: Addr::unchecked("merchant"),  
                 fee_percent: Decimal::percent(37), // error: > 25%  
             },  
         )  
@@ -466,13 +466,14 @@ mod tests {
             InstantiateMsg {  
                 contract_name: "tutorial.sc.pb".into(),  
                 purchase_denom: "purchasecoin".into(),  
-                merchant_address: "merchant".into(),  
+                merchant_address: Addr::unchecked("merchant"),  
                 fee_percent: Decimal::percent(10),  
             },  
         )  
         .unwrap(); // Panics on error  
   
-        // Call the smart contract query function to get stored state.        let bin = query(deps.as_ref(), mock_env(), QueryMsg::QueryRequest {}).unwrap();  
+        // Call the smart contract query function to get stored state.        
+        let bin = query(deps.as_ref(), mock_env(), QueryMsg::QueryRequest {}).unwrap();  
         let resp: Config = from_binary(&bin).unwrap();  
   
         // Ensure the expected init fields were properly stored.  
@@ -495,7 +496,7 @@ mod tests {
             InstantiateMsg {  
                 contract_name: "tutorial.sc.pb".into(),  
                 purchase_denom: "purchasecoin".into(),  
-                merchant_address: "merchant".into(),  
+                merchant_address: Addr::unchecked("merchant"),  
                 fee_percent: Decimal::percent(10),  
             },  
         )  
@@ -516,7 +517,8 @@ mod tests {
         assert_eq!(res.messages.len(), 2);  
   
         // Ensure we got the proper bank transfer values.  
-        // 10% fees on 100 purchasecoin => 90 purchasecoin for the merchant and 10 purchasecoin for the fee bucket.        let expected_transfer = coin(90, "purchasecoin");  
+        // 10% fees on 100 purchasecoin => 90 purchasecoin for the merchant and 10 purchasecoin for the fee bucket.        
+        let expected_transfer = coin(90, "purchasecoin");  
         let expected_fees = coin(10, "purchasecoin");  
         res.messages.into_iter().for_each(|msg| match msg.msg {  
             CosmosMsg::Bank(BankMsg::Send {  
@@ -556,7 +558,7 @@ mod tests {
             InstantiateMsg {  
                 contract_name: "tutorial.sc.pb".into(),  
                 purchase_denom: "purchasecoin".into(),  
-                merchant_address: "merchant".into(),  
+                merchant_address: Addr::unchecked("merchant"),  
                 fee_percent: Decimal::percent(10),  
             },  
         )  
