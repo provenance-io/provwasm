@@ -1,6 +1,6 @@
-use cosmwasm_std::{testing::mock_env, Addr, Coin, MessageInfo};
+use cosmwasm_std::{testing::mock_env, Addr, Coin, DepsMut, MessageInfo};
 
-use crate::{contract, core::aliases::ProvDepsMut, util::fee::Fee};
+use crate::{contract, util::fee::Fee};
 
 use super::{
     constants::{CREATOR, OWNER, TEST_AMOUNT, TEST_DENOM},
@@ -27,7 +27,7 @@ pub fn mock_info(funds: bool, sender: &str) -> MessageInfo {
     };
 }
 
-pub fn mock_contract(deps: ProvDepsMut) {
+pub fn mock_contract(deps: DepsMut) {
     let info = mock_info(true, CREATOR);
     let env = mock_env();
     let msg = mock_instantiate_msg(true);

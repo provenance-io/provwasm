@@ -1,10 +1,6 @@
-use cosmwasm_std::{Env, Reply};
+use cosmwasm_std::{DepsMut, Env, Reply};
 
-use crate::core::{
-    aliases::{ProvDepsMut, ProvTxResponse},
-    constants::DEFAULT_REPLY,
-    error::ContractError,
-};
+use crate::core::{aliases::ProvTxResponse, constants::DEFAULT_REPLY, error::ContractError};
 
 use super::default;
 
@@ -20,7 +16,7 @@ use super::default;
 /// ```
 /// let res = route(deps, env, reply)?;
 /// ```
-pub fn route(deps: ProvDepsMut, env: Env, reply: Reply) -> ProvTxResponse {
+pub fn route(deps: DepsMut, env: Env, reply: Reply) -> ProvTxResponse {
     match reply.id {
         DEFAULT_REPLY => default::handle(deps, env, reply),
         _ => Err(ContractError::UnexpectedReplyId(reply.id)),
@@ -30,7 +26,7 @@ pub fn route(deps: ProvDepsMut, env: Env, reply: Reply) -> ProvTxResponse {
 #[cfg(test)]
 mod tests {
     use cosmwasm_std::{testing::mock_env, Reply, Response, SubMsgResponse, SubMsgResult};
-    use provwasm_mocks::mock_dependencies;
+    use provwasm_mocks::mock_provenance_dependencies;
 
     use crate::core::{constants::DEFAULT_REPLY, error::ContractError};
 
@@ -38,7 +34,7 @@ mod tests {
 
     #[test]
     fn test_default_route() {
-        let mut deps = mock_dependencies(&[]);
+        let mut deps = mock_provenance_dependencies();
         let env = mock_env();
         let res = route(
             deps.as_mut(),
@@ -57,7 +53,7 @@ mod tests {
 
     #[test]
     fn test_invalid_route() {
-        let mut deps = mock_dependencies(&[]);
+        let mut deps = mock_provenance_dependencies();
         let env = mock_env();
         let err = route(
             deps.as_mut(),

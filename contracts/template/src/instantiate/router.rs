@@ -1,9 +1,6 @@
-use cosmwasm_std::{Env, MessageInfo};
+use cosmwasm_std::{DepsMut, Env, MessageInfo};
 
-use crate::core::{
-    aliases::{ProvDepsMut, ProvTxResponse},
-    msg::InstantiateMsg,
-};
+use crate::core::{aliases::ProvTxResponse, msg::InstantiateMsg};
 
 use super::default;
 
@@ -21,12 +18,7 @@ use super::default;
 /// let msg = InstantiateMsg::Default {owner: Addr::unchecked("owner"), fee: Fee {recipient: Some(Addr::unchecked("owner")), amount: Coin::new(0, "nhash")}};
 /// let res = route(deps, env, info, msg)?;
 /// ```
-pub fn route(
-    deps: ProvDepsMut,
-    env: Env,
-    _info: MessageInfo,
-    msg: InstantiateMsg,
-) -> ProvTxResponse {
+pub fn route(deps: DepsMut, env: Env, _info: MessageInfo, msg: InstantiateMsg) -> ProvTxResponse {
     match msg {
         InstantiateMsg::Default { owner, fee } => default::handle(deps, env, owner, fee),
     }
@@ -34,23 +26,22 @@ pub fn route(
 
 #[cfg(test)]
 mod tests {
-    use cosmwasm_std::{testing::mock_env, Addr, Attribute, Coin, SubMsg};
-    use provwasm_mocks::mock_dependencies;
-    use provwasm_std::assess_custom_fee;
+    use cosmwasm_std::{testing::mock_env, Addr, Attribute, SubMsg};
+    use provwasm_mocks::mock_provenance_dependencies;
 
     use crate::{
         instantiate::router::route,
         testing::{
-            constants::{CREATOR, TEST_AMOUNT, TEST_DENOM},
+            constants::CREATOR,
             msg::mock_instantiate_msg,
             setup::{mock_fee, mock_info},
         },
-        util::action::ActionType,
+        util::{action::ActionType, fee::assess_custom_fee},
     };
 
     #[test]
     fn test_route() {
-        let mut deps = mock_dependencies(&[Coin::new(TEST_AMOUNT, TEST_DENOM)]);
+        let mut deps = mock_provenance_dependencies();
         Addr::unchecked("blah");
         let env = mock_env();
         let fee = mock_fee();

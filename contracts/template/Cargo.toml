@@ -1,13 +1,10 @@
 [package]
 name = "template"
-version = "1.2.0"
+version = "2.1.0"
 authors = ["Matthew Witkowski <mwitkowski@provenance.io"]
 edition = "2021"
 
-exclude = [
-    "contract.wasm",
-    "checksums.txt",
-]
+exclude = ["contract.wasm", "checksums.txt"]
 
 [lib]
 crate-type = ["cdylib", "rlib"]
@@ -30,21 +27,21 @@ backtraces = []
 optimize = """docker run --rm -v "$(pwd)":/code \
   --mount type=volume,source="$(basename "$(pwd)")_cache",target=/code/target \
   --mount type=volume,source=registry_cache,target=/usr/local/cargo/registry \
-  cosmwasm/rust-optimizer:0.12.13
+  cosmwasm/rust-optimizer:0.14.0
 """
 optimize-arm = """docker run --rm -v "$(pwd)":/code \
   --mount type=volume,source="$(basename "$(pwd)")_cache",target=/code/target \
   --mount type=volume,source=registry_cache,target=/usr/local/cargo/registry \
-  cosmwasm/rust-optimizer-arm64:0.12.13
+  cosmwasm/rust-optimizer-arm64:0.14.0
 """
 
 [dependencies]
-provwasm-std = { version = "1.1.0" }
-cw-utils = {version = "1.0.1"}
+provwasm-std = { version = "2.0.0" }
+cw-utils = { version = "1.0.1" }
 cosmwasm-schema = { version = "1.2.5" }
 cosmwasm-std = { version = "1.2.5", features = ["cosmwasm_1_1"] }
 cosmwasm-storage = { version = "1.2.5" }
-cw-storage-plus = {version = "1.0.1", features = ["iterator"]}
+cw-storage-plus = { version = "1.0.1", features = ["iterator"] }
 cw2 = "1.0.1"
 schemars = "0.8.10"
 serde = { version = "1.0.145", default-features = false, features = ["derive"] }
@@ -52,5 +49,5 @@ thiserror = { version = "1.0.31" }
 semver = "1"
 
 [dev-dependencies]
-provwasm-mocks = { version = "1.1.0" }
-cw-multi-test = "0.16.2"
+provwasm-mocks = { version = "2.0.0" }
+cw-multi-test = "0.17.0"

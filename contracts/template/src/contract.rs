@@ -1,8 +1,8 @@
-use cosmwasm_std::{entry_point, Env, MessageInfo, Reply};
+use cosmwasm_std::{entry_point, Deps, DepsMut, Env, MessageInfo, Reply};
 
 use crate::{
     core::{
-        aliases::{ProvDeps, ProvDepsMut, ProvQueryResponse, ProvTxResponse},
+        aliases::{ProvQueryResponse, ProvTxResponse},
         constants::{CONTRACT_NAME, CONTRACT_VERSION},
         msg::{ExecuteMsg, InstantiateMsg, MigrateMsg, QueryMsg},
     },
@@ -22,7 +22,7 @@ use crate::{
 /// * `msg` - The message enum and its contents used to trigger this endpoint.
 #[entry_point]
 pub fn instantiate(
-    deps: ProvDepsMut,
+    deps: DepsMut,
     env: Env,
     info: MessageInfo,
     msg: InstantiateMsg,
@@ -40,7 +40,7 @@ pub fn instantiate(
 /// * `env` - Information about the Blockchain's environment such as block height.
 /// * `msg` - The message enum and its contents used to trigger this endpoint.
 #[entry_point]
-pub fn query(deps: ProvDeps, env: Env, msg: QueryMsg) -> ProvQueryResponse {
+pub fn query(deps: Deps, env: Env, msg: QueryMsg) -> ProvQueryResponse {
     msg.validate(deps)?;
     query::router::route(deps, env, msg)
 }
@@ -54,7 +54,7 @@ pub fn query(deps: ProvDeps, env: Env, msg: QueryMsg) -> ProvQueryResponse {
 /// * `info` - Contains the message signer and any sent funds.
 /// * `msg` - The message enum and its contents used to trigger this endpoint.
 #[entry_point]
-pub fn execute(deps: ProvDepsMut, env: Env, info: MessageInfo, msg: ExecuteMsg) -> ProvTxResponse {
+pub fn execute(deps: DepsMut, env: Env, info: MessageInfo, msg: ExecuteMsg) -> ProvTxResponse {
     msg.validate(deps.as_ref())?;
     msg.validate_funds(&info.funds)?;
     execute::router::route(deps, env, info, msg)
@@ -68,7 +68,7 @@ pub fn execute(deps: ProvDepsMut, env: Env, info: MessageInfo, msg: ExecuteMsg) 
 /// * `env` - Information about the Blockchain's environment such as block height.
 /// * `msg` - The message enum and its contents used to trigger this endpoint.
 #[entry_point]
-pub fn migrate(deps: ProvDepsMut, env: Env, msg: MigrateMsg) -> ProvTxResponse {
+pub fn migrate(deps: DepsMut, env: Env, msg: MigrateMsg) -> ProvTxResponse {
     msg.validate(deps.as_ref())?;
     let res = migrate::router::route(&deps, env, msg);
     cw2::set_contract_version(deps.storage, CONTRACT_NAME, CONTRACT_VERSION)?;
@@ -83,6 +83,6 @@ pub fn migrate(deps: ProvDepsMut, env: Env, msg: MigrateMsg) -> ProvTxResponse {
 /// * `env` - Information about the Blockchain's environment such as block height.
 /// * `reply` - The response sent from the other contract.
 #[entry_point]
-pub fn reply(deps: ProvDepsMut, env: Env, reply: Reply) -> ProvTxResponse {
+pub fn reply(deps: DepsMut, env: Env, reply: Reply) -> ProvTxResponse {
     reply::router::route(deps, env, reply)
 }

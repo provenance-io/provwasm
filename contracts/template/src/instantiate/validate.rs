@@ -1,7 +1,7 @@
-use cosmwasm_std::Coin;
+use cosmwasm_std::{Coin, Deps};
 
 use crate::{
-    core::{aliases::ProvDeps, error::ContractError, msg::InstantiateMsg},
+    core::{error::ContractError, msg::InstantiateMsg},
     util::validate::{Validate, ValidateResult},
 };
 
@@ -18,7 +18,7 @@ impl Validate for InstantiateMsg {
     /// let msg = InstantiateMsg::Default {owner: Addr::unchecked("owner"), fee: Fee {recipient: Some(Addr::unchecked("owner")), amount: Coin::new(0, "nhash"),},};
     /// msg.validate(deps)?;
     /// ```
-    fn validate(&self, _deps: ProvDeps) -> ValidateResult {
+    fn validate(&self, _deps: Deps) -> ValidateResult {
         Ok(())
     }
 
@@ -45,7 +45,7 @@ impl Validate for InstantiateMsg {
 #[cfg(test)]
 mod tests {
     use cosmwasm_std::Coin;
-    use provwasm_mocks::mock_dependencies;
+    use provwasm_mocks::mock_provenance_dependencies;
 
     use crate::{
         core::error::ContractError,
@@ -76,7 +76,7 @@ mod tests {
 
     #[test]
     fn test_validate_succeeds() {
-        let deps = mock_dependencies(&[]);
+        let deps = mock_provenance_dependencies();
         let message = mock_instantiate_msg(true);
         let response = message.validate(deps.as_ref()).unwrap();
         assert_eq!((), response);

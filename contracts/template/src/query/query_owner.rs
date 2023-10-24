@@ -1,10 +1,7 @@
-use cosmwasm_std::to_binary;
+use cosmwasm_std::{to_binary, Deps};
 
 use crate::{
-    core::{
-        aliases::{ProvDeps, ProvQueryResponse},
-        msg::QueryOwnerResponse,
-    },
+    core::{aliases::ProvQueryResponse, msg::QueryOwnerResponse},
     storage,
 };
 
@@ -18,7 +15,7 @@ use crate::{
 /// ```
 /// let res = handle(deps)?;
 /// ```
-pub fn handle(deps: ProvDeps) -> ProvQueryResponse {
+pub fn handle(deps: Deps) -> ProvQueryResponse {
     let res = QueryOwnerResponse {
         owner: storage::state::get_owner(deps.storage)?,
     };
@@ -27,22 +24,19 @@ pub fn handle(deps: ProvDeps) -> ProvQueryResponse {
 
 #[cfg(test)]
 mod tests {
-    use cosmwasm_std::{from_binary, Addr, Coin};
-    use provwasm_mocks::mock_dependencies;
+    use cosmwasm_std::{from_binary, Addr};
+    use provwasm_mocks::mock_provenance_dependencies;
 
     use crate::{
         core::msg::QueryOwnerResponse,
-        testing::{
-            constants::{OWNER, TEST_DENOM},
-            setup,
-        },
+        testing::{constants::OWNER, setup},
     };
 
     use super::handle;
 
     #[test]
     fn test_query_owner_has_correct_response() {
-        let mut deps = mock_dependencies(&[Coin::new(1000000000, TEST_DENOM)]);
+        let mut deps = mock_provenance_dependencies();
         setup::mock_contract(deps.as_mut());
         let bin = handle(deps.as_ref()).unwrap();
         let response: QueryOwnerResponse = from_binary(&bin).unwrap();

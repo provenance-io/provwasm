@@ -1,9 +1,6 @@
-use cosmwasm_std::Env;
+use cosmwasm_std::{DepsMut, Env};
 
-use crate::core::{
-    aliases::{ProvDepsMut, ProvTxResponse},
-    msg::MigrateMsg,
-};
+use crate::core::{aliases::ProvTxResponse, msg::MigrateMsg};
 
 use super::default;
 
@@ -20,7 +17,7 @@ use super::default;
 /// let msg = MigrateMsg::Default {};
 /// let res = route(deps, env, msg)?;
 /// ```
-pub fn route(deps: &ProvDepsMut, env: Env, msg: MigrateMsg) -> ProvTxResponse {
+pub fn route(deps: &DepsMut, env: Env, msg: MigrateMsg) -> ProvTxResponse {
     match msg {
         MigrateMsg::Default {} => default::handle(deps, env, msg),
     }
@@ -29,7 +26,7 @@ pub fn route(deps: &ProvDepsMut, env: Env, msg: MigrateMsg) -> ProvTxResponse {
 #[cfg(test)]
 mod tests {
     use cosmwasm_std::{testing::mock_env, Attribute};
-    use provwasm_mocks::mock_dependencies;
+    use provwasm_mocks::mock_provenance_dependencies;
 
     use crate::{core::msg::MigrateMsg, util::action::ActionType};
 
@@ -37,7 +34,7 @@ mod tests {
 
     #[test]
     fn test_default_route() {
-        let mut deps = mock_dependencies(&[]);
+        let mut deps = mock_provenance_dependencies();
         let env = mock_env();
         let msg = MigrateMsg::Default {};
         let res = route(&deps.as_mut(), env, msg).unwrap();

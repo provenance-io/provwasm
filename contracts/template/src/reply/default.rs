@@ -1,9 +1,6 @@
-use cosmwasm_std::{Env, Reply, Response, SubMsgResult};
+use cosmwasm_std::{DepsMut, Env, Reply, Response, SubMsgResult};
 
-use crate::core::{
-    aliases::{ProvDepsMut, ProvTxResponse},
-    error::ContractError,
-};
+use crate::core::{aliases::ProvTxResponse, error::ContractError};
 
 /// Performs logic on the reply containing the default id.
 ///
@@ -17,7 +14,7 @@ use crate::core::{
 /// ```
 /// let res = handle(deps, env, reply)?;
 /// ```
-pub fn handle(_deps: ProvDepsMut, _env: Env, reply: Reply) -> ProvTxResponse {
+pub fn handle(_deps: DepsMut, _env: Env, reply: Reply) -> ProvTxResponse {
     match reply.result {
         SubMsgResult::Ok(_) => Ok(Response::default()),
         SubMsgResult::Err(err) => Err(ContractError::ReplyFailure(reply.id, err)),
@@ -27,7 +24,7 @@ pub fn handle(_deps: ProvDepsMut, _env: Env, reply: Reply) -> ProvTxResponse {
 #[cfg(test)]
 mod tests {
     use cosmwasm_std::{testing::mock_env, Reply, Response, SubMsgResponse, SubMsgResult};
-    use provwasm_mocks::mock_dependencies;
+    use provwasm_mocks::mock_provenance_dependencies;
 
     use crate::{
         core::{constants::DEFAULT_REPLY, error::ContractError},
@@ -36,7 +33,7 @@ mod tests {
 
     #[test]
     fn test_reply_success() {
-        let mut deps = mock_dependencies(&[]);
+        let mut deps = mock_provenance_dependencies();
         let env = mock_env();
         let res = handle(
             deps.as_mut(),
@@ -55,7 +52,7 @@ mod tests {
 
     #[test]
     fn test_reply_error() {
-        let mut deps = mock_dependencies(&[]);
+        let mut deps = mock_provenance_dependencies();
         let env = mock_env();
         let err = handle(
             deps.as_mut(),
