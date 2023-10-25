@@ -740,7 +740,7 @@ dependencies = [
  "petgraph",
  "prettyplease 0.1.25",
  "prost 0.11.9",
- "prost-types",
+ "prost-types 0.11.9",
  "regex",
  "syn 1.0.109",
  "tempfile",
@@ -783,6 +783,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "prost-types"
+version = "0.12.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e081b29f63d83a4bc75cfc9f3fe424f9156cf92d8a4f0c9407cce9a1b67327cf"
+dependencies = [
+ "prost 0.12.1",
+]
+
+[[package]]
 name = "proto-build"
 version = "2.1.0"
 dependencies = [
@@ -794,7 +803,7 @@ dependencies = [
  "proc-macro2",
  "prost 0.12.1",
  "prost-build",
- "prost-types",
+ "prost-types 0.12.1",
  "quote",
  "regex",
  "syn 2.0.16",
@@ -843,7 +852,7 @@ dependencies = [
  "cosmwasm-schema",
  "cosmwasm-std",
  "prost 0.12.1",
- "prost-types",
+ "prost-types 0.12.1",
  "provwasm-common",
  "provwasm-proc-macro",
  "schemars",
