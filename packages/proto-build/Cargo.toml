@@ -17,6 +17,7 @@ prost-build = "0.12.1"
 prost-types = "0.12.1"
 quote = "1.0.26"
 regex = "1"
+rustix = "0.37.26"
 syn = {version = "2.0.15", features = ["full", "parsing", "extra-traits"]}
 walkdir = "2"
 proc-macro2 = "1.0.56"
