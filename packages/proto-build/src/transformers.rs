@@ -486,20 +486,22 @@ fn find_prost_enumeration_value(attrs: &[Attribute]) -> Option<String> {
     })
 }
 
-fn has_prost_one_of_attr(attrs: &[Attribute]) -> bool {
-    attrs.iter().any(|attr| {
-        // Check if the attribute name is "prost".
-        if !attr.path().is_ident("prost") {
-            return false;
-        }
+// This function can be enabled after https://github.com/provenance-io/provwasm/issues/132 is resolved
 
-        // Parse all nested items inside the attribute
-        let list = attr.meta.require_list().unwrap();
-        let nested = list
-            .parse_args_with(Punctuated::<Meta, Token![,]>::parse_terminated)
-            .unwrap();
-
-        // Search all nested items and look for the "oneof" attribute.
-        nested.iter().any(|meta| meta.path().is_ident("oneof"))
-    })
-}
+// fn has_prost_one_of_attr(attrs: &[Attribute]) -> bool {
+//     attrs.iter().any(|attr| {
+//         // Check if the attribute name is "prost".
+//         if !attr.path().is_ident("prost") {
+//             return false;
+//         }
+//
+//         // Parse all nested items inside the attribute
+//         let list = attr.meta.require_list().unwrap();
+//         let nested = list
+//             .parse_args_with(Punctuated::<Meta, Token![,]>::parse_terminated)
+//             .unwrap();
+//
+//         // Search all nested items and look for the "oneof" attribute.
+//         nested.iter().any(|meta| meta.path().is_ident("oneof"))
+//     })
+// }
