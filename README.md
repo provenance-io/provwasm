@@ -84,7 +84,7 @@ Queries are available for these Provenance modules:
   - provenance.metadata.v1.OSLocatorRequest
   - provenance.metadata.v1.OSLocatorsByURIRequest
   - provenance.metadata.v1.OSLocatorsByScopeRequest
-  - The following has deserialization issues and will be `None` until fixed:
+  - The following has deserialization issues and will be `None` until fixed, see [#132](https://github.com/provenance-io/provwasm/issues/132):
     - `ContractSpecification.source`
     - `InputSpecification.source`
     - `Process.process_id`
@@ -101,7 +101,7 @@ Queries are available for these Provenance modules:
   - provenance.reward.v1.QueryClaimPeriodRewardDistributionsRequest
   - provenance.reward.v1.QueryClaimPeriodRewardDistributionsByIDRequest
   - provenance.reward.v1.QueryRewardDistributionsByAddressRequest
-  - The following has deserialization issues and will be `None` until fixed:
+  - The following has deserialization issues and will be `None` until fixed, see [#132](https://github.com/provenance-io/provwasm/issues/132):
     - `QualifyingAction.type`
 - [Trigger](./packages/provwasm-std/src/types/provenance/trigger)
   - Query support unavailable until [#123](https://github.com/provenance-io/provwasm/issues/123) is resolved
