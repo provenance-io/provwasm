@@ -528,14 +528,14 @@ dependencies = [
 
 [[package]]
 name = "provwasm-common"
-version = "2.1.0"
+version = "0.1.0"
 dependencies = [
  "cosmwasm-std",
 ]
 
 [[package]]
 name = "provwasm-proc-macro"
-version = "2.1.0"
+version = "0.1.0"
 dependencies = [
  "itertools",
  "proc-macro2",
