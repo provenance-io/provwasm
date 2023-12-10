@@ -86,3 +86,4 @@ types:
     - cosmos.upgrade.v1beta1.SoftwareUpgradeProposal
     - cosmos.upgrade.v1beta1.CancelSoftwareUpgradeProposal
     - cosmos.upgrade.v1beta1.ModuleVersion
+    - cosmwasm.wasm.v1
