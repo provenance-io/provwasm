@@ -1,4 +1,5 @@
 pub mod cosmos;
+pub mod cosmwasm;
 pub mod provenance;
 
 use cosmwasm_schema::cw_serde;
