@@ -1,6 +1,6 @@
 [package]
 name = "provwasm-tutorial"
-version = "2.1.0"
+version = "2.2.0"
 authors = ["fkneeland <fkneeland@figure.com>"]
 edition = "2021"
 license = "Apache-2.0"

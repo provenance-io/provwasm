@@ -544,7 +544,7 @@ dependencies = [
 
 [[package]]
 name = "provwasm-mocks"
-version = "2.1.0"
+version = "2.2.0"
 dependencies = [
  "cosmwasm-std",
  "provwasm-common",
@@ -565,7 +565,7 @@ dependencies = [
 
 [[package]]
 name = "provwasm-std"
-version = "2.1.0"
+version = "2.2.0"
 dependencies = [
  "base64 0.21.0",
  "chrono",
@@ -839,7 +839,7 @@ dependencies = [
 
 [[package]]
 name = "trigger"
-version = "2.1.0"
+version = "2.2.0"
 dependencies = [
  "cosmwasm-schema",
  "cosmwasm-std",
