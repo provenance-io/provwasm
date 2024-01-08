@@ -761,7 +761,7 @@ dependencies = [
 
 [[package]]
 name = "proto-build"
-version = "2.1.0"
+version = "0.1.0"
 dependencies = [
  "heck",
  "itertools 0.11.0",
@@ -788,7 +788,7 @@ dependencies = [
 
 [[package]]
 name = "provwasm-mocks"
-version = "2.1.0"
+version = "2.2.0"
 dependencies = [
  "cosmwasm-std",
  "provwasm-common",
@@ -814,7 +814,7 @@ dependencies = [
 
 [[package]]
 name = "provwasm-std"
-version = "2.1.0"
+version = "2.2.0"
 dependencies = [
  "base64 0.21.1",
  "chrono",
