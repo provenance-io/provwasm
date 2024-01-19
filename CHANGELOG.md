@@ -2,6 +2,8 @@
 
 ## Unreleased changes
 
+* Add wasm message types ([#133](https://github.com/provenance-io/provwasm/issues/133))
+
 ## Releases
 
 ### [v2.1.0](https://github.com/provenance-io/provwasm/tree/v2.1.0)

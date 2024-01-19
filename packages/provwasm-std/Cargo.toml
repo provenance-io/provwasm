@@ -1,6 +1,6 @@
 [package]
 name = "provwasm-std"
-version = "2.1.0"
+version = "2.2.0"
 authors = ["Ken Talley <ktalley@figure.com>"]
 edition = "2021"
 license = "Apache-2.0"
@@ -13,8 +13,8 @@ categories = ["api-bindings", "cryptography::cryptocurrencies", "wasm"]
 chrono = {version = "0.4.24", default-features = false}
 cosmwasm-std = {version = "1.2.5", features = ["stargate"]}
 cosmwasm-schema = { version = "1.2.5" }
-prost = {version = "0.12.1", default-features = false, features = ["prost-derive"]}
-prost-types = {version = "0.12.1", default-features = false}
+prost = {version = "0.11.9", default-features = false, features = ["prost-derive"]}
+prost-types = {version = "0.11.9", default-features = false}
 provwasm-common = {version = "0.1.0", path = "../provwasm-common" }
 provwasm-proc-macro = {version = "0.1.0", path = "../provwasm-proc-macro" }
 schemars = "0.8.12"

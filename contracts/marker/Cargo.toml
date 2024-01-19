@@ -1,6 +1,6 @@
 [package]
 name = "marker"
-version = "2.1.0"
+version = "2.2.0"
 authors = ["Phil Story <pstory@figure.com>", "Ken Talley <4344285+kwtalley@users.noreply.github.com"]
 edition = "2018"
 
@@ -37,5 +37,5 @@ serde = { version = "1.0.163", default-features = false, features = ["derive"] }
 thiserror = { version = "1.0.40" }
 
 [dev-dependencies]
-prost = {version = "0.12.1", default-features = false}
+prost = {version = "0.11.9", default-features = false}
 provwasm-mocks = { path = "../../packages/provwasm-mocks" }

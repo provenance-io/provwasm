@@ -61,6 +61,12 @@ types:
     - cosmos.distribution.v1beta1.QueryDelegatorWithdrawAddressResponse
     - cosmos.distribution.v1beta1.QueryValidatorCommissionRequest
     - cosmos.distribution.v1beta1.QueryValidatorCommissionResponse
+    - cosmos.gov.v1beta1.MsgSubmitProposal
+    - cosmos.gov.v1beta1.MsgSubmitProposalResponse
+    - cosmos.gov.v1beta1.MsgVote
+    - cosmos.gov.v1beta1.MsgVoteResponse
+    - cosmos.gov.v1beta1.QueryProposalRequest
+    - cosmos.gov.v1beta1.QueryProposalResponse
     - cosmos.gov.v1beta1.QueryDepositRequest
     - cosmos.gov.v1beta1.QueryDepositResponse
     - cosmos.gov.v1beta1.QueryParamsRequest
@@ -86,3 +92,4 @@ types:
     - cosmos.upgrade.v1beta1.SoftwareUpgradeProposal
     - cosmos.upgrade.v1beta1.CancelSoftwareUpgradeProposal
     - cosmos.upgrade.v1beta1.ModuleVersion
+    - cosmwasm.wasm.v1
