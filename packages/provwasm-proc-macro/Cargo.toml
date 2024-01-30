@@ -19,8 +19,8 @@ quote = "1.0.27"
 syn = "2.0.16"
 
 [dev-dependencies]
-cosmwasm-std = {version = "1.2.5", features = ["stargate"]}
-prost = "0.11.9"
-serde = "1.0.163"
+cosmwasm-std = {workspace = true, features = ["stargate"]}
+prost = {workspace = true}
+serde = {workspace = true}
 trybuild = {version = "1.0.80", features = ["diff"]}
-provwasm-common = { version = "0.1.0", path = "../provwasm-common" }
+provwasm-common = { workspace = true }
