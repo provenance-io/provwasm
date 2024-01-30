@@ -10,15 +10,15 @@ keywords = ["provenance", "blockchain", "smart-contracts", "defi", "finance"]
 categories = ["api-bindings", "cryptography::cryptocurrencies", "wasm"]
 
 [dependencies]
-chrono = {version = "0.4.24", default-features = false}
-cosmwasm-std = {version = "1.2.5", features = ["stargate"]}
-cosmwasm-schema = { version = "1.2.5" }
-prost = {version = "0.11.9", default-features = false, features = ["prost-derive"]}
-prost-types = {version = "0.11.9", default-features = false}
-provwasm-common = {version = "0.1.0", path = "../provwasm-common" }
-provwasm-proc-macro = {version = "0.1.0", path = "../provwasm-proc-macro" }
-schemars = "0.8.12"
-serde = {version = "1.0.163", default-features = false, features = ["derive"]}
+chrono = { version = "0.4.24", default-features = false }
+cosmwasm-std = { workspace = true, features = ["stargate"] }
+cosmwasm-schema = { workspace = true }
+prost = { workspace = true, default-features = false, features = ["prost-derive"] }
+prost-types = { workspace = true, default-features = false }
+provwasm-common = { workspace = true }
+provwasm-proc-macro = { workspace = true }
+schemars = { workspace = true }
+serde = { workspace = true, default-features = false, features = ["derive"] }
 serde-cw-value = "0.7.0"
 base64 = "0.21.0"
 strum_macros = "0.25.3"
