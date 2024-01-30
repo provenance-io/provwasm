@@ -1,5 +1,5 @@
 use cosmwasm_std::{
-    entry_point, to_binary, Deps, DepsMut, Env, MessageInfo, QueryResponse, Response, StdError,
+    entry_point, to_json_binary, Deps, DepsMut, Env, MessageInfo, QueryResponse, Response, StdError,
 };
 use provwasm_std::types::provenance::attribute::v1::{AttributeQuerier, AttributeType};
 
@@ -135,7 +135,7 @@ fn try_delete_distinct_label(
         env.contract.address.clone(),
         env.contract.address,
         &attr_name,
-        to_binary(&Label { text: value })?,
+        to_json_binary(&Label { text: value })?,
     )?;
     let res = Response::new()
         .add_message(msg)
@@ -159,11 +159,11 @@ fn try_update_label(
         env.contract.address.clone(),
         env.contract.address,
         &attr_name,
-        to_binary(&Label {
+        to_json_binary(&Label {
             text: original_text,
         })?,
         AttributeType::Json,
-        to_binary(&Label { text: update_text })?,
+        to_json_binary(&Label { text: update_text })?,
         AttributeType::Json,
     )?;
     let res = Response::new()
@@ -180,12 +180,12 @@ pub fn query(deps: Deps, env: Env, msg: QueryMsg) -> Result<QueryResponse, StdEr
     let state = config_read(deps.storage).load()?;
     let attr_name = format!("{}.{}", "label", state.contract_name);
     match msg {
-        QueryMsg::GetLabelName {} => to_binary(&LabelNameResponse { name: attr_name }),
+        QueryMsg::GetLabelName {} => to_json_binary(&LabelNameResponse { name: attr_name }),
         QueryMsg::GetLabels {} => {
             let querier = AttributeQuerier::new(&deps.querier);
             let labels: Vec<Label> =
                 get_json_attributes(querier, env.contract.address, &attr_name)?;
-            to_binary(&LabelsResponse { labels })
+            to_json_binary(&LabelsResponse { labels })
         }
     }
 }
@@ -200,7 +200,7 @@ pub fn migrate(_deps: DepsMut, _env: Env, _msg: MigrateMsg) -> Result<Response, 
 mod tests {
     use super::*;
     use cosmwasm_std::testing::{mock_env, mock_info, MOCK_CONTRACT_ADDR};
-    use cosmwasm_std::{from_binary, Binary, CosmosMsg};
+    use cosmwasm_std::{from_json, Binary, CosmosMsg};
     use provwasm_mocks::mock_provenance_dependencies;
     use provwasm_std::types::provenance::attribute::v1::{
         Attribute, MsgAddAttributeRequest, MsgDeleteAttributeRequest, MsgUpdateAttributeRequest,
@@ -368,7 +368,7 @@ mod tests {
             CosmosMsg::Stargate { type_url, value } => {
                 let expected: Binary = MsgAddAttributeRequest {
                     name: "label.contract.pb".to_string(),
-                    value: to_binary(&Label {
+                    value: to_json_binary(&Label {
                         text: "text".to_string(),
                     })
                     .unwrap()
@@ -535,12 +535,12 @@ mod tests {
         match &res.messages[0].msg {
             CosmosMsg::Stargate { type_url, value } => {
                 let expected: Binary = MsgUpdateAttributeRequest {
-                    original_value: to_binary(&Label {
+                    original_value: to_json_binary(&Label {
                         text: "original_text".to_string(),
                     })
                     .unwrap()
                     .0,
-                    update_value: to_binary(&Label {
+                    update_value: to_json_binary(&Label {
                         text: "update_text".to_string(),
                     })
                     .unwrap()
@@ -584,7 +584,7 @@ mod tests {
         let bin = query(deps.as_ref(), mock_env(), QueryMsg::GetLabelName {}).unwrap();
 
         // Ensure that we got the expected response
-        let rep: LabelNameResponse = from_binary(&bin).unwrap();
+        let rep: LabelNameResponse = from_json(&bin).unwrap();
         assert_eq!(
             rep,
             LabelNameResponse {
@@ -604,7 +604,7 @@ mod tests {
                 account: MOCK_CONTRACT_ADDR.to_string(),
                 attributes: vec![Attribute {
                     name: "label.contract.pb".to_string(),
-                    value: to_binary(&Label {
+                    value: to_json_binary(&Label {
                         text: "text".to_string(),
                     })
                     .unwrap()
@@ -632,7 +632,7 @@ mod tests {
         let bin = query(deps.as_ref(), mock_env(), QueryMsg::GetLabels {}).unwrap();
 
         // Ensure that we got the expected response
-        let rep: LabelsResponse = from_binary(&bin).unwrap();
+        let rep: LabelsResponse = from_json(&bin).unwrap();
         assert_eq!(rep.labels.len(), 1);
         assert_eq!(
             rep.labels[0],
