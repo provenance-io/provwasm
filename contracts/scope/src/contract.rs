@@ -1,5 +1,5 @@
 use cosmwasm_std::{
-    entry_point, to_binary, Deps, DepsMut, Env, MessageInfo, QueryResponse, Response, StdError,
+    entry_point, to_json_binary, Deps, DepsMut, Env, MessageInfo, QueryResponse, Response, StdError,
 };
 use provwasm_std::types::provenance::metadata::v1::{MetadataQuerier, MsgWriteScopeRequest, Scope};
 use provwasm_std::types::provenance::name::v1::{MsgBindNameRequest, NameRecord};
@@ -101,14 +101,14 @@ pub fn query(deps: Deps, _env: Env, msg: QueryMsg) -> Result<QueryResponse, StdE
 fn try_get_contract_spec(deps: Deps, id: String) -> Result<QueryResponse, StdError> {
     let querier = MetadataQuerier::new(&deps.querier);
     let contract_spec_response = querier.contract_specification(id, true)?;
-    to_binary(&contract_spec_response)
+    to_json_binary(&contract_spec_response)
 }
 
 // Use a ProvenanceQuerier to get a scope by ID.
 fn try_get_scope(deps: Deps, id: String) -> Result<QueryResponse, StdError> {
     let querier = MetadataQuerier::new(&deps.querier);
     let scope_response = querier.scope(id, "".to_string(), "".to_string(), false, false)?;
-    to_binary(&scope_response)
+    to_json_binary(&scope_response)
 }
 
 // Use a ProvenanceQuerier to get sessions for a scope.
@@ -122,7 +122,7 @@ fn try_get_sessions(deps: Deps, scope_id: String) -> Result<QueryResponse, StdEr
         false,
         false,
     )?;
-    to_binary(&sessions_response)
+    to_json_binary(&sessions_response)
 }
 
 // Use a ProvenanceQuerier to get records for a scope.
@@ -136,7 +136,7 @@ fn try_get_records(deps: Deps, scope_id: String) -> Result<QueryResponse, StdErr
         false,
         false,
     )?;
-    to_binary(&records_response)
+    to_json_binary(&records_response)
 }
 
 // Use a ProvenanceQuerier to get records for a scope by name
@@ -148,13 +148,13 @@ fn try_get_records_by_name(
     let querier = MetadataQuerier::new(&deps.querier);
     let records_response =
         querier.records("".to_string(), scope_id, "".to_string(), name, false, false)?;
-    to_binary(&records_response)
+    to_json_binary(&records_response)
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
-    use cosmwasm_std::from_binary;
+    use cosmwasm_std::from_json;
     use cosmwasm_std::testing::{mock_env, mock_info};
     use provwasm_mocks::mock_provenance_dependencies;
     use provwasm_std::types::provenance::metadata::v1::process::ProcessId;
@@ -229,7 +229,7 @@ mod tests {
         .unwrap();
 
         // Ensure we got the expected scope.
-        let scope: ScopeResponse = from_binary(&bin).unwrap();
+        let scope: ScopeResponse = from_json(&bin).unwrap();
         assert_eq!(scope, expected)
     }
 
@@ -280,7 +280,7 @@ mod tests {
         .unwrap();
 
         // Ensure we got the expected sessions.
-        let sessions: SessionsResponse = from_binary(&bin).unwrap();
+        let sessions: SessionsResponse = from_json(&bin).unwrap();
         assert_eq!(sessions, expected)
     }
 
@@ -377,7 +377,7 @@ mod tests {
         .unwrap();
 
         // Ensure we got the expected records
-        let records: RecordsResponse = from_binary(&bin).unwrap();
+        let records: RecordsResponse = from_json(&bin).unwrap();
         assert_eq!(records, expected)
     }
 
@@ -441,7 +441,7 @@ mod tests {
         .unwrap();
 
         // Ensure we got the expected record.
-        let record: RecordsResponse = from_binary(&bin).unwrap();
+        let record: RecordsResponse = from_json(&bin).unwrap();
         assert_eq!(record, expected);
     }
 }
