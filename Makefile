@@ -42,53 +42,15 @@ name:
 scope:
 	@make -C contracts/scope
 
-.PHONY: build-release-zip
-build-release-zip: tutorial
-	zip provwasm_tutorial.zip ./contracts/tutorial/artifacts/provwasm_tutorial.wasm
-
-PROVENANCE_TEST_VERSION = "v1.8.0"
-
-.PHONY: test-tutorial
-test-tutorial: tutorial optimize-tutorial
-	docker rm -f test_container || true
-	docker pull provenanceio/provenance-testing-action
-	docker create --name test_container provenanceio/provenance-testing-action --entrypoint	"/scripts/tutorial_test.sh" "$(PROVENANCE_TEST_VERSION)"
-	docker cp ./scripts test_container:/scripts
-	docker cp ./contracts test_container:/go/contracts
-	docker start test_container
-
-.PHONY: test-attrs
+.PHONY: optimize-contracts
 test-attrs: attrs
-	docker rm -f test_container || true
-	docker pull provenanceio/provenance-testing-action
-	docker create --name test_container provenanceio/provenance-testing-action --entrypoint	"/scripts/attrs_test.sh" "$(PROVENANCE_TEST_VERSION)"
-	docker cp ./scripts test_container:/scripts
-	docker cp ./contracts test_container:/go/contracts
-	docker start test_container
+	if [[ $(arch) == "arm64" ]]; then
+	  image="cosmwasm/workspace-optimizer-arm64"
+	else
+	  image="cosmwasm/workspace-optimizer"
+	fi
 
-.PHONY: test-marker
-test-marker: marker
-	docker rm -f test_container || true
-	docker pull provenanceio/provenance-testing-action
-	docker create --name test_container provenanceio/provenance-testing-action --entrypoint	"/scripts/marker_test.sh" "$(PROVENANCE_TEST_VERSION)"
-	docker cp ./scripts test_container:/scripts
-	docker cp ./contracts test_container:/go/contracts
-	docker start test_container
-
-.PHONY: test-name
-test-name: name
-	docker rm -f test_container || true
-	docker pull provenanceio/provenance-testing-action
-	docker create --name test_container provenanceio/provenance-testing-action --entrypoint	"/scripts/name_test.sh" "$(PROVENANCE_TEST_VERSION)"
-	docker cp ./scripts test_container:/scripts
-	docker cp ./contracts test_container:/go/contracts
-	docker start test_container
-
-.PHONY: test-scope
-test-scope: scope
-	docker rm -f test_container || true
-	docker pull provenanceio/provenance-testing-action
-	docker create --name test_container provenanceio/provenance-testing-action --entrypoint	"/scripts/scope_test.sh" "$(PROVENANCE_TEST_VERSION)"
-	docker cp ./scripts test_container:/scripts
-	docker cp ./contracts test_container:/go/contracts
-	docker start test_container
+	docker run --rm -v "$(pwd)":/code:Z \
+	  --mount type=volume,source="$(basename "$(pwd)")_cache",target=/code/target \
+	  --mount type=volume,source=registry_cache,target=/usr/local/cargo/registry \
+	  ${image}:0.12.13
