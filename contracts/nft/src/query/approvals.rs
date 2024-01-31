@@ -1,4 +1,4 @@
-use cosmwasm_std::{to_binary, Binary, Deps, Env};
+use cosmwasm_std::{to_json_binary, Binary, Deps, Env};
 use cw721::ApprovalsResponse;
 
 use crate::core::error::ContractError;
@@ -21,5 +21,5 @@ pub fn handle(
         })
         .collect();
 
-    Ok(to_binary(&ApprovalsResponse { approvals })?)
+    Ok(to_json_binary(&ApprovalsResponse { approvals })?)
 }

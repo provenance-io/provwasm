@@ -1,5 +1,5 @@
 use crate::core::error::ContractError;
-use cosmwasm_std::{to_binary, Binary, Deps};
+use cosmwasm_std::{to_json_binary, Binary, Deps};
 use cw2::get_contract_version;
 
 use crate::core::msg::ContractVersionResponse;
@@ -14,5 +14,5 @@ pub fn handle(deps: Deps) -> Result<Binary, ContractError> {
     let res = ContractVersionResponse {
         contract_version: get_contract_version(deps.storage)?,
     };
-    Ok(to_binary(&res)?)
+    Ok(to_json_binary(&res)?)
 }

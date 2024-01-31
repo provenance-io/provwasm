@@ -1,4 +1,4 @@
-use cosmwasm_std::{to_binary, Binary, Deps, Env, StdError};
+use cosmwasm_std::{to_json_binary, Binary, Deps, Env, StdError};
 use cw721::OperatorResponse;
 
 use crate::core::error::ContractError;
@@ -22,7 +22,7 @@ pub fn handle(
                 "Approval not found",
             )));
         }
-        return Ok(to_binary(&OperatorResponse {
+        return Ok(to_json_binary(&OperatorResponse {
             approval: cw721::Approval {
                 spender: operator,
                 expires,

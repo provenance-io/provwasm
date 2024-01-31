@@ -1,4 +1,4 @@
-use cosmwasm_std::{to_binary, Binary, Deps, Order, StdResult};
+use cosmwasm_std::{to_json_binary, Binary, Deps, Order, StdResult};
 use cw721::TokensResponse;
 use cw_storage_plus::Bound;
 
@@ -20,5 +20,5 @@ pub fn handle(
         .map(|item| item.map(|(k, _)| k))
         .collect();
 
-    Ok(to_binary(&TokensResponse { tokens: tokens? })?)
+    Ok(to_json_binary(&TokensResponse { tokens: tokens? })?)
 }

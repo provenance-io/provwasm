@@ -1,4 +1,4 @@
-use cosmwasm_std::{to_binary, Binary, Deps, Env, StdError};
+use cosmwasm_std::{to_json_binary, Binary, Deps, Env, StdError};
 use cw721::ApprovalResponse;
 use cw_utils::Expiration;
 
@@ -20,7 +20,7 @@ pub fn handle(
             spender: token.owner.to_string(),
             expires: Expiration::Never {},
         };
-        return Ok(to_binary(&ApprovalResponse { approval })?);
+        return Ok(to_json_binary(&ApprovalResponse { approval })?);
     }
 
     let filtered: Vec<_> = token
@@ -42,5 +42,5 @@ pub fn handle(
     // we expect only one item
     let approval = filtered[0].clone();
 
-    Ok(to_binary(&ApprovalResponse { approval })?)
+    Ok(to_json_binary(&ApprovalResponse { approval })?)
 }
