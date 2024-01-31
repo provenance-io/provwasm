@@ -1,4 +1,4 @@
-use cosmwasm_std::{to_binary, Deps};
+use cosmwasm_std::{to_json_binary, Deps};
 use cw2::get_contract_version;
 
 use crate::core::{aliases::ProvQueryResponse, msg::QueryVersionResponse};
@@ -17,12 +17,12 @@ pub fn handle(deps: Deps) -> ProvQueryResponse {
     let res = QueryVersionResponse {
         contract_version: get_contract_version(deps.storage)?,
     };
-    Ok(to_binary(&res)?)
+    Ok(to_json_binary(&res)?)
 }
 
 #[cfg(test)]
 mod tests {
-    use cosmwasm_std::from_binary;
+    use cosmwasm_std::from_json;
     use provwasm_mocks::mock_provenance_dependencies;
 
     use crate::{
@@ -40,7 +40,7 @@ mod tests {
         let mut deps = mock_provenance_dependencies();
         setup::mock_contract(deps.as_mut());
         let bin = handle(deps.as_ref()).unwrap();
-        let response: QueryVersionResponse = from_binary(&bin).unwrap();
+        let response: QueryVersionResponse = from_json(&bin).unwrap();
         assert_eq!(CONTRACT_NAME, response.contract_version.contract);
         assert_eq!(CONTRACT_VERSION, response.contract_version.version);
     }
