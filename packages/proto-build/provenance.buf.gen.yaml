@@ -193,6 +193,7 @@ types:
     - provenance.marker.v1.MsgWithdrawResponse
     - provenance.marker.v1.MsgTransferRequest
     - provenance.marker.v1.MsgTransferResponse
+    - provenance.marker.v1.MsgIbcTransferRequest
     - provenance.marker.v1.MsgIbcTransferResponse
     - provenance.marker.v1.MsgSetDenomMetadataRequest
     - provenance.marker.v1.MsgSetDenomMetadataResponse
@@ -333,6 +334,10 @@ types:
     - provenance.msgfees.v1.Params
     - provenance.msgfees.v1.QueryParamsRequest
     - provenance.msgfees.v1.QueryParamsResponse
+    - provenance.msgfees.v1.QueryAllMsgFeesRequest
+    - provenance.msgfees.v1.QueryAllMsgFeesResponse
+    - provenance.msgfees.v1.CalculateTxFeesRequest
+    - provenance.msgfees.v1.CalculateTxFeesResponse
     - provenance.msgfees.v1.MsgAssessCustomMsgFeeRequest
     - provenance.msgfees.v1.MsgAssessCustomMsgFeeResponse
     - provenance.name.v1.Params
