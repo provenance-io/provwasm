@@ -1381,7 +1381,10 @@ pub struct OsLocatorParams {
     path = "/provenance.metadata.v1.Query/Params",
     response_type = QueryParamsResponse
 )]
-pub struct QueryParamsRequest {}
+pub struct QueryParamsRequest {
+    #[prost(bool, tag = "98")]
+    pub include_request: bool,
+}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
@@ -1427,6 +1430,10 @@ pub struct ScopeRequest {
     pub include_sessions: bool,
     #[prost(bool, tag = "11")]
     pub include_records: bool,
+    #[prost(bool, tag = "12")]
+    pub exclude_id_info: bool,
+    #[prost(bool, tag = "98")]
+    pub include_request: bool,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
@@ -1499,6 +1506,10 @@ pub struct SessionsRequest {
     pub include_scope: bool,
     #[prost(bool, tag = "11")]
     pub include_records: bool,
+    #[prost(bool, tag = "12")]
+    pub exclude_id_info: bool,
+    #[prost(bool, tag = "98")]
+    pub include_request: bool,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
@@ -1571,6 +1582,10 @@ pub struct RecordsRequest {
     pub include_scope: bool,
     #[prost(bool, tag = "11")]
     pub include_sessions: bool,
+    #[prost(bool, tag = "12")]
+    pub exclude_id_info: bool,
+    #[prost(bool, tag = "98")]
+    pub include_request: bool,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
@@ -1633,6 +1648,8 @@ pub struct RecordWrapper {
 pub struct OwnershipRequest {
     #[prost(string, tag = "1")]
     pub address: ::prost::alloc::string::String,
+    #[prost(bool, tag = "98")]
+    pub include_request: bool,
     #[prost(message, optional, tag = "99")]
     pub pagination:
         ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageRequest>,
@@ -1677,6 +1694,8 @@ pub struct OwnershipResponse {
 pub struct ValueOwnershipRequest {
     #[prost(string, tag = "1")]
     pub address: ::prost::alloc::string::String,
+    #[prost(bool, tag = "98")]
+    pub include_request: bool,
     #[prost(message, optional, tag = "99")]
     pub pagination:
         ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageRequest>,
@@ -1725,6 +1744,10 @@ pub struct ScopeSpecificationRequest {
     pub include_contract_specs: bool,
     #[prost(bool, tag = "11")]
     pub include_record_specs: bool,
+    #[prost(bool, tag = "12")]
+    pub exclude_id_info: bool,
+    #[prost(bool, tag = "98")]
+    pub include_request: bool,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
@@ -1787,6 +1810,10 @@ pub struct ContractSpecificationRequest {
     pub specification_id: ::prost::alloc::string::String,
     #[prost(bool, tag = "10")]
     pub include_record_specs: bool,
+    #[prost(bool, tag = "12")]
+    pub exclude_id_info: bool,
+    #[prost(bool, tag = "98")]
+    pub include_request: bool,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
@@ -1847,6 +1874,10 @@ pub struct ContractSpecificationWrapper {
 pub struct RecordSpecificationsForContractSpecificationRequest {
     #[prost(string, tag = "1")]
     pub specification_id: ::prost::alloc::string::String,
+    #[prost(bool, tag = "12")]
+    pub exclude_id_info: bool,
+    #[prost(bool, tag = "98")]
+    pub include_request: bool,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
@@ -1893,6 +1924,10 @@ pub struct RecordSpecificationRequest {
     pub specification_id: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
     pub name: ::prost::alloc::string::String,
+    #[prost(bool, tag = "12")]
+    pub exclude_id_info: bool,
+    #[prost(bool, tag = "98")]
+    pub include_request: bool,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
@@ -1946,7 +1981,10 @@ pub struct RecordSpecificationWrapper {
     path = "/provenance.metadata.v1.Query/OSLocatorParams",
     response_type = OsLocatorParamsResponse
 )]
-pub struct OsLocatorParamsRequest {}
+pub struct OsLocatorParamsRequest {
+    #[prost(bool, tag = "98")]
+    pub include_request: bool,
+}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
@@ -1984,6 +2022,8 @@ pub struct OsLocatorParamsResponse {
 pub struct OsLocatorRequest {
     #[prost(string, tag = "1")]
     pub owner: ::prost::alloc::string::String,
+    #[prost(bool, tag = "98")]
+    pub include_request: bool,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
@@ -2022,6 +2062,8 @@ pub struct OsLocatorResponse {
 pub struct OsLocatorsByUriRequest {
     #[prost(string, tag = "1")]
     pub uri: ::prost::alloc::string::String,
+    #[prost(bool, tag = "98")]
+    pub include_request: bool,
     #[prost(message, optional, tag = "99")]
     pub pagination:
         ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageRequest>,
@@ -2066,6 +2108,8 @@ pub struct OsLocatorsByUriResponse {
 pub struct OsLocatorsByScopeRequest {
     #[prost(string, tag = "1")]
     pub scope_id: ::prost::alloc::string::String,
+    #[prost(bool, tag = "98")]
+    pub include_request: bool,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
@@ -2915,8 +2959,11 @@ impl<'a, Q: cosmwasm_std::CustomQuery> MetadataQuerier<'a, Q> {
     pub fn new(querier: &'a cosmwasm_std::QuerierWrapper<'a, Q>) -> Self {
         Self { querier }
     }
-    pub fn params(&self) -> std::result::Result<QueryParamsResponse, cosmwasm_std::StdError> {
-        QueryParamsRequest {}.query(self.querier)
+    pub fn params(
+        &self,
+        include_request: bool,
+    ) -> std::result::Result<QueryParamsResponse, cosmwasm_std::StdError> {
+        QueryParamsRequest { include_request }.query(self.querier)
     }
     pub fn scope(
         &self,
@@ -2925,6 +2972,8 @@ impl<'a, Q: cosmwasm_std::CustomQuery> MetadataQuerier<'a, Q> {
         record_addr: ::prost::alloc::string::String,
         include_sessions: bool,
         include_records: bool,
+        exclude_id_info: bool,
+        include_request: bool,
     ) -> std::result::Result<ScopeResponse, cosmwasm_std::StdError> {
         ScopeRequest {
             scope_id,
@@ -2932,6 +2981,8 @@ impl<'a, Q: cosmwasm_std::CustomQuery> MetadataQuerier<'a, Q> {
             record_addr,
             include_sessions,
             include_records,
+            exclude_id_info,
+            include_request,
         }
         .query(self.querier)
     }
@@ -2943,6 +2994,8 @@ impl<'a, Q: cosmwasm_std::CustomQuery> MetadataQuerier<'a, Q> {
         record_name: ::prost::alloc::string::String,
         include_scope: bool,
         include_records: bool,
+        exclude_id_info: bool,
+        include_request: bool,
     ) -> std::result::Result<SessionsResponse, cosmwasm_std::StdError> {
         SessionsRequest {
             scope_id,
@@ -2951,6 +3004,8 @@ impl<'a, Q: cosmwasm_std::CustomQuery> MetadataQuerier<'a, Q> {
             record_name,
             include_scope,
             include_records,
+            exclude_id_info,
+            include_request,
         }
         .query(self.querier)
     }
@@ -2962,6 +3017,8 @@ impl<'a, Q: cosmwasm_std::CustomQuery> MetadataQuerier<'a, Q> {
         name: ::prost::alloc::string::String,
         include_scope: bool,
         include_sessions: bool,
+        exclude_id_info: bool,
+        include_request: bool,
     ) -> std::result::Result<RecordsResponse, cosmwasm_std::StdError> {
         RecordsRequest {
             record_addr,
@@ -2970,18 +3027,22 @@ impl<'a, Q: cosmwasm_std::CustomQuery> MetadataQuerier<'a, Q> {
             name,
             include_scope,
             include_sessions,
+            exclude_id_info,
+            include_request,
         }
         .query(self.querier)
     }
     pub fn ownership(
         &self,
         address: ::prost::alloc::string::String,
+        include_request: bool,
         pagination: ::core::option::Option<
             super::super::super::cosmos::base::query::v1beta1::PageRequest,
         >,
     ) -> std::result::Result<OwnershipResponse, cosmwasm_std::StdError> {
         OwnershipRequest {
             address,
+            include_request,
             pagination,
         }
         .query(self.querier)
@@ -2989,12 +3050,14 @@ impl<'a, Q: cosmwasm_std::CustomQuery> MetadataQuerier<'a, Q> {
     pub fn value_ownership(
         &self,
         address: ::prost::alloc::string::String,
+        include_request: bool,
         pagination: ::core::option::Option<
             super::super::super::cosmos::base::query::v1beta1::PageRequest,
         >,
     ) -> std::result::Result<ValueOwnershipResponse, cosmwasm_std::StdError> {
         ValueOwnershipRequest {
             address,
+            include_request,
             pagination,
         }
         .query(self.querier)
@@ -3004,11 +3067,15 @@ impl<'a, Q: cosmwasm_std::CustomQuery> MetadataQuerier<'a, Q> {
         specification_id: ::prost::alloc::string::String,
         include_contract_specs: bool,
         include_record_specs: bool,
+        exclude_id_info: bool,
+        include_request: bool,
     ) -> std::result::Result<ScopeSpecificationResponse, cosmwasm_std::StdError> {
         ScopeSpecificationRequest {
             specification_id,
             include_contract_specs,
             include_record_specs,
+            exclude_id_info,
+            include_request,
         }
         .query(self.querier)
     }
@@ -3016,57 +3083,89 @@ impl<'a, Q: cosmwasm_std::CustomQuery> MetadataQuerier<'a, Q> {
         &self,
         specification_id: ::prost::alloc::string::String,
         include_record_specs: bool,
+        exclude_id_info: bool,
+        include_request: bool,
     ) -> std::result::Result<ContractSpecificationResponse, cosmwasm_std::StdError> {
         ContractSpecificationRequest {
             specification_id,
             include_record_specs,
+            exclude_id_info,
+            include_request,
         }
         .query(self.querier)
     }
     pub fn record_specifications_for_contract_specification(
         &self,
         specification_id: ::prost::alloc::string::String,
+        exclude_id_info: bool,
+        include_request: bool,
     ) -> std::result::Result<
         RecordSpecificationsForContractSpecificationResponse,
         cosmwasm_std::StdError,
     > {
-        RecordSpecificationsForContractSpecificationRequest { specification_id }.query(self.querier)
+        RecordSpecificationsForContractSpecificationRequest {
+            specification_id,
+            exclude_id_info,
+            include_request,
+        }
+        .query(self.querier)
     }
     pub fn record_specification(
         &self,
         specification_id: ::prost::alloc::string::String,
         name: ::prost::alloc::string::String,
+        exclude_id_info: bool,
+        include_request: bool,
     ) -> std::result::Result<RecordSpecificationResponse, cosmwasm_std::StdError> {
         RecordSpecificationRequest {
             specification_id,
             name,
+            exclude_id_info,
+            include_request,
         }
         .query(self.querier)
     }
     pub fn os_locator_params(
         &self,
+        include_request: bool,
     ) -> std::result::Result<OsLocatorParamsResponse, cosmwasm_std::StdError> {
-        OsLocatorParamsRequest {}.query(self.querier)
+        OsLocatorParamsRequest { include_request }.query(self.querier)
     }
     pub fn os_locator(
         &self,
         owner: ::prost::alloc::string::String,
+        include_request: bool,
     ) -> std::result::Result<OsLocatorResponse, cosmwasm_std::StdError> {
-        OsLocatorRequest { owner }.query(self.querier)
+        OsLocatorRequest {
+            owner,
+            include_request,
+        }
+        .query(self.querier)
     }
     pub fn os_locators_by_uri(
         &self,
         uri: ::prost::alloc::string::String,
+        include_request: bool,
         pagination: ::core::option::Option<
             super::super::super::cosmos::base::query::v1beta1::PageRequest,
         >,
     ) -> std::result::Result<OsLocatorsByUriResponse, cosmwasm_std::StdError> {
-        OsLocatorsByUriRequest { uri, pagination }.query(self.querier)
+        OsLocatorsByUriRequest {
+            uri,
+            include_request,
+            pagination,
+        }
+        .query(self.querier)
     }
     pub fn os_locators_by_scope(
         &self,
         scope_id: ::prost::alloc::string::String,
+        include_request: bool,
     ) -> std::result::Result<OsLocatorsByScopeResponse, cosmwasm_std::StdError> {
-        OsLocatorsByScopeRequest { scope_id }.query(self.querier)
+        OsLocatorsByScopeRequest {
+            scope_id,
+            include_request,
+        }
+        .query(self.querier)
     }
 }

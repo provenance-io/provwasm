@@ -324,19 +324,6 @@ pub struct EventMarketFeesUpdated {
     serde::Deserialize,
     provwasm_proc_macro::CosmwasmExt,
 )]
-#[proto_message(type_url = "/provenance.exchange.v1.EventParamsUpdated")]
-#[serde(rename_all = "snake_case")]
-pub struct EventParamsUpdated {}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
-)]
 #[proto_message(type_url = "/provenance.exchange.v1.MarketAccount")]
 #[serde(rename_all = "snake_case")]
 pub struct MarketAccount {
