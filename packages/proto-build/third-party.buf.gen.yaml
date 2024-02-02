@@ -105,3 +105,5 @@ types:
     - ibc.applications.interchain_accounts.controller.v1.MsgSendTxResponse
     - ibc.applications.transfer.v1.MsgTransfer
     - ibc.applications.transfer.v1.MsgTransferResponse
+    - ibc.applications.transfer.v1.QueryDenomTraceRequest
+    - ibc.applications.transfer.v1.QueryDenomTraceResponse
