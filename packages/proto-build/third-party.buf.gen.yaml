@@ -91,3 +91,17 @@ types:
     - cosmos.upgrade.v1beta1.CancelSoftwareUpgradeProposal
     - cosmos.upgrade.v1beta1.ModuleVersion
     - cosmwasm.wasm.v1
+    - ibc.applications.fee.v1.MsgRegisterPayee
+    - ibc.applications.fee.v1.MsgRegisterPayeeResponse
+    - ibc.applications.fee.v1.MsgRegisterCounterpartyPayee
+    - ibc.applications.fee.v1.MsgRegisterCounterpartyPayeeResponse
+    - ibc.applications.fee.v1.MsgPayPacketFee
+    - ibc.applications.fee.v1.MsgPayPacketFeeResponse
+    - ibc.applications.fee.v1.MsgPayPacketFeeAsync
+    - ibc.applications.fee.v1.MsgPayPacketFeeAsyncResponse
+    - ibc.applications.interchain_accounts.controller.v1.MsgRegisterInterchainAccount
+    - ibc.applications.interchain_accounts.controller.v1.MsgRegisterInterchainAccountResponse
+    - ibc.applications.interchain_accounts.controller.v1.MsgSendTx
+    - ibc.applications.interchain_accounts.controller.v1.MsgSendTxResponse
+    - ibc.applications.transfer.v1.MsgTransfer
+    - ibc.applications.transfer.v1.MsgTransferResponse
