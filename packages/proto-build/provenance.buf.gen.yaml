@@ -8,7 +8,6 @@ plugins:
       - extern_path=.google.protobuf.Any=crate::shim::Any
 types:
   include:
-    - provenance.attribute.v1.Params
     - provenance.attribute.v1.Attribute
     - provenance.attribute.v1.AttributeType
     - provenance.attribute.v1.EventAttributeAdd
@@ -46,7 +45,6 @@ types:
     - provenance.exchange.v1.EventMarketReqAttrUpdated
     - provenance.exchange.v1.EventMarketCreated
     - provenance.exchange.v1.EventMarketFeesUpdated
-    - provenance.exchange.v1.EventParamsUpdated
     - provenance.exchange.v1.MarketAccount
     - provenance.exchange.v1.MarketDetails
     - provenance.exchange.v1.MarketBrief
@@ -57,7 +55,6 @@ types:
     - provenance.exchange.v1.Order
     - provenance.exchange.v1.AskOrder
     - provenance.exchange.v1.BidOrder
-    - provenance.exchange.v1.Params
     - provenance.exchange.v1.DenomSplit
     - provenance.exchange.v1.QueryOrderFeeCalcRequest
     - provenance.exchange.v1.QueryOrderFeeCalcResponse
@@ -127,7 +124,6 @@ types:
     - provenance.marker.v1.AccessGrant
     - provenance.marker.v1.Access
     - provenance.marker.v1.MarkerTransferAuthorization
-    - provenance.marker.v1.Params
     - provenance.marker.v1.MarkerAccount
     - provenance.marker.v1.MarkerType
     - provenance.marker.v1.MarkerStatus
@@ -223,7 +219,6 @@ types:
     - provenance.metadata.v1.EventOSLocatorCreated
     - provenance.metadata.v1.EventOSLocatorUpdated
     - provenance.metadata.v1.EventOSLocatorDeleted
-    - provenance.metadata.v1.Params
     - provenance.metadata.v1.ScopeIdInfo
     - provenance.metadata.v1.SessionIdInfo
     - provenance.metadata.v1.RecordIdInfo
@@ -331,7 +326,6 @@ types:
     - provenance.msgfees.v1.EventMsgFee
     - provenance.msgfees.v1.EventMsgFees
     - provenance.msgfees.v1.MsgFee
-    - provenance.msgfees.v1.Params
     - provenance.msgfees.v1.QueryParamsRequest
     - provenance.msgfees.v1.QueryParamsResponse
     - provenance.msgfees.v1.QueryAllMsgFeesRequest
@@ -340,7 +334,6 @@ types:
     - provenance.msgfees.v1.CalculateTxFeesResponse
     - provenance.msgfees.v1.MsgAssessCustomMsgFeeRequest
     - provenance.msgfees.v1.MsgAssessCustomMsgFeeResponse
-    - provenance.name.v1.Params
     - provenance.name.v1.NameRecord
     - provenance.name.v1.CreateRootNameProposal
     - provenance.name.v1.EventNameBound
