@@ -177,11 +177,3 @@ pub struct MsgPayPacketFeeAsync {
 #[proto_message(type_url = "/ibc.applications.fee.v1.MsgPayPacketFeeAsyncResponse")]
 #[serde(rename_all = "snake_case")]
 pub struct MsgPayPacketFeeAsyncResponse {}
-pub struct FeeQuerier<'a, Q: cosmwasm_std::CustomQuery> {
-    querier: &'a cosmwasm_std::QuerierWrapper<'a, Q>,
-}
-impl<'a, Q: cosmwasm_std::CustomQuery> FeeQuerier<'a, Q> {
-    pub fn new(querier: &'a cosmwasm_std::QuerierWrapper<'a, Q>) -> Self {
-        Self { querier }
-    }
-}
