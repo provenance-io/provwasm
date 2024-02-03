@@ -20,5 +20,13 @@ pub fn handle(deps: Deps, _env: Env, token_id: String) -> Result<Binary, Contrac
 }
 
 pub fn load_scope(scope_id: String, querier: QuerierWrapper) -> Result<ScopeResponse, StdError> {
-    MetadataQuerier::new(&querier).scope(scope_id, "".to_string(), "".to_string(), true, true)
+    MetadataQuerier::new(&querier).scope(
+        scope_id,
+        "".to_string(),
+        "".to_string(),
+        true,
+        true,
+        false,
+        false,
+    )
 }

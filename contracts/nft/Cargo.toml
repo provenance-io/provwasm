@@ -19,11 +19,10 @@ backtraces = []
 bech32 = "0.9.1"
 cosmwasm-schema = { workspace = true }
 cosmwasm-std = { workspace = true, features = ["cosmwasm_1_1"] }
-cosmwasm-storage = { workspace = true }
 cw2 = "1.0.1"
 cw721 = "0.18.0"
 cw-ownable = "0.5.1"
-cw-storage-plus = { version = "1.1.0", features = ["iterator"] }
+cw-storage-plus = { workspace = true, features = ["iterator"] }
 cw-utils = "1.0.1"
 hex = { version = "0.4.3", default-features = false }
 provwasm-std = { workspace = true }
