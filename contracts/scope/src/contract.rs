@@ -1,12 +1,13 @@
 use cosmwasm_std::{
     entry_point, to_json_binary, Deps, DepsMut, Env, MessageInfo, QueryResponse, Response, StdError,
 };
+
 use provwasm_std::types::provenance::metadata::v1::{MetadataQuerier, MsgWriteScopeRequest, Scope};
 use provwasm_std::types::provenance::name::v1::{MsgBindNameRequest, NameRecord};
 
 use crate::error::ContractError;
 use crate::msg::{ExecuteMsg, InitMsg, QueryMsg};
-use crate::state::{config, State};
+use crate::state::{State, CONFIG};
 
 /// Initialize config state and bind a name to the contract address.
 #[entry_point]
@@ -17,9 +18,12 @@ pub fn instantiate(
     msg: InitMsg,
 ) -> Result<Response, ContractError> {
     // Create and save contract config state.
-    config(deps.storage).save(&State {
-        contract_name: msg.name.clone(),
-    })?;
+    CONFIG.save(
+        deps.storage,
+        &State {
+            contract_name: msg.name.clone(),
+        },
+    )?;
 
     let split: Vec<&str> = msg.name.splitn(2, '.').collect();
     let record = split.first();
@@ -100,14 +104,22 @@ pub fn query(deps: Deps, _env: Env, msg: QueryMsg) -> Result<QueryResponse, StdE
 // Use a ProvenanceQuerier to get a scope by ID.
 fn try_get_contract_spec(deps: Deps, id: String) -> Result<QueryResponse, StdError> {
     let querier = MetadataQuerier::new(&deps.querier);
-    let contract_spec_response = querier.contract_specification(id, true)?;
+    let contract_spec_response = querier.contract_specification(id, true, false, false)?;
     to_json_binary(&contract_spec_response)
 }
 
 // Use a ProvenanceQuerier to get a scope by ID.
 fn try_get_scope(deps: Deps, id: String) -> Result<QueryResponse, StdError> {
     let querier = MetadataQuerier::new(&deps.querier);
-    let scope_response = querier.scope(id, "".to_string(), "".to_string(), false, false)?;
+    let scope_response = querier.scope(
+        id,
+        "".to_string(),
+        "".to_string(),
+        false,
+        false,
+        false,
+        false,
+    )?;
     to_json_binary(&scope_response)
 }
 
@@ -119,6 +131,8 @@ fn try_get_sessions(deps: Deps, scope_id: String) -> Result<QueryResponse, StdEr
         "".to_string(),
         "".to_string(),
         "".to_string(),
+        false,
+        false,
         false,
         false,
     )?;
@@ -135,6 +149,8 @@ fn try_get_records(deps: Deps, scope_id: String) -> Result<QueryResponse, StdErr
         "".to_string(),
         false,
         false,
+        false,
+        false,
     )?;
     to_json_binary(&records_response)
 }
@@ -146,16 +162,24 @@ fn try_get_records_by_name(
     name: String,
 ) -> Result<QueryResponse, StdError> {
     let querier = MetadataQuerier::new(&deps.querier);
-    let records_response =
-        querier.records("".to_string(), scope_id, "".to_string(), name, false, false)?;
+    let records_response = querier.records(
+        "".to_string(),
+        scope_id,
+        "".to_string(),
+        name,
+        false,
+        false,
+        false,
+        false,
+    )?;
     to_json_binary(&records_response)
 }
 
 #[cfg(test)]
 mod tests {
-    use super::*;
     use cosmwasm_std::from_json;
     use cosmwasm_std::testing::{mock_env, mock_info};
+
     use provwasm_mocks::mock_provenance_dependencies;
     use provwasm_std::types::provenance::metadata::v1::process::ProcessId;
     use provwasm_std::types::provenance::metadata::v1::record_input::Source;
@@ -164,6 +188,8 @@ mod tests {
         RecordWrapper, RecordsRequest, RecordsResponse, ResultStatus, ScopeRequest, ScopeResponse,
         ScopeWrapper, Session, SessionWrapper, SessionsRequest, SessionsResponse,
     };
+
+    use super::*;
 
     #[test]
     fn valid_init() {
