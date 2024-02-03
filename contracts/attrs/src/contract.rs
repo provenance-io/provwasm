@@ -1,5 +1,5 @@
 use cosmwasm_std::{
-    Deps, DepsMut, entry_point, Env, MessageInfo, QueryResponse, Response, StdError, to_json_binary,
+    entry_point, to_json_binary, Deps, DepsMut, Env, MessageInfo, QueryResponse, Response, StdError,
 };
 
 use provwasm_std::types::provenance::attribute::v1::{AttributeQuerier, AttributeType};
@@ -12,7 +12,7 @@ use crate::helpers::{
 use crate::msg::{
     ExecuteMsg, InitMsg, Label, LabelNameResponse, LabelsResponse, MigrateMsg, QueryMsg,
 };
-use crate::state::{CONFIG, State};
+use crate::state::{State, CONFIG};
 
 /// Initialize the smart contract config state and bind a name to the contract address.
 #[entry_point]
@@ -202,8 +202,8 @@ pub fn migrate(_deps: DepsMut, _env: Env, _msg: MigrateMsg) -> Result<Response, 
 
 #[cfg(test)]
 mod tests {
-    use cosmwasm_std::{Binary, CosmosMsg, from_json};
-    use cosmwasm_std::testing::{MOCK_CONTRACT_ADDR, mock_env, mock_info};
+    use cosmwasm_std::testing::{mock_env, mock_info, MOCK_CONTRACT_ADDR};
+    use cosmwasm_std::{from_json, Binary, CosmosMsg};
 
     use provwasm_mocks::mock_provenance_dependencies;
     use provwasm_std::types::provenance::attribute::v1::{
