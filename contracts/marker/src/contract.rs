@@ -12,7 +12,7 @@ use crate::helpers::{
     grant_marker_access, mint_marker_supply, transfer_marker_coins, withdraw_coins,
 };
 use crate::msg::{ExecuteMsg, InitMsg, QueryMsg};
-use crate::state::{config, State};
+use crate::state::{State, CONFIG};
 
 /// Initialize the smart contract config state, then bind a name to the contract address.
 #[entry_point]
@@ -23,9 +23,12 @@ pub fn instantiate(
     msg: InitMsg,
 ) -> Result<Response, ContractError> {
     // Create and save state
-    config(deps.storage).save(&State {
-        contract_name: msg.name.clone(),
-    })?;
+    CONFIG.save(
+        deps.storage,
+        &State {
+            contract_name: msg.name.clone(),
+        },
+    )?;
 
     // Create a name for the contract
     let bind_name_msg = bind_name(
@@ -322,6 +325,8 @@ mod tests {
             allow_governance_control: false,
             allow_forced_transfer: false,
             required_attributes: vec![],
+            usd_cents: 0,
+            volume: 0,
         }
         .try_into()
         .unwrap();
@@ -371,6 +376,8 @@ mod tests {
             allow_governance_control: false,
             allow_forced_transfer: true,
             required_attributes: vec![],
+            usd_cents: 0,
+            volume: 0,
         }
         .try_into()
         .unwrap();

@@ -19,7 +19,7 @@ backtraces = []
 [dependencies]
 cosmwasm-schema = { workspace = true }
 cosmwasm-std = { workspace = true }
-cosmwasm-storage = { workspace = true }
+cw-storage-plus = { workspace = true }
 provwasm-std = { workspace = true }
 schemars = {workspace = true}
 serde = { workspace = true, default-features = false, features = ["derive"] }
