@@ -5,7 +5,7 @@ use cosmwasm_std::{
 };
 
 use crate::ibc_msg::{AcknowledgementMsg, PacketMsg, WhoAmIResponse};
-use crate::state::{accounts, AccountData};
+use crate::state::{AccountData, ACCOUNTS};
 
 pub const IBC_APP_VERSION: &str = "pio-ibc-example-v1";
 pub const PACKET_LIFETIME: u64 = 60 * 60;
@@ -48,7 +48,7 @@ pub fn ibc_channel_connect(
 
     // create an account holder the channel exists (not found if not registered)
     let data = AccountData::default();
-    accounts(deps.storage).save(channel_id.as_bytes(), &data)?;
+    ACCOUNTS.save(deps.storage, channel_id, &data)?;
 
     // construct a packet to send
     let packet = PacketMsg::WhoAmI {};
@@ -75,7 +75,7 @@ pub fn ibc_channel_close(
 
     // remove the channel
     let channel_id = &channel.endpoint.channel_id;
-    accounts(deps.storage).remove(channel_id.as_bytes());
+    ACCOUNTS.remove(deps.storage, channel_id);
 
     Ok(IbcBasicResponse::new()
         .add_attribute("action", "ibc_channel_close")
@@ -131,7 +131,7 @@ fn acknowledge_who_am_i(
         }
     };
 
-    accounts(deps.storage).update(caller.as_bytes(), |acct| -> StdResult<_> {
+    ACCOUNTS.update(deps.storage, &caller, |acct| -> StdResult<_> {
         match acct {
             Some(mut acct) => {
                 // set the account the first time
@@ -251,7 +251,7 @@ mod tests {
             channel_id: channel_id.into(),
         };
         let r = query(deps.as_ref(), mock_env(), q).unwrap();
-        let acct: AccountResponse = from_json(&r).unwrap();
+        let acct: AccountResponse = from_json(r).unwrap();
         assert!(acct.remote_addr.is_none());
         assert!(acct.remote_balance.is_empty());
         assert_eq!(0, acct.last_update_time.nanos());
@@ -265,7 +265,7 @@ mod tests {
             channel_id: channel_id.into(),
         };
         let r = query(deps.as_ref(), mock_env(), q).unwrap();
-        let acct: AccountResponse = from_json(&r).unwrap();
+        let acct: AccountResponse = from_json(r).unwrap();
         assert_eq!(acct.remote_addr.unwrap(), remote_addr);
         assert!(acct.remote_balance.is_empty());
         assert_eq!(0, acct.last_update_time.nanos());

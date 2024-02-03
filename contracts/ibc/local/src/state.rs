@@ -1,13 +1,9 @@
+use cosmwasm_std::{Addr, Coin, Timestamp};
+use cw_storage_plus::{Item, Map};
 use serde::{Deserialize, Serialize};
 
-use cosmwasm_std::{Addr, Coin, Storage, Timestamp};
-use cosmwasm_storage::{
-    bucket, bucket_read, singleton, singleton_read, Bucket, ReadonlyBucket, ReadonlySingleton,
-    Singleton,
-};
-
-pub const KEY_CONFIG: &[u8] = b"config";
-pub const PREFIX_ACCOUNTS: &[u8] = b"accounts";
+pub const CONFIG: Item<Config> = Item::new("config");
+pub const ACCOUNTS: Map<&str, AccountData> = Map::new("accounts");
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq)]
 pub struct Config {
@@ -28,21 +24,4 @@ pub struct AccountData {
     pub height: u64,
     pub time: Timestamp,
     pub chain_id: String,
-}
-
-/// accounts is lookup of channel_id to reflect contract
-pub fn accounts(storage: &mut dyn Storage) -> Bucket<AccountData> {
-    bucket(storage, PREFIX_ACCOUNTS)
-}
-
-pub fn accounts_read(storage: &dyn Storage) -> ReadonlyBucket<AccountData> {
-    bucket_read(storage, PREFIX_ACCOUNTS)
-}
-
-pub fn config(storage: &mut dyn Storage) -> Singleton<Config> {
-    singleton(storage, KEY_CONFIG)
-}
-
-pub fn config_read(storage: &dyn Storage) -> ReadonlySingleton<Config> {
-    singleton_read(storage, KEY_CONFIG)
 }
