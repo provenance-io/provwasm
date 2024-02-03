@@ -1,6 +1,7 @@
 use cosmwasm_std::{
-    entry_point, to_json_binary, Deps, DepsMut, Env, MessageInfo, QueryResponse, Response, StdError,
+    Deps, DepsMut, entry_point, Env, MessageInfo, QueryResponse, Response, StdError, to_json_binary,
 };
+
 use provwasm_std::types::provenance::attribute::v1::{AttributeQuerier, AttributeType};
 
 use crate::error::ContractError;
@@ -11,7 +12,7 @@ use crate::helpers::{
 use crate::msg::{
     ExecuteMsg, InitMsg, Label, LabelNameResponse, LabelsResponse, MigrateMsg, QueryMsg,
 };
-use crate::state::{config, config_read, State};
+use crate::state::{CONFIG, State};
 
 /// Initialize the smart contract config state and bind a name to the contract address.
 #[entry_point]
@@ -22,10 +23,13 @@ pub fn instantiate(
     msg: InitMsg,
 ) -> Result<Response, ContractError> {
     // Create and save contract config state.
-    config(deps.storage).save(&State {
-        contract_owner: info.sender.clone(),
-        contract_name: msg.name.clone(),
-    })?;
+    CONFIG.save(
+        deps.storage,
+        &State {
+            contract_owner: info.sender.clone(),
+            contract_name: msg.name.clone(),
+        },
+    )?;
 
     // Create bind name message.
     let bind_name_msg = bind_name(
@@ -54,7 +58,7 @@ pub fn execute(
     msg: ExecuteMsg,
 ) -> Result<Response, ContractError> {
     // Load contract state
-    let state = config_read(deps.storage).load()?;
+    let state = CONFIG.load(deps.storage)?;
 
     // Validate the message sender is the contact owner.
     if info.sender != state.contract_owner {
@@ -177,7 +181,7 @@ fn try_update_label(
 /// Handle label query requests.
 #[entry_point]
 pub fn query(deps: Deps, env: Env, msg: QueryMsg) -> Result<QueryResponse, StdError> {
-    let state = config_read(deps.storage).load()?;
+    let state = CONFIG.load(deps.storage)?;
     let attr_name = format!("{}.{}", "label", state.contract_name);
     match msg {
         QueryMsg::GetLabelName {} => to_json_binary(&LabelNameResponse { name: attr_name }),
@@ -198,15 +202,17 @@ pub fn migrate(_deps: DepsMut, _env: Env, _msg: MigrateMsg) -> Result<Response, 
 
 #[cfg(test)]
 mod tests {
-    use super::*;
-    use cosmwasm_std::testing::{mock_env, mock_info, MOCK_CONTRACT_ADDR};
-    use cosmwasm_std::{from_json, Binary, CosmosMsg};
+    use cosmwasm_std::{Binary, CosmosMsg, from_json};
+    use cosmwasm_std::testing::{MOCK_CONTRACT_ADDR, mock_env, mock_info};
+
     use provwasm_mocks::mock_provenance_dependencies;
     use provwasm_std::types::provenance::attribute::v1::{
         Attribute, MsgAddAttributeRequest, MsgDeleteAttributeRequest, MsgUpdateAttributeRequest,
         QueryAttributeRequest, QueryAttributeResponse,
     };
     use provwasm_std::types::provenance::name::v1::{MsgBindNameRequest, NameRecord};
+
+    use super::*;
 
     #[test]
     fn init_test() {
