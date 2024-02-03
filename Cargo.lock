@@ -34,7 +34,7 @@ version = "2.2.0"
 dependencies = [
  "cosmwasm-schema",
  "cosmwasm-std",
- "cosmwasm-storage",
+ "cw-storage-plus",
  "provwasm-mocks",
  "provwasm-std",
  "schemars",
@@ -225,16 +225,6 @@ dependencies = [
  "sha2 0.10.8",
  "static_assertions",
  "thiserror",
-]
-
-[[package]]
-name = "cosmwasm-storage"
-version = "1.5.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "66de2ab9db04757bcedef2b5984fbe536903ada4a8a9766717a4a71197ef34f6"
-dependencies = [
- "cosmwasm-std",
- "serde",
 ]
 
 [[package]]
@@ -743,7 +733,7 @@ version = "2.2.0"
 dependencies = [
  "cosmwasm-schema",
  "cosmwasm-std",
- "cosmwasm-storage",
+ "cw-storage-plus",
  "provwasm-std",
  "schemars",
  "serde",
@@ -755,7 +745,7 @@ version = "2.2.0"
 dependencies = [
  "cosmwasm-schema",
  "cosmwasm-std",
- "cosmwasm-storage",
+ "cw-storage-plus",
  "provwasm-std",
  "schemars",
  "serde",
@@ -892,7 +882,7 @@ version = "2.2.0"
 dependencies = [
  "cosmwasm-schema",
  "cosmwasm-std",
- "cosmwasm-storage",
+ "cw-storage-plus",
  "prost 0.11.9",
  "provwasm-mocks",
  "provwasm-std",
@@ -913,7 +903,7 @@ version = "2.2.0"
 dependencies = [
  "cosmwasm-schema",
  "cosmwasm-std",
- "cosmwasm-storage",
+ "cw-storage-plus",
  "provwasm-mocks",
  "provwasm-std",
  "schemars",
@@ -933,7 +923,7 @@ version = "2.2.0"
 dependencies = [
  "cosmwasm-schema",
  "cosmwasm-std",
- "cosmwasm-storage",
+ "cw-storage-plus",
  "jsonformat",
  "provwasm-mocks",
  "provwasm-std",
@@ -949,7 +939,6 @@ dependencies = [
  "bech32",
  "cosmwasm-schema",
  "cosmwasm-std",
- "cosmwasm-storage",
  "cw-multi-test 0.16.5",
  "cw-ownable",
  "cw-storage-plus",
@@ -1245,7 +1234,7 @@ version = "2.2.0"
 dependencies = [
  "cosmwasm-schema",
  "cosmwasm-std",
- "cosmwasm-storage",
+ "cw-storage-plus",
  "provwasm-std",
  "schemars",
  "serde",
@@ -1388,7 +1377,7 @@ version = "2.2.0"
 dependencies = [
  "cosmwasm-schema",
  "cosmwasm-std",
- "cosmwasm-storage",
+ "cw-storage-plus",
  "provwasm-mocks",
  "provwasm-std",
  "schemars",
@@ -1621,7 +1610,6 @@ version = "2.2.0"
 dependencies = [
  "cosmwasm-schema",
  "cosmwasm-std",
- "cosmwasm-storage",
  "cw-multi-test 0.17.0",
  "cw-storage-plus",
  "cw-utils",
@@ -1669,7 +1657,7 @@ version = "2.2.0"
 dependencies = [
  "cosmwasm-schema",
  "cosmwasm-std",
- "cosmwasm-storage",
+ "cw-storage-plus",
  "jsonformat",
  "provwasm-mocks",
  "provwasm-std",
