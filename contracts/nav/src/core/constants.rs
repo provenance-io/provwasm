@@ -14,8 +14,11 @@ pub const ACTION_TYPE_SET_TAG: &str = "set_tag";
 
 // Events
 pub const CHANGE_OWNER_EVENT: &str = ACTION_TYPE_CHANGE_OWNER;
+pub const SET_TAG_EVENT: &str = ACTION_TYPE_SET_TAG;
 pub const CHANGE_OWNER_PREVIOUS: &str = "previous_owner";
 pub const CHANGE_OWNER_NEW: &str = "new_owner";
+pub const SET_TAG_ASSET: &str = "asset_address";
+pub const SET_TAG_VALUE: &str = "tag";
 
 // Replies
 pub const DEFAULT_REPLY: u64 = 0;
