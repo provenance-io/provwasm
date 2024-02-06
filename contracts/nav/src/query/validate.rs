@@ -22,6 +22,8 @@ impl Validate for QueryMsg {
         match self {
             QueryMsg::QueryOwner {} => Ok(()),
             QueryMsg::QueryVersion {} => Ok(()),
+            QueryMsg::QueryAddress { asset_addr } => Ok(()),
+            QueryMsg::QueryTag { tag } => Ok(()),
         }
     }
 

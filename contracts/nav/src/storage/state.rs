@@ -3,7 +3,7 @@ use cw_storage_plus::Item;
 
 use crate::{
     core::{constants::STATE_KEY, error::ContractError},
-    util::{fee::Fee, state::State},
+    util::state::State,
 };
 
 pub const STATE: Item<State> = Item::new(STATE_KEY);
@@ -53,21 +53,6 @@ pub fn get_owner(storage: &dyn Storage) -> Result<Addr, ContractError> {
     Ok(state.owner)
 }
 
-/// Attempts to obtain the fee stored within the contract's storage.
-///
-/// # Arguments
-///
-/// * `storage` - A reference to the Deps' Storage object.
-///
-/// # Examples
-/// ```
-/// let fee = get_fee(storage)?;
-/// ```
-pub fn get_fee(storage: &dyn Storage) -> Result<Fee, ContractError> {
-    let state = get(storage)?;
-    Ok(state.fee)
-}
-
 /// Attempts to check if the account is the owner of the contract.
 ///
 /// # Arguments
@@ -104,12 +89,12 @@ pub fn set_owner(storage: &mut dyn Storage, owner: Addr) -> Result<(), ContractE
 
 #[cfg(test)]
 mod tests {
-    use cosmwasm_std::{Addr, Coin};
+    use cosmwasm_std::Addr;
     use provwasm_mocks::mock_provenance_dependencies;
 
     use crate::{
-        storage::state::{get_fee, get_owner, is_owner, set, set_owner},
-        util::{fee::Fee, state::State},
+        storage::state::{get_owner, is_owner, set, set_owner},
+        util::state::State,
     };
 
     use super::get;
@@ -123,13 +108,7 @@ mod tests {
     #[test]
     fn test_get_set() {
         let mut deps = mock_provenance_dependencies();
-        let expected = State::new(
-            Addr::unchecked("addr1"),
-            Fee {
-                recipient: None,
-                amount: Coin::new(0, "nhash"),
-            },
-        );
+        let expected = State::new(Addr::unchecked("addr1"));
         set(deps.as_mut().storage, &expected).unwrap();
         let state = get(&deps.storage).unwrap();
         assert_eq!(expected, state);
@@ -138,13 +117,7 @@ mod tests {
     #[test]
     fn test_get_owner() {
         let mut deps = mock_provenance_dependencies();
-        let expected = State::new(
-            Addr::unchecked("addr1"),
-            Fee {
-                recipient: None,
-                amount: Coin::new(0, "nhash"),
-            },
-        );
+        let expected = State::new(Addr::unchecked("addr1"));
         set(deps.as_mut().storage, &expected).unwrap();
         let owner = get_owner(&deps.storage).unwrap();
         assert_eq!(expected.owner, owner);
@@ -153,13 +126,7 @@ mod tests {
     #[test]
     fn test_get_set_owner() {
         let mut deps = mock_provenance_dependencies();
-        let state = State::new(
-            Addr::unchecked("addr1"),
-            Fee {
-                recipient: None,
-                amount: Coin::new(0, "nhash"),
-            },
-        );
+        let state = State::new(Addr::unchecked("addr1"));
         set(deps.as_mut().storage, &state).unwrap();
         let owner = get_owner(&deps.storage).unwrap();
         assert_eq!(state.owner, owner);
@@ -169,30 +136,9 @@ mod tests {
     }
 
     #[test]
-    fn test_get_fee() {
-        let mut deps = mock_provenance_dependencies();
-        let expected = State::new(
-            Addr::unchecked("addr1"),
-            Fee {
-                recipient: None,
-                amount: Coin::new(0, "nhash"),
-            },
-        );
-        set(deps.as_mut().storage, &expected).unwrap();
-        let fee = get_fee(&deps.storage).unwrap();
-        assert_eq!(expected.fee, fee);
-    }
-
-    #[test]
     fn test_is_owner_success() {
         let mut deps = mock_provenance_dependencies();
-        let expected = State::new(
-            Addr::unchecked("addr1"),
-            Fee {
-                recipient: None,
-                amount: Coin::new(0, "nhash"),
-            },
-        );
+        let expected = State::new(Addr::unchecked("addr1"));
         set(deps.as_mut().storage, &expected).unwrap();
         let is_owner = is_owner(&deps.storage, &Addr::unchecked("addr1")).unwrap();
         assert!(is_owner);
@@ -201,13 +147,7 @@ mod tests {
     #[test]
     fn test_is_owner_failed() {
         let mut deps = mock_provenance_dependencies();
-        let expected = State::new(
-            Addr::unchecked("addr1"),
-            Fee {
-                recipient: None,
-                amount: Coin::new(0, "nhash"),
-            },
-        );
+        let expected = State::new(Addr::unchecked("addr1"));
         set(deps.as_mut().storage, &expected).unwrap();
         let is_owner = is_owner(&deps.storage, &Addr::unchecked("addr2")).unwrap();
         assert!(!is_owner);

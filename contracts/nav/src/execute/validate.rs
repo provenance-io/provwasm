@@ -42,6 +42,7 @@ impl Validate for ExecuteMsg {
                 }
                 Ok(())
             }
+            ExecuteMsg::SetTag { asset_addr, tag } => Ok(()),
         }
     }
 }

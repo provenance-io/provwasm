@@ -59,14 +59,14 @@ mod tests {
     #[test]
     fn test_validate_funds_has_funds() {
         let funds = vec![Coin::new(TEST_AMOUNT, TEST_DENOM)];
-        let message = mock_instantiate_msg(true);
+        let message = mock_instantiate_msg();
         assert_eq!((), message.validate_funds(&funds).unwrap());
     }
 
     #[test]
     fn test_validate_funds_missing_funds() {
         let funds = vec![];
-        let message = mock_instantiate_msg(true);
+        let message = mock_instantiate_msg();
         let error = message.validate_funds(&funds).unwrap_err();
         assert_eq!(
             ContractError::MissingFunds {}.to_string(),
@@ -77,7 +77,7 @@ mod tests {
     #[test]
     fn test_validate_succeeds() {
         let deps = mock_provenance_dependencies();
-        let message = mock_instantiate_msg(true);
+        let message = mock_instantiate_msg();
         let response = message.validate(deps.as_ref()).unwrap();
         assert_eq!((), response);
     }

@@ -2,7 +2,7 @@ use cosmwasm_std::{DepsMut, Env, MessageInfo};
 
 use crate::core::{aliases::ProvTxResponse, msg::ExecuteMsg};
 
-use super::change_owner;
+use super::{change_owner, set_tag};
 
 /// Routes the execute message to the appropriate handler based on the message's variant.
 ///
@@ -21,6 +21,9 @@ use super::change_owner;
 pub fn route(deps: DepsMut, _env: Env, info: MessageInfo, msg: ExecuteMsg) -> ProvTxResponse {
     match msg {
         ExecuteMsg::ChangeOwner { new_owner } => change_owner::handle(deps, info.sender, new_owner),
+        ExecuteMsg::SetTag { asset_addr, tag } => {
+            set_tag::handle(deps, info.sender, asset_addr, tag)
+        }
     }
 }
 

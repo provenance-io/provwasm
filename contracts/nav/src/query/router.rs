@@ -2,7 +2,7 @@ use cosmwasm_std::{Deps, Env};
 
 use crate::core::{aliases::ProvQueryResponse, msg::QueryMsg};
 
-use super::{query_owner, query_version};
+use super::{query_address, query_owner, query_tag, query_version};
 
 /// Routes the query message to the appropriate handler based on the message's variant.
 ///
@@ -21,6 +21,8 @@ pub fn route(deps: Deps, _env: Env, msg: QueryMsg) -> ProvQueryResponse {
     match msg {
         QueryMsg::QueryOwner {} => query_owner::handle(deps),
         QueryMsg::QueryVersion {} => query_version::handle(deps),
+        QueryMsg::QueryAddress { asset_addr } => query_address::handle(deps, asset_addr),
+        QueryMsg::QueryTag { tag } => query_tag::handle(deps, tag),
     }
 }
 

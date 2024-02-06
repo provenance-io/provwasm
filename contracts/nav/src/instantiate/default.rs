@@ -9,7 +9,6 @@ use crate::{
     storage,
     util::{
         action::{Action, ActionType},
-        fee::{assess_custom_fee, Fee},
         state::State,
     },
 };
@@ -24,38 +23,29 @@ use crate::{
 /// * `deps` - A mutable version of the dependencies. The API, Querier, and storage can all be accessed from it.
 /// * `env` - Information about the Blockchain's environment such as block height.
 /// * `owner` - The address of the contract's owner.
-/// * `fee` - The amount of additional funds to charge.
 ///
 /// # Examples
 /// ```
-/// let msg = InstantiateMsg::Default {owner: Addr::unchecked("owner"), fee: Fee {recipient: Some(Addr::unchecked("owner")), amount: Coin::new(0, "nhash")}};
-/// let res = handle(deps, env, msg.owner, msg.fee)?;
+/// let msg = InstantiateMsg::Default {owner: Addr::unchecked("owner")};
+/// let res = handle(deps, env, msg.owner)?;
 /// ```
-pub fn handle(deps: DepsMut, env: Env, owner: Addr, fee: Fee) -> ProvTxResponse {
-    storage::state::set(deps.storage, &State::new(owner, fee.clone()))?;
+pub fn handle(deps: DepsMut, _: Env, owner: Addr) -> ProvTxResponse {
+    storage::state::set(deps.storage, &State::new(owner))?;
     set_contract_version(deps.storage, CONTRACT_NAME, CONTRACT_VERSION)?;
-    let fee_message = assess_custom_fee(
-        fee.amount.clone(),
-        Some("contract_fee"),
-        env.contract.address,
-        fee.recipient,
-    )?;
-    Ok(Response::default()
-        .set_action(ActionType::Initialize {})
-        .add_message(fee_message))
+    Ok(Response::default().set_action(ActionType::Initialize {}))
 }
 
 #[cfg(test)]
 mod tests {
-    use cosmwasm_std::{testing::mock_env, Addr, Attribute, SubMsg};
+    use cosmwasm_std::{testing::mock_env, Addr, Attribute};
     use cw2::get_contract_version;
     use provwasm_mocks::mock_provenance_dependencies;
 
     use crate::{
         core::constants::{CONTRACT_NAME, CONTRACT_VERSION},
         storage,
-        testing::{constants::OWNER, setup::mock_fee},
-        util::{action::ActionType, fee::assess_custom_fee, state::State},
+        testing::constants::OWNER,
+        util::{action::ActionType, state::State},
     };
 
     use super::handle;
@@ -65,20 +55,12 @@ mod tests {
         let mut deps = mock_provenance_dependencies();
         let env = mock_env();
         let owner = Addr::unchecked(OWNER);
-        let fee = mock_fee();
 
-        let expected_state = State::new(owner.clone(), fee.clone());
+        let expected_state = State::new(owner.clone());
 
-        let res = handle(deps.as_mut(), env.clone(), owner, fee.clone()).unwrap();
+        let res = handle(deps.as_mut(), env.clone(), owner).unwrap();
         let state = storage::state::get(&deps.storage).unwrap();
         let contract_version = get_contract_version(&deps.storage).unwrap();
-        let expected_fee = assess_custom_fee(
-            fee.amount.clone(),
-            Some("contract_fee"),
-            env.contract.address,
-            fee.recipient,
-        )
-        .unwrap();
 
         assert_eq!(expected_state, state);
         assert_eq!(CONTRACT_NAME, contract_version.contract);
@@ -87,6 +69,5 @@ mod tests {
             vec![Attribute::from(ActionType::Initialize {})],
             res.attributes
         );
-        assert_eq!(vec![SubMsg::new(expected_fee)], res.messages);
     }
 }

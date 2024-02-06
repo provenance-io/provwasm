@@ -10,6 +10,7 @@ pub const ACTION_ATTRIBUTE: &str = "action";
 pub const ACTION_TYPE_INITIALIZE: &str = "initialize";
 pub const ACTION_TYPE_MIGRATE: &str = "migrate";
 pub const ACTION_TYPE_CHANGE_OWNER: &str = "change_owner";
+pub const ACTION_TYPE_SET_TAG: &str = "set_tag";
 
 // Events
 pub const CHANGE_OWNER_EVENT: &str = ACTION_TYPE_CHANGE_OWNER;

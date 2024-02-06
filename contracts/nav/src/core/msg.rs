@@ -2,16 +2,15 @@ use cosmwasm_schema::{cw_serde, QueryResponses};
 use cosmwasm_std::Addr;
 use cw2::ContractVersion;
 
-use crate::util::fee::Fee;
-
 #[cw_serde]
 pub enum InstantiateMsg {
-    Default { owner: Addr, fee: Fee },
+    Default { owner: Addr },
 }
 
 #[cw_serde]
 pub enum ExecuteMsg {
     ChangeOwner { new_owner: Addr },
+    SetTag { asset_addr: Addr, tag: String },
 }
 
 #[cw_serde]
@@ -22,6 +21,12 @@ pub enum QueryMsg {
 
     #[returns(QueryOwnerResponse)]
     QueryOwner {},
+
+    #[returns(QueryAddressResponse)]
+    QueryAddress { asset_addr: Addr },
+
+    #[returns(QueryTagResponse)]
+    QueryTag { tag: String },
 }
 
 #[cw_serde]
@@ -32,6 +37,16 @@ pub struct QueryVersionResponse {
 #[cw_serde]
 pub struct QueryOwnerResponse {
     pub owner: Addr,
+}
+
+#[cw_serde]
+pub struct QueryAddressResponse {
+    pub tag: String,
+}
+
+#[cw_serde]
+pub struct QueryTagResponse {
+    pub assets: Vec<Addr>,
 }
 
 #[cw_serde]
