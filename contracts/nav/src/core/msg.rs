@@ -11,6 +11,8 @@ pub enum InstantiateMsg {
 pub enum ExecuteMsg {
     ChangeOwner { new_owner: Addr },
     SetTag { asset_addr: Addr, tag: String },
+    AddTagTypes { tag_types: Vec<String> },
+    RemoveTagTypes { tag_types: Vec<String> },
 }
 
 #[cw_serde]
