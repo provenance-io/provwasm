@@ -19,11 +19,17 @@ members = [
     "contracts/tutorial"
 ]
 
+[workspace.package]
+version = "2.2.0"
+repository = "https://github.com/provenance-io/provwasm"
+edition = "2021"
+license = "Apache-2.0"
+
 [workspace.dependencies]
 ### CosmWasm
 cosmwasm-schema = { version = "1.2.5" }
 cosmwasm-std = { version = "1.2.5", default-features = false }
-cw-storage-plus = { version = "1.2.0"}
+cw-storage-plus = { version = "1.2.0" }
 
 ### ProvWasm
 provwasm-proto-build = { version = "0.1.0", path = "packages/proto-build" }
