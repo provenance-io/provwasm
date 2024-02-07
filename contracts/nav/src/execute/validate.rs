@@ -1,8 +1,5 @@
 use cosmwasm_std::{Coin, Deps};
-use provwasm_std::types::provenance::{
-    marker::v1::{MarkerAccount, MarkerQuerier},
-    metadata::v1::MetadataQuerier,
-};
+use provwasm_std::types::provenance::{marker::v1::MarkerQuerier, metadata::v1::MetadataQuerier};
 
 use crate::{
     core::{error::ContractError, msg::ExecuteMsg},
@@ -24,7 +21,7 @@ impl Validate for ExecuteMsg {
     /// ```
     fn validate(&self, deps: Deps) -> ValidateResult {
         match &self {
-            &ExecuteMsg::SetTag { asset_addr, tag } => {
+            &ExecuteMsg::SetTag { asset_addr, tag: _ } => {
                 let marker = MarkerQuerier::new(&deps.querier);
                 let response = marker.marker(asset_addr.to_string())?;
 
