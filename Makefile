@@ -42,15 +42,15 @@ name:
 scope:
 	@make -C contracts/scope
 
-.PHONY: optimize-contracts
-test-attrs: attrs
-	if [[ $(arch) == "arm64" ]]; then
-	  image="cosmwasm/workspace-optimizer-arm64"
-	else
-	  image="cosmwasm/workspace-optimizer"
-	fi
-
-	docker run --rm -v "$(pwd)":/code:Z \
-	  --mount type=volume,source="$(basename "$(pwd)")_cache",target=/code/target \
-	  --mount type=volume,source=registry_cache,target=/usr/local/cargo/registry \
-	  ${image}:0.12.13
+#.PHONY: optimize-contracts
+#test-attrs: attrs
+#	if [[ $(arch) == "arm64" ]]; then
+#	  image="cosmwasm/optimizer-arm64"
+#	else
+#	  image="cosmwasm/optimizer"
+#	fi
+#
+#	docker run --rm -v "$(pwd)":/code:Z \
+#	  --mount type=volume,source="$(basename "$(pwd)")_cache",target=/code/target \
+#	  --mount type=volume,source=registry_cache,target=/usr/local/cargo/registry \
+#	  ${image}:0.15.0
