@@ -41,3 +41,19 @@ pub fn set_asset_tag(
 ) -> Result<(), ContractError> {
     Ok(ASSET_TO_TAG.save(storage, asset_addr, &tag.to_string())?)
 }
+
+/// Removes the asset's tag from the contract's storage.
+///
+/// # Arguments
+///
+/// * `storage` - A reference to the Deps' Storage object.
+/// * `asset_addr` - The address of the asset to tag.
+///
+/// # Examples
+/// ```
+/// let addr = Addr::unchecked("addr1");
+/// remove_asset_tag(deps.as_mut().storage, &state, &addr);
+/// `
+pub fn remove_asset_tag(storage: &mut dyn Storage, asset_addr: &Addr) {
+    ASSET_TO_TAG.remove(storage, asset_addr);
+}
