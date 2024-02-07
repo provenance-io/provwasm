@@ -30,9 +30,9 @@ pub fn handle(deps: DepsMut, sender: Addr, asset_addr: Addr, tag: &str) -> ProvT
     }
 
     if tag.is_empty() {
-        storage::tag::remove_asset_tag(deps.storage, &asset_addr);
+        storage::asset::remove_tag(deps.storage, &asset_addr);
     } else {
-        storage::tag::set_asset_tag(deps.storage, &asset_addr, tag)?;
+        storage::asset::set_tag(deps.storage, &asset_addr, tag)?;
     }
 
     // We need to emit the event

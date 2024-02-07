@@ -1,59 +1,51 @@
-use cosmwasm_std::{Addr, Storage};
+use cosmwasm_std::Storage;
 use cw_storage_plus::Map;
 
-use crate::core::{aliases::AssetTag, constants::ASSET_TAG_KEY, error::ContractError};
+use crate::core::{constants::ASSET_TYPE_KEY, error::ContractError};
 
-pub const ASSET_TO_TAG: Map<&Addr, AssetTag> = Map::new(ASSET_TAG_KEY);
+pub const TAG_TYPES: Map<&str, ()> = Map::new(ASSET_TYPE_KEY);
 
-/// Attempts to get the asset's tag that is stored within the contract's storage.
+/// Attempts to add a tag to the list of acceptable types in the contract's storage.
 ///
 /// # Arguments
 ///
 /// * `storage` - A reference to the Deps' Storage object.
-/// * `asset_addr` - The address of the asset to retrieve the tag of.
+/// * `tag` - The label to add to the list of acceptable types.
 ///
 /// # Examples
 /// ```
-/// let addr = Addr::unchecked("addr1");
-/// get_asset_tag(deps.storage, &addr)?;
+/// add_type(deps.as_mut().storage, "tag")?;
 /// `
-pub fn get_asset_tag(storage: &dyn Storage, asset_addr: &Addr) -> Result<String, ContractError> {
-    return Ok(ASSET_TO_TAG.load(storage, asset_addr)?);
+pub fn add_type(storage: &mut dyn Storage, tag: &str) -> Result<(), ContractError> {
+    Ok(TAG_TYPES.save(storage, tag, &())?)
 }
 
-/// Attempts to set the asset's tag in the contract's storage.
+/// Removes the tag type from the contract's storage.
 ///
 /// # Arguments
 ///
 /// * `storage` - A reference to the Deps' Storage object.
-/// * `asset_addr` - The address of the asset to tag.
-/// * `tag` - The label to add to the asset.
+/// * `tag` - The label to remove from the list of acceptable types.
 ///
 /// # Examples
 /// ```
-/// let addr = Addr::unchecked("addr1");
-/// set_asset_tag(deps.as_mut().storage, &state, &addr, "tag")?;
+/// remove_type(deps.as_mut().storage, "tag");
 /// `
-pub fn set_asset_tag(
-    storage: &mut dyn Storage,
-    asset_addr: &Addr,
-    tag: &str,
-) -> Result<(), ContractError> {
-    Ok(ASSET_TO_TAG.save(storage, asset_addr, &tag.to_string())?)
+pub fn remove_type(storage: &mut dyn Storage, tag: &str) {
+    TAG_TYPES.remove(storage, tag);
 }
 
-/// Removes the asset's tag from the contract's storage.
+/// Checks if the tag is in the list of the contract's accepted tag types.
 ///
 /// # Arguments
 ///
 /// * `storage` - A reference to the Deps' Storage object.
-/// * `asset_addr` - The address of the asset to tag.
+/// * `tag` - The label to check if it's in the list of acceptable types.
 ///
 /// # Examples
 /// ```
-/// let addr = Addr::unchecked("addr1");
-/// remove_asset_tag(deps.as_mut().storage, &state, &addr);
+/// has_type(deps.storage, "tag");
 /// `
-pub fn remove_asset_tag(storage: &mut dyn Storage, asset_addr: &Addr) {
-    ASSET_TO_TAG.remove(storage, asset_addr);
+pub fn has_type(storage: &dyn Storage, tag: &str) -> bool {
+    return TAG_TYPES.has(storage, tag);
 }
