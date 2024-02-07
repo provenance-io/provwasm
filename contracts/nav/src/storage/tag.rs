@@ -49,3 +49,21 @@ pub fn remove_type(storage: &mut dyn Storage, tag: &str) {
 pub fn has_type(storage: &dyn Storage, tag: &str) -> bool {
     return TAG_TYPES.has(storage, tag);
 }
+
+/// Obtains all the accepted tag types from the contract's store.
+///
+/// # Arguments
+///
+/// * `storage` - A reference to the Deps' Storage object.
+///
+/// # Examples
+/// ```
+/// get_types(deps.storage);
+/// `
+pub fn get_types(storage: &dyn Storage) -> Result<Vec<String>, ContractError> {
+    let keys: Result<Vec<String>, ContractError> = TAG_TYPES
+        .keys(storage, None, None, cosmwasm_std::Order::Ascending)
+        .map(|result| result.map_err(|err| ContractError::Std(err)))
+        .collect();
+    keys
+}

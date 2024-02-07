@@ -27,6 +27,9 @@ pub enum QueryMsg {
 
     #[returns(QueryTagResponse)]
     QueryTag { tag: String },
+
+    #[returns(QueryTagTypesResponse)]
+    QueryTagTypes {},
 }
 
 #[cw_serde]
@@ -47,6 +50,11 @@ pub struct QueryAddressResponse {
 #[cw_serde]
 pub struct QueryTagResponse {
     pub assets: Vec<Addr>,
+}
+
+#[cw_serde]
+pub struct QueryTagTypesResponse {
+    pub tags: Vec<String>,
 }
 
 #[cw_serde]
