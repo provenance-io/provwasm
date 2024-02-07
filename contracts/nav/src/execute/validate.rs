@@ -35,15 +35,10 @@ impl Validate for ExecuteMsg {
     /// msg.validate_funds(deps, &info.funds)?;
     /// ```
     fn validate_funds(&self, funds: &[Coin]) -> ValidateResult {
-        match self {
-            ExecuteMsg::ChangeOwner { new_owner: _ } => {
-                if !funds.is_empty() {
-                    return Err(ContractError::UnexpectedFunds {});
-                }
-                Ok(())
-            }
-            ExecuteMsg::SetTag { asset_addr, tag } => Ok(()),
+        if !funds.is_empty() {
+            return Err(ContractError::UnexpectedFunds {});
         }
+        Ok(())
     }
 }
 
