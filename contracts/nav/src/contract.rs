@@ -8,7 +8,7 @@ use crate::{
     },
     execute, instantiate,
     migrate::{self},
-    query, reply,
+    query,
     util::validate::Validate,
 };
 
@@ -73,16 +73,4 @@ pub fn migrate(deps: DepsMut, env: Env, msg: MigrateMsg) -> ProvTxResponse {
     let res = migrate::router::route(&deps, env, msg);
     cw2::set_contract_version(deps.storage, CONTRACT_NAME, CONTRACT_VERSION)?;
     res
-}
-
-/// An entry point that is triggered when this contract receives a response from another contract.
-///
-/// # Arguments
-///
-/// * `deps` - A mutable version of the dependencies. The API, Querier, and storage can all be accessed from it.
-/// * `env` - Information about the Blockchain's environment such as block height.
-/// * `reply` - The response sent from the other contract.
-#[entry_point]
-pub fn reply(deps: DepsMut, env: Env, reply: Reply) -> ProvTxResponse {
-    reply::router::route(deps, env, reply)
 }
