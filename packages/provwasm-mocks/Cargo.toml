@@ -1,10 +1,10 @@
 [package]
 name = "provwasm-mocks"
-version = "2.2.0"
+version = { workspace = true }
+repository = { workspace = true }
+edition = { workspace = true }
+license = { workspace = true }
 authors = ["Ken Talley <4344285+kwtalley@users.noreply.github.com"]
-edition = "2021"
-license = "Apache-2.0"
-repository = "https://github.com/provenance-io/provwasm/tree/main/packages/provwasm-mocks"
 description = "Rust mocks that enable unit testing of CosmWasm smart contracts that interact with custom modules in the Provenance Blockchain"
 readme = "README.md"
 keywords = ["provenance", "blockchain", "smart-contracts", "defi", "finance"]

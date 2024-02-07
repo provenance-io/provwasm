@@ -1,10 +1,10 @@
 [package]
 name = "provwasm-proc-macro"
 version = "0.1.0"
+repository = { workspace = true }
+edition = { workspace = true }
+license = { workspace = true }
 authors = ["Ken Talley <ktalley@figure.com>"]
-edition = "2021"
-license = "Apache-2.0"
-repository = "https://github.com/provenance-io/provwasm/tree/main/packages/provwasm-proc-macro"
 description = "Rust macros that simplify query and response types for Provenance Blockchain smart contracts"
 keywords = ["provenance", "blockchain", "smart-contracts", "defi", "finance"]
 categories = ["api-bindings", "cryptography::cryptocurrencies", "wasm"]

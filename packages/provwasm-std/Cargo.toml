@@ -1,10 +1,10 @@
 [package]
 name = "provwasm-std"
-version = "2.2.0"
+version = { workspace = true }
+repository = { workspace = true }
+edition = { workspace = true }
+license = { workspace = true }
 authors = ["Ken Talley <ktalley@figure.com>"]
-edition = "2021"
-license = "Apache-2.0"
-repository = "https://github.com/provenance-io/provwasm/tree/main/packages/provwasm-std"
 description = "Rust bindings that enable CosmWasm smart contracts to interact with custom modules in the Provenance Blockchain"
 keywords = ["provenance", "blockchain", "smart-contracts", "defi", "finance"]
 categories = ["api-bindings", "cryptography::cryptocurrencies", "wasm"]
