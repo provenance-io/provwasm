@@ -1,4 +1,4 @@
-use cosmwasm_std::{to_binary, Deps};
+use cosmwasm_std::{to_json_binary, Deps};
 
 use crate::core::{aliases::ProvQueryResponse, msg::QueryTagResponse};
 
@@ -16,5 +16,5 @@ use crate::core::{aliases::ProvQueryResponse, msg::QueryTagResponse};
 
 pub fn handle(_: Deps, _: String) -> ProvQueryResponse {
     let res = QueryTagResponse { assets: vec![] };
-    Ok(to_binary(&res)?)
+    Ok(to_json_binary(&res)?)
 }

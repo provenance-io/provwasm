@@ -1,4 +1,4 @@
-use cosmwasm_std::{to_binary, Addr, Deps};
+use cosmwasm_std::{to_json_binary, Addr, Deps};
 
 use crate::{
     core::{aliases::ProvQueryResponse, msg::QueryAddressResponse},
@@ -20,5 +20,5 @@ use crate::{
 pub fn handle(deps: Deps, asset_addr: Addr) -> ProvQueryResponse {
     let tag = storage::tag::get_asset_tag(deps.storage, &asset_addr)?;
     let res = QueryAddressResponse { tag: tag };
-    Ok(to_binary(&res)?)
+    Ok(to_json_binary(&res)?)
 }
