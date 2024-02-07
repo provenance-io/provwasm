@@ -19,12 +19,7 @@ impl Validate for QueryMsg {
     /// msg.validate(deps)?;
     /// ```
     fn validate(&self, _deps: Deps) -> ValidateResult {
-        match self {
-            QueryMsg::QueryOwner {} => Ok(()),
-            QueryMsg::QueryVersion {} => Ok(()),
-            QueryMsg::QueryAddress { asset_addr } => Ok(()),
-            QueryMsg::QueryTag { tag } => Ok(()),
-        }
+        Ok(())
     }
 
     /// Performs basic error checking on QueryMsg.
