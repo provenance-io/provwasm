@@ -6,3 +6,4 @@ pub type ProvResponse = Response;
 pub type ProvTxResponse = Result<ProvResponse, ContractError>;
 pub type ProvQueryResponse = Result<Binary, ContractError>;
 pub type ProvMsg = CosmosMsg;
+pub type AssetTag = String;
