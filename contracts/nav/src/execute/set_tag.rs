@@ -7,10 +7,10 @@ use crate::{
     util::action::{Action, ActionType},
 };
 
-/// Performs the execute logic for the ChangeOwner variant of ExecuteMsg.
+/// Performs the execute logic for the SetTag variant of ExecuteMsg.
 ///
-/// If the sender is the owner of the contract, then the contract will update its owner
-/// to the address of new_owner.
+/// If the sender is the owner of the contract, then the contract will update the tag
+/// for the asset. When an empty tag is provided then the asset's tag will be removed.
 ///
 /// # Arguments
 ///
@@ -29,7 +29,11 @@ pub fn handle(deps: DepsMut, sender: Addr, asset_addr: Addr, tag: &str) -> ProvT
         return Err(ContractError::Unauthorized {});
     }
 
-    storage::tag::set_asset_tag(deps.storage, &asset_addr, tag)?;
+    if tag.is_empty() {
+        storage::tag::remove_asset_tag(deps.storage, &asset_addr);
+    } else {
+        storage::tag::set_asset_tag(deps.storage, &asset_addr, tag)?;
+    }
 
     // We need to emit the event
     Ok(Response::default()
