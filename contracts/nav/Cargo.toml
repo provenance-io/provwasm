@@ -1,5 +1,5 @@
 [package]
-name = "template"
+name = "nav-tag"
 version = "2.2.0"
 authors = ["Matthew Witkowski <mwitkowski@provenance.io"]
 edition = "2021"
@@ -50,4 +50,4 @@ semver = "1"
 
 [dev-dependencies]
 provwasm-mocks = { version = "2.0.0" }
-cw-multi-test = "0.17.0"
+cw-multi-test = "0.20.0"
