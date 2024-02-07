@@ -10,6 +10,9 @@ pub enum ContractError {
     #[error("Unauthorized")]
     Unauthorized {},
 
+    #[error("Asset does not exist for address {0}")]
+    AssetDoesNotExist(String),
+
     // Funds
     #[error("Missing required funds")]
     MissingFunds {},

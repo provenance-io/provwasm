@@ -1,4 +1,8 @@
 use cosmwasm_std::{Coin, Deps};
+use provwasm_std::types::provenance::{
+    marker::v1::{MarkerAccount, MarkerQuerier},
+    metadata::v1::MetadataQuerier,
+};
 
 use crate::{
     core::{error::ContractError, msg::ExecuteMsg},
@@ -18,8 +22,33 @@ impl Validate for ExecuteMsg {
     /// let msg = ExecuteMsg::ChangeOwner {new_owner: Addr::unchecked("new_owner")};
     /// msg.validate(deps)?;
     /// ```
-    fn validate(&self, _deps: Deps) -> ValidateResult {
-        Ok(())
+    fn validate(&self, deps: Deps) -> ValidateResult {
+        match &self {
+            &ExecuteMsg::SetTag { asset_addr, tag } => {
+                let marker = MarkerQuerier::new(&deps.querier);
+                let response = marker.marker(asset_addr.to_string())?;
+
+                // This may not be needed because of the previous line
+                if response.marker.is_some() {
+                    return Ok(());
+                }
+
+                let metadata = MetadataQuerier::new(&deps.querier);
+                let response = metadata.scope(
+                    asset_addr.to_string(),
+                    "".to_string(),
+                    "".to_string(),
+                    false,
+                    false,
+                )?;
+                if response.scope.is_some() {
+                    return Ok(());
+                }
+
+                return Err(ContractError::AssetDoesNotExist(asset_addr.to_string()));
+            }
+            _ => Ok(()),
+        }
     }
 
     /// Performs basic error checking on ExecuteMsg.
