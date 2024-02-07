@@ -22,7 +22,7 @@ pub fn route(deps: DepsMut, _env: Env, info: MessageInfo, msg: ExecuteMsg) -> Pr
     match msg {
         ExecuteMsg::ChangeOwner { new_owner } => change_owner::handle(deps, info.sender, new_owner),
         ExecuteMsg::SetTag { asset_addr, tag } => {
-            set_tag::handle(deps, info.sender, asset_addr, tag)
+            set_tag::handle(deps, info.sender, asset_addr, &tag)
         }
     }
 }
