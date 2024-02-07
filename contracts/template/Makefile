@@ -25,14 +25,12 @@ schema:
 
 .PHONY: optimize
 optimize:
-ifeq ($(UNAME_M),arm64)
-	@docker run --rm -v $(CURDIR):/code \
-		--mount type=volume,source="exchange_cache",target=/code/target \
+	@if [ "$(UNAME_M)" = "arm64" ]; then \
+		image="cosmwasm/optimizer-arm64"; \
+	else \
+		image="cosmwasm/optimizer"; \
+	fi; \
+	docker run --rm -v $(CURDIR)/../../:/code:Z --workdir /code/contracts/template \
+		--mount type=volume,source=template_cache,target=/code/target \
 		--mount type=volume,source=registry_cache,target=/usr/local/cargo/registry \
-		cosmwasm/rust-optimizer-arm64:0.14.0
-else
-	@docker run --rm -v $(CURDIR):/code \
-		--mount type=volume,source="exchange_cache",target=/code/target \
-		--mount type=volume,source=registry_cache,target=/usr/local/cargo/registry \
-		cosmwasm/rust-optimizer:0.14.0
-endif
+		$$image:0.15.0
