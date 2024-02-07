@@ -1,8 +1,10 @@
 [package]
 name = "template"
-version = "2.2.0"
+version = { workspace = true }
+repository = { workspace = true }
+edition = { workspace = true }
+license = { workspace = true }
 authors = ["Matthew Witkowski <mwitkowski@provenance.io"]
-edition = "2021"
 
 exclude = ["contract.wasm", "checksums.txt"]
 

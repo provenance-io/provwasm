@@ -1,8 +1,10 @@
 [package]
 name = "trigger"
-version = "2.2.0"
+version = { workspace = true }
+repository = { workspace = true }
+edition = { workspace = true }
+license = { workspace = true }
 authors = ["Ken Talley <4344285+kwtalley@users.noreply.github.com"]
-edition = "2021"
 
 exclude = [
     "trigger.wasm",
