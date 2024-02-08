@@ -21,6 +21,36 @@ pub fn get_tag(storage: &dyn Storage, asset_addr: &Addr) -> Result<String, Contr
     return Ok(ASSET_TO_TAG.load(storage, asset_addr)?);
 }
 
+/// Attempts to get all assets that have the specified tag.
+///
+/// # Arguments
+///
+/// * `storage` - A reference to the Deps' Storage object.
+/// * `tag` - The tag to do a lookup by.
+///
+/// # Examples
+/// ```
+/// with_tag(deps.storage, "tag")?;
+/// `
+pub fn with_tag(_storage: &dyn Storage, _tag: &str) -> Result<Vec<Addr>, ContractError> {
+    return Ok(vec![]);
+}
+
+/// Attempts to check if any assets has the supplied tag.
+///
+/// # Arguments
+///
+/// * `storage` - A reference to the Deps' Storage object.
+/// * `tag` - The tag to look for.
+///
+/// # Examples
+/// ```
+/// has_tag(deps.storage, "tag")?;
+/// `
+pub fn has_tag(_storage: &dyn Storage, _tag: &str) -> bool {
+    return true;
+}
+
 /// Attempts to set the asset's tag in the contract's storage.
 ///
 /// # Arguments

@@ -21,7 +21,7 @@ use crate::{
 /// # Examples
 /// ```
 /// let msg = ExecuteMsg::ChangeOwner {new_owner: Addr::unchecked("new_owner")};
-/// let res = handle(deps, env, info.sender, msg.new_owner)?;
+/// let res = handle(deps, env, info.sender, msg.new_owner.as_slice())?;
 /// ```
 pub fn handle(deps: DepsMut, sender: Addr, new_owner: Addr) -> ProvTxResponse {
     if !storage::state::is_owner(deps.storage, &sender)? {

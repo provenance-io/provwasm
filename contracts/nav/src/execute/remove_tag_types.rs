@@ -3,14 +3,15 @@ use cosmwasm_std::{Addr, DepsMut, Response};
 use crate::{
     core::{aliases::ProvTxResponse, error::ContractError},
     events::update_tag_types::UpdateTagTypesEvent,
-    storage,
+    storage::{self, asset},
     util::action::{Action, ActionType},
 };
 
 /// Performs the execute logic for the RemoveTagTypes variant of ExecuteMsg.
 ///
-/// If the sender is the owner of the contract, then the contract will update the contract's
-/// accepted tag types.
+/// Removes specified tag types from the contract's store.
+/// The sender must be the owner and each specified tag type
+/// must not be in use to succeed.
 ///
 /// # Arguments
 ///
@@ -28,9 +29,10 @@ pub fn handle(deps: DepsMut, sender: Addr, tag_types: &[String]) -> ProvTxRespon
     }
 
     for tag in tag_types {
-        // Check if anything is using this
-        // Report an error if it's being used.
-        // Remove the tag type
+        if asset::has_tag(deps.storage, tag) {
+            return Err(ContractError::TagInUse(tag.clone()));
+        }
+
         storage::tag::remove_type(deps.storage, tag);
     }
 

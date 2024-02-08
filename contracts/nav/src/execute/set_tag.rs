@@ -35,7 +35,6 @@ pub fn handle(deps: DepsMut, sender: Addr, asset_addr: Addr, tag: &str) -> ProvT
         storage::asset::set_tag(deps.storage, &asset_addr, tag)?;
     }
 
-    // We need to emit the event
     Ok(Response::default()
         .set_action(ActionType::SetTag {})
         .add_event(SetTagEvent::new(asset_addr, tag).into()))

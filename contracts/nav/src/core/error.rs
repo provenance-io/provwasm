@@ -13,6 +13,9 @@ pub enum ContractError {
     #[error("Asset does not exist for address {0}")]
     AssetDoesNotExist(String),
 
+    #[error("Tag {0} is still in use and cannot be removed")]
+    TagInUse(String),
+
     // Funds
     #[error("Missing required funds")]
     MissingFunds {},
