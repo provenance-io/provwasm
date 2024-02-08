@@ -63,6 +63,7 @@ pub fn has_tag(storage: &dyn Storage, tag: &str) -> bool {
 }
 
 /// Attempts to set the asset's tag in the contract's storage.
+/// An entry will be put into ASSET_TO_TAG and TAG_TO_ASSET.
 ///
 /// # Arguments
 ///
@@ -80,10 +81,12 @@ pub fn set_tag(
     asset_addr: &Addr,
     tag: &str,
 ) -> Result<(), ContractError> {
-    Ok(ASSET_TO_TAG.save(storage, asset_addr, &tag.to_string())?)
+    ASSET_TO_TAG.save(storage, asset_addr, &tag.to_string())?;
+    Ok(TAG_TO_ASSET.save(storage, (tag.to_string(), asset_addr), &())?)
 }
 
 /// Removes the asset's tag from the contract's storage.
+/// An entry will be removed from ASSET_TO_TAG and TAG_TO_ASSET.
 ///
 /// # Arguments
 ///
@@ -96,5 +99,9 @@ pub fn set_tag(
 /// remove_tag(deps.as_mut().storage, &addr);
 /// `
 pub fn remove_tag(storage: &mut dyn Storage, asset_addr: &Addr) {
+    let tag = get_tag(storage, asset_addr);
     ASSET_TO_TAG.remove(storage, asset_addr);
+    if let Ok(tag_to_remove) = tag {
+        TAG_TO_ASSET.remove(storage, (tag_to_remove, asset_addr));
+    }
 }
