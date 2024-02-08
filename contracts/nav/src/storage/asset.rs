@@ -33,6 +33,7 @@ pub fn get_tag(storage: &dyn Storage, asset_addr: &Addr) -> Result<String, Contr
 /// with_tag(deps.storage, "tag")?;
 /// `
 pub fn with_tag(_storage: &dyn Storage, _tag: &str) -> Result<Vec<Addr>, ContractError> {
+    // TODO Fill in logic for this.
     return Ok(vec![]);
 }
 
@@ -48,6 +49,7 @@ pub fn with_tag(_storage: &dyn Storage, _tag: &str) -> Result<Vec<Addr>, Contrac
 /// has_tag(deps.storage, "tag")?;
 /// `
 pub fn has_tag(_storage: &dyn Storage, _tag: &str) -> bool {
+    // TODO Fill in logic for this.
     return true;
 }
 
