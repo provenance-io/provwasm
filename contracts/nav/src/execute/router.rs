@@ -28,7 +28,7 @@ pub fn route(deps: DepsMut, _env: Env, info: MessageInfo, msg: ExecuteMsg) -> Pr
             add_tag_types::handle(deps, info.sender, tag_types.as_slice())
         }
         ExecuteMsg::RemoveTagTypes { tag_types } => {
-            remove_tag_types::handle(deps, info.sender, tag_types)
+            remove_tag_types::handle(deps, info.sender, tag_types.as_slice())
         }
     }
 }

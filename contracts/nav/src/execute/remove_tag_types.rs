@@ -22,9 +22,16 @@ use crate::{
 /// ```
 /// let res = handle(deps, env, info.sender, msg.tags)?;
 /// ```
-pub fn handle(deps: DepsMut, sender: Addr, _tag_types: Vec<String>) -> ProvTxResponse {
+pub fn handle(deps: DepsMut, sender: Addr, tag_types: &[String]) -> ProvTxResponse {
     if !storage::state::is_owner(deps.storage, &sender)? {
         return Err(ContractError::Unauthorized {});
+    }
+
+    for tag in tag_types {
+        // Check if anything is using this
+        // Report an error if it's being used.
+        // Remove the tag type
+        storage::tag::remove_type(deps.storage, tag);
     }
 
     Ok(Response::default()
