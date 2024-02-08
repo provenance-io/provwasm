@@ -15,22 +15,27 @@ use crate::{
 
 /// Performs the instantiation logic for the Default variant of InstantiateMsg.
 ///
-/// The contract first stores the owner and fee into the state. It then sets the contract version,
-/// and returns a response containing the message fee submessage.
+/// The contract first stores the owner and tag types into the contract's storage. It then sets the contract version,
+/// and returns a response with the correct action.
 ///
 /// # Arguments
 ///
 /// * `deps` - A mutable version of the dependencies. The API, Querier, and storage can all be accessed from it.
 /// * `env` - Information about the Blockchain's environment such as block height.
 /// * `owner` - The address of the contract's owner.
+/// * `tag_types` - The initial tag types that this contract supports.
+///
 ///
 /// # Examples
 /// ```
-/// let msg = InstantiateMsg::Default {owner: Addr::unchecked("owner")};
-/// let res = handle(deps, env, msg.owner)?;
+/// let msg = InstantiateMsg::Default {owner: Addr::unchecked("owner"), tag_types: vec!["tag1".as_string(), "tag2".as_string()]};
+/// let res = handle(deps, env, msg.owner, msg.tags.as_slice())?;
 /// ```
-pub fn handle(deps: DepsMut, _: Env, owner: Addr) -> ProvTxResponse {
+pub fn handle(deps: DepsMut, _: Env, owner: Addr, tag_types: &[String]) -> ProvTxResponse {
     storage::state::set(deps.storage, &State::new(owner))?;
+    for tag in tag_types {
+        storage::tag::add_type(deps.storage, tag)?;
+    }
     set_contract_version(deps.storage, CONTRACT_NAME, CONTRACT_VERSION)?;
     Ok(Response::default().set_action(ActionType::Initialize {}))
 }

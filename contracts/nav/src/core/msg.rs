@@ -4,7 +4,7 @@ use cw2::ContractVersion;
 
 #[cw_serde]
 pub enum InstantiateMsg {
-    Default { owner: Addr },
+    Default { owner: Addr, tag_types: Vec<String> },
 }
 
 #[cw_serde]
