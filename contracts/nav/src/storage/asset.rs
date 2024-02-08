@@ -1,9 +1,14 @@
 use cosmwasm_std::{Addr, Storage};
 use cw_storage_plus::Map;
 
-use crate::core::{aliases::AssetTag, constants::ASSET_TAG_KEY, error::ContractError};
+use crate::core::{
+    aliases::AssetTag,
+    constants::{ASSET_TAG_KEY, TAG_TO_ASSET_KEY},
+    error::ContractError,
+};
 
 pub const ASSET_TO_TAG: Map<&Addr, AssetTag> = Map::new(ASSET_TAG_KEY);
+pub const TAG_TO_ASSET: Map<(AssetTag, &Addr), ()> = Map::new(TAG_TO_ASSET_KEY);
 
 /// Attempts to get the asset's tag that is stored within the contract's storage.
 ///
@@ -32,9 +37,13 @@ pub fn get_tag(storage: &dyn Storage, asset_addr: &Addr) -> Result<String, Contr
 /// ```
 /// with_tag(deps.storage, "tag")?;
 /// `
-pub fn with_tag(_storage: &dyn Storage, _tag: &str) -> Result<Vec<Addr>, ContractError> {
-    // TODO Fill in logic for this.
-    return Ok(vec![]);
+pub fn with_tag(storage: &dyn Storage, tag: &str) -> Result<Vec<Addr>, ContractError> {
+    let assets: Result<Vec<Addr>, ContractError> = TAG_TO_ASSET
+        .prefix(tag.to_string())
+        .keys(storage, None, None, cosmwasm_std::Order::Ascending)
+        .map(|result| result.map_err(|err| ContractError::Std(err)))
+        .collect();
+    return assets;
 }
 
 /// Attempts to check if any assets has the supplied tag.
@@ -48,9 +57,9 @@ pub fn with_tag(_storage: &dyn Storage, _tag: &str) -> Result<Vec<Addr>, Contrac
 /// ```
 /// has_tag(deps.storage, "tag")?;
 /// `
-pub fn has_tag(_storage: &dyn Storage, _tag: &str) -> bool {
-    // TODO Fill in logic for this.
-    return true;
+pub fn has_tag(storage: &dyn Storage, tag: &str) -> bool {
+    let tag_is_used = !TAG_TO_ASSET.prefix(tag.to_string()).is_empty(storage);
+    return tag_is_used;
 }
 
 /// Attempts to set the asset's tag in the contract's storage.
