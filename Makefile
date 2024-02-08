@@ -26,6 +26,10 @@ optimize-tutorial:
 attrs:
 	@make -C contracts/attrs
 
+.PHONY: ibc
+attrs:
+	@make -C contracts/ibc
+
 .PHONY: marker
 marker:
 	@make -C contracts/marker
@@ -38,19 +42,18 @@ msgfees:
 name:
 	@make -C contracts/name
 
+.PHONY: nft
+name:
+	@make -C contracts/nft
+
 .PHONY: scope
 scope:
 	@make -C contracts/scope
 
-#.PHONY: optimize-contracts
-#test-attrs: attrs
-#	if [[ $(arch) == "arm64" ]]; then
-#	  image="cosmwasm/optimizer-arm64"
-#	else
-#	  image="cosmwasm/optimizer"
-#	fi
-#
-#	docker run --rm -v "$(pwd)":/code:Z \
-#	  --mount type=volume,source="$(basename "$(pwd)")_cache",target=/code/target \
-#	  --mount type=volume,source=registry_cache,target=/usr/local/cargo/registry \
-#	  ${image}:0.15.0
+.PHONY: template
+scope:
+	@make -C contracts/template
+
+.PHONY: trigger
+scope:
+	@make -C contracts/trigger
