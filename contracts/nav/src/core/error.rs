@@ -16,6 +16,9 @@ pub enum ContractError {
     #[error("Tag {0} is still in use and cannot be removed")]
     TagInUse(String),
 
+    #[error("Tag {0} is not a valid tag type")]
+    InvalidTagType(String),
+
     // Funds
     #[error("Missing required funds")]
     MissingFunds {},

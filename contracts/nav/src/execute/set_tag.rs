@@ -32,6 +32,10 @@ pub fn handle(deps: DepsMut, sender: Addr, asset_addr: Addr, tag: &str) -> ProvT
     if tag.is_empty() {
         storage::asset::remove_tag(deps.storage, &asset_addr);
     } else {
+        if !storage::tag::has_type(deps.storage, tag) {
+            return Err(ContractError::InvalidTagType(tag.to_string()));
+        }
+
         storage::asset::set_tag(deps.storage, &asset_addr, tag)?;
     }
 
