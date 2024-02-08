@@ -15,7 +15,7 @@ impl Validate for InstantiateMsg {
     ///
     /// # Examples
     /// ```
-    /// let msg = InstantiateMsg::Default {owner: Addr::unchecked("owner"), fee: Fee {recipient: Some(Addr::unchecked("owner")), amount: Coin::new(0, "nhash"),},};
+    /// let msg = InstantiateMsg::Default {owner: Addr::unchecked("owner"), tag_types: vec!["tag1".to_string()]};
     /// msg.validate(deps)?;
     /// ```
     fn validate(&self, _deps: Deps) -> ValidateResult {
@@ -31,12 +31,12 @@ impl Validate for InstantiateMsg {
     ///
     /// # Examples
     /// ```
-    /// let msg = InstantiateMsg::Default {owner: Addr::unchecked("owner"), fee: Fee {recipient: Some(Addr::unchecked("owner")), amount: Coin::new(0, "nhash")}};
+    /// let msg = InstantiateMsg::Default {owner: Addr::unchecked("owner"), tag_types: vec!["tag1".to_string()]};
     /// msg.validate_funds(deps, &info.funds)?;
     /// ```
     fn validate_funds(&self, funds: &[Coin]) -> ValidateResult {
-        if funds.is_empty() {
-            return Err(ContractError::MissingFunds {});
+        if !funds.is_empty() {
+            return Err(ContractError::UnexpectedFunds {});
         }
         Ok(())
     }
@@ -57,19 +57,19 @@ mod tests {
     };
 
     #[test]
-    fn test_validate_funds_has_funds() {
-        let funds = vec![Coin::new(TEST_AMOUNT, TEST_DENOM)];
+    fn test_validate_funds_has_no_funds() {
+        let funds = vec![];
         let message = mock_instantiate_msg();
         assert_eq!((), message.validate_funds(&funds).unwrap());
     }
 
     #[test]
-    fn test_validate_funds_missing_funds() {
-        let funds = vec![];
+    fn test_validate_funds_unexpected_funds() {
+        let funds = vec![Coin::new(TEST_AMOUNT, TEST_DENOM)];
         let message = mock_instantiate_msg();
         let error = message.validate_funds(&funds).unwrap_err();
         assert_eq!(
-            ContractError::MissingFunds {}.to_string(),
+            ContractError::UnexpectedFunds {}.to_string(),
             error.to_string()
         );
     }

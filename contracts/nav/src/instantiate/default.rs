@@ -56,18 +56,69 @@ mod tests {
     use super::handle;
 
     #[test]
-    fn test_handle() {
+    fn test_handle_with_tag() {
         let mut deps = mock_provenance_dependencies();
         let env = mock_env();
         let owner = Addr::unchecked(OWNER);
 
+        let expected_tags = vec!["tag1".to_string()];
         let expected_state = State::new(owner.clone());
 
-        let res = handle(deps.as_mut(), env.clone(), owner).unwrap();
+        let res = handle(deps.as_mut(), env.clone(), owner, expected_tags.as_slice()).unwrap();
         let state = storage::state::get(&deps.storage).unwrap();
+        let tags = storage::tag::get_types(&deps.storage).unwrap();
         let contract_version = get_contract_version(&deps.storage).unwrap();
 
         assert_eq!(expected_state, state);
+        assert_eq!(expected_tags, tags);
+        assert_eq!(CONTRACT_NAME, contract_version.contract);
+        assert_eq!(CONTRACT_VERSION, contract_version.version);
+        assert_eq!(
+            vec![Attribute::from(ActionType::Initialize {})],
+            res.attributes
+        );
+    }
+
+    #[test]
+    fn test_handle_with_multiple_tags() {
+        let mut deps = mock_provenance_dependencies();
+        let env = mock_env();
+        let owner = Addr::unchecked(OWNER);
+
+        let expected_tags = vec!["tag1".to_string(), "tag2".to_string()];
+        let expected_state = State::new(owner.clone());
+
+        let res = handle(deps.as_mut(), env.clone(), owner, expected_tags.as_slice()).unwrap();
+        let state = storage::state::get(&deps.storage).unwrap();
+        let tags = storage::tag::get_types(&deps.storage).unwrap();
+        let contract_version = get_contract_version(&deps.storage).unwrap();
+
+        assert_eq!(expected_state, state);
+        assert_eq!(expected_tags, tags);
+        assert_eq!(CONTRACT_NAME, contract_version.contract);
+        assert_eq!(CONTRACT_VERSION, contract_version.version);
+        assert_eq!(
+            vec![Attribute::from(ActionType::Initialize {})],
+            res.attributes
+        );
+    }
+
+    #[test]
+    fn test_handle_with_no_tags() {
+        let mut deps = mock_provenance_dependencies();
+        let env = mock_env();
+        let owner = Addr::unchecked(OWNER);
+
+        let expected_tags = vec![];
+        let expected_state = State::new(owner.clone());
+
+        let res = handle(deps.as_mut(), env.clone(), owner, expected_tags.as_slice()).unwrap();
+        let state = storage::state::get(&deps.storage).unwrap();
+        let tags = storage::tag::get_types(&deps.storage).unwrap();
+        let contract_version = get_contract_version(&deps.storage).unwrap();
+
+        assert_eq!(expected_state, state);
+        assert_eq!(expected_tags, tags);
         assert_eq!(CONTRACT_NAME, contract_version.contract);
         assert_eq!(CONTRACT_VERSION, contract_version.version);
         assert_eq!(

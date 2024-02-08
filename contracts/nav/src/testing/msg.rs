@@ -7,6 +7,7 @@ use super::constants::{NEW_OWNER, OWNER};
 pub fn mock_instantiate_msg() -> InstantiateMsg {
     InstantiateMsg::Default {
         owner: Addr::unchecked(OWNER),
+        tag_types: vec!["tag1".to_string(), "tag2".to_string()],
     }
 }
 
