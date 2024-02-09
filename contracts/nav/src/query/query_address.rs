@@ -58,7 +58,7 @@ mod tests {
 
         storage::asset::set_tag(deps.as_mut().storage, &asset_addr, tag)
             .expect("should not throw error");
-        let bin = handle(deps.as_ref(), asset_addr).expect("should return an error");
+        let bin = handle(deps.as_ref(), asset_addr).expect("should not return an error");
 
         let response: QueryAddressResponse =
             from_json(&bin).expect("should return correct response");

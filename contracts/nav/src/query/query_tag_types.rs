@@ -43,7 +43,7 @@ mod tests {
         setup::mock_contract(deps.as_mut());
         let expected = vec![TAG1.to_string(), TAG2.to_string()];
 
-        let bin = handle(deps.as_ref()).expect("should return an error");
+        let bin = handle(deps.as_ref()).expect("should not return an error");
 
         let response: QueryTagTypesResponse =
             from_json(&bin).expect("should return correct response");
@@ -58,7 +58,7 @@ mod tests {
 
         storage::tag::remove_type(deps.as_mut().storage, TAG1);
 
-        let bin = handle(deps.as_ref()).expect("should return an error");
+        let bin = handle(deps.as_ref()).expect("should not return an error");
 
         let response: QueryTagTypesResponse =
             from_json(&bin).expect("should return correct response");
@@ -74,7 +74,7 @@ mod tests {
         storage::tag::remove_type(deps.as_mut().storage, TAG1);
         storage::tag::remove_type(deps.as_mut().storage, TAG2);
 
-        let bin = handle(deps.as_ref()).expect("should return an error");
+        let bin = handle(deps.as_ref()).expect("should not return an error");
 
         let response: QueryTagTypesResponse =
             from_json(&bin).expect("should return correct response");
