@@ -35,9 +35,6 @@ mod tests {
     };
 
     #[test]
-    fn test_new_update_tags_event() {}
-
-    #[test]
     fn test_from() {
         let event = UpdateTagTypesEvent::new();
         let expected = Event::new(UPDATE_TAG_TYPES_EVENT);
