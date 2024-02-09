@@ -21,7 +21,7 @@ pub fn mock_info(funds: bool, sender: &str) -> MessageInfo {
 }
 
 pub fn mock_contract(deps: DepsMut) {
-    let info = mock_info(true, CREATOR);
+    let info = mock_info(false, CREATOR);
     let env = mock_env();
     let msg = mock_instantiate_msg();
     contract::instantiate(deps, env, info, msg).unwrap();
