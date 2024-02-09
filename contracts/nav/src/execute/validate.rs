@@ -70,46 +70,111 @@ impl Validate for ExecuteMsg {
 
 #[cfg(test)]
 mod tests {
-    use cosmwasm_std::Coin;
+    use cosmwasm_std::{Addr, Coin};
     use provwasm_mocks::mock_provenance_dependencies;
 
     use crate::{
-        core::error::ContractError,
+        core::{
+            error::{self, ContractError},
+            msg::ExecuteMsg,
+        },
         testing::{
             constants::{TEST_AMOUNT, TEST_DENOM},
-            msg::mock_change_owner_msg,
+            msg::{
+                mock_add_tag_types_msg, mock_change_owner_msg, mock_remove_tag_types_msg,
+                mock_set_tag_msg,
+            },
+            setup::{mock_markers, mock_scopes},
         },
         util::validate::Validate,
     };
 
     #[test]
-    fn test_validate_always_succeeds() {
-        let deps = mock_provenance_dependencies();
-        let msg = mock_change_owner_msg();
+    fn test_validate_succeeds_for_marker_set_tag() {
+        let mut deps = mock_provenance_dependencies();
+        mock_markers(deps.as_mut());
+        mock_scopes(deps.as_mut());
 
+        let asset_addr = Addr::unchecked("marker".to_string());
+        let msg = mock_set_tag_msg(&asset_addr);
         let res = msg.validate(deps.as_ref()).unwrap();
         assert_eq!((), res);
     }
 
     #[test]
-    fn test_change_owner_should_fail_with_funds() {
-        let msg = mock_change_owner_msg();
-        let funds = vec![Coin::new(TEST_AMOUNT, TEST_DENOM)];
+    fn test_validate_succeeds_for_scope_set_tag() {
+        let mut deps = mock_provenance_dependencies();
+        mock_markers(deps.as_mut());
+        mock_scopes(deps.as_mut());
 
-        let err = msg.validate_funds(&funds).unwrap_err();
+        let asset_addr = Addr::unchecked("scope".to_string());
+        let msg = mock_set_tag_msg(&asset_addr);
+        let res = msg.validate(deps.as_ref()).unwrap();
+        assert_eq!((), res);
+    }
 
+    #[test]
+    fn test_validate_fails_for_invalid_asset() {
+        let mut deps = mock_provenance_dependencies();
+        mock_markers(deps.as_mut());
+        mock_scopes(deps.as_mut());
+
+        let asset_addr = Addr::unchecked("invalid".to_string());
+        let msg = mock_set_tag_msg(&asset_addr);
+        let error = msg.validate(deps.as_ref()).unwrap_err();
         assert_eq!(
-            ContractError::UnexpectedFunds {}.to_string(),
-            err.to_string()
+            ContractError::AssetDoesNotExist(asset_addr.to_string()).to_string(),
+            error.to_string()
         );
     }
 
     #[test]
-    fn test_change_owner_should_succeed_with_no_funds() {
-        let msg = mock_change_owner_msg();
-        let funds = vec![];
+    fn test_validate_succeeds_for_remaining_messages() {
+        let deps = mock_provenance_dependencies();
+        let msgs: Vec<ExecuteMsg> = vec![
+            mock_add_tag_types_msg(),
+            mock_remove_tag_types_msg(),
+            mock_change_owner_msg(),
+        ];
 
-        let res = msg.validate_funds(&funds).unwrap();
-        assert_eq!((), res);
+        for msg in msgs {
+            let res = msg.validate(deps.as_ref()).unwrap();
+            assert_eq!((), res);
+        }
+    }
+
+    #[test]
+    fn test_messages_should_fail_with_funds() {
+        let msgs: Vec<ExecuteMsg> = vec![
+            mock_add_tag_types_msg(),
+            mock_remove_tag_types_msg(),
+            mock_change_owner_msg(),
+            mock_set_tag_msg(&Addr::unchecked("test")),
+        ];
+
+        let funds = vec![Coin::new(TEST_AMOUNT, TEST_DENOM)];
+        for msg in msgs {
+            let err = msg.validate_funds(&funds).unwrap_err();
+            assert_eq!(
+                ContractError::UnexpectedFunds {}.to_string(),
+                err.to_string()
+            );
+        }
+    }
+
+    #[test]
+    fn test_change_owner_should_succeed_with_no_funds() {
+        let msgs: Vec<ExecuteMsg> = vec![
+            mock_add_tag_types_msg(),
+            mock_remove_tag_types_msg(),
+            mock_change_owner_msg(),
+            mock_set_tag_msg(&Addr::unchecked("test")),
+        ];
+
+        let funds = vec![];
+        for msg in msgs {
+            let res = msg.validate_funds(&funds).unwrap();
+            assert_eq!((), res);
+        }
     }
 }

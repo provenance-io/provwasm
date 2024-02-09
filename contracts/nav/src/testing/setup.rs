@@ -26,3 +26,13 @@ pub fn mock_contract(deps: DepsMut) {
     let msg = mock_instantiate_msg();
     contract::instantiate(deps, env, info, msg).unwrap();
 }
+
+pub fn mock_scopes(deps: DepsMut) {
+    let path = "/provenance.metadata.v1.Query/Scope";
+    //deps.querier.
+}
+
+pub fn mock_markers(deps: DepsMut) {
+    let path = "/provenance.marker.v1.Query/Marker";
+    //deps.querier.
+}
