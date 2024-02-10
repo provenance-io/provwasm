@@ -635,9 +635,9 @@ dependencies = [
 
 [[package]]
 name = "provwasm-std"
-version = "2.0.0"
+version = "2.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d216752a4c37d7bc39ee1d397f6500fa92cf1c191c60b501038aa98cafa07c69"
+checksum = "cc1be9fcaa463174e3bec59a179ed5b3590aa038f0e9c68d5132bc19df212383"
 dependencies = [
  "base64",
  "chrono",

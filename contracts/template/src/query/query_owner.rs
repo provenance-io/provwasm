@@ -1,4 +1,4 @@
-use cosmwasm_std::{to_json_binary, Deps};
+use cosmwasm_std::{to_binary, Deps};
 
 use crate::{
     core::{aliases::ProvQueryResponse, msg::QueryOwnerResponse},
@@ -19,12 +19,12 @@ pub fn handle(deps: Deps) -> ProvQueryResponse {
     let res = QueryOwnerResponse {
         owner: storage::state::get_owner(deps.storage)?,
     };
-    Ok(to_json_binary(&res)?)
+    Ok(to_binary(&res)?)
 }
 
 #[cfg(test)]
 mod tests {
-    use cosmwasm_std::{from_json, Addr};
+    use cosmwasm_std::{from_binary, Addr};
     use provwasm_mocks::mock_provenance_dependencies;
 
     use crate::{
@@ -39,7 +39,7 @@ mod tests {
         let mut deps = mock_provenance_dependencies();
         setup::mock_contract(deps.as_mut());
         let bin = handle(deps.as_ref()).unwrap();
-        let response: QueryOwnerResponse = from_json(&bin).unwrap();
+        let response: QueryOwnerResponse = from_binary(&bin).unwrap();
         assert_eq!(Addr::unchecked(OWNER), response.owner);
     }
 }

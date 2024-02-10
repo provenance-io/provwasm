@@ -14,9 +14,11 @@ members = [
     "contracts/name",
     "contracts/nft",
     "contracts/scope",
-    "contracts/template",
     "contracts/trigger",
     "contracts/tutorial"
+]
+exclude = [
+    "contracts/template"
 ]
 
 [workspace.package]
@@ -27,9 +29,9 @@ license = "Apache-2.0"
 
 [workspace.dependencies]
 ### CosmWasm
-cosmwasm-schema = { version = "1.2.5" }
-cosmwasm-std = { version = "1.2.5", default-features = false }
-cw-storage-plus = { version = "1.2.0" }
+cosmwasm-schema = { version = "=1.2.8" }
+cosmwasm-std = { version = "=1.2.8", default-features = false }
+cw-storage-plus = { version = "=1.1.0" }
 
 ### ProvWasm
 provwasm-proto-build = { version = "0.1.0", path = "packages/proto-build" }
@@ -38,15 +40,15 @@ provwasm-mocks = { version = "2.2.0", path = "packages/provwasm-mocks" }
 provwasm-proc-macro = { version = "0.1.0", path = "packages/provwasm-proc-macro" }
 provwasm-std = { version = "2.2.0", path = "packages/provwasm-std" }
 
-base64 = "0.21.7"
-chrono = { version = "0.4.33", default-features = false }
-prost = { version = "0.11.9", default-features = false, features = ["prost-derive"] }
-prost-types = { version = "0.11.9", default-features = false }
-prost-build = "0.11.9"
-schemars = "0.8.16"
-serde = { version = "1.0.196", default-features = false, features = ["derive"] }
-serde_json = { version = "1.0.113", features = ["std"] }
-thiserror = { version = "1.0.56" }
+base64 = "=0.21.7"
+chrono = { version = "=0.4.33", default-features = false }
+prost = { version = "=0.11.9", default-features = false, features = ["prost-derive"] }
+prost-types = { version = "=0.11.9", default-features = false }
+prost-build = "=0.11.9"
+schemars = "=0.8.16"
+serde = { version = "=1.0.196", default-features = false, features = ["derive"] }
+serde_json = { version = "=1.0.113", features = ["std"] }
+thiserror = { version = "=1.0.56" }
 
 [profile.release]
 opt-level = 3

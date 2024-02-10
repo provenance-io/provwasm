@@ -1,6 +1,6 @@
 use cosmwasm_std::{
-    attr, entry_point, to_json_binary, Addr, Deps, DepsMut, Env, MessageInfo, QueryResponse,
-    Response, StdError, StdResult, Uint128,
+    attr, entry_point, to_binary, Addr, Deps, DepsMut, Env, MessageInfo, QueryResponse, Response,
+    StdError, StdResult, Uint128,
 };
 
 use provwasm_std::types::provenance::marker::v1::{MarkerQuerier, MarkerType};
@@ -255,14 +255,14 @@ fn try_get_marker_by_address(deps: Deps, address: String) -> Result<QueryRespons
     let address = deps.api.addr_validate(&address)?;
     let querier = MarkerQuerier::new(&deps.querier);
     let marker = get_marker_by_address(address, &querier)?;
-    to_json_binary(&marker)
+    to_binary(&marker)
 }
 
 // Query a marker by denom.
 fn try_get_marker_by_denom(deps: Deps, denom: String) -> Result<QueryResponse, StdError> {
     let querier = MarkerQuerier::new(&deps.querier);
     let marker = get_marker_by_denom(denom, &querier)?;
-    to_json_binary(&marker)
+    to_binary(&marker)
 }
 
 #[cfg(test)]
@@ -270,7 +270,7 @@ mod tests {
     use super::*;
     use crate::types::Marker;
     use cosmwasm_std::testing::{mock_env, mock_info};
-    use cosmwasm_std::{from_json, Binary, CosmosMsg};
+    use cosmwasm_std::{from_binary, Binary, CosmosMsg};
     use prost::Message;
     use provwasm_mocks::mock_provenance_dependencies;
     use provwasm_std::shim::Any;
@@ -779,7 +779,7 @@ mod tests {
 
         let bin = query(deps.as_ref(), mock_env(), req).unwrap();
 
-        let marker: Marker = from_json(&bin).unwrap();
+        let marker: Marker = from_binary(&bin).unwrap();
         assert_eq!(marker.marker_account, expected_marker);
         assert_eq!(
             marker.marker_account.base_account.unwrap().address,

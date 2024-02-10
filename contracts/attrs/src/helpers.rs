@@ -1,6 +1,4 @@
-use cosmwasm_std::{
-    from_json, to_json_binary, Addr, Binary, CosmosMsg, Empty, StdError, StdResult,
-};
+use cosmwasm_std::{from_binary, to_binary, Addr, Binary, CosmosMsg, Empty, StdError, StdResult};
 use provwasm_std::types::provenance::attribute::v1::{
     AttributeQuerier, AttributeType, MsgAddAttributeRequest, MsgDeleteAttributeRequest,
     MsgDeleteDistinctAttributeRequest, MsgUpdateAttributeRequest,
@@ -69,7 +67,7 @@ pub fn add_json_attribute<H: Into<Addr>, S: Into<String>, T: Serialize + ?Sized>
         address,
         contract_address,
         name,
-        to_json_binary(data)?,
+        to_binary(data)?,
         AttributeType::Json,
     )
 }
@@ -151,7 +149,7 @@ pub fn get_json_attributes<H: Into<Addr>, S: Into<String>, T: DeserializeOwned>(
     resp.attributes
         .iter()
         .filter(|a| a.attribute_type == AttributeType::Json as i32)
-        .map(|a| from_json(&Binary::from(a.value.clone())))
+        .map(|a| from_binary(&Binary::from(a.value.clone())))
         .collect()
 }
 
