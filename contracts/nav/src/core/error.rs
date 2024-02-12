@@ -1,4 +1,4 @@
-use cosmwasm_std::{Coin, StdError};
+use cosmwasm_std::StdError;
 use thiserror::Error;
 
 #[derive(Error, Debug)]
@@ -20,14 +20,8 @@ pub enum ContractError {
     InvalidTagType(String),
 
     // Funds
-    #[error("Missing required funds")]
-    MissingFunds {},
-
     #[error("Unexpected funds included in transaction")]
     UnexpectedFunds {},
-
-    #[error("Mismatch in the expected funds and the actual funds. Expected {0}, but received {1}")]
-    MismatchFunds(Coin, Coin),
 
     // Migration Errors
     #[error("Mismatch in the migration contract name. Expected contract with name {0}, but received {1}")]
@@ -38,13 +32,6 @@ pub enum ContractError {
 
     #[error("Semver parsing error: {0}")]
     SemVer(String),
-
-    // Reply Errors
-    #[error("Unexpected reply id: {0}")]
-    UnexpectedReplyId(u64),
-
-    #[error("Reply id {0} failed: {1}")]
-    ReplyFailure(u64, String),
 }
 
 impl From<semver::Error> for ContractError {
