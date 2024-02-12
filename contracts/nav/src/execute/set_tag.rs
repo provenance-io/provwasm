@@ -76,9 +76,10 @@ mod tests {
     use crate::{
         core::error::ContractError,
         events::set_tag::SetTagEvent,
+        storage,
         testing::{
             constants::{OWNER, TAG1},
-            setup::{self, mock_markers, mock_scopes},
+            setup,
         },
         util::action::ActionType,
     };
@@ -91,6 +92,7 @@ mod tests {
         let sender = Addr::unchecked(OWNER);
         let asset_addr = Addr::unchecked("marker");
         let tag = TAG1;
+        let expected_events: Vec<Event> = vec![SetTagEvent::new(&asset_addr, tag).into()];
         setup::mock_scopes(&mut deps);
         setup::mock_markers(&mut deps);
 
@@ -98,8 +100,10 @@ mod tests {
 
         let res = handle(deps.as_mut(), sender, asset_addr.clone(), tag)
             .expect("should not return an error");
+        let stored_tag =
+            storage::asset::get_tag(&deps.storage, &asset_addr).expect("should have tag for asset");
 
-        let expected_events: Vec<Event> = vec![SetTagEvent::new(&asset_addr, tag).into()];
+        assert_eq!(tag.to_string(), stored_tag);
         assert_eq!(vec![Attribute::from(ActionType::SetTag {})], res.attributes);
         assert_eq!(expected_events, res.events);
         assert_eq!(0, res.messages.len());
@@ -111,6 +115,7 @@ mod tests {
         let sender = Addr::unchecked(OWNER);
         let asset_addr = Addr::unchecked("scope");
         let tag = TAG1;
+        let expected_events: Vec<Event> = vec![SetTagEvent::new(&asset_addr, tag).into()];
         setup::mock_scopes(&mut deps);
         setup::mock_markers(&mut deps);
 
@@ -118,8 +123,10 @@ mod tests {
 
         let res = handle(deps.as_mut(), sender, asset_addr.clone(), tag)
             .expect("should not return an error");
+        let stored_tag =
+            storage::asset::get_tag(&deps.storage, &asset_addr).expect("should have tag for asset");
 
-        let expected_events: Vec<Event> = vec![SetTagEvent::new(&asset_addr, tag).into()];
+        assert_eq!(tag.to_string(), stored_tag);
         assert_eq!(vec![Attribute::from(ActionType::SetTag {})], res.attributes);
         assert_eq!(expected_events, res.events);
         assert_eq!(0, res.messages.len());
@@ -131,15 +138,18 @@ mod tests {
         let sender = Addr::unchecked(OWNER);
         let asset_addr = Addr::unchecked("marker");
         let tag = "";
+        let expected_events: Vec<Event> = vec![SetTagEvent::new(&asset_addr, tag).into()];
         setup::mock_scopes(&mut deps);
         setup::mock_markers(&mut deps);
 
         setup::mock_contract(deps.as_mut());
 
+        storage::asset::set_tag(deps.as_mut().storage, &asset_addr, TAG1).expect("should set tag");
         let res = handle(deps.as_mut(), sender, asset_addr.clone(), tag)
             .expect("should not return an error");
+        let found = storage::asset::has_tag(&deps.storage, tag);
 
-        let expected_events: Vec<Event> = vec![SetTagEvent::new(&asset_addr, tag).into()];
+        assert_eq!(false, found);
         assert_eq!(vec![Attribute::from(ActionType::SetTag {})], res.attributes);
         assert_eq!(expected_events, res.events);
         assert_eq!(0, res.messages.len());
@@ -151,15 +161,18 @@ mod tests {
         let sender = Addr::unchecked(OWNER);
         let asset_addr = Addr::unchecked("scope");
         let tag = "";
+        let expected_events: Vec<Event> = vec![SetTagEvent::new(&asset_addr, tag).into()];
         setup::mock_scopes(&mut deps);
         setup::mock_markers(&mut deps);
 
         setup::mock_contract(deps.as_mut());
 
+        storage::asset::set_tag(deps.as_mut().storage, &asset_addr, TAG1).expect("should set tag");
         let res = handle(deps.as_mut(), sender, asset_addr.clone(), tag)
             .expect("should not return an error");
+        let found = storage::asset::has_tag(&deps.storage, tag);
 
-        let expected_events: Vec<Event> = vec![SetTagEvent::new(&asset_addr, tag).into()];
+        assert_eq!(false, found);
         assert_eq!(vec![Attribute::from(ActionType::SetTag {})], res.attributes);
         assert_eq!(expected_events, res.events);
         assert_eq!(0, res.messages.len());
