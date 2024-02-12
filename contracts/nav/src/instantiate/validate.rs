@@ -19,6 +19,8 @@ impl Validate for InstantiateMsg {
     /// msg.validate(deps)?;
     /// ```
     fn validate(&self, _deps: Deps) -> ValidateResult {
+        // TODO Check length of tag_types
+        // TODO Is this enough for validating an owner address?
         Ok(())
     }
 

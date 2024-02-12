@@ -1,4 +1,5 @@
 use cosmwasm_std::{Addr, DepsMut, Response};
+use provwasm_std::types::provenance::{marker::v1::MarkerQuerier, metadata::v1::MetadataQuerier};
 
 use crate::{
     core::{aliases::ProvTxResponse, error::ContractError},
@@ -10,7 +11,8 @@ use crate::{
 /// Performs the execute logic for the SetTag variant of ExecuteMsg.
 ///
 /// If the sender is the owner of the contract, then the contract will update the tag
-/// for the asset. When an empty tag is provided then the asset's tag will be removed.
+/// for the asset. The updated asset must be a marker or a scope, and when an empty tag is provided
+/// the asset's tag will be removed.
 ///
 /// # Arguments
 ///
@@ -29,6 +31,10 @@ pub fn handle(deps: DepsMut, sender: Addr, asset_addr: Addr, tag: &str) -> ProvT
         return Err(ContractError::Unauthorized {});
     }
 
+    if !is_marker(&deps, &asset_addr)? && !is_scope(&deps, &asset_addr)? {
+        return Err(ContractError::AssetDoesNotExist(asset_addr.to_string()));
+    }
+
     if tag.is_empty() {
         storage::asset::remove_tag(deps.storage, &asset_addr);
     } else {
@@ -41,5 +47,179 @@ pub fn handle(deps: DepsMut, sender: Addr, asset_addr: Addr, tag: &str) -> ProvT
 
     Ok(Response::default()
         .set_action(ActionType::SetTag {})
-        .add_event(SetTagEvent::new(asset_addr, tag).into()))
+        .add_event(SetTagEvent::new(&asset_addr, tag).into()))
+}
+
+fn is_marker(deps: &DepsMut, asset_addr: &Addr) -> Result<bool, ContractError> {
+    let marker = MarkerQuerier::new(&deps.querier);
+    let response = marker.marker(asset_addr.to_string())?;
+    Ok(response.marker.is_some())
+}
+
+fn is_scope(deps: &DepsMut, asset_addr: &Addr) -> Result<bool, ContractError> {
+    let metadata = MetadataQuerier::new(&deps.querier);
+    let response = metadata.scope(
+        asset_addr.to_string(),
+        "".to_string(),
+        "".to_string(),
+        false,
+        false,
+    )?;
+    Ok(response.scope.is_some())
+}
+
+#[cfg(test)]
+mod tests {
+    use cosmwasm_std::{Addr, Attribute, Event};
+    use provwasm_mocks::mock_provenance_dependencies;
+
+    use crate::{
+        core::error::ContractError,
+        events::set_tag::SetTagEvent,
+        testing::{
+            constants::{OWNER, TAG1},
+            setup::{self, mock_markers, mock_scopes},
+        },
+        util::action::ActionType,
+    };
+
+    use super::handle;
+
+    #[test]
+    fn test_adds_tag_for_valid_marker() {
+        let mut deps = mock_provenance_dependencies();
+        let sender = Addr::unchecked(OWNER);
+        let asset_addr = Addr::unchecked("marker");
+        let tag = TAG1;
+        setup::mock_scopes(&mut deps);
+        setup::mock_markers(&mut deps);
+
+        setup::mock_contract(deps.as_mut());
+
+        let res = handle(deps.as_mut(), sender, asset_addr.clone(), tag)
+            .expect("should not return an error");
+
+        let expected_events: Vec<Event> = vec![SetTagEvent::new(&asset_addr, tag).into()];
+        assert_eq!(vec![Attribute::from(ActionType::SetTag {})], res.attributes);
+        assert_eq!(expected_events, res.events);
+        assert_eq!(0, res.messages.len());
+    }
+
+    #[test]
+    fn test_adds_tag_for_valid_scope() {
+        let mut deps = mock_provenance_dependencies();
+        let sender = Addr::unchecked(OWNER);
+        let asset_addr = Addr::unchecked("scope");
+        let tag = TAG1;
+        setup::mock_scopes(&mut deps);
+        setup::mock_markers(&mut deps);
+
+        setup::mock_contract(deps.as_mut());
+
+        let res = handle(deps.as_mut(), sender, asset_addr.clone(), tag)
+            .expect("should not return an error");
+
+        let expected_events: Vec<Event> = vec![SetTagEvent::new(&asset_addr, tag).into()];
+        assert_eq!(vec![Attribute::from(ActionType::SetTag {})], res.attributes);
+        assert_eq!(expected_events, res.events);
+        assert_eq!(0, res.messages.len());
+    }
+
+    #[test]
+    fn test_removes_tag_for_valid_marker() {
+        let mut deps = mock_provenance_dependencies();
+        let sender = Addr::unchecked(OWNER);
+        let asset_addr = Addr::unchecked("marker");
+        let tag = "";
+        setup::mock_scopes(&mut deps);
+        setup::mock_markers(&mut deps);
+
+        setup::mock_contract(deps.as_mut());
+
+        let res = handle(deps.as_mut(), sender, asset_addr.clone(), tag)
+            .expect("should not return an error");
+
+        let expected_events: Vec<Event> = vec![SetTagEvent::new(&asset_addr, tag).into()];
+        assert_eq!(vec![Attribute::from(ActionType::SetTag {})], res.attributes);
+        assert_eq!(expected_events, res.events);
+        assert_eq!(0, res.messages.len());
+    }
+
+    #[test]
+    fn test_removes_tag_for_valid_scope() {
+        let mut deps = mock_provenance_dependencies();
+        let sender = Addr::unchecked(OWNER);
+        let asset_addr = Addr::unchecked("scope");
+        let tag = "";
+        setup::mock_scopes(&mut deps);
+        setup::mock_markers(&mut deps);
+
+        setup::mock_contract(deps.as_mut());
+
+        let res = handle(deps.as_mut(), sender, asset_addr.clone(), tag)
+            .expect("should not return an error");
+
+        let expected_events: Vec<Event> = vec![SetTagEvent::new(&asset_addr, tag).into()];
+        assert_eq!(vec![Attribute::from(ActionType::SetTag {})], res.attributes);
+        assert_eq!(expected_events, res.events);
+        assert_eq!(0, res.messages.len());
+    }
+
+    #[test]
+    fn test_fails_for_invalid_addr() {
+        let mut deps = mock_provenance_dependencies();
+        let sender = Addr::unchecked(OWNER);
+        let asset_addr = Addr::unchecked("invalid");
+        let tag = "";
+        setup::mock_scopes(&mut deps);
+        setup::mock_markers(&mut deps);
+
+        setup::mock_contract(deps.as_mut());
+
+        let err = handle(deps.as_mut(), sender, asset_addr.clone(), tag)
+            .expect_err("should not return an error");
+
+        assert_eq!(
+            ContractError::AssetDoesNotExist(asset_addr.to_string()).to_string(),
+            err.to_string()
+        );
+    }
+
+    #[test]
+    fn test_fails_for_invalid_tag() {
+        let mut deps = mock_provenance_dependencies();
+        let sender = Addr::unchecked(OWNER);
+        let asset_addr = Addr::unchecked("marker");
+        let tag = "invalid";
+        setup::mock_scopes(&mut deps);
+        setup::mock_markers(&mut deps);
+
+        setup::mock_contract(deps.as_mut());
+
+        let err = handle(deps.as_mut(), sender, asset_addr.clone(), tag)
+            .expect_err("should not return an error");
+
+        assert_eq!(
+            ContractError::InvalidTagType(tag.to_string()).to_string(),
+            err.to_string()
+        );
+    }
+
+    #[test]
+    fn test_must_be_owner() {
+        let mut deps = mock_provenance_dependencies();
+        let sender = Addr::unchecked("invalid");
+        let asset_addr = Addr::unchecked("asset");
+        let tag = TAG1;
+
+        setup::mock_contract(deps.as_mut());
+
+        let error =
+            handle(deps.as_mut(), sender, asset_addr, tag).expect_err("should return an error");
+
+        assert_eq!(
+            ContractError::Unauthorized {}.to_string(),
+            error.to_string()
+        );
+    }
 }

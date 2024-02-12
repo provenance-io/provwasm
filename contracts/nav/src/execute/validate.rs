@@ -1,5 +1,4 @@
 use cosmwasm_std::{Coin, Deps};
-use provwasm_std::types::provenance::{marker::v1::MarkerQuerier, metadata::v1::MetadataQuerier};
 
 use crate::{
     core::{error::ContractError, msg::ExecuteMsg},
@@ -19,33 +18,8 @@ impl Validate for ExecuteMsg {
     /// let msg = ExecuteMsg::ChangeOwner {new_owner: Addr::unchecked("new_owner")};
     /// msg.validate(deps)?;
     /// ```
-    fn validate(&self, deps: Deps) -> ValidateResult {
-        match &self {
-            &ExecuteMsg::SetTag { asset_addr, tag: _ } => {
-                let marker = MarkerQuerier::new(&deps.querier);
-                let response = marker.marker(asset_addr.to_string())?;
-
-                // This may not be needed because of the previous line
-                if response.marker.is_some() {
-                    return Ok(());
-                }
-
-                let metadata = MetadataQuerier::new(&deps.querier);
-                let response = metadata.scope(
-                    asset_addr.to_string(),
-                    "".to_string(),
-                    "".to_string(),
-                    false,
-                    false,
-                )?;
-                if response.scope.is_some() {
-                    return Ok(());
-                }
-
-                return Err(ContractError::AssetDoesNotExist(asset_addr.to_string()));
-            }
-            _ => Ok(()),
-        }
+    fn validate(&self, _deps: Deps) -> ValidateResult {
+        Ok(())
     }
 
     /// Performs basic error checking on ExecuteMsg.
@@ -74,67 +48,25 @@ mod tests {
     use provwasm_mocks::mock_provenance_dependencies;
 
     use crate::{
-        core::{
-            error::{self, ContractError},
-            msg::ExecuteMsg,
-        },
+        core::{error::ContractError, msg::ExecuteMsg},
         testing::{
             constants::{TEST_AMOUNT, TEST_DENOM},
             msg::{
                 mock_add_tag_types_msg, mock_change_owner_msg, mock_remove_tag_types_msg,
                 mock_set_tag_msg,
             },
-            setup::{mock_markers, mock_scopes},
         },
         util::validate::Validate,
     };
 
     #[test]
-    fn test_validate_succeeds_for_marker_set_tag() {
-        let mut deps = mock_provenance_dependencies();
-        mock_markers(deps.as_mut());
-        mock_scopes(deps.as_mut());
-
-        let asset_addr = Addr::unchecked("marker".to_string());
-        let msg = mock_set_tag_msg(&asset_addr);
-        let res = msg.validate(deps.as_ref()).unwrap();
-        assert_eq!((), res);
-    }
-
-    #[test]
-    fn test_validate_succeeds_for_scope_set_tag() {
-        let mut deps = mock_provenance_dependencies();
-        mock_markers(deps.as_mut());
-        mock_scopes(deps.as_mut());
-
-        let asset_addr = Addr::unchecked("scope".to_string());
-        let msg = mock_set_tag_msg(&asset_addr);
-        let res = msg.validate(deps.as_ref()).unwrap();
-        assert_eq!((), res);
-    }
-
-    #[test]
-    fn test_validate_fails_for_invalid_asset() {
-        let mut deps = mock_provenance_dependencies();
-        mock_markers(deps.as_mut());
-        mock_scopes(deps.as_mut());
-
-        let asset_addr = Addr::unchecked("invalid".to_string());
-        let msg = mock_set_tag_msg(&asset_addr);
-        let error = msg.validate(deps.as_ref()).unwrap_err();
-        assert_eq!(
-            ContractError::AssetDoesNotExist(asset_addr.to_string()).to_string(),
-            error.to_string()
-        );
-    }
-
-    #[test]
-    fn test_validate_succeeds_for_remaining_messages() {
+    fn test_validate_succeeds_for_messages() {
         let deps = mock_provenance_dependencies();
         let msgs: Vec<ExecuteMsg> = vec![
             mock_add_tag_types_msg(),
             mock_remove_tag_types_msg(),
             mock_change_owner_msg(),
+            mock_set_tag_msg(&Addr::unchecked("test")),
         ];
 
         for msg in msgs {

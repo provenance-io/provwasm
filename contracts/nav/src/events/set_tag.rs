@@ -22,9 +22,9 @@ impl SetTagEvent {
     /// let tag = Addr::unchecked("new");
     /// let event = SetTagEvent::new(asset_addr, "random");
     /// ```
-    pub fn new(asset_addr: Addr, tag: &str) -> Self {
+    pub fn new(asset_addr: &Addr, tag: &str) -> Self {
         Self {
-            asset_addr,
+            asset_addr: asset_addr.clone(),
             tag: tag.to_string(),
         }
     }
@@ -53,7 +53,7 @@ mod tests {
     fn test_new_set_tag_event() {
         let addr = Addr::unchecked("asset");
         let tag = "tag";
-        let event = SetTagEvent::new(addr.clone(), tag);
+        let event = SetTagEvent::new(&addr, tag);
         assert_eq!(addr, event.asset_addr);
         assert_eq!(tag, event.tag);
     }
@@ -62,7 +62,7 @@ mod tests {
     fn test_from() {
         let asset = Addr::unchecked("asset");
         let tag = "tag";
-        let event = SetTagEvent::new(asset.clone(), tag);
+        let event = SetTagEvent::new(&asset, tag);
 
         let mut expected = Event::new(SET_TAG_EVENT);
         expected = expected.add_attributes([
