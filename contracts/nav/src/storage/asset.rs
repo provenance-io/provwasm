@@ -5,6 +5,7 @@ use crate::core::{
     aliases::AssetTag,
     constants::{ASSET_TAG_KEY, TAG_TO_ASSET_KEY},
     error::ContractError,
+    msg::Paginate,
 };
 
 pub const ASSET_TO_TAG: Map<&Addr, AssetTag> = Map::new(ASSET_TAG_KEY);
@@ -37,7 +38,11 @@ pub fn get_tag(storage: &dyn Storage, asset_addr: &Addr) -> Result<String, Contr
 /// ```
 /// with_tag(deps.storage, "tag")?;
 /// `
-pub fn with_tag(storage: &dyn Storage, tag: &str) -> Result<Vec<Addr>, ContractError> {
+pub fn with_tag(
+    storage: &dyn Storage,
+    tag: &str,
+    paginate: Paginate<Addr>,
+) -> Result<Vec<Addr>, ContractError> {
     let assets: Result<Vec<Addr>, ContractError> = TAG_TO_ASSET
         .prefix(tag.to_string())
         .keys(storage, None, None, cosmwasm_std::Order::Ascending)

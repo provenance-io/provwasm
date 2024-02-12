@@ -1,7 +1,10 @@
-use cosmwasm_std::{to_json_binary, Deps};
+use cosmwasm_std::{to_json_binary, Addr, Deps};
 
 use crate::{
-    core::{aliases::ProvQueryResponse, msg::QueryTagResponse},
+    core::{
+        aliases::ProvQueryResponse,
+        msg::{Paginate, QueryTagResponse},
+    },
     storage,
 };
 
@@ -17,8 +20,8 @@ use crate::{
 /// let res = handle(deps, tag)?;
 /// ```
 
-pub fn handle(deps: Deps, tag: &str) -> ProvQueryResponse {
-    let assets = storage::asset::with_tag(deps.storage, tag)?;
+pub fn handle(deps: Deps, tag: &str, paginate: Paginate<Addr>) -> ProvQueryResponse {
+    let assets = storage::asset::with_tag(deps.storage, tag, paginate)?;
     let res = QueryTagResponse { assets };
     Ok(to_json_binary(&res)?)
 }

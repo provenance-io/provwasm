@@ -22,8 +22,8 @@ pub fn route(deps: Deps, _env: Env, msg: QueryMsg) -> ProvQueryResponse {
         QueryMsg::QueryOwner {} => query_owner::handle(deps),
         QueryMsg::QueryVersion {} => query_version::handle(deps),
         QueryMsg::QueryAddress { asset_addr } => query_address::handle(deps, asset_addr),
-        QueryMsg::QueryTag { tag } => query_tag::handle(deps, &tag),
-        QueryMsg::QueryTagTypes {} => query_tag_types::handle(deps),
+        QueryMsg::QueryTag { tag, paginate } => query_tag::handle(deps, &tag, paginate),
+        QueryMsg::QueryTagTypes { paginate } => query_tag_types::handle(deps, paginate),
     }
 }
 

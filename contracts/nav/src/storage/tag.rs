@@ -1,7 +1,9 @@
 use cosmwasm_std::Storage;
 use cw_storage_plus::Map;
 
-use crate::core::{constants::ASSET_TYPE_KEY, error::ContractError};
+use crate::core::{
+    aliases::AssetTag, constants::ASSET_TYPE_KEY, error::ContractError, msg::Paginate,
+};
 
 pub const TAG_TYPES: Map<&str, ()> = Map::new(ASSET_TYPE_KEY);
 
@@ -60,8 +62,11 @@ pub fn has_type(storage: &dyn Storage, tag: &str) -> bool {
 /// ```
 /// get_types(deps.storage);
 /// `
-pub fn get_types(storage: &dyn Storage) -> Result<Vec<String>, ContractError> {
-    let keys: Result<Vec<String>, ContractError> = TAG_TYPES
+pub fn get_types(
+    storage: &dyn Storage,
+    paginate: Paginate<AssetTag>,
+) -> Result<Vec<AssetTag>, ContractError> {
+    let keys: Result<Vec<AssetTag>, ContractError> = TAG_TYPES
         .keys(storage, None, None, cosmwasm_std::Order::Ascending)
         .map(|result| result.map_err(ContractError::Std))
         .collect();

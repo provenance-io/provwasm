@@ -1,18 +1,23 @@
 use cosmwasm_schema::{cw_serde, QueryResponses};
-use cosmwasm_std::Addr;
+use cosmwasm_std::{Addr, Uint64};
 use cw2::ContractVersion;
+
+use super::aliases::AssetTag;
 
 #[cw_serde]
 pub enum InstantiateMsg {
-    Default { owner: Addr, tag_types: Vec<String> },
+    Default {
+        owner: Addr,
+        tag_types: Vec<AssetTag>,
+    },
 }
 
 #[cw_serde]
 pub enum ExecuteMsg {
     ChangeOwner { new_owner: Addr },
-    SetTag { asset_addr: Addr, tag: String },
-    AddTagTypes { tag_types: Vec<String> },
-    RemoveTagTypes { tag_types: Vec<String> },
+    SetTag { asset_addr: Addr, tag: AssetTag },
+    AddTagTypes { tag_types: Vec<AssetTag> },
+    RemoveTagTypes { tag_types: Vec<AssetTag> },
 }
 
 #[cw_serde]
@@ -28,10 +33,13 @@ pub enum QueryMsg {
     QueryAddress { asset_addr: Addr },
 
     #[returns(QueryTagResponse)]
-    QueryTag { tag: String },
+    QueryTag {
+        tag: AssetTag,
+        paginate: Paginate<Addr>,
+    },
 
     #[returns(QueryTagTypesResponse)]
-    QueryTagTypes {},
+    QueryTagTypes { paginate: Paginate<AssetTag> },
 }
 
 #[cw_serde]
@@ -46,7 +54,7 @@ pub struct QueryOwnerResponse {
 
 #[cw_serde]
 pub struct QueryAddressResponse {
-    pub tag: String,
+    pub tag: AssetTag,
 }
 
 #[cw_serde]
@@ -56,10 +64,16 @@ pub struct QueryTagResponse {
 
 #[cw_serde]
 pub struct QueryTagTypesResponse {
-    pub tags: Vec<String>,
+    pub tags: Vec<AssetTag>,
 }
 
 #[cw_serde]
 pub enum MigrateMsg {
     Default {},
+}
+
+#[cw_serde]
+pub struct Paginate<T> {
+    pub limit: Uint64,
+    pub start_after: T,
 }
