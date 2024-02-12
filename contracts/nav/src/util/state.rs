@@ -2,7 +2,7 @@ use cosmwasm_std::Addr;
 use serde::{Deserialize, Serialize};
 
 /// A general purpose object that the contract uses to track store its state.
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq)]
 pub struct State {
     pub owner: Addr,
 }

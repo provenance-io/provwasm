@@ -47,7 +47,7 @@ pub fn remove_type(storage: &mut dyn Storage, tag: &str) {
 /// has_type(deps.storage, "tag");
 /// `
 pub fn has_type(storage: &dyn Storage, tag: &str) -> bool {
-    return TAG_TYPES.has(storage, tag);
+    TAG_TYPES.has(storage, tag)
 }
 
 /// Obtains all the accepted tag types from the contract's store.
@@ -63,7 +63,7 @@ pub fn has_type(storage: &dyn Storage, tag: &str) -> bool {
 pub fn get_types(storage: &dyn Storage) -> Result<Vec<String>, ContractError> {
     let keys: Result<Vec<String>, ContractError> = TAG_TYPES
         .keys(storage, None, None, cosmwasm_std::Order::Ascending)
-        .map(|result| result.map_err(|err| ContractError::Std(err)))
+        .map(|result| result.map_err(ContractError::Std))
         .collect();
     keys
 }

@@ -26,6 +26,20 @@ impl From<UpdateTagTypesEvent> for Event {
     }
 }
 
+impl Default for UpdateTagTypesEvent {
+    /// Creates a new default instance of UpdateTagTypesEvent
+    ///
+    /// # Arguments
+    ///
+    /// # Examples
+    /// ```
+    /// let event = UpdateTagTypesEvent::default();
+    /// ```
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use cosmwasm_std::Event;

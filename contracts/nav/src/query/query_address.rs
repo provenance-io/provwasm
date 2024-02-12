@@ -19,7 +19,7 @@ use crate::{
 
 pub fn handle(deps: Deps, asset_addr: Addr) -> ProvQueryResponse {
     let tag = storage::asset::get_tag(deps.storage, &asset_addr)?;
-    let res = QueryAddressResponse { tag: tag };
+    let res = QueryAddressResponse { tag };
     Ok(to_json_binary(&res)?)
 }
 
