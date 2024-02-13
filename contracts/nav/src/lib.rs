@@ -6,6 +6,7 @@ pub mod instantiate;
 pub mod migrate;
 pub mod query;
 pub mod storage;
+pub mod util;
+
 #[cfg(test)]
 pub mod testing;
-pub mod util;
