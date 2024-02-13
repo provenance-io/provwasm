@@ -1,24 +1,15 @@
 [package]
 name = "nft"
-version = "2.2.0"
+version = { workspace = true }
+repository = { workspace = true }
+edition = { workspace = true }
+license = { workspace = true }
 authors = ["Ken Talley <4344285+kwtalley@users.noreply.github.com"]
-edition = "2021"
 
 exclude = [
     "nft.wasm",
     "checksums.txt",
 ]
-
-[profile.release]
-opt-level = 3
-debug = false
-rpath = false
-lto = true
-debug-assertions = false
-codegen-units = 1
-panic = 'abort'
-incremental = false
-overflow-checks = true
 
 [lib]
 crate-type = ["cdylib", "rlib"]
@@ -28,25 +19,24 @@ backtraces = []
 
 [dependencies]
 bech32 = "0.9.1"
-cosmwasm-schema = { version = "1.2.5" }
-cosmwasm-std = { version = "1.2.5", features = ["cosmwasm_1_1"] }
-cosmwasm-storage = { version = "1.2.5" }
+cosmwasm-schema = { workspace = true }
+cosmwasm-std = { workspace = true, features = ["cosmwasm_1_1"] }
 cw2 = "1.0.1"
 cw721 = "0.18.0"
 cw-ownable = "0.5.1"
-cw-storage-plus = { version = "1.1.0", features = ["iterator"] }
+cw-storage-plus = { workspace = true, features = ["iterator"] }
 cw-utils = "1.0.1"
 hex = { version = "0.4.3", default-features = false }
-provwasm-std = { path = "../../packages/provwasm-std" }
-schemars = "0.8.10"
-serde = { version = "1.0.145", default-features = false, features = ["derive"] }
-serde_json = { version = "1.0.96" }
+provwasm-std = { workspace = true }
+schemars = { workspace = true }
+serde = { workspace = true, default-features = false, features = ["derive"] }
+serde_json = { workspace = true }
 sha2 = { version = "0.10.7", default-features = false }
-thiserror = { version = "1.0.31" }
+thiserror = { workspace = true }
 semver = "1"
 uuid = { version = "1.4.1", default-features = false }
 
 [dev-dependencies]
-serde_json = { version = "1.0.96", features = ["std"] }
-provwasm-mocks = { path = "../../packages/provwasm-mocks" }
+serde_json = { workspace = true, features = ["std"] }
+provwasm-mocks = { workspace = true }
 cw-multi-test = "0.16.2"

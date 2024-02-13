@@ -7,7 +7,7 @@ use provwasm_std::types::provenance::name::v1::{
 
 use crate::error::ContractError;
 use crate::msg::{ExecuteMsg, InitMsg, QueryMsg};
-use crate::state::{config, config_read, State};
+use crate::state::{State, CONFIG};
 
 /// Initialize the smart contract config state and bind a name to the contract address.
 #[entry_point]
@@ -24,7 +24,7 @@ pub fn instantiate(
     };
 
     // Save contract config state.
-    config(deps.storage).save(&state)?;
+    CONFIG.save(deps.storage, &state)?;
 
     let split: Vec<&str> = msg.name.splitn(2, '.').collect();
     let record = split.first();
@@ -83,7 +83,7 @@ pub fn try_bind_prefix(
     prefix: String,
 ) -> Result<Response, ContractError> {
     // Load contract state
-    let state = config_read(deps.storage).load()?;
+    let state = CONFIG.load(deps.storage)?;
 
     // Validate the message sender is the contact owner.
     if info.sender != state.contract_owner {
@@ -125,7 +125,7 @@ pub fn try_unbind_prefix(
     prefix: String,
 ) -> Result<Response, ContractError> {
     // Load contract state
-    let state = config_read(deps.storage).load()?;
+    let state = CONFIG.load(deps.storage)?;
 
     // Validate the message sender is the contact owner.
     if info.sender != state.contract_owner {

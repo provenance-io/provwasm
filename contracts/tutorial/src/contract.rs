@@ -7,7 +7,7 @@ use std::ops::Mul;
 
 use crate::error::ContractError;
 use crate::msg::{ExecuteMsg, InitMsg, MigrateMsg, QueryMsg};
-use crate::state::{config, config_read, State};
+use crate::state::{State, CONFIG};
 
 /// Initialize the contract
 #[entry_point]
@@ -40,12 +40,15 @@ pub fn instantiate(
     // Create and save contract config state. The fee collection address represents the network
     // (ie they get paid fees), thus they must be the message sender.
     let merchant_address = deps.api.addr_validate(&msg.merchant_address)?;
-    config(deps.storage).save(&State {
-        purchase_denom: msg.purchase_denom,
-        merchant_address,
-        fee_collection_address: info.sender,
-        fee_percent: msg.fee_percent,
-    })?;
+    CONFIG.save(
+        deps.storage,
+        &State {
+            purchase_denom: msg.purchase_denom,
+            merchant_address,
+            fee_collection_address: info.sender,
+            fee_percent: msg.fee_percent,
+        },
+    )?;
 
     // Create a message that will bind a restricted name to the contract address.
     let split: Vec<&str> = msg.contract_name.splitn(2, '.').collect();
@@ -89,7 +92,7 @@ pub fn query(
 ) -> StdResult<Binary> {
     match msg {
         QueryMsg::QueryRequest {} => {
-            let state = config_read(deps.storage).load()?;
+            let state = CONFIG.load(deps.storage)?;
             let json = to_binary(&state)?;
             Ok(json)
         }
@@ -130,7 +133,7 @@ fn try_purchase(
     }
 
     // Load state
-    let state = config_read(deps.storage).load()?;
+    let state = CONFIG.load(deps.storage)?;
     let fee_pct = state.fee_percent;
 
     // Ensure the funds have the required amount and denomination

@@ -10,7 +10,7 @@ use proto_build::{
 };
 
 /// The provenance commit or tag to be cloned and used to build the proto files
-const PROVENANCE_REV: &str = "v1.17.0-rc1";
+const PROVENANCE_REV: &str = "v1.17.1";
 
 // All paths must end with a / and either be absolute or include a ./ to reference the current
 // working directory.

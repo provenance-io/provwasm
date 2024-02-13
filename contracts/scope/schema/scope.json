@@ -1,6 +1,6 @@
 {
   "contract_name": "scope",
-  "contract_version": "2.1.0",
+  "contract_version": "2.2.0",
   "idl_version": "1.0.0",
   "instantiate": {
     "$schema": "http://json-schema.org/draft-07/schema#",
@@ -373,11 +373,19 @@
         "ContractSpecificationRequest": {
           "type": "object",
           "required": [
+            "exclude_id_info",
             "include_record_specs",
+            "include_request",
             "specification_id"
           ],
           "properties": {
+            "exclude_id_info": {
+              "type": "boolean"
+            },
             "include_record_specs": {
+              "type": "boolean"
+            },
+            "include_request": {
               "type": "boolean"
             },
             "specification_id": {
@@ -446,7 +454,7 @@
             "source": {
               "anyOf": [
                 {
-                  "$ref": "#/definitions/Source"
+                  "$ref": "#/definitions/Source2"
                 },
                 {
                   "type": "null"
@@ -593,6 +601,39 @@
               ],
               "properties": {
                 "resource_id": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer",
+                    "format": "uint8",
+                    "minimum": 0.0
+                  }
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "required": [
+                "hash"
+              ],
+              "properties": {
+                "hash": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "Source2": {
+          "oneOf": [
+            {
+              "type": "object",
+              "required": [
+                "record_id"
+              ],
+              "properties": {
+                "record_id": {
                   "type": "array",
                   "items": {
                     "type": "integer",
@@ -1073,6 +1114,8 @@
         "RecordsRequest": {
           "type": "object",
           "required": [
+            "exclude_id_info",
+            "include_request",
             "include_scope",
             "include_sessions",
             "name",
@@ -1081,6 +1124,12 @@
             "session_id"
           ],
           "properties": {
+            "exclude_id_info": {
+              "type": "boolean"
+            },
+            "include_request": {
+              "type": "boolean"
+            },
             "include_scope": {
               "type": "boolean"
             },
@@ -1891,6 +1940,8 @@
         "RecordsRequest": {
           "type": "object",
           "required": [
+            "exclude_id_info",
+            "include_request",
             "include_scope",
             "include_sessions",
             "name",
@@ -1899,6 +1950,12 @@
             "session_id"
           ],
           "properties": {
+            "exclude_id_info": {
+              "type": "boolean"
+            },
+            "include_request": {
+              "type": "boolean"
+            },
             "include_scope": {
               "type": "boolean"
             },
@@ -2874,14 +2931,22 @@
         "ScopeRequest": {
           "type": "object",
           "required": [
+            "exclude_id_info",
             "include_records",
+            "include_request",
             "include_sessions",
             "record_addr",
             "scope_id",
             "session_addr"
           ],
           "properties": {
+            "exclude_id_info": {
+              "type": "boolean"
+            },
             "include_records": {
+              "type": "boolean"
+            },
+            "include_request": {
               "type": "boolean"
             },
             "include_sessions": {
@@ -3951,7 +4016,9 @@
         "SessionsRequest": {
           "type": "object",
           "required": [
+            "exclude_id_info",
             "include_records",
+            "include_request",
             "include_scope",
             "record_addr",
             "record_name",
@@ -3959,7 +4026,13 @@
             "session_id"
           ],
           "properties": {
+            "exclude_id_info": {
+              "type": "boolean"
+            },
             "include_records": {
+              "type": "boolean"
+            },
+            "include_request": {
               "type": "boolean"
             },
             "include_scope": {

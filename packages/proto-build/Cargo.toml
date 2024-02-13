@@ -1,9 +1,10 @@
 [package]
 name = "proto-build"
 version = "0.1.0"
+repository = { workspace = true }
+edition = { workspace = true }
+license = { workspace = true }
 authors = ["Ken Talley <ktalley@figure.com>"]
-edition = "2021"
-license = "Apache-2.0"
 publish = false
 
 [dependencies]
@@ -12,12 +13,12 @@ itertools = "0.11.0"
 log = "0.4.17"
 pretty_env_logger = "0.5.0"
 prettyplease = "0.2.4"
-prost = "0.11.9"
-prost-build = "0.11.9"
-prost-types = "0.11.9"
+prost = { workspace = true }
+prost-build = { workspace = true }
+prost-types = { workspace = true }
 quote = "1.0.26"
 regex = "1"
 rustix = "0.37.26"
-syn = {version = "2.0.15", features = ["full", "parsing", "extra-traits"]}
+syn = { version = "2.0.15", features = ["full", "parsing", "extra-traits"] }
 walkdir = "2"
 proc-macro2 = "1.0.56"

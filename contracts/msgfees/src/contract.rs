@@ -4,7 +4,7 @@ use provwasm_std::types::cosmos::bank::v1beta1::MsgSend;
 use crate::error::ContractError;
 use crate::helpers::assess_custom_fee;
 use crate::msg::{ExecuteMsg, InitMsg};
-use crate::state::{config, config_read, State};
+use crate::state::{State, CONFIG};
 
 /// Initialize the smart contract config state and bind a name to the contract address.
 #[entry_point]
@@ -21,7 +21,7 @@ pub fn instantiate(
     };
 
     // Save contract config state.
-    config(deps.storage).save(&state)?;
+    CONFIG.save(deps.storage, &state)?;
 
     // Dispatch bind name message and add event attributes.
     let res = Response::new()
@@ -56,7 +56,7 @@ pub fn try_send_funds(
     to_address: Addr,
 ) -> Result<Response, ContractError> {
     // Load contract state
-    let state = config_read(deps.storage).load()?;
+    let state = CONFIG.load(deps.storage)?;
 
     // Dispatch message to handler and emit events
     let mut res = Response::new()
@@ -133,7 +133,7 @@ mod tests {
             ]
         );
         assert_eq!(
-            config_read(&deps.storage).load().unwrap(),
+            CONFIG.load(&deps.storage).unwrap(),
             State {
                 fee_amount: Some(coin(100_000, "nhash")),
                 fee_recipient: Some(Addr::unchecked("fee_address")),
@@ -148,11 +148,14 @@ mod tests {
         let env = mock_env();
         let info = mock_info("sender", &[coin(200_000, "nhash")]);
 
-        config(&mut deps.storage)
-            .save(&State {
-                fee_amount: Some(coin(100_000, "nhash")),
-                fee_recipient: Some(Addr::unchecked("fee_address")),
-            })
+        CONFIG
+            .save(
+                &mut deps.storage,
+                &State {
+                    fee_amount: Some(coin(100_000, "nhash")),
+                    fee_recipient: Some(Addr::unchecked("fee_address")),
+                },
+            )
             .expect("failed to save test state");
 
         let msg = ExecuteMsg::SendFunds {
@@ -214,11 +217,14 @@ mod tests {
         let env = mock_env();
         let info = mock_info("sender", &[]);
 
-        config(&mut deps.storage)
-            .save(&State {
-                fee_amount: None,
-                fee_recipient: None,
-            })
+        CONFIG
+            .save(
+                &mut deps.storage,
+                &State {
+                    fee_amount: None,
+                    fee_recipient: None,
+                },
+            )
             .expect("failed to save test state");
 
         let msg = ExecuteMsg::SendFunds {

@@ -118,8 +118,8 @@
           "type": "object",
           "required": [
             "recipient",
-            "scope_uuid",
-            "session_uuid"
+            "session_uuid",
+            "token_id"
           ],
           "properties": {
             "recipient": {
@@ -130,12 +130,12 @@
                 }
               ]
             },
-            "scope_uuid": {
-              "description": "Generated UUID to use for creating the NFT (Scope)",
-              "type": "string"
-            },
             "session_uuid": {
               "description": "Generated UUID to use for creating the Session which encapsulates an owner data record",
+              "type": "string"
+            },
+            "token_id": {
+              "description": "Generated UUID to use for creating the NFT (Scope)",
               "type": "string"
             }
           },
