@@ -64,6 +64,8 @@ pub fn create_marker<S: Into<String>>(
         allow_governance_control: false,
         allow_forced_transfer,
         required_attributes: vec![],
+        usd_cents: 0,
+        volume: 0,
     }
     .into())
 }

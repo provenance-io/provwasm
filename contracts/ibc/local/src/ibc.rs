@@ -1,11 +1,11 @@
 use cosmwasm_std::{
-    entry_point, from_slice, to_binary, DepsMut, Env, IbcBasicResponse, IbcChannelCloseMsg,
+    entry_point, from_binary, to_binary, DepsMut, Env, IbcBasicResponse, IbcChannelCloseMsg,
     IbcChannelConnectMsg, IbcChannelOpenMsg, IbcMsg, IbcOrder, IbcPacketAckMsg,
     IbcPacketReceiveMsg, IbcPacketTimeoutMsg, IbcReceiveResponse, StdError, StdResult,
 };
 
 use crate::ibc_msg::{AcknowledgementMsg, PacketMsg, WhoAmIResponse};
-use crate::state::{accounts, AccountData};
+use crate::state::{AccountData, ACCOUNTS};
 
 pub const IBC_APP_VERSION: &str = "pio-ibc-example-v1";
 pub const PACKET_LIFETIME: u64 = 60 * 60;
@@ -48,7 +48,7 @@ pub fn ibc_channel_connect(
 
     // create an account holder the channel exists (not found if not registered)
     let data = AccountData::default();
-    accounts(deps.storage).save(channel_id.as_bytes(), &data)?;
+    ACCOUNTS.save(deps.storage, channel_id, &data)?;
 
     // construct a packet to send
     let packet = PacketMsg::WhoAmI {};
@@ -75,7 +75,7 @@ pub fn ibc_channel_close(
 
     // remove the channel
     let channel_id = &channel.endpoint.channel_id;
-    accounts(deps.storage).remove(channel_id.as_bytes());
+    ACCOUNTS.remove(deps.storage, channel_id);
 
     Ok(IbcBasicResponse::new()
         .add_attribute("action", "ibc_channel_close")
@@ -102,10 +102,10 @@ pub fn ibc_packet_ack(
     // which local channel was this packet send from
     let caller = msg.original_packet.src.channel_id;
     // we need to parse the ack based on our request
-    let packet: PacketMsg = from_slice(&msg.original_packet.data)?;
+    let packet: PacketMsg = from_binary(&msg.original_packet.data)?;
     match packet {
         PacketMsg::WhoAmI {} => {
-            let res: AcknowledgementMsg<WhoAmIResponse> = from_slice(&msg.acknowledgement.data)?;
+            let res: AcknowledgementMsg<WhoAmIResponse> = from_binary(&msg.acknowledgement.data)?;
             acknowledge_who_am_i(deps, caller, res)
         }
     }
@@ -127,11 +127,11 @@ fn acknowledge_who_am_i(
         AcknowledgementMsg::Err(e) => {
             return Ok(IbcBasicResponse::new()
                 .add_attribute("action", "acknowledge_who_am_i")
-                .add_attribute("error", e))
+                .add_attribute("error", e));
         }
     };
 
-    accounts(deps.storage).update(caller.as_bytes(), |acct| -> StdResult<_> {
+    ACCOUNTS.update(deps.storage, &caller, |acct| -> StdResult<_> {
         match acct {
             Some(mut acct) => {
                 // set the account the first time
@@ -251,7 +251,7 @@ mod tests {
             channel_id: channel_id.into(),
         };
         let r = query(deps.as_ref(), mock_env(), q).unwrap();
-        let acct: AccountResponse = from_slice(&r).unwrap();
+        let acct: AccountResponse = from_binary(&r).unwrap();
         assert!(acct.remote_addr.is_none());
         assert!(acct.remote_balance.is_empty());
         assert_eq!(0, acct.last_update_time.nanos());
@@ -265,7 +265,7 @@ mod tests {
             channel_id: channel_id.into(),
         };
         let r = query(deps.as_ref(), mock_env(), q).unwrap();
-        let acct: AccountResponse = from_slice(&r).unwrap();
+        let acct: AccountResponse = from_binary(&r).unwrap();
         assert_eq!(acct.remote_addr.unwrap(), remote_addr);
         assert!(acct.remote_balance.is_empty());
         assert_eq!(0, acct.last_update_time.nanos());

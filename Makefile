@@ -26,6 +26,10 @@ optimize-tutorial:
 attrs:
 	@make -C contracts/attrs
 
+.PHONY: ibc
+attrs:
+	@make -C contracts/ibc
+
 .PHONY: marker
 marker:
 	@make -C contracts/marker
@@ -38,57 +42,18 @@ msgfees:
 name:
 	@make -C contracts/name
 
+.PHONY: nft
+name:
+	@make -C contracts/nft
+
 .PHONY: scope
 scope:
 	@make -C contracts/scope
 
-.PHONY: build-release-zip
-build-release-zip: tutorial
-	zip provwasm_tutorial.zip ./contracts/tutorial/artifacts/provwasm_tutorial.wasm
+.PHONY: template
+scope:
+	@make -C contracts/template
 
-PROVENANCE_TEST_VERSION = "v1.8.0"
-
-.PHONY: test-tutorial
-test-tutorial: tutorial optimize-tutorial
-	docker rm -f test_container || true
-	docker pull provenanceio/provenance-testing-action
-	docker create --name test_container provenanceio/provenance-testing-action --entrypoint	"/scripts/tutorial_test.sh" "$(PROVENANCE_TEST_VERSION)"
-	docker cp ./scripts test_container:/scripts
-	docker cp ./contracts test_container:/go/contracts
-	docker start test_container
-
-.PHONY: test-attrs
-test-attrs: attrs
-	docker rm -f test_container || true
-	docker pull provenanceio/provenance-testing-action
-	docker create --name test_container provenanceio/provenance-testing-action --entrypoint	"/scripts/attrs_test.sh" "$(PROVENANCE_TEST_VERSION)"
-	docker cp ./scripts test_container:/scripts
-	docker cp ./contracts test_container:/go/contracts
-	docker start test_container
-
-.PHONY: test-marker
-test-marker: marker
-	docker rm -f test_container || true
-	docker pull provenanceio/provenance-testing-action
-	docker create --name test_container provenanceio/provenance-testing-action --entrypoint	"/scripts/marker_test.sh" "$(PROVENANCE_TEST_VERSION)"
-	docker cp ./scripts test_container:/scripts
-	docker cp ./contracts test_container:/go/contracts
-	docker start test_container
-
-.PHONY: test-name
-test-name: name
-	docker rm -f test_container || true
-	docker pull provenanceio/provenance-testing-action
-	docker create --name test_container provenanceio/provenance-testing-action --entrypoint	"/scripts/name_test.sh" "$(PROVENANCE_TEST_VERSION)"
-	docker cp ./scripts test_container:/scripts
-	docker cp ./contracts test_container:/go/contracts
-	docker start test_container
-
-.PHONY: test-scope
-test-scope: scope
-	docker rm -f test_container || true
-	docker pull provenanceio/provenance-testing-action
-	docker create --name test_container provenanceio/provenance-testing-action --entrypoint	"/scripts/scope_test.sh" "$(PROVENANCE_TEST_VERSION)"
-	docker cp ./scripts test_container:/scripts
-	docker cp ./contracts test_container:/go/contracts
-	docker start test_container
+.PHONY: trigger
+scope:
+	@make -C contracts/trigger

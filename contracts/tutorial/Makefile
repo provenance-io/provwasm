@@ -4,6 +4,8 @@ all: fmt build test lint schema optimize
 .PHONY: pre-optimize
 pre-optimize: fmt build test lint schema
 
+UNAME_M := $(shell uname -m)
+
 .PHONY: fmt
 fmt:
 	@cargo fmt --all -- --check
@@ -31,7 +33,12 @@ clean:
 
 .PHONY: optimize
 optimize:
-	@docker run --rm -v $(CURDIR):/code:Z -v "$(CURDIR)/../../packages":/packages:Z \
+	@if [ "$(UNAME_M)" = "arm64" ]; then \
+		image="cosmwasm/optimizer-arm64"; \
+	else \
+		image="cosmwasm/optimizer"; \
+	fi; \
+	docker run --rm -v $(CURDIR)/../../:/code:Z --workdir /code/contracts/tutorial \
 		--mount type=volume,source=tutorial_cache,target=/code/target \
 		--mount type=volume,source=registry_cache,target=/usr/local/cargo/registry \
-		cosmwasm/rust-optimizer:0.12.10
+		$$image:0.15.0

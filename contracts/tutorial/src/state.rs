@@ -1,10 +1,9 @@
+use cosmwasm_std::{Addr, Decimal};
+use cw_storage_plus::Item;
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
-use cosmwasm_std::{Addr, Decimal, Storage};
-use cosmwasm_storage::{singleton, singleton_read, ReadonlySingleton, Singleton};
-
-pub static CONFIG_KEY: &[u8] = b"config";
+pub const CONFIG: Item<State> = Item::new("config");
 
 /// Fields that comprise the smart contract state
 #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
@@ -17,12 +16,4 @@ pub struct State {
     pub fee_collection_address: Addr,
     // The percentage to collect on transfers
     pub fee_percent: Decimal,
-}
-
-pub fn config(storage: &mut dyn Storage) -> Singleton<State> {
-    singleton(storage, CONFIG_KEY)
-}
-
-pub fn config_read(storage: &dyn Storage) -> ReadonlySingleton<State> {
-    singleton_read(storage, CONFIG_KEY)
 }

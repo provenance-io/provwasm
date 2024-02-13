@@ -155,6 +155,7 @@ pub struct MarkerTransferAuthorization {
 #[proto_message(type_url = "/provenance.marker.v1.Params")]
 #[serde(rename_all = "snake_case")]
 pub struct Params {
+    #[deprecated]
     #[prost(uint64, tag = "1")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
@@ -165,6 +166,8 @@ pub struct Params {
     pub enable_governance: bool,
     #[prost(string, tag = "3")]
     pub unrestricted_denom_regex: ::prost::alloc::string::String,
+    #[prost(string, tag = "4")]
+    pub max_supply: ::prost::alloc::string::String,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
@@ -1225,6 +1228,18 @@ pub struct MsgAddMarkerRequest {
     pub allow_forced_transfer: bool,
     #[prost(string, repeated, tag = "11")]
     pub required_attributes: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    #[prost(uint64, tag = "12")]
+    #[serde(
+        serialize_with = "crate::serde::as_str::serialize",
+        deserialize_with = "crate::serde::as_str::deserialize"
+    )]
+    pub usd_cents: u64,
+    #[prost(uint64, tag = "13")]
+    #[serde(
+        serialize_with = "crate::serde::as_str::serialize",
+        deserialize_with = "crate::serde::as_str::deserialize"
+    )]
+    pub volume: u64,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
@@ -1571,6 +1586,25 @@ pub struct MsgTransferResponse {}
     serde::Deserialize,
     provwasm_proc_macro::CosmwasmExt,
 )]
+#[proto_message(type_url = "/provenance.marker.v1.MsgIbcTransferRequest")]
+#[serde(rename_all = "snake_case")]
+pub struct MsgIbcTransferRequest {
+    #[prost(message, optional, tag = "1")]
+    pub transfer:
+        ::core::option::Option<super::super::super::ibc::applications::transfer::v1::MsgTransfer>,
+    #[prost(string, tag = "2")]
+    pub administrator: ::prost::alloc::string::String,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(
+    Clone,
+    PartialEq,
+    ::prost::Message,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_proc_macro::CosmwasmExt,
+)]
 #[proto_message(type_url = "/provenance.marker.v1.MsgIbcTransferResponse")]
 #[serde(rename_all = "snake_case")]
 pub struct MsgIbcTransferResponse {}
@@ -1640,6 +1674,18 @@ pub struct MsgAddFinalizeActivateMarkerRequest {
     pub allow_forced_transfer: bool,
     #[prost(string, repeated, tag = "10")]
     pub required_attributes: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    #[prost(uint64, tag = "11")]
+    #[serde(
+        serialize_with = "crate::serde::as_str::serialize",
+        deserialize_with = "crate::serde::as_str::deserialize"
+    )]
+    pub usd_cents: u64,
+    #[prost(uint64, tag = "12")]
+    #[serde(
+        serialize_with = "crate::serde::as_str::serialize",
+        deserialize_with = "crate::serde::as_str::deserialize"
+    )]
+    pub volume: u64,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
