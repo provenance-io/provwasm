@@ -27,7 +27,7 @@ cw-ownable = "0.5.1"
 cw-storage-plus = { workspace = true, features = ["iterator"] }
 cw-utils = "1.0.1"
 hex = { version = "0.4.3", default-features = false }
-provwasm-std = { workspace = true }
+provwasm-std = { workspace = true, default-features = false, features = ["marker", "metadata"] }
 schemars = { workspace = true }
 serde = { workspace = true, default-features = false, features = ["derive"] }
 serde_json = { workspace = true }
