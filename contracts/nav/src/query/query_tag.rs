@@ -14,10 +14,11 @@ use crate::{
 ///
 /// * `deps` - A non mutable version of the dependencies. The API, Querier, and storage can all be accessed from it.
 /// * `tag` - The tag to lookup addresses by.
+/// * `paginate` - A struct containing additional optional args for pagination.
 ///
 /// # Examples
 /// ```
-/// let res = handle(deps, tag)?;
+/// let res = handle(deps, "tag1", Paginate{limit: None, start_after: None})?;
 /// ```
 
 pub fn handle(deps: Deps, tag: &str, paginate: Paginate<Addr>) -> ProvQueryResponse {
@@ -32,7 +33,7 @@ mod tests {
     use provwasm_mocks::mock_provenance_dependencies;
 
     use crate::{
-        core::msg::QueryTagResponse,
+        core::msg::{Paginate, QueryTagResponse},
         query::query_tag::handle,
         storage,
         testing::{
@@ -46,8 +47,11 @@ mod tests {
         let mut deps = mock_provenance_dependencies();
         setup::mock_contract(deps.as_mut());
         let expected: Vec<Addr> = vec![];
-
-        let bin = handle(deps.as_ref(), "tag3").expect("should not return an error");
+        let paginate = Paginate {
+            limit: None,
+            start_after: None,
+        };
+        let bin = handle(deps.as_ref(), "tag3", paginate).expect("should not return an error");
 
         let response: QueryTagResponse = from_json(&bin).expect("should return correct response");
         assert_eq!(expected, response.assets);
@@ -59,11 +63,14 @@ mod tests {
         setup::mock_contract(deps.as_mut());
         let asset_addr = Addr::unchecked("test");
         let expected: Vec<Addr> = vec![asset_addr.clone()];
-
+        let paginate = Paginate {
+            limit: None,
+            start_after: None,
+        };
         storage::asset::set_tag(deps.as_mut().storage, &asset_addr, TAG1)
             .expect("should not return an error");
 
-        let bin = handle(deps.as_ref(), "tag1").expect("should not return an error");
+        let bin = handle(deps.as_ref(), "tag1", paginate).expect("should not return an error");
 
         let response: QueryTagResponse = from_json(&bin).expect("should return correct response");
         assert_eq!(expected, response.assets);
@@ -77,18 +84,23 @@ mod tests {
         let asset_addr2 = Addr::unchecked("test2");
         let expected: Vec<Addr> = vec![asset_addr.clone()];
         let expected2: Vec<Addr> = vec![asset_addr2.clone()];
+        let paginate = Paginate {
+            limit: None,
+            start_after: None,
+        };
 
         storage::asset::set_tag(deps.as_mut().storage, &asset_addr, TAG1)
             .expect("should not return an error");
         storage::asset::set_tag(deps.as_mut().storage, &asset_addr2, TAG2)
             .expect("should not return an error");
 
-        let bin = handle(deps.as_ref(), "tag1").expect("should not return an error");
+        let bin =
+            handle(deps.as_ref(), "tag1", paginate.clone()).expect("should not return an error");
         let response: QueryTagResponse =
             from_json(&bin).expect("should return correct response for first tag");
         assert_eq!(expected, response.assets);
 
-        let bin = handle(deps.as_ref(), "tag2").expect("should not return an error");
+        let bin = handle(deps.as_ref(), "tag2", paginate).expect("should not return an error");
         let response: QueryTagResponse =
             from_json(&bin).expect("should return correct response for second tag");
         assert_eq!(expected2, response.assets);
@@ -101,13 +113,17 @@ mod tests {
         let asset_addr = Addr::unchecked("test");
         let asset_addr2 = Addr::unchecked("test2");
         let expected: Vec<Addr> = vec![asset_addr.clone(), asset_addr2.clone()];
+        let paginate = Paginate {
+            limit: None,
+            start_after: None,
+        };
 
         storage::asset::set_tag(deps.as_mut().storage, &asset_addr, TAG1)
             .expect("should not return an error");
         storage::asset::set_tag(deps.as_mut().storage, &asset_addr2, TAG1)
             .expect("should not return an error");
 
-        let bin = handle(deps.as_ref(), "tag1").expect("should not return an error");
+        let bin = handle(deps.as_ref(), "tag1", paginate).expect("should not return an error");
         let response: QueryTagResponse =
             from_json(&bin).expect("should return correct response for first tag");
         assert_eq!(expected, response.assets);
@@ -123,6 +139,10 @@ mod tests {
         let asset_addr4 = Addr::unchecked("test4");
         let expected: Vec<Addr> = vec![asset_addr.clone(), asset_addr3.clone()];
         let expected2: Vec<Addr> = vec![asset_addr2.clone(), asset_addr4.clone()];
+        let paginate = Paginate {
+            limit: None,
+            start_after: None,
+        };
 
         storage::asset::set_tag(deps.as_mut().storage, &asset_addr, TAG1)
             .expect("should not return an error");
@@ -133,12 +153,13 @@ mod tests {
         storage::asset::set_tag(deps.as_mut().storage, &asset_addr4, TAG2)
             .expect("should not return an error");
 
-        let bin = handle(deps.as_ref(), "tag1").expect("should not return an error");
+        let bin =
+            handle(deps.as_ref(), "tag1", paginate.clone()).expect("should not return an error");
         let response: QueryTagResponse =
             from_json(&bin).expect("should return correct response for first tag");
         assert_eq!(expected, response.assets);
 
-        let bin = handle(deps.as_ref(), "tag2").expect("should not return an error");
+        let bin = handle(deps.as_ref(), "tag2", paginate).expect("should not return an error");
         let response: QueryTagResponse =
             from_json(&bin).expect("should return correct response for second tag");
         assert_eq!(expected2, response.assets);

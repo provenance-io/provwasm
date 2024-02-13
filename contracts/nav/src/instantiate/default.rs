@@ -47,7 +47,10 @@ mod tests {
     use provwasm_mocks::mock_provenance_dependencies;
 
     use crate::{
-        core::constants::{CONTRACT_NAME, CONTRACT_VERSION},
+        core::{
+            constants::{CONTRACT_NAME, CONTRACT_VERSION},
+            msg::Paginate,
+        },
         storage,
         testing::constants::OWNER,
         util::{action::ActionType, state::State},
@@ -60,13 +63,16 @@ mod tests {
         let mut deps = mock_provenance_dependencies();
         let env = mock_env();
         let owner = Addr::unchecked(OWNER);
-
+        let paginate = Paginate {
+            limit: None,
+            start_after: None,
+        };
         let expected_tags = vec!["tag1".to_string()];
         let expected_state = State::new(owner.clone());
 
         let res = handle(deps.as_mut(), env.clone(), owner, expected_tags.as_slice()).unwrap();
         let state = storage::state::get(&deps.storage).unwrap();
-        let tags = storage::tag::get_types(&deps.storage).unwrap();
+        let tags = storage::tag::get_types(&deps.storage, paginate).unwrap();
         let contract_version = get_contract_version(&deps.storage).unwrap();
 
         assert_eq!(expected_state, state);
@@ -84,13 +90,16 @@ mod tests {
         let mut deps = mock_provenance_dependencies();
         let env = mock_env();
         let owner = Addr::unchecked(OWNER);
-
+        let paginate = Paginate {
+            limit: None,
+            start_after: None,
+        };
         let expected_tags = vec!["tag1".to_string(), "tag2".to_string()];
         let expected_state = State::new(owner.clone());
 
         let res = handle(deps.as_mut(), env.clone(), owner, expected_tags.as_slice()).unwrap();
         let state = storage::state::get(&deps.storage).unwrap();
-        let tags = storage::tag::get_types(&deps.storage).unwrap();
+        let tags = storage::tag::get_types(&deps.storage, paginate).unwrap();
         let contract_version = get_contract_version(&deps.storage).unwrap();
 
         assert_eq!(expected_state, state);
@@ -108,13 +117,16 @@ mod tests {
         let mut deps = mock_provenance_dependencies();
         let env = mock_env();
         let owner = Addr::unchecked(OWNER);
-
+        let paginate = Paginate {
+            limit: None,
+            start_after: None,
+        };
         let expected_tags = vec![];
         let expected_state = State::new(owner.clone());
 
         let res = handle(deps.as_mut(), env.clone(), owner, expected_tags.as_slice()).unwrap();
         let state = storage::state::get(&deps.storage).unwrap();
-        let tags = storage::tag::get_types(&deps.storage).unwrap();
+        let tags = storage::tag::get_types(&deps.storage, paginate).unwrap();
         let contract_version = get_contract_version(&deps.storage).unwrap();
 
         assert_eq!(expected_state, state);

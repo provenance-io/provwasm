@@ -26,5 +26,8 @@ pub const CHANGE_OWNER_NEW: &str = "new_owner";
 pub const SET_TAG_ASSET: &str = "asset_address";
 pub const SET_TAG_VALUE: &str = "tag";
 
-// Replies
-pub const DEFAULT_REPLY: u64 = 0;
+// Limits
+pub const DEFAULT_WITH_TAG_LIMIT: u64 = 10;
+pub const MAX_WITH_TAG_LIMIT: u64 = 100;
+pub const DEFAULT_TAG_TYPES_LIMIT: u64 = 10;
+pub const MAX_TAG_TYPES_LIMIT: u64 = 100;

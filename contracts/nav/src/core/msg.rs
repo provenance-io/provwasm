@@ -74,6 +74,6 @@ pub enum MigrateMsg {
 
 #[cw_serde]
 pub struct Paginate<T> {
-    pub limit: Uint64,
-    pub start_after: T,
+    pub limit: Option<Uint64>,
+    pub start_after: Option<T>,
 }

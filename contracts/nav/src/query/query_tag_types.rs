@@ -13,10 +13,11 @@ use crate::{
 /// # Arguments
 ///
 /// * `deps` - A non mutable version of the dependencies. The API, Querier, and storage can all be accessed from it.
+/// * `paginate` - A struct containing additional optional args for pagination.
 ///
 /// # Examples
 /// ```
-/// let res = handle(deps)?;
+/// let res = handle(deps, Paginate{limit: None, start_after: None})?;
 /// ```
 
 pub fn handle(deps: Deps, paginate: Paginate<AssetTag>) -> ProvQueryResponse {
@@ -31,9 +32,9 @@ mod tests {
     use provwasm_mocks::mock_provenance_dependencies;
 
     use crate::{
-        core::msg::QueryTagTypesResponse,
+        core::msg::{Paginate, QueryTagTypesResponse},
         query::query_tag_types::handle,
-        storage::{self},
+        storage,
         testing::{
             constants::{TAG1, TAG2},
             setup,
@@ -45,8 +46,12 @@ mod tests {
         let mut deps = mock_provenance_dependencies();
         setup::mock_contract(deps.as_mut());
         let expected = vec![TAG1.to_string(), TAG2.to_string()];
+        let paginate = Paginate {
+            limit: None,
+            start_after: None,
+        };
 
-        let bin = handle(deps.as_ref()).expect("should not return an error");
+        let bin = handle(deps.as_ref(), paginate).expect("should not return an error");
 
         let response: QueryTagTypesResponse =
             from_json(&bin).expect("should return correct response");
@@ -58,10 +63,14 @@ mod tests {
         let mut deps = mock_provenance_dependencies();
         setup::mock_contract(deps.as_mut());
         let expected = vec![TAG2.to_string()];
+        let paginate = Paginate {
+            limit: None,
+            start_after: None,
+        };
 
         storage::tag::remove_type(deps.as_mut().storage, TAG1);
 
-        let bin = handle(deps.as_ref()).expect("should not return an error");
+        let bin = handle(deps.as_ref(), paginate).expect("should not return an error");
 
         let response: QueryTagTypesResponse =
             from_json(&bin).expect("should return correct response");
@@ -73,11 +82,15 @@ mod tests {
         let mut deps = mock_provenance_dependencies();
         setup::mock_contract(deps.as_mut());
         let expected: Vec<String> = vec![];
+        let paginate = Paginate {
+            limit: None,
+            start_after: None,
+        };
 
         storage::tag::remove_type(deps.as_mut().storage, TAG1);
         storage::tag::remove_type(deps.as_mut().storage, TAG2);
 
-        let bin = handle(deps.as_ref()).expect("should not return an error");
+        let bin = handle(deps.as_ref(), paginate).expect("should not return an error");
 
         let response: QueryTagTypesResponse =
             from_json(&bin).expect("should return correct response");

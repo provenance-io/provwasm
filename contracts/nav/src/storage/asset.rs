@@ -1,9 +1,9 @@
-use cosmwasm_std::{Addr, Storage};
-use cw_storage_plus::Map;
+use cosmwasm_std::{Addr, Storage, Uint64};
+use cw_storage_plus::{Bound, Map};
 
 use crate::core::{
     aliases::AssetTag,
-    constants::{ASSET_TAG_KEY, TAG_TO_ASSET_KEY},
+    constants::{ASSET_TAG_KEY, DEFAULT_WITH_TAG_LIMIT, MAX_WITH_TAG_LIMIT, TAG_TO_ASSET_KEY},
     error::ContractError,
     msg::Paginate,
 };
@@ -33,20 +33,28 @@ pub fn get_tag(storage: &dyn Storage, asset_addr: &Addr) -> Result<String, Contr
 ///
 /// * `storage` - A reference to the Deps' Storage object.
 /// * `tag` - The tag to do a lookup by.
+/// * `paginate` - Struct containing optional pagination args.
 ///
 /// # Examples
 /// ```
-/// with_tag(deps.storage, "tag")?;
+/// with_tag(deps.storage, "tag", Paginate{limit: None, start_after: None})?;
 /// `
 pub fn with_tag(
     storage: &dyn Storage,
     tag: &str,
     paginate: Paginate<Addr>,
 ) -> Result<Vec<Addr>, ContractError> {
+    let start = paginate.start_after.as_ref().map(Bound::exclusive);
+    let limit = paginate
+        .limit
+        .unwrap_or(Uint64::new(DEFAULT_WITH_TAG_LIMIT))
+        .min(Uint64::new(MAX_WITH_TAG_LIMIT))
+        .u64() as usize;
     let assets: Result<Vec<Addr>, ContractError> = TAG_TO_ASSET
         .prefix(tag.to_string())
-        .keys(storage, None, None, cosmwasm_std::Order::Ascending)
+        .keys(storage, start, None, cosmwasm_std::Order::Ascending)
         .map(|result| result.map_err(ContractError::Std))
+        .take(limit)
         .collect();
     assets
 }
@@ -115,10 +123,13 @@ pub fn remove_tag(storage: &mut dyn Storage, asset_addr: &Addr) {
 
 #[cfg(test)]
 mod tests {
-    use cosmwasm_std::Addr;
+    use cosmwasm_std::{Addr, Uint64};
     use provwasm_mocks::mock_provenance_dependencies;
 
-    use crate::storage::asset::{get_tag, ASSET_TO_TAG, TAG_TO_ASSET};
+    use crate::{
+        core::msg::Paginate,
+        storage::asset::{get_tag, ASSET_TO_TAG, TAG_TO_ASSET},
+    };
 
     use super::{has_tag, remove_tag, set_tag, with_tag};
 
@@ -290,7 +301,12 @@ mod tests {
     fn test_with_tag_empty() {
         let deps = mock_provenance_dependencies();
         let expected: Vec<Addr> = vec![];
-        let tags = with_tag(&deps.storage, "tag1").expect("should successfully obtain tags");
+        let paginate = Paginate {
+            limit: None,
+            start_after: None,
+        };
+        let tags =
+            with_tag(&deps.storage, "tag1", paginate).expect("should successfully obtain tags");
         assert_eq!(expected, tags);
     }
 
@@ -298,13 +314,17 @@ mod tests {
     fn test_with_tag_one_tag() {
         let mut deps = mock_provenance_dependencies();
         let expected = vec![Addr::unchecked("test")];
-
+        let paginate = Paginate {
+            limit: None,
+            start_after: None,
+        };
         let asset_addr = Addr::unchecked("test");
         let tag = "tag1";
 
         set_tag(deps.as_mut().storage, &asset_addr, tag).expect("should be successful");
 
-        let tags = with_tag(&deps.storage, "tag1").expect("should successfully obtain tags");
+        let tags =
+            with_tag(&deps.storage, "tag1", paginate).expect("should successfully obtain tags");
         assert_eq!(expected, tags);
     }
 
@@ -312,7 +332,10 @@ mod tests {
     fn test_with_tag_multi_asset_same_tag() {
         let mut deps = mock_provenance_dependencies();
         let expected = vec![Addr::unchecked("test"), Addr::unchecked("test2")];
-
+        let paginate = Paginate {
+            limit: None,
+            start_after: None,
+        };
         let asset_addr = Addr::unchecked("test");
         let asset_addr2 = Addr::unchecked("test2");
         let tag = "tag1";
@@ -320,7 +343,7 @@ mod tests {
         set_tag(deps.as_mut().storage, &asset_addr, tag).expect("should be successful");
         set_tag(deps.as_mut().storage, &asset_addr2, tag).expect("should be successful");
 
-        let tags = with_tag(&deps.storage, tag).expect("should successfully obtain tags");
+        let tags = with_tag(&deps.storage, tag, paginate).expect("should successfully obtain tags");
         assert_eq!(expected, tags);
     }
 
@@ -329,7 +352,10 @@ mod tests {
         let mut deps = mock_provenance_dependencies();
         let expected1 = vec![Addr::unchecked("test")];
         let expected2 = vec![Addr::unchecked("test2")];
-
+        let paginate = Paginate {
+            limit: None,
+            start_after: None,
+        };
         let asset_addr = Addr::unchecked("test");
         let asset_addr2 = Addr::unchecked("test2");
         let tag = "tag1";
@@ -338,10 +364,12 @@ mod tests {
         set_tag(deps.as_mut().storage, &asset_addr, tag).expect("should be successful");
         set_tag(deps.as_mut().storage, &asset_addr2, tag2).expect("should be successful");
 
-        let tags = with_tag(&deps.storage, tag).expect("should successfully obtain tags");
+        let tags = with_tag(&deps.storage, tag, paginate.clone())
+            .expect("should successfully obtain tags");
         assert_eq!(expected1, tags);
 
-        let tags = with_tag(&deps.storage, tag2).expect("should successfully obtain tags");
+        let tags = with_tag(&deps.storage, tag2, paginate.clone())
+            .expect("should successfully obtain tags");
         assert_eq!(expected2, tags);
     }
 }
