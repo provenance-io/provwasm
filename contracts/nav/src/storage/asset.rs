@@ -372,4 +372,95 @@ mod tests {
             .expect("should successfully obtain tags");
         assert_eq!(expected2, tags);
     }
+
+    #[test]
+    fn test_paginate_limit() {
+        let mut deps = mock_provenance_dependencies();
+        let expected = vec![Addr::unchecked("test")];
+        let paginate = Paginate {
+            limit: Some(Uint64::new(1)),
+            start_after: None,
+        };
+        let asset_addr = Addr::unchecked("test");
+        let asset_addr2 = Addr::unchecked("test2");
+        let tag = "tag1";
+
+        set_tag(deps.as_mut().storage, &asset_addr, tag).expect("should be successful");
+        set_tag(deps.as_mut().storage, &asset_addr2, tag).expect("should be successful");
+
+        let tags = with_tag(&deps.storage, tag, paginate).expect("should successfully obtain tags");
+        assert_eq!(expected, tags);
+    }
+
+    #[test]
+    fn test_paginate_start_after() {
+        let mut deps = mock_provenance_dependencies();
+        let expected = vec![Addr::unchecked("test2")];
+        let paginate = Paginate {
+            limit: None,
+            start_after: Some(Addr::unchecked("test")),
+        };
+        let asset_addr = Addr::unchecked("test");
+        let asset_addr2 = Addr::unchecked("test2");
+        let tag = "tag1";
+
+        set_tag(deps.as_mut().storage, &asset_addr, tag).expect("should be successful");
+        set_tag(deps.as_mut().storage, &asset_addr2, tag).expect("should be successful");
+
+        let tags = with_tag(&deps.storage, tag, paginate).expect("should successfully obtain tags");
+        assert_eq!(expected, tags);
+    }
+
+    #[test]
+    fn test_paginate_default_limit() {
+        let mut deps = mock_provenance_dependencies();
+        let expected = vec![
+            Addr::unchecked("test01"),
+            Addr::unchecked("test02"),
+            Addr::unchecked("test03"),
+            Addr::unchecked("test04"),
+            Addr::unchecked("test05"),
+            Addr::unchecked("test06"),
+            Addr::unchecked("test07"),
+            Addr::unchecked("test08"),
+            Addr::unchecked("test09"),
+            Addr::unchecked("test10"),
+        ];
+        let paginate = Paginate {
+            limit: None,
+            start_after: None,
+        };
+        let tag = "tag1";
+        let asset_addr11 = Addr::unchecked("test11");
+        for asset_addr in &expected {
+            set_tag(deps.as_mut().storage, &asset_addr, tag).expect("should be successful");
+        }
+        set_tag(deps.as_mut().storage, &asset_addr11, tag).expect("should be successful");
+
+        let tags = with_tag(&deps.storage, tag, paginate).expect("should successfully obtain tags");
+        assert_eq!(expected, tags);
+    }
+
+    #[test]
+    fn test_paginate_max_limit() {
+        let mut deps = mock_provenance_dependencies();
+        let mut expected: Vec<Addr> = vec![];
+        for i in 1..101 {
+            let padded = format!("test{:03}", i);
+            expected.push(Addr::unchecked(padded));
+        }
+        let paginate = Paginate {
+            limit: Some(Uint64::new(101)),
+            start_after: None,
+        };
+        let tag = "tag1";
+        let remainder = Addr::unchecked("test101");
+        for asset_addr in &expected {
+            set_tag(deps.as_mut().storage, &asset_addr, tag).expect("should be successful");
+        }
+        set_tag(deps.as_mut().storage, &remainder, tag).expect("should be successful");
+
+        let tags = with_tag(&deps.storage, tag, paginate).expect("should successfully obtain tags");
+        assert_eq!(expected, tags);
+    }
 }
