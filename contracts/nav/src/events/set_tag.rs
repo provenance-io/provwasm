@@ -1,11 +1,14 @@
 use cosmwasm_std::{Addr, Attribute, Event};
 
-use crate::core::constants::{SET_TAG_ASSET, SET_TAG_EVENT, SET_TAG_VALUE};
+use crate::core::{
+    aliases::AssetTag,
+    constants::{SET_TAG_ASSET, SET_TAG_EVENT, SET_TAG_VALUE},
+};
 
 /// An event to represent setting the tag for an asset
 pub struct SetTagEvent {
     pub asset_addr: Addr,
-    pub tag: String,
+    pub tag: AssetTag,
 }
 
 impl SetTagEvent {

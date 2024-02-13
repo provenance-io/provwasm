@@ -23,7 +23,7 @@ pub const TAG_TO_ASSET: Map<(AssetTag, &Addr), ()> = Map::new(TAG_TO_ASSET_KEY);
 /// let addr = Addr::unchecked("addr1");
 /// get_tag(deps.storage, &addr)?;
 /// `
-pub fn get_tag(storage: &dyn Storage, asset_addr: &Addr) -> Result<String, ContractError> {
+pub fn get_tag(storage: &dyn Storage, asset_addr: &Addr) -> Result<AssetTag, ContractError> {
     Ok(ASSET_TO_TAG.load(storage, asset_addr)?)
 }
 

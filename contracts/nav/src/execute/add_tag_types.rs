@@ -1,7 +1,10 @@
 use cosmwasm_std::{Addr, DepsMut, Response};
 
 use crate::{
-    core::{aliases::ProvTxResponse, error::ContractError},
+    core::{
+        aliases::{AssetTag, ProvTxResponse},
+        error::ContractError,
+    },
     events::update_tag_types::UpdateTagTypesEvent,
     storage,
     util::action::{Action, ActionType},
@@ -22,7 +25,7 @@ use crate::{
 /// ```
 /// let res = handle(deps, env, info.sender, msg.tags)?;
 /// ```
-pub fn handle(deps: DepsMut, sender: Addr, tag_types: &[String]) -> ProvTxResponse {
+pub fn handle(deps: DepsMut, sender: Addr, tag_types: &[AssetTag]) -> ProvTxResponse {
     if !storage::state::is_owner(deps.storage, &sender)? {
         return Err(ContractError::Unauthorized {});
     }

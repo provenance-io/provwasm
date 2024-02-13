@@ -32,7 +32,10 @@ mod tests {
     use provwasm_mocks::mock_provenance_dependencies;
 
     use crate::{
-        core::msg::{Paginate, QueryTagTypesResponse},
+        core::{
+            aliases::AssetTag,
+            msg::{Paginate, QueryTagTypesResponse},
+        },
         query::query_tag_types::handle,
         storage,
         testing::{
@@ -81,7 +84,7 @@ mod tests {
     fn test_contract_with_no_tag_types() {
         let mut deps = mock_provenance_dependencies();
         setup::mock_contract(deps.as_mut());
-        let expected: Vec<String> = vec![];
+        let expected: Vec<AssetTag> = vec![];
         let paginate = Paginate {
             limit: None,
             start_after: None,

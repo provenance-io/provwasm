@@ -3,7 +3,7 @@ use cw2::set_contract_version;
 
 use crate::{
     core::{
-        aliases::ProvTxResponse,
+        aliases::{AssetTag, ProvTxResponse},
         constants::{CONTRACT_NAME, CONTRACT_VERSION},
     },
     storage,
@@ -31,7 +31,7 @@ use crate::{
 /// let msg = InstantiateMsg::Default {owner: Addr::unchecked("owner"), tag_types: vec!["tag1".as_string(), "tag2".as_string()]};
 /// let res = handle(deps, env, msg.owner, msg.tags.as_slice())?;
 /// ```
-pub fn handle(deps: DepsMut, _: Env, owner: Addr, tag_types: &[String]) -> ProvTxResponse {
+pub fn handle(deps: DepsMut, _: Env, owner: Addr, tag_types: &[AssetTag]) -> ProvTxResponse {
     storage::state::set(deps.storage, &State::new(owner))?;
     for tag in tag_types {
         storage::tag::add_type(deps.storage, tag)?;
