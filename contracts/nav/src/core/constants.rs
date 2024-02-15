@@ -6,7 +6,7 @@ pub const CONTRACT_VERSION: &str = env!("CARGO_PKG_VERSION");
 pub const STATE_KEY: &str = "state_key";
 pub const ASSET_TAG_KEY: &str = "asset_tag_key";
 pub const TAG_TO_ASSET_KEY: &str = "tag_to_asset_key";
-pub const ASSET_TYPE_KEY: &str = "asset_type_key";
+pub const SECURITY_TYPE_KEY: &str = "security_type_key";
 
 // Actions
 pub const ACTION_ATTRIBUTE: &str = "action";

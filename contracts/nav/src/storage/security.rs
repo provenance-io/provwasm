@@ -2,12 +2,12 @@ use cosmwasm_std::{Storage, Uint64};
 use cw_storage_plus::{Bound, Map};
 
 use crate::core::{
-    constants::{ASSET_TYPE_KEY, DEFAULT_TAG_TYPES_LIMIT, MAX_TAG_TYPES_LIMIT},
+    constants::{DEFAULT_TAG_TYPES_LIMIT, MAX_TAG_TYPES_LIMIT, SECURITY_TYPE_KEY},
     error::ContractError,
     msg::{Paginate, Security},
 };
 
-pub const SECURITY_TYPES: Map<(&str, &str), ()> = Map::new(ASSET_TYPE_KEY);
+pub const SECURITY_TYPES: Map<(&str, &str), ()> = Map::new(SECURITY_TYPE_KEY);
 
 /// Attempts to add a security to the list of acceptable types in the contract's storage.
 ///
