@@ -4,8 +4,8 @@ pub const CONTRACT_VERSION: &str = env!("CARGO_PKG_VERSION");
 
 // Storage
 pub const STATE_KEY: &str = "state_key";
-pub const ASSET_TAG_KEY: &str = "asset_tag_key";
-pub const TAG_TO_ASSET_KEY: &str = "tag_to_asset_key";
+pub const ASSET_SECURITY_KEY: &str = "asset_security_key";
+pub const SECURITY_TO_ASSET_KEY: &str = "security_to_asset_key";
 pub const SECURITY_TYPE_KEY: &str = "security_type_key";
 
 // Actions
@@ -27,7 +27,7 @@ pub const SET_TAG_ASSET: &str = "asset_address";
 pub const SET_TAG_VALUE: &str = "tag";
 
 // Limits
-pub const DEFAULT_WITH_TAG_LIMIT: u64 = 10;
-pub const MAX_WITH_TAG_LIMIT: u64 = 100;
+pub const DEFAULT_WITH_SECURITY_LIMIT: u64 = 10;
+pub const MAX_WITH_SECURITY_LIMIT: u64 = 100;
 pub const DEFAULT_SECURITY_TYPES_LIMIT: u64 = 10;
 pub const MAX_SECURITY_TYPES_LIMIT: u64 = 100;
