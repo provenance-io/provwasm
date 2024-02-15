@@ -1,3 +1,3 @@
 pub mod change_owner;
-pub mod set_tag;
-pub mod update_tag_types;
+pub mod set_security;
+pub mod update_security_types;

@@ -3,8 +3,9 @@ use cosmwasm_std::Attribute;
 use crate::core::{
     aliases::ProvResponse,
     constants::{
-        ACTION_ATTRIBUTE, ACTION_TYPE_ADD_TAGS, ACTION_TYPE_CHANGE_OWNER, ACTION_TYPE_INITIALIZE,
-        ACTION_TYPE_MIGRATE, ACTION_TYPE_REMOVE_TAGS, ACTION_TYPE_SET_TAG,
+        ACTION_ATTRIBUTE, ACTION_TYPE_ADD_SECURITIES, ACTION_TYPE_CHANGE_OWNER,
+        ACTION_TYPE_INITIALIZE, ACTION_TYPE_MIGRATE, ACTION_TYPE_REMOVE_SECURITIES,
+        ACTION_TYPE_SET_SECURITY,
     },
 };
 
@@ -13,9 +14,9 @@ pub enum ActionType {
     Initialize,
     Migrate,
     ChangeOwner,
-    SetTag,
-    AddTagTypes,
-    RemoveTagTypes,
+    SetSecurity,
+    AddSecurityTypes,
+    RemoveSecurityTypes,
 }
 
 /// Provides a simple way to convert the ActionType to a string
@@ -23,9 +24,9 @@ impl ToString for ActionType {
     fn to_string(&self) -> String {
         match self {
             ActionType::ChangeOwner => ACTION_TYPE_CHANGE_OWNER.to_string(),
-            ActionType::SetTag => ACTION_TYPE_SET_TAG.to_string(),
-            ActionType::AddTagTypes => ACTION_TYPE_ADD_TAGS.to_string(),
-            ActionType::RemoveTagTypes => ACTION_TYPE_REMOVE_TAGS.to_string(),
+            ActionType::SetSecurity => ACTION_TYPE_SET_SECURITY.to_string(),
+            ActionType::AddSecurityTypes => ACTION_TYPE_ADD_SECURITIES.to_string(),
+            ActionType::RemoveSecurityTypes => ACTION_TYPE_REMOVE_SECURITIES.to_string(),
             ActionType::Initialize => ACTION_TYPE_INITIALIZE.to_string(),
             ActionType::Migrate => ACTION_TYPE_MIGRATE.to_string(),
         }
@@ -56,8 +57,9 @@ mod tests {
     use cosmwasm_std::Attribute;
 
     use crate::core::constants::{
-        ACTION_ATTRIBUTE, ACTION_TYPE_ADD_TAGS, ACTION_TYPE_CHANGE_OWNER, ACTION_TYPE_INITIALIZE,
-        ACTION_TYPE_MIGRATE, ACTION_TYPE_REMOVE_TAGS, ACTION_TYPE_SET_TAG,
+        ACTION_ATTRIBUTE, ACTION_TYPE_ADD_SECURITIES, ACTION_TYPE_CHANGE_OWNER,
+        ACTION_TYPE_INITIALIZE, ACTION_TYPE_MIGRATE, ACTION_TYPE_REMOVE_SECURITIES,
+        ACTION_TYPE_SET_SECURITY,
     };
 
     use super::ActionType;
@@ -67,19 +69,25 @@ mod tests {
         let action_type1 = ActionType::ChangeOwner;
         let action_type2 = ActionType::Initialize;
         let action_type3 = ActionType::Migrate;
-        let action_type4 = ActionType::SetTag;
-        let action_type5 = ActionType::AddTagTypes;
-        let action_type6 = ActionType::RemoveTagTypes;
+        let action_type4 = ActionType::SetSecurity;
+        let action_type5 = ActionType::AddSecurityTypes;
+        let action_type6 = ActionType::RemoveSecurityTypes;
         assert_eq!(
             ACTION_TYPE_CHANGE_OWNER.to_string(),
             action_type1.to_string()
         );
         assert_eq!(ACTION_TYPE_INITIALIZE.to_string(), action_type2.to_string());
         assert_eq!(ACTION_TYPE_MIGRATE.to_string(), action_type3.to_string());
-        assert_eq!(ACTION_TYPE_SET_TAG.to_string(), action_type4.to_string());
-        assert_eq!(ACTION_TYPE_ADD_TAGS.to_string(), action_type5.to_string());
         assert_eq!(
-            ACTION_TYPE_REMOVE_TAGS.to_string(),
+            ACTION_TYPE_SET_SECURITY.to_string(),
+            action_type4.to_string()
+        );
+        assert_eq!(
+            ACTION_TYPE_ADD_SECURITIES.to_string(),
+            action_type5.to_string()
+        );
+        assert_eq!(
+            ACTION_TYPE_REMOVE_SECURITIES.to_string(),
             action_type6.to_string()
         );
     }
@@ -89,9 +97,9 @@ mod tests {
         let action_type1 = ActionType::ChangeOwner;
         let action_type2 = ActionType::Initialize;
         let action_type3 = ActionType::Migrate;
-        let action_type4 = ActionType::SetTag;
-        let action_type5 = ActionType::AddTagTypes;
-        let action_type6 = ActionType::RemoveTagTypes;
+        let action_type4 = ActionType::SetSecurity;
+        let action_type5 = ActionType::AddSecurityTypes;
+        let action_type6 = ActionType::RemoveSecurityTypes;
 
         let attribute1 = Attribute::from(action_type1);
         let attribute2 = Attribute::from(action_type2);
@@ -109,8 +117,8 @@ mod tests {
         assert_eq!(attribute1.value, ACTION_TYPE_CHANGE_OWNER);
         assert_eq!(attribute2.value, ACTION_TYPE_INITIALIZE);
         assert_eq!(attribute3.value, ACTION_TYPE_MIGRATE);
-        assert_eq!(attribute4.value, ACTION_TYPE_SET_TAG);
-        assert_eq!(attribute5.value, ACTION_TYPE_ADD_TAGS);
-        assert_eq!(attribute6.value, ACTION_TYPE_REMOVE_TAGS);
+        assert_eq!(attribute4.value, ACTION_TYPE_SET_SECURITY);
+        assert_eq!(attribute5.value, ACTION_TYPE_ADD_SECURITIES);
+        assert_eq!(attribute6.value, ACTION_TYPE_REMOVE_SECURITIES);
     }
 }
