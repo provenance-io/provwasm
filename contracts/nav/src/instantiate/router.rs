@@ -15,14 +15,15 @@ use super::default;
 ///
 /// # Examples
 /// ```
-/// let msg = InstantiateMsg::Default {owner: Addr::unchecked("owner"), tag_types: vec!["tag1".as_string(), "tag2".as_string()]};
+/// let msg = InstantiateMsg::Default {owner: Addr::unchecked("owner"), tag_types: vec![Security::new("tag1")]};
 /// let res = route(deps, env, info, msg)?;
 /// ```
 pub fn route(deps: DepsMut, env: Env, _info: MessageInfo, msg: InstantiateMsg) -> ProvTxResponse {
     match msg {
-        InstantiateMsg::Default { owner, tag_types } => {
-            default::handle(deps, env, owner, tag_types.as_slice())
-        }
+        InstantiateMsg::Default {
+            owner,
+            security_types,
+        } => default::handle(deps, env, owner, security_types.as_slice()),
     }
 }
 
