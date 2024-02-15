@@ -3,27 +3,27 @@ use cosmwasm_std::{to_json_binary, Addr, Deps};
 use crate::{
     core::{
         aliases::ProvQueryResponse,
-        msg::{Paginate, QueryTagResponse},
+        msg::{Paginate, QuerySecurityResponse, Security},
     },
     storage,
 };
 
-/// Performs the logic for the QueryTag messasge and obtains all addresses that contain the tag.
+/// Performs the logic for the QuerySecurity messasge and obtains all addresses that contain the security.
 ///
 /// # Arguments
 ///
 /// * `deps` - A non mutable version of the dependencies. The API, Querier, and storage can all be accessed from it.
-/// * `tag` - The tag to lookup addresses by.
+/// * `security` - The security to lookup addresses by.
 /// * `paginate` - A struct containing additional optional args for pagination.
 ///
 /// # Examples
 /// ```
-/// let res = handle(deps, "tag1", Paginate{limit: None, start_after: None})?;
+/// let res = handle(deps, &Security::new("tag1"), Paginate{limit: None, start_after: None})?;
 /// ```
 
-pub fn handle(deps: Deps, tag: &str, paginate: Paginate<Addr>) -> ProvQueryResponse {
-    let assets = storage::asset::with_tag(deps.storage, tag, paginate)?;
-    let res = QueryTagResponse { assets };
+pub fn handle(deps: Deps, security: &Security, paginate: Paginate<Addr>) -> ProvQueryResponse {
+    let assets = storage::asset::with_security(deps.storage, security, paginate)?;
+    let res = QuerySecurityResponse { assets };
     Ok(to_json_binary(&res)?)
 }
 
@@ -33,7 +33,7 @@ mod tests {
     use provwasm_mocks::mock_provenance_dependencies;
 
     use crate::{
-        core::msg::{Paginate, QueryTagResponse},
+        core::msg::{Paginate, QuerySecurityResponse, Security},
         query::query_tag::handle,
         storage,
         testing::{
@@ -43,7 +43,7 @@ mod tests {
     };
 
     #[test]
-    fn test_invalid_tag() {
+    fn test_invalid_security() {
         let mut deps = mock_provenance_dependencies();
         setup::mock_contract(deps.as_mut());
         let expected: Vec<Addr> = vec![];
@@ -51,14 +51,16 @@ mod tests {
             limit: None,
             start_after: None,
         };
-        let bin = handle(deps.as_ref(), "tag3", paginate).expect("should not return an error");
+        let bin = handle(deps.as_ref(), &Security::new("tag3"), paginate)
+            .expect("should not return an error");
 
-        let response: QueryTagResponse = from_json(&bin).expect("should return correct response");
+        let response: QuerySecurityResponse =
+            from_json(&bin).expect("should return correct response");
         assert_eq!(expected, response.assets);
     }
 
     #[test]
-    fn test_single_tag_single_asset() {
+    fn test_single_security_single_asset() {
         let mut deps = mock_provenance_dependencies();
         setup::mock_contract(deps.as_mut());
         let asset_addr = Addr::unchecked("test");
@@ -67,17 +69,19 @@ mod tests {
             limit: None,
             start_after: None,
         };
-        storage::asset::set_tag(deps.as_mut().storage, &asset_addr, TAG1)
+        storage::asset::set_security(deps.as_mut().storage, &asset_addr, &Security::new(TAG1))
             .expect("should not return an error");
 
-        let bin = handle(deps.as_ref(), "tag1", paginate).expect("should not return an error");
+        let bin = handle(deps.as_ref(), &Security::new(TAG1), paginate)
+            .expect("should not return an error");
 
-        let response: QueryTagResponse = from_json(&bin).expect("should return correct response");
+        let response: QuerySecurityResponse =
+            from_json(&bin).expect("should return correct response");
         assert_eq!(expected, response.assets);
     }
 
     #[test]
-    fn test_multi_tag_single_asset() {
+    fn test_multi_security_single_asset() {
         let mut deps = mock_provenance_dependencies();
         setup::mock_contract(deps.as_mut());
         let asset_addr = Addr::unchecked("test");
@@ -89,25 +93,26 @@ mod tests {
             start_after: None,
         };
 
-        storage::asset::set_tag(deps.as_mut().storage, &asset_addr, TAG1)
+        storage::asset::set_security(deps.as_mut().storage, &asset_addr, &Security::new(TAG1))
             .expect("should not return an error");
-        storage::asset::set_tag(deps.as_mut().storage, &asset_addr2, TAG2)
+        storage::asset::set_security(deps.as_mut().storage, &asset_addr2, &Security::new(TAG2))
             .expect("should not return an error");
 
-        let bin =
-            handle(deps.as_ref(), "tag1", paginate.clone()).expect("should not return an error");
-        let response: QueryTagResponse =
-            from_json(&bin).expect("should return correct response for first tag");
+        let bin = handle(deps.as_ref(), &Security::new(TAG1), paginate.clone())
+            .expect("should not return an error");
+        let response: QuerySecurityResponse =
+            from_json(&bin).expect("should return correct response for first security");
         assert_eq!(expected, response.assets);
 
-        let bin = handle(deps.as_ref(), "tag2", paginate).expect("should not return an error");
-        let response: QueryTagResponse =
-            from_json(&bin).expect("should return correct response for second tag");
+        let bin = handle(deps.as_ref(), &Security::new(TAG2), paginate)
+            .expect("should not return an error");
+        let response: QuerySecurityResponse =
+            from_json(&bin).expect("should return correct response for second security");
         assert_eq!(expected2, response.assets);
     }
 
     #[test]
-    fn test_single_tag_multi_asset() {
+    fn test_single_security_multi_asset() {
         let mut deps = mock_provenance_dependencies();
         setup::mock_contract(deps.as_mut());
         let asset_addr = Addr::unchecked("test");
@@ -118,19 +123,20 @@ mod tests {
             start_after: None,
         };
 
-        storage::asset::set_tag(deps.as_mut().storage, &asset_addr, TAG1)
+        storage::asset::set_security(deps.as_mut().storage, &asset_addr, &Security::new(TAG1))
             .expect("should not return an error");
-        storage::asset::set_tag(deps.as_mut().storage, &asset_addr2, TAG1)
+        storage::asset::set_security(deps.as_mut().storage, &asset_addr2, &Security::new(TAG1))
             .expect("should not return an error");
 
-        let bin = handle(deps.as_ref(), "tag1", paginate).expect("should not return an error");
-        let response: QueryTagResponse =
-            from_json(&bin).expect("should return correct response for first tag");
+        let bin = handle(deps.as_ref(), &Security::new(TAG1), paginate)
+            .expect("should not return an error");
+        let response: QuerySecurityResponse =
+            from_json(&bin).expect("should return correct response for security");
         assert_eq!(expected, response.assets);
     }
 
     #[test]
-    fn test_multi_tag_multi_asset() {
+    fn test_multi_security_multi_asset() {
         let mut deps = mock_provenance_dependencies();
         setup::mock_contract(deps.as_mut());
         let asset_addr = Addr::unchecked("test");
@@ -144,23 +150,24 @@ mod tests {
             start_after: None,
         };
 
-        storage::asset::set_tag(deps.as_mut().storage, &asset_addr, TAG1)
+        storage::asset::set_security(deps.as_mut().storage, &asset_addr, &Security::new(TAG1))
             .expect("should not return an error");
-        storage::asset::set_tag(deps.as_mut().storage, &asset_addr2, TAG2)
+        storage::asset::set_security(deps.as_mut().storage, &asset_addr2, &Security::new(TAG2))
             .expect("should not return an error");
-        storage::asset::set_tag(deps.as_mut().storage, &asset_addr3, TAG1)
+        storage::asset::set_security(deps.as_mut().storage, &asset_addr3, &Security::new(TAG1))
             .expect("should not return an error");
-        storage::asset::set_tag(deps.as_mut().storage, &asset_addr4, TAG2)
+        storage::asset::set_security(deps.as_mut().storage, &asset_addr4, &Security::new(TAG2))
             .expect("should not return an error");
 
-        let bin =
-            handle(deps.as_ref(), "tag1", paginate.clone()).expect("should not return an error");
-        let response: QueryTagResponse =
+        let bin = handle(deps.as_ref(), &Security::new(TAG1), paginate.clone())
+            .expect("should not return an error");
+        let response: QuerySecurityResponse =
             from_json(&bin).expect("should return correct response for first tag");
         assert_eq!(expected, response.assets);
 
-        let bin = handle(deps.as_ref(), "tag2", paginate).expect("should not return an error");
-        let response: QueryTagResponse =
+        let bin = handle(deps.as_ref(), &Security::new(TAG2), paginate)
+            .expect("should not return an error");
+        let response: QuerySecurityResponse =
             from_json(&bin).expect("should return correct response for second tag");
         assert_eq!(expected2, response.assets);
     }
