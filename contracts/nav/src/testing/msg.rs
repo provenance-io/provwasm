@@ -2,14 +2,14 @@ use std::vec;
 
 use cosmwasm_std::Addr;
 
-use crate::core::msg::{ExecuteMsg, InstantiateMsg};
+use crate::core::msg::{ExecuteMsg, InstantiateMsg, Security};
 
 use super::constants::{NEW_OWNER, OWNER, TAG1, TAG2};
 
 pub fn mock_instantiate_msg() -> InstantiateMsg {
     InstantiateMsg::Default {
         owner: Addr::unchecked(OWNER),
-        tag_types: vec![TAG1.to_string(), TAG2.to_string()],
+        security_types: vec![Security::new(TAG1), Security::new(TAG2)],
     }
 }
 
@@ -20,20 +20,20 @@ pub fn mock_change_owner_msg() -> ExecuteMsg {
 }
 
 pub fn mock_add_tag_types_msg() -> ExecuteMsg {
-    ExecuteMsg::AddTagTypes {
-        tag_types: vec![TAG1.to_string(), TAG2.to_string()],
+    ExecuteMsg::AddSecurityTypes {
+        security_types: vec![Security::new(TAG1), Security::new(TAG2)],
     }
 }
 
 pub fn mock_remove_tag_types_msg() -> ExecuteMsg {
-    ExecuteMsg::RemoveTagTypes {
-        tag_types: vec![TAG1.to_string(), TAG2.to_string()],
+    ExecuteMsg::RemoveSecurityTypes {
+        security_types: vec![Security::new(TAG1), Security::new(TAG2)],
     }
 }
 
 pub fn mock_set_tag_msg(asset: &Addr) -> ExecuteMsg {
-    ExecuteMsg::SetTag {
+    ExecuteMsg::SetSecurity {
         asset_addr: asset.clone(),
-        tag: TAG1.to_string(),
+        security: Security::new(TAG1),
     }
 }
