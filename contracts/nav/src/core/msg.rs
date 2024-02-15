@@ -12,10 +12,19 @@ pub enum InstantiateMsg {
 
 #[cw_serde]
 pub enum ExecuteMsg {
-    ChangeOwner { new_owner: Addr },
-    SetSecurity { asset_addr: Addr, tag: Security },
-    AddSecurityTypes { tag_types: Vec<Security> },
-    RemoveSecurityTypes { tag_types: Vec<Security> },
+    ChangeOwner {
+        new_owner: Addr,
+    },
+    SetSecurity {
+        asset_addr: Addr,
+        security: Security,
+    },
+    AddSecurityTypes {
+        security_types: Vec<Security>,
+    },
+    RemoveSecurityTypes {
+        security_types: Vec<Security>,
+    },
 }
 
 #[cw_serde]
