@@ -176,10 +176,40 @@ mod tests {
     }
 
     #[test]
+    fn test_has_security_with_name_success() {
+        let mut deps = mock_provenance_dependencies();
+        let asset_addr = Addr::unchecked("test");
+        let security = Security::new_with_name("tag1", "name");
+
+        set_security(deps.as_mut().storage, &asset_addr, &security).expect("should be successful");
+        let value = has_security(&deps.storage, &security);
+        let expected = true;
+        assert_eq!(expected, value);
+    }
+
+    #[test]
     fn test_set_security_single() {
         let mut deps = mock_provenance_dependencies();
         let asset_addr = Addr::unchecked("test");
         let security = Security::new("tag1");
+        let key: (&str, &str) = (&security.category, &security.name.unwrap_or_default());
+
+        set_security(deps.as_mut().storage, &asset_addr, &security).expect("should be successful");
+        let loaded_security = ASSET_TO_SECURITY
+            .load(&deps.storage, &asset_addr)
+            .expect("should have entry in ASSET_TO_SECURITY");
+        assert_eq!(loaded_security, security);
+
+        SECURITY_TO_ASSET
+            .load(&deps.storage, (key, &asset_addr))
+            .expect("should have entry in TAG_TO_ASSET")
+    }
+
+    #[test]
+    fn test_set_security_single_with_name() {
+        let mut deps = mock_provenance_dependencies();
+        let asset_addr = Addr::unchecked("test");
+        let security = Security::new_with_name("tag1", "name");
         let key: (&str, &str) = (&security.category, &security.name.unwrap_or_default());
 
         set_security(deps.as_mut().storage, &asset_addr, &security).expect("should be successful");
@@ -251,6 +281,38 @@ mod tests {
     }
 
     #[test]
+    fn test_set_security_multiple_with_name() {
+        let mut deps = mock_provenance_dependencies();
+        let asset_addr = Addr::unchecked("test");
+        let asset_addr2 = Addr::unchecked("test2");
+        let security = Security::new_with_name("tag1", "name");
+        let security2 = Security::new_with_name("tag1", "name2");
+        let key: (&str, &str) = (&security.category, &security.name.unwrap_or_default());
+        let key2: (&str, &str) = (&security2.category, &security2.name.unwrap_or_default());
+
+        set_security(deps.as_mut().storage, &asset_addr, &security).expect("should be successful");
+        set_security(deps.as_mut().storage, &asset_addr2, &security2)
+            .expect("should be successful");
+
+        let loaded_security = ASSET_TO_SECURITY
+            .load(&deps.storage, &asset_addr)
+            .expect("should have entry in ASSET_TO_SECURITY");
+        assert_eq!(loaded_security, security);
+
+        let loaded_security2 = ASSET_TO_SECURITY
+            .load(&deps.storage, &asset_addr2)
+            .expect("should have both entries in ASSET_TO_SECURITY");
+        assert_eq!(loaded_security2, security2);
+
+        SECURITY_TO_ASSET
+            .load(&deps.storage, (key, &asset_addr))
+            .expect("should have entry in SECURITY_TO_ASSET");
+        SECURITY_TO_ASSET
+            .load(&deps.storage, (key, &asset_addr2))
+            .expect("should have both entries in SECURITY_TO_ASSET");
+    }
+
+    #[test]
     fn test_remove_invalid() {
         let mut deps = mock_provenance_dependencies();
         let asset_addr = Addr::unchecked("test");
@@ -288,12 +350,60 @@ mod tests {
     }
 
     #[test]
+    fn test_remove_single_with_name() {
+        let mut deps = mock_provenance_dependencies();
+        let asset_addr = Addr::unchecked("test");
+        let security = Security::new_with_name("tag1", "name");
+        let key: (&str, &str) = (&security.category, &security.name.unwrap_or_default());
+        set_security(deps.as_mut().storage, &asset_addr, &security).expect("should be successful");
+        remove_security(deps.as_mut().storage, &asset_addr);
+
+        ASSET_TO_SECURITY
+            .load(&deps.storage, &asset_addr)
+            .expect_err("should have no entry in ASSET_TO_SECURITY");
+        SECURITY_TO_ASSET
+            .load(&deps.storage, (key, &asset_addr))
+            .expect_err("should have no entry in SECURITY_TO_ASSET");
+    }
+
+    #[test]
     fn test_remove_multiple() {
         let mut deps = mock_provenance_dependencies();
         let asset_addr = Addr::unchecked("test");
         let asset_addr2 = Addr::unchecked("test2");
         let security: Security = Security::new("tag1");
         let security2 = Security::new("tag2");
+        let key: (&str, &str) = (&security.category, &security.name.unwrap_or_default());
+        let key2: (&str, &str) = (&security2.category, &security2.name.unwrap_or_default());
+
+        set_security(deps.as_mut().storage, &asset_addr, &security).expect("should be successful");
+        set_security(deps.as_mut().storage, &asset_addr2, &security2)
+            .expect("should be successful");
+        remove_security(deps.as_mut().storage, &asset_addr);
+        remove_security(deps.as_mut().storage, &asset_addr2);
+
+        ASSET_TO_SECURITY
+            .load(&deps.storage, &asset_addr)
+            .expect_err("should not have entry in ASSET_TO_SECURITY");
+        ASSET_TO_SECURITY
+            .load(&deps.storage, &asset_addr2)
+            .expect_err("should remove both entries from ASSET_TO_SECURITY");
+
+        SECURITY_TO_ASSET
+            .load(&deps.storage, (key, &asset_addr))
+            .expect_err("should not have entry in TAG_TO_ASSET");
+        SECURITY_TO_ASSET
+            .load(&deps.storage, (key2, &asset_addr2))
+            .expect_err("should remove both entries frrom TAG_TO_ASSET");
+    }
+
+    #[test]
+    fn test_remove_multiple_with_name() {
+        let mut deps = mock_provenance_dependencies();
+        let asset_addr = Addr::unchecked("test");
+        let asset_addr2 = Addr::unchecked("test2");
+        let security: Security = Security::new_with_name("tag1", "name");
+        let security2 = Security::new_with_name("tag1", "name2");
         let key: (&str, &str) = (&security.category, &security.name.unwrap_or_default());
         let key2: (&str, &str) = (&security2.category, &security2.name.unwrap_or_default());
 
@@ -344,7 +454,25 @@ mod tests {
 
         set_security(deps.as_mut().storage, &asset_addr, &security).expect("should be successful");
 
-        let securities = with_security(&deps.storage, &Security::new("tag1"), paginate)
+        let securities = with_security(&deps.storage, &security, paginate)
+            .expect("should successfully obtain tags");
+        assert_eq!(expected, securities);
+    }
+
+    #[test]
+    fn test_with_security_one_security_with_name() {
+        let mut deps = mock_provenance_dependencies();
+        let expected = vec![Addr::unchecked("test")];
+        let paginate = Paginate {
+            limit: None,
+            start_after: None,
+        };
+        let asset_addr = Addr::unchecked("test");
+        let security = Security::new_with_name("tag1", "name");
+
+        set_security(deps.as_mut().storage, &asset_addr, &security).expect("should be successful");
+
+        let securities = with_security(&deps.storage, &security, paginate)
             .expect("should successfully obtain tags");
         assert_eq!(expected, securities);
     }
@@ -363,6 +491,28 @@ mod tests {
 
         set_security(deps.as_mut().storage, &asset_addr, &security).expect("should be successful");
         set_security(deps.as_mut().storage, &asset_addr2, &security).expect("should be successful");
+
+        let securities = with_security(&deps.storage, &security, paginate)
+            .expect("should successfully obtain securities");
+        assert_eq!(expected, securities);
+    }
+
+    #[test]
+    fn test_with_security_multi_asset_same_security_with_different_name() {
+        let mut deps = mock_provenance_dependencies();
+        let expected = vec![Addr::unchecked("test")];
+        let paginate = Paginate {
+            limit: None,
+            start_after: None,
+        };
+        let asset_addr = Addr::unchecked("test");
+        let asset_addr2 = Addr::unchecked("test2");
+        let security = Security::new_with_name("tag1", "name");
+        let security2 = Security::new_with_name("tag1", "name2");
+
+        set_security(deps.as_mut().storage, &asset_addr, &security).expect("should be successful");
+        set_security(deps.as_mut().storage, &asset_addr2, &security2)
+            .expect("should be successful");
 
         let securities = with_security(&deps.storage, &security, paginate)
             .expect("should successfully obtain securities");
