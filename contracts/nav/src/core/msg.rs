@@ -2,22 +2,20 @@ use cosmwasm_schema::{cw_serde, QueryResponses};
 use cosmwasm_std::{Addr, Uint64};
 use cw2::ContractVersion;
 
-use super::aliases::AssetTag;
-
 #[cw_serde]
 pub enum InstantiateMsg {
     Default {
         owner: Addr,
-        tag_types: Vec<AssetTag>,
+        security_types: Vec<Security>,
     },
 }
 
 #[cw_serde]
 pub enum ExecuteMsg {
     ChangeOwner { new_owner: Addr },
-    SetTag { asset_addr: Addr, tag: AssetTag },
-    AddTagTypes { tag_types: Vec<Security> },
-    RemoveTagTypes { tag_types: Vec<Security> },
+    SetSecurity { asset_addr: Addr, tag: Security },
+    AddSecurityTypes { tag_types: Vec<Security> },
+    RemoveSecurityTypes { tag_types: Vec<Security> },
 }
 
 #[cw_serde]
@@ -32,14 +30,14 @@ pub enum QueryMsg {
     #[returns(QueryAddressResponse)]
     QueryAddress { asset_addr: Addr },
 
-    #[returns(QueryTagResponse)]
-    QueryTag {
-        tag: AssetTag,
+    #[returns(QuerySecurityResponse)]
+    QuerySecurity {
+        security: Security,
         paginate: Paginate<Addr>,
     },
 
-    #[returns(QueryTagTypesResponse)]
-    QueryTagTypes { paginate: Paginate<AssetTag> },
+    #[returns(QuerySecurityTypesResponse)]
+    QuerySecurityTypes { paginate: Paginate<Security> },
 }
 
 #[cw_serde]
@@ -54,17 +52,17 @@ pub struct QueryOwnerResponse {
 
 #[cw_serde]
 pub struct QueryAddressResponse {
-    pub tag: AssetTag,
+    pub security: Security,
 }
 
 #[cw_serde]
-pub struct QueryTagResponse {
+pub struct QuerySecurityResponse {
     pub assets: Vec<Addr>,
 }
 
 #[cw_serde]
-pub struct QueryTagTypesResponse {
-    pub tags: Vec<AssetTag>,
+pub struct QuerySecurityTypesResponse {
+    pub tags: Vec<Security>,
 }
 
 #[cw_serde]
