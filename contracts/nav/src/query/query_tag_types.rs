@@ -2,13 +2,13 @@ use cosmwasm_std::{to_json_binary, Deps};
 
 use crate::{
     core::{
-        aliases::{AssetTag, ProvQueryResponse},
-        msg::{Paginate, QueryTagTypesResponse},
+        aliases::ProvQueryResponse,
+        msg::{Paginate, QuerySecurityTypesResponse, Security},
     },
     storage,
 };
 
-/// Performs the logic for the QueryTagTypes messasge and obtains all accepted tag types.
+/// Performs the logic for the QuerySecurityTypes messasge and obtains all accepted security types.
 ///
 /// # Arguments
 ///
@@ -20,9 +20,9 @@ use crate::{
 /// let res = handle(deps, Paginate{limit: None, start_after: None})?;
 /// ```
 
-pub fn handle(deps: Deps, paginate: Paginate<AssetTag>) -> ProvQueryResponse {
-    let tags = storage::tag::get_types(deps.storage, paginate)?;
-    let res = QueryTagTypesResponse { tags };
+pub fn handle(deps: Deps, paginate: Paginate<Security>) -> ProvQueryResponse {
+    let securities = storage::security::get_types(deps.storage, paginate)?;
+    let res = QuerySecurityTypesResponse { securities };
     Ok(to_json_binary(&res)?)
 }
 
@@ -32,10 +32,7 @@ mod tests {
     use provwasm_mocks::mock_provenance_dependencies;
 
     use crate::{
-        core::{
-            aliases::AssetTag,
-            msg::{Paginate, QueryTagTypesResponse},
-        },
+        core::msg::{Paginate, QuerySecurityTypesResponse, Security},
         query::query_tag_types::handle,
         storage,
         testing::{
@@ -48,7 +45,7 @@ mod tests {
     fn test_contract_with_tag_types() {
         let mut deps = mock_provenance_dependencies();
         setup::mock_contract(deps.as_mut());
-        let expected = vec![TAG1.to_string(), TAG2.to_string()];
+        let expected = vec![Security::new(TAG1), Security::new(TAG2)];
         let paginate = Paginate {
             limit: None,
             start_after: None,
@@ -56,47 +53,47 @@ mod tests {
 
         let bin = handle(deps.as_ref(), paginate).expect("should not return an error");
 
-        let response: QueryTagTypesResponse =
+        let response: QuerySecurityTypesResponse =
             from_json(&bin).expect("should return correct response");
-        assert_eq!(expected, response.tags);
+        assert_eq!(expected, response.securities);
     }
 
     #[test]
     fn test_contract_with_single_tag_type() {
         let mut deps = mock_provenance_dependencies();
         setup::mock_contract(deps.as_mut());
-        let expected = vec![TAG2.to_string()];
+        let expected = vec![Security::new(TAG2)];
         let paginate = Paginate {
             limit: None,
             start_after: None,
         };
 
-        storage::tag::remove_type(deps.as_mut().storage, TAG1);
+        storage::security::remove_type(deps.as_mut().storage, &Security::new(TAG1));
 
         let bin = handle(deps.as_ref(), paginate).expect("should not return an error");
 
-        let response: QueryTagTypesResponse =
+        let response: QuerySecurityTypesResponse =
             from_json(&bin).expect("should return correct response");
-        assert_eq!(expected, response.tags);
+        assert_eq!(expected, response.securities);
     }
 
     #[test]
     fn test_contract_with_no_tag_types() {
         let mut deps = mock_provenance_dependencies();
         setup::mock_contract(deps.as_mut());
-        let expected: Vec<AssetTag> = vec![];
+        let expected: Vec<Security> = vec![];
         let paginate = Paginate {
             limit: None,
             start_after: None,
         };
 
-        storage::tag::remove_type(deps.as_mut().storage, TAG1);
-        storage::tag::remove_type(deps.as_mut().storage, TAG2);
+        storage::security::remove_type(deps.as_mut().storage, &Security::new(TAG1));
+        storage::security::remove_type(deps.as_mut().storage, &Security::new(TAG2));
 
         let bin = handle(deps.as_ref(), paginate).expect("should not return an error");
 
-        let response: QueryTagTypesResponse =
+        let response: QuerySecurityTypesResponse =
             from_json(&bin).expect("should return correct response");
-        assert_eq!(expected, response.tags);
+        assert_eq!(expected, response.securities);
     }
 }

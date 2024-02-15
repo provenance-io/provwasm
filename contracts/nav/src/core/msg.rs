@@ -62,7 +62,7 @@ pub struct QuerySecurityResponse {
 
 #[cw_serde]
 pub struct QuerySecurityTypesResponse {
-    pub tags: Vec<Security>,
+    pub securities: Vec<Security>,
 }
 
 #[cw_serde]
