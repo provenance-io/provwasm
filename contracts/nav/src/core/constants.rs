@@ -29,5 +29,5 @@ pub const SET_TAG_VALUE: &str = "tag";
 // Limits
 pub const DEFAULT_WITH_TAG_LIMIT: u64 = 10;
 pub const MAX_WITH_TAG_LIMIT: u64 = 100;
-pub const DEFAULT_TAG_TYPES_LIMIT: u64 = 10;
-pub const MAX_TAG_TYPES_LIMIT: u64 = 100;
+pub const DEFAULT_SECURITY_TYPES_LIMIT: u64 = 10;
+pub const MAX_SECURITY_TYPES_LIMIT: u64 = 100;
