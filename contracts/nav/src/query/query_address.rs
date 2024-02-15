@@ -5,12 +5,12 @@ use crate::{
     storage,
 };
 
-/// Performs the logic for the QueryAddress message and obtains all tags for an address.
+/// Performs the logic for the QueryAddress message and obtains the security linked to an address.
 ///
 /// # Arguments
 ///
 /// * `deps` - A non mutable version of the dependencies. The API, Querier, and storage can all be accessed from it.
-/// * `asset_addr` - The address to query tags for.
+/// * `asset_addr` - The address to query the security for.
 ///
 /// # Examples
 /// ```
@@ -18,8 +18,8 @@ use crate::{
 /// ```
 
 pub fn handle(deps: Deps, asset_addr: Addr) -> ProvQueryResponse {
-    let tag = storage::asset::get_tag(deps.storage, &asset_addr)?;
-    let res = QueryAddressResponse { tag };
+    let security = storage::asset::get_security(deps.storage, &asset_addr)?;
+    let res = QueryAddressResponse { security };
     Ok(to_json_binary(&res)?)
 }
 
@@ -29,7 +29,10 @@ mod tests {
     use provwasm_mocks::mock_provenance_dependencies;
 
     use crate::{
-        core::{error::ContractError, msg::QueryAddressResponse},
+        core::{
+            error::ContractError,
+            msg::{QueryAddressResponse, Security},
+        },
         storage,
         testing::setup,
     };
@@ -54,14 +57,14 @@ mod tests {
         let mut deps = mock_provenance_dependencies();
         setup::mock_contract(deps.as_mut());
         let asset_addr = Addr::unchecked("test");
-        let tag = "tag";
+        let security = Security::new("tag");
 
-        storage::asset::set_tag(deps.as_mut().storage, &asset_addr, tag)
+        storage::asset::set_security(deps.as_mut().storage, &asset_addr, &security)
             .expect("should not throw error");
         let bin = handle(deps.as_ref(), asset_addr).expect("should not return an error");
 
         let response: QueryAddressResponse =
             from_json(&bin).expect("should return correct response");
-        assert_eq!(tag, response.tag);
+        assert_eq!(security, response.security);
     }
 }
