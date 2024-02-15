@@ -2,13 +2,12 @@ use cosmwasm_std::{Storage, Uint64};
 use cw_storage_plus::{Bound, Map};
 
 use crate::core::{
-    aliases::AssetTag,
     constants::{ASSET_TYPE_KEY, DEFAULT_TAG_TYPES_LIMIT, MAX_TAG_TYPES_LIMIT},
     error::ContractError,
     msg::{Paginate, Security},
 };
 
-pub const TAG_TYPES: Map<(&str, &str), ()> = Map::new(ASSET_TYPE_KEY);
+pub const SECURITY_TYPES: Map<(&str, &str), ()> = Map::new(ASSET_TYPE_KEY);
 
 /// Attempts to add a security to the list of acceptable types in the contract's storage.
 ///
@@ -23,7 +22,7 @@ pub const TAG_TYPES: Map<(&str, &str), ()> = Map::new(ASSET_TYPE_KEY);
 /// `
 pub fn add_type(storage: &mut dyn Storage, tag: &Security) -> Result<(), ContractError> {
     let key: (&str, &str) = (&tag.category, &tag.name.unwrap_or_default());
-    Ok(TAG_TYPES.save(storage, key, &())?)
+    Ok(SECURITY_TYPES.save(storage, key, &())?)
 }
 
 /// Removes the security type from the contract's storage.
@@ -39,7 +38,7 @@ pub fn add_type(storage: &mut dyn Storage, tag: &Security) -> Result<(), Contrac
 /// `
 pub fn remove_type(storage: &mut dyn Storage, tag: &Security) {
     let key: (&str, &str) = (&tag.category, &tag.name.unwrap_or_default());
-    TAG_TYPES.remove(storage, key);
+    SECURITY_TYPES.remove(storage, key);
 }
 
 /// Checks if the security is in the list of the contract's accepted tag types.
@@ -55,7 +54,7 @@ pub fn remove_type(storage: &mut dyn Storage, tag: &Security) {
 /// `
 pub fn has_type(storage: &dyn Storage, tag: &Security) -> bool {
     let key: (&str, &str) = (&tag.category, &tag.name.unwrap_or_default());
-    TAG_TYPES.has(storage, key)
+    SECURITY_TYPES.has(storage, key)
 }
 
 /// Obtains all the accepted security types from the contract's store.
@@ -82,7 +81,7 @@ pub fn get_types(
         .unwrap_or(Uint64::new(DEFAULT_TAG_TYPES_LIMIT))
         .min(Uint64::new(MAX_TAG_TYPES_LIMIT))
         .u64() as usize;
-    let keys: Result<Vec<Security>, ContractError> = TAG_TYPES
+    let keys: Result<Vec<Security>, ContractError> = SECURITY_TYPES
         .keys(storage, start, None, cosmwasm_std::Order::Ascending)
         .take(limit)
         .map(|result| {
@@ -101,7 +100,7 @@ mod tests {
 
     use crate::{
         core::msg::{Paginate, Security},
-        storage::tag::{add_type, get_types, has_type, remove_type},
+        storage::security::{add_type, get_types, has_type, remove_type},
     };
 
     #[test]
