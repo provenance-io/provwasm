@@ -16,8 +16,8 @@ pub enum InstantiateMsg {
 pub enum ExecuteMsg {
     ChangeOwner { new_owner: Addr },
     SetTag { asset_addr: Addr, tag: AssetTag },
-    AddTagTypes { tag_types: Vec<AssetTag> },
-    RemoveTagTypes { tag_types: Vec<AssetTag> },
+    AddTagTypes { tag_types: Vec<Security> },
+    RemoveTagTypes { tag_types: Vec<Security> },
 }
 
 #[cw_serde]
@@ -76,4 +76,58 @@ pub enum MigrateMsg {
 pub struct Paginate<T> {
     pub limit: Option<Uint64>,
     pub start_after: Option<T>,
+}
+
+#[cw_serde]
+pub struct Security {
+    pub category: String,
+    pub name: Option<String>,
+}
+
+impl From<String> for Security {
+    fn from(security: String) -> Self {
+        let parts: Vec<&str> = security.split(".").collect();
+        let category = parts[0].into();
+        let mut name: Option<String> = None;
+        if parts.len() > 1 {
+            name = Some(parts[1].into());
+        }
+        Security { category, name }
+    }
+}
+
+impl From<&Security> for String {
+    fn from(security: &Security) -> Self {
+        if security.name.is_none() {
+            return format!("{}", security.category);
+        }
+        return format!("{}.{}", security.category, security.name.as_ref().unwrap());
+    }
+}
+
+impl From<(String, String)> for Security {
+    fn from(security: (String, String)) -> Self {
+        let category = security.0;
+        let mut name: Option<String> = None;
+        if !security.1.is_empty() {
+            name = Some(security.1);
+        }
+        Security { category, name }
+    }
+}
+
+impl Security {
+    pub fn new(category: &str) -> Self {
+        Self {
+            category: category.to_string(),
+            name: None,
+        }
+    }
+
+    pub fn new_with_name(category: &str, name: &str) -> Self {
+        Self {
+            category: category.to_string(),
+            name: Some(name.to_string()),
+        }
+    }
 }

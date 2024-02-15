@@ -5,57 +5,60 @@ use crate::core::{
     aliases::AssetTag,
     constants::{ASSET_TYPE_KEY, DEFAULT_TAG_TYPES_LIMIT, MAX_TAG_TYPES_LIMIT},
     error::ContractError,
-    msg::Paginate,
+    msg::{Paginate, Security},
 };
 
-pub const TAG_TYPES: Map<&str, ()> = Map::new(ASSET_TYPE_KEY);
+pub const TAG_TYPES: Map<(&str, &str), ()> = Map::new(ASSET_TYPE_KEY);
 
-/// Attempts to add a tag to the list of acceptable types in the contract's storage.
+/// Attempts to add a security to the list of acceptable types in the contract's storage.
 ///
 /// # Arguments
 ///
 /// * `storage` - A reference to the Deps' Storage object.
-/// * `tag` - The label to add to the list of acceptable types.
+/// * `security` - The security to add to the list of acceptable types.
 ///
 /// # Examples
 /// ```
-/// add_type(deps.as_mut().storage, "tag")?;
+/// add_type(deps.as_mut().storage, Security{category: "category".to_string(), name: None})?;
 /// `
-pub fn add_type(storage: &mut dyn Storage, tag: &str) -> Result<(), ContractError> {
-    Ok(TAG_TYPES.save(storage, tag, &())?)
+pub fn add_type(storage: &mut dyn Storage, tag: &Security) -> Result<(), ContractError> {
+    let key: (&str, &str) = (&tag.category, &tag.name.unwrap_or_default());
+    Ok(TAG_TYPES.save(storage, key, &())?)
 }
 
-/// Removes the tag type from the contract's storage.
+/// Removes the security type from the contract's storage.
 ///
 /// # Arguments
 ///
 /// * `storage` - A reference to the Deps' Storage object.
-/// * `tag` - The label to remove from the list of acceptable types.
+/// * `security` - The security to remove from the list of acceptable types.
 ///
 /// # Examples
 /// ```
-/// remove_type(deps.as_mut().storage, "tag");
+/// remove_type(deps.as_mut().storage, Security{category: "category".to_string(), name: None});
 /// `
-pub fn remove_type(storage: &mut dyn Storage, tag: &str) {
-    TAG_TYPES.remove(storage, tag);
+pub fn remove_type(storage: &mut dyn Storage, tag: &Security) {
+    let key: (&str, &str) = (&tag.category, &tag.name.unwrap_or_default());
+    TAG_TYPES.remove(storage, key);
 }
 
-/// Checks if the tag is in the list of the contract's accepted tag types.
+/// Checks if the security is in the list of the contract's accepted tag types.
 ///
 /// # Arguments
 ///
 /// * `storage` - A reference to the Deps' Storage object.
-/// * `tag` - The label to check if it's in the list of acceptable types.
+/// * `security` - The security to check if it's in the list of acceptable types.
 ///
 /// # Examples
 /// ```
-/// has_type(deps.storage, "tag");
+/// has_type(deps.storage, Security{category: "category".to_string(), name: None});
 /// `
-pub fn has_type(storage: &dyn Storage, tag: &str) -> bool {
-    TAG_TYPES.has(storage, tag)
+pub fn has_type(storage: &dyn Storage, tag: &Security) -> bool {
+    let key: (&str, &str) = (&tag.category, &tag.name.unwrap_or_default());
+    TAG_TYPES.has(storage, key)
 }
 
-/// Obtains all the accepted tag types from the contract's store.
+/// Obtains all the accepted security types from the contract's store.
 ///
 /// # Arguments
 ///
@@ -68,21 +71,25 @@ pub fn has_type(storage: &dyn Storage, tag: &str) -> bool {
 /// `
 pub fn get_types(
     storage: &dyn Storage,
-    paginate: Paginate<AssetTag>,
-) -> Result<Vec<AssetTag>, ContractError> {
-    let start = paginate
-        .start_after
-        .as_ref()
-        .map(|str| Bound::exclusive(str.as_str()));
+    paginate: Paginate<Security>,
+) -> Result<Vec<Security>, ContractError> {
+    let start = paginate.start_after.as_ref().map(|security| {
+        let key: (&str, &str) = (&security.category, &security.name.unwrap_or_default());
+        Bound::exclusive(key)
+    });
     let limit = paginate
         .limit
         .unwrap_or(Uint64::new(DEFAULT_TAG_TYPES_LIMIT))
         .min(Uint64::new(MAX_TAG_TYPES_LIMIT))
         .u64() as usize;
-    let keys: Result<Vec<AssetTag>, ContractError> = TAG_TYPES
+    let keys: Result<Vec<Security>, ContractError> = TAG_TYPES
         .keys(storage, start, None, cosmwasm_std::Order::Ascending)
-        .map(|result| result.map_err(ContractError::Std))
         .take(limit)
+        .map(|result| {
+            result
+                .and_then(|pair| Ok(Security::from(pair)))
+                .map_err(ContractError::Std)
+        })
         .collect();
     keys
 }
@@ -93,7 +100,7 @@ mod tests {
     use provwasm_mocks::mock_provenance_dependencies;
 
     use crate::{
-        core::{aliases::AssetTag, msg::Paginate},
+        core::msg::{Paginate, Security},
         storage::tag::{add_type, get_types, has_type, remove_type},
     };
 
@@ -105,7 +112,7 @@ mod tests {
             start_after: None,
         };
         let types = get_types(&deps.storage, paginate).unwrap();
-        let expected: Vec<AssetTag> = vec![];
+        let expected: Vec<Security> = vec![];
         assert_eq!(expected, types);
     }
 
@@ -116,8 +123,10 @@ mod tests {
             limit: None,
             start_after: None,
         };
-        add_type(deps.as_mut().storage, "tag1").unwrap();
-        let expected: Vec<AssetTag> = vec!["tag1".to_string()];
+        let expected: Vec<Security> = vec![Security::new("tag1")];
+        for security in &expected {
+            add_type(deps.as_mut().storage, security).unwrap();
+        }
         let types = get_types(&deps.storage, paginate).unwrap();
         assert_eq!(expected, types);
     }
@@ -129,10 +138,32 @@ mod tests {
             limit: None,
             start_after: None,
         };
-        add_type(deps.as_mut().storage, "tag1").unwrap();
-        add_type(deps.as_mut().storage, "tag2").unwrap();
+        let expected: Vec<Security> = vec![Security::new("tag1"), Security::new("tag2")];
+        for security in &expected {
+            add_type(deps.as_mut().storage, security).unwrap();
+        }
         let types = get_types(&deps.storage, paginate).unwrap();
-        let expected: Vec<AssetTag> = vec!["tag1".to_string(), "tag2".to_string()];
+
+        assert_eq!(expected, types);
+    }
+
+    #[test]
+    fn test_add_and_get_multi_item_with_name() {
+        let mut deps = mock_provenance_dependencies();
+        let paginate = Paginate {
+            limit: None,
+            start_after: None,
+        };
+        let expected: Vec<Security> = vec![
+            Security::new("tag1"),
+            Security::new("tag2"),
+            Security::new_with_name("tag2", "name"),
+        ];
+        for security in &expected {
+            add_type(deps.as_mut().storage, security).unwrap();
+        }
+        let types = get_types(&deps.storage, paginate).unwrap();
+
         assert_eq!(expected, types);
     }
 
@@ -143,11 +174,15 @@ mod tests {
             limit: None,
             start_after: None,
         };
-        add_type(deps.as_mut().storage, "tag1").unwrap();
-        add_type(deps.as_mut().storage, "tag2").unwrap();
-        add_type(deps.as_mut().storage, "tag2").unwrap();
+        let expected: Vec<Security> = vec![
+            Security::new("tag1"),
+            Security::new("tag2"),
+            Security::new("tag2"),
+        ];
+        for security in &expected {
+            add_type(deps.as_mut().storage, security).unwrap();
+        }
         let types = get_types(&deps.storage, paginate).unwrap();
-        let expected: Vec<AssetTag> = vec!["tag1".to_string(), "tag2".to_string()];
         assert_eq!(expected, types);
     }
 
@@ -158,10 +193,10 @@ mod tests {
             limit: Some(Uint64::new(1)),
             start_after: None,
         };
-        add_type(deps.as_mut().storage, "tag1").unwrap();
-        add_type(deps.as_mut().storage, "tag2").unwrap();
+        add_type(deps.as_mut().storage, &Security::new("tag1")).unwrap();
+        add_type(deps.as_mut().storage, &Security::new("tag2")).unwrap();
         let types = get_types(&deps.storage, paginate).unwrap();
-        let expected: Vec<AssetTag> = vec!["tag1".to_string()];
+        let expected: Vec<Security> = vec![Security::new("tag1")];
         assert_eq!(expected, types);
     }
 
@@ -170,12 +205,12 @@ mod tests {
         let mut deps = mock_provenance_dependencies();
         let paginate = Paginate {
             limit: None,
-            start_after: Some("tag1".to_string()),
+            start_after: Some(Security::new("tag1")),
         };
-        add_type(deps.as_mut().storage, "tag1").unwrap();
-        add_type(deps.as_mut().storage, "tag2").unwrap();
+        add_type(deps.as_mut().storage, &Security::new("tag1")).unwrap();
+        add_type(deps.as_mut().storage, &Security::new("tag2")).unwrap();
         let types = get_types(&deps.storage, paginate).unwrap();
-        let expected: Vec<AssetTag> = vec!["tag2".to_string()];
+        let expected: Vec<Security> = vec![Security::new("tag2")];
         assert_eq!(expected, types);
     }
 
@@ -186,13 +221,14 @@ mod tests {
             limit: None,
             start_after: None,
         };
-        let mut expected: Vec<AssetTag> = vec![];
+        let mut expected: Vec<Security> = vec![];
         for i in 1..11 {
             let padded = format!("tag{:02}", i);
-            add_type(deps.as_mut().storage, &padded).unwrap();
-            expected.push(padded);
+            let security = Security::new(&padded);
+            add_type(deps.as_mut().storage, &security).unwrap();
+            expected.push(security);
         }
-        add_type(deps.as_mut().storage, "tag11").unwrap();
+        add_type(deps.as_mut().storage, &Security::new("tag11")).unwrap();
         let types = get_types(&deps.storage, paginate).unwrap();
 
         assert_eq!(expected, types);
@@ -205,13 +241,14 @@ mod tests {
             limit: Some(Uint64::new(101)),
             start_after: None,
         };
-        let mut expected: Vec<AssetTag> = vec![];
+        let mut expected: Vec<Security> = vec![];
         for i in 1..101 {
             let padded = format!("tag{:03}", i);
-            add_type(deps.as_mut().storage, &padded).unwrap();
-            expected.push(padded);
+            let security = Security::new(&padded);
+            add_type(deps.as_mut().storage, &security).unwrap();
+            expected.push(security);
         }
-        add_type(deps.as_mut().storage, "tag101").unwrap();
+        add_type(deps.as_mut().storage, &Security::new("tag101")).unwrap();
         let types = get_types(&deps.storage, paginate).unwrap();
 
         assert_eq!(expected, types);
@@ -220,7 +257,7 @@ mod tests {
     #[test]
     fn test_has_type_is_false_on_empty() {
         let deps = mock_provenance_dependencies();
-        let value = has_type(&deps.storage, "tag1");
+        let value = has_type(&deps.storage, &Security::new("tag1"));
         let expected = false;
         assert_eq!(expected, value);
     }
@@ -228,8 +265,8 @@ mod tests {
     #[test]
     fn test_has_type_is_false_when_missing() {
         let mut deps = mock_provenance_dependencies();
-        add_type(deps.as_mut().storage, "tag1").unwrap();
-        let value = has_type(&deps.storage, "tag2");
+        add_type(deps.as_mut().storage, &Security::new("tag1")).unwrap();
+        let value = has_type(&deps.storage, &Security::new("tag2"));
         let expected = false;
         assert_eq!(expected, value);
     }
@@ -237,8 +274,8 @@ mod tests {
     #[test]
     fn test_has_type_success() {
         let mut deps = mock_provenance_dependencies();
-        add_type(deps.as_mut().storage, "tag1").unwrap();
-        let value = has_type(&deps.storage, "tag1");
+        add_type(deps.as_mut().storage, &Security::new("tag1")).unwrap();
+        let value = has_type(&deps.storage, &Security::new("tag1"));
         let expected = true;
         assert_eq!(expected, value);
     }
@@ -250,8 +287,8 @@ mod tests {
             limit: None,
             start_after: None,
         };
-        remove_type(deps.as_mut().storage, "tag1");
-        let expected: Vec<AssetTag> = vec![];
+        remove_type(deps.as_mut().storage, &Security::new("tag1"));
+        let expected: Vec<Security> = vec![];
         let types = get_types(&deps.storage, paginate).unwrap();
         assert_eq!(expected, types);
     }
@@ -263,9 +300,9 @@ mod tests {
             limit: None,
             start_after: None,
         };
-        add_type(deps.as_mut().storage, "tag1").unwrap();
-        remove_type(deps.as_mut().storage, "tag2");
-        let expected: Vec<AssetTag> = vec!["tag1".to_string()];
+        add_type(deps.as_mut().storage, &Security::new("tag1")).unwrap();
+        remove_type(deps.as_mut().storage, &Security::new("tag2"));
+        let expected: Vec<Security> = vec![Security::new("tag1")];
         let types = get_types(&deps.storage, paginate).unwrap();
         assert_eq!(expected, types);
     }
@@ -277,9 +314,9 @@ mod tests {
             limit: None,
             start_after: None,
         };
-        add_type(deps.as_mut().storage, "tag1").unwrap();
-        remove_type(deps.as_mut().storage, "tag1");
-        let expected: Vec<AssetTag> = vec![];
+        add_type(deps.as_mut().storage, &Security::new("tag1")).unwrap();
+        remove_type(deps.as_mut().storage, &Security::new("tag1"));
+        let expected: Vec<Security> = vec![];
         let types = get_types(&deps.storage, paginate).unwrap();
         assert_eq!(expected, types);
     }
@@ -291,17 +328,45 @@ mod tests {
             limit: None,
             start_after: None,
         };
-        add_type(deps.as_mut().storage, "tag1").unwrap();
-        add_type(deps.as_mut().storage, "tag2").unwrap();
-        add_type(deps.as_mut().storage, "tag3").unwrap();
+        add_type(deps.as_mut().storage, &Security::new("tag1")).unwrap();
+        add_type(deps.as_mut().storage, &Security::new("tag2")).unwrap();
+        add_type(deps.as_mut().storage, &Security::new("tag3")).unwrap();
 
-        remove_type(deps.as_mut().storage, "tag1");
-        let expected: Vec<AssetTag> = vec!["tag2".to_string(), "tag3".to_string()];
+        remove_type(deps.as_mut().storage, &Security::new("tag1"));
+        let expected: Vec<Security> = vec![Security::new("tag2"), Security::new("tag3")];
         let types = get_types(&deps.storage, paginate.clone()).unwrap();
         assert_eq!(expected, types);
 
-        remove_type(deps.as_mut().storage, "tag2");
-        let expected: Vec<AssetTag> = vec!["tag3".to_string()];
+        remove_type(deps.as_mut().storage, &Security::new("tag2"));
+        let expected: Vec<Security> = vec![Security::new("tag3")];
+        let types = get_types(&deps.storage, paginate).unwrap();
+        assert_eq!(expected, types);
+    }
+
+    #[test]
+    fn test_remove_with_name() {
+        let mut deps = mock_provenance_dependencies();
+        let paginate = Paginate {
+            limit: None,
+            start_after: None,
+        };
+        add_type(deps.as_mut().storage, &Security::new("tag1")).unwrap();
+        add_type(
+            deps.as_mut().storage,
+            &Security::new_with_name("tag1", "name"),
+        )
+        .unwrap();
+
+        remove_type(deps.as_mut().storage, &Security::new("tag1"));
+        let expected: Vec<Security> = vec![Security::new_with_name("tag1", "name")];
+        let types = get_types(&deps.storage, paginate.clone()).unwrap();
+        assert_eq!(expected, types);
+
+        remove_type(
+            deps.as_mut().storage,
+            &Security::new_with_name("tag1", "name"),
+        );
+        let expected: Vec<Security> = vec![];
         let types = get_types(&deps.storage, paginate).unwrap();
         assert_eq!(expected, types);
     }
