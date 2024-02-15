@@ -33,7 +33,7 @@ mod tests {
 
     use crate::{
         core::msg::{Paginate, QuerySecurityTypesResponse, Security},
-        query::query_tag_types::handle,
+        query::query_security_types::handle,
         storage,
         testing::{
             constants::{TAG1, TAG2},
