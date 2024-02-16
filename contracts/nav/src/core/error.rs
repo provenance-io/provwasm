@@ -13,11 +13,11 @@ pub enum ContractError {
     #[error("Asset does not exist for address {0}")]
     AssetDoesNotExist(String),
 
-    #[error("Tag {0} is still in use and cannot be removed")]
-    TagInUse(String),
+    #[error("Security type {0} is still in use and cannot be removed")]
+    SecurityInUse(String),
 
-    #[error("Tag {0} is not a valid tag type")]
-    InvalidTagType(String),
+    #[error("Security type {0} is not a valid security type")]
+    InvalidSecurityType(String),
 
     // Funds
     #[error("Unexpected funds included in transaction")]
