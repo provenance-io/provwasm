@@ -142,7 +142,7 @@ impl Security {
 impl ToString for Security {
     fn to_string(&self) -> String {
         if self.name.is_some() {
-            return format!("{}.{}", self.category, self.name.unwrap());
+            return format!("{}.{}", self.category, self.name.as_ref().unwrap());
         }
         format!("{}", self.category)
     }
