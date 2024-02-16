@@ -189,12 +189,13 @@ mod tests {
             limit: None,
             start_after: None,
         };
-        let expected: Vec<Security> = vec![
+        let add: Vec<Security> = vec![
             Security::new("security1"),
             Security::new("security2"),
             Security::new("security2"),
         ];
-        for security in &expected {
+        let expected: Vec<Security> = vec![Security::new("security1"), Security::new("security2")];
+        for security in &add {
             add_type(deps.as_mut().storage, security).unwrap();
         }
         let types = get_types(&deps.storage, paginate).unwrap();
