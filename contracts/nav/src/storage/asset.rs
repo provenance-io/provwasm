@@ -11,7 +11,7 @@ use crate::core::{
 };
 
 pub const ASSET_TO_SECURITY: Map<&Addr, Security> = Map::new(ASSET_SECURITY_KEY);
-pub const SECURITY_TO_ASSET: Map<((&str, &str), &Addr), ()> = Map::new(SECURITY_TO_ASSET_KEY);
+pub const SECURITY_TO_ASSET: Map<(&str, &str, &Addr), ()> = Map::new(SECURITY_TO_ASSET_KEY);
 
 /// Attempts to get the asset's security that is stored within the contract's storage.
 ///
@@ -106,14 +106,17 @@ pub fn set_security(
     asset_addr: &Addr,
     security: &Security,
 ) -> Result<(), ContractError> {
-    let default_name = String::default();
-    let key: (&str, &str) = (
-        &security.category,
-        &security.name.as_ref().unwrap_or(&default_name),
-    );
     remove_security(storage, asset_addr);
     ASSET_TO_SECURITY.save(storage, asset_addr, security)?;
-    Ok(SECURITY_TO_ASSET.save(storage, (key, asset_addr), &())?)
+    Ok(SECURITY_TO_ASSET.save(
+        storage,
+        (
+            &security.category,
+            &security.name.as_ref().unwrap_or(&"".to_string()),
+            asset_addr,
+        ),
+        &(),
+    )?)
 }
 
 /// Removes the asset's security from the contract's storage.
@@ -133,21 +136,28 @@ pub fn remove_security(storage: &mut dyn Storage, asset_addr: &Addr) {
     let security = get_security(storage, asset_addr);
     ASSET_TO_SECURITY.remove(storage, asset_addr);
     if let Ok(security_to_remove) = security {
-        let key: (&str, &str) = (
-            &security_to_remove.category,
-            &security_to_remove.name.unwrap_or_default(),
+        SECURITY_TO_ASSET.remove(
+            storage,
+            (
+                &security_to_remove.category,
+                &security_to_remove.name.as_ref().unwrap_or(&"".to_string()),
+                asset_addr,
+            ),
         );
-        SECURITY_TO_ASSET.remove(storage, (key, asset_addr));
     }
 }
 
 #[cfg(test)]
 mod tests {
     use cosmwasm_std::{Addr, Uint64};
+    use cw_storage_plus::Map;
     use provwasm_mocks::mock_provenance_dependencies;
 
     use crate::{
-        core::msg::{Paginate, Security},
+        core::{
+            error::ContractError,
+            msg::{Paginate, Security},
+        },
         storage::asset::{
             has_security, remove_security, set_security, with_security, ASSET_TO_SECURITY,
             SECURITY_TO_ASSET,
@@ -204,11 +214,6 @@ mod tests {
         let mut deps = mock_provenance_dependencies();
         let asset_addr = Addr::unchecked("test");
         let security = Security::new("tag1");
-        let default_name = String::default();
-        let key: (&str, &str) = (
-            &security.category,
-            &security.name.as_ref().unwrap_or(&default_name),
-        );
 
         set_security(deps.as_mut().storage, &asset_addr, &security).expect("should be successful");
         let loaded_security = ASSET_TO_SECURITY
@@ -217,7 +222,14 @@ mod tests {
         assert_eq!(loaded_security, security);
 
         SECURITY_TO_ASSET
-            .load(&deps.storage, (key, &asset_addr))
+            .load(
+                &deps.storage,
+                (
+                    &security.category,
+                    &security.name.as_ref().unwrap_or(&"".to_string()),
+                    &asset_addr,
+                ),
+            )
             .expect("should have entry in TAG_TO_ASSET")
     }
 
@@ -226,11 +238,6 @@ mod tests {
         let mut deps = mock_provenance_dependencies();
         let asset_addr = Addr::unchecked("test");
         let security = Security::new_with_name("tag1", "name");
-        let default_name = String::default();
-        let key: (&str, &str) = (
-            &security.category,
-            &security.name.as_ref().unwrap_or(&default_name),
-        );
 
         set_security(deps.as_mut().storage, &asset_addr, &security).expect("should be successful");
         let loaded_security = ASSET_TO_SECURITY
@@ -239,7 +246,14 @@ mod tests {
         assert_eq!(loaded_security, security);
 
         SECURITY_TO_ASSET
-            .load(&deps.storage, (key, &asset_addr))
+            .load(
+                &deps.storage,
+                (
+                    &security.category,
+                    &security.name.as_ref().unwrap_or(&"".to_string()),
+                    &asset_addr,
+                ),
+            )
             .expect("should have entry in TAG_TO_ASSET")
     }
 
@@ -249,15 +263,6 @@ mod tests {
         let asset_addr = Addr::unchecked("test");
         let security = Security::new("tag1");
         let security2 = Security::new("tag2");
-        let default_name = String::default();
-        let key: (&str, &str) = (
-            &security.category,
-            &security.name.as_ref().unwrap_or(&default_name),
-        );
-        let key2: (&str, &str) = (
-            &security2.category,
-            &security2.name.as_ref().unwrap_or(&default_name),
-        );
 
         set_security(deps.as_mut().storage, &asset_addr, &security).expect("should be successful");
         set_security(deps.as_mut().storage, &asset_addr, &security2).expect("should be successful");
@@ -268,10 +273,24 @@ mod tests {
         assert_eq!(loaded_security, security2);
 
         SECURITY_TO_ASSET
-            .load(&deps.storage, (key, &asset_addr))
+            .load(
+                &deps.storage,
+                (
+                    &security.category,
+                    &security.name.as_ref().unwrap_or(&"".to_string()),
+                    &asset_addr,
+                ),
+            )
             .expect_err("should remove original entry in SECURITY_TO_ASSET");
         SECURITY_TO_ASSET
-            .load(&deps.storage, (key2, &asset_addr))
+            .load(
+                &deps.storage,
+                (
+                    &security2.category,
+                    &security2.name.as_ref().unwrap_or(&"".to_string()),
+                    &asset_addr,
+                ),
+            )
             .expect("should have latest entry in SECURITY_TO_ASSET");
     }
 
@@ -282,15 +301,6 @@ mod tests {
         let asset_addr2 = Addr::unchecked("test2");
         let security = Security::new("tag1");
         let security2 = Security::new("tag2");
-        let default_name = String::default();
-        let key: (&str, &str) = (
-            &security.category,
-            &security.name.as_ref().unwrap_or(&default_name),
-        );
-        let key2: (&str, &str) = (
-            &security2.category,
-            &security2.name.as_ref().unwrap_or(&default_name),
-        );
 
         set_security(deps.as_mut().storage, &asset_addr, &security).expect("should be successful");
         set_security(deps.as_mut().storage, &asset_addr2, &security2)
@@ -307,10 +317,24 @@ mod tests {
         assert_eq!(loaded_security2, security2);
 
         SECURITY_TO_ASSET
-            .load(&deps.storage, (key, &asset_addr))
+            .load(
+                &deps.storage,
+                (
+                    &security.category,
+                    &security.name.as_ref().unwrap_or(&"".to_string()),
+                    &asset_addr,
+                ),
+            )
             .expect("should have entry in SECURITY_TO_ASSET");
         SECURITY_TO_ASSET
-            .load(&deps.storage, (key2, &asset_addr2))
+            .load(
+                &deps.storage,
+                (
+                    &security2.category,
+                    &security2.name.as_ref().unwrap_or(&"".to_string()),
+                    &asset_addr2,
+                ),
+            )
             .expect("should have both entries in SECURITY_TO_ASSET");
     }
 
@@ -321,15 +345,6 @@ mod tests {
         let asset_addr2 = Addr::unchecked("test2");
         let security = Security::new_with_name("tag1", "name");
         let security2 = Security::new_with_name("tag1", "name2");
-        let default_name = String::default();
-        let key: (&str, &str) = (
-            &security.category,
-            &security.name.as_ref().unwrap_or(&default_name),
-        );
-        let key2: (&str, &str) = (
-            &security2.category,
-            &security2.name.as_ref().unwrap_or(&default_name),
-        );
 
         set_security(deps.as_mut().storage, &asset_addr, &security).expect("should be successful");
         set_security(deps.as_mut().storage, &asset_addr2, &security2)
@@ -346,10 +361,24 @@ mod tests {
         assert_eq!(loaded_security2, security2);
 
         SECURITY_TO_ASSET
-            .load(&deps.storage, (key, &asset_addr))
+            .load(
+                &deps.storage,
+                (
+                    &security.category,
+                    &security.name.as_ref().unwrap_or(&"".to_string()),
+                    &asset_addr,
+                ),
+            )
             .expect("should have entry in SECURITY_TO_ASSET");
         SECURITY_TO_ASSET
-            .load(&deps.storage, (key2, &asset_addr2))
+            .load(
+                &deps.storage,
+                (
+                    &security2.category,
+                    &security2.name.as_ref().unwrap_or(&"".to_string()),
+                    &asset_addr2,
+                ),
+            )
             .expect("should have both entries in SECURITY_TO_ASSET");
     }
 
@@ -359,11 +388,6 @@ mod tests {
         let asset_addr = Addr::unchecked("test");
         let asset_addr2 = Addr::unchecked("test2");
         let security = Security::new("tag1");
-        let default_name = String::default();
-        let key: (&str, &str) = (
-            &security.category,
-            &security.name.as_ref().unwrap_or(&default_name),
-        );
 
         set_security(deps.as_mut().storage, &asset_addr, &security).expect("should be successful");
         remove_security(deps.as_mut().storage, &asset_addr2);
@@ -373,7 +397,14 @@ mod tests {
             .expect("should have entry in ASSET_TO_SECURITY");
         assert_eq!(loaded_tag, security);
         SECURITY_TO_ASSET
-            .load(&deps.storage, (key, &asset_addr))
+            .load(
+                &deps.storage,
+                (
+                    &security.category,
+                    &security.name.as_ref().unwrap_or(&"".to_string()),
+                    &asset_addr,
+                ),
+            )
             .expect("should have entry in SECURITY_TO_ASSET");
     }
 
@@ -382,11 +413,6 @@ mod tests {
         let mut deps = mock_provenance_dependencies();
         let asset_addr = Addr::unchecked("test");
         let security = Security::new("tag1");
-        let default_name = String::default();
-        let key: (&str, &str) = (
-            &security.category,
-            &security.name.as_ref().unwrap_or(&default_name),
-        );
         set_security(deps.as_mut().storage, &asset_addr, &security).expect("should be successful");
         remove_security(deps.as_mut().storage, &asset_addr);
 
@@ -394,7 +420,14 @@ mod tests {
             .load(&deps.storage, &asset_addr)
             .expect_err("should have no entry in ASSET_TO_SECURITY");
         SECURITY_TO_ASSET
-            .load(&deps.storage, (key, &asset_addr))
+            .load(
+                &deps.storage,
+                (
+                    &security.category,
+                    &security.name.as_ref().unwrap_or(&"".to_string()),
+                    &asset_addr,
+                ),
+            )
             .expect_err("should have no entry in SECURITY_TO_ASSET");
     }
 
@@ -403,11 +436,6 @@ mod tests {
         let mut deps = mock_provenance_dependencies();
         let asset_addr = Addr::unchecked("test");
         let security = Security::new_with_name("tag1", "name");
-        let default_name = String::default();
-        let key: (&str, &str) = (
-            &security.category,
-            &security.name.as_ref().unwrap_or(&default_name),
-        );
         set_security(deps.as_mut().storage, &asset_addr, &security).expect("should be successful");
         remove_security(deps.as_mut().storage, &asset_addr);
 
@@ -415,7 +443,14 @@ mod tests {
             .load(&deps.storage, &asset_addr)
             .expect_err("should have no entry in ASSET_TO_SECURITY");
         SECURITY_TO_ASSET
-            .load(&deps.storage, (key, &asset_addr))
+            .load(
+                &deps.storage,
+                (
+                    &security.category,
+                    &security.name.as_ref().unwrap_or(&"".to_string()),
+                    &asset_addr,
+                ),
+            )
             .expect_err("should have no entry in SECURITY_TO_ASSET");
     }
 
@@ -426,15 +461,6 @@ mod tests {
         let asset_addr2 = Addr::unchecked("test2");
         let security: Security = Security::new("tag1");
         let security2 = Security::new("tag2");
-        let default_name = String::default();
-        let key: (&str, &str) = (
-            &security.category,
-            &security.name.as_ref().unwrap_or(&default_name),
-        );
-        let key2: (&str, &str) = (
-            &security2.category,
-            &security2.name.as_ref().unwrap_or(&default_name),
-        );
 
         set_security(deps.as_mut().storage, &asset_addr, &security).expect("should be successful");
         set_security(deps.as_mut().storage, &asset_addr2, &security2)
@@ -450,10 +476,24 @@ mod tests {
             .expect_err("should remove both entries from ASSET_TO_SECURITY");
 
         SECURITY_TO_ASSET
-            .load(&deps.storage, (key, &asset_addr))
+            .load(
+                &deps.storage,
+                (
+                    &security.category,
+                    &security.name.as_ref().unwrap_or(&"".to_string()),
+                    &asset_addr,
+                ),
+            )
             .expect_err("should not have entry in SECURITY_TO_ASSET");
         SECURITY_TO_ASSET
-            .load(&deps.storage, (key2, &asset_addr2))
+            .load(
+                &deps.storage,
+                (
+                    &security2.category,
+                    &security2.name.as_ref().unwrap_or(&"".to_string()),
+                    &asset_addr2,
+                ),
+            )
             .expect_err("should remove both entries frrom SECURITY_TO_ASSET");
     }
 
@@ -464,15 +504,6 @@ mod tests {
         let asset_addr2 = Addr::unchecked("test2");
         let security: Security = Security::new_with_name("tag1", "name");
         let security2 = Security::new_with_name("tag1", "name2");
-        let default_name = String::default();
-        let key: (&str, &str) = (
-            &security.category,
-            &security.name.as_ref().unwrap_or(&default_name),
-        );
-        let key2: (&str, &str) = (
-            &security2.category,
-            &security2.name.as_ref().unwrap_or(&default_name),
-        );
 
         set_security(deps.as_mut().storage, &asset_addr, &security).expect("should be successful");
         set_security(deps.as_mut().storage, &asset_addr2, &security2)
@@ -488,10 +519,24 @@ mod tests {
             .expect_err("should remove both entries from ASSET_TO_SECURITY");
 
         SECURITY_TO_ASSET
-            .load(&deps.storage, (key, &asset_addr))
+            .load(
+                &deps.storage,
+                (
+                    &security.category,
+                    &security.name.as_ref().unwrap_or(&"".to_string()),
+                    &asset_addr,
+                ),
+            )
             .expect_err("should not have entry in SECURITY_TO_ASSET");
         SECURITY_TO_ASSET
-            .load(&deps.storage, (key2, &asset_addr2))
+            .load(
+                &deps.storage,
+                (
+                    &security2.category,
+                    &security2.name.as_ref().unwrap_or(&"".to_string()),
+                    &asset_addr2,
+                ),
+            )
             .expect_err("should remove both entries frrom SECURITY_TO_ASSET");
     }
 
@@ -709,5 +754,70 @@ mod tests {
         let securities = with_security(&deps.storage, &security, paginate)
             .expect("should successfully obtain securities");
         assert_eq!(expected, securities);
+    }
+
+    pub const TEST_KEY: Map<(String, String, Addr), ()> = Map::new("TEMP_MAP");
+    #[test]
+    fn test() {
+        let mut deps = mock_provenance_dependencies();
+        let key1 = (
+            "category1".to_string(),
+            "name1".to_string(),
+            Addr::unchecked("addr1"),
+        );
+        let key2 = (
+            "category1".to_string(),
+            "name2".to_string(),
+            Addr::unchecked("addr2"),
+        );
+        let key3 = (
+            "category1".to_string(),
+            "".to_string(),
+            Addr::unchecked("addr3"),
+        );
+        let key4 = (
+            "category1".to_string(),
+            "name1".to_string(),
+            Addr::unchecked("addr4"),
+        );
+        let key5 = (
+            "category2".to_string(),
+            "name1".to_string(),
+            Addr::unchecked("addr5"),
+        );
+        let key6 = (
+            "category2".to_string(),
+            "name2".to_string(),
+            Addr::unchecked("addr6"),
+        );
+        let key7 = (
+            "category2".to_string(),
+            "".to_string(),
+            Addr::unchecked("addr7"),
+        );
+        let key8 = (
+            "category2".to_string(),
+            "name1".to_string(),
+            Addr::unchecked("addr8"),
+        );
+        TEST_KEY.save(deps.as_mut().storage, key1, &()).unwrap();
+        TEST_KEY.save(deps.as_mut().storage, key2, &()).unwrap();
+        TEST_KEY.save(deps.as_mut().storage, key3, &()).unwrap();
+        TEST_KEY.save(deps.as_mut().storage, key4, &()).unwrap();
+        TEST_KEY.save(deps.as_mut().storage, key5, &()).unwrap();
+        TEST_KEY.save(deps.as_mut().storage, key6, &()).unwrap();
+        TEST_KEY.save(deps.as_mut().storage, key7, &()).unwrap();
+        TEST_KEY.save(deps.as_mut().storage, key8, &()).unwrap();
+
+        let res: Result<Vec<(String, Addr)>, ContractError> = TEST_KEY
+            .sub_prefix("category1".to_string())
+            .keys(&deps.storage, None, None, cosmwasm_std::Order::Ascending)
+            .map(|result| result.map_err(ContractError::Std))
+            .collect();
+
+        println!("Found addresses:");
+        for pair in &res.unwrap() {
+            println!("{}", pair.1.to_string());
+        }
     }
 }
