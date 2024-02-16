@@ -2,7 +2,7 @@ use cosmwasm_std::{DepsMut, Env, MessageInfo};
 
 use crate::core::{aliases::ProvTxResponse, msg::ExecuteMsg};
 
-use super::{add_tag_types, change_owner, remove_tag_types, set_tag};
+use super::{add_security_types, change_owner, remove_security_types, set_security};
 
 /// Routes the execute message to the appropriate handler based on the message's variant.
 ///
@@ -21,14 +21,15 @@ use super::{add_tag_types, change_owner, remove_tag_types, set_tag};
 pub fn route(deps: DepsMut, _env: Env, info: MessageInfo, msg: ExecuteMsg) -> ProvTxResponse {
     match msg {
         ExecuteMsg::ChangeOwner { new_owner } => change_owner::handle(deps, info.sender, new_owner),
-        ExecuteMsg::SetTag { asset_addr, tag } => {
-            set_tag::handle(deps, info.sender, asset_addr, &tag)
+        ExecuteMsg::SetSecurity {
+            asset_addr,
+            security,
+        } => set_security::handle(deps, info.sender, asset_addr, &security),
+        ExecuteMsg::AddSecurityTypes { security_types } => {
+            add_security_types::handle(deps, info.sender, security_types.as_slice())
         }
-        ExecuteMsg::AddTagTypes { tag_types } => {
-            add_tag_types::handle(deps, info.sender, tag_types.as_slice())
-        }
-        ExecuteMsg::RemoveTagTypes { tag_types } => {
-            remove_tag_types::handle(deps, info.sender, tag_types.as_slice())
+        ExecuteMsg::RemoveSecurityTypes { security_types } => {
+            remove_security_types::handle(deps, info.sender, security_types.as_slice())
         }
     }
 }
