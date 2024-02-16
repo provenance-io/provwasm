@@ -46,10 +46,10 @@ pub fn with_security(
     security: &Security,
     paginate: Paginate<Addr>,
 ) -> Result<Vec<Addr>, ContractError> {
-    let default_name = String::default();
-    let key: (&str, &str) = (
+    let default_string = String::default();
+    let prefix_key: (&str, &str) = (
         &security.category,
-        &security.name.as_ref().unwrap_or(&default_name),
+        &security.name.as_ref().unwrap_or(&default_string),
     );
     let start = paginate.start_after.as_ref().map(Bound::exclusive);
     let limit = paginate
@@ -58,10 +58,45 @@ pub fn with_security(
         .min(Uint64::new(MAX_WITH_SECURITY_LIMIT))
         .u64() as usize;
     let assets: Result<Vec<Addr>, ContractError> = SECURITY_TO_ASSET
-        .prefix(key)
+        .prefix(prefix_key)
         .keys(storage, start, None, cosmwasm_std::Order::Ascending)
         .map(|result| result.map_err(ContractError::Std))
         .take(limit)
+        .collect();
+    assets
+}
+
+/// Attempts to get all assets that have the specified security category.
+///
+/// # Arguments
+///
+/// * `storage` - A reference to the Deps' Storage object.
+/// * `category` - The security category to lookup addresses by.
+/// * `paginate` - Struct containing optional pagination args.
+///
+/// # Examples
+/// ```
+/// with_security_category(deps.storage, "category", Paginate{limit: None, start_after: None})?;
+/// `
+pub fn with_security_category(
+    storage: &dyn Storage,
+    category: &str,
+    paginate: Paginate<(String, Addr)>,
+) -> Result<Vec<(String, Addr)>, ContractError> {
+    let start_after: Option<(&str, &Addr)> =
+        paginate.start_after.as_ref().map(|s| (s.0.as_str(), &s.1));
+    let start = start_after.map(Bound::exclusive);
+    let limit = paginate
+        .limit
+        .unwrap_or(Uint64::new(DEFAULT_WITH_SECURITY_LIMIT))
+        .min(Uint64::new(MAX_WITH_SECURITY_LIMIT))
+        .u64() as usize;
+
+    let assets: Result<Vec<(String, Addr)>, ContractError> = SECURITY_TO_ASSET
+        .sub_prefix(category)
+        .keys(storage, start, None, cosmwasm_std::Order::Ascending)
+        .take(limit)
+        .map(|result| result.map_err(ContractError::Std))
         .collect();
     assets
 }
@@ -159,8 +194,8 @@ mod tests {
             msg::{Paginate, Security},
         },
         storage::asset::{
-            has_security, remove_security, set_security, with_security, ASSET_TO_SECURITY,
-            SECURITY_TO_ASSET,
+            has_security, remove_security, set_security, with_security, with_security_category,
+            ASSET_TO_SECURITY, SECURITY_TO_ASSET,
         },
     };
 
@@ -819,5 +854,160 @@ mod tests {
         for pair in &res.unwrap() {
             println!("{}", pair.1.to_string());
         }
+    }
+
+    #[test]
+    fn test_with_security_category_empty() {
+        let deps = mock_provenance_dependencies();
+        let expected: Vec<(String, Addr)> = vec![];
+        let paginate = Paginate {
+            limit: None,
+            start_after: None,
+        };
+        let tags = with_security_category(&deps.storage, "category", paginate)
+            .expect("should successfully obtain securities");
+        assert_eq!(expected, tags);
+    }
+
+    #[test]
+    fn test_with_security_category_one_security() {
+        let mut deps = mock_provenance_dependencies();
+        let expected = vec![("name".to_string(), Addr::unchecked("test"))];
+        let paginate = Paginate {
+            limit: None,
+            start_after: None,
+        };
+        let asset_addr = Addr::unchecked("test");
+        let security = Security::new_with_name("tag1", "name");
+
+        set_security(deps.as_mut().storage, &asset_addr, &security).expect("should be successful");
+
+        let securities = with_security_category(&deps.storage, "tag1", paginate)
+            .expect("should successfully obtain securities");
+        assert_eq!(expected, securities);
+    }
+
+    #[test]
+    fn test_with_security_category_multi_asset_same_category_with_different_name() {
+        let mut deps = mock_provenance_dependencies();
+        let expected = vec![
+            ("name".to_string(), Addr::unchecked("test")),
+            ("name2".to_string(), Addr::unchecked("test2")),
+        ];
+        let paginate = Paginate {
+            limit: None,
+            start_after: None,
+        };
+        let asset_addr = Addr::unchecked("test");
+        let asset_addr2 = Addr::unchecked("test2");
+        let security = Security::new_with_name("tag1", "name");
+        let security2 = Security::new_with_name("tag1", "name2");
+
+        set_security(deps.as_mut().storage, &asset_addr, &security).expect("should be successful");
+        set_security(deps.as_mut().storage, &asset_addr2, &security2)
+            .expect("should be successful");
+
+        let securities = with_security_category(&deps.storage, "tag1", paginate)
+            .expect("should successfully obtain securities");
+        assert_eq!(expected, securities);
+    }
+
+    #[test]
+    fn test_with_security_category_multi_asset_different_category() {
+        let mut deps = mock_provenance_dependencies();
+        let expected1 = vec![("name".to_string(), Addr::unchecked("test"))];
+        let expected2 = vec![("name2".to_string(), Addr::unchecked("test2"))];
+        let paginate = Paginate {
+            limit: None,
+            start_after: None,
+        };
+        let asset_addr = Addr::unchecked("test");
+        let asset_addr2 = Addr::unchecked("test2");
+        let security = Security::new_with_name("tag1", "name");
+        let security2 = Security::new_with_name("tag2", "name2");
+
+        set_security(deps.as_mut().storage, &asset_addr, &security).expect("should be successful");
+        set_security(deps.as_mut().storage, &asset_addr2, &security2)
+            .expect("should be successful");
+
+        let securities = with_security_category(&deps.storage, "tag1", paginate.clone())
+            .expect("should successfully obtain securities");
+        assert_eq!(expected1, securities);
+        let securities = with_security_category(&deps.storage, "tag2", paginate)
+            .expect("should successfully obtain other securities");
+        assert_eq!(expected2, securities);
+    }
+
+    #[test]
+    fn test_with_category_paginate_limit() {
+        let mut deps = mock_provenance_dependencies();
+        let expected = vec![("name".to_string(), Addr::unchecked("test"))];
+        let paginate = Paginate {
+            limit: Some(Uint64::new(1)),
+            start_after: None,
+        };
+        let asset_addr = Addr::unchecked("test");
+        let asset_addr2 = Addr::unchecked("test2");
+        let security = Security::new_with_name("tag1", "name");
+
+        set_security(deps.as_mut().storage, &asset_addr, &security).expect("should be successful");
+        set_security(deps.as_mut().storage, &asset_addr2, &security).expect("should be successful");
+
+        let securities = with_security_category(&deps.storage, "tag1", paginate)
+            .expect("should successfully obtain securities");
+        assert_eq!(expected, securities);
+    }
+
+    #[test]
+    fn test_with_category_paginate_start_after() {
+        let mut deps = mock_provenance_dependencies();
+        let expected = vec![("name".to_string(), Addr::unchecked("test2"))];
+        let paginate = Paginate {
+            limit: None,
+            start_after: Some(("name".to_string(), Addr::unchecked("test"))),
+        };
+        let asset_addr = Addr::unchecked("test");
+        let asset_addr2 = Addr::unchecked("test2");
+        let security = Security::new_with_name("tag1", "name");
+
+        set_security(deps.as_mut().storage, &asset_addr, &security).expect("should be successful");
+        set_security(deps.as_mut().storage, &asset_addr2, &security).expect("should be successful");
+
+        let securities = with_security_category(&deps.storage, "tag1", paginate)
+            .expect("should successfully obtain securities");
+        assert_eq!(expected, securities);
+    }
+
+    #[test]
+    fn test_with_category_paginate_default_limit() {
+        let mut deps = mock_provenance_dependencies();
+        let expected = vec![
+            ("".to_string(), Addr::unchecked("test01")),
+            ("".to_string(), Addr::unchecked("test02")),
+            ("".to_string(), Addr::unchecked("test03")),
+            ("".to_string(), Addr::unchecked("test04")),
+            ("".to_string(), Addr::unchecked("test05")),
+            ("".to_string(), Addr::unchecked("test06")),
+            ("".to_string(), Addr::unchecked("test07")),
+            ("".to_string(), Addr::unchecked("test08")),
+            ("".to_string(), Addr::unchecked("test09")),
+            ("".to_string(), Addr::unchecked("test10")),
+        ];
+        let paginate = Paginate {
+            limit: None,
+            start_after: None,
+        };
+        let security = Security::new("tag1");
+        let asset_addr11 = Addr::unchecked("test11");
+        for asset_addr in &expected {
+            set_security(deps.as_mut().storage, &asset_addr.1, &security)
+                .expect("should be successful");
+        }
+        set_security(deps.as_mut().storage, &asset_addr11, &security)
+            .expect("should be successful");
+
+        let securities = with_security_category(&deps.storage, "tag1", paginate)
+            .expect("should successfully obtain tags");
+        assert_eq!(expected, securities);
     }
 }
