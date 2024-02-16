@@ -1,6 +1,6 @@
 mod add_security_types;
 mod change_owner;
-mod remove_tag_types;
+mod remove_security_types;
 pub mod router;
 mod set_tag;
 pub mod validate;
