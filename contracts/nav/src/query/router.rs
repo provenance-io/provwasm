@@ -2,7 +2,10 @@ use cosmwasm_std::{Deps, Env};
 
 use crate::core::{aliases::ProvQueryResponse, msg::QueryMsg};
 
-use super::{query_address, query_owner, query_security, query_security_types, query_version};
+use super::{
+    query_address, query_owner, query_security, query_security_category, query_security_types,
+    query_version,
+};
 
 /// Routes the query message to the appropriate handler based on the message's variant.
 ///
@@ -26,6 +29,9 @@ pub fn route(deps: Deps, _env: Env, msg: QueryMsg) -> ProvQueryResponse {
             query_security::handle(deps, &security, paginate)
         }
         QueryMsg::QuerySecurityTypes { paginate } => query_security_types::handle(deps, paginate),
+        QueryMsg::QuerySecurityCategory { category, paginate } => {
+            query_security_category::handle(deps, &category, paginate)
+        }
     }
 }
 
