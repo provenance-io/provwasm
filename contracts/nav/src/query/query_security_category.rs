@@ -26,7 +26,7 @@ pub fn handle(
     category: &str,
     paginate: Paginate<CategorizedSecurity>,
 ) -> ProvQueryResponse {
-    let assets = storage::asset::with_security_category(deps.storage, category, paginate);
+    let assets = storage::asset::with_security_category(deps.storage, category, paginate)?;
     let res = QuerySecurityCategoryResponse { assets };
     Ok(to_json_binary(&res)?)
 }

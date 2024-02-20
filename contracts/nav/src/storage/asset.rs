@@ -60,9 +60,12 @@ pub fn with_security(
     let assets: Result<Vec<Addr>, ContractError> = SECURITY_TO_ASSET
         .prefix(prefix_key)
         .keys(storage, start, None, cosmwasm_std::Order::Ascending)
-        .map(|result| result.map_err(ContractError::Std))
         .take(limit)
-        .collect();
+        .map(|result| result.map_err(ContractError::Std))
+        .try_fold(Vec::new(), |mut vec, result| {
+            vec.push(result?);
+            Ok(vec)
+        });
     assets
 }
 
@@ -82,7 +85,7 @@ pub fn with_security_category(
     storage: &dyn Storage,
     category: &str,
     paginate: Paginate<CategorizedSecurity>,
-) -> Vec<CategorizedSecurity> {
+) -> Result<Vec<CategorizedSecurity>, ContractError> {
     let start_after: Option<(&str, &Addr)> = paginate
         .start_after
         .as_ref()
@@ -94,13 +97,14 @@ pub fn with_security_category(
         .min(Uint64::new(MAX_WITH_SECURITY_LIMIT))
         .u64() as usize;
 
-    let assets: Vec<CategorizedSecurity> = SECURITY_TO_ASSET
+    let assets: Result<Vec<CategorizedSecurity>, ContractError> = SECURITY_TO_ASSET
         .sub_prefix(category)
         .keys(storage, start, None, cosmwasm_std::Order::Ascending)
         .take(limit)
-        .map(|k| k.unwrap())
-        .map(|result| result.into())
-        .collect();
+        .try_fold(Vec::new(), |mut vec, result| {
+            vec.push(result?.into());
+            Ok(vec)
+        });
     assets
 }
 
@@ -867,7 +871,8 @@ mod tests {
             limit: None,
             start_after: None,
         };
-        let tags = with_security_category(&deps.storage, "category", paginate);
+        let tags = with_security_category(&deps.storage, "category", paginate)
+            .expect("should successfully obtain securities");
         assert_eq!(expected, tags);
     }
 
@@ -885,7 +890,8 @@ mod tests {
 
         set_security(deps.as_mut().storage, &asset_addr, &security).expect("should be successful");
 
-        let securities = with_security_category(&deps.storage, "tag1", paginate);
+        let securities = with_security_category(&deps.storage, "tag1", paginate)
+            .expect("should successfully obtain securities");
         assert_eq!(expected, securities);
     }
 
@@ -909,7 +915,8 @@ mod tests {
         set_security(deps.as_mut().storage, &asset_addr2, &security2)
             .expect("should be successful");
 
-        let securities = with_security_category(&deps.storage, "tag1", paginate);
+        let securities = with_security_category(&deps.storage, "tag1", paginate)
+            .expect("should successfully obtain securities");
         assert_eq!(expected, securities);
     }
 
@@ -933,9 +940,11 @@ mod tests {
         set_security(deps.as_mut().storage, &asset_addr2, &security2)
             .expect("should be successful");
 
-        let securities = with_security_category(&deps.storage, "tag1", paginate.clone());
+        let securities = with_security_category(&deps.storage, "tag1", paginate.clone())
+            .expect("should successfully obtain securities");
         assert_eq!(expected1, securities);
-        let securities = with_security_category(&deps.storage, "tag2", paginate);
+        let securities = with_security_category(&deps.storage, "tag2", paginate)
+            .expect("should successfully obtain other securities");
         assert_eq!(expected2, securities);
     }
 
@@ -955,7 +964,8 @@ mod tests {
         set_security(deps.as_mut().storage, &asset_addr, &security).expect("should be successful");
         set_security(deps.as_mut().storage, &asset_addr2, &security).expect("should be successful");
 
-        let securities = with_security_category(&deps.storage, "tag1", paginate);
+        let securities = with_security_category(&deps.storage, "tag1", paginate)
+            .expect("should successfully obtain securities");
         assert_eq!(expected, securities);
     }
 
@@ -975,7 +985,8 @@ mod tests {
         set_security(deps.as_mut().storage, &asset_addr, &security).expect("should be successful");
         set_security(deps.as_mut().storage, &asset_addr2, &security).expect("should be successful");
 
-        let securities = with_security_category(&deps.storage, "tag1", paginate);
+        let securities = with_security_category(&deps.storage, "tag1", paginate)
+            .expect("should successfully obtain securities");
         assert_eq!(expected, securities);
     }
 
@@ -1007,7 +1018,8 @@ mod tests {
         set_security(deps.as_mut().storage, &asset_addr11, &security)
             .expect("should be successful");
 
-        let securities = with_security_category(&deps.storage, "tag1", paginate);
+        let securities = with_security_category(&deps.storage, "tag1", paginate)
+            .expect("should successfully obtain securities");
         assert_eq!(expected, securities);
     }
 }
