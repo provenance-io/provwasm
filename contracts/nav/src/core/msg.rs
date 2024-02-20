@@ -48,7 +48,7 @@ pub enum QueryMsg {
     #[returns(QuerySecurityCategoryResponse)]
     QuerySecurityCategory {
         category: String,
-        paginate: Paginate<(String, Addr)>,
+        paginate: Paginate<CategorizedSecurity>,
     },
 
     #[returns(QuerySecurityTypesResponse)]
@@ -77,7 +77,7 @@ pub struct QuerySecurityResponse {
 
 #[cw_serde]
 pub struct QuerySecurityCategoryResponse {
-    pub assets: Vec<(String, Addr)>,
+    pub assets: Vec<CategorizedSecurity>,
 }
 
 #[cw_serde]
@@ -100,4 +100,10 @@ pub struct Paginate<T> {
 pub struct Security {
     pub category: String,
     pub name: Option<String>,
+}
+
+#[cw_serde]
+pub struct CategorizedSecurity {
+    pub name: String,
+    pub asset: Addr,
 }

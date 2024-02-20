@@ -1,4 +1,6 @@
-use crate::core::msg::Security;
+use cosmwasm_std::Addr;
+
+use crate::core::msg::{CategorizedSecurity, Security};
 
 impl From<String> for Security {
     fn from(security: String) -> Self {
@@ -54,5 +56,14 @@ impl ToString for Security {
             return format!("{}.{}", self.category, self.name.as_ref().unwrap());
         }
         format!("{}", self.category)
+    }
+}
+
+impl From<(String, Addr)> for CategorizedSecurity {
+    fn from(pair: (String, Addr)) -> Self {
+        CategorizedSecurity {
+            name: pair.0,
+            asset: pair.1,
+        }
     }
 }

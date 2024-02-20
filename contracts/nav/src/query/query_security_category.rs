@@ -1,9 +1,9 @@
-use cosmwasm_std::{to_json_binary, Addr, Deps};
+use cosmwasm_std::{to_json_binary, Deps};
 
 use crate::{
     core::{
         aliases::ProvQueryResponse,
-        msg::{Paginate, QuerySecurityCategoryResponse},
+        msg::{CategorizedSecurity, Paginate, QuerySecurityCategoryResponse},
     },
     storage,
 };
@@ -21,8 +21,12 @@ use crate::{
 /// let res = handle(deps, &Security::new("tag1"), Paginate{limit: None, start_after: None})?;
 /// ```
 
-pub fn handle(deps: Deps, category: &str, paginate: Paginate<(String, Addr)>) -> ProvQueryResponse {
-    let assets = storage::asset::with_security_category(deps.storage, category, paginate)?;
+pub fn handle(
+    deps: Deps,
+    category: &str,
+    paginate: Paginate<CategorizedSecurity>,
+) -> ProvQueryResponse {
+    let assets = storage::asset::with_security_category(deps.storage, category, paginate);
     let res = QuerySecurityCategoryResponse { assets };
     Ok(to_json_binary(&res)?)
 }
@@ -33,7 +37,7 @@ mod tests {
     use provwasm_mocks::mock_provenance_dependencies;
 
     use crate::{
-        core::msg::{Paginate, QuerySecurityCategoryResponse, Security},
+        core::msg::{CategorizedSecurity, Paginate, QuerySecurityCategoryResponse, Security},
         query::query_security_category::handle,
         storage,
         testing::{
@@ -46,7 +50,7 @@ mod tests {
     fn test_invalid_category() {
         let mut deps = mock_provenance_dependencies();
         setup::mock_contract(deps.as_mut());
-        let expected: Vec<(String, Addr)> = vec![];
+        let expected: Vec<CategorizedSecurity> = vec![];
         let paginate = Paginate {
             limit: None,
             start_after: None,
@@ -63,7 +67,7 @@ mod tests {
         let mut deps = mock_provenance_dependencies();
         setup::mock_contract(deps.as_mut());
         let asset_addr = Addr::unchecked("test");
-        let expected: Vec<(String, Addr)> = vec![("".to_string(), asset_addr.clone())];
+        let expected: Vec<CategorizedSecurity> = vec![("".to_string(), asset_addr.clone()).into()];
         let paginate = Paginate {
             limit: None,
             start_after: None,
@@ -84,9 +88,9 @@ mod tests {
         setup::mock_contract(deps.as_mut());
         let asset_addr = Addr::unchecked("test");
         let asset_addr2 = Addr::unchecked("test2");
-        let expected: Vec<(String, Addr)> = vec![
-            ("".to_string(), asset_addr.clone()),
-            ("".to_string(), asset_addr2.clone()),
+        let expected: Vec<CategorizedSecurity> = vec![
+            ("".to_string(), asset_addr.clone()).into(),
+            ("".to_string(), asset_addr2.clone()).into(),
         ];
         let paginate = Paginate {
             limit: None,
@@ -110,7 +114,7 @@ mod tests {
         setup::mock_contract(deps.as_mut());
         let asset_addr = Addr::unchecked("test");
         let asset_addr2 = Addr::unchecked("test2");
-        let expected: Vec<(String, Addr)> = vec![("".to_string(), asset_addr.clone())];
+        let expected: Vec<CategorizedSecurity> = vec![("".to_string(), asset_addr.clone()).into()];
         let paginate = Paginate {
             limit: None,
             start_after: None,
