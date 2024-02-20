@@ -37,9 +37,16 @@ mod tests {
     use crate::{
         core::{
             constants::{CONTRACT_NAME, CONTRACT_VERSION},
-            msg::{QueryMsg, QueryOwnerResponse, QueryVersionResponse},
+            msg::{
+                Paginate, QueryAddressResponse, QueryMsg, QueryOwnerResponse,
+                QuerySecurityResponse, QuerySecurityTypesResponse, QueryVersionResponse, Security,
+            },
         },
-        testing::{constants::OWNER, setup},
+        storage,
+        testing::{
+            constants::{OWNER, TAG1, TAG2},
+            setup,
+        },
     };
 
     use super::route;
@@ -65,5 +72,60 @@ mod tests {
         let response: QueryVersionResponse = from_json(&bin).unwrap();
         assert_eq!(CONTRACT_NAME, response.contract_version.contract);
         assert_eq!(CONTRACT_VERSION, response.contract_version.version);
+    }
+
+    #[test]
+    fn test_query_address_has_correct_response() {
+        let mut deps = mock_provenance_dependencies();
+        let env = mock_env();
+        let asset_addr = Addr::unchecked("marker");
+        let security = Security::new("category");
+        let msg = QueryMsg::QueryAddress {
+            asset_addr: asset_addr.clone(),
+        };
+        setup::mock_contract(deps.as_mut());
+        storage::asset::set_security(deps.as_mut().storage, &asset_addr, &security)
+            .expect("should set the security for asset");
+        let bin = route(deps.as_ref(), env, msg).unwrap();
+        let response: QueryAddressResponse = from_json(&bin).unwrap();
+        assert_eq!(security, response.security);
+    }
+
+    #[test]
+    fn test_query_security_has_correct_response() {
+        let mut deps = mock_provenance_dependencies();
+        let env = mock_env();
+        let asset_addr = Addr::unchecked("marker");
+        let security = Security::new("category");
+        let msg = QueryMsg::QuerySecurity {
+            security: security.clone(),
+            paginate: Paginate {
+                limit: None,
+                start_after: None,
+            },
+        };
+        setup::mock_contract(deps.as_mut());
+        storage::asset::set_security(deps.as_mut().storage, &asset_addr, &security)
+            .expect("should set the security for asset");
+        let bin = route(deps.as_ref(), env, msg).unwrap();
+        let response: QuerySecurityResponse = from_json(&bin).unwrap();
+        assert_eq!(vec![asset_addr], response.assets);
+    }
+
+    #[test]
+    fn test_security_types_has_correct_response() {
+        let mut deps = mock_provenance_dependencies();
+        let env = mock_env();
+        let msg = QueryMsg::QuerySecurityTypes {
+            paginate: Paginate {
+                limit: None,
+                start_after: None,
+            },
+        };
+        setup::mock_contract(deps.as_mut());
+        let bin = route(deps.as_ref(), env, msg).unwrap();
+        let response: QuerySecurityTypesResponse = from_json(&bin).unwrap();
+        let expected = vec![Security::new(TAG1), Security::new(TAG2)];
+        assert_eq!(expected, response.securities);
     }
 }
