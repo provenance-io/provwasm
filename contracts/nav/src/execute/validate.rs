@@ -19,7 +19,19 @@ impl Validate for ExecuteMsg {
     /// msg.validate(deps)?;
     /// ```
     fn validate(&self, _deps: Deps) -> ValidateResult {
-        Ok(())
+        match self {
+            ExecuteMsg::AddSecurityTypes { security_types } => {
+                for security_type in security_types {
+                    if security_type.category.is_empty() {
+                        return Err(ContractError::InvalidSecurityTypeFormat(
+                            security_type.to_string(),
+                        ));
+                    }
+                }
+                Ok(())
+            }
+            _ => Ok(()),
+        }
     }
 
     /// Performs basic error checking on ExecuteMsg.
@@ -48,12 +60,15 @@ mod tests {
     use provwasm_mocks::mock_provenance_dependencies;
 
     use crate::{
-        core::{error::ContractError, msg::ExecuteMsg},
+        core::{
+            error::ContractError,
+            msg::{ExecuteMsg, Security},
+        },
         testing::{
             constants::{TEST_AMOUNT, TEST_DENOM},
             msg::{
-                mock_add_tag_types_msg, mock_change_owner_msg, mock_remove_tag_types_msg,
-                mock_set_tag_msg,
+                mock_add_tag_types_msg, mock_change_owner_msg, mock_invalid_add_tag_types_msg,
+                mock_remove_tag_types_msg, mock_set_tag_msg,
             },
         },
         util::validate::Validate,
@@ -72,6 +87,20 @@ mod tests {
         for msg in msgs {
             let res = msg.validate(deps.as_ref()).unwrap();
             assert_eq!((), res);
+        }
+    }
+
+    #[test]
+    fn test_validate_checks_for_invalid_add_security_type() {
+        let deps = mock_provenance_dependencies();
+        let msgs: Vec<ExecuteMsg> = vec![mock_invalid_add_tag_types_msg()];
+
+        for msg in msgs {
+            let res = msg.validate(deps.as_ref()).unwrap_err();
+            assert_eq!(
+                ContractError::InvalidSecurityTypeFormat(Security::new("").to_string()).to_string(),
+                res.to_string()
+            );
         }
     }
 

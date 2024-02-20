@@ -19,6 +19,9 @@ pub enum ContractError {
     #[error("Security type {0} is not a valid security type")]
     InvalidSecurityType(String),
 
+    #[error("Security type {0} is missing category")]
+    InvalidSecurityTypeFormat(String),
+
     // Funds
     #[error("Unexpected funds included in transaction")]
     UnexpectedFunds {},

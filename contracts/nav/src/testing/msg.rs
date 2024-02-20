@@ -25,6 +25,12 @@ pub fn mock_add_tag_types_msg() -> ExecuteMsg {
     }
 }
 
+pub fn mock_invalid_add_tag_types_msg() -> ExecuteMsg {
+    ExecuteMsg::AddSecurityTypes {
+        security_types: vec![Security::new("")],
+    }
+}
+
 pub fn mock_remove_tag_types_msg() -> ExecuteMsg {
     ExecuteMsg::RemoveSecurityTypes {
         security_types: vec![Security::new(TAG1), Security::new(TAG2)],
