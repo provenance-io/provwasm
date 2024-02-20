@@ -36,14 +36,17 @@ pub fn route(deps: DepsMut, _env: Env, info: MessageInfo, msg: ExecuteMsg) -> Pr
 
 #[cfg(test)]
 mod tests {
-    use cosmwasm_std::{testing::mock_env, Attribute};
+    use cosmwasm_std::{testing::mock_env, Addr, Attribute};
     use provwasm_mocks::mock_provenance_dependencies;
 
     use crate::{
         testing::{
             constants::OWNER,
-            msg::mock_change_owner_msg,
-            setup::{self, mock_info},
+            msg::{
+                mock_add_tag_types_msg, mock_change_owner_msg, mock_remove_tag_types_msg,
+                mock_set_tag_msg,
+            },
+            setup::{self, mock_info, mock_markers},
         },
         util::action::ActionType,
     };
@@ -62,6 +65,56 @@ mod tests {
         let res = route(deps.as_mut(), env, info, msg).unwrap();
         assert_eq!(
             vec![Attribute::from(ActionType::ChangeOwner {})],
+            res.attributes
+        );
+    }
+
+    #[test]
+    fn test_set_security_route() {
+        let mut deps = mock_provenance_dependencies();
+        let env = mock_env();
+        let info = mock_info(false, OWNER);
+        let asset_addr = Addr::unchecked("marker");
+        mock_markers(&mut deps);
+        let msg = mock_set_tag_msg(&asset_addr);
+
+        setup::mock_contract(deps.as_mut());
+
+        let res = route(deps.as_mut(), env, info, msg).unwrap();
+        assert_eq!(
+            vec![Attribute::from(ActionType::SetSecurity {})],
+            res.attributes
+        );
+    }
+
+    #[test]
+    fn test_add_security_types_route() {
+        let mut deps = mock_provenance_dependencies();
+        let env = mock_env();
+        let info = mock_info(false, OWNER);
+        let msg = mock_add_tag_types_msg();
+
+        setup::mock_contract(deps.as_mut());
+
+        let res = route(deps.as_mut(), env, info, msg).unwrap();
+        assert_eq!(
+            vec![Attribute::from(ActionType::AddSecurityTypes {})],
+            res.attributes
+        );
+    }
+
+    #[test]
+    fn test_remove_security_types_route() {
+        let mut deps = mock_provenance_dependencies();
+        let env = mock_env();
+        let info = mock_info(false, OWNER);
+        let msg = mock_remove_tag_types_msg();
+
+        setup::mock_contract(deps.as_mut());
+
+        let res = route(deps.as_mut(), env, info, msg).unwrap();
+        assert_eq!(
+            vec![Attribute::from(ActionType::RemoveSecurityTypes {})],
             res.attributes
         );
     }
