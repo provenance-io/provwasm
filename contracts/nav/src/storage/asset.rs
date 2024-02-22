@@ -1,4 +1,4 @@
-use cosmwasm_std::{Addr, Storage, Uint64};
+use cosmwasm_std::{Addr, Empty, Storage, Uint64};
 use cw_storage_plus::{Bound, Map};
 
 use crate::core::{
@@ -11,7 +11,7 @@ use crate::core::{
 };
 
 pub const ASSET_TO_SECURITY: Map<&Addr, Security> = Map::new(ASSET_SECURITY_KEY);
-pub const SECURITY_TO_ASSET: Map<(&str, &str, &Addr), ()> = Map::new(SECURITY_TO_ASSET_KEY);
+pub const SECURITY_TO_ASSET: Map<(&str, &str, &Addr), Empty> = Map::new(SECURITY_TO_ASSET_KEY);
 
 /// Attempts to get the asset's security that is stored within the contract's storage.
 ///
@@ -157,7 +157,7 @@ pub fn set_security(
             &security.name.as_ref().unwrap_or(&"".to_string()),
             asset_addr,
         ),
-        &(),
+        &Empty {},
     )?)
 }
 
@@ -191,7 +191,7 @@ pub fn remove_security(storage: &mut dyn Storage, asset_addr: &Addr) {
 
 #[cfg(test)]
 mod tests {
-    use cosmwasm_std::{Addr, Uint64};
+    use cosmwasm_std::{Addr, Empty, Uint64};
     use cw_storage_plus::Map;
     use provwasm_mocks::mock_provenance_dependencies;
 
@@ -272,7 +272,7 @@ mod tests {
                     &asset_addr,
                 ),
             )
-            .expect("should have entry in TAG_TO_ASSET")
+            .expect("should have entry in TAG_TO_ASSET");
     }
 
     #[test]
@@ -296,7 +296,7 @@ mod tests {
                     &asset_addr,
                 ),
             )
-            .expect("should have entry in TAG_TO_ASSET")
+            .expect("should have entry in TAG_TO_ASSET");
     }
 
     #[test]
@@ -798,7 +798,7 @@ mod tests {
         assert_eq!(expected, securities);
     }
 
-    pub const TEST_KEY: Map<(String, String, Addr), ()> = Map::new("TEMP_MAP");
+    pub const TEST_KEY: Map<(String, String, Addr), Empty> = Map::new("TEMP_MAP");
     #[test]
     fn test() {
         let mut deps = mock_provenance_dependencies();
@@ -842,14 +842,30 @@ mod tests {
             "name1".to_string(),
             Addr::unchecked("addr8"),
         );
-        TEST_KEY.save(deps.as_mut().storage, key1, &()).unwrap();
-        TEST_KEY.save(deps.as_mut().storage, key2, &()).unwrap();
-        TEST_KEY.save(deps.as_mut().storage, key3, &()).unwrap();
-        TEST_KEY.save(deps.as_mut().storage, key4, &()).unwrap();
-        TEST_KEY.save(deps.as_mut().storage, key5, &()).unwrap();
-        TEST_KEY.save(deps.as_mut().storage, key6, &()).unwrap();
-        TEST_KEY.save(deps.as_mut().storage, key7, &()).unwrap();
-        TEST_KEY.save(deps.as_mut().storage, key8, &()).unwrap();
+        TEST_KEY
+            .save(deps.as_mut().storage, key1, &Empty {})
+            .unwrap();
+        TEST_KEY
+            .save(deps.as_mut().storage, key2, &Empty {})
+            .unwrap();
+        TEST_KEY
+            .save(deps.as_mut().storage, key3, &Empty {})
+            .unwrap();
+        TEST_KEY
+            .save(deps.as_mut().storage, key4, &Empty {})
+            .unwrap();
+        TEST_KEY
+            .save(deps.as_mut().storage, key5, &Empty {})
+            .unwrap();
+        TEST_KEY
+            .save(deps.as_mut().storage, key6, &Empty {})
+            .unwrap();
+        TEST_KEY
+            .save(deps.as_mut().storage, key7, &Empty {})
+            .unwrap();
+        TEST_KEY
+            .save(deps.as_mut().storage, key8, &Empty {})
+            .unwrap();
 
         let res: Result<Vec<(String, Addr)>, ContractError> = TEST_KEY
             .sub_prefix("category1".to_string())

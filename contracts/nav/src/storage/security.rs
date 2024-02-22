@@ -1,4 +1,4 @@
-use cosmwasm_std::{Storage, Uint64};
+use cosmwasm_std::{Empty, Storage, Uint64};
 use cw_storage_plus::{Bound, Map};
 
 use crate::core::{
@@ -7,7 +7,7 @@ use crate::core::{
     msg::{Paginate, Security},
 };
 
-pub const SECURITY_TYPES: Map<(&str, &str), ()> = Map::new(SECURITY_TYPE_KEY);
+pub const SECURITY_TYPES: Map<(&str, &str), Empty> = Map::new(SECURITY_TYPE_KEY);
 
 /// Attempts to add a security to the list of acceptable types in the contract's storage.
 ///
@@ -26,7 +26,7 @@ pub fn add_type(storage: &mut dyn Storage, security: &Security) -> Result<(), Co
         &security.category,
         &security.name.as_ref().unwrap_or(&default_name),
     );
-    Ok(SECURITY_TYPES.save(storage, key, &())?)
+    Ok(SECURITY_TYPES.save(storage, key, &Empty {})?)
 }
 
 /// Removes the security type from the contract's storage.
