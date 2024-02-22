@@ -4,7 +4,7 @@ use crate::core::msg::{CategorizedSecurity, Security};
 
 impl From<String> for Security {
     fn from(security: String) -> Self {
-        let parts: Vec<&str> = security.split(".").collect();
+        let parts: Vec<&str> = security.split('.').collect();
         let category = parts[0].into();
         let mut name: Option<String> = None;
         if parts.len() > 1 {
@@ -17,9 +17,9 @@ impl From<String> for Security {
 impl From<&Security> for String {
     fn from(security: &Security) -> Self {
         if security.name.is_none() {
-            return format!("{}", security.category);
+            return security.category.to_string();
         }
-        return format!("{}.{}", security.category, security.name.as_ref().unwrap());
+        format!("{}.{}", security.category, security.name.as_ref().unwrap())
     }
 }
 
@@ -55,7 +55,7 @@ impl ToString for Security {
         if self.name.is_some() {
             return format!("{}.{}", self.category, self.name.as_ref().unwrap());
         }
-        format!("{}", self.category)
+        self.category.to_string()
     }
 }
 

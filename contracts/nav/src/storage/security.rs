@@ -100,12 +100,11 @@ pub fn get_types(
     let keys: Result<Vec<Security>, ContractError> = SECURITY_TYPES
         .keys(storage, start, None, cosmwasm_std::Order::Ascending)
         .take(limit)
-        .map(|result| {
-            result
-                .and_then(|pair| Ok(Security::from(pair)))
-                .map_err(ContractError::Std)
-        })
-        .collect();
+        .map(|result| result.map_err(ContractError::Std))
+        .try_fold(Vec::new(), |mut vec, result| {
+            vec.push(Security::from(result?));
+            Ok(vec)
+        });
     keys
 }
 
