@@ -11,8 +11,7 @@ use crate::{
 /// Performs the execute logic for the SetSecurity variant of ExecuteMsg.
 ///
 /// If the sender is the owner of the contract, then the contract will update the security
-/// for the asset. The updated asset must be a marker or a scope, and when an empty security is provided
-/// the asset's security will be removed.
+/// for the asset. The updated asset must be a marker or a scope.
 ///
 /// # Arguments
 ///
@@ -40,15 +39,11 @@ pub fn handle(
         return Err(ContractError::AssetDoesNotExist(asset_addr.to_string()));
     }
 
-    if security.category.is_empty() && security.name.is_none() {
-        storage::asset::remove_security(deps.storage, &asset_addr);
-    } else {
-        if !storage::security::has_type(deps.storage, security) {
-            return Err(ContractError::InvalidSecurityType(security.to_string()));
-        }
-
-        storage::asset::set_security(deps.storage, &asset_addr, security)?;
+    if !storage::security::has_type(deps.storage, security) {
+        return Err(ContractError::InvalidSecurityType(security.to_string()));
     }
+
+    storage::asset::set_security(deps.storage, &asset_addr, security)?;
 
     Ok(Response::default()
         .set_action(ActionType::SetSecurity {})
@@ -137,62 +132,6 @@ mod tests {
             .expect("should have security for asset");
 
         assert_eq!(security, stored_security);
-        assert_eq!(
-            vec![Attribute::from(ActionType::SetSecurity {})],
-            res.attributes
-        );
-        assert_eq!(expected_events, res.events);
-        assert_eq!(0, res.messages.len());
-    }
-
-    #[test]
-    fn test_removes_tag_for_valid_marker() {
-        let mut deps = mock_provenance_dependencies();
-        let sender = Addr::unchecked(OWNER);
-        let asset_addr = Addr::unchecked("marker");
-        let security = Security::new("");
-        let expected_events: Vec<Event> =
-            vec![SetSecurityEvent::new(&asset_addr, &security).into()];
-        setup::mock_scopes(&mut deps);
-        setup::mock_markers(&mut deps);
-
-        setup::mock_contract(deps.as_mut());
-
-        storage::asset::set_security(deps.as_mut().storage, &asset_addr, &Security::new(TAG1))
-            .expect("should set security");
-        let res = handle(deps.as_mut(), sender, asset_addr.clone(), &security)
-            .expect("should not return an error");
-        let found = storage::asset::has_security(&deps.storage, &Security::new(TAG1));
-
-        assert_eq!(false, found);
-        assert_eq!(
-            vec![Attribute::from(ActionType::SetSecurity {})],
-            res.attributes
-        );
-        assert_eq!(expected_events, res.events);
-        assert_eq!(0, res.messages.len());
-    }
-
-    #[test]
-    fn test_removes_security_for_valid_scope() {
-        let mut deps = mock_provenance_dependencies();
-        let sender = Addr::unchecked(OWNER);
-        let asset_addr = Addr::unchecked("scope");
-        let security = Security::new("");
-        let expected_events: Vec<Event> =
-            vec![SetSecurityEvent::new(&asset_addr, &security).into()];
-        setup::mock_scopes(&mut deps);
-        setup::mock_markers(&mut deps);
-
-        setup::mock_contract(deps.as_mut());
-
-        storage::asset::set_security(deps.as_mut().storage, &asset_addr, &Security::new(TAG1))
-            .expect("should set security");
-        let res = handle(deps.as_mut(), sender, asset_addr.clone(), &security)
-            .expect("should not return an error");
-        let found = storage::asset::has_security(&deps.storage, &Security::new(TAG1));
-
-        assert_eq!(false, found);
         assert_eq!(
             vec![Attribute::from(ActionType::SetSecurity {})],
             res.attributes

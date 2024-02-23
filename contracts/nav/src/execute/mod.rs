@@ -3,4 +3,5 @@ mod change_owner;
 mod remove_security_types;
 pub mod router;
 mod set_security;
+mod remove_security;
 pub mod validate;

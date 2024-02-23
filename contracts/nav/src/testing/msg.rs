@@ -31,6 +31,12 @@ pub fn mock_invalid_add_tag_types_msg() -> ExecuteMsg {
     }
 }
 
+pub fn mock_invalid_add_tag_types_with_name_msg() -> ExecuteMsg {
+    ExecuteMsg::AddSecurityTypes {
+        security_types: vec![Security::new_with_name("category", "")],
+    }
+}
+
 pub fn mock_remove_tag_types_msg() -> ExecuteMsg {
     ExecuteMsg::RemoveSecurityTypes {
         security_types: vec![Security::new(TAG1), Security::new(TAG2)],
@@ -41,5 +47,11 @@ pub fn mock_set_tag_msg(asset: &Addr) -> ExecuteMsg {
     ExecuteMsg::SetSecurity {
         asset_addr: asset.clone(),
         security: Security::new(TAG1),
+    }
+}
+
+pub fn mock_remove_tag_msg(asset: &Addr) -> ExecuteMsg {
+    ExecuteMsg::RemoveSecurity {
+        asset_addr: asset.clone(),
     }
 }

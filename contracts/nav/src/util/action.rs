@@ -5,7 +5,7 @@ use crate::core::{
     constants::{
         ACTION_ATTRIBUTE, ACTION_TYPE_ADD_SECURITIES, ACTION_TYPE_CHANGE_OWNER,
         ACTION_TYPE_INITIALIZE, ACTION_TYPE_MIGRATE, ACTION_TYPE_REMOVE_SECURITIES,
-        ACTION_TYPE_SET_SECURITY,
+        ACTION_TYPE_REMOVE_SECURITY, ACTION_TYPE_SET_SECURITY,
     },
 };
 
@@ -15,6 +15,7 @@ pub enum ActionType {
     Migrate,
     ChangeOwner,
     SetSecurity,
+    RemoveSecurity,
     AddSecurityTypes,
     RemoveSecurityTypes,
 }
@@ -25,6 +26,7 @@ impl ToString for ActionType {
         match self {
             ActionType::ChangeOwner => ACTION_TYPE_CHANGE_OWNER.to_string(),
             ActionType::SetSecurity => ACTION_TYPE_SET_SECURITY.to_string(),
+            ActionType::RemoveSecurity => ACTION_TYPE_REMOVE_SECURITY.to_string(),
             ActionType::AddSecurityTypes => ACTION_TYPE_ADD_SECURITIES.to_string(),
             ActionType::RemoveSecurityTypes => ACTION_TYPE_REMOVE_SECURITIES.to_string(),
             ActionType::Initialize => ACTION_TYPE_INITIALIZE.to_string(),
@@ -59,7 +61,7 @@ mod tests {
     use crate::core::constants::{
         ACTION_ATTRIBUTE, ACTION_TYPE_ADD_SECURITIES, ACTION_TYPE_CHANGE_OWNER,
         ACTION_TYPE_INITIALIZE, ACTION_TYPE_MIGRATE, ACTION_TYPE_REMOVE_SECURITIES,
-        ACTION_TYPE_SET_SECURITY,
+        ACTION_TYPE_REMOVE_SECURITY, ACTION_TYPE_SET_SECURITY,
     };
 
     use super::ActionType;
@@ -72,6 +74,7 @@ mod tests {
         let action_type4 = ActionType::SetSecurity;
         let action_type5 = ActionType::AddSecurityTypes;
         let action_type6 = ActionType::RemoveSecurityTypes;
+        let action_type7 = ActionType::RemoveSecurity;
         assert_eq!(
             ACTION_TYPE_CHANGE_OWNER.to_string(),
             action_type1.to_string()
@@ -90,6 +93,10 @@ mod tests {
             ACTION_TYPE_REMOVE_SECURITIES.to_string(),
             action_type6.to_string()
         );
+        assert_eq!(
+            ACTION_TYPE_REMOVE_SECURITY.to_string(),
+            action_type7.to_string()
+        );
     }
 
     #[test]
@@ -100,6 +107,7 @@ mod tests {
         let action_type4 = ActionType::SetSecurity;
         let action_type5 = ActionType::AddSecurityTypes;
         let action_type6 = ActionType::RemoveSecurityTypes;
+        let action_type7 = ActionType::RemoveSecurity;
 
         let attribute1 = Attribute::from(action_type1);
         let attribute2 = Attribute::from(action_type2);
@@ -107,6 +115,7 @@ mod tests {
         let attribute4 = Attribute::from(action_type4);
         let attribute5 = Attribute::from(action_type5);
         let attribute6 = Attribute::from(action_type6);
+        let attribute7 = Attribute::from(action_type7);
 
         assert_eq!(attribute1.key, ACTION_ATTRIBUTE);
         assert_eq!(attribute2.key, ACTION_ATTRIBUTE);
@@ -114,11 +123,13 @@ mod tests {
         assert_eq!(attribute4.key, ACTION_ATTRIBUTE);
         assert_eq!(attribute5.key, ACTION_ATTRIBUTE);
         assert_eq!(attribute6.key, ACTION_ATTRIBUTE);
+        assert_eq!(attribute7.key, ACTION_ATTRIBUTE);
         assert_eq!(attribute1.value, ACTION_TYPE_CHANGE_OWNER);
         assert_eq!(attribute2.value, ACTION_TYPE_INITIALIZE);
         assert_eq!(attribute3.value, ACTION_TYPE_MIGRATE);
         assert_eq!(attribute4.value, ACTION_TYPE_SET_SECURITY);
         assert_eq!(attribute5.value, ACTION_TYPE_ADD_SECURITIES);
         assert_eq!(attribute6.value, ACTION_TYPE_REMOVE_SECURITIES);
+        assert_eq!(attribute7.value, ACTION_TYPE_REMOVE_SECURITY);
     }
 }

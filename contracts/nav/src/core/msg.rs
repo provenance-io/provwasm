@@ -19,6 +19,9 @@ pub enum ExecuteMsg {
         asset_addr: Addr,
         security: Security,
     },
+    RemoveSecurity {
+        asset_addr: Addr,
+    },
     AddSecurityTypes {
         security_types: Vec<Security>,
     },
