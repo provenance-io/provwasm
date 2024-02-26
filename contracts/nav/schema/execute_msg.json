@@ -51,6 +51,27 @@
     {
       "type": "object",
       "required": [
+        "remove_security"
+      ],
+      "properties": {
+        "remove_security": {
+          "type": "object",
+          "required": [
+            "asset_addr"
+          ],
+          "properties": {
+            "asset_addr": {
+              "$ref": "#/definitions/Addr"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
         "add_security_types"
       ],
       "properties": {
