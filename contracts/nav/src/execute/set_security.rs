@@ -52,8 +52,8 @@ pub fn handle(
 
 fn is_marker(deps: &DepsMut, asset_addr: &Addr) -> Result<bool, ContractError> {
     let marker = MarkerQuerier::new(&deps.querier);
-    let response = marker.marker(asset_addr.to_string())?;
-    Ok(response.marker.is_some())
+    let response = marker.marker(asset_addr.to_string());
+    Ok(response.is_ok_and(|res| res.marker.is_some()))
 }
 
 fn is_scope(deps: &DepsMut, asset_addr: &Addr) -> Result<bool, ContractError> {
@@ -64,8 +64,8 @@ fn is_scope(deps: &DepsMut, asset_addr: &Addr) -> Result<bool, ContractError> {
         "".to_string(),
         false,
         false,
-    )?;
-    Ok(response.scope.is_some())
+    );
+    Ok(response.is_ok_and(|res| res.scope.is_some()))
 }
 
 #[cfg(test)]
