@@ -1,40 +1,22 @@
-# Template Contract
-This contract aims to equip developers with a pre-configured smart contract that streamlines implementation and conforms to the standard Provenance layout. With only the need to add or modify endpoints and integrate their logic, developers can focus on their contract's core functionalities. Additionally, the accompanying documentation and tests provide clear examples for proper documentation practices.
-
-This contract was inspired by the [metadata-bilateral-exchange](https://github.com/provenance-io/metadata-bilateral-exchange) and similar contracts.
+# Security Contract
+The purpose of this contract is to provide the Provenance Blockchain with the ability to link assets to a security type.
 
 ## Concepts
-In the template contract, two crucial concepts that every developer should aim to comprehend are the incorporation of Fees to monetize their contract and the standard structure of the contract.
+In the security contract, there are a few concepts that should be understood to correctly use the contract.
 
-### Fee
-Fees offer a straightforward method for contract developers to receive funds. If a fee lacks a recipient, it will be routed directly to Provenance foundation. However, if a recipient is specified, the fee will be split evenly, with 50% going to the foundation.
+### Owner
+The owner of the contract is the only address that can run the contract's execution end points. This address will remain as the owner, unless they decide
+to revoke their ownership and pass it on to another address.
 
-### Module Structure
-Our contract has been carefully crafted with a modular design, allowing developers to seamlessly integrate their own functionalities without compromising the core components of the smart contract. All message handling follows a consistent pattern: messages enter through the entry points specified in contract.rs, then handed off to their message router, and ultimately are processed by their respective module's handler.
+### Asset
+Assets are markers and scopes that have been recorded on the Provenance Blockchain.
 
-#### Contract
-Within this module, you can find all the entrypoints that are invoked by wasmd. Each entrypoint first validates the incoming message before forwarding it to its corresponding message router.
-
-#### Core
-This set of modules comprises the fundamental components that every contract utilizes to define types and messages.
-
-#### Events
-A module used for defining events that will be emitted during contract state modification.
-
-#### Execute, Instantiate, Migrate, Query, Reply
-These modules encompass the complete implementation for the various endpoints corresponding to each message variant.
-
-#### Storage
-Acting as an intermediary between the contract and its stored state, this module offers a layer that streamlines storage for developers.
-
-#### Testing
-A set of modules to assist in testing the smart contract.
-
-#### Util
-This group of modules is used to provide additional tools and helpers for the contract.
+### Security Type
+A Security Type is a grouping of data that contains a category and, optionally, a name for a security. It may be difficult to initially come up with a name for a finanacial instrument, but
+it allows the Provenance Blockchain to effectively categorize assets.
 
 ## Transactions
-The template contract enables all three transaction entry points. These transactions allow the user to manipulate contract and blockchain state with messages. 
+The security contract enables all three transaction entry points. These transactions allow the user to manipulate contract and blockchain state with messages. 
 
 ### [Instantiation]
 These message variants are utilized in the construction of the contract and to activate the instantiate entry point.
@@ -44,7 +26,7 @@ A default instantiation message that provides and demonstrates commonly used set
 
 #### Request Parameters
 - owner: The address of the account that will own the contract.
-- fee: A fee to be applied when instantiating the contract.
+- security_types: An initial list of security types that can be linked to an asset.
 
 #### Emitted Attributes
 - action: This will always have a value of "instantiate".
@@ -57,13 +39,15 @@ This transaction does not emit any events.
 {
     "default": {
         "owner": "tp1y8e0lvgek8em05mpxk8veqfyz9tzwphylq7hxr",
-        "fee": {
-            "recipient": "tp1y8e0lvgek8em05mpxk8veqfyz9tzwphylq7hxr",
-            "amount": {
-                "denom": "nhash",
-                "amount": "1000000000"
-            }
-        }
+        "security_types": [
+            {
+                "category": "category_name",
+                "name": "instrument_name",
+            },
+            {
+                "category": "category_name",
+            },
+        ]
     }
 }
 ```
@@ -97,11 +81,134 @@ This message variant will fail if the sender is not the current owner of the con
 }
 ```
 
+#### [Add Security Types]
+This transaction will update the contract to allow additional security types to be linked against an asset.
+
+##### Note
+This message variant will fail if the sender is not the current owner of the contract. The category and name, if supplied, must have
+a length of at least 1.
+
+#### Request Parameters
+- security_types: The security types that the contract should add to the list of supported types.
+
+#### Emitted Attributes
+- action: This will always have the value of "add_security_types".
+
+#### Emitted Events
+- update_security_types
+
+#### Request Sample
+```
+{
+    "add_security_types": {
+        "security_types": [
+            {
+                "category": "category_name",
+                "name": "instrument_name",
+            },
+            {
+                "category": "category_name",
+            },
+        ]
+    }
+}
+```
+
+#### [Remove Security Types]
+This transaction will update the contract to remove security types and prevent assets from being linked against them.
+
+##### Note
+This message variant will fail if the sender is not the current owner of the contract. If any provided security type is linked
+against an asset, then the transaction will fail.
+
+#### Request Parameters
+- security_types: The security types that the contract should remove from the list of supported types.
+
+#### Emitted Attributes
+- action: This will always have the value of "remove_security_types".
+
+#### Emitted Events
+- remove_security_types
+
+#### Request Sample
+```
+{
+    "remove_security_types": {
+        "security_types": [
+            {
+                "category": "category_name",
+                "name": "instrument_name",
+            },
+            {
+                "category": "category_name",
+            },
+        ]
+    }
+}
+```
+
+#### [Set Security]
+This transaction will link an asset to a security type, and replace any pre-existing link.
+
+##### Note
+This message variant will fail if the sender is not the current owner of the contract. The asset that is supplied
+must be either a marker or a scope. The provided security type must also be supported by the contract.
+
+#### Request Parameters
+- asset_addr: The address of the asset to be set.
+- security: The type to link against the asset.
+
+#### Emitted Attributes
+- action: This will always have the value of "set_security".
+
+#### Emitted Events
+- set_security:
+  - asset_address: The address of the asset that was linked.
+  - security: The type of security linked to the asset.
+
+#### Request Sample
+```
+{
+    "set_security": {
+        "asset_addr": "tp1ek77wghn0n9lc7x2uycgh697sjc7fvy995keun",
+        "security": {
+            "category": "category_name",
+            "name": "instrument_name",
+        }
+    }
+}
+```
+
+#### [Remove Security]
+This transaction will remove any linked security against an asset.
+
+##### Note
+This message variant will fail if the sender is not the current owner of the contract.
+
+#### Request Parameters
+- asset_addr: The address of the asset to be removed and unlinked.
+
+#### Emitted Attributes
+- action: This will always have the value of "remove_security".
+
+#### Emitted Events
+- remove_security:
+  - asset_address: The address of the asset that was removed.
+
+#### Request Sample
+```
+{
+    "remove_security": {
+        "asset_addr": "tp1ek77wghn0n9lc7x2uycgh697sjc7fvy995keun",
+    }
+}
+```
+
 ### [Migrate]
-The migrate message variants enable the developer to make their contract future-proof by providing the ability to upgrade it in multiple ways.
+The migrate message is implemented to allow the contract to be migrated in the future.
 
 #### [Default]
-A default instantiation message that provides and demonstrates commonly used migration functionality.
+A default instantiation message that contains default migration functionality.
 
 #### Request Parameters
 - None
