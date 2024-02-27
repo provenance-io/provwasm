@@ -227,7 +227,7 @@ A default instantiation message that contains default migration functionality.
 ```
 
 ### [Query]
-The migrate message variants allow the users to quickly obtain contract information.
+The query message variants allow the users to quickly obtain contract information.
 
 ### [Query Version]
 The QueryVersion message will return the contract's current version.
@@ -276,18 +276,156 @@ The QueryVersion message will return the contract's current owner.
 }
 ```
 
-## Plugins
-The following is a list of plugins that we used to increase our development productivity:
+### [Query Security Types]
+The QuerySecurityTypes message will return the contract's supported security types.
 
-- rust-analyzer
-- crates
-- CodeLLDB
-- Better TOML
-- Error Lens
+#### Request Parameters
+- paginate: A pagination object to optionally limit the response.
+  - limit: An optional uint64 that allows the user to limit the number of returned types.
+  - start_after: An optional index that can be used to start obtaining security types after.
 
-## Contributors
-We are extremely grateful for all the contributions and suggestions made by the following users:
+#### Request Sample
+```
+{
+    "query_security_types": {
+        "paginate": {
+            "limit": "5",
+            "start_after": {
+                "category": "category_name",
+                "name": "optional_name",
+            }
+        }
+    }
+}
+```
 
-- Matthew Witkowski [taztingo](https://github.com/taztingo)
-- Ken Talley [kwtalley](https://github.com/kwtalley)
-- Ira Miller [iramiller](https://github.com/iramiller)
+#### Response Sample
+```
+{
+    "data": {
+        "securities": [
+            {
+                "category": "category_1",
+                "name": "name"
+            },
+            {
+                "category": "category_2",
+                "name": "null"
+            },
+            {
+                "category": "category_2",
+                "name": "name_2"
+            },
+        ]
+    }
+}
+```
+
+### [Query Address]
+The QueryAddress message will return the security type linked to an address.
+
+#### Request Parameters
+- asset_addr: The address to lookup the linked security of.
+
+#### Request Sample
+```
+{
+    "query_address": {
+        "asset_addr": "tp1y8e0lvgek8em05mpxk8veqfyz9tzwphylq7hxr",
+    }
+}
+```
+
+#### Response Sample
+```
+{
+    "data": {
+        "security": {
+            "category": "category_name",
+            "name": "name",
+        }
+    }
+}
+```
+
+### [Query Security Category]
+The QuerySecurityCategory message will return all assets that have the provided category.
+
+#### Request Parameters
+- category: The category to search for.
+- paginate: A pagination object to optionally limit the response.
+  - limit: An optional uint64 that allows the user to limit the number of returned types.
+  - start_after: An optional index that can be used to start obtaining assets after.
+
+#### Request Sample
+```
+{
+    "query_security_category": {
+        "category": "category_name",
+        "paginate": {
+            "limit": "5",
+            "start_after": {
+                "name": "instrument_name",
+                "asset": "tp1y8e0lvgek8em05mpxk8veqfyz9tzwphylq7hxr",
+            }
+        }
+    }
+}
+```
+
+#### Response Sample
+```
+{
+    "data": {
+        "assets": [
+            {
+                "asset": "scope1qptg2wnwv3yyk2u37fp4ztnfkafqrtem4y",
+                "name": "name"
+            },
+            {
+                "asset": "tp1pr93cqdh4kfnmrknhwa87a5qrwxw9k3dhkszp0",
+                "name": "null"
+            },
+            {
+                "asset": "tp1ts6zfw70xpntec49wsxsy9vwhvsda0vzk600qv",
+                "name": "name_2"
+            },
+        ]
+    }
+}
+```
+
+### [Query Security]
+The QuerySecurity message will return all assets that match the provided security exactly.
+
+#### Request Parameters
+- security: The security to search for.
+- paginate: A pagination object to optionally limit the response.
+  - limit: An optional uint64 that allows the user to limit the number of returned types.
+  - start_after: An optional index that can be used to start obtaining assets after.
+
+#### Request Sample
+```
+{
+    "query_security": {
+        "security": "category_name",
+        "paginate": {
+            "limit": "5",
+            "start_after": "tp1y8e0lvgek8em05mpxk8veqfyz9tzwphylq7hxr",
+        }
+    }
+}
+```
+
+#### Response Sample
+```
+{
+    "data": {
+        "assets": [
+            "scope1qptg2wnwv3yyk2u37fp4ztnfkafqrtem4y",
+            "tp1pr93cqdh4kfnmrknhwa87a5qrwxw9k3dhkszp0",
+            "tp1ts6zfw70xpntec49wsxsy9vwhvsda0vzk600qv",
+        ]
+    }
+}
+```
