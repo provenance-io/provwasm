@@ -58,6 +58,6 @@ scope:
 scope:
 	@make -C contracts/trigger
 
-.PHONY: nav
-nav:
-	@make -C contracts/nav
+.PHONY: security
+security:
+	@make -C contracts/security

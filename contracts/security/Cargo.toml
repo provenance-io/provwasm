@@ -1,10 +1,10 @@
 [package]
-name = "nav-tag"
+name = "security"
 version = "2.2.0"
 authors = ["Matthew Witkowski <mwitkowski@provenance.io"]
 edition = "2021"
 
-exclude = ["nav_tag.wasm", "nav_tag-aarch64.wasm", "checksums.txt"]
+exclude = ["security.wasm", "security-aarch64.wasm", "checksums.txt"]
 
 [lib]
 crate-type = ["cdylib", "rlib"]

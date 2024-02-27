@@ -17,7 +17,7 @@ members = [
     "contracts/trigger",
     "contracts/tutorial",
 ]
-exclude = ["contracts/template", "contracts/nav"]
+exclude = ["contracts/template", "contracts/security"]
 
 [workspace.package]
 version = "2.2.0"
