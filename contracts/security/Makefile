@@ -26,12 +26,12 @@ schema:
 .PHONY: optimize
 optimize:
 ifeq ($(UNAME_M),arm64)
-	@docker run --rm -v $(CURDIR):/code \
+	@docker run --rm -v $(CURDIR):/code:z \
 		--mount type=volume,source="security_cache",target=/code/target \
 		--mount type=volume,source=registry_cache,target=/usr/local/cargo/registry \
 		cosmwasm/rust-optimizer-arm64:0.15.0
 else
-	@docker run --rm -v $(CURDIR):/code \
+	@docker run --rm -v $(CURDIR):/code:z \
 		--mount type=volume,source="security_cache",target=/code/target \
 		--mount type=volume,source=registry_cache,target=/usr/local/cargo/registry \
 		cosmwasm/rust-optimizer:0.15.0
