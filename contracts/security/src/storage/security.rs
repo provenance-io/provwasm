@@ -19,7 +19,7 @@ pub const SECURITY_TYPES: Map<(&str, &str), Empty> = Map::new(SECURITY_TYPE_KEY)
 /// # Examples
 /// ```
 /// add_type(deps.as_mut().storage, Security{category: "category".to_string(), name: None})?;
-/// `
+/// ```
 pub fn add_type(storage: &mut dyn Storage, security: &Security) -> Result<(), ContractError> {
     let default_name = String::default();
     let key: (&str, &str) = (
@@ -39,7 +39,7 @@ pub fn add_type(storage: &mut dyn Storage, security: &Security) -> Result<(), Co
 /// # Examples
 /// ```
 /// remove_type(deps.as_mut().storage, Security{category: "category".to_string(), name: None});
-/// `
+/// ```
 pub fn remove_type(storage: &mut dyn Storage, security: &Security) {
     let default_name = String::default();
     let key: (&str, &str) = (
@@ -59,7 +59,7 @@ pub fn remove_type(storage: &mut dyn Storage, security: &Security) {
 /// # Examples
 /// ```
 /// has_type(deps.storage, Security{category: "category".to_string(), name: None});
-/// `
+/// ```
 pub fn has_type(storage: &dyn Storage, security: &Security) -> bool {
     let default_name = String::default();
     let key: (&str, &str) = (
@@ -79,7 +79,7 @@ pub fn has_type(storage: &dyn Storage, security: &Security) -> bool {
 /// # Examples
 /// ```
 /// get_types(deps.storage, Paginate{limit: None, start_after: None});
-/// `
+/// ```
 pub fn get_types(
     storage: &dyn Storage,
     paginate: Paginate<Security>,

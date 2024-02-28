@@ -24,7 +24,7 @@ pub const SECURITY_TO_ASSET: Map<(&str, &str, &Addr), Empty> = Map::new(SECURITY
 /// ```
 /// let addr = Addr::unchecked("addr1");
 /// get_security(deps.storage, &addr)?;
-/// `
+/// ```
 pub fn get_security(storage: &dyn Storage, asset_addr: &Addr) -> Result<Security, ContractError> {
     Ok(ASSET_TO_SECURITY.load(storage, asset_addr)?)
 }
@@ -40,7 +40,7 @@ pub fn get_security(storage: &dyn Storage, asset_addr: &Addr) -> Result<Security
 /// # Examples
 /// ```
 /// with_security(deps.storage, Security::new("security"), Paginate{limit: None, start_after: None})?;
-/// `
+/// ```
 pub fn with_security(
     storage: &dyn Storage,
     security: &Security,
@@ -80,7 +80,7 @@ pub fn with_security(
 /// # Examples
 /// ```
 /// with_security_category(deps.storage, "category", Paginate{limit: None, start_after: None})?;
-/// `
+/// ```
 pub fn with_security_category(
     storage: &dyn Storage,
     category: &str,
@@ -118,7 +118,7 @@ pub fn with_security_category(
 /// # Examples
 /// ```
 /// has_security(deps.storage, Security::new("tag"))?;
-/// `
+/// ```
 pub fn has_security(storage: &dyn Storage, security: &Security) -> bool {
     let default_name = String::default();
     let key: (&str, &str) = (
@@ -142,7 +142,7 @@ pub fn has_security(storage: &dyn Storage, security: &Security) -> bool {
 /// ```
 /// let addr = Addr::unchecked("addr1");
 /// set_security(deps.as_mut().storage, &addr, Security::new("tag"))?;
-/// `
+/// ```
 pub fn set_security(
     storage: &mut dyn Storage,
     asset_addr: &Addr,
@@ -173,7 +173,7 @@ pub fn set_security(
 /// ```
 /// let addr = Addr::unchecked("addr1");
 /// remove_security(deps.as_mut().storage, &addr);
-/// `
+/// ```
 pub fn remove_security(storage: &mut dyn Storage, asset_addr: &Addr) {
     let security = get_security(storage, asset_addr);
     ASSET_TO_SECURITY.remove(storage, asset_addr);
