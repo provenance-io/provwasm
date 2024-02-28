@@ -28,11 +28,12 @@ pub fn handle(deps: DepsMut, sender: Addr, asset_addr: Addr) -> ProvTxResponse {
         return Err(ContractError::Unauthorized {});
     }
 
+    let security = storage::asset::get_security(deps.storage, &asset_addr)?;
     storage::asset::remove_security(deps.storage, &asset_addr);
 
     Ok(Response::default()
         .set_action(ActionType::RemoveSecurity {})
-        .add_event(RemoveSecurityEvent::new(&asset_addr).into()))
+        .add_event(RemoveSecurityEvent::new(&asset_addr, &security).into()))
 }
 
 #[cfg(test)]
@@ -73,7 +74,8 @@ mod tests {
         let mut deps = mock_provenance_dependencies();
         let sender = Addr::unchecked(OWNER);
         let asset_addr = Addr::unchecked("marker");
-        let expected_events: Vec<Event> = vec![RemoveSecurityEvent::new(&asset_addr).into()];
+        let expected_events: Vec<Event> =
+            vec![RemoveSecurityEvent::new(&asset_addr, &Security::new(TAG1)).into()];
 
         setup::mock_contract(deps.as_mut());
 
@@ -93,24 +95,16 @@ mod tests {
     }
 
     #[test]
-    fn test_removes_tag_succeeds_on_non_existing_asset() {
+    fn test_removes_tag_returns_error_on_non_existing_asset() {
         let mut deps = mock_provenance_dependencies();
         let sender = Addr::unchecked(OWNER);
         let asset_addr = Addr::unchecked("marker");
-        let expected_events: Vec<Event> = vec![RemoveSecurityEvent::new(&asset_addr).into()];
 
         setup::mock_contract(deps.as_mut());
 
-        let res =
-            handle(deps.as_mut(), sender, asset_addr.clone()).expect("should not return an error");
-        let found = storage::asset::has_security(&deps.storage, &Security::new(TAG1));
+        handle(deps.as_mut(), sender, asset_addr.clone()).expect_err("should return an error");
 
+        let found = storage::asset::has_security(&deps.storage, &Security::new(TAG1));
         assert_eq!(false, found);
-        assert_eq!(
-            vec![Attribute::from(ActionType::RemoveSecurity {})],
-            res.attributes
-        );
-        assert_eq!(expected_events, res.events);
-        assert_eq!(0, res.messages.len());
     }
 }

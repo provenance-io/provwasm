@@ -45,8 +45,10 @@ mod tests {
     use provwasm_mocks::mock_provenance_dependencies;
 
     use crate::{
+        core::msg::Security,
+        storage,
         testing::{
-            constants::OWNER,
+            constants::{OWNER, TAG1},
             msg::{
                 mock_add_tag_types_msg, mock_change_owner_msg, mock_remove_tag_msg,
                 mock_remove_tag_types_msg, mock_set_tag_msg,
@@ -102,6 +104,8 @@ mod tests {
         let msg = mock_remove_tag_msg(&asset_addr);
 
         setup::mock_contract(deps.as_mut());
+        storage::asset::set_security(deps.as_mut().storage, &asset_addr, &Security::new(TAG1))
+            .expect("should set security");
 
         let res = route(deps.as_mut(), env, info, msg).unwrap();
         assert_eq!(

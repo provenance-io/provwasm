@@ -28,6 +28,7 @@ pub const CHANGE_OWNER_NEW: &str = "new_owner";
 pub const SET_SECURITY_ASSET: &str = "asset_address";
 pub const SET_SECURITY_VALUE: &str = "security";
 pub const REMOVE_SECURITY_ASSET: &str = "asset_address";
+pub const REMOVE_SECURITY_SECURITY: &str = "security";
 
 // Limits
 pub const DEFAULT_WITH_SECURITY_LIMIT: u64 = 10;

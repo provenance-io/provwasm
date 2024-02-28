@@ -183,7 +183,7 @@ must be either a marker or a scope. The provided security type must also be supp
 This transaction will remove any linked security against an asset.
 
 ##### Note
-This message variant will fail if the sender is not the current owner of the contract.
+This message variant will fail if the sender is not the current owner of the contract, or if the asset is not linked against a security.
 
 #### Request Parameters
 - asset_addr: The address of the asset to be removed and unlinked.
@@ -194,6 +194,7 @@ This message variant will fail if the sender is not the current owner of the con
 #### Emitted Events
 - remove_security:
   - asset_address: The address of the asset that was removed.
+  - security: The security that was linked against the asset.
 
 #### Request Sample
 ```
