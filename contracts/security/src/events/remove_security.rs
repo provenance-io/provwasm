@@ -17,7 +17,7 @@ impl RemoveSecurityEvent {
     /// # Examples
     /// ```
     /// let asset_addr = Addr::unchecked("address");
-    /// let event = SetSecurityEvent::new(asset_addr);
+    /// let event = RemoveSecurityEvent::new(asset_addr);
     /// ```
     pub fn new(asset_addr: &Addr) -> Self {
         Self {
