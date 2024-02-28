@@ -1,5 +1,6 @@
 # Security Contract
-The purpose of this contract is to provide the Provenance Blockchain with the ability to link assets to a security type.
+The purpose of this contract is to provide the Provenance Blockchain with the ability to associate assets with a security type. It provides the ability
+to map an address to a supported security type and enable efficient lookups.
 
 ## Concepts
 In the security contract, there are a few concepts that should be understood to correctly use the contract.
