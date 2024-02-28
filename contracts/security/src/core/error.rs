@@ -19,7 +19,7 @@ pub enum ContractError {
     #[error("Security type {0} is not a valid security type")]
     InvalidSecurityType(String),
 
-    #[error("Security type {0} has an empty string for category or name.")]
+    #[error("Security type {0} has an empty string for category or name")]
     InvalidSecurityTypeFormat(String),
 
     // Funds
