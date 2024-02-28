@@ -26,7 +26,7 @@ impl RemoveSecurityEvent {
     }
 }
 
-/// Allows us to easily convert a SetTagEvent into an Event.
+/// Allows us to easily convert a RemoveSecurityEvent into an Event.
 impl From<RemoveSecurityEvent> for Event {
     fn from(val: RemoveSecurityEvent) -> Self {
         let event = Event::new(REMOVE_SECURITY_EVENT);

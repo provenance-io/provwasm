@@ -32,7 +32,7 @@ impl SetSecurityEvent {
     }
 }
 
-/// Allows us to easily convert a SetTagEvent into an Event.
+/// Allows us to easily convert a SetSecurityEvent into an Event.
 impl From<SetSecurityEvent> for Event {
     fn from(val: SetSecurityEvent) -> Self {
         let event = Event::new(SET_SECURITY_EVENT);
