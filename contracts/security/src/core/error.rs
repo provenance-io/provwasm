@@ -22,6 +22,9 @@ pub enum ContractError {
     #[error("Security type {0} has an empty string for category or name")]
     InvalidSecurityTypeFormat(String),
 
+    #[error("No assets were included in the message")]
+    NoAssetsSupplied {},
+
     // Funds
     #[error("Unexpected funds included in transaction")]
     UnexpectedFunds {},

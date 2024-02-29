@@ -4,4 +4,5 @@ mod remove_security;
 mod remove_security_types;
 pub mod router;
 mod set_security;
+mod set_security_multiple;
 pub mod validate;

@@ -19,6 +19,10 @@ pub enum ExecuteMsg {
         asset_addr: Addr,
         security: Security,
     },
+    SetSecurityMultiple {
+        assets: Vec<Addr>,
+        security: Security,
+    },
     RemoveSecurity {
         asset_addr: Addr,
     },

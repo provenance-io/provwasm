@@ -4,6 +4,7 @@ use crate::core::{aliases::ProvTxResponse, msg::ExecuteMsg};
 
 use super::{
     add_security_types, change_owner, remove_security, remove_security_types, set_security,
+    set_security_multiple,
 };
 
 /// Routes the execute message to the appropriate handler based on the message's variant.
@@ -27,6 +28,9 @@ pub fn route(deps: DepsMut, _env: Env, info: MessageInfo, msg: ExecuteMsg) -> Pr
             asset_addr,
             security,
         } => set_security::handle(deps, info.sender, asset_addr, &security),
+        ExecuteMsg::SetSecurityMultiple { assets, security } => {
+            set_security_multiple::handle(deps, info.sender, &assets, &security)
+        }
         ExecuteMsg::RemoveSecurity { asset_addr } => {
             remove_security::handle(deps, info.sender, asset_addr)
         }
@@ -51,7 +55,7 @@ mod tests {
             constants::{OWNER, TAG1},
             msg::{
                 mock_add_tag_types_msg, mock_change_owner_msg, mock_remove_tag_msg,
-                mock_remove_tag_types_msg, mock_set_tag_msg,
+                mock_remove_tag_types_msg, mock_set_security_multiple_msg, mock_set_tag_msg,
             },
             setup::{self, mock_info, mock_markers},
         },
@@ -90,6 +94,24 @@ mod tests {
         let res = route(deps.as_mut(), env, info, msg).unwrap();
         assert_eq!(
             vec![Attribute::from(ActionType::SetSecurity {})],
+            res.attributes
+        );
+    }
+
+    #[test]
+    fn test_set_security_multiple_route() {
+        let mut deps = mock_provenance_dependencies();
+        let env = mock_env();
+        let info = mock_info(false, OWNER);
+        let assets = vec![Addr::unchecked("marker")];
+        mock_markers(&mut deps);
+        let msg = mock_set_security_multiple_msg(&assets);
+
+        setup::mock_contract(deps.as_mut());
+
+        let res = route(deps.as_mut(), env, info, msg).unwrap();
+        assert_eq!(
+            vec![Attribute::from(ActionType::SetSecurityMultiple {})],
             res.attributes
         );
     }

@@ -50,6 +50,13 @@ pub fn mock_set_tag_msg(asset: &Addr) -> ExecuteMsg {
     }
 }
 
+pub fn mock_set_security_multiple_msg(assets: &[Addr]) -> ExecuteMsg {
+    ExecuteMsg::SetSecurityMultiple {
+        assets: assets.into(),
+        security: Security::new(TAG1),
+    }
+}
+
 pub fn mock_remove_tag_msg(asset: &Addr) -> ExecuteMsg {
     ExecuteMsg::RemoveSecurity {
         asset_addr: asset.clone(),

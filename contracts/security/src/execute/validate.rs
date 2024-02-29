@@ -35,6 +35,15 @@ impl Validate for ExecuteMsg {
                 }
                 Ok(())
             }
+            ExecuteMsg::SetSecurityMultiple {
+                assets,
+                security: _,
+            } => {
+                if assets.is_empty() {
+                    return Err(ContractError::NoAssetsSupplied {});
+                }
+                Ok(())
+            }
             _ => Ok(()),
         }
     }
@@ -73,8 +82,8 @@ mod tests {
             constants::{TEST_AMOUNT, TEST_DENOM},
             msg::{
                 mock_add_tag_types_msg, mock_change_owner_msg, mock_invalid_add_tag_types_msg,
-                mock_invalid_add_tag_types_with_name_msg, mock_remove_tag_types_msg,
-                mock_set_tag_msg,
+                mock_invalid_add_tag_types_with_name_msg, mock_remove_tag_msg,
+                mock_remove_tag_types_msg, mock_set_security_multiple_msg, mock_set_tag_msg,
             },
         },
         util::validate::Validate,
@@ -111,6 +120,20 @@ mod tests {
     }
 
     #[test]
+    fn test_validate_checks_for_missing_assets_in_set_multiple() {
+        let deps = mock_provenance_dependencies();
+        let msgs: Vec<ExecuteMsg> = vec![mock_set_security_multiple_msg(&vec![])];
+
+        for msg in msgs {
+            let res = msg.validate(deps.as_ref()).unwrap_err();
+            assert_eq!(
+                ContractError::NoAssetsSupplied {}.to_string(),
+                res.to_string()
+            );
+        }
+    }
+
+    #[test]
     fn test_validate_checks_for_invalid_name_add_security_type() {
         let deps = mock_provenance_dependencies();
         let msgs: Vec<ExecuteMsg> = vec![mock_invalid_add_tag_types_with_name_msg()];
@@ -134,6 +157,8 @@ mod tests {
             mock_remove_tag_types_msg(),
             mock_change_owner_msg(),
             mock_set_tag_msg(&Addr::unchecked("test")),
+            mock_remove_tag_msg(&Addr::unchecked("test")),
+            mock_set_security_multiple_msg(&vec![Addr::unchecked("test")]),
         ];
 
         let funds = vec![Coin::new(TEST_AMOUNT, TEST_DENOM)];
@@ -153,6 +178,8 @@ mod tests {
             mock_remove_tag_types_msg(),
             mock_change_owner_msg(),
             mock_set_tag_msg(&Addr::unchecked("test")),
+            mock_remove_tag_msg(&Addr::unchecked("test")),
+            mock_set_security_multiple_msg(&vec![Addr::unchecked("test")]),
         ];
 
         let funds = vec![];

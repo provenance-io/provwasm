@@ -17,16 +17,16 @@ use crate::{
 ///
 /// * `deps` - A mutable version of the dependencies. The API, Querier, and storage can all be accessed from it.
 /// * `sender` - The address of the message signer.
-/// * `asset_addr` - The address of the asset to set the tag for.
+/// * `asset_addr` - The address of the asset to set the security for.
 /// * `security` - The security to link to the asset.
 ///
 /// # Examples
 /// ```
-/// let msg = ExecuteMsg::SetTag {asset_addr: Addr::unchecked("addr"), tag: "tag"};
+/// let msg = ExecuteMsg::SetSecurity {asset_addr: Addr::unchecked("addr"), security: Security::new("tag")};
 /// let res = handle(deps, env, info.sender, msg.asset_addr, &msg.security)?;
 /// ```
 pub fn handle(
-    deps: DepsMut,
+    mut deps: DepsMut,
     sender: Addr,
     asset_addr: Addr,
     security: &Security,
@@ -35,6 +35,18 @@ pub fn handle(
         return Err(ContractError::Unauthorized {});
     }
 
+    set_security(&mut deps, &asset_addr, &security)?;
+
+    Ok(Response::default()
+        .set_action(ActionType::SetSecurity {})
+        .add_event(SetSecurityEvent::new(&asset_addr, security).into()))
+}
+
+pub fn set_security(
+    deps: &mut DepsMut,
+    asset_addr: &Addr,
+    security: &Security,
+) -> Result<(), ContractError> {
     if !is_marker(&deps, &asset_addr)? && !is_scope(&deps, &asset_addr)? {
         return Err(ContractError::AssetDoesNotExist(asset_addr.to_string()));
     }
@@ -43,11 +55,7 @@ pub fn handle(
         return Err(ContractError::InvalidSecurityType(security.to_string()));
     }
 
-    storage::asset::set_security(deps.storage, &asset_addr, security)?;
-
-    Ok(Response::default()
-        .set_action(ActionType::SetSecurity {})
-        .add_event(SetSecurityEvent::new(&asset_addr, security).into()))
+    storage::asset::set_security(deps.storage, &asset_addr, security)
 }
 
 fn is_marker(deps: &DepsMut, asset_addr: &Addr) -> Result<bool, ContractError> {
