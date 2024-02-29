@@ -35,7 +35,7 @@ pub fn handle(
         return Err(ContractError::Unauthorized {});
     }
 
-    set_security(&mut deps, &asset_addr, &security)?;
+    set_security(&mut deps, &asset_addr, security)?;
 
     Ok(Response::default()
         .set_action(ActionType::SetSecurity {})
@@ -47,7 +47,7 @@ pub fn set_security(
     asset_addr: &Addr,
     security: &Security,
 ) -> Result<(), ContractError> {
-    if !is_marker(&deps, &asset_addr)? && !is_scope(&deps, &asset_addr)? {
+    if !is_marker(deps, asset_addr)? && !is_scope(deps, asset_addr)? {
         return Err(ContractError::AssetDoesNotExist(asset_addr.to_string()));
     }
 
@@ -55,7 +55,7 @@ pub fn set_security(
         return Err(ContractError::InvalidSecurityType(security.to_string()));
     }
 
-    storage::asset::set_security(deps.storage, &asset_addr, security)
+    storage::asset::set_security(deps.storage, asset_addr, security)
 }
 
 fn is_marker(deps: &DepsMut, asset_addr: &Addr) -> Result<bool, ContractError> {

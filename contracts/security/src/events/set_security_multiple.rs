@@ -27,7 +27,7 @@ impl SetSecurityMultipleEvent {
     /// ```
     pub fn new(num_assets: Uint64, security: &Security) -> Self {
         Self {
-            num_assets: num_assets,
+            num_assets,
             security: security.to_string(),
         }
     }
