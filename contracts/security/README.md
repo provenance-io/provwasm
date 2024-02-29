@@ -180,6 +180,38 @@ must be either a marker or a scope. The provided security type must also be supp
 }
 ```
 
+#### [Set Security Multiple]
+This transaction will link multiple assets to the same security type, and replace any pre-existing links.
+
+##### Note
+This message variant will fail if the sender is not the current owner of the contract. All assets supplied
+must be either a marker or a scope, and the provided security type must be supported by the contract.
+
+#### Request Parameters
+- assets: The addresses of the asset to be set.
+- security: The type to link against the asset.
+
+#### Emitted Attributes
+- action: This will always have the value of "set_security_multiple".
+
+#### Emitted Events
+- set_security:
+  - num_assets: The number of assets linked.
+  - security: The type of security linked to the assets.
+
+#### Request Sample
+```
+{
+    "set_security_multiple": {
+        "assets": ["tp1ek77wghn0n9lc7x2uycgh697sjc7fvy995keun"],
+        "security": {
+            "category": "category_name",
+            "name": "instrument_name",
+        }
+    }
+}
+```
+
 #### [Remove Security]
 This transaction will remove any linked security against an asset.
 
