@@ -51,6 +51,34 @@
     {
       "type": "object",
       "required": [
+        "set_security_multiple"
+      ],
+      "properties": {
+        "set_security_multiple": {
+          "type": "object",
+          "required": [
+            "assets",
+            "security"
+          ],
+          "properties": {
+            "assets": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Addr"
+              }
+            },
+            "security": {
+              "$ref": "#/definitions/Security"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
         "remove_security"
       ],
       "properties": {
