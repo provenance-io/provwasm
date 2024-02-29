@@ -57,3 +57,7 @@ scope:
 .PHONY: trigger
 scope:
 	@make -C contracts/trigger
+
+.PHONY: security
+security:
+	@make -C contracts/security

@@ -6,6 +6,7 @@
 * Bump to Provenance 1.17.1 ([#135](https://github.com/provenance-io/provwasm/issues/135))
 * Add ibc message types ([#136](https://github.com/provenance-io/provwasm/issues/136))
 * Update contracts to use `cosmwasm/optimzer` ([#140](https://github.com/provenance-io/provwasm/issues/140))
+* Create security contract to link assets with a security type ([#138](https://github.com/provenance-io/provwasm/issues/138))
 
 ## Releases
 
