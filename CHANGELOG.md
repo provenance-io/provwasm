@@ -6,7 +6,9 @@
 * Bump to Provenance 1.17.1 ([#135](https://github.com/provenance-io/provwasm/issues/135))
 * Add ibc message types ([#136](https://github.com/provenance-io/provwasm/issues/136))
 * Update contracts to use `cosmwasm/optimzer` ([#140](https://github.com/provenance-io/provwasm/issues/140))
-* Create security contract to link assets with a security type ([#138](https://github.com/provenance-io/provwasm/issues/138))
+* Create security contract to link assets with a security
+  type ([#138](https://github.com/provenance-io/provwasm/issues/138))
+* Bump to Provenance 1.18.0-rc2 ([#143](https://github.com/provenance-io/provwasm/issues/143))
 
 ## Releases
 
@@ -22,7 +24,8 @@
 ### [v1.2.0](https://github.com/provenance-io/provwasm/tree/v1.2.0)
 
 * Update tutorial documentation ([#102](https://github.com/provenance-io/provwasm/issues/102))
-* Add Fee struct to make it easier to implement message fees ([#106](https://github.com/provenance-io/provwasm/issues/106))
+* Add Fee struct to make it easier to implement message
+  fees ([#106](https://github.com/provenance-io/provwasm/issues/106))
 * Added ProvenanceMsg From implementation ([#108](https://github.com/provenance-io/provwasm/issues/102))
 * Add forced transfer support for restricted markers ([#110](https://github.com/provenance-io/provwasm/issues/110))
 
@@ -38,7 +41,8 @@
 ### [v1.1.0](https://github.com/provenance-io/provwasm/tree/v1.1.0)
 
 * Smart Contract MsgFee Support ([#87](https://github.com/provenance-io/provwasm/issues/87))
-* Add `UpdateAttribute` and `DeleteDistinctAttribute` bindings ([#86](https://github.com/provenance-io/provwasm/issues/86))
+* Add `UpdateAttribute` and `DeleteDistinctAttribute`
+  bindings ([#86](https://github.com/provenance-io/provwasm/issues/86))
 
 ### [v1.0.0](https://github.com/provenance-io/provwasm/tree/v1.0.0)
 
