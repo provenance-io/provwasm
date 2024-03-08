@@ -420,6 +420,17 @@ pub struct Market {
     pub req_attr_create_ask: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
     #[prost(string, repeated, tag = "13")]
     pub req_attr_create_bid: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    #[prost(bool, tag = "14")]
+    pub accepting_commitments: bool,
+    #[prost(message, repeated, tag = "15")]
+    pub fee_create_commitment_flat:
+        ::prost::alloc::vec::Vec<super::super::super::cosmos::base::v1beta1::Coin>,
+    #[prost(uint32, tag = "16")]
+    pub commitment_settlement_bips: u32,
+    #[prost(string, tag = "17")]
+    pub intermediary_denom: ::prost::alloc::string::String,
+    #[prost(string, repeated, tag = "18")]
+    pub req_attr_create_commitment: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
@@ -1026,10 +1037,13 @@ pub struct MsgMarketUpdateDetailsResponse {}
 #[proto_message(type_url = "/provenance.exchange.v1.MsgMarketUpdateEnabledRequest")]
 #[serde(rename_all = "snake_case")]
 pub struct MsgMarketUpdateEnabledRequest {
+    #[deprecated]
     #[prost(string, tag = "1")]
     pub admin: ::prost::alloc::string::String,
+    #[deprecated]
     #[prost(uint32, tag = "2")]
     pub market_id: u32,
+    #[deprecated]
     #[prost(bool, tag = "3")]
     pub accepting_orders: bool,
 }
@@ -1141,6 +1155,10 @@ pub struct MsgMarketManageReqAttrsRequest {
     pub create_bid_to_add: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
     #[prost(string, repeated, tag = "6")]
     pub create_bid_to_remove: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    #[prost(string, repeated, tag = "7")]
+    pub create_commitment_to_add: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    #[prost(string, repeated, tag = "8")]
+    pub create_commitment_to_remove: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
@@ -1235,6 +1253,16 @@ pub struct MsgGovManageFeesRequest {
     pub add_fee_buyer_settlement_ratios: ::prost::alloc::vec::Vec<FeeRatio>,
     #[prost(message, repeated, tag = "14")]
     pub remove_fee_buyer_settlement_ratios: ::prost::alloc::vec::Vec<FeeRatio>,
+    #[prost(message, repeated, tag = "15")]
+    pub add_fee_create_commitment_flat:
+        ::prost::alloc::vec::Vec<super::super::super::cosmos::base::v1beta1::Coin>,
+    #[prost(message, repeated, tag = "16")]
+    pub remove_fee_create_commitment_flat:
+        ::prost::alloc::vec::Vec<super::super::super::cosmos::base::v1beta1::Coin>,
+    #[prost(uint32, tag = "17")]
+    pub set_fee_commitment_settlement_bips: u32,
+    #[prost(bool, tag = "18")]
+    pub unset_fee_commitment_settlement_bips: bool,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(

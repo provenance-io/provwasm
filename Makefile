@@ -27,7 +27,7 @@ attrs:
 	@make -C contracts/attrs
 
 .PHONY: ibc
-attrs:
+ibc:
 	@make -C contracts/ibc
 
 .PHONY: marker
@@ -43,21 +43,21 @@ name:
 	@make -C contracts/name
 
 .PHONY: nft
-name:
+nft:
 	@make -C contracts/nft
+
+.PHONY: security
+security:
+	@make -C contracts/security
 
 .PHONY: scope
 scope:
 	@make -C contracts/scope
 
 .PHONY: template
-scope:
+template:
 	@make -C contracts/template
 
 .PHONY: trigger
-scope:
+trigger:
 	@make -C contracts/trigger
-
-.PHONY: security
-security:
-	@make -C contracts/security

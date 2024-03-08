@@ -66,6 +66,7 @@ pub fn create_marker<S: Into<String>>(
         required_attributes: vec![],
         usd_cents: 0,
         volume: 0,
+        usd_mills: 0,
     }
     .into())
 }

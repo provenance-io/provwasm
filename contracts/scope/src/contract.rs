@@ -84,6 +84,7 @@ pub fn try_write_scope(
         signers,
         scope_uuid: "".to_string(),
         spec_uuid: "".to_string(),
+        usd_mills: 0,
     }))
 }
 

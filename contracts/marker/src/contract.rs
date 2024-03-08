@@ -327,9 +327,9 @@ mod tests {
             required_attributes: vec![],
             usd_cents: 0,
             volume: 0,
+            usd_mills: 0,
         }
-        .try_into()
-        .unwrap();
+        .into();
 
         // Create marker execute message
         let msg = ExecuteMsg::Create {
@@ -378,9 +378,9 @@ mod tests {
             required_attributes: vec![],
             usd_cents: 0,
             volume: 0,
+            usd_mills: 0,
         }
-        .try_into()
-        .unwrap();
+        .into();
 
         // Create marker execute message
         let msg = ExecuteMsg::Create {

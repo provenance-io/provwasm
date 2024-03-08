@@ -5,6 +5,7 @@ pub mod base;
 pub mod crypto;
 pub mod distribution;
 pub mod gov;
+pub mod msg;
 pub mod slashing;
 pub mod staking;
 pub mod tx;

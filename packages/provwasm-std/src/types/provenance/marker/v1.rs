@@ -70,6 +70,7 @@ pub enum Access {
     Delete = 5,
     Admin = 6,
     Transfer = 7,
+    ForceTransfer = 8,
 }
 impl Access {
     /// String value of the enum field names used in the ProtoBuf definition.
@@ -86,6 +87,7 @@ impl Access {
             Access::Delete => "ACCESS_DELETE",
             Access::Admin => "ACCESS_ADMIN",
             Access::Transfer => "ACCESS_TRANSFER",
+            Access::ForceTransfer => "ACCESS_FORCE_TRANSFER",
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.
@@ -99,6 +101,7 @@ impl Access {
             "ACCESS_DELETE" => Some(Self::Delete),
             "ACCESS_ADMIN" => Some(Self::Admin),
             "ACCESS_TRANSFER" => Some(Self::Transfer),
+            "ACCESS_FORCE_TRANSFER" => Some(Self::ForceTransfer),
             _ => None,
         }
     }
@@ -1228,6 +1231,7 @@ pub struct MsgAddMarkerRequest {
     pub allow_forced_transfer: bool,
     #[prost(string, repeated, tag = "11")]
     pub required_attributes: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    #[deprecated]
     #[prost(uint64, tag = "12")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
@@ -1240,6 +1244,12 @@ pub struct MsgAddMarkerRequest {
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
     pub volume: u64,
+    #[prost(uint64, tag = "14")]
+    #[serde(
+        serialize_with = "crate::serde::as_str::serialize",
+        deserialize_with = "crate::serde::as_str::deserialize"
+    )]
+    pub usd_mills: u64,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
@@ -1674,6 +1684,7 @@ pub struct MsgAddFinalizeActivateMarkerRequest {
     pub allow_forced_transfer: bool,
     #[prost(string, repeated, tag = "10")]
     pub required_attributes: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    #[deprecated]
     #[prost(uint64, tag = "11")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
@@ -1686,6 +1697,12 @@ pub struct MsgAddFinalizeActivateMarkerRequest {
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
     pub volume: u64,
+    #[prost(uint64, tag = "13")]
+    #[serde(
+        serialize_with = "crate::serde::as_str::serialize",
+        deserialize_with = "crate::serde::as_str::deserialize"
+    )]
+    pub usd_mills: u64,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
