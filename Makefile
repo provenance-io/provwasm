@@ -42,21 +42,9 @@ msgfees:
 name:
 	@make -C contracts/name
 
-.PHONY: nft
-nft:
-	@make -C contracts/nft
-
-.PHONY: security
-security:
-	@make -C contracts/security
-
 .PHONY: scope
 scope:
 	@make -C contracts/scope
-
-.PHONY: template
-template:
-	@make -C contracts/template
 
 .PHONY: trigger
 trigger:
