@@ -12,12 +12,10 @@ members = [
     "contracts/marker",
     "contracts/msgfees",
     "contracts/name",
-    "contracts/nft",
     "contracts/scope",
     "contracts/trigger",
     "contracts/tutorial",
 ]
-exclude = ["contracts/template", "contracts/security"]
 
 [workspace.package]
 version = "2.2.0"
