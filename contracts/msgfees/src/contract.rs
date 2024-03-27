@@ -178,8 +178,7 @@ mod tests {
                     from: MOCK_CONTRACT_ADDR.to_string(),
                     recipient_basis_points: "10000".to_string(),
                 }
-                .try_into()
-                .unwrap();
+                .into();
 
                 assert_eq!(
                     type_url,
@@ -195,13 +194,12 @@ mod tests {
                 let expected: Binary = MsgSend {
                     from_address: MOCK_CONTRACT_ADDR.to_string(),
                     to_address: "to_address".to_string(),
-                    amount: vec![provwasm_std::types::cosmos::base::v1beta1::Coin {
+                    amount: vec![Coin {
                         denom: "nhash".to_string(),
                         amount: "100000".to_string(),
                     }],
                 }
-                .try_into()
-                .unwrap();
+                .into();
 
                 assert_eq!(type_url, "/cosmos.bank.v1beta1.MsgSend");
                 assert_eq!(value, &expected)
@@ -240,13 +238,12 @@ mod tests {
                 let expected: Binary = MsgSend {
                     from_address: MOCK_CONTRACT_ADDR.to_string(),
                     to_address: "to_address".to_string(),
-                    amount: vec![provwasm_std::types::cosmos::base::v1beta1::Coin {
+                    amount: vec![Coin {
                         denom: "nhash".to_string(),
                         amount: "100000".to_string(),
                     }],
                 }
-                .try_into()
-                .unwrap();
+                .into();
 
                 assert_eq!(type_url, "/cosmos.bank.v1beta1.MsgSend");
                 assert_eq!(value, &expected)

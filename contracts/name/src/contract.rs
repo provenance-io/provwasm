@@ -1,5 +1,5 @@
 use cosmwasm_std::{
-    entry_point, to_binary, Deps, DepsMut, Env, MessageInfo, QueryResponse, Response, StdError,
+    entry_point, to_json_binary, Deps, DepsMut, Env, MessageInfo, QueryResponse, Response, StdError,
 };
 use provwasm_std::types::provenance::name::v1::{
     MsgBindNameRequest, MsgDeleteNameRequest, NameQuerier, NameRecord,
@@ -168,14 +168,14 @@ pub fn query(deps: Deps, _env: Env, msg: QueryMsg) -> Result<QueryResponse, StdE
 fn try_resolve(deps: Deps, name: String) -> Result<QueryResponse, StdError> {
     let querier = NameQuerier::new(&deps.querier);
     let name = querier.resolve(name)?;
-    to_binary(&name)
+    to_json_binary(&name)
 }
 
 // Use a ProvenanceQuerier to resolve the address for a name.
 fn try_params(deps: Deps) -> Result<QueryResponse, StdError> {
     let querier = NameQuerier::new(&deps.querier);
     let params = querier.params()?;
-    to_binary(&params)
+    to_json_binary(&params)
 }
 
 // Use a ProvenanceQuerier to lookup all names bound to the contract address.
@@ -183,20 +183,19 @@ fn try_lookup(deps: Deps, address: String) -> Result<QueryResponse, StdError> {
     deps.api.addr_validate(&address)?;
     let querier = NameQuerier::new(&deps.querier);
     let names = querier.reverse_lookup(address, None)?;
-    to_binary(&names)
+    to_json_binary(&names)
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
     use cosmwasm_std::testing::{mock_env, mock_info};
-    use cosmwasm_std::{from_binary, Binary, CosmosMsg};
+    use cosmwasm_std::{from_json, Binary, CosmosMsg};
     use provwasm_mocks::mock_provenance_dependencies;
     use provwasm_std::types::provenance::name::v1::{
         QueryResolveRequest, QueryResolveResponse, QueryReverseLookupRequest,
         QueryReverseLookupResponse,
     };
-    use std::convert::TryInto;
 
     #[test]
     fn init_test() {
@@ -230,8 +229,7 @@ mod tests {
                         restricted: true,
                     }),
                 }
-                .try_into()
-                .unwrap();
+                .into();
 
                 assert_eq!(type_url, "/provenance.name.v1.MsgBindNameRequest");
                 assert_eq!(value, &expected)
@@ -277,8 +275,7 @@ mod tests {
                         restricted: true,
                     }),
                 }
-                .try_into()
-                .unwrap();
+                .into();
 
                 assert_eq!(type_url, "/provenance.name.v1.MsgBindNameRequest");
                 assert_eq!(value, &expected)
@@ -320,8 +317,7 @@ mod tests {
                         restricted: true,
                     }),
                 }
-                .try_into()
-                .unwrap();
+                .into();
 
                 assert_eq!(type_url, "/provenance.name.v1.MsgDeleteNameRequest");
                 assert_eq!(value, &expected)
@@ -406,7 +402,7 @@ mod tests {
         .unwrap();
 
         // Ensure that we got the expected address.
-        let rep: QueryResolveResponse = from_binary(&bin).unwrap();
+        let rep: QueryResolveResponse = from_json(bin).unwrap();
         assert_eq!(rep.address, "tp1y0txdp3sqmxjvfdaa8hfvwcljl8ugcfv26uync")
     }
 
@@ -433,7 +429,7 @@ mod tests {
         .unwrap();
 
         // Ensure that we got the expected number of records.
-        let rep: QueryReverseLookupResponse = from_binary(&bin).unwrap();
+        let rep: QueryReverseLookupResponse = from_json(bin).unwrap();
         assert_eq!(rep, mock_response);
     }
 
@@ -459,7 +455,7 @@ mod tests {
         .unwrap();
 
         // Ensure that we got zero records.
-        let rep: QueryReverseLookupResponse = from_binary(&bin).unwrap();
+        let rep: QueryReverseLookupResponse = from_json(bin).unwrap();
         assert_eq!(rep, mock_response);
     }
 }

@@ -8,6 +8,42 @@
     serde::Deserialize,
     provwasm_proc_macro::CosmwasmExt,
 )]
+#[proto_message(type_url = "/provenance.exchange.v1.AccountAmount")]
+#[serde(rename_all = "snake_case")]
+pub struct AccountAmount {
+    #[prost(string, tag = "1")]
+    pub account: ::prost::alloc::string::String,
+    #[prost(message, repeated, tag = "2")]
+    pub amount: ::prost::alloc::vec::Vec<super::super::super::cosmos::base::v1beta1::Coin>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(
+    Clone,
+    PartialEq,
+    ::prost::Message,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_proc_macro::CosmwasmExt,
+)]
+#[proto_message(type_url = "/provenance.exchange.v1.NetAssetPrice")]
+#[serde(rename_all = "snake_case")]
+pub struct NetAssetPrice {
+    #[prost(message, optional, tag = "1")]
+    pub assets: ::core::option::Option<super::super::super::cosmos::base::v1beta1::Coin>,
+    #[prost(message, optional, tag = "2")]
+    pub price: ::core::option::Option<super::super::super::cosmos::base::v1beta1::Coin>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(
+    Clone,
+    PartialEq,
+    ::prost::Message,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_proc_macro::CosmwasmExt,
+)]
 #[proto_message(type_url = "/provenance.exchange.v1.EventOrderCreated")]
 #[serde(rename_all = "snake_case")]
 pub struct EventOrderCreated {
@@ -666,6 +702,12 @@ pub struct Params {
     pub default_split: u32,
     #[prost(message, repeated, tag = "2")]
     pub denom_splits: ::prost::alloc::vec::Vec<DenomSplit>,
+    #[prost(message, repeated, tag = "3")]
+    pub fee_create_payment_flat:
+        ::prost::alloc::vec::Vec<super::super::super::cosmos::base::v1beta1::Coin>,
+    #[prost(message, repeated, tag = "4")]
+    pub fee_accept_payment_flat:
+        ::prost::alloc::vec::Vec<super::super::super::cosmos::base::v1beta1::Coin>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
@@ -684,6 +726,30 @@ pub struct DenomSplit {
     pub denom: ::prost::alloc::string::String,
     #[prost(uint32, tag = "2")]
     pub split: u32,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(
+    Clone,
+    PartialEq,
+    ::prost::Message,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_proc_macro::CosmwasmExt,
+)]
+#[proto_message(type_url = "/provenance.exchange.v1.Payment")]
+#[serde(rename_all = "snake_case")]
+pub struct Payment {
+    #[prost(string, tag = "1")]
+    pub source: ::prost::alloc::string::String,
+    #[prost(message, repeated, tag = "2")]
+    pub source_amount: ::prost::alloc::vec::Vec<super::super::super::cosmos::base::v1beta1::Coin>,
+    #[prost(string, tag = "3")]
+    pub target: ::prost::alloc::string::String,
+    #[prost(message, repeated, tag = "4")]
+    pub target_amount: ::prost::alloc::vec::Vec<super::super::super::cosmos::base::v1beta1::Coin>,
+    #[prost(string, tag = "5")]
+    pub external_id: ::prost::alloc::string::String,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
@@ -763,6 +829,43 @@ pub struct MsgCreateBidResponse {
     )]
     pub order_id: u64,
 }
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(
+    Clone,
+    PartialEq,
+    ::prost::Message,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_proc_macro::CosmwasmExt,
+)]
+#[proto_message(type_url = "/provenance.exchange.v1.MsgCommitFundsRequest")]
+#[serde(rename_all = "snake_case")]
+pub struct MsgCommitFundsRequest {
+    #[prost(string, tag = "1")]
+    pub account: ::prost::alloc::string::String,
+    #[prost(uint32, tag = "2")]
+    pub market_id: u32,
+    #[prost(message, repeated, tag = "3")]
+    pub amount: ::prost::alloc::vec::Vec<super::super::super::cosmos::base::v1beta1::Coin>,
+    #[prost(message, optional, tag = "4")]
+    pub creation_fee: ::core::option::Option<super::super::super::cosmos::base::v1beta1::Coin>,
+    #[prost(string, tag = "5")]
+    pub event_tag: ::prost::alloc::string::String,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(
+    Clone,
+    PartialEq,
+    ::prost::Message,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_proc_macro::CosmwasmExt,
+)]
+#[proto_message(type_url = "/provenance.exchange.v1.MsgCommitFundsResponse")]
+#[serde(rename_all = "snake_case")]
+pub struct MsgCommitFundsResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
@@ -927,6 +1030,69 @@ pub struct MsgMarketSettleResponse {}
     serde::Deserialize,
     provwasm_proc_macro::CosmwasmExt,
 )]
+#[proto_message(type_url = "/provenance.exchange.v1.MsgMarketCommitmentSettleRequest")]
+#[serde(rename_all = "snake_case")]
+pub struct MsgMarketCommitmentSettleRequest {
+    #[prost(string, tag = "1")]
+    pub admin: ::prost::alloc::string::String,
+    #[prost(uint32, tag = "2")]
+    pub market_id: u32,
+    #[prost(message, repeated, tag = "3")]
+    pub inputs: ::prost::alloc::vec::Vec<AccountAmount>,
+    #[prost(message, repeated, tag = "4")]
+    pub outputs: ::prost::alloc::vec::Vec<AccountAmount>,
+    #[prost(message, repeated, tag = "5")]
+    pub fees: ::prost::alloc::vec::Vec<AccountAmount>,
+    #[prost(message, repeated, tag = "6")]
+    pub navs: ::prost::alloc::vec::Vec<NetAssetPrice>,
+    #[prost(string, tag = "7")]
+    pub event_tag: ::prost::alloc::string::String,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(
+    Clone,
+    PartialEq,
+    ::prost::Message,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_proc_macro::CosmwasmExt,
+)]
+#[proto_message(type_url = "/provenance.exchange.v1.MsgMarketCommitmentSettleResponse")]
+#[serde(rename_all = "snake_case")]
+pub struct MsgMarketCommitmentSettleResponse {}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(
+    Clone,
+    PartialEq,
+    ::prost::Message,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_proc_macro::CosmwasmExt,
+)]
+#[proto_message(type_url = "/provenance.exchange.v1.MsgMarketReleaseCommitmentsRequest")]
+#[serde(rename_all = "snake_case")]
+pub struct MsgMarketReleaseCommitmentsRequest {
+    #[prost(string, tag = "1")]
+    pub admin: ::prost::alloc::string::String,
+    #[prost(uint32, tag = "2")]
+    pub market_id: u32,
+    #[prost(message, repeated, tag = "3")]
+    pub to_release: ::prost::alloc::vec::Vec<AccountAmount>,
+    #[prost(string, tag = "4")]
+    pub event_tag: ::prost::alloc::string::String,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(
+    Clone,
+    PartialEq,
+    ::prost::Message,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_proc_macro::CosmwasmExt,
+)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgMarketSetOrderExternalIDRequest")]
 #[serde(rename_all = "snake_case")]
 pub struct MsgMarketSetOrderExternalIdRequest {
@@ -1070,6 +1236,39 @@ pub struct MsgMarketUpdateEnabledResponse {}
     serde::Deserialize,
     provwasm_proc_macro::CosmwasmExt,
 )]
+#[proto_message(type_url = "/provenance.exchange.v1.MsgMarketUpdateAcceptingOrdersRequest")]
+#[serde(rename_all = "snake_case")]
+pub struct MsgMarketUpdateAcceptingOrdersRequest {
+    #[prost(string, tag = "1")]
+    pub admin: ::prost::alloc::string::String,
+    #[prost(uint32, tag = "2")]
+    pub market_id: u32,
+    #[prost(bool, tag = "3")]
+    pub accepting_orders: bool,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(
+    Clone,
+    PartialEq,
+    ::prost::Message,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_proc_macro::CosmwasmExt,
+)]
+#[proto_message(type_url = "/provenance.exchange.v1.MsgMarketUpdateAcceptingOrdersResponse")]
+#[serde(rename_all = "snake_case")]
+pub struct MsgMarketUpdateAcceptingOrdersResponse {}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(
+    Clone,
+    PartialEq,
+    ::prost::Message,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_proc_macro::CosmwasmExt,
+)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgMarketUpdateUserSettleRequest")]
 #[serde(rename_all = "snake_case")]
 pub struct MsgMarketUpdateUserSettleRequest {
@@ -1093,6 +1292,72 @@ pub struct MsgMarketUpdateUserSettleRequest {
 #[proto_message(type_url = "/provenance.exchange.v1.MsgMarketUpdateUserSettleResponse")]
 #[serde(rename_all = "snake_case")]
 pub struct MsgMarketUpdateUserSettleResponse {}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(
+    Clone,
+    PartialEq,
+    ::prost::Message,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_proc_macro::CosmwasmExt,
+)]
+#[proto_message(type_url = "/provenance.exchange.v1.MsgMarketUpdateAcceptingCommitmentsRequest")]
+#[serde(rename_all = "snake_case")]
+pub struct MsgMarketUpdateAcceptingCommitmentsRequest {
+    #[prost(string, tag = "1")]
+    pub admin: ::prost::alloc::string::String,
+    #[prost(uint32, tag = "2")]
+    pub market_id: u32,
+    #[prost(bool, tag = "3")]
+    pub accepting_commitments: bool,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(
+    Clone,
+    PartialEq,
+    ::prost::Message,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_proc_macro::CosmwasmExt,
+)]
+#[proto_message(type_url = "/provenance.exchange.v1.MsgMarketUpdateAcceptingCommitmentsResponse")]
+#[serde(rename_all = "snake_case")]
+pub struct MsgMarketUpdateAcceptingCommitmentsResponse {}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(
+    Clone,
+    PartialEq,
+    ::prost::Message,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_proc_macro::CosmwasmExt,
+)]
+#[proto_message(type_url = "/provenance.exchange.v1.MsgMarketUpdateIntermediaryDenomRequest")]
+#[serde(rename_all = "snake_case")]
+pub struct MsgMarketUpdateIntermediaryDenomRequest {
+    #[prost(string, tag = "1")]
+    pub admin: ::prost::alloc::string::String,
+    #[prost(uint32, tag = "2")]
+    pub market_id: u32,
+    #[prost(string, tag = "3")]
+    pub intermediary_denom: ::prost::alloc::string::String,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(
+    Clone,
+    PartialEq,
+    ::prost::Message,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_proc_macro::CosmwasmExt,
+)]
+#[proto_message(type_url = "/provenance.exchange.v1.MsgMarketUpdateIntermediaryDenomResponse")]
+#[serde(rename_all = "snake_case")]
+pub struct MsgMarketUpdateIntermediaryDenomResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
@@ -1173,6 +1438,192 @@ pub struct MsgMarketManageReqAttrsRequest {
 #[proto_message(type_url = "/provenance.exchange.v1.MsgMarketManageReqAttrsResponse")]
 #[serde(rename_all = "snake_case")]
 pub struct MsgMarketManageReqAttrsResponse {}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(
+    Clone,
+    PartialEq,
+    ::prost::Message,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_proc_macro::CosmwasmExt,
+)]
+#[proto_message(type_url = "/provenance.exchange.v1.MsgCreatePaymentRequest")]
+#[serde(rename_all = "snake_case")]
+pub struct MsgCreatePaymentRequest {
+    #[prost(message, optional, tag = "1")]
+    pub payment: ::core::option::Option<Payment>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(
+    Clone,
+    PartialEq,
+    ::prost::Message,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_proc_macro::CosmwasmExt,
+)]
+#[proto_message(type_url = "/provenance.exchange.v1.MsgCreatePaymentResponse")]
+#[serde(rename_all = "snake_case")]
+pub struct MsgCreatePaymentResponse {}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(
+    Clone,
+    PartialEq,
+    ::prost::Message,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_proc_macro::CosmwasmExt,
+)]
+#[proto_message(type_url = "/provenance.exchange.v1.MsgAcceptPaymentRequest")]
+#[serde(rename_all = "snake_case")]
+pub struct MsgAcceptPaymentRequest {
+    #[prost(message, optional, tag = "1")]
+    pub payment: ::core::option::Option<Payment>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(
+    Clone,
+    PartialEq,
+    ::prost::Message,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_proc_macro::CosmwasmExt,
+)]
+#[proto_message(type_url = "/provenance.exchange.v1.MsgAcceptPaymentResponse")]
+#[serde(rename_all = "snake_case")]
+pub struct MsgAcceptPaymentResponse {}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(
+    Clone,
+    PartialEq,
+    ::prost::Message,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_proc_macro::CosmwasmExt,
+)]
+#[proto_message(type_url = "/provenance.exchange.v1.MsgRejectPaymentRequest")]
+#[serde(rename_all = "snake_case")]
+pub struct MsgRejectPaymentRequest {
+    #[prost(string, tag = "1")]
+    pub target: ::prost::alloc::string::String,
+    #[prost(string, tag = "2")]
+    pub source: ::prost::alloc::string::String,
+    #[prost(string, tag = "3")]
+    pub external_id: ::prost::alloc::string::String,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(
+    Clone,
+    PartialEq,
+    ::prost::Message,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_proc_macro::CosmwasmExt,
+)]
+#[proto_message(type_url = "/provenance.exchange.v1.MsgRejectPaymentResponse")]
+#[serde(rename_all = "snake_case")]
+pub struct MsgRejectPaymentResponse {}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(
+    Clone,
+    PartialEq,
+    ::prost::Message,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_proc_macro::CosmwasmExt,
+)]
+#[proto_message(type_url = "/provenance.exchange.v1.MsgRejectPaymentsRequest")]
+#[serde(rename_all = "snake_case")]
+pub struct MsgRejectPaymentsRequest {
+    #[prost(string, tag = "1")]
+    pub target: ::prost::alloc::string::String,
+    #[prost(string, repeated, tag = "2")]
+    pub sources: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(
+    Clone,
+    PartialEq,
+    ::prost::Message,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_proc_macro::CosmwasmExt,
+)]
+#[proto_message(type_url = "/provenance.exchange.v1.MsgRejectPaymentsResponse")]
+#[serde(rename_all = "snake_case")]
+pub struct MsgRejectPaymentsResponse {}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(
+    Clone,
+    PartialEq,
+    ::prost::Message,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_proc_macro::CosmwasmExt,
+)]
+#[proto_message(type_url = "/provenance.exchange.v1.MsgCancelPaymentsRequest")]
+#[serde(rename_all = "snake_case")]
+pub struct MsgCancelPaymentsRequest {
+    #[prost(string, tag = "1")]
+    pub source: ::prost::alloc::string::String,
+    #[prost(string, repeated, tag = "2")]
+    pub external_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(
+    Clone,
+    PartialEq,
+    ::prost::Message,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_proc_macro::CosmwasmExt,
+)]
+#[proto_message(type_url = "/provenance.exchange.v1.MsgCancelPaymentsResponse")]
+#[serde(rename_all = "snake_case")]
+pub struct MsgCancelPaymentsResponse {}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(
+    Clone,
+    PartialEq,
+    ::prost::Message,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_proc_macro::CosmwasmExt,
+)]
+#[proto_message(type_url = "/provenance.exchange.v1.MsgChangePaymentTargetRequest")]
+#[serde(rename_all = "snake_case")]
+pub struct MsgChangePaymentTargetRequest {
+    #[prost(string, tag = "1")]
+    pub source: ::prost::alloc::string::String,
+    #[prost(string, tag = "2")]
+    pub external_id: ::prost::alloc::string::String,
+    #[prost(string, tag = "3")]
+    pub new_target: ::prost::alloc::string::String,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(
+    Clone,
+    PartialEq,
+    ::prost::Message,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_proc_macro::CosmwasmExt,
+)]
+#[proto_message(type_url = "/provenance.exchange.v1.MsgChangePaymentTargetResponse")]
+#[serde(rename_all = "snake_case")]
+pub struct MsgChangePaymentTargetResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
@@ -1277,6 +1728,37 @@ pub struct MsgGovManageFeesRequest {
 #[proto_message(type_url = "/provenance.exchange.v1.MsgGovManageFeesResponse")]
 #[serde(rename_all = "snake_case")]
 pub struct MsgGovManageFeesResponse {}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(
+    Clone,
+    PartialEq,
+    ::prost::Message,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_proc_macro::CosmwasmExt,
+)]
+#[proto_message(type_url = "/provenance.exchange.v1.MsgGovCloseMarketRequest")]
+#[serde(rename_all = "snake_case")]
+pub struct MsgGovCloseMarketRequest {
+    #[prost(string, tag = "1")]
+    pub authority: ::prost::alloc::string::String,
+    #[prost(uint32, tag = "2")]
+    pub market_id: u32,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(
+    Clone,
+    PartialEq,
+    ::prost::Message,
+    schemars::JsonSchema,
+    serde::Serialize,
+    serde::Deserialize,
+    provwasm_proc_macro::CosmwasmExt,
+)]
+#[proto_message(type_url = "/provenance.exchange.v1.MsgGovCloseMarketResponse")]
+#[serde(rename_all = "snake_case")]
+pub struct MsgGovCloseMarketResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,

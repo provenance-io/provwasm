@@ -1,5 +1,5 @@
 use cosmwasm_std::{
-    entry_point, from_binary, to_binary, DepsMut, Empty, Env, Event, Ibc3ChannelOpenResponse,
+    entry_point, from_json, to_json_binary, DepsMut, Empty, Env, Event, Ibc3ChannelOpenResponse,
     IbcBasicResponse, IbcChannelCloseMsg, IbcChannelConnectMsg, IbcChannelOpenMsg,
     IbcChannelOpenResponse, IbcOrder, IbcPacketAckMsg, IbcPacketReceiveMsg, IbcPacketTimeoutMsg,
     IbcReceiveResponse, MessageInfo, Response, StdError, StdResult,
@@ -93,7 +93,7 @@ pub fn ibc_packet_receive(
     let packet = msg.packet;
     // which local channel did this packet come on
     let caller = packet.dest.channel_id;
-    let msg: PacketMsg = from_binary(&packet.data)?;
+    let msg: PacketMsg = from_json(&packet.data)?;
     match msg {
         PacketMsg::WhoAmI {} => receive_who_am_i(deps, env, caller),
     }
@@ -105,7 +105,7 @@ fn receive_who_am_i(_deps: DepsMut, env: Env, _caller: String) -> StdResult<IbcR
         account: env.contract.address.into(),
         block_info: env.block,
     };
-    let acknowledgement = to_binary(&AcknowledgementMsg::Ok(response))?;
+    let acknowledgement = to_json_binary(&AcknowledgementMsg::Ok(response))?;
     // and we are golden
     Ok(IbcReceiveResponse::new()
         .set_ack(acknowledgement)

@@ -88,12 +88,18 @@ types:
     - provenance.exchange.v1.MsgCreateBidResponse
     - provenance.exchange.v1.MsgCancelOrderRequest
     - provenance.exchange.v1.MsgCancelOrderResponse
+    - provenance.exchange.v1.MsgCommitFundsRequest
+    - provenance.exchange.v1.MsgCommitFundsResponse
     - provenance.exchange.v1.MsgFillBidsRequest
     - provenance.exchange.v1.MsgFillBidsResponse
     - provenance.exchange.v1.MsgFillAsksRequest
     - provenance.exchange.v1.MsgFillAsksResponse
     - provenance.exchange.v1.MsgMarketSettleRequest
     - provenance.exchange.v1.MsgMarketSettleResponse
+    - provenance.exchange.v1.MsgMarketCommitmentSettleRequest
+    - provenance.exchange.v1.MsgMarketCommitmentSettleResponse
+    - provenance.exchange.v1.MsgMarketReleaseCommitmentsRequest
+    - provenance.exchange.v1.MsgMarketReleaseCommitmentsRequest
     - provenance.exchange.v1.MsgMarketSetOrderExternalIDRequest
     - provenance.exchange.v1.MsgMarketSetOrderExternalIDResponse
     - provenance.exchange.v1.MsgMarketWithdrawRequest
@@ -102,16 +108,36 @@ types:
     - provenance.exchange.v1.MsgMarketUpdateDetailsResponse
     - provenance.exchange.v1.MsgMarketUpdateEnabledRequest
     - provenance.exchange.v1.MsgMarketUpdateEnabledResponse
+    - provenance.exchange.v1.MsgMarketUpdateAcceptingOrdersRequest
+    - provenance.exchange.v1.MsgMarketUpdateAcceptingOrdersResponse
     - provenance.exchange.v1.MsgMarketUpdateUserSettleRequest
     - provenance.exchange.v1.MsgMarketUpdateUserSettleResponse
+    - provenance.exchange.v1.MsgMarketUpdateAcceptingCommitmentsRequest
+    - provenance.exchange.v1.MsgMarketUpdateAcceptingCommitmentsResponse
+    - provenance.exchange.v1.MsgMarketUpdateIntermediaryDenomRequest
+    - provenance.exchange.v1.MsgMarketUpdateIntermediaryDenomResponse
     - provenance.exchange.v1.MsgMarketManagePermissionsRequest
     - provenance.exchange.v1.MsgMarketManagePermissionsResponse
     - provenance.exchange.v1.MsgMarketManageReqAttrsRequest
     - provenance.exchange.v1.MsgMarketManageReqAttrsResponse
+    - provenance.exchange.v1.MsgCreatePaymentRequest
+    - provenance.exchange.v1.MsgCreatePaymentResponse
+    - provenance.exchange.v1.MsgAcceptPaymentRequest
+    - provenance.exchange.v1.MsgAcceptPaymentResponse
+    - provenance.exchange.v1.MsgRejectPaymentRequest
+    - provenance.exchange.v1.MsgRejectPaymentResponse
+    - provenance.exchange.v1.MsgRejectPaymentsRequest
+    - provenance.exchange.v1.MsgRejectPaymentsResponse
+    - provenance.exchange.v1.MsgCancelPaymentsRequest
+    - provenance.exchange.v1.MsgCancelPaymentsResponse
+    - provenance.exchange.v1.MsgChangePaymentTargetRequest
+    - provenance.exchange.v1.MsgChangePaymentTargetResponse
     - provenance.exchange.v1.MsgGovCreateMarketRequest
     - provenance.exchange.v1.MsgGovCreateMarketResponse
     - provenance.exchange.v1.MsgGovManageFeesRequest
     - provenance.exchange.v1.MsgGovManageFeesResponse
+    - provenance.exchange.v1.MsgGovCloseMarketRequest
+    - provenance.exchange.v1.MsgGovCloseMarketResponse
     - provenance.exchange.v1.MsgGovUpdateParamsRequest
     - provenance.exchange.v1.MsgGovUpdateParamsResponse
     - provenance.hold.v1.EventHoldAdded
