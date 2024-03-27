@@ -1,6 +1,6 @@
 use cosmwasm_std::{
-    attr, entry_point, to_binary, Addr, Deps, DepsMut, Env, MessageInfo, QueryResponse, Response,
-    StdError, StdResult, Uint128,
+    attr, entry_point, to_json_binary, Addr, Deps, DepsMut, Env, MessageInfo, QueryResponse,
+    Response, StdError, StdResult, Uint128,
 };
 
 use provwasm_std::types::provenance::marker::v1::{MarkerQuerier, MarkerType};
@@ -255,14 +255,14 @@ fn try_get_marker_by_address(deps: Deps, address: String) -> Result<QueryRespons
     let address = deps.api.addr_validate(&address)?;
     let querier = MarkerQuerier::new(&deps.querier);
     let marker = get_marker_by_address(address, &querier)?;
-    to_binary(&marker)
+    to_json_binary(&marker)
 }
 
 // Query a marker by denom.
 fn try_get_marker_by_denom(deps: Deps, denom: String) -> Result<QueryResponse, StdError> {
     let querier = MarkerQuerier::new(&deps.querier);
     let marker = get_marker_by_denom(denom, &querier)?;
-    to_binary(&marker)
+    to_json_binary(&marker)
 }
 
 #[cfg(test)]
@@ -270,7 +270,7 @@ mod tests {
     use super::*;
     use crate::types::Marker;
     use cosmwasm_std::testing::{mock_env, mock_info};
-    use cosmwasm_std::{from_binary, Binary, CosmosMsg};
+    use cosmwasm_std::{from_json, Binary, CosmosMsg};
     use prost::Message;
     use provwasm_mocks::mock_provenance_dependencies;
     use provwasm_std::shim::Any;
@@ -282,7 +282,6 @@ mod tests {
         MsgFinalizeRequest, MsgMintRequest, MsgTransferRequest, MsgWithdrawRequest,
         QueryEscrowRequest, QueryEscrowResponse, QueryMarkerRequest, QueryMarkerResponse,
     };
-    use std::convert::TryInto;
 
     #[test]
     fn valid_init() {
@@ -417,8 +416,7 @@ mod tests {
             administrator: contract_address,
             access: all_access(&env.contract.address),
         }
-        .try_into()
-        .unwrap();
+        .into();
 
         // Create an access grant execute message
         let msg = ExecuteMsg::GrantAccess {
@@ -450,8 +448,7 @@ mod tests {
             denom: "budz".to_string(),
             administrator: env.contract.address.to_string(),
         }
-        .try_into()
-        .unwrap();
+        .into();
 
         // Create a finalize marker execute message
         let msg = ExecuteMsg::Finalize {
@@ -483,8 +480,7 @@ mod tests {
             denom: "budz".to_string(),
             administrator: env.contract.address.to_string(),
         }
-        .try_into()
-        .unwrap();
+        .into();
 
         // Create an activate marker execute message
         let msg = ExecuteMsg::Activate {
@@ -522,8 +518,7 @@ mod tests {
                 amount: "20".to_string(),
             }],
         }
-        .try_into()
-        .unwrap();
+        .into();
 
         // Create a withdraw execute message
         let msg = ExecuteMsg::Withdraw {
@@ -559,8 +554,7 @@ mod tests {
             }),
             administrator: env.contract.address.to_string(),
         }
-        .try_into()
-        .unwrap();
+        .into();
 
         // Create a mint coins marker handler message
         let msg = ExecuteMsg::Mint {
@@ -596,8 +590,7 @@ mod tests {
             }),
             administrator: env.contract.address.to_string(),
         }
-        .try_into()
-        .unwrap();
+        .into();
 
         // Create a burn coins marker handler message
         let msg = ExecuteMsg::Burn {
@@ -630,8 +623,7 @@ mod tests {
             denom: "budz".to_string(),
             administrator: env.contract.address.to_string(),
         }
-        .try_into()
-        .unwrap();
+        .into();
 
         // Create a cancel marker handler message
         let msg = ExecuteMsg::Cancel {
@@ -663,8 +655,7 @@ mod tests {
             denom: "budz".to_string(),
             administrator: env.contract.address.to_string(),
         }
-        .try_into()
-        .unwrap();
+        .into();
 
         // Create a destroy marker handler message
         let msg = ExecuteMsg::Destroy {
@@ -701,8 +692,7 @@ mod tests {
             from_address: env.contract.address.to_string(),
             to_address: "toaddress".to_string(),
         }
-        .try_into()
-        .unwrap();
+        .into();
 
         // Create a transfer execute message
         let msg = ExecuteMsg::Transfer {
@@ -779,7 +769,7 @@ mod tests {
 
         let bin = query(deps.as_ref(), mock_env(), req).unwrap();
 
-        let marker: Marker = from_binary(&bin).unwrap();
+        let marker: Marker = from_json(bin).unwrap();
         assert_eq!(marker.marker_account, expected_marker);
         assert_eq!(
             marker.marker_account.base_account.unwrap().address,
