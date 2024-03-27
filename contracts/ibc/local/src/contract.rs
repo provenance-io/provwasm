@@ -1,5 +1,5 @@
 use cosmwasm_std::{
-    entry_point, to_binary, Deps, DepsMut, Env, IbcMsg, MessageInfo, Order, QueryResponse,
+    entry_point, to_json_binary, Deps, DepsMut, Env, IbcMsg, MessageInfo, Order, QueryResponse,
     Response, StdError, StdResult,
 };
 
@@ -69,7 +69,7 @@ pub fn handle_who_am_i(
     let packet = PacketMsg::WhoAmI {};
     let msg = IbcMsg::SendPacket {
         channel_id,
-        data: to_binary(&packet)?,
+        data: to_json_binary(&packet)?,
         timeout: env.block.time.plus_seconds(PACKET_LIFETIME).into(),
     };
 
@@ -82,9 +82,9 @@ pub fn handle_who_am_i(
 #[entry_point]
 pub fn query(deps: Deps, _env: Env, msg: QueryMsg) -> StdResult<QueryResponse> {
     match msg {
-        QueryMsg::Admin {} => to_binary(&query_admin(deps)?),
-        QueryMsg::Account { channel_id } => to_binary(&query_account(deps, channel_id)?),
-        QueryMsg::ListAccounts {} => to_binary(&query_list_accounts(deps)?),
+        QueryMsg::Admin {} => to_json_binary(&query_admin(deps)?),
+        QueryMsg::Account { channel_id } => to_json_binary(&query_account(deps, channel_id)?),
+        QueryMsg::ListAccounts {} => to_json_binary(&query_list_accounts(deps)?),
     }
 }
 
