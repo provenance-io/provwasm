@@ -1,5 +1,5 @@
 use cosmwasm_std::{
-    entry_point, to_binary, Deps, DepsMut, Env, MessageInfo, QueryResponse, Response, Uint64,
+    entry_point, to_json_binary, Deps, DepsMut, Env, MessageInfo, QueryResponse, Response, Uint64,
 };
 use provwasm_std::shim::{Any, Timestamp};
 use provwasm_std::types::cosmos::bank::v1beta1::MsgSend;
@@ -105,8 +105,8 @@ pub fn get_trigger(deps: Deps, id: Option<Uint64>) -> Result<QueryResponse, Cont
     let trigger_querier = TriggerQuerier::new(&deps.querier);
 
     match id {
-        Some(id) => Ok(to_binary(&trigger_querier.trigger_by_id(id.u64())?)?),
-        None => Ok(to_binary(&trigger_querier.triggers(None)?)?),
+        Some(id) => Ok(to_json_binary(&trigger_querier.trigger_by_id(id.u64())?)?),
+        None => Ok(to_json_binary(&trigger_querier.triggers(None)?)?),
     }
 }
 
