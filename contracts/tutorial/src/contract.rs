@@ -1,5 +1,5 @@
 use cosmwasm_std::{
-    coin, entry_point, to_binary, BankMsg, Binary, CosmosMsg, Decimal, Deps, DepsMut, Env,
+    coin, entry_point, to_json_binary, BankMsg, Binary, CosmosMsg, Decimal, Deps, DepsMut, Env,
     MessageInfo, Response, StdError, StdResult,
 };
 use provwasm_std::types::provenance::name::v1::{MsgBindNameRequest, NameRecord};
@@ -93,7 +93,7 @@ pub fn query(
     match msg {
         QueryMsg::QueryRequest {} => {
             let state = CONFIG.load(deps.storage)?;
-            let json = to_binary(&state)?;
+            let json = to_json_binary(&state)?;
             Ok(json)
         }
     }
@@ -180,7 +180,7 @@ fn try_purchase(
 // mod tests {
 //     use super::*;
 //     use cosmwasm_std::testing::{mock_env, mock_info};
-//     use cosmwasm_std::{from_binary, Addr};
+//     use cosmwasm_std::{from_json, Addr};
 //     use provwasm_mocks::mock_dependencies;
 //     use provwasm_std::{NameMsgParams, ProvenanceMsgParams};
 //
@@ -294,7 +294,7 @@ fn try_purchase(
 //
 //         // Call the smart contract query function to get stored state.
 //         let bin = query(deps.as_ref(), mock_env(), QueryMsg::QueryRequest {}).unwrap();
-//         let resp: State = from_binary(&bin).unwrap();
+//         let resp: State = from_json(&bin).unwrap();
 //
 //         // Ensure the expected init fields were properly stored.
 //         assert_eq!(resp.merchant_address, Addr::unchecked("merchant"));
