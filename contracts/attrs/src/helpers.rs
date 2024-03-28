@@ -1,13 +1,14 @@
 use cosmwasm_std::{
     from_json, to_json_binary, Addr, Binary, CosmosMsg, Empty, StdError, StdResult,
 };
+use serde::de::DeserializeOwned;
+use serde::Serialize;
+
 use provwasm_std::types::provenance::attribute::v1::{
     AttributeQuerier, AttributeType, MsgAddAttributeRequest, MsgDeleteAttributeRequest,
     MsgDeleteDistinctAttributeRequest, MsgUpdateAttributeRequest,
 };
 use provwasm_std::types::provenance::name::v1::{MsgBindNameRequest, NameRecord};
-use serde::de::DeserializeOwned;
-use serde::Serialize;
 
 pub fn bind_name(
     name: &str,
@@ -124,8 +125,8 @@ pub fn update_attribute<H: Into<Addr>, S: Into<String>, B: Into<Binary>>(
     }
 
     Ok(MsgUpdateAttributeRequest {
-        original_value: (original_value.into() as Binary).to_vec(),
-        update_value: (update_value.into() as Binary).to_vec(),
+        original_value: original_value.into().to_vec(),
+        update_value: update_value.into().to_vec(),
         original_attribute_type: original_value_type.into(),
         update_attribute_type: update_value_type.into(),
         account: validate_address(address)?.to_string(),
@@ -151,7 +152,7 @@ pub fn get_json_attributes<H: Into<Addr>, S: Into<String>, T: DeserializeOwned>(
     resp.attributes
         .iter()
         .filter(|a| a.attribute_type == AttributeType::Json as i32)
-        .map(|a| from_json(&Binary::from(a.value.clone())))
+        .map(|a| from_json(Binary::from(a.value.clone())))
         .collect()
 }
 
