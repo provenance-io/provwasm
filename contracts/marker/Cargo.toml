@@ -7,8 +7,8 @@ license = { workspace = true }
 authors = ["Phil Story <pstory@figure.com>", "Ken Talley <4344285+kwtalley@users.noreply.github.com"]
 
 exclude = [
-  "marker.wasm",
-  "checksums.txt",
+    "marker.wasm",
+    "checksums.txt",
 ]
 
 [lib]
@@ -23,10 +23,10 @@ cosmwasm-schema = { workspace = true }
 cosmwasm-std = { workspace = true }
 cw-storage-plus = { workspace = true }
 provwasm-std = { workspace = true }
-schemars = {workspace = true}
+schemars = { workspace = true }
 serde = { workspace = true, default-features = false, features = ["derive"] }
 thiserror = { workspace = true }
 
 [dev-dependencies]
-prost = {workspace = true, default-features = false}
+prost = { workspace = true, default-features = false }
 provwasm-mocks = { workspace = true }
