@@ -14,6 +14,7 @@ backtraces = []
 cosmwasm-std = { workspace = true }
 attrs = { version = "2.2.0", path = "../contracts/attrs" }
 marker = { version = "2.2.0", path = "../contracts/marker" }
+name = { version = "2.2.0", path = "../contracts/name" }
 provwasm-std = { workspace = true }
 
 [dev-dependencies]
