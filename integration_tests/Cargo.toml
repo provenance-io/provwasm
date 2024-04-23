@@ -11,14 +11,10 @@ authors = ["Ken Talley <4344285+kwtalley@users.noreply.github.com"]
 backtraces = []
 
 [dependencies]
-#cosmwasm-schema = { workspace = true }
 cosmwasm-std = { workspace = true }
-#cw-storage-plus = { workspace = true }
+attrs = { version = "2.2.0", path = "../contracts/attrs" }
 marker = { version = "2.2.0", path = "../contracts/marker" }
 provwasm-std = { workspace = true }
-#schemars = { workspace = true }
-#serde = { workspace = true, default-features = false, features = ["derive"] }
-#thiserror = { workspace = true }
 
 [dev-dependencies]
 prost = { workspace = true, default-features = false }
