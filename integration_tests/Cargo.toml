@@ -16,6 +16,7 @@ attrs = { version = "2.2.0", path = "../contracts/attrs" }
 marker = { version = "2.2.0", path = "../contracts/marker" }
 name = { version = "2.2.0", path = "../contracts/name" }
 trigger = { version = "2.2.0", path = "../contracts/trigger" }
+provwasm-tutorial = { version = "2.2.0", path = "../contracts/tutorial" }
 provwasm-std = { workspace = true }
 
 [dev-dependencies]
