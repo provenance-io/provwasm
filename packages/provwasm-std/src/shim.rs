@@ -1,5 +1,5 @@
 use ::serde::{ser, Deserialize, Deserializer, Serialize, Serializer};
-use chrono::{DateTime, NaiveDateTime, Utc};
+use chrono::{DateTime, Utc};
 use cosmwasm_std::StdResult;
 use serde::de;
 use serde::de::Visitor;
@@ -33,14 +33,12 @@ impl Serialize for Timestamp {
             nanos: self.nanos,
         };
         ts.normalize();
-        let dt =
-            NaiveDateTime::from_timestamp_opt(ts.seconds, ts.nanos as u32).ok_or_else(|| {
-                serde::ser::Error::custom(format!(
-                    "failed to parse as NativeDateTime: seconds: {}, nanos: {}",
-                    self.seconds, self.nanos
-                ))
-            })?;
-        let dt: DateTime<Utc> = DateTime::from_utc(dt, Utc);
+        let dt = DateTime::from_timestamp(ts.seconds, ts.nanos as u32).ok_or_else(|| {
+            ser::Error::custom(format!(
+                "failed to parse as NativeDateTime: seconds: {}, nanos: {}",
+                self.seconds, self.nanos
+            ))
+        })?;
         serializer.serialize_str(format!("{:?}", dt).as_str())
     }
 }
@@ -64,10 +62,7 @@ impl<'de> Deserialize<'de> for Timestamp {
                 E: de::Error,
             {
                 let utc: DateTime<Utc> = chrono::DateTime::from_str(value).map_err(|err| {
-                    serde::de::Error::custom(format!(
-                        "Failed to parse {} as datetime: {:?}",
-                        value, err
-                    ))
+                    de::Error::custom(format!("Failed to parse {} as datetime: {:?}", value, err))
                 })?;
                 let ts = Timestamp::from(utc);
                 Ok(ts)
@@ -173,10 +168,10 @@ pub struct Any {
     /// used with implementation specific semantics.
     ///
     #[prost(string, tag = "1")]
-    pub type_url: ::prost::alloc::string::String,
+    pub type_url: String,
     /// Must be a valid serialized protocol buffer of the above specified type.
     #[prost(bytes = "vec", tag = "2")]
-    pub value: ::prost::alloc::vec::Vec<u8>,
+    pub value: Vec<u8>,
 }
 
 macro_rules! expand_as_any {
@@ -322,7 +317,7 @@ impl TryFrom<crate::types::cosmos::base::v1beta1::Coin> for cosmwasm_std::Coin {
 
     fn try_from(
         crate::types::cosmos::base::v1beta1::Coin { denom, amount }: crate::types::cosmos::base::v1beta1::Coin,
-    ) -> cosmwasm_std::StdResult<Self> {
+    ) -> StdResult<Self> {
         Ok(cosmwasm_std::Coin {
             denom,
             amount: amount.parse()?,
