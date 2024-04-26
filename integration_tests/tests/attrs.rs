@@ -7,9 +7,7 @@ use attrs::msg::{ExecuteMsg, InitMsg, Label, LabelNameResponse, LabelsResponse, 
 #[test]
 fn create_update_delete_attr() -> Result<(), RunnerError> {
     let app = ProvwasmTestApp::default();
-    let accs = app
-        .init_accounts(&[Coin::new(100_000_000_000_000, "nhash")], 1)
-        .unwrap();
+    let accs = app.init_accounts(&[Coin::new(100_000_000_000_000, "nhash")], 1)?;
     let admin = &accs[0];
 
     let wasm = Wasm::new(&app);
