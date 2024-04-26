@@ -10,9 +10,7 @@ use trigger::msg::{ExecuteMsg, InitMsg};
 #[test]
 fn create_triggers() -> Result<(), RunnerError> {
     let app = ProvwasmTestApp::default();
-    let accs = app
-        .init_accounts(&[Coin::new(100_000_000_000_000, "nhash")], 3)
-        .unwrap();
+    let accs = app.init_accounts(&[Coin::new(100_000_000_000_000, "nhash")], 3)?;
     let admin = &accs[0];
     let sender = &accs[1];
     let receiver = &accs[2];
