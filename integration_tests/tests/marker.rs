@@ -8,9 +8,7 @@ use marker::types::Marker;
 #[test]
 fn create_and_withdraw() -> Result<(), RunnerError> {
     let app = ProvwasmTestApp::default();
-    let accs = app
-        .init_accounts(&[Coin::new(100_000_000_000_000, "nhash")], 1)
-        .unwrap();
+    let accs = app.init_accounts(&[Coin::new(100_000_000_000_000, "nhash")], 1)?;
     let admin = &accs[0];
 
     let wasm = Wasm::new(&app);
@@ -30,8 +28,7 @@ fn create_and_withdraw() -> Result<(), RunnerError> {
             None,
             &[],
             admin,
-        )
-        .unwrap()
+        )?
         .data
         .address;
 
@@ -44,8 +41,7 @@ fn create_and_withdraw() -> Result<(), RunnerError> {
         },
         &[],
         admin,
-    )
-    .unwrap();
+    )?;
 
     wasm.execute::<ExecuteMsg>(
         &contract_addr,
@@ -54,8 +50,7 @@ fn create_and_withdraw() -> Result<(), RunnerError> {
         },
         &[],
         admin,
-    )
-    .unwrap();
+    )?;
 
     wasm.execute::<ExecuteMsg>(
         &contract_addr,
@@ -64,8 +59,7 @@ fn create_and_withdraw() -> Result<(), RunnerError> {
         },
         &[],
         admin,
-    )
-    .unwrap();
+    )?;
 
     wasm.execute::<ExecuteMsg>(
         &contract_addr,
@@ -74,8 +68,7 @@ fn create_and_withdraw() -> Result<(), RunnerError> {
         },
         &[],
         admin,
-    )
-    .unwrap();
+    )?;
 
     wasm.execute::<ExecuteMsg>(
         &contract_addr,
@@ -85,17 +78,14 @@ fn create_and_withdraw() -> Result<(), RunnerError> {
         },
         &[],
         admin,
-    )
-    .unwrap();
+    )?;
 
-    let marker = wasm
-        .query::<QueryMsg, Marker>(
-            &contract_addr,
-            &QueryMsg::GetByDenom {
-                denom: "spy".into(),
-            },
-        )
-        .unwrap();
+    let marker = wasm.query::<QueryMsg, Marker>(
+        &contract_addr,
+        &QueryMsg::GetByDenom {
+            denom: "spy".into(),
+        },
+    )?;
 
     assert_eq!(marker.marker_account.denom, "spy");
 
