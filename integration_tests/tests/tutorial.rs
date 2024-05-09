@@ -1,7 +1,7 @@
 use cosmwasm_std::{Coin, Decimal};
 use provwasm_test_tube::bank::Bank;
 use provwasm_test_tube::wasm::Wasm;
-use provwasm_test_tube::{Account, Module, ProvwasmTestApp, Runner, RunnerError};
+use provwasm_test_tube::{Account, Module, ProvwasmTestApp, RunnerError};
 
 use provwasm_std::types::cosmos::bank::v1beta1::QueryBalanceRequest;
 use provwasm_tutorial::msg::{ExecuteMsg, InitMsg};
