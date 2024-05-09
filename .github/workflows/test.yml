@@ -31,6 +31,9 @@ jobs:
         run: |
           cd ./contracts/tutorial
           make all
+      - name: Integration test
+        run: |
+          cargo test --test tutorial
       - name: Smart Contract Test setup
         uses: provenance-io/provenance-testing-action@v1.2.0
         with:
@@ -52,6 +55,9 @@ jobs:
         run: |
           cd ./contracts/attrs
           make all
+      - name: Integration test
+        run: |
+          cargo test --test attrs
       - name: Smart Contract Test setup
         uses: provenance-io/provenance-testing-action@v1.2.0
         with:
@@ -73,6 +79,9 @@ jobs:
         run: |
           cd ./contracts/marker
           make all
+      - name: Integration test
+        run: |
+          cargo test --test marker
       - name: Provenance Test
         uses: provenance-io/provenance-testing-action@v1.2.0
         with:
@@ -115,6 +124,9 @@ jobs:
         run: |
           cd ./contracts/name
           make all
+      - name: Integration test
+        run: |
+          cargo test --test name
       - name: Smart Contract Test setup
         uses: provenance-io/provenance-testing-action@v1.2.0
         with:
@@ -157,6 +169,9 @@ jobs:
         run: |
           cd ./contracts/trigger
           make all
+      - name: Integration test
+        run: |
+          cargo test --test trigger
       - name: Smart Contract Test setup
         uses: provenance-io/provenance-testing-action@v1.2.0
         with:
