@@ -1,0 +1,25 @@
+[package]
+name = "integration"
+version = { workspace = true }
+repository = { workspace = true }
+edition = { workspace = true }
+license = { workspace = true }
+authors = ["Ken Talley <4344285+kwtalley@users.noreply.github.com"]
+
+[features]
+# for more explicit tests, cargo test --features=backtraces
+backtraces = []
+
+[dependencies]
+cosmwasm-std = { workspace = true }
+attrs = { version = "2.2.0", path = "../contracts/attrs" }
+marker = { version = "2.2.0", path = "../contracts/marker" }
+name = { version = "2.2.0", path = "../contracts/name" }
+trigger = { version = "2.2.0", path = "../contracts/trigger" }
+provwasm-tutorial = { version = "2.2.0", path = "../contracts/tutorial" }
+provwasm-std = { workspace = true }
+
+[dev-dependencies]
+prost = { workspace = true, default-features = false }
+provwasm-mocks = { workspace = true }
+provwasm-test-tube = { workspace = true }
