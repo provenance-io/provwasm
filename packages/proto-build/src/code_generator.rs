@@ -115,7 +115,7 @@ impl CodeGenerator {
         let mut all_related_projects = self.deps.clone();
         all_related_projects.push(self.project.clone());
 
-        let buf_gen_template = self.root.join("buf.gen.yaml");
+        // let buf_gen_template = self.root.join("buf.gen.yaml");
 
         info!(
             "🧪 [{}] Compiling types from protobuf definitions...",
@@ -147,7 +147,13 @@ impl CodeGenerator {
             cmd.arg("generate")
                 .arg(buf_root.to_string_lossy().to_string())
                 .arg("--template")
-                .arg(buf_gen_template.to_string_lossy().to_string())
+                .arg(
+                    &self
+                        .root
+                        .join(&project.buf_gen_template)
+                        .to_string_lossy()
+                        .to_string(),
+                )
                 .arg("--output")
                 .arg(self.tmp_namespaced_dir().to_string_lossy().to_string());
 
