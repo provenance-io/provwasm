@@ -1,7 +1,8 @@
-use log::{info, warn};
 use std::ffi::OsStr;
 use std::path::PathBuf;
 use std::process;
+
+use log::info;
 
 fn run_git(args: impl IntoIterator<Item = impl AsRef<OsStr>>) -> Result<(), String> {
     let stdout = process::Stdio::inherit();
@@ -28,16 +29,17 @@ pub fn update_submodule(dir: &str, rev: &str) {
     info!("Updating {} submodule...", dir);
 
     // switch to the given revision
+    run_git(["-C", full_path(dir).to_str().unwrap(), "fetch"]).expect("failed to fetch");
     run_git(["-C", full_path(dir).to_str().unwrap(), "checkout", rev]).expect("failed to checkout");
 
     // pull the latest changes
-    match run_git(["-C", full_path(dir).to_str().unwrap(), "pull"]) {
-        Ok(_) => info!("Updated {} submodule to revision {}", dir, rev),
-        Err(_) => warn!(
-            "Failed to update {} with revision {}. This might be caused by revision is a tag",
-            dir, rev
-        ),
-    };
+    // match run_git(["-C", full_path(dir).to_str().unwrap(), "pull"]) {
+    //     Ok(_) => info!("Updated {} submodule to revision {}", dir, rev),
+    //     Err(_) => warn!(
+    //         "Failed to update {} with revision {}. This might be caused by revision is a tag",
+    //         dir, rev
+    //     ),
+    // };
 
     // run_git(["submodule", "update", "--init"]).expect("failed to update submodules");
 }
