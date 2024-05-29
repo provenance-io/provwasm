@@ -1,17 +1,19 @@
+use provwasm_proc_macro::CosmwasmExt;
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.reward.v1.RewardProgram")]
-#[serde(rename_all = "snake_case")]
 pub struct RewardProgram {
     #[prost(uint64, tag = "1")]
+    #[serde(alias = "ID")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
@@ -72,8 +74,8 @@ pub struct RewardProgram {
     pub max_rollover_claim_periods: u64,
     #[prost(enumeration = "reward_program::State", tag = "19")]
     #[serde(
-        serialize_with = "reward_program::State::serialize",
-        deserialize_with = "reward_program::State::deserialize"
+        serialize_with = "crate::serde::as_str::serialize",
+        deserialize_with = "crate::serde::as_str::deserialize"
     )]
     pub state: i32,
     #[prost(uint64, tag = "20")]
@@ -87,12 +89,10 @@ pub struct RewardProgram {
 }
 /// Nested message and enum types in `RewardProgram`.
 pub mod reward_program {
+    use provwasm_proc_macro::CosmwasmExt;
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
-    #[derive(
-        strum_macros::FromRepr, serde::Serialize, serde::Deserialize, schemars::JsonSchema,
-    )]
-    #[serde(rename_all = "snake_case")]
+    #[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
     pub enum State {
         Unspecified = 0,
         Pending = 1,
@@ -125,49 +125,30 @@ pub mod reward_program {
                 _ => None,
             }
         }
-        pub fn serialize<S>(v: &i32, serializer: S) -> std::result::Result<S::Ok, S::Error>
-        where
-            S: serde::Serializer,
-        {
-            let enum_value = Self::from_repr(*v);
-            match enum_value {
-                Some(v) => serializer.serialize_str(v.as_str_name()),
-                None => Err(serde::ser::Error::custom("unknown value")),
-            }
-        }
-        pub fn deserialize<'de, D>(deserializer: D) -> std::result::Result<i32, D::Error>
-        where
-            D: serde::Deserializer<'de>,
-        {
-            use serde::de::Deserialize;
-            let s = String::deserialize(deserializer)?;
-            match Self::from_str_name(&s) {
-                Some(v) => Ok(v.into()),
-                None => Err(serde::de::Error::custom("unknown value")),
-            }
-        }
     }
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.reward.v1.ClaimPeriodRewardDistribution")]
-#[serde(rename_all = "snake_case")]
 pub struct ClaimPeriodRewardDistribution {
     #[prost(uint64, tag = "1")]
+    #[serde(alias = "claim_periodID")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
     pub claim_period_id: u64,
     #[prost(uint64, tag = "2")]
+    #[serde(alias = "reward_programID")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
@@ -191,22 +172,24 @@ pub struct ClaimPeriodRewardDistribution {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.reward.v1.RewardAccountState")]
-#[serde(rename_all = "snake_case")]
 pub struct RewardAccountState {
     #[prost(uint64, tag = "1")]
+    #[serde(alias = "reward_programID")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
     pub reward_program_id: u64,
     #[prost(uint64, tag = "2")]
+    #[serde(alias = "claim_periodID")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
@@ -224,19 +207,17 @@ pub struct RewardAccountState {
     pub shares_earned: u64,
     #[prost(enumeration = "reward_account_state::ClaimStatus", tag = "6")]
     #[serde(
-        serialize_with = "reward_account_state::ClaimStatus::serialize",
-        deserialize_with = "reward_account_state::ClaimStatus::deserialize"
+        serialize_with = "crate::serde::as_str::serialize",
+        deserialize_with = "crate::serde::as_str::deserialize"
     )]
     pub claim_status: i32,
 }
 /// Nested message and enum types in `RewardAccountState`.
 pub mod reward_account_state {
+    use provwasm_proc_macro::CosmwasmExt;
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
-    #[derive(
-        strum_macros::FromRepr, serde::Serialize, serde::Deserialize, schemars::JsonSchema,
-    )]
-    #[serde(rename_all = "snake_case")]
+    #[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
     pub enum ClaimStatus {
         Unspecified = 0,
         Unclaimable = 1,
@@ -269,52 +250,37 @@ pub mod reward_account_state {
                 _ => None,
             }
         }
-        pub fn serialize<S>(v: &i32, serializer: S) -> std::result::Result<S::Ok, S::Error>
-        where
-            S: serde::Serializer,
-        {
-            let enum_value = Self::from_repr(*v);
-            match enum_value {
-                Some(v) => serializer.serialize_str(v.as_str_name()),
-                None => Err(serde::ser::Error::custom("unknown value")),
-            }
-        }
-        pub fn deserialize<'de, D>(deserializer: D) -> std::result::Result<i32, D::Error>
-        where
-            D: serde::Deserializer<'de>,
-        {
-            use serde::de::Deserialize;
-            let s = String::deserialize(deserializer)?;
-            match Self::from_str_name(&s) {
-                Some(v) => Ok(v.into()),
-                None => Err(serde::de::Error::custom("unknown value")),
-            }
-        }
     }
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.reward.v1.QualifyingAction")]
-#[serde(rename_all = "snake_case")]
 pub struct QualifyingAction {
     #[prost(oneof = "qualifying_action::Type", tags = "1, 2, 3")]
     pub r#type: ::core::option::Option<qualifying_action::Type>,
 }
 /// Nested message and enum types in `QualifyingAction`.
 pub mod qualifying_action {
+    use provwasm_proc_macro::CosmwasmExt;
     #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(
-        Clone, PartialEq, ::prost::Oneof, serde::Serialize, serde::Deserialize, schemars::JsonSchema,
+        Clone,
+        PartialEq,
+        Eq,
+        ::prost::Oneof,
+        ::serde::Serialize,
+        ::serde::Deserialize,
+        ::schemars::JsonSchema,
     )]
-    #[serde(rename_all = "snake_case")]
     pub enum Type {
         #[prost(message, tag = "1")]
         Delegate(super::ActionDelegate),
@@ -328,14 +294,14 @@ pub mod qualifying_action {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.reward.v1.QualifyingActions")]
-#[serde(rename_all = "snake_case")]
 pub struct QualifyingActions {
     #[prost(message, repeated, tag = "1")]
     pub qualifying_actions: ::prost::alloc::vec::Vec<QualifyingAction>,
@@ -344,14 +310,14 @@ pub struct QualifyingActions {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.reward.v1.ActionDelegate")]
-#[serde(rename_all = "snake_case")]
 pub struct ActionDelegate {
     #[prost(uint64, tag = "1")]
     #[serde(
@@ -380,14 +346,14 @@ pub struct ActionDelegate {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.reward.v1.ActionTransfer")]
-#[serde(rename_all = "snake_case")]
 pub struct ActionTransfer {
     #[prost(uint64, tag = "1")]
     #[serde(
@@ -409,14 +375,14 @@ pub struct ActionTransfer {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.reward.v1.ActionVote")]
-#[serde(rename_all = "snake_case")]
 pub struct ActionVote {
     #[prost(uint64, tag = "1")]
     #[serde(
@@ -444,14 +410,14 @@ pub struct ActionVote {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.reward.v1.ActionCounter")]
-#[serde(rename_all = "snake_case")]
 pub struct ActionCounter {
     #[prost(string, tag = "1")]
     pub action_type: ::prost::alloc::string::String,
@@ -466,20 +432,21 @@ pub struct ActionCounter {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.reward.v1.QueryRewardProgramByIDRequest")]
-#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/provenance.reward.v1.Query/RewardProgramByID",
     response_type = QueryRewardProgramByIdResponse
 )]
 pub struct QueryRewardProgramByIdRequest {
     #[prost(uint64, tag = "1")]
+    #[serde(alias = "ID")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
@@ -490,14 +457,14 @@ pub struct QueryRewardProgramByIdRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.reward.v1.QueryRewardProgramByIDResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct QueryRewardProgramByIdResponse {
     #[prost(message, optional, tag = "1")]
     pub reward_program: ::core::option::Option<RewardProgram>,
@@ -506,14 +473,14 @@ pub struct QueryRewardProgramByIdResponse {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.reward.v1.QueryRewardProgramsRequest")]
-#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/provenance.reward.v1.Query/RewardPrograms",
     response_type = QueryRewardProgramsResponse
@@ -521,8 +488,8 @@ pub struct QueryRewardProgramByIdResponse {
 pub struct QueryRewardProgramsRequest {
     #[prost(enumeration = "query_reward_programs_request::QueryType", tag = "1")]
     #[serde(
-        serialize_with = "query_reward_programs_request::QueryType::serialize",
-        deserialize_with = "query_reward_programs_request::QueryType::deserialize"
+        serialize_with = "crate::serde::as_str::serialize",
+        deserialize_with = "crate::serde::as_str::deserialize"
     )]
     pub query_type: i32,
     #[prost(message, optional, tag = "99")]
@@ -531,12 +498,10 @@ pub struct QueryRewardProgramsRequest {
 }
 /// Nested message and enum types in `QueryRewardProgramsRequest`.
 pub mod query_reward_programs_request {
+    use provwasm_proc_macro::CosmwasmExt;
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
-    #[derive(
-        strum_macros::FromRepr, serde::Serialize, serde::Deserialize, schemars::JsonSchema,
-    )]
-    #[serde(rename_all = "snake_case")]
+    #[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
     pub enum QueryType {
         Unspecified = 0,
         All = 1,
@@ -572,41 +537,20 @@ pub mod query_reward_programs_request {
                 _ => None,
             }
         }
-        pub fn serialize<S>(v: &i32, serializer: S) -> std::result::Result<S::Ok, S::Error>
-        where
-            S: serde::Serializer,
-        {
-            let enum_value = Self::from_repr(*v);
-            match enum_value {
-                Some(v) => serializer.serialize_str(v.as_str_name()),
-                None => Err(serde::ser::Error::custom("unknown value")),
-            }
-        }
-        pub fn deserialize<'de, D>(deserializer: D) -> std::result::Result<i32, D::Error>
-        where
-            D: serde::Deserializer<'de>,
-        {
-            use serde::de::Deserialize;
-            let s = String::deserialize(deserializer)?;
-            match Self::from_str_name(&s) {
-                Some(v) => Ok(v.into()),
-                None => Err(serde::de::Error::custom("unknown value")),
-            }
-        }
     }
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.reward.v1.QueryRewardProgramsResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct QueryRewardProgramsResponse {
     #[prost(message, repeated, tag = "1")]
     pub reward_programs: ::prost::alloc::vec::Vec<RewardProgram>,
@@ -618,14 +562,14 @@ pub struct QueryRewardProgramsResponse {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.reward.v1.QueryClaimPeriodRewardDistributionsRequest")]
-#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/provenance.reward.v1.Query/ClaimPeriodRewardDistributions",
     response_type = QueryClaimPeriodRewardDistributionsResponse
@@ -639,14 +583,14 @@ pub struct QueryClaimPeriodRewardDistributionsRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.reward.v1.QueryClaimPeriodRewardDistributionsResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct QueryClaimPeriodRewardDistributionsResponse {
     #[prost(message, repeated, tag = "1")]
     pub claim_period_reward_distributions: ::prost::alloc::vec::Vec<ClaimPeriodRewardDistribution>,
@@ -658,26 +602,28 @@ pub struct QueryClaimPeriodRewardDistributionsResponse {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.reward.v1.QueryClaimPeriodRewardDistributionsByIDRequest")]
-#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/provenance.reward.v1.Query/ClaimPeriodRewardDistributionsByID",
     response_type = QueryClaimPeriodRewardDistributionsByIdResponse
 )]
 pub struct QueryClaimPeriodRewardDistributionsByIdRequest {
     #[prost(uint64, tag = "1")]
+    #[serde(alias = "rewardID")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
     pub reward_id: u64,
     #[prost(uint64, tag = "2")]
+    #[serde(alias = "claim_periodID")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
@@ -688,14 +634,14 @@ pub struct QueryClaimPeriodRewardDistributionsByIdRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.reward.v1.QueryClaimPeriodRewardDistributionsByIDResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct QueryClaimPeriodRewardDistributionsByIdResponse {
     #[prost(message, optional, tag = "1")]
     pub claim_period_reward_distribution: ::core::option::Option<ClaimPeriodRewardDistribution>,
@@ -704,14 +650,14 @@ pub struct QueryClaimPeriodRewardDistributionsByIdResponse {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.reward.v1.QueryRewardDistributionsByAddressRequest")]
-#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/provenance.reward.v1.Query/RewardDistributionsByAddress",
     response_type = QueryRewardDistributionsByAddressResponse
@@ -721,8 +667,8 @@ pub struct QueryRewardDistributionsByAddressRequest {
     pub address: ::prost::alloc::string::String,
     #[prost(enumeration = "reward_account_state::ClaimStatus", tag = "2")]
     #[serde(
-        serialize_with = "reward_account_state::ClaimStatus::serialize",
-        deserialize_with = "reward_account_state::ClaimStatus::deserialize"
+        serialize_with = "crate::serde::as_str::serialize",
+        deserialize_with = "crate::serde::as_str::deserialize"
     )]
     pub claim_status: i32,
     #[prost(message, optional, tag = "99")]
@@ -733,14 +679,14 @@ pub struct QueryRewardDistributionsByAddressRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.reward.v1.QueryRewardDistributionsByAddressResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct QueryRewardDistributionsByAddressResponse {
     #[prost(string, tag = "1")]
     pub address: ::prost::alloc::string::String,
@@ -754,16 +700,17 @@ pub struct QueryRewardDistributionsByAddressResponse {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.reward.v1.RewardAccountResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct RewardAccountResponse {
     #[prost(uint64, tag = "1")]
+    #[serde(alias = "reward_programID")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
@@ -774,11 +721,12 @@ pub struct RewardAccountResponse {
         ::core::option::Option<super::super::super::cosmos::base::v1beta1::Coin>,
     #[prost(enumeration = "reward_account_state::ClaimStatus", tag = "3")]
     #[serde(
-        serialize_with = "reward_account_state::ClaimStatus::serialize",
-        deserialize_with = "reward_account_state::ClaimStatus::deserialize"
+        serialize_with = "crate::serde::as_str::serialize",
+        deserialize_with = "crate::serde::as_str::deserialize"
     )]
     pub claim_status: i32,
     #[prost(uint64, tag = "4")]
+    #[serde(alias = "claimID")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
@@ -789,14 +737,14 @@ pub struct RewardAccountResponse {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.reward.v1.MsgCreateRewardProgramRequest")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgCreateRewardProgramRequest {
     #[prost(string, tag = "1")]
     pub title: ::prost::alloc::string::String,
@@ -842,16 +790,17 @@ pub struct MsgCreateRewardProgramRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.reward.v1.MsgCreateRewardProgramResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgCreateRewardProgramResponse {
     #[prost(uint64, tag = "1")]
+    #[serde(alias = "ID")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
@@ -862,16 +811,17 @@ pub struct MsgCreateRewardProgramResponse {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.reward.v1.MsgEndRewardProgramRequest")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgEndRewardProgramRequest {
     #[prost(uint64, tag = "1")]
+    #[serde(alias = "reward_programID")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
@@ -884,29 +834,30 @@ pub struct MsgEndRewardProgramRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.reward.v1.MsgEndRewardProgramResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgEndRewardProgramResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.reward.v1.MsgClaimRewardsRequest")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgClaimRewardsRequest {
     #[prost(uint64, tag = "1")]
+    #[serde(alias = "reward_programID")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
@@ -919,14 +870,14 @@ pub struct MsgClaimRewardsRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.reward.v1.MsgClaimRewardsResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgClaimRewardsResponse {
     #[prost(message, optional, tag = "1")]
     pub claim_details: ::core::option::Option<RewardProgramClaimDetail>,
@@ -935,14 +886,14 @@ pub struct MsgClaimRewardsResponse {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.reward.v1.MsgClaimAllRewardsRequest")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgClaimAllRewardsRequest {
     #[prost(string, tag = "1")]
     pub reward_address: ::prost::alloc::string::String,
@@ -951,14 +902,14 @@ pub struct MsgClaimAllRewardsRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.reward.v1.MsgClaimAllRewardsResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgClaimAllRewardsResponse {
     #[prost(message, repeated, tag = "1")]
     pub total_reward_claim:
@@ -970,16 +921,17 @@ pub struct MsgClaimAllRewardsResponse {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.reward.v1.ClaimedRewardPeriodDetail")]
-#[serde(rename_all = "snake_case")]
 pub struct ClaimedRewardPeriodDetail {
     #[prost(uint64, tag = "1")]
+    #[serde(alias = "claim_periodID")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
@@ -999,16 +951,17 @@ pub struct ClaimedRewardPeriodDetail {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.reward.v1.RewardProgramClaimDetail")]
-#[serde(rename_all = "snake_case")]
 pub struct RewardProgramClaimDetail {
     #[prost(uint64, tag = "1")]
+    #[serde(alias = "reward_programID")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
@@ -1030,7 +983,7 @@ impl<'a, Q: cosmwasm_std::CustomQuery> RewardQuerier<'a, Q> {
     pub fn reward_program_by_id(
         &self,
         id: u64,
-    ) -> std::result::Result<QueryRewardProgramByIdResponse, cosmwasm_std::StdError> {
+    ) -> Result<QueryRewardProgramByIdResponse, cosmwasm_std::StdError> {
         QueryRewardProgramByIdRequest { id }.query(self.querier)
     }
     pub fn reward_programs(
@@ -1039,7 +992,7 @@ impl<'a, Q: cosmwasm_std::CustomQuery> RewardQuerier<'a, Q> {
         pagination: ::core::option::Option<
             super::super::super::cosmos::base::query::v1beta1::PageRequest,
         >,
-    ) -> std::result::Result<QueryRewardProgramsResponse, cosmwasm_std::StdError> {
+    ) -> Result<QueryRewardProgramsResponse, cosmwasm_std::StdError> {
         QueryRewardProgramsRequest {
             query_type,
             pagination,
@@ -1051,16 +1004,14 @@ impl<'a, Q: cosmwasm_std::CustomQuery> RewardQuerier<'a, Q> {
         pagination: ::core::option::Option<
             super::super::super::cosmos::base::query::v1beta1::PageRequest,
         >,
-    ) -> std::result::Result<QueryClaimPeriodRewardDistributionsResponse, cosmwasm_std::StdError>
-    {
+    ) -> Result<QueryClaimPeriodRewardDistributionsResponse, cosmwasm_std::StdError> {
         QueryClaimPeriodRewardDistributionsRequest { pagination }.query(self.querier)
     }
     pub fn claim_period_reward_distributions_by_id(
         &self,
         reward_id: u64,
         claim_period_id: u64,
-    ) -> std::result::Result<QueryClaimPeriodRewardDistributionsByIdResponse, cosmwasm_std::StdError>
-    {
+    ) -> Result<QueryClaimPeriodRewardDistributionsByIdResponse, cosmwasm_std::StdError> {
         QueryClaimPeriodRewardDistributionsByIdRequest {
             reward_id,
             claim_period_id,
@@ -1074,8 +1025,7 @@ impl<'a, Q: cosmwasm_std::CustomQuery> RewardQuerier<'a, Q> {
         pagination: ::core::option::Option<
             super::super::super::cosmos::base::query::v1beta1::PageRequest,
         >,
-    ) -> std::result::Result<QueryRewardDistributionsByAddressResponse, cosmwasm_std::StdError>
-    {
+    ) -> Result<QueryRewardDistributionsByAddressResponse, cosmwasm_std::StdError> {
         QueryRewardDistributionsByAddressRequest {
             address,
             claim_status,

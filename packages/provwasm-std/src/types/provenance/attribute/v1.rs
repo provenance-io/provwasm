@@ -1,44 +1,49 @@
+use provwasm_proc_macro::CosmwasmExt;
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.attribute.v1.Params")]
-#[serde(rename_all = "snake_case")]
 pub struct Params {
     #[prost(uint32, tag = "1")]
+    #[serde(
+        serialize_with = "crate::serde::as_str::serialize",
+        deserialize_with = "crate::serde::as_str::deserialize"
+    )]
     pub max_value_length: u32,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.attribute.v1.Attribute")]
-#[serde(rename_all = "snake_case")]
 pub struct Attribute {
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
     #[prost(bytes = "vec", tag = "2")]
     #[serde(
-        serialize_with = "crate::serde::as_base64::serialize",
-        deserialize_with = "crate::serde::as_base64::deserialize"
+        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
+        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
     pub value: ::prost::alloc::vec::Vec<u8>,
     #[prost(enumeration = "AttributeType", tag = "3")]
     #[serde(
-        serialize_with = "AttributeType::serialize",
-        deserialize_with = "AttributeType::deserialize"
+        serialize_with = "crate::serde::as_str::serialize",
+        deserialize_with = "crate::serde::as_str::deserialize"
     )]
     pub attribute_type: i32,
     #[prost(string, tag = "4")]
@@ -50,14 +55,14 @@ pub struct Attribute {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.attribute.v1.EventAttributeAdd")]
-#[serde(rename_all = "snake_case")]
 pub struct EventAttributeAdd {
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
@@ -76,14 +81,14 @@ pub struct EventAttributeAdd {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.attribute.v1.EventAttributeUpdate")]
-#[serde(rename_all = "snake_case")]
 pub struct EventAttributeUpdate {
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
@@ -104,14 +109,14 @@ pub struct EventAttributeUpdate {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.attribute.v1.EventAttributeDelete")]
-#[serde(rename_all = "snake_case")]
 pub struct EventAttributeDelete {
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
@@ -124,14 +129,14 @@ pub struct EventAttributeDelete {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.attribute.v1.EventAttributeDistinctDelete")]
-#[serde(rename_all = "snake_case")]
 pub struct EventAttributeDistinctDelete {
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
@@ -146,8 +151,7 @@ pub struct EventAttributeDistinctDelete {
 }
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-#[derive(strum_macros::FromRepr, serde::Serialize, serde::Deserialize, schemars::JsonSchema)]
-#[serde(rename_all = "snake_case")]
+#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
 pub enum AttributeType {
     Unspecified = 0,
     Uuid = 1,
@@ -192,40 +196,19 @@ impl AttributeType {
             _ => None,
         }
     }
-    pub fn serialize<S>(v: &i32, serializer: S) -> std::result::Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        let enum_value = Self::from_repr(*v);
-        match enum_value {
-            Some(v) => serializer.serialize_str(v.as_str_name()),
-            None => Err(serde::ser::Error::custom("unknown value")),
-        }
-    }
-    pub fn deserialize<'de, D>(deserializer: D) -> std::result::Result<i32, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        use serde::de::Deserialize;
-        let s = String::deserialize(deserializer)?;
-        match Self::from_str_name(&s) {
-            Some(v) => Ok(v.into()),
-            None => Err(serde::de::Error::custom("unknown value")),
-        }
-    }
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.attribute.v1.QueryParamsRequest")]
-#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/provenance.attribute.v1.Query/Params",
     response_type = QueryParamsResponse
@@ -235,14 +218,14 @@ pub struct QueryParamsRequest {}
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.attribute.v1.QueryParamsResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct QueryParamsResponse {
     #[prost(message, optional, tag = "1")]
     pub params: ::core::option::Option<Params>,
@@ -251,14 +234,14 @@ pub struct QueryParamsResponse {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.attribute.v1.QueryAttributeRequest")]
-#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/provenance.attribute.v1.Query/Attribute",
     response_type = QueryAttributeResponse
@@ -276,14 +259,14 @@ pub struct QueryAttributeRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.attribute.v1.QueryAttributeResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct QueryAttributeResponse {
     #[prost(string, tag = "1")]
     pub account: ::prost::alloc::string::String,
@@ -297,14 +280,14 @@ pub struct QueryAttributeResponse {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.attribute.v1.QueryAttributesRequest")]
-#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/provenance.attribute.v1.Query/Attributes",
     response_type = QueryAttributesResponse
@@ -320,14 +303,14 @@ pub struct QueryAttributesRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.attribute.v1.QueryAttributesResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct QueryAttributesResponse {
     #[prost(string, tag = "1")]
     pub account: ::prost::alloc::string::String,
@@ -341,14 +324,14 @@ pub struct QueryAttributesResponse {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.attribute.v1.QueryScanRequest")]
-#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/provenance.attribute.v1.Query/Scan",
     response_type = QueryScanResponse
@@ -366,14 +349,14 @@ pub struct QueryScanRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.attribute.v1.QueryScanResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct QueryScanResponse {
     #[prost(string, tag = "1")]
     pub account: ::prost::alloc::string::String,
@@ -387,27 +370,27 @@ pub struct QueryScanResponse {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.attribute.v1.MsgAddAttributeRequest")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgAddAttributeRequest {
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
     #[prost(bytes = "vec", tag = "2")]
     #[serde(
-        serialize_with = "crate::serde::as_base64::serialize",
-        deserialize_with = "crate::serde::as_base64::deserialize"
+        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
+        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
     pub value: ::prost::alloc::vec::Vec<u8>,
     #[prost(enumeration = "AttributeType", tag = "3")]
     #[serde(
-        serialize_with = "AttributeType::serialize",
-        deserialize_with = "AttributeType::deserialize"
+        serialize_with = "crate::serde::as_str::serialize",
+        deserialize_with = "crate::serde::as_str::deserialize"
     )]
     pub attribute_type: i32,
     #[prost(string, tag = "4")]
@@ -421,52 +404,52 @@ pub struct MsgAddAttributeRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.attribute.v1.MsgAddAttributeResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgAddAttributeResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.attribute.v1.MsgUpdateAttributeRequest")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgUpdateAttributeRequest {
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
     #[prost(bytes = "vec", tag = "2")]
     #[serde(
-        serialize_with = "crate::serde::as_base64::serialize",
-        deserialize_with = "crate::serde::as_base64::deserialize"
+        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
+        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
     pub original_value: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "3")]
     #[serde(
-        serialize_with = "crate::serde::as_base64::serialize",
-        deserialize_with = "crate::serde::as_base64::deserialize"
+        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
+        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
     pub update_value: ::prost::alloc::vec::Vec<u8>,
     #[prost(enumeration = "AttributeType", tag = "4")]
     #[serde(
-        serialize_with = "AttributeType::serialize",
-        deserialize_with = "AttributeType::deserialize"
+        serialize_with = "crate::serde::as_str::serialize",
+        deserialize_with = "crate::serde::as_str::deserialize"
     )]
     pub original_attribute_type: i32,
     #[prost(enumeration = "AttributeType", tag = "5")]
     #[serde(
-        serialize_with = "AttributeType::serialize",
-        deserialize_with = "AttributeType::deserialize"
+        serialize_with = "crate::serde::as_str::serialize",
+        deserialize_with = "crate::serde::as_str::deserialize"
     )]
     pub update_attribute_type: i32,
     #[prost(string, tag = "6")]
@@ -478,27 +461,27 @@ pub struct MsgUpdateAttributeRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.attribute.v1.MsgUpdateAttributeResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgUpdateAttributeResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.attribute.v1.MsgDeleteAttributeRequest")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgDeleteAttributeRequest {
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
@@ -511,34 +494,34 @@ pub struct MsgDeleteAttributeRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.attribute.v1.MsgDeleteAttributeResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgDeleteAttributeResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.attribute.v1.MsgDeleteDistinctAttributeRequest")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgDeleteDistinctAttributeRequest {
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
     #[prost(bytes = "vec", tag = "2")]
     #[serde(
-        serialize_with = "crate::serde::as_base64::serialize",
-        deserialize_with = "crate::serde::as_base64::deserialize"
+        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
+        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
     pub value: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, tag = "3")]
@@ -550,14 +533,14 @@ pub struct MsgDeleteDistinctAttributeRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.attribute.v1.MsgDeleteDistinctAttributeResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgDeleteDistinctAttributeResponse {}
 pub struct AttributeQuerier<'a, Q: cosmwasm_std::CustomQuery> {
     querier: &'a cosmwasm_std::QuerierWrapper<'a, Q>,
@@ -566,7 +549,7 @@ impl<'a, Q: cosmwasm_std::CustomQuery> AttributeQuerier<'a, Q> {
     pub fn new(querier: &'a cosmwasm_std::QuerierWrapper<'a, Q>) -> Self {
         Self { querier }
     }
-    pub fn params(&self) -> std::result::Result<QueryParamsResponse, cosmwasm_std::StdError> {
+    pub fn params(&self) -> Result<QueryParamsResponse, cosmwasm_std::StdError> {
         QueryParamsRequest {}.query(self.querier)
     }
     pub fn attribute(
@@ -576,7 +559,7 @@ impl<'a, Q: cosmwasm_std::CustomQuery> AttributeQuerier<'a, Q> {
         pagination: ::core::option::Option<
             super::super::super::cosmos::base::query::v1beta1::PageRequest,
         >,
-    ) -> std::result::Result<QueryAttributeResponse, cosmwasm_std::StdError> {
+    ) -> Result<QueryAttributeResponse, cosmwasm_std::StdError> {
         QueryAttributeRequest {
             account,
             name,
@@ -590,7 +573,7 @@ impl<'a, Q: cosmwasm_std::CustomQuery> AttributeQuerier<'a, Q> {
         pagination: ::core::option::Option<
             super::super::super::cosmos::base::query::v1beta1::PageRequest,
         >,
-    ) -> std::result::Result<QueryAttributesResponse, cosmwasm_std::StdError> {
+    ) -> Result<QueryAttributesResponse, cosmwasm_std::StdError> {
         QueryAttributesRequest {
             account,
             pagination,
@@ -604,7 +587,7 @@ impl<'a, Q: cosmwasm_std::CustomQuery> AttributeQuerier<'a, Q> {
         pagination: ::core::option::Option<
             super::super::super::cosmos::base::query::v1beta1::PageRequest,
         >,
-    ) -> std::result::Result<QueryScanResponse, cosmwasm_std::StdError> {
+    ) -> Result<QueryScanResponse, cosmwasm_std::StdError> {
         QueryScanRequest {
             account,
             suffix,

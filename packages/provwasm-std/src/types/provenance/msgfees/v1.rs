@@ -1,15 +1,16 @@
+use provwasm_proc_macro::CosmwasmExt;
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.msgfees.v1.Params")]
-#[serde(rename_all = "snake_case")]
 pub struct Params {
     #[prost(message, optional, tag = "2")]
     pub floor_gas_price: ::core::option::Option<super::super::super::cosmos::base::v1beta1::Coin>,
@@ -26,14 +27,14 @@ pub struct Params {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.msgfees.v1.MsgFee")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgFee {
     #[prost(string, tag = "1")]
     pub msg_type_url: ::prost::alloc::string::String,
@@ -42,20 +43,24 @@ pub struct MsgFee {
     #[prost(string, tag = "3")]
     pub recipient: ::prost::alloc::string::String,
     #[prost(uint32, tag = "4")]
+    #[serde(
+        serialize_with = "crate::serde::as_str::serialize",
+        deserialize_with = "crate::serde::as_str::deserialize"
+    )]
     pub recipient_basis_points: u32,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.msgfees.v1.EventMsgFee")]
-#[serde(rename_all = "snake_case")]
 pub struct EventMsgFee {
     #[prost(string, tag = "1")]
     pub msg_type: ::prost::alloc::string::String,
@@ -70,14 +75,14 @@ pub struct EventMsgFee {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.msgfees.v1.EventMsgFees")]
-#[serde(rename_all = "snake_case")]
 pub struct EventMsgFees {
     #[prost(message, repeated, tag = "1")]
     pub msg_fees: ::prost::alloc::vec::Vec<EventMsgFee>,
@@ -86,14 +91,14 @@ pub struct EventMsgFees {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.msgfees.v1.QueryParamsRequest")]
-#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/provenance.msgfees.v1.Query/Params",
     response_type = QueryParamsResponse
@@ -103,14 +108,14 @@ pub struct QueryParamsRequest {}
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.msgfees.v1.QueryParamsResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct QueryParamsResponse {
     #[prost(message, optional, tag = "1")]
     pub params: ::core::option::Option<Params>,
@@ -119,14 +124,14 @@ pub struct QueryParamsResponse {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.msgfees.v1.QueryAllMsgFeesRequest")]
-#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/provenance.msgfees.v1.Query/QueryAllMsgFees",
     response_type = QueryAllMsgFeesResponse
@@ -140,14 +145,14 @@ pub struct QueryAllMsgFeesRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.msgfees.v1.QueryAllMsgFeesResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct QueryAllMsgFeesResponse {
     #[prost(message, repeated, tag = "1")]
     pub msg_fees: ::prost::alloc::vec::Vec<MsgFee>,
@@ -159,14 +164,14 @@ pub struct QueryAllMsgFeesResponse {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.msgfees.v1.CalculateTxFeesRequest")]
-#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/provenance.msgfees.v1.Query/CalculateTxFees",
     response_type = CalculateTxFeesResponse
@@ -174,8 +179,8 @@ pub struct QueryAllMsgFeesResponse {
 pub struct CalculateTxFeesRequest {
     #[prost(bytes = "vec", tag = "1")]
     #[serde(
-        serialize_with = "crate::serde::as_base64::serialize",
-        deserialize_with = "crate::serde::as_base64::deserialize"
+        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
+        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
     pub tx_bytes: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, tag = "2")]
@@ -187,14 +192,14 @@ pub struct CalculateTxFeesRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.msgfees.v1.CalculateTxFeesResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct CalculateTxFeesResponse {
     #[prost(message, repeated, tag = "1")]
     pub additional_fees: ::prost::alloc::vec::Vec<super::super::super::cosmos::base::v1beta1::Coin>,
@@ -211,14 +216,14 @@ pub struct CalculateTxFeesResponse {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.msgfees.v1.MsgAssessCustomMsgFeeRequest")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgAssessCustomMsgFeeRequest {
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
@@ -235,14 +240,14 @@ pub struct MsgAssessCustomMsgFeeRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.msgfees.v1.MsgAssessCustomMsgFeeResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgAssessCustomMsgFeeResponse {}
 pub struct MsgfeesQuerier<'a, Q: cosmwasm_std::CustomQuery> {
     querier: &'a cosmwasm_std::QuerierWrapper<'a, Q>,
@@ -251,7 +256,7 @@ impl<'a, Q: cosmwasm_std::CustomQuery> MsgfeesQuerier<'a, Q> {
     pub fn new(querier: &'a cosmwasm_std::QuerierWrapper<'a, Q>) -> Self {
         Self { querier }
     }
-    pub fn params(&self) -> std::result::Result<QueryParamsResponse, cosmwasm_std::StdError> {
+    pub fn params(&self) -> Result<QueryParamsResponse, cosmwasm_std::StdError> {
         QueryParamsRequest {}.query(self.querier)
     }
     pub fn query_all_msg_fees(
@@ -259,7 +264,7 @@ impl<'a, Q: cosmwasm_std::CustomQuery> MsgfeesQuerier<'a, Q> {
         pagination: ::core::option::Option<
             super::super::super::cosmos::base::query::v1beta1::PageRequest,
         >,
-    ) -> std::result::Result<QueryAllMsgFeesResponse, cosmwasm_std::StdError> {
+    ) -> Result<QueryAllMsgFeesResponse, cosmwasm_std::StdError> {
         QueryAllMsgFeesRequest { pagination }.query(self.querier)
     }
     pub fn calculate_tx_fees(
@@ -267,7 +272,7 @@ impl<'a, Q: cosmwasm_std::CustomQuery> MsgfeesQuerier<'a, Q> {
         tx_bytes: ::prost::alloc::vec::Vec<u8>,
         default_base_denom: ::prost::alloc::string::String,
         gas_adjustment: f32,
-    ) -> std::result::Result<CalculateTxFeesResponse, cosmwasm_std::StdError> {
+    ) -> Result<CalculateTxFeesResponse, cosmwasm_std::StdError> {
         CalculateTxFeesRequest {
             tx_bytes,
             default_base_denom,

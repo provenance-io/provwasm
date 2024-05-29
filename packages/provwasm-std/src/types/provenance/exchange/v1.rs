@@ -1,15 +1,16 @@
+use provwasm_proc_macro::CosmwasmExt;
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.AccountAmount")]
-#[serde(rename_all = "snake_case")]
 pub struct AccountAmount {
     #[prost(string, tag = "1")]
     pub account: ::prost::alloc::string::String,
@@ -20,14 +21,14 @@ pub struct AccountAmount {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.NetAssetPrice")]
-#[serde(rename_all = "snake_case")]
 pub struct NetAssetPrice {
     #[prost(message, optional, tag = "1")]
     pub assets: ::core::option::Option<super::super::super::cosmos::base::v1beta1::Coin>,
@@ -38,16 +39,17 @@ pub struct NetAssetPrice {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.EventOrderCreated")]
-#[serde(rename_all = "snake_case")]
 pub struct EventOrderCreated {
     #[prost(uint64, tag = "1")]
+    #[serde(alias = "orderID")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
@@ -56,24 +58,31 @@ pub struct EventOrderCreated {
     #[prost(string, tag = "2")]
     pub order_type: ::prost::alloc::string::String,
     #[prost(uint32, tag = "3")]
+    #[serde(alias = "marketID")]
+    #[serde(
+        serialize_with = "crate::serde::as_str::serialize",
+        deserialize_with = "crate::serde::as_str::deserialize"
+    )]
     pub market_id: u32,
     #[prost(string, tag = "4")]
+    #[serde(alias = "externalID")]
     pub external_id: ::prost::alloc::string::String,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.EventOrderCancelled")]
-#[serde(rename_all = "snake_case")]
 pub struct EventOrderCancelled {
     #[prost(uint64, tag = "1")]
+    #[serde(alias = "orderID")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
@@ -82,24 +91,31 @@ pub struct EventOrderCancelled {
     #[prost(string, tag = "2")]
     pub cancelled_by: ::prost::alloc::string::String,
     #[prost(uint32, tag = "3")]
+    #[serde(alias = "marketID")]
+    #[serde(
+        serialize_with = "crate::serde::as_str::serialize",
+        deserialize_with = "crate::serde::as_str::deserialize"
+    )]
     pub market_id: u32,
     #[prost(string, tag = "4")]
+    #[serde(alias = "externalID")]
     pub external_id: ::prost::alloc::string::String,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.EventOrderFilled")]
-#[serde(rename_all = "snake_case")]
 pub struct EventOrderFilled {
     #[prost(uint64, tag = "1")]
+    #[serde(alias = "orderID")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
@@ -112,24 +128,31 @@ pub struct EventOrderFilled {
     #[prost(string, tag = "4")]
     pub fees: ::prost::alloc::string::String,
     #[prost(uint32, tag = "5")]
+    #[serde(alias = "marketID")]
+    #[serde(
+        serialize_with = "crate::serde::as_str::serialize",
+        deserialize_with = "crate::serde::as_str::deserialize"
+    )]
     pub market_id: u32,
     #[prost(string, tag = "6")]
+    #[serde(alias = "externalID")]
     pub external_id: ::prost::alloc::string::String,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.EventOrderPartiallyFilled")]
-#[serde(rename_all = "snake_case")]
 pub struct EventOrderPartiallyFilled {
     #[prost(uint64, tag = "1")]
+    #[serde(alias = "orderID")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
@@ -142,48 +165,66 @@ pub struct EventOrderPartiallyFilled {
     #[prost(string, tag = "4")]
     pub fees: ::prost::alloc::string::String,
     #[prost(uint32, tag = "5")]
+    #[serde(alias = "marketID")]
+    #[serde(
+        serialize_with = "crate::serde::as_str::serialize",
+        deserialize_with = "crate::serde::as_str::deserialize"
+    )]
     pub market_id: u32,
     #[prost(string, tag = "6")]
+    #[serde(alias = "externalID")]
     pub external_id: ::prost::alloc::string::String,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.EventOrderExternalIDUpdated")]
-#[serde(rename_all = "snake_case")]
 pub struct EventOrderExternalIdUpdated {
     #[prost(uint64, tag = "1")]
+    #[serde(alias = "orderID")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
     pub order_id: u64,
     #[prost(uint32, tag = "2")]
+    #[serde(alias = "marketID")]
+    #[serde(
+        serialize_with = "crate::serde::as_str::serialize",
+        deserialize_with = "crate::serde::as_str::deserialize"
+    )]
     pub market_id: u32,
     #[prost(string, tag = "3")]
+    #[serde(alias = "externalID")]
     pub external_id: ::prost::alloc::string::String,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.EventMarketWithdraw")]
-#[serde(rename_all = "snake_case")]
 pub struct EventMarketWithdraw {
     #[prost(uint32, tag = "1")]
+    #[serde(alias = "marketID")]
+    #[serde(
+        serialize_with = "crate::serde::as_str::serialize",
+        deserialize_with = "crate::serde::as_str::deserialize"
+    )]
     pub market_id: u32,
     #[prost(string, tag = "2")]
     pub amount: ::prost::alloc::string::String,
@@ -196,16 +237,21 @@ pub struct EventMarketWithdraw {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.EventMarketDetailsUpdated")]
-#[serde(rename_all = "snake_case")]
 pub struct EventMarketDetailsUpdated {
     #[prost(uint32, tag = "1")]
+    #[serde(alias = "marketID")]
+    #[serde(
+        serialize_with = "crate::serde::as_str::serialize",
+        deserialize_with = "crate::serde::as_str::deserialize"
+    )]
     pub market_id: u32,
     #[prost(string, tag = "2")]
     pub updated_by: ::prost::alloc::string::String,
@@ -214,16 +260,22 @@ pub struct EventMarketDetailsUpdated {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.EventMarketEnabled")]
-#[serde(rename_all = "snake_case")]
+#[deprecated]
 pub struct EventMarketEnabled {
     #[prost(uint32, tag = "1")]
+    #[serde(alias = "marketID")]
+    #[serde(
+        serialize_with = "crate::serde::as_str::serialize",
+        deserialize_with = "crate::serde::as_str::deserialize"
+    )]
     pub market_id: u32,
     #[prost(string, tag = "2")]
     pub updated_by: ::prost::alloc::string::String,
@@ -232,16 +284,22 @@ pub struct EventMarketEnabled {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.EventMarketDisabled")]
-#[serde(rename_all = "snake_case")]
+#[deprecated]
 pub struct EventMarketDisabled {
     #[prost(uint32, tag = "1")]
+    #[serde(alias = "marketID")]
+    #[serde(
+        serialize_with = "crate::serde::as_str::serialize",
+        deserialize_with = "crate::serde::as_str::deserialize"
+    )]
     pub market_id: u32,
     #[prost(string, tag = "2")]
     pub updated_by: ::prost::alloc::string::String,
@@ -250,16 +308,21 @@ pub struct EventMarketDisabled {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.EventMarketUserSettleEnabled")]
-#[serde(rename_all = "snake_case")]
 pub struct EventMarketUserSettleEnabled {
     #[prost(uint32, tag = "1")]
+    #[serde(alias = "marketID")]
+    #[serde(
+        serialize_with = "crate::serde::as_str::serialize",
+        deserialize_with = "crate::serde::as_str::deserialize"
+    )]
     pub market_id: u32,
     #[prost(string, tag = "2")]
     pub updated_by: ::prost::alloc::string::String,
@@ -268,16 +331,21 @@ pub struct EventMarketUserSettleEnabled {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.EventMarketUserSettleDisabled")]
-#[serde(rename_all = "snake_case")]
 pub struct EventMarketUserSettleDisabled {
     #[prost(uint32, tag = "1")]
+    #[serde(alias = "marketID")]
+    #[serde(
+        serialize_with = "crate::serde::as_str::serialize",
+        deserialize_with = "crate::serde::as_str::deserialize"
+    )]
     pub market_id: u32,
     #[prost(string, tag = "2")]
     pub updated_by: ::prost::alloc::string::String,
@@ -286,16 +354,21 @@ pub struct EventMarketUserSettleDisabled {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.EventMarketPermissionsUpdated")]
-#[serde(rename_all = "snake_case")]
 pub struct EventMarketPermissionsUpdated {
     #[prost(uint32, tag = "1")]
+    #[serde(alias = "marketID")]
+    #[serde(
+        serialize_with = "crate::serde::as_str::serialize",
+        deserialize_with = "crate::serde::as_str::deserialize"
+    )]
     pub market_id: u32,
     #[prost(string, tag = "2")]
     pub updated_by: ::prost::alloc::string::String,
@@ -304,16 +377,21 @@ pub struct EventMarketPermissionsUpdated {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.EventMarketReqAttrUpdated")]
-#[serde(rename_all = "snake_case")]
 pub struct EventMarketReqAttrUpdated {
     #[prost(uint32, tag = "1")]
+    #[serde(alias = "marketID")]
+    #[serde(
+        serialize_with = "crate::serde::as_str::serialize",
+        deserialize_with = "crate::serde::as_str::deserialize"
+    )]
     pub market_id: u32,
     #[prost(string, tag = "2")]
     pub updated_by: ::prost::alloc::string::String,
@@ -322,51 +400,66 @@ pub struct EventMarketReqAttrUpdated {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.EventMarketCreated")]
-#[serde(rename_all = "snake_case")]
 pub struct EventMarketCreated {
     #[prost(uint32, tag = "1")]
+    #[serde(alias = "marketID")]
+    #[serde(
+        serialize_with = "crate::serde::as_str::serialize",
+        deserialize_with = "crate::serde::as_str::deserialize"
+    )]
     pub market_id: u32,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.EventMarketFeesUpdated")]
-#[serde(rename_all = "snake_case")]
 pub struct EventMarketFeesUpdated {
     #[prost(uint32, tag = "1")]
+    #[serde(alias = "marketID")]
+    #[serde(
+        serialize_with = "crate::serde::as_str::serialize",
+        deserialize_with = "crate::serde::as_str::deserialize"
+    )]
     pub market_id: u32,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.MarketAccount")]
-#[serde(rename_all = "snake_case")]
 pub struct MarketAccount {
     #[prost(message, optional, tag = "1")]
     pub base_account:
         ::core::option::Option<super::super::super::cosmos::auth::v1beta1::BaseAccount>,
     #[prost(uint32, tag = "2")]
+    #[serde(alias = "marketID")]
+    #[serde(
+        serialize_with = "crate::serde::as_str::serialize",
+        deserialize_with = "crate::serde::as_str::deserialize"
+    )]
     pub market_id: u32,
     #[prost(message, optional, tag = "3")]
     pub market_details: ::core::option::Option<MarketDetails>,
@@ -375,14 +468,14 @@ pub struct MarketAccount {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.MarketDetails")]
-#[serde(rename_all = "snake_case")]
 pub struct MarketDetails {
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
@@ -397,16 +490,21 @@ pub struct MarketDetails {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.MarketBrief")]
-#[serde(rename_all = "snake_case")]
 pub struct MarketBrief {
     #[prost(uint32, tag = "1")]
+    #[serde(alias = "marketID")]
+    #[serde(
+        serialize_with = "crate::serde::as_str::serialize",
+        deserialize_with = "crate::serde::as_str::deserialize"
+    )]
     pub market_id: u32,
     #[prost(string, tag = "2")]
     pub market_address: ::prost::alloc::string::String,
@@ -417,16 +515,21 @@ pub struct MarketBrief {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.Market")]
-#[serde(rename_all = "snake_case")]
 pub struct Market {
     #[prost(uint32, tag = "1")]
+    #[serde(alias = "marketID")]
+    #[serde(
+        serialize_with = "crate::serde::as_str::serialize",
+        deserialize_with = "crate::serde::as_str::deserialize"
+    )]
     pub market_id: u32,
     #[prost(message, optional, tag = "2")]
     pub market_details: ::core::option::Option<MarketDetails>,
@@ -462,6 +565,10 @@ pub struct Market {
     pub fee_create_commitment_flat:
         ::prost::alloc::vec::Vec<super::super::super::cosmos::base::v1beta1::Coin>,
     #[prost(uint32, tag = "16")]
+    #[serde(
+        serialize_with = "crate::serde::as_str::serialize",
+        deserialize_with = "crate::serde::as_str::deserialize"
+    )]
     pub commitment_settlement_bips: u32,
     #[prost(string, tag = "17")]
     pub intermediary_denom: ::prost::alloc::string::String,
@@ -472,14 +579,14 @@ pub struct Market {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.FeeRatio")]
-#[serde(rename_all = "snake_case")]
 pub struct FeeRatio {
     #[prost(message, optional, tag = "1")]
     pub price: ::core::option::Option<super::super::super::cosmos::base::v1beta1::Coin>,
@@ -490,28 +597,27 @@ pub struct FeeRatio {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.AccessGrant")]
-#[serde(rename_all = "snake_case")]
 pub struct AccessGrant {
     #[prost(string, tag = "1")]
     pub address: ::prost::alloc::string::String,
     #[prost(enumeration = "Permission", repeated, tag = "2")]
     #[serde(
-        serialize_with = "Permission::serialize",
-        deserialize_with = "Permission::deserialize"
+        serialize_with = "crate::serde::as_str_vec::serialize",
+        deserialize_with = "crate::serde::as_str_vec::deserialize"
     )]
     pub permissions: ::prost::alloc::vec::Vec<i32>,
 }
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-#[derive(strum_macros::FromRepr, serde::Serialize, serde::Deserialize, schemars::JsonSchema)]
-#[serde(rename_all = "snake_case")]
+#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
 pub enum Permission {
     Unspecified = 0,
     Settle = 1,
@@ -553,58 +659,22 @@ impl Permission {
             _ => None,
         }
     }
-    pub fn serialize<S>(v: &Vec<i32>, serializer: S) -> std::result::Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        use serde::ser::SerializeTuple;
-
-        let mut permission_vec: Vec<&str> = Vec::new();
-        for permission_i32 in v {
-            let enum_value = Permission::from_repr(*permission_i32);
-            match enum_value {
-                Some(v) => {
-                    permission_vec.push(v.as_str_name());
-                }
-                None => return Err(serde::ser::Error::custom("unknown value")),
-            }
-        }
-        let mut seq = serializer.serialize_tuple(permission_vec.len())?;
-        for item in permission_vec {
-            seq.serialize_element(item)?;
-        }
-        seq.end()
-    }
-    fn deserialize<'de, D>(deserializer: D) -> Result<Vec<i32>, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        use serde::de::{Deserialize, Error};
-
-        let strs: Vec<String> = Vec::deserialize(deserializer)?;
-        let mut ords: Vec<i32> = Vec::new();
-        for str_name in strs {
-            let enum_value = Permission::from_str_name(&str_name)
-                .ok_or_else(|| Error::custom(format!("unknown enum string: {}", str_name)))?;
-            ords.push(enum_value as i32);
-        }
-        Ok(ords)
-    }
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.Order")]
-#[serde(rename_all = "snake_case")]
 pub struct Order {
     #[prost(uint64, tag = "1")]
+    #[serde(alias = "orderID")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
@@ -615,11 +685,17 @@ pub struct Order {
 }
 /// Nested message and enum types in `Order`.
 pub mod order {
+    use provwasm_proc_macro::CosmwasmExt;
     #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(
-        Clone, PartialEq, ::prost::Oneof, serde::Serialize, serde::Deserialize, schemars::JsonSchema,
+        Clone,
+        PartialEq,
+        Eq,
+        ::prost::Oneof,
+        ::serde::Serialize,
+        ::serde::Deserialize,
+        ::schemars::JsonSchema,
     )]
-    #[serde(rename_all = "snake_case")]
     pub enum Order {
         #[prost(message, tag = "2")]
         AskOrder(super::AskOrder),
@@ -631,16 +707,21 @@ pub mod order {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.AskOrder")]
-#[serde(rename_all = "snake_case")]
 pub struct AskOrder {
     #[prost(uint32, tag = "1")]
+    #[serde(alias = "marketID")]
+    #[serde(
+        serialize_with = "crate::serde::as_str::serialize",
+        deserialize_with = "crate::serde::as_str::deserialize"
+    )]
     pub market_id: u32,
     #[prost(string, tag = "2")]
     pub seller: ::prost::alloc::string::String,
@@ -654,22 +735,28 @@ pub struct AskOrder {
     #[prost(bool, tag = "6")]
     pub allow_partial: bool,
     #[prost(string, tag = "7")]
+    #[serde(alias = "externalID")]
     pub external_id: ::prost::alloc::string::String,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.BidOrder")]
-#[serde(rename_all = "snake_case")]
 pub struct BidOrder {
     #[prost(uint32, tag = "1")]
+    #[serde(alias = "marketID")]
+    #[serde(
+        serialize_with = "crate::serde::as_str::serialize",
+        deserialize_with = "crate::serde::as_str::deserialize"
+    )]
     pub market_id: u32,
     #[prost(string, tag = "2")]
     pub buyer: ::prost::alloc::string::String,
@@ -683,22 +770,27 @@ pub struct BidOrder {
     #[prost(bool, tag = "6")]
     pub allow_partial: bool,
     #[prost(string, tag = "7")]
+    #[serde(alias = "externalID")]
     pub external_id: ::prost::alloc::string::String,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.Params")]
-#[serde(rename_all = "snake_case")]
 pub struct Params {
     #[prost(uint32, tag = "1")]
+    #[serde(
+        serialize_with = "crate::serde::as_str::serialize",
+        deserialize_with = "crate::serde::as_str::deserialize"
+    )]
     pub default_split: u32,
     #[prost(message, repeated, tag = "2")]
     pub denom_splits: ::prost::alloc::vec::Vec<DenomSplit>,
@@ -713,32 +805,36 @@ pub struct Params {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.DenomSplit")]
-#[serde(rename_all = "snake_case")]
 pub struct DenomSplit {
     #[prost(string, tag = "1")]
     pub denom: ::prost::alloc::string::String,
     #[prost(uint32, tag = "2")]
+    #[serde(
+        serialize_with = "crate::serde::as_str::serialize",
+        deserialize_with = "crate::serde::as_str::deserialize"
+    )]
     pub split: u32,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.Payment")]
-#[serde(rename_all = "snake_case")]
 pub struct Payment {
     #[prost(string, tag = "1")]
     pub source: ::prost::alloc::string::String,
@@ -749,20 +845,21 @@ pub struct Payment {
     #[prost(message, repeated, tag = "4")]
     pub target_amount: ::prost::alloc::vec::Vec<super::super::super::cosmos::base::v1beta1::Coin>,
     #[prost(string, tag = "5")]
+    #[serde(alias = "externalID")]
     pub external_id: ::prost::alloc::string::String,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgCreateAskRequest")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgCreateAskRequest {
     #[prost(message, optional, tag = "1")]
     pub ask_order: ::core::option::Option<AskOrder>,
@@ -774,16 +871,17 @@ pub struct MsgCreateAskRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgCreateAskResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgCreateAskResponse {
     #[prost(uint64, tag = "1")]
+    #[serde(alias = "orderID")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
@@ -794,14 +892,14 @@ pub struct MsgCreateAskResponse {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgCreateBidRequest")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgCreateBidRequest {
     #[prost(message, optional, tag = "1")]
     pub bid_order: ::core::option::Option<BidOrder>,
@@ -813,16 +911,17 @@ pub struct MsgCreateBidRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgCreateBidResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgCreateBidResponse {
     #[prost(uint64, tag = "1")]
+    #[serde(alias = "orderID")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
@@ -833,18 +932,23 @@ pub struct MsgCreateBidResponse {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgCommitFundsRequest")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgCommitFundsRequest {
     #[prost(string, tag = "1")]
     pub account: ::prost::alloc::string::String,
     #[prost(uint32, tag = "2")]
+    #[serde(alias = "marketID")]
+    #[serde(
+        serialize_with = "crate::serde::as_str::serialize",
+        deserialize_with = "crate::serde::as_str::deserialize"
+    )]
     pub market_id: u32,
     #[prost(message, repeated, tag = "3")]
     pub amount: ::prost::alloc::vec::Vec<super::super::super::cosmos::base::v1beta1::Coin>,
@@ -857,31 +961,32 @@ pub struct MsgCommitFundsRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgCommitFundsResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgCommitFundsResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgCancelOrderRequest")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgCancelOrderRequest {
     #[prost(string, tag = "1")]
     pub signer: ::prost::alloc::string::String,
     #[prost(uint64, tag = "2")]
+    #[serde(alias = "orderID")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
@@ -892,35 +997,45 @@ pub struct MsgCancelOrderRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgCancelOrderResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgCancelOrderResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgFillBidsRequest")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgFillBidsRequest {
     #[prost(string, tag = "1")]
     pub seller: ::prost::alloc::string::String,
     #[prost(uint32, tag = "2")]
+    #[serde(alias = "marketID")]
+    #[serde(
+        serialize_with = "crate::serde::as_str::serialize",
+        deserialize_with = "crate::serde::as_str::deserialize"
+    )]
     pub market_id: u32,
     #[prost(message, repeated, tag = "3")]
     pub total_assets: ::prost::alloc::vec::Vec<super::super::super::cosmos::base::v1beta1::Coin>,
     #[prost(uint64, repeated, tag = "4")]
+    #[serde(alias = "bid_orderIDs")]
+    #[serde(
+        serialize_with = "crate::serde::as_str_vec::serialize",
+        deserialize_with = "crate::serde::as_str_vec::deserialize"
+    )]
     pub bid_order_ids: ::prost::alloc::vec::Vec<u64>,
     #[prost(message, optional, tag = "5")]
     pub seller_settlement_flat_fee:
@@ -933,35 +1048,45 @@ pub struct MsgFillBidsRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgFillBidsResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgFillBidsResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgFillAsksRequest")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgFillAsksRequest {
     #[prost(string, tag = "1")]
     pub buyer: ::prost::alloc::string::String,
     #[prost(uint32, tag = "2")]
+    #[serde(alias = "marketID")]
+    #[serde(
+        serialize_with = "crate::serde::as_str::serialize",
+        deserialize_with = "crate::serde::as_str::deserialize"
+    )]
     pub market_id: u32,
     #[prost(message, optional, tag = "3")]
     pub total_price: ::core::option::Option<super::super::super::cosmos::base::v1beta1::Coin>,
     #[prost(uint64, repeated, tag = "4")]
+    #[serde(alias = "ask_orderIDs")]
+    #[serde(
+        serialize_with = "crate::serde::as_str_vec::serialize",
+        deserialize_with = "crate::serde::as_str_vec::deserialize"
+    )]
     pub ask_order_ids: ::prost::alloc::vec::Vec<u64>,
     #[prost(message, repeated, tag = "5")]
     pub buyer_settlement_fees:
@@ -974,35 +1099,50 @@ pub struct MsgFillAsksRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgFillAsksResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgFillAsksResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgMarketSettleRequest")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgMarketSettleRequest {
     #[prost(string, tag = "1")]
     pub admin: ::prost::alloc::string::String,
     #[prost(uint32, tag = "2")]
+    #[serde(alias = "marketID")]
+    #[serde(
+        serialize_with = "crate::serde::as_str::serialize",
+        deserialize_with = "crate::serde::as_str::deserialize"
+    )]
     pub market_id: u32,
     #[prost(uint64, repeated, tag = "3")]
+    #[serde(alias = "ask_orderIDs")]
+    #[serde(
+        serialize_with = "crate::serde::as_str_vec::serialize",
+        deserialize_with = "crate::serde::as_str_vec::deserialize"
+    )]
     pub ask_order_ids: ::prost::alloc::vec::Vec<u64>,
     #[prost(uint64, repeated, tag = "4")]
+    #[serde(alias = "bid_orderIDs")]
+    #[serde(
+        serialize_with = "crate::serde::as_str_vec::serialize",
+        deserialize_with = "crate::serde::as_str_vec::deserialize"
+    )]
     pub bid_order_ids: ::prost::alloc::vec::Vec<u64>,
     #[prost(bool, tag = "5")]
     pub expect_partial: bool,
@@ -1011,31 +1151,36 @@ pub struct MsgMarketSettleRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgMarketSettleResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgMarketSettleResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgMarketCommitmentSettleRequest")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgMarketCommitmentSettleRequest {
     #[prost(string, tag = "1")]
     pub admin: ::prost::alloc::string::String,
     #[prost(uint32, tag = "2")]
+    #[serde(alias = "marketID")]
+    #[serde(
+        serialize_with = "crate::serde::as_str::serialize",
+        deserialize_with = "crate::serde::as_str::deserialize"
+    )]
     pub market_id: u32,
     #[prost(message, repeated, tag = "3")]
     pub inputs: ::prost::alloc::vec::Vec<AccountAmount>,
@@ -1052,31 +1197,36 @@ pub struct MsgMarketCommitmentSettleRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgMarketCommitmentSettleResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgMarketCommitmentSettleResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgMarketReleaseCommitmentsRequest")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgMarketReleaseCommitmentsRequest {
     #[prost(string, tag = "1")]
     pub admin: ::prost::alloc::string::String,
     #[prost(uint32, tag = "2")]
+    #[serde(alias = "marketID")]
+    #[serde(
+        serialize_with = "crate::serde::as_str::serialize",
+        deserialize_with = "crate::serde::as_str::deserialize"
+    )]
     pub market_id: u32,
     #[prost(message, repeated, tag = "3")]
     pub to_release: ::prost::alloc::vec::Vec<AccountAmount>,
@@ -1087,57 +1237,69 @@ pub struct MsgMarketReleaseCommitmentsRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgMarketSetOrderExternalIDRequest")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgMarketSetOrderExternalIdRequest {
     #[prost(string, tag = "1")]
     pub admin: ::prost::alloc::string::String,
     #[prost(uint32, tag = "2")]
+    #[serde(alias = "marketID")]
+    #[serde(
+        serialize_with = "crate::serde::as_str::serialize",
+        deserialize_with = "crate::serde::as_str::deserialize"
+    )]
     pub market_id: u32,
     #[prost(uint64, tag = "3")]
+    #[serde(alias = "orderID")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
     pub order_id: u64,
     #[prost(string, tag = "4")]
+    #[serde(alias = "externalID")]
     pub external_id: ::prost::alloc::string::String,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgMarketSetOrderExternalIDResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgMarketSetOrderExternalIdResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgMarketWithdrawRequest")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgMarketWithdrawRequest {
     #[prost(string, tag = "1")]
     pub admin: ::prost::alloc::string::String,
     #[prost(uint32, tag = "2")]
+    #[serde(alias = "marketID")]
+    #[serde(
+        serialize_with = "crate::serde::as_str::serialize",
+        deserialize_with = "crate::serde::as_str::deserialize"
+    )]
     pub market_id: u32,
     #[prost(string, tag = "3")]
     pub to_address: ::prost::alloc::string::String,
@@ -1148,31 +1310,36 @@ pub struct MsgMarketWithdrawRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgMarketWithdrawResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgMarketWithdrawResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgMarketUpdateDetailsRequest")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgMarketUpdateDetailsRequest {
     #[prost(string, tag = "1")]
     pub admin: ::prost::alloc::string::String,
     #[prost(uint32, tag = "2")]
+    #[serde(alias = "marketID")]
+    #[serde(
+        serialize_with = "crate::serde::as_str::serialize",
+        deserialize_with = "crate::serde::as_str::deserialize"
+    )]
     pub market_id: u32,
     #[prost(message, optional, tag = "3")]
     pub market_details: ::core::option::Option<MarketDetails>,
@@ -1181,33 +1348,39 @@ pub struct MsgMarketUpdateDetailsRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgMarketUpdateDetailsResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgMarketUpdateDetailsResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgMarketUpdateEnabledRequest")]
-#[serde(rename_all = "snake_case")]
+#[deprecated]
 pub struct MsgMarketUpdateEnabledRequest {
     #[deprecated]
     #[prost(string, tag = "1")]
     pub admin: ::prost::alloc::string::String,
     #[deprecated]
     #[prost(uint32, tag = "2")]
+    #[serde(alias = "marketID")]
+    #[serde(
+        serialize_with = "crate::serde::as_str::serialize",
+        deserialize_with = "crate::serde::as_str::deserialize"
+    )]
     pub market_id: u32,
     #[deprecated]
     #[prost(bool, tag = "3")]
@@ -1217,31 +1390,37 @@ pub struct MsgMarketUpdateEnabledRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgMarketUpdateEnabledResponse")]
-#[serde(rename_all = "snake_case")]
+#[deprecated]
 pub struct MsgMarketUpdateEnabledResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgMarketUpdateAcceptingOrdersRequest")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgMarketUpdateAcceptingOrdersRequest {
     #[prost(string, tag = "1")]
     pub admin: ::prost::alloc::string::String,
     #[prost(uint32, tag = "2")]
+    #[serde(alias = "marketID")]
+    #[serde(
+        serialize_with = "crate::serde::as_str::serialize",
+        deserialize_with = "crate::serde::as_str::deserialize"
+    )]
     pub market_id: u32,
     #[prost(bool, tag = "3")]
     pub accepting_orders: bool,
@@ -1250,31 +1429,36 @@ pub struct MsgMarketUpdateAcceptingOrdersRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgMarketUpdateAcceptingOrdersResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgMarketUpdateAcceptingOrdersResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgMarketUpdateUserSettleRequest")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgMarketUpdateUserSettleRequest {
     #[prost(string, tag = "1")]
     pub admin: ::prost::alloc::string::String,
     #[prost(uint32, tag = "2")]
+    #[serde(alias = "marketID")]
+    #[serde(
+        serialize_with = "crate::serde::as_str::serialize",
+        deserialize_with = "crate::serde::as_str::deserialize"
+    )]
     pub market_id: u32,
     #[prost(bool, tag = "3")]
     pub allow_user_settlement: bool,
@@ -1283,31 +1467,36 @@ pub struct MsgMarketUpdateUserSettleRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgMarketUpdateUserSettleResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgMarketUpdateUserSettleResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgMarketUpdateAcceptingCommitmentsRequest")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgMarketUpdateAcceptingCommitmentsRequest {
     #[prost(string, tag = "1")]
     pub admin: ::prost::alloc::string::String,
     #[prost(uint32, tag = "2")]
+    #[serde(alias = "marketID")]
+    #[serde(
+        serialize_with = "crate::serde::as_str::serialize",
+        deserialize_with = "crate::serde::as_str::deserialize"
+    )]
     pub market_id: u32,
     #[prost(bool, tag = "3")]
     pub accepting_commitments: bool,
@@ -1316,31 +1505,36 @@ pub struct MsgMarketUpdateAcceptingCommitmentsRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgMarketUpdateAcceptingCommitmentsResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgMarketUpdateAcceptingCommitmentsResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgMarketUpdateIntermediaryDenomRequest")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgMarketUpdateIntermediaryDenomRequest {
     #[prost(string, tag = "1")]
     pub admin: ::prost::alloc::string::String,
     #[prost(uint32, tag = "2")]
+    #[serde(alias = "marketID")]
+    #[serde(
+        serialize_with = "crate::serde::as_str::serialize",
+        deserialize_with = "crate::serde::as_str::deserialize"
+    )]
     pub market_id: u32,
     #[prost(string, tag = "3")]
     pub intermediary_denom: ::prost::alloc::string::String,
@@ -1349,31 +1543,36 @@ pub struct MsgMarketUpdateIntermediaryDenomRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgMarketUpdateIntermediaryDenomResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgMarketUpdateIntermediaryDenomResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgMarketManagePermissionsRequest")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgMarketManagePermissionsRequest {
     #[prost(string, tag = "1")]
     pub admin: ::prost::alloc::string::String,
     #[prost(uint32, tag = "2")]
+    #[serde(alias = "marketID")]
+    #[serde(
+        serialize_with = "crate::serde::as_str::serialize",
+        deserialize_with = "crate::serde::as_str::deserialize"
+    )]
     pub market_id: u32,
     #[prost(string, repeated, tag = "3")]
     pub revoke_all: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
@@ -1386,31 +1585,36 @@ pub struct MsgMarketManagePermissionsRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgMarketManagePermissionsResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgMarketManagePermissionsResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgMarketManageReqAttrsRequest")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgMarketManageReqAttrsRequest {
     #[prost(string, tag = "1")]
     pub admin: ::prost::alloc::string::String,
     #[prost(uint32, tag = "2")]
+    #[serde(alias = "marketID")]
+    #[serde(
+        serialize_with = "crate::serde::as_str::serialize",
+        deserialize_with = "crate::serde::as_str::deserialize"
+    )]
     pub market_id: u32,
     #[prost(string, repeated, tag = "3")]
     pub create_ask_to_add: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
@@ -1429,27 +1633,27 @@ pub struct MsgMarketManageReqAttrsRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgMarketManageReqAttrsResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgMarketManageReqAttrsResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgCreatePaymentRequest")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgCreatePaymentRequest {
     #[prost(message, optional, tag = "1")]
     pub payment: ::core::option::Option<Payment>,
@@ -1458,27 +1662,27 @@ pub struct MsgCreatePaymentRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgCreatePaymentResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgCreatePaymentResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgAcceptPaymentRequest")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgAcceptPaymentRequest {
     #[prost(message, optional, tag = "1")]
     pub payment: ::core::option::Option<Payment>,
@@ -1487,60 +1691,61 @@ pub struct MsgAcceptPaymentRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgAcceptPaymentResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgAcceptPaymentResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgRejectPaymentRequest")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgRejectPaymentRequest {
     #[prost(string, tag = "1")]
     pub target: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
     pub source: ::prost::alloc::string::String,
     #[prost(string, tag = "3")]
+    #[serde(alias = "externalID")]
     pub external_id: ::prost::alloc::string::String,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgRejectPaymentResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgRejectPaymentResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgRejectPaymentsRequest")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgRejectPaymentsRequest {
     #[prost(string, tag = "1")]
     pub target: ::prost::alloc::string::String,
@@ -1551,62 +1756,64 @@ pub struct MsgRejectPaymentsRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgRejectPaymentsResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgRejectPaymentsResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgCancelPaymentsRequest")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgCancelPaymentsRequest {
     #[prost(string, tag = "1")]
     pub source: ::prost::alloc::string::String,
     #[prost(string, repeated, tag = "2")]
+    #[serde(alias = "externalIDs")]
     pub external_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgCancelPaymentsResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgCancelPaymentsResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgChangePaymentTargetRequest")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgChangePaymentTargetRequest {
     #[prost(string, tag = "1")]
     pub source: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
+    #[serde(alias = "externalID")]
     pub external_id: ::prost::alloc::string::String,
     #[prost(string, tag = "3")]
     pub new_target: ::prost::alloc::string::String,
@@ -1615,27 +1822,27 @@ pub struct MsgChangePaymentTargetRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgChangePaymentTargetResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgChangePaymentTargetResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgGovCreateMarketRequest")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgGovCreateMarketRequest {
     #[prost(string, tag = "1")]
     pub authority: ::prost::alloc::string::String,
@@ -1646,31 +1853,36 @@ pub struct MsgGovCreateMarketRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgGovCreateMarketResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgGovCreateMarketResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgGovManageFeesRequest")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgGovManageFeesRequest {
     #[prost(string, tag = "1")]
     pub authority: ::prost::alloc::string::String,
     #[prost(uint32, tag = "2")]
+    #[serde(alias = "marketID")]
+    #[serde(
+        serialize_with = "crate::serde::as_str::serialize",
+        deserialize_with = "crate::serde::as_str::deserialize"
+    )]
     pub market_id: u32,
     #[prost(message, repeated, tag = "3")]
     pub add_fee_create_ask_flat:
@@ -1711,6 +1923,10 @@ pub struct MsgGovManageFeesRequest {
     pub remove_fee_create_commitment_flat:
         ::prost::alloc::vec::Vec<super::super::super::cosmos::base::v1beta1::Coin>,
     #[prost(uint32, tag = "17")]
+    #[serde(
+        serialize_with = "crate::serde::as_str::serialize",
+        deserialize_with = "crate::serde::as_str::deserialize"
+    )]
     pub set_fee_commitment_settlement_bips: u32,
     #[prost(bool, tag = "18")]
     pub unset_fee_commitment_settlement_bips: bool,
@@ -1719,58 +1935,63 @@ pub struct MsgGovManageFeesRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgGovManageFeesResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgGovManageFeesResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgGovCloseMarketRequest")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgGovCloseMarketRequest {
     #[prost(string, tag = "1")]
     pub authority: ::prost::alloc::string::String,
     #[prost(uint32, tag = "2")]
+    #[serde(alias = "marketID")]
+    #[serde(
+        serialize_with = "crate::serde::as_str::serialize",
+        deserialize_with = "crate::serde::as_str::deserialize"
+    )]
     pub market_id: u32,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgGovCloseMarketResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgGovCloseMarketResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgGovUpdateParamsRequest")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgGovUpdateParamsRequest {
     #[prost(string, tag = "1")]
     pub authority: ::prost::alloc::string::String,
@@ -1781,27 +2002,27 @@ pub struct MsgGovUpdateParamsRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgGovUpdateParamsResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgGovUpdateParamsResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryOrderFeeCalcRequest")]
-#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/provenance.exchange.v1.Query/OrderFeeCalc",
     response_type = QueryOrderFeeCalcResponse
@@ -1816,14 +2037,14 @@ pub struct QueryOrderFeeCalcRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryOrderFeeCalcResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct QueryOrderFeeCalcResponse {
     #[prost(message, repeated, tag = "1")]
     pub creation_fee_options:
@@ -1839,20 +2060,21 @@ pub struct QueryOrderFeeCalcResponse {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryGetOrderRequest")]
-#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/provenance.exchange.v1.Query/GetOrder",
     response_type = QueryGetOrderResponse
 )]
 pub struct QueryGetOrderRequest {
     #[prost(uint64, tag = "1")]
+    #[serde(alias = "orderID")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
@@ -1863,14 +2085,14 @@ pub struct QueryGetOrderRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryGetOrderResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct QueryGetOrderResponse {
     #[prost(message, optional, tag = "1")]
     pub order: ::core::option::Option<Order>,
@@ -1879,36 +2101,42 @@ pub struct QueryGetOrderResponse {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryGetOrderByExternalIDRequest")]
-#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/provenance.exchange.v1.Query/GetOrderByExternalID",
     response_type = QueryGetOrderByExternalIdResponse
 )]
 pub struct QueryGetOrderByExternalIdRequest {
     #[prost(uint32, tag = "1")]
+    #[serde(alias = "marketID")]
+    #[serde(
+        serialize_with = "crate::serde::as_str::serialize",
+        deserialize_with = "crate::serde::as_str::deserialize"
+    )]
     pub market_id: u32,
     #[prost(string, tag = "2")]
+    #[serde(alias = "externalID")]
     pub external_id: ::prost::alloc::string::String,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryGetOrderByExternalIDResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct QueryGetOrderByExternalIdResponse {
     #[prost(message, optional, tag = "1")]
     pub order: ::core::option::Option<Order>,
@@ -1917,24 +2145,30 @@ pub struct QueryGetOrderByExternalIdResponse {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryGetMarketOrdersRequest")]
-#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/provenance.exchange.v1.Query/GetMarketOrders",
     response_type = QueryGetMarketOrdersResponse
 )]
 pub struct QueryGetMarketOrdersRequest {
     #[prost(uint32, tag = "1")]
+    #[serde(alias = "marketID")]
+    #[serde(
+        serialize_with = "crate::serde::as_str::serialize",
+        deserialize_with = "crate::serde::as_str::deserialize"
+    )]
     pub market_id: u32,
     #[prost(string, tag = "2")]
     pub order_type: ::prost::alloc::string::String,
     #[prost(uint64, tag = "3")]
+    #[serde(alias = "after_orderID")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
@@ -1948,14 +2182,14 @@ pub struct QueryGetMarketOrdersRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryGetMarketOrdersResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct QueryGetMarketOrdersResponse {
     #[prost(message, repeated, tag = "1")]
     pub orders: ::prost::alloc::vec::Vec<Order>,
@@ -1967,14 +2201,14 @@ pub struct QueryGetMarketOrdersResponse {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryGetOwnerOrdersRequest")]
-#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/provenance.exchange.v1.Query/GetOwnerOrders",
     response_type = QueryGetOwnerOrdersResponse
@@ -1985,6 +2219,7 @@ pub struct QueryGetOwnerOrdersRequest {
     #[prost(string, tag = "2")]
     pub order_type: ::prost::alloc::string::String,
     #[prost(uint64, tag = "3")]
+    #[serde(alias = "after_orderID")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
@@ -1998,14 +2233,14 @@ pub struct QueryGetOwnerOrdersRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryGetOwnerOrdersResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct QueryGetOwnerOrdersResponse {
     #[prost(message, repeated, tag = "1")]
     pub orders: ::prost::alloc::vec::Vec<Order>,
@@ -2017,14 +2252,14 @@ pub struct QueryGetOwnerOrdersResponse {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryGetAssetOrdersRequest")]
-#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/provenance.exchange.v1.Query/GetAssetOrders",
     response_type = QueryGetAssetOrdersResponse
@@ -2035,6 +2270,7 @@ pub struct QueryGetAssetOrdersRequest {
     #[prost(string, tag = "2")]
     pub order_type: ::prost::alloc::string::String,
     #[prost(uint64, tag = "3")]
+    #[serde(alias = "after_orderID")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
@@ -2048,14 +2284,14 @@ pub struct QueryGetAssetOrdersRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryGetAssetOrdersResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct QueryGetAssetOrdersResponse {
     #[prost(message, repeated, tag = "1")]
     pub orders: ::prost::alloc::vec::Vec<Order>,
@@ -2067,14 +2303,14 @@ pub struct QueryGetAssetOrdersResponse {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryGetAllOrdersRequest")]
-#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/provenance.exchange.v1.Query/GetAllOrders",
     response_type = QueryGetAllOrdersResponse
@@ -2088,14 +2324,14 @@ pub struct QueryGetAllOrdersRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryGetAllOrdersResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct QueryGetAllOrdersResponse {
     #[prost(message, repeated, tag = "1")]
     pub orders: ::prost::alloc::vec::Vec<Order>,
@@ -2107,34 +2343,39 @@ pub struct QueryGetAllOrdersResponse {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryGetMarketRequest")]
-#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/provenance.exchange.v1.Query/GetMarket",
     response_type = QueryGetMarketResponse
 )]
 pub struct QueryGetMarketRequest {
     #[prost(uint32, tag = "1")]
+    #[serde(alias = "marketID")]
+    #[serde(
+        serialize_with = "crate::serde::as_str::serialize",
+        deserialize_with = "crate::serde::as_str::deserialize"
+    )]
     pub market_id: u32,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryGetMarketResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct QueryGetMarketResponse {
     #[prost(string, tag = "1")]
     pub address: ::prost::alloc::string::String,
@@ -2145,14 +2386,14 @@ pub struct QueryGetMarketResponse {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryGetAllMarketsRequest")]
-#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/provenance.exchange.v1.Query/GetAllMarkets",
     response_type = QueryGetAllMarketsResponse
@@ -2166,14 +2407,14 @@ pub struct QueryGetAllMarketsRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryGetAllMarketsResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct QueryGetAllMarketsResponse {
     #[prost(message, repeated, tag = "1")]
     pub markets: ::prost::alloc::vec::Vec<MarketBrief>,
@@ -2185,14 +2426,14 @@ pub struct QueryGetAllMarketsResponse {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryParamsRequest")]
-#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/provenance.exchange.v1.Query/Params",
     response_type = QueryParamsResponse
@@ -2202,14 +2443,14 @@ pub struct QueryParamsRequest {}
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryParamsResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct QueryParamsResponse {
     #[prost(message, optional, tag = "1")]
     pub params: ::core::option::Option<Params>,
@@ -2218,14 +2459,14 @@ pub struct QueryParamsResponse {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryValidateCreateMarketRequest")]
-#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/provenance.exchange.v1.Query/ValidateCreateMarket",
     response_type = QueryValidateCreateMarketResponse
@@ -2238,14 +2479,14 @@ pub struct QueryValidateCreateMarketRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryValidateCreateMarketResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct QueryValidateCreateMarketResponse {
     #[prost(string, tag = "1")]
     pub error: ::prost::alloc::string::String,
@@ -2256,34 +2497,39 @@ pub struct QueryValidateCreateMarketResponse {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryValidateMarketRequest")]
-#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/provenance.exchange.v1.Query/ValidateMarket",
     response_type = QueryValidateMarketResponse
 )]
 pub struct QueryValidateMarketRequest {
     #[prost(uint32, tag = "1")]
+    #[serde(alias = "marketID")]
+    #[serde(
+        serialize_with = "crate::serde::as_str::serialize",
+        deserialize_with = "crate::serde::as_str::deserialize"
+    )]
     pub market_id: u32,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryValidateMarketResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct QueryValidateMarketResponse {
     #[prost(string, tag = "1")]
     pub error: ::prost::alloc::string::String,
@@ -2292,14 +2538,14 @@ pub struct QueryValidateMarketResponse {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryValidateManageFeesRequest")]
-#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/provenance.exchange.v1.Query/ValidateManageFees",
     response_type = QueryValidateManageFeesResponse
@@ -2312,14 +2558,14 @@ pub struct QueryValidateManageFeesRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryValidateManageFeesResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct QueryValidateManageFeesResponse {
     #[prost(string, tag = "1")]
     pub error: ::prost::alloc::string::String,
@@ -2337,7 +2583,7 @@ impl<'a, Q: cosmwasm_std::CustomQuery> ExchangeQuerier<'a, Q> {
         &self,
         ask_order: ::core::option::Option<AskOrder>,
         bid_order: ::core::option::Option<BidOrder>,
-    ) -> std::result::Result<QueryOrderFeeCalcResponse, cosmwasm_std::StdError> {
+    ) -> Result<QueryOrderFeeCalcResponse, cosmwasm_std::StdError> {
         QueryOrderFeeCalcRequest {
             ask_order,
             bid_order,
@@ -2347,14 +2593,14 @@ impl<'a, Q: cosmwasm_std::CustomQuery> ExchangeQuerier<'a, Q> {
     pub fn get_order(
         &self,
         order_id: u64,
-    ) -> std::result::Result<QueryGetOrderResponse, cosmwasm_std::StdError> {
+    ) -> Result<QueryGetOrderResponse, cosmwasm_std::StdError> {
         QueryGetOrderRequest { order_id }.query(self.querier)
     }
     pub fn get_order_by_external_id(
         &self,
         market_id: u32,
         external_id: ::prost::alloc::string::String,
-    ) -> std::result::Result<QueryGetOrderByExternalIdResponse, cosmwasm_std::StdError> {
+    ) -> Result<QueryGetOrderByExternalIdResponse, cosmwasm_std::StdError> {
         QueryGetOrderByExternalIdRequest {
             market_id,
             external_id,
@@ -2369,7 +2615,7 @@ impl<'a, Q: cosmwasm_std::CustomQuery> ExchangeQuerier<'a, Q> {
         pagination: ::core::option::Option<
             super::super::super::cosmos::base::query::v1beta1::PageRequest,
         >,
-    ) -> std::result::Result<QueryGetMarketOrdersResponse, cosmwasm_std::StdError> {
+    ) -> Result<QueryGetMarketOrdersResponse, cosmwasm_std::StdError> {
         QueryGetMarketOrdersRequest {
             market_id,
             order_type,
@@ -2386,7 +2632,7 @@ impl<'a, Q: cosmwasm_std::CustomQuery> ExchangeQuerier<'a, Q> {
         pagination: ::core::option::Option<
             super::super::super::cosmos::base::query::v1beta1::PageRequest,
         >,
-    ) -> std::result::Result<QueryGetOwnerOrdersResponse, cosmwasm_std::StdError> {
+    ) -> Result<QueryGetOwnerOrdersResponse, cosmwasm_std::StdError> {
         QueryGetOwnerOrdersRequest {
             owner,
             order_type,
@@ -2403,7 +2649,7 @@ impl<'a, Q: cosmwasm_std::CustomQuery> ExchangeQuerier<'a, Q> {
         pagination: ::core::option::Option<
             super::super::super::cosmos::base::query::v1beta1::PageRequest,
         >,
-    ) -> std::result::Result<QueryGetAssetOrdersResponse, cosmwasm_std::StdError> {
+    ) -> Result<QueryGetAssetOrdersResponse, cosmwasm_std::StdError> {
         QueryGetAssetOrdersRequest {
             asset,
             order_type,
@@ -2417,13 +2663,13 @@ impl<'a, Q: cosmwasm_std::CustomQuery> ExchangeQuerier<'a, Q> {
         pagination: ::core::option::Option<
             super::super::super::cosmos::base::query::v1beta1::PageRequest,
         >,
-    ) -> std::result::Result<QueryGetAllOrdersResponse, cosmwasm_std::StdError> {
+    ) -> Result<QueryGetAllOrdersResponse, cosmwasm_std::StdError> {
         QueryGetAllOrdersRequest { pagination }.query(self.querier)
     }
     pub fn get_market(
         &self,
         market_id: u32,
-    ) -> std::result::Result<QueryGetMarketResponse, cosmwasm_std::StdError> {
+    ) -> Result<QueryGetMarketResponse, cosmwasm_std::StdError> {
         QueryGetMarketRequest { market_id }.query(self.querier)
     }
     pub fn get_all_markets(
@@ -2431,16 +2677,16 @@ impl<'a, Q: cosmwasm_std::CustomQuery> ExchangeQuerier<'a, Q> {
         pagination: ::core::option::Option<
             super::super::super::cosmos::base::query::v1beta1::PageRequest,
         >,
-    ) -> std::result::Result<QueryGetAllMarketsResponse, cosmwasm_std::StdError> {
+    ) -> Result<QueryGetAllMarketsResponse, cosmwasm_std::StdError> {
         QueryGetAllMarketsRequest { pagination }.query(self.querier)
     }
-    pub fn params(&self) -> std::result::Result<QueryParamsResponse, cosmwasm_std::StdError> {
+    pub fn params(&self) -> Result<QueryParamsResponse, cosmwasm_std::StdError> {
         QueryParamsRequest {}.query(self.querier)
     }
     pub fn validate_create_market(
         &self,
         create_market_request: ::core::option::Option<MsgGovCreateMarketRequest>,
-    ) -> std::result::Result<QueryValidateCreateMarketResponse, cosmwasm_std::StdError> {
+    ) -> Result<QueryValidateCreateMarketResponse, cosmwasm_std::StdError> {
         QueryValidateCreateMarketRequest {
             create_market_request,
         }
@@ -2449,13 +2695,13 @@ impl<'a, Q: cosmwasm_std::CustomQuery> ExchangeQuerier<'a, Q> {
     pub fn validate_market(
         &self,
         market_id: u32,
-    ) -> std::result::Result<QueryValidateMarketResponse, cosmwasm_std::StdError> {
+    ) -> Result<QueryValidateMarketResponse, cosmwasm_std::StdError> {
         QueryValidateMarketRequest { market_id }.query(self.querier)
     }
     pub fn validate_manage_fees(
         &self,
         manage_fees_request: ::core::option::Option<MsgGovManageFeesRequest>,
-    ) -> std::result::Result<QueryValidateManageFeesResponse, cosmwasm_std::StdError> {
+    ) -> Result<QueryValidateManageFeesResponse, cosmwasm_std::StdError> {
         QueryValidateManageFeesRequest {
             manage_fees_request,
         }

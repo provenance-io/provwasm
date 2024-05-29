@@ -1,17 +1,19 @@
+use provwasm_proc_macro::CosmwasmExt;
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.trigger.v1.Trigger")]
-#[serde(rename_all = "snake_case")]
 pub struct Trigger {
     #[prost(uint64, tag = "1")]
+    #[serde(alias = "ID")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
@@ -28,14 +30,14 @@ pub struct Trigger {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.trigger.v1.BlockHeightEvent")]
-#[serde(rename_all = "snake_case")]
 pub struct BlockHeightEvent {
     #[prost(uint64, tag = "1")]
     #[serde(
@@ -48,14 +50,14 @@ pub struct BlockHeightEvent {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.trigger.v1.BlockTimeEvent")]
-#[serde(rename_all = "snake_case")]
 pub struct BlockTimeEvent {
     #[prost(message, optional, tag = "1")]
     pub time: ::core::option::Option<crate::shim::Timestamp>,
@@ -64,14 +66,14 @@ pub struct BlockTimeEvent {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.trigger.v1.TransactionEvent")]
-#[serde(rename_all = "snake_case")]
 pub struct TransactionEvent {
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
@@ -82,14 +84,14 @@ pub struct TransactionEvent {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.trigger.v1.Attribute")]
-#[serde(rename_all = "snake_case")]
 pub struct Attribute {
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
@@ -100,20 +102,21 @@ pub struct Attribute {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.trigger.v1.QueryTriggerByIDRequest")]
-#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/provenance.trigger.v1.Query/TriggerByID",
     response_type = QueryTriggerByIdResponse
 )]
 pub struct QueryTriggerByIdRequest {
     #[prost(uint64, tag = "1")]
+    #[serde(alias = "ID")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
@@ -124,14 +127,14 @@ pub struct QueryTriggerByIdRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.trigger.v1.QueryTriggerByIDResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct QueryTriggerByIdResponse {
     #[prost(message, optional, tag = "1")]
     pub trigger: ::core::option::Option<Trigger>,
@@ -140,14 +143,14 @@ pub struct QueryTriggerByIdResponse {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.trigger.v1.QueryTriggersRequest")]
-#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/provenance.trigger.v1.Query/Triggers",
     response_type = QueryTriggersResponse
@@ -161,14 +164,14 @@ pub struct QueryTriggersRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.trigger.v1.QueryTriggersResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct QueryTriggersResponse {
     #[prost(message, repeated, tag = "1")]
     pub triggers: ::prost::alloc::vec::Vec<Trigger>,
@@ -180,14 +183,14 @@ pub struct QueryTriggersResponse {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.trigger.v1.MsgCreateTriggerRequest")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgCreateTriggerRequest {
     #[prost(string, repeated, tag = "1")]
     pub authorities: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
@@ -200,16 +203,17 @@ pub struct MsgCreateTriggerRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.trigger.v1.MsgCreateTriggerResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgCreateTriggerResponse {
     #[prost(uint64, tag = "1")]
+    #[serde(alias = "ID")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
@@ -220,16 +224,17 @@ pub struct MsgCreateTriggerResponse {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.trigger.v1.MsgDestroyTriggerRequest")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgDestroyTriggerRequest {
     #[prost(uint64, tag = "1")]
+    #[serde(alias = "ID")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
@@ -242,14 +247,14 @@ pub struct MsgDestroyTriggerRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.trigger.v1.MsgDestroyTriggerResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgDestroyTriggerResponse {}
 pub struct TriggerQuerier<'a, Q: cosmwasm_std::CustomQuery> {
     querier: &'a cosmwasm_std::QuerierWrapper<'a, Q>,
@@ -261,7 +266,7 @@ impl<'a, Q: cosmwasm_std::CustomQuery> TriggerQuerier<'a, Q> {
     pub fn trigger_by_id(
         &self,
         id: u64,
-    ) -> std::result::Result<QueryTriggerByIdResponse, cosmwasm_std::StdError> {
+    ) -> Result<QueryTriggerByIdResponse, cosmwasm_std::StdError> {
         QueryTriggerByIdRequest { id }.query(self.querier)
     }
     pub fn triggers(
@@ -269,7 +274,7 @@ impl<'a, Q: cosmwasm_std::CustomQuery> TriggerQuerier<'a, Q> {
         pagination: ::core::option::Option<
             super::super::super::cosmos::base::query::v1beta1::PageRequest,
         >,
-    ) -> std::result::Result<QueryTriggersResponse, cosmwasm_std::StdError> {
+    ) -> Result<QueryTriggersResponse, cosmwasm_std::StdError> {
         QueryTriggersRequest { pagination }.query(self.querier)
     }
 }
