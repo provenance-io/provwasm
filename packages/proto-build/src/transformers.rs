@@ -542,6 +542,10 @@ pub fn append_querier(
                 _ => None
             });
 
+        if req_args.is_none() {
+            return quote! {};
+        }
+
         let arg_idents = req_args.clone().unwrap().into_iter().map(|arg| arg.ident.unwrap()).collect::<Vec<Ident>>();
         let arg_ty = req_args.unwrap().into_iter().map(|arg| arg.ty).collect::<Vec<Type>>();
 

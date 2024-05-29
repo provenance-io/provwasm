@@ -109,7 +109,7 @@ fn prepend(items: Vec<Item>) -> Vec<Item> {
     let mut items = items;
 
     let mut prepending_items = vec![syn::parse_quote! {
-        use osmosis_std_derive::CosmwasmExt;
+        use provwasm_proc_macro::CosmwasmExt;
     }];
 
     items.splice(0..0, prepending_items.drain(..));
