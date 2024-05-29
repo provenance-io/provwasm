@@ -41,11 +41,11 @@ provwasm-test-tube = { git = "https://github.com/provenance-io/provwasm-test-tub
 
 base64 = "0.22.0"
 chrono = { version = "0.4.37", default-features = false }
-prost = { version = "=0.11.9", default-features = false, features = [
+prost = { version = "0.12.6", default-features = false, features = [
     "prost-derive",
 ] }
-prost-types = { version = "0.11.9", default-features = false }
-prost-build = "0.11.9"
+prost-types = { version = "0.12.6", default-features = false }
+prost-build = "0.12.6"
 schemars = "0.8.16"
 serde = { version = "1.0.197", default-features = false, features = [
     "derive",
