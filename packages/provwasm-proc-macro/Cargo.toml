@@ -1,6 +1,6 @@
 [package]
 name = "provwasm-proc-macro"
-version = "0.1.1"
+version = "0.1.2"
 repository = { workspace = true }
 edition = { workspace = true }
 license = { workspace = true }
@@ -15,12 +15,13 @@ proc-macro = true
 [dependencies]
 itertools = "0.11.0"
 proc-macro2 = "1.0.58"
+prost-types = { workspace = true, default-features = false }
 quote = "1.0.27"
-syn = "2.0.16"
+syn = "1.0.109"
 
 [dev-dependencies]
 cosmwasm-std = { workspace = true, features = ["stargate"] }
 prost = { workspace = true }
 serde = { workspace = true }
 trybuild = { version = "1.0.80", features = ["diff"] }
-provwasm-common = { workspace = true }
+#provwasm-common = { workspace = true }
