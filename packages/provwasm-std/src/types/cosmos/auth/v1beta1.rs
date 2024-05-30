@@ -1,15 +1,16 @@
+use provwasm_proc_macro::CosmwasmExt;
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.auth.v1beta1.BaseAccount")]
-#[serde(rename_all = "snake_case")]
 pub struct BaseAccount {
     #[prost(string, tag = "1")]
     pub address: ::prost::alloc::string::String,
@@ -32,14 +33,14 @@ pub struct BaseAccount {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.auth.v1beta1.Params")]
-#[serde(rename_all = "snake_case")]
 pub struct Params {
     #[prost(uint64, tag = "1")]
     #[serde(
@@ -76,14 +77,14 @@ pub struct Params {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.auth.v1beta1.QueryAccountRequest")]
-#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/cosmos.auth.v1beta1.Query/Account",
     response_type = QueryAccountResponse
@@ -96,14 +97,14 @@ pub struct QueryAccountRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.auth.v1beta1.QueryAccountResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct QueryAccountResponse {
     #[prost(message, optional, tag = "1")]
     pub account: ::core::option::Option<crate::shim::Any>,
@@ -112,14 +113,14 @@ pub struct QueryAccountResponse {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.auth.v1beta1.QueryParamsRequest")]
-#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/cosmos.auth.v1beta1.Query/Params",
     response_type = QueryParamsResponse
@@ -129,14 +130,14 @@ pub struct QueryParamsRequest {}
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.auth.v1beta1.QueryParamsResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct QueryParamsResponse {
     #[prost(message, optional, tag = "1")]
     pub params: ::core::option::Option<Params>,
@@ -151,10 +152,10 @@ impl<'a, Q: cosmwasm_std::CustomQuery> AuthQuerier<'a, Q> {
     pub fn account(
         &self,
         address: ::prost::alloc::string::String,
-    ) -> std::result::Result<QueryAccountResponse, cosmwasm_std::StdError> {
+    ) -> Result<QueryAccountResponse, cosmwasm_std::StdError> {
         QueryAccountRequest { address }.query(self.querier)
     }
-    pub fn params(&self) -> std::result::Result<QueryParamsResponse, cosmwasm_std::StdError> {
+    pub fn params(&self) -> Result<QueryParamsResponse, cosmwasm_std::StdError> {
         QueryParamsRequest {}.query(self.querier)
     }
 }

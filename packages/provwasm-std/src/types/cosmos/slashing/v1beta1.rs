@@ -1,15 +1,16 @@
+use provwasm_proc_macro::CosmwasmExt;
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.slashing.v1beta1.ValidatorSigningInfo")]
-#[serde(rename_all = "snake_case")]
 pub struct ValidatorSigningInfo {
     #[prost(string, tag = "1")]
     pub address: ::prost::alloc::string::String,
@@ -40,14 +41,14 @@ pub struct ValidatorSigningInfo {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.slashing.v1beta1.Params")]
-#[serde(rename_all = "snake_case")]
 pub struct Params {
     #[prost(int64, tag = "1")]
     #[serde(
@@ -57,22 +58,22 @@ pub struct Params {
     pub signed_blocks_window: i64,
     #[prost(bytes = "vec", tag = "2")]
     #[serde(
-        serialize_with = "crate::serde::as_base64::serialize",
-        deserialize_with = "crate::serde::as_base64::deserialize"
+        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
+        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
     pub min_signed_per_window: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "3")]
     pub downtime_jail_duration: ::core::option::Option<crate::shim::Duration>,
     #[prost(bytes = "vec", tag = "4")]
     #[serde(
-        serialize_with = "crate::serde::as_base64::serialize",
-        deserialize_with = "crate::serde::as_base64::deserialize"
+        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
+        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
     pub slash_fraction_double_sign: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "5")]
     #[serde(
-        serialize_with = "crate::serde::as_base64::serialize",
-        deserialize_with = "crate::serde::as_base64::deserialize"
+        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
+        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
     pub slash_fraction_downtime: ::prost::alloc::vec::Vec<u8>,
 }
@@ -80,14 +81,14 @@ pub struct Params {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.slashing.v1beta1.QueryParamsRequest")]
-#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/cosmos.slashing.v1beta1.Query/Params",
     response_type = QueryParamsResponse
@@ -97,14 +98,14 @@ pub struct QueryParamsRequest {}
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.slashing.v1beta1.QueryParamsResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct QueryParamsResponse {
     #[prost(message, optional, tag = "1")]
     pub params: ::core::option::Option<Params>,
@@ -113,14 +114,14 @@ pub struct QueryParamsResponse {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.slashing.v1beta1.QuerySigningInfoRequest")]
-#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/cosmos.slashing.v1beta1.Query/SigningInfo",
     response_type = QuerySigningInfoResponse
@@ -133,14 +134,14 @@ pub struct QuerySigningInfoRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.slashing.v1beta1.QuerySigningInfoResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct QuerySigningInfoResponse {
     #[prost(message, optional, tag = "1")]
     pub val_signing_info: ::core::option::Option<ValidatorSigningInfo>,
@@ -152,13 +153,13 @@ impl<'a, Q: cosmwasm_std::CustomQuery> SlashingQuerier<'a, Q> {
     pub fn new(querier: &'a cosmwasm_std::QuerierWrapper<'a, Q>) -> Self {
         Self { querier }
     }
-    pub fn params(&self) -> std::result::Result<QueryParamsResponse, cosmwasm_std::StdError> {
+    pub fn params(&self) -> Result<QueryParamsResponse, cosmwasm_std::StdError> {
         QueryParamsRequest {}.query(self.querier)
     }
     pub fn signing_info(
         &self,
         cons_address: ::prost::alloc::string::String,
-    ) -> std::result::Result<QuerySigningInfoResponse, cosmwasm_std::StdError> {
+    ) -> Result<QuerySigningInfoResponse, cosmwasm_std::StdError> {
         QuerySigningInfoRequest { cons_address }.query(self.querier)
     }
 }

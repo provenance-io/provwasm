@@ -1,15 +1,16 @@
+use provwasm_proc_macro::CosmwasmExt;
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.tx.signing.v1beta1.SignatureDescriptors")]
-#[serde(rename_all = "snake_case")]
 pub struct SignatureDescriptors {
     #[prost(message, repeated, tag = "1")]
     pub signatures: ::prost::alloc::vec::Vec<SignatureDescriptor>,
@@ -18,14 +19,14 @@ pub struct SignatureDescriptors {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.tx.signing.v1beta1.SignatureDescriptor")]
-#[serde(rename_all = "snake_case")]
 pub struct SignatureDescriptor {
     #[prost(message, optional, tag = "1")]
     pub public_key: ::core::option::Option<crate::shim::Any>,
@@ -40,47 +41,49 @@ pub struct SignatureDescriptor {
 }
 /// Nested message and enum types in `SignatureDescriptor`.
 pub mod signature_descriptor {
+    use provwasm_proc_macro::CosmwasmExt;
     #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(
         Clone,
         PartialEq,
+        Eq,
         ::prost::Message,
-        schemars::JsonSchema,
-        serde::Serialize,
-        serde::Deserialize,
-        provwasm_proc_macro::CosmwasmExt,
+        ::serde::Serialize,
+        ::serde::Deserialize,
+        ::schemars::JsonSchema,
+        CosmwasmExt,
     )]
     #[proto_message(type_url = "/cosmos.tx.signing.v1beta1.SignatureDescriptor.Data")]
-    #[serde(rename_all = "snake_case")]
     pub struct Data {
         #[prost(oneof = "data::Sum", tags = "1, 2")]
         pub sum: ::core::option::Option<data::Sum>,
     }
     /// Nested message and enum types in `Data`.
     pub mod data {
+        use provwasm_proc_macro::CosmwasmExt;
         #[allow(clippy::derive_partial_eq_without_eq)]
         #[derive(
             Clone,
             PartialEq,
+            Eq,
             ::prost::Message,
-            schemars::JsonSchema,
-            serde::Serialize,
-            serde::Deserialize,
-            provwasm_proc_macro::CosmwasmExt,
+            ::serde::Serialize,
+            ::serde::Deserialize,
+            ::schemars::JsonSchema,
+            CosmwasmExt,
         )]
         #[proto_message(type_url = "/cosmos.tx.signing.v1beta1.SignatureDescriptor.Data.Single")]
-        #[serde(rename_all = "snake_case")]
         pub struct Single {
             #[prost(enumeration = "super::super::SignMode", tag = "1")]
             #[serde(
-                serialize_with = "super::super::SignMode::serialize",
-                deserialize_with = "super::super::SignMode::deserialize"
+                serialize_with = "crate::serde::as_str::serialize",
+                deserialize_with = "crate::serde::as_str::deserialize"
             )]
             pub mode: i32,
             #[prost(bytes = "vec", tag = "2")]
             #[serde(
-                serialize_with = "crate::serde::as_base64::serialize",
-                deserialize_with = "crate::serde::as_base64::deserialize"
+                serialize_with = "crate::serde::as_base64_encoded_string::serialize",
+                deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
             )]
             pub signature: ::prost::alloc::vec::Vec<u8>,
         }
@@ -88,14 +91,14 @@ pub mod signature_descriptor {
         #[derive(
             Clone,
             PartialEq,
+            Eq,
             ::prost::Message,
-            schemars::JsonSchema,
-            serde::Serialize,
-            serde::Deserialize,
-            provwasm_proc_macro::CosmwasmExt,
+            ::serde::Serialize,
+            ::serde::Deserialize,
+            ::schemars::JsonSchema,
+            CosmwasmExt,
         )]
         #[proto_message(type_url = "/cosmos.tx.signing.v1beta1.SignatureDescriptor.Data.Multi")]
-        #[serde(rename_all = "snake_case")]
         pub struct Multi {
             #[prost(message, optional, tag = "1")]
             pub bitarray: ::core::option::Option<
@@ -108,12 +111,12 @@ pub mod signature_descriptor {
         #[derive(
             Clone,
             PartialEq,
+            Eq,
             ::prost::Oneof,
-            serde::Serialize,
-            serde::Deserialize,
-            schemars::JsonSchema,
+            ::serde::Serialize,
+            ::serde::Deserialize,
+            ::schemars::JsonSchema,
         )]
-        #[serde(rename_all = "snake_case")]
         pub enum Sum {
             #[prost(message, tag = "1")]
             Single(Single),
@@ -124,8 +127,7 @@ pub mod signature_descriptor {
 }
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-#[derive(strum_macros::FromRepr, serde::Serialize, serde::Deserialize, schemars::JsonSchema)]
-#[serde(rename_all = "snake_case")]
+#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
 pub enum SignMode {
     Unspecified = 0,
     Direct = 1,
@@ -159,27 +161,6 @@ impl SignMode {
             "SIGN_MODE_LEGACY_AMINO_JSON" => Some(Self::LegacyAminoJson),
             "SIGN_MODE_EIP_191" => Some(Self::Eip191),
             _ => None,
-        }
-    }
-    pub fn serialize<S>(v: &i32, serializer: S) -> std::result::Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        let enum_value = Self::from_repr(*v);
-        match enum_value {
-            Some(v) => serializer.serialize_str(v.as_str_name()),
-            None => Err(serde::ser::Error::custom("unknown value")),
-        }
-    }
-    pub fn deserialize<'de, D>(deserializer: D) -> std::result::Result<i32, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        use serde::de::Deserialize;
-        let s = String::deserialize(deserializer)?;
-        match Self::from_str_name(&s) {
-            Some(v) => Ok(v.into()),
-            None => Err(serde::de::Error::custom("unknown value")),
         }
     }
 }
