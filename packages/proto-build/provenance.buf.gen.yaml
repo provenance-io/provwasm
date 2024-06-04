@@ -356,8 +356,6 @@ types:
     - provenance.msgfees.v1.QueryParamsResponse
     - provenance.msgfees.v1.QueryAllMsgFeesRequest
     - provenance.msgfees.v1.QueryAllMsgFeesResponse
-    - provenance.msgfees.v1.CalculateTxFeesRequest
-    - provenance.msgfees.v1.CalculateTxFeesResponse
     - provenance.msgfees.v1.MsgAssessCustomMsgFeeRequest
     - provenance.msgfees.v1.MsgAssessCustomMsgFeeResponse
     - provenance.name.v1.NameRecord
