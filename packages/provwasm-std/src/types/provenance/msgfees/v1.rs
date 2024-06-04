@@ -171,58 +171,6 @@ pub struct QueryAllMsgFeesResponse {
     ::schemars::JsonSchema,
     CosmwasmExt,
 )]
-#[proto_message(type_url = "/provenance.msgfees.v1.CalculateTxFeesRequest")]
-#[proto_query(
-    path = "/provenance.msgfees.v1.Query/CalculateTxFees",
-    response_type = CalculateTxFeesResponse
-)]
-pub struct CalculateTxFeesRequest {
-    #[prost(bytes = "vec", tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
-    pub tx_bytes: ::prost::alloc::vec::Vec<u8>,
-    #[prost(string, tag = "2")]
-    pub default_base_denom: ::prost::alloc::string::String,
-    #[prost(float, tag = "3")]
-    pub gas_adjustment: f32,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
-#[proto_message(type_url = "/provenance.msgfees.v1.CalculateTxFeesResponse")]
-pub struct CalculateTxFeesResponse {
-    #[prost(message, repeated, tag = "1")]
-    pub additional_fees: ::prost::alloc::vec::Vec<super::super::super::cosmos::base::v1beta1::Coin>,
-    #[prost(message, repeated, tag = "2")]
-    pub total_fees: ::prost::alloc::vec::Vec<super::super::super::cosmos::base::v1beta1::Coin>,
-    #[prost(uint64, tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
-    pub estimated_gas: u64,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
 #[proto_message(type_url = "/provenance.msgfees.v1.MsgAssessCustomMsgFeeRequest")]
 pub struct MsgAssessCustomMsgFeeRequest {
     #[prost(string, tag = "1")]
@@ -266,18 +214,5 @@ impl<'a, Q: cosmwasm_std::CustomQuery> MsgfeesQuerier<'a, Q> {
         >,
     ) -> Result<QueryAllMsgFeesResponse, cosmwasm_std::StdError> {
         QueryAllMsgFeesRequest { pagination }.query(self.querier)
-    }
-    pub fn calculate_tx_fees(
-        &self,
-        tx_bytes: ::prost::alloc::vec::Vec<u8>,
-        default_base_denom: ::prost::alloc::string::String,
-        gas_adjustment: f32,
-    ) -> Result<CalculateTxFeesResponse, cosmwasm_std::StdError> {
-        CalculateTxFeesRequest {
-            tx_bytes,
-            default_base_denom,
-            gas_adjustment,
-        }
-        .query(self.querier)
     }
 }
