@@ -8,6 +8,7 @@ use std::fmt;
 use std::str::FromStr;
 
 use prost::Message;
+
 #[derive(Clone, PartialEq, Eq, ::prost::Message, schemars::JsonSchema)]
 pub struct Timestamp {
     /// Represents seconds of UTC time since Unix epoch
@@ -62,7 +63,10 @@ impl<'de> Deserialize<'de> for Timestamp {
                 E: de::Error,
             {
                 let utc: DateTime<Utc> = chrono::DateTime::from_str(value).map_err(|err| {
-                    de::Error::custom(format!("Failed to parse {} as datetime: {:?}", value, err))
+                    serde::de::Error::custom(format!(
+                        "Failed to parse {} as datetime: {:?}",
+                        value, err
+                    ))
                 })?;
                 let ts = Timestamp::from(utc);
                 Ok(ts)
@@ -168,15 +172,16 @@ pub struct Any {
     /// used with implementation specific semantics.
     ///
     #[prost(string, tag = "1")]
-    pub type_url: String,
+    pub type_url: ::prost::alloc::string::String,
     /// Must be a valid serialized protocol buffer of the above specified type.
     #[prost(bytes = "vec", tag = "2")]
-    pub value: Vec<u8>,
+    pub value: ::prost::alloc::vec::Vec<u8>,
 }
 
 macro_rules! expand_as_any {
     ($($ty:path,)*) => {
 
+        // TODO: make serialized data contains `@type` (https://github.com/osmosis-labs/osmosis-rust/issues/43)
         impl Serialize for Any {
             fn serialize<S>(
                 &self,
@@ -266,6 +271,16 @@ macro_rules! expand_as_any {
                 ))
             }
         }
+
+        $(
+            impl TryFrom<Any> for $ty {
+                type Error = prost::DecodeError;
+
+                fn try_from(value: Any) -> Result<Self, Self::Error> {
+                    prost::Message::decode(value.value.as_slice())
+                }
+            }
+        )*
     };
 }
 
