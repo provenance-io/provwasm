@@ -11,6 +11,7 @@ keywords = ["provenance", "blockchain", "smart-contracts", "defi", "finance"]
 categories = ["development-tools::testing", "cryptography::cryptocurrencies", "wasm"]
 
 [dependencies]
+provwasm-common = { workspace = true }
 provwasm-std = { workspace = true }
 cosmwasm-std = { workspace = true, default-features = false }
 schemars = { workspace = true }
