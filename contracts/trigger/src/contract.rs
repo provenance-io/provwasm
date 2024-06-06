@@ -56,16 +56,14 @@ pub fn create_trigger(
         Event::BlockHeightEvent { block_height } => BlockHeightEvent {
             block_height: block_height.into(),
         }
-        .try_into()
-        .unwrap(),
+        .to_any(),
         Event::BlockTimeEvent { timestamp } => BlockTimeEvent {
             time: Some(Timestamp {
                 seconds: timestamp.u64() as i64,
                 nanos: 0,
             }),
         }
-        .try_into()
-        .unwrap(),
+        .to_any(),
     };
 
     let msg = MsgCreateTriggerRequest {
@@ -76,8 +74,7 @@ pub fn create_trigger(
             to_address,
             amount: info.funds.into_iter().map(|fund| fund.into()).collect(),
         }
-        .try_into()
-        .unwrap()],
+        .to_any()],
     };
 
     Ok(Response::new()
@@ -157,14 +154,13 @@ mod tests {
 
         let expected_msg: Binary = MsgCreateTriggerRequest {
             authorities: vec![contract_address],
-            event: Some(BlockHeightEvent { block_height: 50 }.try_into().unwrap()),
+            event: Some(BlockHeightEvent { block_height: 50 }.to_any()),
             actions: vec![MsgSend {
                 from_address: env.contract.address.to_string(),
                 to_address: receiver.to_string(),
                 amount: vec![coin(100, "hash").into()],
             }
-            .try_into()
-            .unwrap()],
+            .to_any()],
         }
         .into();
 
@@ -205,16 +201,14 @@ mod tests {
                         nanos: 0,
                     }),
                 }
-                .try_into()
-                .unwrap(),
+                .to_any(),
             ),
             actions: vec![MsgSend {
                 from_address: env.contract.address.to_string(),
                 to_address: receiver.to_string(),
                 amount: vec![coin(100, "hash").into()],
             }
-            .try_into()
-            .unwrap()],
+            .to_any()],
         }
         .into();
 
