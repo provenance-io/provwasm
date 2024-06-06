@@ -15,6 +15,7 @@ cosmwasm-std = { workspace = true, features = ["stargate"] }
 cosmwasm-schema = { workspace = true }
 prost = { workspace = true, default-features = false, features = ["prost-derive"] }
 prost-types = { workspace = true, default-features = false }
+provwasm-common = { workspace = true }
 provwasm-proc-macro = { workspace = true }
 schemars = { workspace = true }
 serde = { workspace = true, default-features = false, features = ["derive"] }
