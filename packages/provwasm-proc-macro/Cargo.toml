@@ -16,6 +16,7 @@ proc-macro = true
 itertools = "0.11.0"
 proc-macro2 = "1.0.58"
 prost-types = { workspace = true, default-features = false }
+provwasm-common = { workspace = true }
 quote = "1.0.27"
 syn = "1.0.109"
 
@@ -24,4 +25,3 @@ cosmwasm-std = { workspace = true, features = ["stargate"] }
 prost = { workspace = true }
 serde = { workspace = true }
 trybuild = { version = "1.0.80", features = ["diff"] }
-#provwasm-common = { workspace = true }
