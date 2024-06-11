@@ -76,8 +76,8 @@ pub mod signature_descriptor {
         pub struct Single {
             #[prost(enumeration = "super::super::SignMode", tag = "1")]
             #[serde(
-                serialize_with = "crate::serde::as_str::serialize",
-                deserialize_with = "crate::serde::as_str::deserialize"
+                serialize_with = "super::super::SignMode::serialize",
+                deserialize_with = "super::super::SignMode::deserialize"
             )]
             pub mode: i32,
             #[prost(bytes = "vec", tag = "2")]
@@ -161,6 +161,29 @@ impl SignMode {
             "SIGN_MODE_LEGACY_AMINO_JSON" => Some(Self::LegacyAminoJson),
             "SIGN_MODE_EIP_191" => Some(Self::Eip191),
             _ => None,
+        }
+    }
+
+    pub fn serialize<S>(v: &i32, serializer: S) -> std::result::Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        let enum_value = Self::try_from(*v);
+        match enum_value {
+            Ok(v) => serializer.serialize_str(v.as_str_name()),
+            Err(e) => Err(serde::ser::Error::custom(e)),
+        }
+    }
+
+    pub fn deserialize<'de, D>(deserializer: D) -> std::result::Result<i32, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        use serde::de::Deserialize;
+        let s = String::deserialize(deserializer)?;
+        match Self::from_str_name(&s) {
+            Some(v) => Ok(v.into()),
+            None => Err(serde::de::Error::custom("unknown value")),
         }
     }
 }

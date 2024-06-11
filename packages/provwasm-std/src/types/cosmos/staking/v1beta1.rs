@@ -82,8 +82,8 @@ pub struct Validator {
     pub jailed: bool,
     #[prost(enumeration = "BondStatus", tag = "4")]
     #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
+        serialize_with = "BondStatus::serialize",
+        deserialize_with = "BondStatus::deserialize"
     )]
     pub status: i32,
     #[prost(string, tag = "5")]
@@ -141,22 +141,10 @@ pub struct Params {
     #[prost(message, optional, tag = "1")]
     pub unbonding_time: ::core::option::Option<crate::shim::Duration>,
     #[prost(uint32, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub max_validators: u32,
     #[prost(uint32, tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub max_entries: u32,
     #[prost(uint32, tag = "4")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub historical_entries: u32,
     #[prost(string, tag = "5")]
     pub bond_denom: ::prost::alloc::string::String,
@@ -211,6 +199,29 @@ impl BondStatus {
             "BOND_STATUS_UNBONDING" => Some(Self::Unbonding),
             "BOND_STATUS_BONDED" => Some(Self::Bonded),
             _ => None,
+        }
+    }
+
+    pub fn serialize<S>(v: &i32, serializer: S) -> std::result::Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        let enum_value = Self::try_from(*v);
+        match enum_value {
+            Ok(v) => serializer.serialize_str(v.as_str_name()),
+            Err(e) => Err(serde::ser::Error::custom(e)),
+        }
+    }
+
+    pub fn deserialize<'de, D>(deserializer: D) -> std::result::Result<i32, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        use serde::de::Deserialize;
+        let s = String::deserialize(deserializer)?;
+        match Self::from_str_name(&s) {
+            Some(v) => Ok(v.into()),
+            None => Err(serde::de::Error::custom("unknown value")),
         }
     }
 }

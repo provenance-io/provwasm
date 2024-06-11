@@ -51,30 +51,14 @@ pub struct ValidatorSigningInfo {
 #[proto_message(type_url = "/cosmos.slashing.v1beta1.Params")]
 pub struct Params {
     #[prost(int64, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub signed_blocks_window: i64,
     #[prost(bytes = "vec", tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
     pub min_signed_per_window: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "3")]
     pub downtime_jail_duration: ::core::option::Option<crate::shim::Duration>,
     #[prost(bytes = "vec", tag = "4")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
     pub slash_fraction_double_sign: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "5")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
     pub slash_fraction_downtime: ::prost::alloc::vec::Vec<u8>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]

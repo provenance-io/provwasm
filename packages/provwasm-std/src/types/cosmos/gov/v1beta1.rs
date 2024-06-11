@@ -14,8 +14,8 @@ use provwasm_proc_macro::CosmwasmExt;
 pub struct WeightedVoteOption {
     #[prost(enumeration = "VoteOption", tag = "1")]
     #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
+        serialize_with = "VoteOption::serialize",
+        deserialize_with = "VoteOption::deserialize"
     )]
     pub option: i32,
     #[prost(string, tag = "2")]
@@ -71,8 +71,8 @@ pub struct Vote {
     #[deprecated]
     #[prost(enumeration = "VoteOption", tag = "3")]
     #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
+        serialize_with = "VoteOption::serialize",
+        deserialize_with = "VoteOption::deserialize"
     )]
     pub option: i32,
     #[prost(message, repeated, tag = "4")]
@@ -177,6 +177,29 @@ impl VoteOption {
             "VOTE_OPTION_NO" => Some(Self::No),
             "VOTE_OPTION_NO_WITH_VETO" => Some(Self::NoWithVeto),
             _ => None,
+        }
+    }
+
+    pub fn serialize<S>(v: &i32, serializer: S) -> std::result::Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        let enum_value = Self::try_from(*v);
+        match enum_value {
+            Ok(v) => serializer.serialize_str(v.as_str_name()),
+            Err(e) => Err(serde::ser::Error::custom(e)),
+        }
+    }
+
+    pub fn deserialize<'de, D>(deserializer: D) -> std::result::Result<i32, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        use serde::de::Deserialize;
+        let s = String::deserialize(deserializer)?;
+        match Self::from_str_name(&s) {
+            Some(v) => Ok(v.into()),
+            None => Err(serde::de::Error::custom("unknown value")),
         }
     }
 }
@@ -371,8 +394,8 @@ pub struct MsgVote {
     pub voter: ::prost::alloc::string::String,
     #[prost(enumeration = "VoteOption", tag = "3")]
     #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
+        serialize_with = "VoteOption::serialize",
+        deserialize_with = "VoteOption::deserialize"
     )]
     pub option: i32,
 }

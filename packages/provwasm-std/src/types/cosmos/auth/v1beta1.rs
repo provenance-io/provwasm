@@ -43,34 +43,14 @@ pub struct BaseAccount {
 #[proto_message(type_url = "/cosmos.auth.v1beta1.Params")]
 pub struct Params {
     #[prost(uint64, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub max_memo_characters: u64,
     #[prost(uint64, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub tx_sig_limit: u64,
     #[prost(uint64, tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub tx_size_cost_per_byte: u64,
     #[prost(uint64, tag = "4")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub sig_verify_cost_ed25519: u64,
     #[prost(uint64, tag = "5")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub sig_verify_cost_secp256k1: u64,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
