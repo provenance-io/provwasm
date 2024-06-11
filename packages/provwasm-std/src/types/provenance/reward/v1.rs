@@ -74,8 +74,8 @@ pub struct RewardProgram {
     pub max_rollover_claim_periods: u64,
     #[prost(enumeration = "reward_program::State", tag = "19")]
     #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
+        serialize_with = "reward_program::State::serialize",
+        deserialize_with = "reward_program::State::deserialize"
     )]
     pub state: i32,
     #[prost(uint64, tag = "20")]
@@ -123,6 +123,29 @@ pub mod reward_program {
                 "STATE_FINISHED" => Some(Self::Finished),
                 "STATE_EXPIRED" => Some(Self::Expired),
                 _ => None,
+            }
+        }
+
+        pub fn serialize<S>(v: &i32, serializer: S) -> std::result::Result<S::Ok, S::Error>
+        where
+            S: serde::Serializer,
+        {
+            let enum_value = Self::try_from(*v);
+            match enum_value {
+                Ok(v) => serializer.serialize_str(v.as_str_name()),
+                Err(e) => Err(serde::ser::Error::custom(e)),
+            }
+        }
+
+        pub fn deserialize<'de, D>(deserializer: D) -> std::result::Result<i32, D::Error>
+        where
+            D: serde::Deserializer<'de>,
+        {
+            use serde::de::Deserialize;
+            let s = String::deserialize(deserializer)?;
+            match Self::from_str_name(&s) {
+                Some(v) => Ok(v.into()),
+                None => Err(serde::de::Error::custom("unknown value")),
             }
         }
     }
@@ -207,8 +230,8 @@ pub struct RewardAccountState {
     pub shares_earned: u64,
     #[prost(enumeration = "reward_account_state::ClaimStatus", tag = "6")]
     #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
+        serialize_with = "reward_account_state::ClaimStatus::serialize",
+        deserialize_with = "reward_account_state::ClaimStatus::deserialize"
     )]
     pub claim_status: i32,
 }
@@ -248,6 +271,29 @@ pub mod reward_account_state {
                 "CLAIM_STATUS_CLAIMED" => Some(Self::Claimed),
                 "CLAIM_STATUS_EXPIRED" => Some(Self::Expired),
                 _ => None,
+            }
+        }
+
+        pub fn serialize<S>(v: &i32, serializer: S) -> std::result::Result<S::Ok, S::Error>
+        where
+            S: serde::Serializer,
+        {
+            let enum_value = Self::try_from(*v);
+            match enum_value {
+                Ok(v) => serializer.serialize_str(v.as_str_name()),
+                Err(e) => Err(serde::ser::Error::custom(e)),
+            }
+        }
+
+        pub fn deserialize<'de, D>(deserializer: D) -> std::result::Result<i32, D::Error>
+        where
+            D: serde::Deserializer<'de>,
+        {
+            use serde::de::Deserialize;
+            let s = String::deserialize(deserializer)?;
+            match Self::from_str_name(&s) {
+                Some(v) => Ok(v.into()),
+                None => Err(serde::de::Error::custom("unknown value")),
             }
         }
     }
@@ -488,8 +534,8 @@ pub struct QueryRewardProgramByIdResponse {
 pub struct QueryRewardProgramsRequest {
     #[prost(enumeration = "query_reward_programs_request::QueryType", tag = "1")]
     #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
+        serialize_with = "query_reward_programs_request::QueryType::serialize",
+        deserialize_with = "query_reward_programs_request::QueryType::deserialize"
     )]
     pub query_type: i32,
     #[prost(message, optional, tag = "99")]
@@ -535,6 +581,29 @@ pub mod query_reward_programs_request {
                 "QUERY_TYPE_OUTSTANDING" => Some(Self::Outstanding),
                 "QUERY_TYPE_FINISHED" => Some(Self::Finished),
                 _ => None,
+            }
+        }
+
+        pub fn serialize<S>(v: &i32, serializer: S) -> std::result::Result<S::Ok, S::Error>
+        where
+            S: serde::Serializer,
+        {
+            let enum_value = Self::try_from(*v);
+            match enum_value {
+                Ok(v) => serializer.serialize_str(v.as_str_name()),
+                Err(e) => Err(serde::ser::Error::custom(e)),
+            }
+        }
+
+        pub fn deserialize<'de, D>(deserializer: D) -> std::result::Result<i32, D::Error>
+        where
+            D: serde::Deserializer<'de>,
+        {
+            use serde::de::Deserialize;
+            let s = String::deserialize(deserializer)?;
+            match Self::from_str_name(&s) {
+                Some(v) => Ok(v.into()),
+                None => Err(serde::de::Error::custom("unknown value")),
             }
         }
     }
@@ -667,8 +736,8 @@ pub struct QueryRewardDistributionsByAddressRequest {
     pub address: ::prost::alloc::string::String,
     #[prost(enumeration = "reward_account_state::ClaimStatus", tag = "2")]
     #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
+        serialize_with = "reward_account_state::ClaimStatus::serialize",
+        deserialize_with = "reward_account_state::ClaimStatus::deserialize"
     )]
     pub claim_status: i32,
     #[prost(message, optional, tag = "99")]
@@ -721,8 +790,8 @@ pub struct RewardAccountResponse {
         ::core::option::Option<super::super::super::cosmos::base::v1beta1::Coin>,
     #[prost(enumeration = "reward_account_state::ClaimStatus", tag = "3")]
     #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
+        serialize_with = "reward_account_state::ClaimStatus::serialize",
+        deserialize_with = "reward_account_state::ClaimStatus::deserialize"
     )]
     pub claim_status: i32,
     #[prost(uint64, tag = "4")]

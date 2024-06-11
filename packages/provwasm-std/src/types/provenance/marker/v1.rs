@@ -68,6 +68,29 @@ impl Access {
             _ => None,
         }
     }
+
+    pub fn serialize<S>(v: &i32, serializer: S) -> std::result::Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        let enum_value = Self::try_from(*v);
+        match enum_value {
+            Ok(v) => serializer.serialize_str(v.as_str_name()),
+            Err(e) => Err(serde::ser::Error::custom(e)),
+        }
+    }
+
+    pub fn deserialize<'de, D>(deserializer: D) -> std::result::Result<i32, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        use serde::de::Deserialize;
+        let s = String::deserialize(deserializer)?;
+        match Self::from_str_name(&s) {
+            Some(v) => Ok(v.into()),
+            None => Err(serde::de::Error::custom("unknown value")),
+        }
+    }
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
@@ -102,10 +125,6 @@ pub struct MarkerTransferAuthorization {
 pub struct Params {
     #[deprecated]
     #[prost(uint64, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub max_total_supply: u64,
     #[prost(bool, tag = "2")]
     pub enable_governance: bool,
@@ -136,8 +155,8 @@ pub struct MarkerAccount {
     pub access_control: ::prost::alloc::vec::Vec<AccessGrant>,
     #[prost(enumeration = "MarkerStatus", tag = "4")]
     #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
+        serialize_with = "MarkerStatus::serialize",
+        deserialize_with = "MarkerStatus::deserialize"
     )]
     pub status: i32,
     #[prost(string, tag = "5")]
@@ -146,8 +165,8 @@ pub struct MarkerAccount {
     pub supply: ::prost::alloc::string::String,
     #[prost(enumeration = "MarkerType", tag = "7")]
     #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
+        serialize_with = "MarkerType::serialize",
+        deserialize_with = "MarkerType::deserialize"
     )]
     pub marker_type: i32,
     #[prost(bool, tag = "8")]
@@ -478,6 +497,29 @@ impl MarkerType {
             _ => None,
         }
     }
+
+    pub fn serialize<S>(v: &i32, serializer: S) -> std::result::Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        let enum_value = Self::try_from(*v);
+        match enum_value {
+            Ok(v) => serializer.serialize_str(v.as_str_name()),
+            Err(e) => Err(serde::ser::Error::custom(e)),
+        }
+    }
+
+    pub fn deserialize<'de, D>(deserializer: D) -> std::result::Result<i32, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        use serde::de::Deserialize;
+        let s = String::deserialize(deserializer)?;
+        match Self::from_str_name(&s) {
+            Some(v) => Ok(v.into()),
+            None => Err(serde::de::Error::custom("unknown value")),
+        }
+    }
 }
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
@@ -515,6 +557,29 @@ impl MarkerStatus {
             "MARKER_STATUS_CANCELLED" => Some(Self::Cancelled),
             "MARKER_STATUS_DESTROYED" => Some(Self::Destroyed),
             _ => None,
+        }
+    }
+
+    pub fn serialize<S>(v: &i32, serializer: S) -> std::result::Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        let enum_value = Self::try_from(*v);
+        match enum_value {
+            Ok(v) => serializer.serialize_str(v.as_str_name()),
+            Err(e) => Err(serde::ser::Error::custom(e)),
+        }
+    }
+
+    pub fn deserialize<'de, D>(deserializer: D) -> std::result::Result<i32, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        use serde::de::Deserialize;
+        let s = String::deserialize(deserializer)?;
+        match Self::from_str_name(&s) {
+            Some(v) => Ok(v.into()),
+            None => Err(serde::de::Error::custom("unknown value")),
         }
     }
 }
@@ -625,8 +690,8 @@ pub struct ChangeStatusProposal {
     pub denom: ::prost::alloc::string::String,
     #[prost(enumeration = "MarkerStatus", tag = "4")]
     #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
+        serialize_with = "MarkerStatus::serialize",
+        deserialize_with = "MarkerStatus::deserialize"
     )]
     pub new_status: i32,
 }
@@ -1035,6 +1100,29 @@ impl SiPrefix {
             _ => None,
         }
     }
+
+    pub fn serialize<S>(v: &i32, serializer: S) -> std::result::Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        let enum_value = Self::try_from(*v);
+        match enum_value {
+            Ok(v) => serializer.serialize_str(v.as_str_name()),
+            Err(e) => Err(serde::ser::Error::custom(e)),
+        }
+    }
+
+    pub fn deserialize<'de, D>(deserializer: D) -> std::result::Result<i32, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        use serde::de::Deserialize;
+        let s = String::deserialize(deserializer)?;
+        match Self::from_str_name(&s) {
+            Some(v) => Ok(v.into()),
+            None => Err(serde::de::Error::custom("unknown value")),
+        }
+    }
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
@@ -1092,15 +1180,11 @@ pub struct MsgAddMarkerRequest {
     pub from_address: ::prost::alloc::string::String,
     #[prost(enumeration = "MarkerStatus", tag = "5")]
     #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
+        serialize_with = "MarkerStatus::serialize",
+        deserialize_with = "MarkerStatus::deserialize"
     )]
     pub status: i32,
     #[prost(enumeration = "MarkerType", tag = "6")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub marker_type: i32,
     #[prost(message, repeated, tag = "7")]
     pub access_list: ::prost::alloc::vec::Vec<AccessGrant>,
@@ -1551,8 +1635,8 @@ pub struct MsgAddFinalizeActivateMarkerRequest {
     pub from_address: ::prost::alloc::string::String,
     #[prost(enumeration = "MarkerType", tag = "5")]
     #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
+        serialize_with = "MarkerType::serialize",
+        deserialize_with = "MarkerType::deserialize"
     )]
     pub marker_type: i32,
     #[prost(message, repeated, tag = "6")]

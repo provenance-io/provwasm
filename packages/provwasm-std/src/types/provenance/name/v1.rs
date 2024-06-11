@@ -13,22 +13,10 @@ use provwasm_proc_macro::CosmwasmExt;
 #[proto_message(type_url = "/provenance.name.v1.Params")]
 pub struct Params {
     #[prost(uint32, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub max_segment_length: u32,
     #[prost(uint32, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub min_segment_length: u32,
     #[prost(uint32, tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub max_name_levels: u32,
     #[prost(bool, tag = "4")]
     pub allow_unrestricted_names: bool,

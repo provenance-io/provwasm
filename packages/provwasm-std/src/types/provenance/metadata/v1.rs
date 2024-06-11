@@ -676,8 +676,8 @@ pub struct ScopeSpecification {
     pub owner_addresses: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
     #[prost(enumeration = "PartyType", repeated, packed = "false", tag = "4")]
     #[serde(
-        serialize_with = "crate::serde::as_str_vec::serialize",
-        deserialize_with = "crate::serde::as_str_vec::deserialize"
+        serialize_with = "PartyType::serialize_vec",
+        deserialize_with = "PartyType::deserialize_vec"
     )]
     pub parties_involved: ::prost::alloc::vec::Vec<i32>,
     #[prost(bytes = "vec", repeated, tag = "5")]
@@ -710,8 +710,8 @@ pub struct ContractSpecification {
     pub owner_addresses: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
     #[prost(enumeration = "PartyType", repeated, packed = "false", tag = "4")]
     #[serde(
-        serialize_with = "crate::serde::as_str_vec::serialize",
-        deserialize_with = "crate::serde::as_str_vec::deserialize"
+        serialize_with = "PartyType::serialize_vec",
+        deserialize_with = "PartyType::deserialize_vec"
     )]
     pub parties_involved: ::prost::alloc::vec::Vec<i32>,
     #[prost(string, tag = "7")]
@@ -767,14 +767,14 @@ pub struct RecordSpecification {
     pub type_name: ::prost::alloc::string::String,
     #[prost(enumeration = "DefinitionType", tag = "5")]
     #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
+        serialize_with = "DefinitionType::serialize",
+        deserialize_with = "DefinitionType::deserialize"
     )]
     pub result_type: i32,
     #[prost(enumeration = "PartyType", repeated, packed = "false", tag = "6")]
     #[serde(
-        serialize_with = "crate::serde::as_str_vec::serialize",
-        deserialize_with = "crate::serde::as_str_vec::deserialize"
+        serialize_with = "PartyType::serialize_vec",
+        deserialize_with = "PartyType::deserialize_vec"
     )]
     pub responsible_parties: ::prost::alloc::vec::Vec<i32>,
 }
@@ -872,6 +872,29 @@ impl DefinitionType {
             _ => None,
         }
     }
+
+    pub fn serialize<S>(v: &i32, serializer: S) -> std::result::Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        let enum_value = Self::try_from(*v);
+        match enum_value {
+            Ok(v) => serializer.serialize_str(v.as_str_name()),
+            Err(e) => Err(serde::ser::Error::custom(e)),
+        }
+    }
+
+    pub fn deserialize<'de, D>(deserializer: D) -> std::result::Result<i32, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        use serde::de::Deserialize;
+        let s = String::deserialize(deserializer)?;
+        match Self::from_str_name(&s) {
+            Some(v) => Ok(v.into()),
+            None => Err(serde::de::Error::custom("unknown value")),
+        }
+    }
 }
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
@@ -925,6 +948,69 @@ impl PartyType {
             "PARTY_TYPE_VALIDATOR" => Some(Self::Validator),
             _ => None,
         }
+    }
+
+    pub fn serialize<S>(v: &i32, serializer: S) -> std::result::Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        let enum_value = Self::try_from(*v);
+        match enum_value {
+            Ok(v) => serializer.serialize_str(v.as_str_name()),
+            Err(e) => Err(serde::ser::Error::custom(e)),
+        }
+    }
+
+    pub fn deserialize<'de, D>(deserializer: D) -> std::result::Result<i32, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        use serde::de::Deserialize;
+        let s = String::deserialize(deserializer)?;
+        match Self::from_str_name(&s) {
+            Some(v) => Ok(v.into()),
+            None => Err(serde::de::Error::custom("unknown value")),
+        }
+    }
+
+    pub fn serialize_vec<S>(v: &Vec<i32>, serializer: S) -> std::result::Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        use serde::ser::SerializeTuple;
+
+        let mut enum_strs: Vec<&str> = Vec::new();
+        for ord in v {
+            // let enum_value = Self::try_from(*ord);
+            let enum_value = Self::try_from(*ord);
+            match enum_value {
+                Ok(v) => {
+                    enum_strs.push(v.as_str_name());
+                }
+                Err(e) => return Err(serde::ser::Error::custom(e)),
+            }
+        }
+        let mut seq = serializer.serialize_tuple(enum_strs.len())?;
+        for item in enum_strs {
+            seq.serialize_element(item)?;
+        }
+        seq.end()
+    }
+
+    fn deserialize_vec<'de, D>(deserializer: D) -> Result<Vec<i32>, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        use serde::de::{Deserialize, Error};
+
+        let strs: Vec<String> = Vec::deserialize(deserializer)?;
+        let mut ords: Vec<i32> = Vec::new();
+        for str_name in strs {
+            let enum_value = Self::from_str_name(&str_name)
+                .ok_or_else(|| Error::custom(format!("unknown enum string: {}", str_name)))?;
+            ords.push(enum_value as i32);
+        }
+        Ok(ords)
     }
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -1099,8 +1185,8 @@ pub struct RecordInput {
     pub type_name: ::prost::alloc::string::String,
     #[prost(enumeration = "RecordInputStatus", tag = "5")]
     #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
+        serialize_with = "RecordInputStatus::serialize",
+        deserialize_with = "RecordInputStatus::deserialize"
     )]
     pub status: i32,
     #[prost(oneof = "record_input::Source", tags = "2, 3")]
@@ -1143,8 +1229,8 @@ pub struct RecordOutput {
     pub hash: ::prost::alloc::string::String,
     #[prost(enumeration = "ResultStatus", tag = "2")]
     #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
+        serialize_with = "ResultStatus::serialize",
+        deserialize_with = "ResultStatus::deserialize"
     )]
     pub status: i32,
 }
@@ -1165,8 +1251,8 @@ pub struct Party {
     pub address: ::prost::alloc::string::String,
     #[prost(enumeration = "PartyType", tag = "2")]
     #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
+        serialize_with = "PartyType::serialize",
+        deserialize_with = "PartyType::deserialize"
     )]
     pub role: i32,
     #[prost(bool, tag = "3")]
@@ -1231,6 +1317,29 @@ impl RecordInputStatus {
             _ => None,
         }
     }
+
+    pub fn serialize<S>(v: &i32, serializer: S) -> std::result::Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        let enum_value = Self::try_from(*v);
+        match enum_value {
+            Ok(v) => serializer.serialize_str(v.as_str_name()),
+            Err(e) => Err(serde::ser::Error::custom(e)),
+        }
+    }
+
+    pub fn deserialize<'de, D>(deserializer: D) -> std::result::Result<i32, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        use serde::de::Deserialize;
+        let s = String::deserialize(deserializer)?;
+        match Self::from_str_name(&s) {
+            Some(v) => Ok(v.into()),
+            None => Err(serde::de::Error::custom("unknown value")),
+        }
+    }
 }
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
@@ -1262,6 +1371,29 @@ impl ResultStatus {
             "RESULT_STATUS_SKIP" => Some(Self::Skip),
             "RESULT_STATUS_FAIL" => Some(Self::Fail),
             _ => None,
+        }
+    }
+
+    pub fn serialize<S>(v: &i32, serializer: S) -> std::result::Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        let enum_value = Self::try_from(*v);
+        match enum_value {
+            Ok(v) => serializer.serialize_str(v.as_str_name()),
+            Err(e) => Err(serde::ser::Error::custom(e)),
+        }
+    }
+
+    pub fn deserialize<'de, D>(deserializer: D) -> std::result::Result<i32, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        use serde::de::Deserialize;
+        let s = String::deserialize(deserializer)?;
+        match Self::from_str_name(&s) {
+            Some(v) => Ok(v.into()),
+            None => Err(serde::de::Error::custom("unknown value")),
         }
     }
 }
@@ -1299,10 +1431,6 @@ pub struct ObjectStoreLocator {
 #[proto_message(type_url = "/provenance.metadata.v1.OSLocatorParams")]
 pub struct OsLocatorParams {
     #[prost(uint32, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub max_uri_length: u32,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]

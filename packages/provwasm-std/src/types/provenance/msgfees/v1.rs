@@ -15,10 +15,6 @@ pub struct Params {
     #[prost(message, optional, tag = "2")]
     pub floor_gas_price: ::core::option::Option<super::super::super::cosmos::base::v1beta1::Coin>,
     #[prost(uint64, tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub nhash_per_usd_mil: u64,
     #[prost(string, tag = "4")]
     pub conversion_fee_denom: ::prost::alloc::string::String,

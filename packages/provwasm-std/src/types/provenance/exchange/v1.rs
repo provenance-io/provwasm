@@ -610,8 +610,8 @@ pub struct AccessGrant {
     pub address: ::prost::alloc::string::String,
     #[prost(enumeration = "Permission", repeated, tag = "2")]
     #[serde(
-        serialize_with = "crate::serde::as_str_vec::serialize",
-        deserialize_with = "crate::serde::as_str_vec::deserialize"
+        serialize_with = "Permission::serialize_vec",
+        deserialize_with = "Permission::deserialize_vec"
     )]
     pub permissions: ::prost::alloc::vec::Vec<i32>,
 }
@@ -658,6 +658,45 @@ impl Permission {
             "PERMISSION_ATTRIBUTES" => Some(Self::Attributes),
             _ => None,
         }
+    }
+
+    pub fn serialize_vec<S>(v: &Vec<i32>, serializer: S) -> std::result::Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        use serde::ser::SerializeTuple;
+
+        let mut enum_strs: Vec<&str> = Vec::new();
+        for ord in v {
+            let enum_value = Self::try_from(*ord);
+            match enum_value {
+                Ok(v) => {
+                    enum_strs.push(v.as_str_name());
+                }
+                Err(e) => return Err(serde::ser::Error::custom(e)),
+            }
+        }
+        let mut seq = serializer.serialize_tuple(enum_strs.len())?;
+        for item in enum_strs {
+            seq.serialize_element(item)?;
+        }
+        seq.end()
+    }
+
+    fn deserialize_vec<'de, D>(deserializer: D) -> Result<Vec<i32>, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        use serde::de::{Deserialize, Error};
+
+        let strs: Vec<String> = Vec::deserialize(deserializer)?;
+        let mut ords: Vec<i32> = Vec::new();
+        for str_name in strs {
+            let enum_value = Self::from_str_name(&str_name)
+                .ok_or_else(|| Error::custom(format!("unknown enum string: {}", str_name)))?;
+            ords.push(enum_value as i32);
+        }
+        Ok(ords)
     }
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -787,10 +826,6 @@ pub struct BidOrder {
 #[proto_message(type_url = "/provenance.exchange.v1.Params")]
 pub struct Params {
     #[prost(uint32, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub default_split: u32,
     #[prost(message, repeated, tag = "2")]
     pub denom_splits: ::prost::alloc::vec::Vec<DenomSplit>,
