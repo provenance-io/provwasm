@@ -157,12 +157,14 @@
         "PageResponse": {
           "type": "object",
           "required": [
-            "next_key",
             "total"
           ],
           "properties": {
             "next_key": {
-              "type": "array",
+              "type": [
+                "array",
+                "null"
+              ],
               "items": {
                 "type": "integer",
                 "format": "uint8",
