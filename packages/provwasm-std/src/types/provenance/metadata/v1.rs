@@ -406,22 +406,22 @@ pub struct ScopeIdInfo {
     #[prost(bytes = "vec", tag = "1")]
     #[serde(alias = "scopeID")]
     #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
+        serialize_with = "crate::serde::as_str_bytes::serialize",
+        deserialize_with = "crate::serde::as_str_bytes::deserialize"
     )]
     pub scope_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "2")]
     #[serde(alias = "scopeID_prefix")]
     #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
+        serialize_with = "crate::serde::as_str_bytes::serialize",
+        deserialize_with = "crate::serde::as_str_bytes::deserialize"
     )]
     pub scope_id_prefix: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "3")]
     #[serde(alias = "scopeID_scope_uuid")]
     #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
+        serialize_with = "crate::serde::as_str_bytes::serialize",
+        deserialize_with = "crate::serde::as_str_bytes::deserialize"
     )]
     pub scope_id_scope_uuid: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, tag = "4")]
@@ -445,29 +445,29 @@ pub struct SessionIdInfo {
     #[prost(bytes = "vec", tag = "1")]
     #[serde(alias = "sessionID")]
     #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
+        serialize_with = "crate::serde::as_str_bytes::serialize",
+        deserialize_with = "crate::serde::as_str_bytes::deserialize"
     )]
     pub session_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "2")]
     #[serde(alias = "sessionID_prefix")]
     #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
+        serialize_with = "crate::serde::as_str_bytes::serialize",
+        deserialize_with = "crate::serde::as_str_bytes::deserialize"
     )]
     pub session_id_prefix: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "3")]
     #[serde(alias = "sessionID_scope_uuid")]
     #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
+        serialize_with = "crate::serde::as_str_bytes::serialize",
+        deserialize_with = "crate::serde::as_str_bytes::deserialize"
     )]
     pub session_id_scope_uuid: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "4")]
     #[serde(alias = "sessionID_session_uuid")]
     #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
+        serialize_with = "crate::serde::as_str_bytes::serialize",
+        deserialize_with = "crate::serde::as_str_bytes::deserialize"
     )]
     pub session_id_session_uuid: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, tag = "5")]
@@ -494,29 +494,29 @@ pub struct RecordIdInfo {
     #[prost(bytes = "vec", tag = "1")]
     #[serde(alias = "recordID")]
     #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
+        serialize_with = "crate::serde::as_str_bytes::serialize",
+        deserialize_with = "crate::serde::as_str_bytes::deserialize"
     )]
     pub record_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "2")]
     #[serde(alias = "recordID_prefix")]
     #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
+        serialize_with = "crate::serde::as_str_bytes::serialize",
+        deserialize_with = "crate::serde::as_str_bytes::deserialize"
     )]
     pub record_id_prefix: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "3")]
     #[serde(alias = "recordID_scope_uuid")]
     #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
+        serialize_with = "crate::serde::as_str_bytes::serialize",
+        deserialize_with = "crate::serde::as_str_bytes::deserialize"
     )]
     pub record_id_scope_uuid: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "4")]
     #[serde(alias = "recordID_hashed_name")]
     #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
+        serialize_with = "crate::serde::as_str_bytes::serialize",
+        deserialize_with = "crate::serde::as_str_bytes::deserialize"
     )]
     pub record_id_hashed_name: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, tag = "5")]
@@ -541,22 +541,22 @@ pub struct ScopeSpecIdInfo {
     #[prost(bytes = "vec", tag = "1")]
     #[serde(alias = "scope_specID")]
     #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
+        serialize_with = "crate::serde::as_str_bytes::serialize",
+        deserialize_with = "crate::serde::as_str_bytes::deserialize"
     )]
     pub scope_spec_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "2")]
     #[serde(alias = "scope_specID_prefix")]
     #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
+        serialize_with = "crate::serde::as_str_bytes::serialize",
+        deserialize_with = "crate::serde::as_str_bytes::deserialize"
     )]
     pub scope_spec_id_prefix: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "3")]
     #[serde(alias = "scope_specID_scope_spec_uuid")]
     #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
+        serialize_with = "crate::serde::as_str_bytes::serialize",
+        deserialize_with = "crate::serde::as_str_bytes::deserialize"
     )]
     pub scope_spec_id_scope_spec_uuid: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, tag = "4")]
@@ -580,22 +580,22 @@ pub struct ContractSpecIdInfo {
     #[prost(bytes = "vec", tag = "1")]
     #[serde(alias = "contract_specID")]
     #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
+        serialize_with = "crate::serde::as_str_bytes::serialize",
+        deserialize_with = "crate::serde::as_str_bytes::deserialize"
     )]
     pub contract_spec_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "2")]
     #[serde(alias = "contract_specID_prefix")]
     #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
+        serialize_with = "crate::serde::as_str_bytes::serialize",
+        deserialize_with = "crate::serde::as_str_bytes::deserialize"
     )]
     pub contract_spec_id_prefix: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "3")]
     #[serde(alias = "contract_specID_contract_spec_uuid")]
     #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
+        serialize_with = "crate::serde::as_str_bytes::serialize",
+        deserialize_with = "crate::serde::as_str_bytes::deserialize"
     )]
     pub contract_spec_id_contract_spec_uuid: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, tag = "4")]
@@ -619,29 +619,29 @@ pub struct RecordSpecIdInfo {
     #[prost(bytes = "vec", tag = "1")]
     #[serde(alias = "record_specID")]
     #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
+        serialize_with = "crate::serde::as_str_bytes::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
     pub record_spec_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "2")]
     #[serde(alias = "record_specID_prefix")]
     #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
+        serialize_with = "crate::serde::as_str_bytes::serialize",
+        deserialize_with = "crate::serde::as_str_bytes::deserialize"
     )]
     pub record_spec_id_prefix: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "3")]
     #[serde(alias = "record_specID_contract_spec_uuid")]
     #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
+        serialize_with = "crate::serde::as_str_bytes::serialize",
+        deserialize_with = "crate::serde::as_str_bytes::deserialize"
     )]
     pub record_spec_id_contract_spec_uuid: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "4")]
     #[serde(alias = "record_specID_hashed_name")]
     #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
+        serialize_with = "crate::serde::as_str_bytes::serialize",
+        deserialize_with = "crate::serde::as_str_bytes::deserialize"
     )]
     pub record_spec_id_hashed_name: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, tag = "5")]
@@ -666,8 +666,8 @@ pub struct ScopeSpecification {
     #[prost(bytes = "vec", tag = "1")]
     #[serde(alias = "specificationID")]
     #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
+        serialize_with = "crate::serde::as_str_bytes::serialize",
+        deserialize_with = "crate::serde::as_str_bytes::deserialize"
     )]
     pub specification_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "2")]
@@ -682,6 +682,10 @@ pub struct ScopeSpecification {
     pub parties_involved: ::prost::alloc::vec::Vec<i32>,
     #[prost(bytes = "vec", repeated, tag = "5")]
     #[serde(alias = "contract_specIDs")]
+    #[serde(
+        serialize_with = "crate::serde::as_str_bytes_vec::serialize",
+        deserialize_with = "crate::serde::as_str_bytes_vec::deserialize"
+    )]
     pub contract_spec_ids: ::prost::alloc::vec::Vec<::prost::alloc::vec::Vec<u8>>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -700,8 +704,8 @@ pub struct ContractSpecification {
     #[prost(bytes = "vec", tag = "1")]
     #[serde(alias = "specificationID")]
     #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
+        serialize_with = "crate::serde::as_str_bytes::serialize",
+        deserialize_with = "crate::serde::as_str_bytes::deserialize"
     )]
     pub specification_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "2")]
@@ -755,8 +759,8 @@ pub struct RecordSpecification {
     #[prost(bytes = "vec", tag = "1")]
     #[serde(alias = "specificationID")]
     #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
+        serialize_with = "crate::serde::as_str_bytes::serialize",
+        deserialize_with = "crate::serde::as_str_bytes::deserialize"
     )]
     pub specification_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, tag = "2")]
@@ -1029,15 +1033,15 @@ pub struct Scope {
     #[prost(bytes = "vec", tag = "1")]
     #[serde(alias = "scopeID")]
     #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
+        serialize_with = "crate::serde::as_str_bytes::serialize",
+        deserialize_with = "crate::serde::as_str_bytes::deserialize"
     )]
     pub scope_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "2")]
     #[serde(alias = "specificationID")]
     #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
+        serialize_with = "crate::serde::as_str_bytes::serialize",
+        deserialize_with = "crate::serde::as_str_bytes::deserialize"
     )]
     pub specification_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, repeated, tag = "3")]
@@ -1065,15 +1069,15 @@ pub struct Session {
     #[prost(bytes = "vec", tag = "1")]
     #[serde(alias = "sessionID")]
     #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
+        serialize_with = "crate::serde::as_str_bytes::serialize",
+        deserialize_with = "crate::serde::as_str_bytes::deserialize"
     )]
     pub session_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "2")]
     #[serde(alias = "specificationID")]
     #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
+        serialize_with = "crate::serde::as_str_bytes::serialize",
+        deserialize_with = "crate::serde::as_str_bytes::deserialize"
     )]
     pub specification_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, repeated, tag = "3")]
@@ -1082,8 +1086,8 @@ pub struct Session {
     pub name: ::prost::alloc::string::String,
     #[prost(bytes = "vec", tag = "5")]
     #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
+        serialize_with = "crate::serde::as_str_bytes::serialize",
+        deserialize_with = "crate::serde::as_str_bytes::deserialize"
     )]
     pub context: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "99")]
@@ -1107,8 +1111,8 @@ pub struct Record {
     #[prost(bytes = "vec", tag = "2")]
     #[serde(alias = "sessionID")]
     #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
+        serialize_with = "crate::serde::as_str_bytes::serialize",
+        deserialize_with = "crate::serde::as_str_bytes::deserialize"
     )]
     pub session_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "3")]
@@ -1120,8 +1124,8 @@ pub struct Record {
     #[prost(bytes = "vec", tag = "6")]
     #[serde(alias = "specificationID")]
     #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
+        serialize_with = "crate::serde::as_str_bytes::serialize",
+        deserialize_with = "crate::serde::as_str_bytes::deserialize"
     )]
     pub specification_id: ::prost::alloc::vec::Vec<u8>,
 }
@@ -1922,6 +1926,39 @@ pub struct ContractSpecificationResponse {
     #[prost(message, optional, tag = "98")]
     pub request: ::core::option::Option<ContractSpecificationRequest>,
 }
+
+#[cfg(test)]
+pub mod tests {
+    use crate::types::provenance::metadata::v1::ContractSpecificationResponse;
+
+    #[test]
+    pub fn test1() {
+        let json = r#"{
+            "contract_specification":{
+                "specification":{
+                        "specification_id":"contractspec1q0w6ys5g6jm509v2830374aprsrq260w62",
+                        "description":null,
+                        "owner_addresses":["tp1zxnmdrkk6ydca7wmlrpkyn8ga096yucut3yfgd"],
+                        "parties_involved":["PARTY_TYPE_OWNER"],
+                        "hash":"hashvalue",
+                        "class_name":"myclassname"
+                },
+                "contract_spec_id_info":{
+                    "contract_spec_id":"contractspec1q0w6ys5g6jm509v2830374aprsrq260w62",
+                    "contract_spec_id_prefix":"Aw==",
+                    "contract_spec_id_contract_spec_uuid":"3aJCiNS3R5WKPF8fV6EcBg==",
+                    "contract_spec_addr":"contractspec1q0w6ys5g6jm509v2830374aprsrq260w62",
+                    "contract_spec_uuid":"dda24288-d4b7-4795-8a3c-5f1f57a11c06"
+                }
+            },
+            "record_specifications":[],"request":null
+        }"#;
+
+        let resp: ContractSpecificationResponse = serde_json::from_str(&json).unwrap();
+
+        println!("{:?}", resp);
+    }
+}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
@@ -2284,8 +2321,8 @@ pub struct MsgDeleteScopeRequest {
     #[prost(bytes = "vec", tag = "1")]
     #[serde(alias = "scopeID")]
     #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
+        serialize_with = "crate::serde::as_str_bytes::serialize",
+        deserialize_with = "crate::serde::as_str_bytes::deserialize"
     )]
     pub scope_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, repeated, tag = "2")]
@@ -2320,8 +2357,8 @@ pub struct MsgAddScopeDataAccessRequest {
     #[prost(bytes = "vec", tag = "1")]
     #[serde(alias = "scopeID")]
     #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
+        serialize_with = "crate::serde::as_str_bytes::serialize",
+        deserialize_with = "crate::serde::as_str_bytes::deserialize"
     )]
     pub scope_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, repeated, tag = "2")]
@@ -2358,8 +2395,8 @@ pub struct MsgDeleteScopeDataAccessRequest {
     #[prost(bytes = "vec", tag = "1")]
     #[serde(alias = "scopeID")]
     #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
+        serialize_with = "crate::serde::as_str_bytes::serialize",
+        deserialize_with = "crate::serde::as_str_bytes::deserialize"
     )]
     pub scope_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, repeated, tag = "2")]
@@ -2396,8 +2433,8 @@ pub struct MsgAddScopeOwnerRequest {
     #[prost(bytes = "vec", tag = "1")]
     #[serde(alias = "scopeID")]
     #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
+        serialize_with = "crate::serde::as_str_bytes::serialize",
+        deserialize_with = "crate::serde::as_str_bytes::deserialize"
     )]
     pub scope_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, repeated, tag = "2")]
@@ -2434,8 +2471,8 @@ pub struct MsgDeleteScopeOwnerRequest {
     #[prost(bytes = "vec", tag = "1")]
     #[serde(alias = "scopeID")]
     #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
+        serialize_with = "crate::serde::as_str_bytes::serialize",
+        deserialize_with = "crate::serde::as_str_bytes::deserialize"
     )]
     pub scope_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, repeated, tag = "2")]
@@ -2471,6 +2508,10 @@ pub struct MsgDeleteScopeOwnerResponse {}
 pub struct MsgUpdateValueOwnersRequest {
     #[prost(bytes = "vec", repeated, tag = "1")]
     #[serde(alias = "scopeIDs")]
+    #[serde(
+        serialize_with = "crate::serde::as_str_bytes_vec::serialize",
+        deserialize_with = "crate::serde::as_str_bytes_vec::deserialize"
+    )]
     pub scope_ids: ::prost::alloc::vec::Vec<::prost::alloc::vec::Vec<u8>>,
     #[prost(string, tag = "2")]
     pub value_owner_address: ::prost::alloc::string::String,
@@ -2660,8 +2701,8 @@ pub struct MsgDeleteRecordRequest {
     #[prost(bytes = "vec", tag = "1")]
     #[serde(alias = "recordID")]
     #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
+        serialize_with = "crate::serde::as_str_bytes::serialize",
+        deserialize_with = "crate::serde::as_str_bytes::deserialize"
     )]
     pub record_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, repeated, tag = "2")]
@@ -2733,8 +2774,8 @@ pub struct MsgDeleteScopeSpecificationRequest {
     #[prost(bytes = "vec", tag = "1")]
     #[serde(alias = "specificationID")]
     #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
+        serialize_with = "crate::serde::as_str_bytes::serialize",
+        deserialize_with = "crate::serde::as_str_bytes::deserialize"
     )]
     pub specification_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, repeated, tag = "2")]
@@ -2806,15 +2847,15 @@ pub struct MsgAddContractSpecToScopeSpecRequest {
     #[prost(bytes = "vec", tag = "1")]
     #[serde(alias = "contract_specificationID")]
     #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
+        serialize_with = "crate::serde::as_str_bytes::serialize",
+        deserialize_with = "crate::serde::as_str_bytes::deserialize"
     )]
     pub contract_specification_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "2")]
     #[serde(alias = "scope_specificationID")]
     #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
+        serialize_with = "crate::serde::as_str_bytes::serialize",
+        deserialize_with = "crate::serde::as_str_bytes::deserialize"
     )]
     pub scope_specification_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, repeated, tag = "3")]
@@ -2849,15 +2890,15 @@ pub struct MsgDeleteContractSpecFromScopeSpecRequest {
     #[prost(bytes = "vec", tag = "1")]
     #[serde(alias = "contract_specificationID")]
     #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
+        serialize_with = "crate::serde::as_str_bytes::serialize",
+        deserialize_with = "crate::serde::as_str_bytes::deserialize"
     )]
     pub contract_specification_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "2")]
     #[serde(alias = "scope_specificationID")]
     #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
+        serialize_with = "crate::serde::as_str_bytes::serialize",
+        deserialize_with = "crate::serde::as_str_bytes::deserialize"
     )]
     pub scope_specification_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, repeated, tag = "3")]
@@ -2892,8 +2933,8 @@ pub struct MsgDeleteContractSpecificationRequest {
     #[prost(bytes = "vec", tag = "1")]
     #[serde(alias = "specificationID")]
     #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
+        serialize_with = "crate::serde::as_str_bytes::serialize",
+        deserialize_with = "crate::serde::as_str_bytes::deserialize"
     )]
     pub specification_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, repeated, tag = "2")]
@@ -2965,8 +3006,8 @@ pub struct MsgDeleteRecordSpecificationRequest {
     #[prost(bytes = "vec", tag = "1")]
     #[serde(alias = "specificationID")]
     #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
+        serialize_with = "crate::serde::as_str_bytes::serialize",
+        deserialize_with = "crate::serde::as_str_bytes::deserialize"
     )]
     pub specification_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, repeated, tag = "2")]

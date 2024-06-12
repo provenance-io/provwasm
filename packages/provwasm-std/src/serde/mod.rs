@@ -48,6 +48,57 @@ pub mod as_str_vec {
     }
 }
 
+pub mod as_str_bytes {
+    use serde::{Deserialize, Deserializer, Serializer};
+    use std::str::from_utf8;
+
+    pub fn deserialize<'de, D>(deserializer: D) -> Result<Vec<u8>, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        let s = String::deserialize(deserializer)?;
+        Ok(s.into_bytes())
+    }
+
+    pub fn serialize<S>(value: &[u8], serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        let y = from_utf8(value).map_err(serde::ser::Error::custom)?;
+        serializer.serialize_str(y)
+    }
+}
+
+pub mod as_str_bytes_vec {
+    use serde::{Deserialize, Deserializer, Serializer};
+    use std::str::from_utf8;
+
+    pub fn deserialize<'de, D>(deserializer: D) -> Result<Vec<Vec<u8>>, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        let vec_of_strings: Vec<String> = Vec::deserialize(deserializer)?;
+        let vec_of_bytes = vec_of_strings.into_iter().map(|s| s.into_bytes()).collect();
+        Ok(vec_of_bytes)
+    }
+
+    pub fn serialize<S>(value: &[Vec<u8>], serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        let vec_of_strings: Vec<String> = value
+            .iter()
+            .map(|bytes| {
+                from_utf8(bytes)
+                    .map(|s| s.to_string())
+                    .map_err(serde::ser::Error::custom)
+            })
+            .collect::<Result<Vec<String>, _>>()?;
+        
+        serializer.serialize_some(&vec_of_strings)
+    }
+}
+
 pub mod as_base64_encoded_string {
     use cosmwasm_std::Binary;
     use serde::{de, Deserialize, Deserializer, Serialize, Serializer};
