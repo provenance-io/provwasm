@@ -96,7 +96,7 @@ echo "#########################################################"
 
 # get block height and add delay for trigger
 current_height=$($PROV_CMD q block | jq -r .block.header.height)
-target_height=$((current_height + 10))
+target_height=$((current_height + 6))
 
 echo "current block height: $current_height"
 echo "target block height: $target_height"
@@ -124,6 +124,10 @@ echo "target block height: $target_height"
   --yes \
   --testnet \
   --output json
+
+triggers=$("$PROV_CMD" query wasm contract-state smart "$contract" "{\"get_trigger\":{}}" -t -o json)
+echo "stored triggers:"
+echo "$triggers"
 
 sleep 12
 
@@ -180,6 +184,10 @@ echo "target time = $target_time"
   --yes \
   --testnet \
   --output json
+
+triggers=$("$PROV_CMD" query wasm contract-state smart "$contract" "{\"get_trigger\":{}}" -t -o json)
+echo "stored triggers:"
+echo "$triggers"
 
 sleep 8
 
@@ -267,5 +275,9 @@ if [ "$trigger_count" != "0" ]; then
   echo "failed deleting trigger"
   exit 1
 fi
+
+triggers=$("$PROV_CMD" query wasm contract-state smart "$contract" "{\"get_trigger\":{}}" -t -o json)
+echo "stored triggers:"
+echo "$triggers"
 
 echo "Trigger tests successful"

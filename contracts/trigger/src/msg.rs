@@ -1,4 +1,4 @@
-use cosmwasm_schema::cw_serde;
+use cosmwasm_schema::{cw_serde, QueryResponses};
 use cosmwasm_std::Uint64;
 
 #[cw_serde]
@@ -14,4 +14,12 @@ pub struct InitMsg {}
 pub enum ExecuteMsg {
     CreateTrigger { event: Event, to_address: String },
     DeleteTrigger { id: Uint64 },
+}
+
+#[cw_serde]
+#[derive(QueryResponses)]
+pub enum QueryMsg {
+    #[returns(provwasm_std::types::provenance::trigger::v1::QueryTriggerByIdResponse)]
+    #[returns(provwasm_std::types::provenance::trigger::v1::QueryTriggersResponse)]
+    GetTrigger { id: Option<Uint64> },
 }

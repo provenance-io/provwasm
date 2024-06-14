@@ -1,6 +1,7 @@
 use cosmwasm_std::{
     entry_point, to_json_binary, Deps, DepsMut, Env, MessageInfo, QueryResponse, Response, Uint64,
 };
+
 use provwasm_std::shim::{Any, Timestamp};
 use provwasm_std::types::cosmos::bank::v1beta1::MsgSend;
 use provwasm_std::types::provenance::trigger::v1::{
@@ -9,7 +10,7 @@ use provwasm_std::types::provenance::trigger::v1::{
 };
 
 use crate::error::ContractError;
-use crate::msg::{Event, ExecuteMsg, InitMsg};
+use crate::msg::{Event, ExecuteMsg, InitMsg, QueryMsg};
 
 /// Initialize the smart contract
 #[entry_point]
@@ -101,6 +102,13 @@ pub fn delete_trigger(
         .add_attribute("action", "provwasm.contracts.trigger.delete_trigger"))
 }
 
+#[entry_point]
+pub fn query(deps: Deps, _env: Env, msg: QueryMsg) -> Result<QueryResponse, ContractError> {
+    match msg {
+        QueryMsg::GetTrigger { id } => get_trigger(deps, id),
+    }
+}
+
 pub fn get_trigger(deps: Deps, id: Option<Uint64>) -> Result<QueryResponse, ContractError> {
     let trigger_querier = TriggerQuerier::new(&deps.querier);
 
@@ -112,17 +120,19 @@ pub fn get_trigger(deps: Deps, id: Option<Uint64>) -> Result<QueryResponse, Cont
 
 #[cfg(test)]
 mod tests {
-    use crate::contract::{execute, instantiate};
-    use crate::msg::ExecuteMsg::CreateTrigger;
-    use crate::msg::{Event, InitMsg};
     use cosmwasm_std::testing::{mock_env, mock_info};
     use cosmwasm_std::{coin, Addr, Binary, CosmosMsg};
+
     use provwasm_mocks::mock_provenance_dependencies;
     use provwasm_std::shim::Timestamp;
     use provwasm_std::types::cosmos::bank::v1beta1::MsgSend;
     use provwasm_std::types::provenance::trigger::v1::{
         BlockHeightEvent, BlockTimeEvent, MsgCreateTriggerRequest,
     };
+
+    use crate::contract::{execute, instantiate};
+    use crate::msg::ExecuteMsg::CreateTrigger;
+    use crate::msg::{Event, InitMsg};
 
     #[test]
     pub fn init() {
