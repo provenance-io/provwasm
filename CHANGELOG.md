@@ -2,7 +2,7 @@
 
 ## Unreleased changes
 
-* test tube integration tests ([PR #150](https://github.com/provenance-io/provwasm/pull/151))
+* test tube integration tests ([PR #150](https://github.com/provenance-io/provwasm/pull/150))
 * fix code generation ([#150](https://github.com/provenance-io/provwasm/issues/150))
 * refactor `Any` to support Trigger messages ([#123](https://github.com/provenance-io/provwasm/issues/123))
 
