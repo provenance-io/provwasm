@@ -94,7 +94,7 @@ pub mod as_str_bytes_vec {
                     .map_err(serde::ser::Error::custom)
             })
             .collect::<Result<Vec<String>, _>>()?;
-        
+
         serializer.serialize_some(&vec_of_strings)
     }
 }
