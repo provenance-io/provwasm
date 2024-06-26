@@ -35,7 +35,7 @@ jobs:
         run: |
           cargo test --test tutorial
       - name: Smart Contract Test setup
-        uses: provenance-io/provenance-testing-action
+        uses: provenance-io/provenance-testing-action@v1.3.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           provenance_version: "v1.19.0-rc2"
