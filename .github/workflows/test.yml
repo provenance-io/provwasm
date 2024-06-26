@@ -38,7 +38,7 @@ jobs:
         uses: provenance-io/provenance-testing-action@v1.2.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          provenance_version: "v1.18.0"
+          provenance_version: "v1.19.0-rc2"
           smart_contract_action_version: "v1.2.0"
           test_script: "./scripts/gh-action-test/tutorial_test.sh"
 
@@ -62,7 +62,7 @@ jobs:
         uses: provenance-io/provenance-testing-action@v1.2.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          provenance_version: "v1.18.0"
+          provenance_version: "v1.19.0-rc2"
           smart_contract_action_version: "v1.2.0"
           test_script: "./scripts/gh-action-test/attrs_test.sh"
 
@@ -86,7 +86,7 @@ jobs:
         uses: provenance-io/provenance-testing-action@v1.2.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          provenance_version: "v1.18.0"
+          provenance_version: "v1.19.0-rc2"
           smart_contract_action_version: "v1.2.0"
           test_script: "./scripts/gh-action-test/marker_test.sh"
 
@@ -107,7 +107,7 @@ jobs:
         uses: provenance-io/provenance-testing-action@v1.2.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          provenance_version: "v1.18.0"
+          provenance_version: "v1.19.0-rc2"
           smart_contract_action_version: "v1.2.0"
           test_script: "./scripts/gh-action-test/msgfees_test.sh"
 
@@ -131,7 +131,7 @@ jobs:
         uses: provenance-io/provenance-testing-action@v1.2.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          provenance_version: "v1.18.0"
+          provenance_version: "v1.19.0-rc2"
           smart_contract_action_version: "v1.2.0"
           test_script: "./scripts/gh-action-test/name_test.sh"
 
@@ -152,7 +152,7 @@ jobs:
         uses: provenance-io/provenance-testing-action@v1.2.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          provenance_version: "v1.18.0"
+          provenance_version: "v1.19.0-rc2"
           smart_contract_action_version: "v1.2.0"
           test_script: "./scripts/gh-action-test/scope_test.sh"
 
@@ -176,6 +176,6 @@ jobs:
         uses: provenance-io/provenance-testing-action@v1.2.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          provenance_version: "v1.18.0"
+          provenance_version: "v1.19.0-rc2"
           smart_contract_action_version: "v1.2.0"
           test_script: "./scripts/gh-action-test/trigger_test.sh"
