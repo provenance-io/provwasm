@@ -41,7 +41,7 @@ echo "Sending coins to different keys"
   --gas-prices="1905nhash" \
   --gas-adjustment=1.5 \
   --yes \
-  --testnet "$PROV_CMD" q wait-tx
+  --testnet | "$PROV_CMD" q wait-tx
 
 "$PROV_CMD" tx bank send \
   "$node0" \

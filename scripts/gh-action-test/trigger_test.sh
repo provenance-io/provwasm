@@ -89,7 +89,7 @@ echo "Create block height trigger test"
 echo "#########################################################"
 
 # get block height and add delay for trigger
-current_height=$($PROV_CMD q block | jq -r .block.header.height)
+current_height=$($PROV_CMD q consensus comet block-latest -t -o json | jq -r .block.header.height)
 target_height=$((current_height + 6))
 
 echo "current block height: $current_height"
