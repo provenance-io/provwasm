@@ -27,7 +27,7 @@ license = "Apache-2.0"
 ### CosmWasm
 
 cosmwasm-schema = { version = "2.0.3" }
-cosmwasm-std = { version = "2.0.3", default-features = false }
+cosmwasm-std = { version = "2.0.3", default-features = false, features = ["std"] }
 cw-storage-plus = { version = "1.2.0" }
 
 ### ProvWasm
