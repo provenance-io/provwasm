@@ -1927,38 +1927,6 @@ pub struct ContractSpecificationResponse {
     pub request: ::core::option::Option<ContractSpecificationRequest>,
 }
 
-#[cfg(test)]
-pub mod tests {
-    use crate::types::provenance::metadata::v1::ContractSpecificationResponse;
-
-    #[test]
-    pub fn test1() {
-        let json = r#"{
-            "contract_specification":{
-                "specification":{
-                        "specification_id":"contractspec1q0w6ys5g6jm509v2830374aprsrq260w62",
-                        "description":null,
-                        "owner_addresses":["tp1zxnmdrkk6ydca7wmlrpkyn8ga096yucut3yfgd"],
-                        "parties_involved":["PARTY_TYPE_OWNER"],
-                        "hash":"hashvalue",
-                        "class_name":"myclassname"
-                },
-                "contract_spec_id_info":{
-                    "contract_spec_id":"contractspec1q0w6ys5g6jm509v2830374aprsrq260w62",
-                    "contract_spec_id_prefix":"Aw==",
-                    "contract_spec_id_contract_spec_uuid":"3aJCiNS3R5WKPF8fV6EcBg==",
-                    "contract_spec_addr":"contractspec1q0w6ys5g6jm509v2830374aprsrq260w62",
-                    "contract_spec_uuid":"dda24288-d4b7-4795-8a3c-5f1f57a11c06"
-                }
-            },
-            "record_specifications":[],"request":null
-        }"#;
-
-        let resp: ContractSpecificationResponse = serde_json::from_str(&json).unwrap();
-
-        println!("{:?}", resp);
-    }
-}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
