@@ -117,7 +117,9 @@ pub mod as_base64_encoded_string {
     where
         S: Serializer,
     {
-        Binary(values.to_vec()).to_base64().serialize(serializer)
+        Binary::new(values.to_vec())
+            .to_base64()
+            .serialize(serializer)
     }
 }
 
@@ -144,7 +146,7 @@ pub mod as_option_base64_encoded_string {
     {
         match value {
             Some(vec) => {
-                let encoded_string = Binary(vec.clone()).to_base64();
+                let encoded_string = Binary::new(vec.clone()).to_base64();
                 encoded_string.serialize(serializer)
             }
             None => serializer.serialize_none(),
