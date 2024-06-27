@@ -17,9 +17,8 @@ export node0=$("$PROV_CMD" keys show -a validator --keyring-backend test --testn
   --gas=auto \
   --gas-prices="1905nhash" \
   --gas-adjustment=1.5 \
-  --broadcast-mode block \
   --yes \
-  --testnet
+  --testnet | "$PROV_CMD" q wait-tx
 
 "$PROV_CMD" tx wasm store $WASM \
   --instantiate-anyof-addresses "$node0" \
@@ -29,9 +28,8 @@ export node0=$("$PROV_CMD" keys show -a validator --keyring-backend test --testn
   --gas=auto \
   --gas-prices="1905nhash" \
   --gas-adjustment=1.5 \
-  --broadcast-mode block \
   --yes \
-  --testnet
+  --testnet | "$PROV_CMD" q wait-tx
 
 "$PROV_CMD" tx wasm instantiate 1 '{"name": "attrs-itv2.sc.pb"}' \
   --admin="$node0" \
@@ -42,9 +40,8 @@ export node0=$("$PROV_CMD" keys show -a validator --keyring-backend test --testn
   --gas=auto \
   --gas-prices="1905nhash" \
   --gas-adjustment=1.5 \
-  --broadcast-mode block \
   --yes \
-  --testnet
+  --testnet | "$PROV_CMD" q wait-tx
 
 # Query for the contract address so we can execute it
 export contract=$("$PROV_CMD" query wasm list-contract-by-code 1 -t -o json | jq -r ".contracts[0]")
@@ -58,9 +55,8 @@ export contract=$("$PROV_CMD" query wasm list-contract-by-code 1 -t -o json | jq
   --gas=auto \
   --gas-prices="1905nhash" \
   --gas-adjustment=1.5 \
-  --broadcast-mode block \
   --yes \
-  --testnet
+  --testnet | "$PROV_CMD" q wait-tx
 
 "$PROV_CMD" query wasm contract-state smart \
   "$contract" '{"get_label_name":{}}' -t -o json
@@ -74,9 +70,8 @@ export contract=$("$PROV_CMD" query wasm list-contract-by-code 1 -t -o json | jq
   --gas=auto \
   --gas-prices="1905nhash" \
   --gas-adjustment=1.5 \
-  --broadcast-mode block \
   --yes \
-  --testnet
+  --testnet | "$PROV_CMD" q wait-tx
 
 # delay to ensure correct order for text1 and text2 below
 
@@ -89,9 +84,8 @@ export contract=$("$PROV_CMD" query wasm list-contract-by-code 1 -t -o json | jq
   --gas=auto \
   --gas-prices="1905nhash" \
   --gas-adjustment=1.5 \
-  --broadcast-mode block \
   --yes \
-  --testnet
+  --testnet | "$PROV_CMD" q wait-tx
 
 export text1=$("$PROV_CMD" query wasm contract-state smart "$contract" '{"get_labels":{}}' --testnet --output json  | jq -r ".data.labels[0].text")
 export text2=$("$PROV_CMD" query wasm contract-state smart "$contract" '{"get_labels":{}}' --testnet --output json  | jq -r ".data.labels[1].text")
@@ -121,9 +115,8 @@ fi
   --gas=auto \
   --gas-prices="1905nhash" \
   --gas-adjustment=1.5 \
-  --broadcast-mode block \
   --yes \
-  --testnet
+  --testnet | "$PROV_CMD" q wait-tx
 
 export text1=$("$PROV_CMD" query wasm contract-state smart "$contract" '{"get_labels":{}}' --testnet --output json  | jq -r ".data.labels[0].text")
 export text2=$("$PROV_CMD" query wasm contract-state smart "$contract" '{"get_labels":{}}' --testnet --output json  | jq -r ".data.labels[1].text")
@@ -153,9 +146,8 @@ fi
   --gas=auto \
   --gas-prices="1905nhash" \
   --gas-adjustment=1.5 \
-  --broadcast-mode block \
   --yes \
-  --testnet
+  --testnet | "$PROV_CMD" q wait-tx
 
 export label_count=$("$PROV_CMD" query wasm contract-state smart "$contract" '{"get_labels":{}}' --testnet --output json  | jq -r ".data.labels | length")
 export text1=$("$PROV_CMD" query wasm contract-state smart "$contract" '{"get_labels":{}}' --testnet --output json  | jq -r ".data.labels[0].text")
@@ -179,9 +171,8 @@ fi
   --gas=auto \
   --gas-prices="1905nhash" \
   --gas-adjustment=1.5 \
-  --broadcast-mode block \
   --yes \
-  --testnet
+  --testnet | "$PROV_CMD" q wait-tx
 
 export label_count=$("$PROV_CMD" query wasm contract-state smart "$contract" '{"get_labels":{}}' --testnet --output json  | jq -r ".data.labels | length")
 

@@ -27,10 +27,8 @@ echo "Sending coins to different keys"
   --gas=auto \
   --gas-prices="1905nhash" \
   --gas-adjustment=1.5 \
-  --broadcast-mode=block \
   --yes \
-  --testnet \
-  --output json
+  --testnet | "$PROV_CMD" q wait-tx
 
 "$PROV_CMD" tx bank send \
   "$node0" \
@@ -42,10 +40,8 @@ echo "Sending coins to different keys"
   --gas=auto \
   --gas-prices="1905nhash" \
   --gas-adjustment=1.5 \
-  --broadcast-mode=block \
   --yes \
-  --testnet \
-  --output json
+  --testnet | "$PROV_CMD" q wait-tx
 
 "$PROV_CMD" tx bank send \
   "$node0" \
@@ -57,10 +53,8 @@ echo "Sending coins to different keys"
   --gas=auto \
   --gas-prices="1905nhash" \
   --gas-adjustment=1.5 \
-  --broadcast-mode=block \
   --yes \
-  --testnet \
-  --output json
+  --testnet | "$PROV_CMD" q wait-tx
 
 # Setup name and new COIN for the smart contract
 "$PROV_CMD" tx name bind \
@@ -73,10 +67,8 @@ echo "Sending coins to different keys"
   --chain-id="testing" \
   --gas-prices="1905nhash" \
   --gas-adjustment=1.5 \
-  --broadcast-mode block \
   --yes \
-  --testnet \
-  --output json
+  --testnet | "$PROV_CMD" q wait-tx
 
 "$PROV_CMD" tx marker new 1000000000purchasecoin \
   --type COIN \
@@ -86,10 +78,8 @@ echo "Sending coins to different keys"
   --gas auto \
   --gas-prices="1905nhash" \
   --gas-adjustment=1.5 \
-  --broadcast-mode block \
   --yes \
-  --testnet \
-  --output json
+  --testnet | "$PROV_CMD" q wait-tx
 
 "$PROV_CMD" tx marker grant \
   $node0 \
@@ -101,10 +91,8 @@ echo "Sending coins to different keys"
   --gas auto \
   --gas-prices="1905nhash" \
   --gas-adjustment=1.5 \
-  --broadcast-mode block \
   --yes \
-  --testnet \
-  --output json
+  --testnet | "$PROV_CMD" q wait-tx
 
 "$PROV_CMD" tx marker finalize purchasecoin \
   --from="$node0" \
@@ -113,10 +101,8 @@ echo "Sending coins to different keys"
   --gas auto \
   --gas-prices="1905nhash" \
   --gas-adjustment=1.5 \
-  --broadcast-mode block \
   --yes \
-  --testnet \
-  --output json
+  --testnet | "$PROV_CMD" q wait-tx
 
 "$PROV_CMD" tx marker activate purchasecoin \
   --from="$node0" \
@@ -125,10 +111,8 @@ echo "Sending coins to different keys"
   --gas auto \
   --gas-prices="1905nhash" \
   --gas-adjustment=1.5 \
-  --broadcast-mode block \
   --yes \
-  --testnet \
-  --output json
+  --testnet | "$PROV_CMD" q wait-tx
 
 "$PROV_CMD" tx marker withdraw purchasecoin \
   100000purchasecoin \
@@ -139,10 +123,8 @@ echo "Sending coins to different keys"
   --gas auto \
   --gas-prices="1905nhash" \
   --gas-adjustment=1.5 \
-  --broadcast-mode block \
   --yes \
-  --testnet \
-  --output json
+  --testnet | "$PROV_CMD" q wait-tx
 
 # Run the contract
 "$PROV_CMD" tx wasm store $WASM \
@@ -153,9 +135,8 @@ echo "Sending coins to different keys"
   --gas=auto \
   --gas-prices="1905nhash" \
   --gas-adjustment=1.5 \
-  --broadcast-mode=block \
   --yes \
-  --testnet
+  --testnet | "$PROV_CMD" q wait-tx
 
 # create the json for instantiating the contract with our merchant address
 export json="{ \"contract_name\": \"tutorial.sc.pb\", \"purchase_denom\": \"purchasecoin\", \"merchant_address\": \"$merchant\", \"fee_percent\": \"0.10\" }"
@@ -169,9 +150,8 @@ export json="{ \"contract_name\": \"tutorial.sc.pb\", \"purchase_denom\": \"purc
   --gas=auto \
   --gas-prices="1905nhash" \
   --gas-adjustment=1.5 \
-  --broadcast-mode block \
   --yes \
-  --testnet
+  --testnet | "$PROV_CMD" q wait-tx
 
 # Query for the contract address so we can execute it
 export contract=$("$PROV_CMD" query wasm list-contract-by-code 1 --testnet --output json  | jq -r ".contracts[0]")
@@ -186,10 +166,8 @@ export contract=$("$PROV_CMD" query wasm list-contract-by-code 1 --testnet --out
   --gas auto \
   --gas-prices="1905nhash" \
   --gas-adjustment=1.5 \
-  --broadcast-mode block \
   --yes \
-  --testnet \
-  --output json
+  --testnet | "$PROV_CMD" q wait-tx
 
 # Verify that the funds were sent to the correct accounts for the merchant and the feebucket
 export merchant_query=$("$PROV_CMD" query bank balances "$merchant" --testnet --output json )

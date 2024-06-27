@@ -4,6 +4,9 @@
 # Text file backups
 **/*.rs.bk
 
+# Cargo.lock
+Cargo.lock
+
 # Build results
 target/
 

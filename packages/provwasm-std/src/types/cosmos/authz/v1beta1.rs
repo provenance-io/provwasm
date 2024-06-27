@@ -1,15 +1,16 @@
+use provwasm_proc_macro::CosmwasmExt;
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.authz.v1beta1.GenericAuthorization")]
-#[serde(rename_all = "snake_case")]
 pub struct GenericAuthorization {
     #[prost(string, tag = "1")]
     pub msg: ::prost::alloc::string::String,
@@ -18,14 +19,14 @@ pub struct GenericAuthorization {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.authz.v1beta1.Grant")]
-#[serde(rename_all = "snake_case")]
 pub struct Grant {
     #[prost(message, optional, tag = "1")]
     pub authorization: ::core::option::Option<crate::shim::Any>,
@@ -36,14 +37,14 @@ pub struct Grant {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.authz.v1beta1.GrantAuthorization")]
-#[serde(rename_all = "snake_case")]
 pub struct GrantAuthorization {
     #[prost(string, tag = "1")]
     pub granter: ::prost::alloc::string::String,
@@ -58,14 +59,14 @@ pub struct GrantAuthorization {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.authz.v1beta1.GrantQueueItem")]
-#[serde(rename_all = "snake_case")]
 pub struct GrantQueueItem {
     #[prost(string, repeated, tag = "1")]
     pub msg_type_urls: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
@@ -74,14 +75,14 @@ pub struct GrantQueueItem {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.authz.v1beta1.QueryGrantsRequest")]
-#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/cosmos.authz.v1beta1.Query/Grants",
     response_type = QueryGrantsResponse
@@ -100,14 +101,14 @@ pub struct QueryGrantsRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.authz.v1beta1.QueryGrantsResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct QueryGrantsResponse {
     #[prost(message, repeated, tag = "1")]
     pub grants: ::prost::alloc::vec::Vec<Grant>,
@@ -118,14 +119,14 @@ pub struct QueryGrantsResponse {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.authz.v1beta1.QueryGranterGrantsRequest")]
-#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/cosmos.authz.v1beta1.Query/GranterGrants",
     response_type = QueryGranterGrantsResponse
@@ -140,14 +141,14 @@ pub struct QueryGranterGrantsRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.authz.v1beta1.QueryGranterGrantsResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct QueryGranterGrantsResponse {
     #[prost(message, repeated, tag = "1")]
     pub grants: ::prost::alloc::vec::Vec<GrantAuthorization>,
@@ -158,14 +159,14 @@ pub struct QueryGranterGrantsResponse {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.authz.v1beta1.QueryGranteeGrantsRequest")]
-#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/cosmos.authz.v1beta1.Query/GranteeGrants",
     response_type = QueryGranteeGrantsResponse
@@ -180,14 +181,14 @@ pub struct QueryGranteeGrantsRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.authz.v1beta1.QueryGranteeGrantsResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct QueryGranteeGrantsResponse {
     #[prost(message, repeated, tag = "1")]
     pub grants: ::prost::alloc::vec::Vec<GrantAuthorization>,
@@ -198,14 +199,14 @@ pub struct QueryGranteeGrantsResponse {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.authz.v1beta1.MsgGrant")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgGrant {
     #[prost(string, tag = "1")]
     pub granter: ::prost::alloc::string::String,
@@ -218,14 +219,14 @@ pub struct MsgGrant {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.authz.v1beta1.MsgExecResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgExecResponse {
     #[prost(bytes = "vec", repeated, tag = "1")]
     pub results: ::prost::alloc::vec::Vec<::prost::alloc::vec::Vec<u8>>,
@@ -234,14 +235,14 @@ pub struct MsgExecResponse {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.authz.v1beta1.MsgExec")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgExec {
     #[prost(string, tag = "1")]
     pub grantee: ::prost::alloc::string::String,
@@ -252,27 +253,27 @@ pub struct MsgExec {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.authz.v1beta1.MsgGrantResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgGrantResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.authz.v1beta1.MsgRevoke")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgRevoke {
     #[prost(string, tag = "1")]
     pub granter: ::prost::alloc::string::String,
@@ -285,14 +286,14 @@ pub struct MsgRevoke {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.authz.v1beta1.MsgRevokeResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgRevokeResponse {}
 pub struct AuthzQuerier<'a, Q: cosmwasm_std::CustomQuery> {
     querier: &'a cosmwasm_std::QuerierWrapper<'a, Q>,
@@ -307,7 +308,7 @@ impl<'a, Q: cosmwasm_std::CustomQuery> AuthzQuerier<'a, Q> {
         grantee: ::prost::alloc::string::String,
         msg_type_url: ::prost::alloc::string::String,
         pagination: ::core::option::Option<super::super::base::query::v1beta1::PageRequest>,
-    ) -> std::result::Result<QueryGrantsResponse, cosmwasm_std::StdError> {
+    ) -> Result<QueryGrantsResponse, cosmwasm_std::StdError> {
         QueryGrantsRequest {
             granter,
             grantee,
@@ -320,7 +321,7 @@ impl<'a, Q: cosmwasm_std::CustomQuery> AuthzQuerier<'a, Q> {
         &self,
         granter: ::prost::alloc::string::String,
         pagination: ::core::option::Option<super::super::base::query::v1beta1::PageRequest>,
-    ) -> std::result::Result<QueryGranterGrantsResponse, cosmwasm_std::StdError> {
+    ) -> Result<QueryGranterGrantsResponse, cosmwasm_std::StdError> {
         QueryGranterGrantsRequest {
             granter,
             pagination,
@@ -331,7 +332,7 @@ impl<'a, Q: cosmwasm_std::CustomQuery> AuthzQuerier<'a, Q> {
         &self,
         grantee: ::prost::alloc::string::String,
         pagination: ::core::option::Option<super::super::base::query::v1beta1::PageRequest>,
-    ) -> std::result::Result<QueryGranteeGrantsResponse, cosmwasm_std::StdError> {
+    ) -> Result<QueryGranteeGrantsResponse, cosmwasm_std::StdError> {
         QueryGranteeGrantsRequest {
             grantee,
             pagination,

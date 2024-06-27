@@ -37,16 +37,16 @@ pub fn generate() {
         name: "provenance".to_string(),
         version: PROVENANCE_REV.to_string(),
         project_dir: PROVENANCE_DIR.to_string(),
-        include_mods: vec![],
         buf_gen_template: "provenance.buf.gen.yaml".to_string(),
+        exclude_mods: vec![],
     };
 
     let third_party_project = CosmosProject {
         name: "third-party".to_string(),
         version: PROVENANCE_REV.to_string(),
         project_dir: THIRD_PARTY_DIR.to_string(),
-        include_mods: vec![],
         buf_gen_template: "third-party.buf.gen.yaml".to_string(),
+        exclude_mods: vec![],
     };
 
     let provenance_code_generator = CodeGenerator::new(

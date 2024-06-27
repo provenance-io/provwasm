@@ -3,7 +3,7 @@ use std::marker::PhantomData;
 
 use cosmwasm_std::testing::{MockApi, MockQuerier, MockStorage};
 use cosmwasm_std::{
-    from_slice, Binary, Coin, Empty, OwnedDeps, Querier, QuerierResult, QueryRequest, SystemError,
+    from_json, Binary, Coin, Empty, OwnedDeps, Querier, QuerierResult, QueryRequest, SystemError,
     SystemResult,
 };
 use serde::de::DeserializeOwned;
@@ -54,7 +54,7 @@ impl MockableQuerier for MockProvenanceQuerier {
 
 impl Querier for MockProvenanceQuerier {
     fn raw_query(&self, bin_request: &[u8]) -> QuerierResult {
-        let request: QueryRequest<Empty> = match from_slice(bin_request) {
+        let request: QueryRequest<Empty> = match from_json(bin_request) {
             Ok(v) => v,
             Err(e) => {
                 return SystemResult::Err(SystemError::InvalidRequest {

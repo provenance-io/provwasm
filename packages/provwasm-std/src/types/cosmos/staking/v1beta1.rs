@@ -1,15 +1,16 @@
+use provwasm_proc_macro::CosmwasmExt;
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.staking.v1beta1.CommissionRates")]
-#[serde(rename_all = "snake_case")]
 pub struct CommissionRates {
     #[prost(string, tag = "1")]
     pub rate: ::prost::alloc::string::String,
@@ -22,14 +23,14 @@ pub struct CommissionRates {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.staking.v1beta1.Commission")]
-#[serde(rename_all = "snake_case")]
 pub struct Commission {
     #[prost(message, optional, tag = "1")]
     pub commission_rates: ::core::option::Option<CommissionRates>,
@@ -40,14 +41,14 @@ pub struct Commission {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.staking.v1beta1.Description")]
-#[serde(rename_all = "snake_case")]
 pub struct Description {
     #[prost(string, tag = "1")]
     pub moniker: ::prost::alloc::string::String,
@@ -64,14 +65,14 @@ pub struct Description {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.staking.v1beta1.Validator")]
-#[serde(rename_all = "snake_case")]
 pub struct Validator {
     #[prost(string, tag = "1")]
     pub operator_address: ::prost::alloc::string::String,
@@ -108,14 +109,14 @@ pub struct Validator {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.staking.v1beta1.Delegation")]
-#[serde(rename_all = "snake_case")]
 pub struct Delegation {
     #[prost(string, tag = "1")]
     pub delegator_address: ::prost::alloc::string::String,
@@ -128,14 +129,14 @@ pub struct Delegation {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.staking.v1beta1.Params")]
-#[serde(rename_all = "snake_case")]
 pub struct Params {
     #[prost(message, optional, tag = "1")]
     pub unbonding_time: ::core::option::Option<crate::shim::Duration>,
@@ -154,14 +155,14 @@ pub struct Params {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.staking.v1beta1.DelegationResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct DelegationResponse {
     #[prost(message, optional, tag = "1")]
     pub delegation: ::core::option::Option<Delegation>,
@@ -170,8 +171,7 @@ pub struct DelegationResponse {
 }
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-#[derive(strum_macros::FromRepr, serde::Serialize, serde::Deserialize, schemars::JsonSchema)]
-#[serde(rename_all = "snake_case")]
+#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
 pub enum BondStatus {
     Unspecified = 0,
     Unbonded = 1,
@@ -201,16 +201,18 @@ impl BondStatus {
             _ => None,
         }
     }
+
     pub fn serialize<S>(v: &i32, serializer: S) -> std::result::Result<S::Ok, S::Error>
     where
         S: serde::Serializer,
     {
-        let enum_value = Self::from_repr(*v);
+        let enum_value = Self::try_from(*v);
         match enum_value {
-            Some(v) => serializer.serialize_str(v.as_str_name()),
-            None => Err(serde::ser::Error::custom("unknown value")),
+            Ok(v) => serializer.serialize_str(v.as_str_name()),
+            Err(e) => Err(serde::ser::Error::custom(e)),
         }
     }
+
     pub fn deserialize<'de, D>(deserializer: D) -> std::result::Result<i32, D::Error>
     where
         D: serde::Deserializer<'de>,
@@ -227,14 +229,14 @@ impl BondStatus {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.staking.v1beta1.QueryValidatorRequest")]
-#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/cosmos.staking.v1beta1.Query/Validator",
     response_type = QueryValidatorResponse
@@ -247,14 +249,14 @@ pub struct QueryValidatorRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.staking.v1beta1.QueryValidatorResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct QueryValidatorResponse {
     #[prost(message, optional, tag = "1")]
     pub validator: ::core::option::Option<Validator>,
@@ -263,14 +265,14 @@ pub struct QueryValidatorResponse {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.staking.v1beta1.QueryDelegationRequest")]
-#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/cosmos.staking.v1beta1.Query/Delegation",
     response_type = QueryDelegationResponse
@@ -285,14 +287,14 @@ pub struct QueryDelegationRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.staking.v1beta1.QueryDelegationResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct QueryDelegationResponse {
     #[prost(message, optional, tag = "1")]
     pub delegation_response: ::core::option::Option<DelegationResponse>,
@@ -301,14 +303,14 @@ pub struct QueryDelegationResponse {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.staking.v1beta1.QueryParamsRequest")]
-#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/cosmos.staking.v1beta1.Query/Params",
     response_type = QueryParamsResponse
@@ -318,14 +320,14 @@ pub struct QueryParamsRequest {}
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.staking.v1beta1.QueryParamsResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct QueryParamsResponse {
     #[prost(message, optional, tag = "1")]
     pub params: ::core::option::Option<Params>,
@@ -340,21 +342,21 @@ impl<'a, Q: cosmwasm_std::CustomQuery> StakingQuerier<'a, Q> {
     pub fn validator(
         &self,
         validator_addr: ::prost::alloc::string::String,
-    ) -> std::result::Result<QueryValidatorResponse, cosmwasm_std::StdError> {
+    ) -> Result<QueryValidatorResponse, cosmwasm_std::StdError> {
         QueryValidatorRequest { validator_addr }.query(self.querier)
     }
     pub fn delegation(
         &self,
         delegator_addr: ::prost::alloc::string::String,
         validator_addr: ::prost::alloc::string::String,
-    ) -> std::result::Result<QueryDelegationResponse, cosmwasm_std::StdError> {
+    ) -> Result<QueryDelegationResponse, cosmwasm_std::StdError> {
         QueryDelegationRequest {
             delegator_addr,
             validator_addr,
         }
         .query(self.querier)
     }
-    pub fn params(&self) -> std::result::Result<QueryParamsResponse, cosmwasm_std::StdError> {
+    pub fn params(&self) -> Result<QueryParamsResponse, cosmwasm_std::StdError> {
         QueryParamsRequest {}.query(self.querier)
     }
 }

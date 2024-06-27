@@ -1,15 +1,16 @@
+use provwasm_proc_macro::CosmwasmExt;
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/ibc.applications.interchain_accounts.v1.InterchainAccountPacketData")]
-#[serde(rename_all = "snake_case")]
 pub struct InterchainAccountPacketData {
     #[prost(enumeration = "Type", tag = "1")]
     #[serde(
@@ -19,8 +20,8 @@ pub struct InterchainAccountPacketData {
     pub r#type: i32,
     #[prost(bytes = "vec", tag = "2")]
     #[serde(
-        serialize_with = "crate::serde::as_base64::serialize",
-        deserialize_with = "crate::serde::as_base64::deserialize"
+        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
+        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
     pub data: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, tag = "3")]
@@ -28,8 +29,7 @@ pub struct InterchainAccountPacketData {
 }
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-#[derive(strum_macros::FromRepr, serde::Serialize, serde::Deserialize, schemars::JsonSchema)]
-#[serde(rename_all = "snake_case")]
+#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
 pub enum Type {
     Unspecified = 0,
     ExecuteTx = 1,
@@ -53,16 +53,18 @@ impl Type {
             _ => None,
         }
     }
+
     pub fn serialize<S>(v: &i32, serializer: S) -> std::result::Result<S::Ok, S::Error>
     where
         S: serde::Serializer,
     {
-        let enum_value = Self::from_repr(*v);
+        let enum_value = Self::try_from(*v);
         match enum_value {
-            Some(v) => serializer.serialize_str(v.as_str_name()),
-            None => Err(serde::ser::Error::custom("unknown value")),
+            Ok(v) => serializer.serialize_str(v.as_str_name()),
+            Err(e) => Err(serde::ser::Error::custom(e)),
         }
     }
+
     pub fn deserialize<'de, D>(deserializer: D) -> std::result::Result<i32, D::Error>
     where
         D: serde::Deserializer<'de>,

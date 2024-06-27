@@ -15,11 +15,10 @@ members = [
     "contracts/scope",
     "contracts/trigger",
     "contracts/tutorial",
-    "integration_tests"
 ]
 
 [workspace.package]
-version = "2.2.0"
+version = "2.3.0"
 repository = "https://github.com/provenance-io/provwasm"
 edition = "2021"
 license = "Apache-2.0"
@@ -34,18 +33,17 @@ cw-storage-plus = { version = "1.2.0" }
 ### ProvWasm
 provwasm-proto-build = { version = "0.1.0", path = "packages/proto-build" }
 provwasm-common = { version = "0.1.0", path = "packages/provwasm-common" }
-provwasm-mocks = { version = "2.2.0", path = "packages/provwasm-mocks" }
-provwasm-proc-macro = { version = "0.1.1", path = "packages/provwasm-proc-macro" }
-provwasm-std = { version = "2.2.0", path = "packages/provwasm-std" }
-provwasm-test-tube = { git = "https://github.com/provenance-io/provwasm-test-tube", branch = "main" }
+provwasm-mocks = { version = "2.3.0", path = "packages/provwasm-mocks" }
+provwasm-proc-macro = { version = "0.1.2", path = "packages/provwasm-proc-macro" }
+provwasm-std = { version = "2.3.0", path = "packages/provwasm-std" }
 
 base64 = "0.22.0"
 chrono = { version = "0.4.37", default-features = false }
-prost = { version = "=0.11.9", default-features = false, features = [
+prost = { version = "0.12.6", default-features = false, features = [
     "prost-derive",
 ] }
-prost-types = { version = "0.11.9", default-features = false }
-prost-build = "0.11.9"
+prost-types = { version = "0.12.6", default-features = false }
+prost-build = "0.12.6"
 schemars = "0.8.16"
 serde = { version = "1.0.197", default-features = false, features = [
     "derive",

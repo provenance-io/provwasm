@@ -1,6 +1,6 @@
 {
   "contract_name": "name",
-  "contract_version": "2.2.0",
+  "contract_version": "2.3.0",
   "idl_version": "1.0.0",
   "instantiate": {
     "$schema": "http://json-schema.org/draft-07/schema#",
@@ -157,12 +157,14 @@
         "PageResponse": {
           "type": "object",
           "required": [
-            "next_key",
             "total"
           ],
           "properties": {
             "next_key": {
-              "type": "array",
+              "type": [
+                "array",
+                "null"
+              ],
               "items": {
                 "type": "integer",
                 "format": "uint8",

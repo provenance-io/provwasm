@@ -17,9 +17,8 @@ export node0=$("$PROV_CMD" keys show -a validator --keyring-backend test --testn
   --gas=auto \
   --gas-prices="1905nhash" \
   --gas-adjustment=1.5 \
-  --broadcast-mode block \
   --yes \
-  --testnet
+  --testnet | "$PROV_CMD" q wait-tx
 
 "$PROV_CMD" tx wasm store $WASM \
   --instantiate-anyof-addresses "$node0" \
@@ -29,9 +28,8 @@ export node0=$("$PROV_CMD" keys show -a validator --keyring-backend test --testn
   --gas=auto \
   --gas-prices="1905nhash" \
   --gas-adjustment=1.5 \
-  --broadcast-mode block \
   --yes \
-  --testnet
+  --testnet | "$PROV_CMD" q wait-tx
 
 "$PROV_CMD" tx wasm instantiate 1 '{"name":"marker-itv2.sc.pb"}' \
   --admin "$node0" \
@@ -42,9 +40,8 @@ export node0=$("$PROV_CMD" keys show -a validator --keyring-backend test --testn
   --gas=auto \
   --gas-prices="1905nhash" \
   --gas-adjustment=1.5 \
-  --broadcast-mode block \
   --yes \
-  --testnet
+  --testnet | "$PROV_CMD" q wait-tx
 
 # Query for the contract address so we can execute it
 export contract=$("$PROV_CMD" query wasm list-contract-by-code 1 --testnet --output json  | jq -r ".contracts[0]")
@@ -58,9 +55,8 @@ export contract=$("$PROV_CMD" query wasm list-contract-by-code 1 --testnet --out
   --gas=auto \
   --gas-prices="1905nhash" \
   --gas-adjustment=1.5 \
-  --broadcast-mode block \
   --yes \
-  --testnet
+  --testnet | "$PROV_CMD" q wait-tx
 
 "$PROV_CMD" tx wasm execute \
   "$contract" \
@@ -71,9 +67,8 @@ export contract=$("$PROV_CMD" query wasm list-contract-by-code 1 --testnet --out
   --gas=auto \
   --gas-prices="1905nhash" \
   --gas-adjustment=1.5 \
-  --broadcast-mode block \
   --yes \
-  --testnet
+  --testnet | "$PROV_CMD" q wait-tx
 
 "$PROV_CMD" q marker list --testnet
 #"$PROV_CMD" q wasm contract-state smart "$contract" '{"get_by_denom":{"denom":"faustiancoin"}}' --testnet -o json
@@ -87,9 +82,8 @@ export contract=$("$PROV_CMD" query wasm list-contract-by-code 1 --testnet --out
   --gas=auto \
   --gas-prices="1905nhash" \
   --gas-adjustment=1.5 \
-  --broadcast-mode block \
   --yes \
-  --testnet
+  --testnet | "$PROV_CMD" q wait-tx
 
 "$PROV_CMD" tx wasm execute \
   "$contract" \
@@ -100,9 +94,8 @@ export contract=$("$PROV_CMD" query wasm list-contract-by-code 1 --testnet --out
   --gas=auto \
   --gas-prices="1905nhash" \
   --gas-adjustment=1.5 \
-  --broadcast-mode block \
   --yes \
-  --testnet
+  --testnet | "$PROV_CMD" q wait-tx
 
 "$PROV_CMD" tx wasm execute \
   "$contract" \
@@ -113,9 +106,8 @@ export contract=$("$PROV_CMD" query wasm list-contract-by-code 1 --testnet --out
   --gas=auto \
   --gas-prices="1905nhash" \
   --gas-adjustment=1.5 \
-  --broadcast-mode block \
   --yes \
-  --testnet
+  --testnet | "$PROV_CMD" q wait-tx
 
 "$PROV_CMD" tx wasm execute \
   "$contract" \
@@ -126,9 +118,8 @@ export contract=$("$PROV_CMD" query wasm list-contract-by-code 1 --testnet --out
   --gas=auto \
   --gas-prices="1905nhash" \
   --gas-adjustment=1.5 \
-  --broadcast-mode block \
   --yes \
-  --testnet
+  --testnet | "$PROV_CMD" q wait-tx
 
 "$PROV_CMD" tx wasm execute \
   "$contract" \
@@ -139,9 +130,8 @@ export contract=$("$PROV_CMD" query wasm list-contract-by-code 1 --testnet --out
   --gas=auto \
   --gas-prices="1905nhash" \
   --gas-adjustment=1.5 \
-  --broadcast-mode block \
   --yes \
-  --testnet
+  --testnet | "$PROV_CMD" q wait-tx
 
 # verify that the amount was withdrawn into the node0 address
 export faustiancoin=$("$PROV_CMD" q bank balances "$node0" --testnet --output json  | jq -r ".balances[0].amount")
@@ -160,9 +150,8 @@ fi
   --gas=auto \
   --gas-prices="1905nhash" \
   --gas-adjustment=1.5 \
-  --broadcast-mode block \
   --yes \
-  --testnet
+  --testnet | "$PROV_CMD" q wait-tx
 
 "$PROV_CMD" tx wasm execute \
   "$contract" \
@@ -173,9 +162,8 @@ fi
   --gas=auto \
   --gas-prices="1905nhash" \
   --gas-adjustment=1.5 \
-  --broadcast-mode block \
   --yes \
-  --testnet
+  --testnet | "$PROV_CMD" q wait-tx
 
 "$PROV_CMD" q wasm contract-state smart "$contract" '{"get_by_denom":{"denom":"faustiancoin"}}' --testnet -o json
 

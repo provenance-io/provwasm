@@ -1,15 +1,16 @@
+use provwasm_proc_macro::CosmwasmExt;
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.gov.v1beta1.WeightedVoteOption")]
-#[serde(rename_all = "snake_case")]
 pub struct WeightedVoteOption {
     #[prost(enumeration = "VoteOption", tag = "1")]
     #[serde(
@@ -24,16 +25,17 @@ pub struct WeightedVoteOption {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.gov.v1beta1.Deposit")]
-#[serde(rename_all = "snake_case")]
 pub struct Deposit {
     #[prost(uint64, tag = "1")]
+    #[serde(alias = "proposalID")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
@@ -48,16 +50,17 @@ pub struct Deposit {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.gov.v1beta1.Vote")]
-#[serde(rename_all = "snake_case")]
 pub struct Vote {
     #[prost(uint64, tag = "1")]
+    #[serde(alias = "proposalID")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
@@ -79,14 +82,14 @@ pub struct Vote {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.gov.v1beta1.DepositParams")]
-#[serde(rename_all = "snake_case")]
 pub struct DepositParams {
     #[prost(message, repeated, tag = "1")]
     pub min_deposit: ::prost::alloc::vec::Vec<super::super::base::v1beta1::Coin>,
@@ -97,14 +100,14 @@ pub struct DepositParams {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.gov.v1beta1.VotingParams")]
-#[serde(rename_all = "snake_case")]
 pub struct VotingParams {
     #[prost(message, optional, tag = "1")]
     pub voting_period: ::core::option::Option<crate::shim::Duration>,
@@ -113,38 +116,37 @@ pub struct VotingParams {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.gov.v1beta1.TallyParams")]
-#[serde(rename_all = "snake_case")]
 pub struct TallyParams {
     #[prost(bytes = "vec", tag = "1")]
     #[serde(
-        serialize_with = "crate::serde::as_base64::serialize",
-        deserialize_with = "crate::serde::as_base64::deserialize"
+        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
+        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
     pub quorum: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "2")]
     #[serde(
-        serialize_with = "crate::serde::as_base64::serialize",
-        deserialize_with = "crate::serde::as_base64::deserialize"
+        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
+        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
     pub threshold: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "3")]
     #[serde(
-        serialize_with = "crate::serde::as_base64::serialize",
-        deserialize_with = "crate::serde::as_base64::deserialize"
+        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
+        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
     pub veto_threshold: ::prost::alloc::vec::Vec<u8>,
 }
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-#[derive(strum_macros::FromRepr, serde::Serialize, serde::Deserialize, schemars::JsonSchema)]
-#[serde(rename_all = "snake_case")]
+#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
 pub enum VoteOption {
     Unspecified = 0,
     Yes = 1,
@@ -177,16 +179,18 @@ impl VoteOption {
             _ => None,
         }
     }
+
     pub fn serialize<S>(v: &i32, serializer: S) -> std::result::Result<S::Ok, S::Error>
     where
         S: serde::Serializer,
     {
-        let enum_value = Self::from_repr(*v);
+        let enum_value = Self::try_from(*v);
         match enum_value {
-            Some(v) => serializer.serialize_str(v.as_str_name()),
-            None => Err(serde::ser::Error::custom("unknown value")),
+            Ok(v) => serializer.serialize_str(v.as_str_name()),
+            Err(e) => Err(serde::ser::Error::custom(e)),
         }
     }
+
     pub fn deserialize<'de, D>(deserializer: D) -> std::result::Result<i32, D::Error>
     where
         D: serde::Deserializer<'de>,
@@ -203,20 +207,21 @@ impl VoteOption {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.gov.v1beta1.QueryVoteRequest")]
-#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/cosmos.gov.v1beta1.Query/Vote",
     response_type = QueryVoteResponse
 )]
 pub struct QueryVoteRequest {
     #[prost(uint64, tag = "1")]
+    #[serde(alias = "proposalID")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
@@ -229,14 +234,14 @@ pub struct QueryVoteRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.gov.v1beta1.QueryVoteResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct QueryVoteResponse {
     #[prost(message, optional, tag = "1")]
     pub vote: ::core::option::Option<Vote>,
@@ -245,14 +250,14 @@ pub struct QueryVoteResponse {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.gov.v1beta1.QueryParamsRequest")]
-#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/cosmos.gov.v1beta1.Query/Params",
     response_type = QueryParamsResponse
@@ -265,14 +270,14 @@ pub struct QueryParamsRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.gov.v1beta1.QueryParamsResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct QueryParamsResponse {
     #[prost(message, optional, tag = "1")]
     pub voting_params: ::core::option::Option<VotingParams>,
@@ -285,20 +290,21 @@ pub struct QueryParamsResponse {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.gov.v1beta1.QueryDepositRequest")]
-#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/cosmos.gov.v1beta1.Query/Deposit",
     response_type = QueryDepositResponse
 )]
 pub struct QueryDepositRequest {
     #[prost(uint64, tag = "1")]
+    #[serde(alias = "proposalID")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
@@ -311,14 +317,14 @@ pub struct QueryDepositRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.gov.v1beta1.QueryDepositResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct QueryDepositResponse {
     #[prost(message, optional, tag = "1")]
     pub deposit: ::core::option::Option<Deposit>,
@@ -327,14 +333,14 @@ pub struct QueryDepositResponse {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.gov.v1beta1.MsgSubmitProposal")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgSubmitProposal {
     #[prost(message, optional, tag = "1")]
     pub content: ::core::option::Option<crate::shim::Any>,
@@ -347,16 +353,17 @@ pub struct MsgSubmitProposal {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.gov.v1beta1.MsgSubmitProposalResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgSubmitProposalResponse {
     #[prost(uint64, tag = "1")]
+    #[serde(alias = "proposalID")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
@@ -367,16 +374,17 @@ pub struct MsgSubmitProposalResponse {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.gov.v1beta1.MsgVote")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgVote {
     #[prost(uint64, tag = "1")]
+    #[serde(alias = "proposalID")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
@@ -395,14 +403,14 @@ pub struct MsgVote {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.gov.v1beta1.MsgVoteResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgVoteResponse {}
 pub struct GovQuerier<'a, Q: cosmwasm_std::CustomQuery> {
     querier: &'a cosmwasm_std::QuerierWrapper<'a, Q>,
@@ -415,20 +423,20 @@ impl<'a, Q: cosmwasm_std::CustomQuery> GovQuerier<'a, Q> {
         &self,
         proposal_id: u64,
         voter: ::prost::alloc::string::String,
-    ) -> std::result::Result<QueryVoteResponse, cosmwasm_std::StdError> {
+    ) -> Result<QueryVoteResponse, cosmwasm_std::StdError> {
         QueryVoteRequest { proposal_id, voter }.query(self.querier)
     }
     pub fn params(
         &self,
         params_type: ::prost::alloc::string::String,
-    ) -> std::result::Result<QueryParamsResponse, cosmwasm_std::StdError> {
+    ) -> Result<QueryParamsResponse, cosmwasm_std::StdError> {
         QueryParamsRequest { params_type }.query(self.querier)
     }
     pub fn deposit(
         &self,
         proposal_id: u64,
         depositor: ::prost::alloc::string::String,
-    ) -> std::result::Result<QueryDepositResponse, cosmwasm_std::StdError> {
+    ) -> Result<QueryDepositResponse, cosmwasm_std::StdError> {
         QueryDepositRequest {
             proposal_id,
             depositor,

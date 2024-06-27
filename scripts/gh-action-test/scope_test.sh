@@ -17,9 +17,8 @@ export node0=$("$PROV_CMD" keys show -a validator --keyring-backend test --testn
   --gas=auto \
   --gas-prices="1905nhash" \
   --gas-adjustment=1.5 \
-  --broadcast-mode block \
   --yes \
-  --testnet
+  --testnet | "$PROV_CMD" q wait-tx
 
 "$PROV_CMD" tx wasm store $WASM \
   --instantiate-anyof-addresses "$node0" \
@@ -29,9 +28,8 @@ export node0=$("$PROV_CMD" keys show -a validator --keyring-backend test --testn
   --gas=auto \
   --gas-prices="1905nhash" \
   --gas-adjustment=1.5 \
-  --broadcast-mode block \
   --yes \
-  --testnet
+  --testnet | "$PROV_CMD" q wait-tx
 
 "$PROV_CMD" tx wasm instantiate 1 '{"name": "scope-itv2.sc.pb"}' \
   --admin "$node0" \
@@ -42,9 +40,8 @@ export node0=$("$PROV_CMD" keys show -a validator --keyring-backend test --testn
   --gas=auto \
   --gas-prices="1905nhash" \
   --gas-adjustment=1.5 \
-  --broadcast-mode block \
   --yes \
-  --testnet
+  --testnet | "$PROV_CMD" q wait-tx
 
 export contract=$("$PROV_CMD" query wasm list-contract-by-code 1 --testnet --output json  | jq -r ".contracts[0]")
 
@@ -60,9 +57,8 @@ $PROV_CMD tx metadata write-contract-specification \
   --gas=auto \
   --gas-prices="1905nhash" \
   --gas-adjustment=1.5 \
-  --broadcast-mode block \
   --yes \
-  --testnet
+  --testnet | "$PROV_CMD" q wait-tx
 
 $PROV_CMD tx metadata write-scope-specification \
   scopespec1qn7jh3jvw4gytq9r5x770e8yj74s9t479r \
@@ -75,9 +71,8 @@ $PROV_CMD tx metadata write-scope-specification \
   --gas=auto \
   --gas-prices="1905nhash" \
   --gas-adjustment=1.5 \
-  --broadcast-mode block \
   --yes \
-  --testnet
+  --testnet | "$PROV_CMD" q wait-tx
 
 $PROV_CMD tx metadata write-scope \
   scope1qzhpuff00wpy2yuf7xr0rp8aucqstsk0cn \
@@ -91,9 +86,8 @@ $PROV_CMD tx metadata write-scope \
   --gas=auto \
   --gas-prices="1905nhash" \
   --gas-adjustment=1.5 \
-  --broadcast-mode block \
   --yes \
-  --testnet
+  --testnet | "$PROV_CMD" q wait-tx
 
 #"$PROV_CMD" tx wasm execute \
 #  "$contract" \
@@ -116,7 +110,6 @@ $PROV_CMD tx metadata write-scope \
 #  --gas=auto \
 #  --gas-prices="1905nhash" \
 #  --gas-adjustment=1.5 \
-#  --broadcast-mode block \
 #  --yes \
 #  --testnet
 

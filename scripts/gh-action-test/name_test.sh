@@ -19,9 +19,8 @@ export node0=$("$PROV_CMD" keys show -a validator --keyring-backend test --testn
   --gas=auto \
   --gas-prices="1905nhash" \
   --gas-adjustment=1.5 \
-  --broadcast-mode block \
   --yes \
-  --testnet
+  --testnet | "$PROV_CMD" q wait-tx
 
 "$PROV_CMD" tx wasm store $WASM \
   --instantiate-anyof-addresses "$node0" \
@@ -31,9 +30,8 @@ export node0=$("$PROV_CMD" keys show -a validator --keyring-backend test --testn
   --gas=auto \
   --gas-prices="1905nhash" \
   --gas-adjustment=1.5 \
-  --broadcast-mode block \
   --yes \
-  --testnet
+  --testnet | "$PROV_CMD" q wait-tx
 
 "$PROV_CMD" tx wasm instantiate 1 '{"name": "name-itv2.sc.pb"}' \
   --admin "$node0" \
@@ -44,9 +42,8 @@ export node0=$("$PROV_CMD" keys show -a validator --keyring-backend test --testn
   --gas=auto \
   --gas-prices="1905nhash" \
   --gas-adjustment=1.5 \
-  --broadcast-mode block \
   --yes \
-  --testnet
+  --testnet | "$PROV_CMD" q wait-tx
 
 # Query for the contract address so we can execute it
 export contract=$("$PROV_CMD" query wasm list-contract-by-code 1 --testnet --output json  | jq -r ".contracts[0]")
@@ -60,9 +57,8 @@ export contract=$("$PROV_CMD" query wasm list-contract-by-code 1 --testnet --out
   --gas=auto \
   --gas-prices="1905nhash" \
   --gas-adjustment=1.5 \
-  --broadcast-mode block \
   --yes \
-  --testnet
+  --testnet | "$PROV_CMD" q wait-tx
 
 export address=$("$PROV_CMD" query name resolve "nm.name-itv2.sc.pb" --testnet --output json  | jq -r ".address")
 
@@ -96,9 +92,8 @@ echo "$lookup"
   --gas=auto \
   --gas-prices="1905nhash" \
   --gas-adjustment=1.5 \
-  --broadcast-mode block \
   --yes \
-  --testnet
+  --testnet | "$PROV_CMD" q wait-tx
 
 export query=$("$PROV_CMD" query name resolve "nm.name-itv2.sc.pb" --testnet --output json --log_level="panic" --log_format="json" )
 

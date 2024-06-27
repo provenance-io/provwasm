@@ -1,15 +1,16 @@
+use provwasm_proc_macro::CosmwasmExt;
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.upgrade.v1beta1.Plan")]
-#[serde(rename_all = "snake_case")]
 pub struct Plan {
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
@@ -32,14 +33,15 @@ pub struct Plan {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.upgrade.v1beta1.SoftwareUpgradeProposal")]
-#[serde(rename_all = "snake_case")]
+#[deprecated]
 pub struct SoftwareUpgradeProposal {
     #[prost(string, tag = "1")]
     pub title: ::prost::alloc::string::String,
@@ -52,14 +54,15 @@ pub struct SoftwareUpgradeProposal {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.upgrade.v1beta1.CancelSoftwareUpgradeProposal")]
-#[serde(rename_all = "snake_case")]
+#[deprecated]
 pub struct CancelSoftwareUpgradeProposal {
     #[prost(string, tag = "1")]
     pub title: ::prost::alloc::string::String,
@@ -70,14 +73,14 @@ pub struct CancelSoftwareUpgradeProposal {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.upgrade.v1beta1.ModuleVersion")]
-#[serde(rename_all = "snake_case")]
 pub struct ModuleVersion {
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
@@ -87,4 +90,12 @@ pub struct ModuleVersion {
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
     pub version: u64,
+}
+pub struct UpgradeQuerier<'a, Q: cosmwasm_std::CustomQuery> {
+    querier: &'a cosmwasm_std::QuerierWrapper<'a, Q>,
+}
+impl<'a, Q: cosmwasm_std::CustomQuery> UpgradeQuerier<'a, Q> {
+    pub fn new(querier: &'a cosmwasm_std::QuerierWrapper<'a, Q>) -> Self {
+        Self { querier }
+    }
 }

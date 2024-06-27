@@ -27,10 +27,8 @@ echo "Sending coins to different keys"
   --gas=auto \
   --gas-prices="1905nhash" \
   --gas-adjustment=1.5 \
-  --broadcast-mode=block \
   --yes \
-  --testnet \
-  --output json
+  --testnet | "$PROV_CMD" q wait-tx
 
 echo "Binding name"
 # Setup name and new COIN for the smart contract
@@ -44,10 +42,8 @@ echo "Binding name"
   --chain-id="testing" \
   --gas-prices="1905nhash" \
   --gas-adjustment=1.5 \
-  --broadcast-mode block \
   --yes \
-  --testnet \
-  --output json
+  --testnet | "$PROV_CMD" q wait-tx
 
 echo "Storing wasm"
 # Run the contract
@@ -59,9 +55,8 @@ echo "Storing wasm"
   --gas=auto \
   --gas-prices="1905nhash" \
   --gas-adjustment=1.5 \
-  --broadcast-mode=block \
   --yes \
-  -t
+  -t | "$PROV_CMD" q wait-tx
 
 echo "Instantiating contract"
 "$PROV_CMD" tx wasm instantiate 1 '{"fee_amount":{"amount":"10000","denom":"nhash"},"fee_recipient":"'"$feebucket"'"}' \
@@ -73,9 +68,8 @@ echo "Instantiating contract"
   --gas=auto \
   --gas-prices="1905nhash" \
   --gas-adjustment=1.5 \
-  --broadcast-mode block \
   --yes \
-  --testnet
+  --testnet | "$PROV_CMD" q wait-tx
 
 # Query for the contract address so we can execute it
 export contract=$("$PROV_CMD" query wasm list-contract-by-code 1 -t -o json | jq -r ".contracts[0]")
@@ -91,10 +85,8 @@ echo "Executing contract"
   --gas auto \
   --gas-prices="1906nhash" \
   --gas-adjustment=1.5 \
-  --broadcast-mode block \
   --yes \
-  --testnet \
-  --output json
+  --testnet | "$PROV_CMD" q wait-tx
 
 # Verify that the funds were sent to the correct accounts for the receiver and the feebucket
 export receiver_query=$("$PROV_CMD" query bank balances "$receiver" --testnet --output json )

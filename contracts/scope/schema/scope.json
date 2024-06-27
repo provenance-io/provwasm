@@ -1,6 +1,6 @@
 {
   "contract_name": "scope",
-  "contract_version": "2.2.0",
+  "contract_version": "2.3.0",
   "idl_version": "1.0.0",
   "instantiate": {
     "$schema": "http://json-schema.org/draft-07/schema#",
@@ -597,10 +597,10 @@
             {
               "type": "object",
               "required": [
-                "resource_id"
+                "ResourceId"
               ],
               "properties": {
-                "resource_id": {
+                "ResourceId": {
                   "type": "array",
                   "items": {
                     "type": "integer",
@@ -614,10 +614,10 @@
             {
               "type": "object",
               "required": [
-                "hash"
+                "Hash"
               ],
               "properties": {
-                "hash": {
+                "Hash": {
                   "type": "string"
                 }
               },
@@ -630,10 +630,10 @@
             {
               "type": "object",
               "required": [
-                "record_id"
+                "RecordId"
               ],
               "properties": {
-                "record_id": {
+                "RecordId": {
                   "type": "array",
                   "items": {
                     "type": "integer",
@@ -647,10 +647,10 @@
             {
               "type": "object",
               "required": [
-                "hash"
+                "Hash"
               ],
               "properties": {
-                "hash": {
+                "Hash": {
                   "type": "string"
                 }
               },
@@ -840,10 +840,10 @@
             {
               "type": "object",
               "required": [
-                "address"
+                "Address"
               ],
               "properties": {
-                "address": {
+                "Address": {
                   "type": "string"
                 }
               },
@@ -852,10 +852,10 @@
             {
               "type": "object",
               "required": [
-                "hash"
+                "Hash"
               ],
               "properties": {
-                "hash": {
+                "Hash": {
                   "type": "string"
                 }
               },
@@ -1472,10 +1472,10 @@
             {
               "type": "object",
               "required": [
-                "record_id"
+                "RecordId"
               ],
               "properties": {
-                "record_id": {
+                "RecordId": {
                   "type": "array",
                   "items": {
                     "type": "integer",
@@ -1489,10 +1489,10 @@
             {
               "type": "object",
               "required": [
-                "hash"
+                "Hash"
               ],
               "properties": {
-                "hash": {
+                "Hash": {
                   "type": "string"
                 }
               },
@@ -1666,10 +1666,10 @@
             {
               "type": "object",
               "required": [
-                "address"
+                "Address"
               ],
               "properties": {
-                "address": {
+                "Address": {
                   "type": "string"
                 }
               },
@@ -1678,10 +1678,10 @@
             {
               "type": "object",
               "required": [
-                "hash"
+                "Hash"
               ],
               "properties": {
-                "hash": {
+                "Hash": {
                   "type": "string"
                 }
               },
@@ -2339,10 +2339,10 @@
             {
               "type": "object",
               "required": [
-                "record_id"
+                "RecordId"
               ],
               "properties": {
-                "record_id": {
+                "RecordId": {
                   "type": "array",
                   "items": {
                     "type": "integer",
@@ -2356,10 +2356,10 @@
             {
               "type": "object",
               "required": [
-                "hash"
+                "Hash"
               ],
               "properties": {
-                "hash": {
+                "Hash": {
                   "type": "string"
                 }
               },
@@ -2568,10 +2568,10 @@
             {
               "type": "object",
               "required": [
-                "address"
+                "Address"
               ],
               "properties": {
-                "address": {
+                "Address": {
                   "type": "string"
                 }
               },
@@ -2580,10 +2580,10 @@
             {
               "type": "object",
               "required": [
-                "hash"
+                "Hash"
               ],
               "properties": {
-                "hash": {
+                "Hash": {
                   "type": "string"
                 }
               },
@@ -3196,10 +3196,10 @@
             {
               "type": "object",
               "required": [
-                "record_id"
+                "RecordId"
               ],
               "properties": {
-                "record_id": {
+                "RecordId": {
                   "type": "array",
                   "items": {
                     "type": "integer",
@@ -3213,10 +3213,10 @@
             {
               "type": "object",
               "required": [
-                "hash"
+                "Hash"
               ],
               "properties": {
-                "hash": {
+                "Hash": {
                   "type": "string"
                 }
               },
@@ -3425,10 +3425,10 @@
             {
               "type": "object",
               "required": [
-                "address"
+                "Address"
               ],
               "properties": {
-                "address": {
+                "Address": {
                   "type": "string"
                 }
               },
@@ -3437,10 +3437,10 @@
             {
               "type": "object",
               "required": [
-                "hash"
+                "Hash"
               ],
               "properties": {
-                "hash": {
+                "Hash": {
                   "type": "string"
                 }
               },
@@ -4057,10 +4057,10 @@
             {
               "type": "object",
               "required": [
-                "record_id"
+                "RecordId"
               ],
               "properties": {
-                "record_id": {
+                "RecordId": {
                   "type": "array",
                   "items": {
                     "type": "integer",
@@ -4074,10 +4074,10 @@
             {
               "type": "object",
               "required": [
-                "hash"
+                "Hash"
               ],
               "properties": {
-                "hash": {
+                "Hash": {
                   "type": "string"
                 }
               },

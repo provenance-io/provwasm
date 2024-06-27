@@ -1,15 +1,16 @@
+use provwasm_proc_macro::CosmwasmExt;
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/ibc.applications.transfer.v1.DenomTrace")]
-#[serde(rename_all = "snake_case")]
 pub struct DenomTrace {
     #[prost(string, tag = "1")]
     pub path: ::prost::alloc::string::String,
@@ -20,14 +21,14 @@ pub struct DenomTrace {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/ibc.applications.transfer.v1.QueryDenomTraceRequest")]
-#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/ibc.applications.transfer.v1.Query/DenomTrace",
     response_type = QueryDenomTraceResponse
@@ -40,14 +41,14 @@ pub struct QueryDenomTraceRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/ibc.applications.transfer.v1.QueryDenomTraceResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct QueryDenomTraceResponse {
     #[prost(message, optional, tag = "1")]
     pub denom_trace: ::core::option::Option<DenomTrace>,
@@ -56,14 +57,14 @@ pub struct QueryDenomTraceResponse {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/ibc.applications.transfer.v1.MsgTransfer")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgTransfer {
     #[prost(string, tag = "1")]
     pub source_port: ::prost::alloc::string::String,
@@ -90,14 +91,14 @@ pub struct MsgTransfer {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/ibc.applications.transfer.v1.MsgTransferResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgTransferResponse {
     #[prost(uint64, tag = "1")]
     #[serde(
@@ -116,7 +117,7 @@ impl<'a, Q: cosmwasm_std::CustomQuery> TransferQuerier<'a, Q> {
     pub fn denom_trace(
         &self,
         hash: ::prost::alloc::string::String,
-    ) -> std::result::Result<QueryDenomTraceResponse, cosmwasm_std::StdError> {
+    ) -> Result<QueryDenomTraceResponse, cosmwasm_std::StdError> {
         QueryDenomTraceRequest { hash }.query(self.querier)
     }
 }

@@ -1,66 +1,29 @@
+use provwasm_proc_macro::CosmwasmExt;
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.AccessGrant")]
-#[serde(rename_all = "snake_case")]
 pub struct AccessGrant {
     #[prost(string, tag = "1")]
     pub address: ::prost::alloc::string::String,
     #[prost(enumeration = "Access", repeated, packed = "false", tag = "2")]
     #[serde(
-        serialize_with = "serialize_access_vec",
-        deserialize_with = "deserialize_access_vec"
+        serialize_with = "crate::serde::as_str_vec::serialize",
+        deserialize_with = "crate::serde::as_str_vec::deserialize"
     )]
     pub permissions: ::prost::alloc::vec::Vec<i32>,
 }
-pub fn serialize_access_vec<S>(v: &Vec<i32>, serializer: S) -> std::result::Result<S::Ok, S::Error>
-where
-    S: serde::Serializer,
-{
-    use serde::ser::SerializeTuple;
-
-    let mut access_vec: Vec<&str> = Vec::new();
-    for access_i32 in v {
-        let enum_value = Access::from_repr(*access_i32);
-        match enum_value {
-            Some(v) => {
-                access_vec.push(v.as_str_name());
-            }
-            None => return Err(serde::ser::Error::custom("unknown value")),
-        }
-    }
-    let mut seq = serializer.serialize_tuple(access_vec.len())?;
-    for item in access_vec {
-        seq.serialize_element(item)?;
-    }
-    seq.end()
-}
-fn deserialize_access_vec<'de, D>(deserializer: D) -> Result<Vec<i32>, D::Error>
-where
-    D: serde::Deserializer<'de>,
-{
-    use serde::de::{Deserialize, Error};
-
-    let strs: Vec<String> = Vec::deserialize(deserializer)?;
-    let mut ords: Vec<i32> = Vec::new();
-    for str_name in strs {
-        let enum_value = Access::from_str_name(&str_name)
-            .ok_or_else(|| Error::custom(format!("unknown enum string: {}", str_name)))?;
-        ords.push(enum_value as i32);
-    }
-    Ok(ords)
-}
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-#[derive(strum_macros::FromRepr, serde::Serialize, serde::Deserialize, schemars::JsonSchema)]
-#[serde(rename_all = "snake_case")]
+#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
 pub enum Access {
     Unspecified = 0,
     Mint = 1,
@@ -105,16 +68,18 @@ impl Access {
             _ => None,
         }
     }
+
     pub fn serialize<S>(v: &i32, serializer: S) -> std::result::Result<S::Ok, S::Error>
     where
         S: serde::Serializer,
     {
-        let enum_value = Self::from_repr(*v);
+        let enum_value = Self::try_from(*v);
         match enum_value {
-            Some(v) => serializer.serialize_str(v.as_str_name()),
-            None => Err(serde::ser::Error::custom("unknown value")),
+            Ok(v) => serializer.serialize_str(v.as_str_name()),
+            Err(e) => Err(serde::ser::Error::custom(e)),
         }
     }
+
     pub fn deserialize<'de, D>(deserializer: D) -> std::result::Result<i32, D::Error>
     where
         D: serde::Deserializer<'de>,
@@ -131,14 +96,14 @@ impl Access {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.MarkerTransferAuthorization")]
-#[serde(rename_all = "snake_case")]
 pub struct MarkerTransferAuthorization {
     #[prost(message, repeated, tag = "1")]
     pub transfer_limit: ::prost::alloc::vec::Vec<super::super::super::cosmos::base::v1beta1::Coin>,
@@ -149,21 +114,17 @@ pub struct MarkerTransferAuthorization {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.Params")]
-#[serde(rename_all = "snake_case")]
 pub struct Params {
     #[deprecated]
     #[prost(uint64, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub max_total_supply: u64,
     #[prost(bool, tag = "2")]
     pub enable_governance: bool,
@@ -176,14 +137,14 @@ pub struct Params {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.MarkerAccount")]
-#[serde(rename_all = "snake_case")]
 pub struct MarkerAccount {
     #[prost(message, optional, tag = "1")]
     pub base_account:
@@ -221,14 +182,14 @@ pub struct MarkerAccount {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.EventMarkerAdd")]
-#[serde(rename_all = "snake_case")]
 pub struct EventMarkerAdd {
     #[prost(string, tag = "1")]
     pub denom: ::prost::alloc::string::String,
@@ -247,14 +208,14 @@ pub struct EventMarkerAdd {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.EventMarkerAddAccess")]
-#[serde(rename_all = "snake_case")]
 pub struct EventMarkerAddAccess {
     #[prost(message, optional, tag = "1")]
     pub access: ::core::option::Option<EventMarkerAccess>,
@@ -267,14 +228,14 @@ pub struct EventMarkerAddAccess {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.EventMarkerAccess")]
-#[serde(rename_all = "snake_case")]
 pub struct EventMarkerAccess {
     #[prost(string, tag = "1")]
     pub address: ::prost::alloc::string::String,
@@ -285,14 +246,14 @@ pub struct EventMarkerAccess {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.EventMarkerDeleteAccess")]
-#[serde(rename_all = "snake_case")]
 pub struct EventMarkerDeleteAccess {
     #[prost(string, tag = "1")]
     pub remove_address: ::prost::alloc::string::String,
@@ -305,14 +266,14 @@ pub struct EventMarkerDeleteAccess {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.EventMarkerFinalize")]
-#[serde(rename_all = "snake_case")]
 pub struct EventMarkerFinalize {
     #[prost(string, tag = "1")]
     pub denom: ::prost::alloc::string::String,
@@ -323,14 +284,14 @@ pub struct EventMarkerFinalize {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.EventMarkerActivate")]
-#[serde(rename_all = "snake_case")]
 pub struct EventMarkerActivate {
     #[prost(string, tag = "1")]
     pub denom: ::prost::alloc::string::String,
@@ -341,14 +302,14 @@ pub struct EventMarkerActivate {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.EventMarkerCancel")]
-#[serde(rename_all = "snake_case")]
 pub struct EventMarkerCancel {
     #[prost(string, tag = "1")]
     pub denom: ::prost::alloc::string::String,
@@ -359,14 +320,14 @@ pub struct EventMarkerCancel {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.EventMarkerDelete")]
-#[serde(rename_all = "snake_case")]
 pub struct EventMarkerDelete {
     #[prost(string, tag = "1")]
     pub denom: ::prost::alloc::string::String,
@@ -377,14 +338,14 @@ pub struct EventMarkerDelete {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.EventMarkerMint")]
-#[serde(rename_all = "snake_case")]
 pub struct EventMarkerMint {
     #[prost(string, tag = "1")]
     pub amount: ::prost::alloc::string::String,
@@ -397,14 +358,14 @@ pub struct EventMarkerMint {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.EventMarkerBurn")]
-#[serde(rename_all = "snake_case")]
 pub struct EventMarkerBurn {
     #[prost(string, tag = "1")]
     pub amount: ::prost::alloc::string::String,
@@ -417,14 +378,14 @@ pub struct EventMarkerBurn {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.EventMarkerWithdraw")]
-#[serde(rename_all = "snake_case")]
 pub struct EventMarkerWithdraw {
     #[prost(string, tag = "1")]
     pub coins: ::prost::alloc::string::String,
@@ -439,14 +400,14 @@ pub struct EventMarkerWithdraw {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.EventMarkerTransfer")]
-#[serde(rename_all = "snake_case")]
 pub struct EventMarkerTransfer {
     #[prost(string, tag = "1")]
     pub amount: ::prost::alloc::string::String,
@@ -463,14 +424,14 @@ pub struct EventMarkerTransfer {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.EventMarkerSetDenomMetadata")]
-#[serde(rename_all = "snake_case")]
 pub struct EventMarkerSetDenomMetadata {
     #[prost(string, tag = "1")]
     pub metadata_base: ::prost::alloc::string::String,
@@ -491,14 +452,14 @@ pub struct EventMarkerSetDenomMetadata {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.EventDenomUnit")]
-#[serde(rename_all = "snake_case")]
 pub struct EventDenomUnit {
     #[prost(string, tag = "1")]
     pub denom: ::prost::alloc::string::String,
@@ -509,8 +470,7 @@ pub struct EventDenomUnit {
 }
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-#[derive(strum_macros::FromRepr, serde::Serialize, serde::Deserialize, schemars::JsonSchema)]
-#[serde(rename_all = "snake_case")]
+#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
 pub enum MarkerType {
     Unspecified = 0,
     Coin = 1,
@@ -537,16 +497,18 @@ impl MarkerType {
             _ => None,
         }
     }
+
     pub fn serialize<S>(v: &i32, serializer: S) -> std::result::Result<S::Ok, S::Error>
     where
         S: serde::Serializer,
     {
-        let enum_value = Self::from_repr(*v);
+        let enum_value = Self::try_from(*v);
         match enum_value {
-            Some(v) => serializer.serialize_str(v.as_str_name()),
-            None => Err(serde::ser::Error::custom("unknown value")),
+            Ok(v) => serializer.serialize_str(v.as_str_name()),
+            Err(e) => Err(serde::ser::Error::custom(e)),
         }
     }
+
     pub fn deserialize<'de, D>(deserializer: D) -> std::result::Result<i32, D::Error>
     where
         D: serde::Deserializer<'de>,
@@ -561,8 +523,7 @@ impl MarkerType {
 }
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-#[derive(strum_macros::FromRepr, serde::Serialize, serde::Deserialize, schemars::JsonSchema)]
-#[serde(rename_all = "snake_case")]
+#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
 pub enum MarkerStatus {
     Unspecified = 0,
     Proposed = 1,
@@ -598,16 +559,18 @@ impl MarkerStatus {
             _ => None,
         }
     }
+
     pub fn serialize<S>(v: &i32, serializer: S) -> std::result::Result<S::Ok, S::Error>
     where
         S: serde::Serializer,
     {
-        let enum_value = Self::from_repr(*v);
+        let enum_value = Self::try_from(*v);
         match enum_value {
-            Some(v) => serializer.serialize_str(v.as_str_name()),
-            None => Err(serde::ser::Error::custom("unknown value")),
+            Ok(v) => serializer.serialize_str(v.as_str_name()),
+            Err(e) => Err(serde::ser::Error::custom(e)),
         }
     }
+
     pub fn deserialize<'de, D>(deserializer: D) -> std::result::Result<i32, D::Error>
     where
         D: serde::Deserializer<'de>,
@@ -624,14 +587,14 @@ impl MarkerStatus {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.SupplyIncreaseProposal")]
-#[serde(rename_all = "snake_case")]
 pub struct SupplyIncreaseProposal {
     #[prost(string, tag = "1")]
     pub title: ::prost::alloc::string::String,
@@ -646,14 +609,14 @@ pub struct SupplyIncreaseProposal {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.SupplyDecreaseProposal")]
-#[serde(rename_all = "snake_case")]
 pub struct SupplyDecreaseProposal {
     #[prost(string, tag = "1")]
     pub title: ::prost::alloc::string::String,
@@ -666,14 +629,14 @@ pub struct SupplyDecreaseProposal {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.SetAdministratorProposal")]
-#[serde(rename_all = "snake_case")]
 pub struct SetAdministratorProposal {
     #[prost(string, tag = "1")]
     pub title: ::prost::alloc::string::String,
@@ -688,14 +651,14 @@ pub struct SetAdministratorProposal {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.RemoveAdministratorProposal")]
-#[serde(rename_all = "snake_case")]
 pub struct RemoveAdministratorProposal {
     #[prost(string, tag = "1")]
     pub title: ::prost::alloc::string::String,
@@ -710,14 +673,14 @@ pub struct RemoveAdministratorProposal {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.ChangeStatusProposal")]
-#[serde(rename_all = "snake_case")]
 pub struct ChangeStatusProposal {
     #[prost(string, tag = "1")]
     pub title: ::prost::alloc::string::String,
@@ -736,14 +699,14 @@ pub struct ChangeStatusProposal {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.WithdrawEscrowProposal")]
-#[serde(rename_all = "snake_case")]
 pub struct WithdrawEscrowProposal {
     #[prost(string, tag = "1")]
     pub title: ::prost::alloc::string::String,
@@ -760,14 +723,14 @@ pub struct WithdrawEscrowProposal {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.SetDenomMetadataProposal")]
-#[serde(rename_all = "snake_case")]
 pub struct SetDenomMetadataProposal {
     #[prost(string, tag = "1")]
     pub title: ::prost::alloc::string::String,
@@ -780,14 +743,14 @@ pub struct SetDenomMetadataProposal {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.QueryParamsRequest")]
-#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/provenance.marker.v1.Query/Params",
     response_type = QueryParamsResponse
@@ -797,14 +760,14 @@ pub struct QueryParamsRequest {}
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.QueryParamsResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct QueryParamsResponse {
     #[prost(message, optional, tag = "1")]
     pub params: ::core::option::Option<Params>,
@@ -813,34 +776,35 @@ pub struct QueryParamsResponse {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.QueryMarkerRequest")]
-#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/provenance.marker.v1.Query/Marker",
     response_type = QueryMarkerResponse
 )]
 pub struct QueryMarkerRequest {
     #[prost(string, tag = "1")]
+    #[serde(alias = "ID")]
     pub id: ::prost::alloc::string::String,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.QueryMarkerResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct QueryMarkerResponse {
     #[prost(message, optional, tag = "1")]
     pub marker: ::core::option::Option<crate::shim::Any>,
@@ -849,20 +813,21 @@ pub struct QueryMarkerResponse {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.QueryHoldingRequest")]
-#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/provenance.marker.v1.Query/Holding",
     response_type = QueryHoldingResponse
 )]
 pub struct QueryHoldingRequest {
     #[prost(string, tag = "1")]
+    #[serde(alias = "ID")]
     pub id: ::prost::alloc::string::String,
     #[prost(message, optional, tag = "2")]
     pub pagination:
@@ -872,14 +837,14 @@ pub struct QueryHoldingRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.QueryHoldingResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct QueryHoldingResponse {
     #[prost(message, repeated, tag = "1")]
     pub balances: ::prost::alloc::vec::Vec<Balance>,
@@ -891,34 +856,35 @@ pub struct QueryHoldingResponse {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.QuerySupplyRequest")]
-#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/provenance.marker.v1.Query/Supply",
     response_type = QuerySupplyResponse
 )]
 pub struct QuerySupplyRequest {
     #[prost(string, tag = "1")]
+    #[serde(alias = "ID")]
     pub id: ::prost::alloc::string::String,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.QuerySupplyResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct QuerySupplyResponse {
     #[prost(message, optional, tag = "1")]
     pub amount: ::core::option::Option<super::super::super::cosmos::base::v1beta1::Coin>,
@@ -927,34 +893,35 @@ pub struct QuerySupplyResponse {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.QueryEscrowRequest")]
-#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/provenance.marker.v1.Query/Escrow",
     response_type = QueryEscrowResponse
 )]
 pub struct QueryEscrowRequest {
     #[prost(string, tag = "1")]
+    #[serde(alias = "ID")]
     pub id: ::prost::alloc::string::String,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.QueryEscrowResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct QueryEscrowResponse {
     #[prost(message, repeated, tag = "1")]
     pub escrow: ::prost::alloc::vec::Vec<super::super::super::cosmos::base::v1beta1::Coin>,
@@ -963,34 +930,35 @@ pub struct QueryEscrowResponse {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.QueryAccessRequest")]
-#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/provenance.marker.v1.Query/Access",
     response_type = QueryAccessResponse
 )]
 pub struct QueryAccessRequest {
     #[prost(string, tag = "1")]
+    #[serde(alias = "ID")]
     pub id: ::prost::alloc::string::String,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.QueryAccessResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct QueryAccessResponse {
     #[prost(message, repeated, tag = "1")]
     pub accounts: ::prost::alloc::vec::Vec<AccessGrant>,
@@ -999,14 +967,14 @@ pub struct QueryAccessResponse {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.QueryDenomMetadataRequest")]
-#[serde(rename_all = "snake_case")]
 #[proto_query(
     path = "/provenance.marker.v1.Query/DenomMetadata",
     response_type = QueryDenomMetadataResponse
@@ -1019,14 +987,14 @@ pub struct QueryDenomMetadataRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.QueryDenomMetadataResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct QueryDenomMetadataResponse {
     #[prost(message, optional, tag = "1")]
     pub metadata: ::core::option::Option<super::super::super::cosmos::bank::v1beta1::Metadata>,
@@ -1035,14 +1003,14 @@ pub struct QueryDenomMetadataResponse {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.Balance")]
-#[serde(rename_all = "snake_case")]
 pub struct Balance {
     #[prost(string, tag = "1")]
     pub address: ::prost::alloc::string::String,
@@ -1051,8 +1019,7 @@ pub struct Balance {
 }
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-#[derive(strum_macros::FromRepr, serde::Serialize, serde::Deserialize, schemars::JsonSchema)]
-#[serde(rename_all = "snake_case")]
+#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
 pub enum SiPrefix {
     None = 0,
     Deka = 1,
@@ -1133,16 +1100,18 @@ impl SiPrefix {
             _ => None,
         }
     }
+
     pub fn serialize<S>(v: &i32, serializer: S) -> std::result::Result<S::Ok, S::Error>
     where
         S: serde::Serializer,
     {
-        let enum_value = Self::from_repr(*v);
+        let enum_value = Self::try_from(*v);
         match enum_value {
-            Some(v) => serializer.serialize_str(v.as_str_name()),
-            None => Err(serde::ser::Error::custom("unknown value")),
+            Ok(v) => serializer.serialize_str(v.as_str_name()),
+            Err(e) => Err(serde::ser::Error::custom(e)),
         }
     }
+
     pub fn deserialize<'de, D>(deserializer: D) -> std::result::Result<i32, D::Error>
     where
         D: serde::Deserializer<'de>,
@@ -1159,14 +1128,14 @@ impl SiPrefix {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.MsgGrantAllowanceRequest")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgGrantAllowanceRequest {
     #[prost(string, tag = "1")]
     pub denom: ::prost::alloc::string::String,
@@ -1181,27 +1150,27 @@ pub struct MsgGrantAllowanceRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.MsgGrantAllowanceResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgGrantAllowanceResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.MsgAddMarkerRequest")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgAddMarkerRequest {
     #[prost(message, optional, tag = "1")]
     pub amount: ::core::option::Option<super::super::super::cosmos::base::v1beta1::Coin>,
@@ -1216,10 +1185,6 @@ pub struct MsgAddMarkerRequest {
     )]
     pub status: i32,
     #[prost(enumeration = "MarkerType", tag = "6")]
-    #[serde(
-        serialize_with = "MarkerType::serialize",
-        deserialize_with = "MarkerType::deserialize"
-    )]
     pub marker_type: i32,
     #[prost(message, repeated, tag = "7")]
     pub access_list: ::prost::alloc::vec::Vec<AccessGrant>,
@@ -1255,27 +1220,27 @@ pub struct MsgAddMarkerRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.MsgAddMarkerResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgAddMarkerResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.MsgAddAccessRequest")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgAddAccessRequest {
     #[prost(string, tag = "1")]
     pub denom: ::prost::alloc::string::String,
@@ -1288,27 +1253,27 @@ pub struct MsgAddAccessRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.MsgAddAccessResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgAddAccessResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.MsgDeleteAccessRequest")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgDeleteAccessRequest {
     #[prost(string, tag = "1")]
     pub denom: ::prost::alloc::string::String,
@@ -1321,27 +1286,27 @@ pub struct MsgDeleteAccessRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.MsgDeleteAccessResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgDeleteAccessResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.MsgFinalizeRequest")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgFinalizeRequest {
     #[prost(string, tag = "1")]
     pub denom: ::prost::alloc::string::String,
@@ -1352,27 +1317,27 @@ pub struct MsgFinalizeRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.MsgFinalizeResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgFinalizeResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.MsgActivateRequest")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgActivateRequest {
     #[prost(string, tag = "1")]
     pub denom: ::prost::alloc::string::String,
@@ -1383,27 +1348,27 @@ pub struct MsgActivateRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.MsgActivateResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgActivateResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.MsgCancelRequest")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgCancelRequest {
     #[prost(string, tag = "1")]
     pub denom: ::prost::alloc::string::String,
@@ -1414,27 +1379,27 @@ pub struct MsgCancelRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.MsgCancelResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgCancelResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.MsgDeleteRequest")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgDeleteRequest {
     #[prost(string, tag = "1")]
     pub denom: ::prost::alloc::string::String,
@@ -1445,27 +1410,27 @@ pub struct MsgDeleteRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.MsgDeleteResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgDeleteResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.MsgMintRequest")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgMintRequest {
     #[prost(message, optional, tag = "1")]
     pub amount: ::core::option::Option<super::super::super::cosmos::base::v1beta1::Coin>,
@@ -1476,27 +1441,27 @@ pub struct MsgMintRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.MsgMintResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgMintResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.MsgBurnRequest")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgBurnRequest {
     #[prost(message, optional, tag = "1")]
     pub amount: ::core::option::Option<super::super::super::cosmos::base::v1beta1::Coin>,
@@ -1507,27 +1472,27 @@ pub struct MsgBurnRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.MsgBurnResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgBurnResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.MsgWithdrawRequest")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgWithdrawRequest {
     #[prost(string, tag = "1")]
     pub denom: ::prost::alloc::string::String,
@@ -1542,27 +1507,27 @@ pub struct MsgWithdrawRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.MsgWithdrawResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgWithdrawResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.MsgTransferRequest")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgTransferRequest {
     #[prost(message, optional, tag = "1")]
     pub amount: ::core::option::Option<super::super::super::cosmos::base::v1beta1::Coin>,
@@ -1577,27 +1542,27 @@ pub struct MsgTransferRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.MsgTransferResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgTransferResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.MsgIbcTransferRequest")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgIbcTransferRequest {
     #[prost(message, optional, tag = "1")]
     pub transfer:
@@ -1609,27 +1574,27 @@ pub struct MsgIbcTransferRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.MsgIbcTransferResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgIbcTransferResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.MsgSetDenomMetadataRequest")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgSetDenomMetadataRequest {
     #[prost(message, optional, tag = "1")]
     pub metadata: ::core::option::Option<super::super::super::cosmos::bank::v1beta1::Metadata>,
@@ -1640,27 +1605,27 @@ pub struct MsgSetDenomMetadataRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.MsgSetDenomMetadataResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgSetDenomMetadataResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.MsgAddFinalizeActivateMarkerRequest")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgAddFinalizeActivateMarkerRequest {
     #[prost(message, optional, tag = "1")]
     pub amount: ::core::option::Option<super::super::super::cosmos::base::v1beta1::Coin>,
@@ -1708,27 +1673,27 @@ pub struct MsgAddFinalizeActivateMarkerRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.MsgAddFinalizeActivateMarkerResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgAddFinalizeActivateMarkerResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.MsgSupplyIncreaseProposalRequest")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgSupplyIncreaseProposalRequest {
     #[prost(message, optional, tag = "1")]
     pub amount: ::core::option::Option<super::super::super::cosmos::base::v1beta1::Coin>,
@@ -1741,14 +1706,14 @@ pub struct MsgSupplyIncreaseProposalRequest {
 #[derive(
     Clone,
     PartialEq,
+    Eq,
     ::prost::Message,
-    schemars::JsonSchema,
-    serde::Serialize,
-    serde::Deserialize,
-    provwasm_proc_macro::CosmwasmExt,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
 )]
 #[proto_message(type_url = "/provenance.marker.v1.MsgSupplyIncreaseProposalResponse")]
-#[serde(rename_all = "snake_case")]
 pub struct MsgSupplyIncreaseProposalResponse {}
 pub struct MarkerQuerier<'a, Q: cosmwasm_std::CustomQuery> {
     querier: &'a cosmwasm_std::QuerierWrapper<'a, Q>,
@@ -1757,13 +1722,13 @@ impl<'a, Q: cosmwasm_std::CustomQuery> MarkerQuerier<'a, Q> {
     pub fn new(querier: &'a cosmwasm_std::QuerierWrapper<'a, Q>) -> Self {
         Self { querier }
     }
-    pub fn params(&self) -> std::result::Result<QueryParamsResponse, cosmwasm_std::StdError> {
+    pub fn params(&self) -> Result<QueryParamsResponse, cosmwasm_std::StdError> {
         QueryParamsRequest {}.query(self.querier)
     }
     pub fn marker(
         &self,
         id: ::prost::alloc::string::String,
-    ) -> std::result::Result<QueryMarkerResponse, cosmwasm_std::StdError> {
+    ) -> Result<QueryMarkerResponse, cosmwasm_std::StdError> {
         QueryMarkerRequest { id }.query(self.querier)
     }
     pub fn holding(
@@ -1772,31 +1737,31 @@ impl<'a, Q: cosmwasm_std::CustomQuery> MarkerQuerier<'a, Q> {
         pagination: ::core::option::Option<
             super::super::super::cosmos::base::query::v1beta1::PageRequest,
         >,
-    ) -> std::result::Result<QueryHoldingResponse, cosmwasm_std::StdError> {
+    ) -> Result<QueryHoldingResponse, cosmwasm_std::StdError> {
         QueryHoldingRequest { id, pagination }.query(self.querier)
     }
     pub fn supply(
         &self,
         id: ::prost::alloc::string::String,
-    ) -> std::result::Result<QuerySupplyResponse, cosmwasm_std::StdError> {
+    ) -> Result<QuerySupplyResponse, cosmwasm_std::StdError> {
         QuerySupplyRequest { id }.query(self.querier)
     }
     pub fn escrow(
         &self,
         id: ::prost::alloc::string::String,
-    ) -> std::result::Result<QueryEscrowResponse, cosmwasm_std::StdError> {
+    ) -> Result<QueryEscrowResponse, cosmwasm_std::StdError> {
         QueryEscrowRequest { id }.query(self.querier)
     }
     pub fn access(
         &self,
         id: ::prost::alloc::string::String,
-    ) -> std::result::Result<QueryAccessResponse, cosmwasm_std::StdError> {
+    ) -> Result<QueryAccessResponse, cosmwasm_std::StdError> {
         QueryAccessRequest { id }.query(self.querier)
     }
     pub fn denom_metadata(
         &self,
         denom: ::prost::alloc::string::String,
-    ) -> std::result::Result<QueryDenomMetadataResponse, cosmwasm_std::StdError> {
+    ) -> Result<QueryDenomMetadataResponse, cosmwasm_std::StdError> {
         QueryDenomMetadataRequest { denom }.query(self.querier)
     }
 }
