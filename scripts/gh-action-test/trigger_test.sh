@@ -33,10 +33,9 @@ echo "sending coins to different keys"
   --gas=auto \
   --gas-prices="1905nhash" \
   --gas-adjustment=1.5 \
-  --broadcast-mode=block \
   --yes \
   --testnet \
-  --output json
+  --output json | "$PROV_CMD" q wait-tx
 
 echo "binding name"
 # Setup name and new COIN for the smart contract
@@ -50,10 +49,9 @@ echo "binding name"
   --chain-id="testing" \
   --gas-prices="1905nhash" \
   --gas-adjustment=1.5 \
-  --broadcast-mode block \
   --yes \
   --testnet \
-  --output json
+  --output json | "$PROV_CMD" q wait-tx
 
 echo "storing wasm"
 # Run the contract
@@ -65,9 +63,8 @@ echo "storing wasm"
   --gas=auto \
   --gas-prices="1905nhash" \
   --gas-adjustment=1.5 \
-  --broadcast-mode=block \
   --yes \
-  -t
+  -t | "$PROV_CMD" q wait-tx
 
 echo "instantiating contract"
 "$PROV_CMD" tx wasm instantiate 1 '{}' \
@@ -79,9 +76,8 @@ echo "instantiating contract"
   --gas=auto \
   --gas-prices="1905nhash" \
   --gas-adjustment=1.5 \
-  --broadcast-mode block \
   --yes \
-  --testnet
+  --testnet | "$PROV_CMD" q wait-tx
 
 # Query for the contract address so we can execute it
 contract=$("$PROV_CMD" query wasm list-contract-by-code 1 -t -o json | jq -r ".contracts[0]")
@@ -120,10 +116,9 @@ echo "target block height: $target_height"
   --gas auto \
   --gas-prices="1906nhash" \
   --gas-adjustment=1.5 \
-  --broadcast-mode block \
   --yes \
   --testnet \
-  --output json
+  --output json | "$PROV_CMD" q wait-tx
 
 triggers=$("$PROV_CMD" query wasm contract-state smart "$contract" "{\"get_trigger\":{}}" -t -o json)
 echo "stored triggers:"
@@ -180,10 +175,9 @@ echo "target time = $target_time"
   --gas auto \
   --gas-prices="1906nhash" \
   --gas-adjustment=1.5 \
-  --broadcast-mode block \
   --yes \
   --testnet \
-  --output json
+  --output json | "$PROV_CMD" q wait-tx
 
 triggers=$("$PROV_CMD" query wasm contract-state smart "$contract" "{\"get_trigger\":{}}" -t -o json)
 echo "stored triggers:"
@@ -237,10 +231,9 @@ current_height=$PROV_CMD q block | jq .block.header.height
   --gas auto \
   --gas-prices="1906nhash" \
   --gas-adjustment=1.5 \
-  --broadcast-mode block \
   --yes \
   --testnet \
-  --output json
+  --output json | "$PROV_CMD" q wait-tx
 
 trigger_count=$($PROV_CMD q trigger list all -o json | jq '.triggers | length')
 
@@ -264,10 +257,9 @@ echo "deleting trigger"
   --gas auto \
   --gas-prices="1906nhash" \
   --gas-adjustment=1.5 \
-  --broadcast-mode block \
   --yes \
   --testnet \
-  --output json
+  --output json | "$PROV_CMD" q wait-tx
 
 trigger_count=$($PROV_CMD q trigger list all -o json | jq '.triggers | length')
 
