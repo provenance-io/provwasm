@@ -28,8 +28,7 @@ echo "Sending coins to different keys"
   --gas-prices="1905nhash" \
   --gas-adjustment=1.5 \
   --yes \
-  --testnet \
-  --output json | "$PROV_CMD" q wait-tx
+  --testnet | "$PROV_CMD" q wait-tx
 
 echo "Binding name"
 # Setup name and new COIN for the smart contract
@@ -44,8 +43,7 @@ echo "Binding name"
   --gas-prices="1905nhash" \
   --gas-adjustment=1.5 \
   --yes \
-  --testnet \
-  --output json | "$PROV_CMD" q wait-tx
+  --testnet | "$PROV_CMD" q wait-tx
 
 echo "Storing wasm"
 # Run the contract
@@ -88,8 +86,7 @@ echo "Executing contract"
   --gas-prices="1906nhash" \
   --gas-adjustment=1.5 \
   --yes \
-  --testnet \
-  --output json | "$PROV_CMD" q wait-tx
+  --testnet | "$PROV_CMD" q wait-tx
 
 # Verify that the funds were sent to the correct accounts for the receiver and the feebucket
 export receiver_query=$("$PROV_CMD" query bank balances "$receiver" --testnet --output json )
