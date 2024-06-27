@@ -15,7 +15,6 @@ members = [
     "contracts/scope",
     "contracts/trigger",
     "contracts/tutorial",
-    "integration_tests"
 ]
 
 [workspace.package]
@@ -37,7 +36,6 @@ provwasm-common = { version = "0.1.0", path = "packages/provwasm-common" }
 provwasm-mocks = { version = "2.3.0", path = "packages/provwasm-mocks" }
 provwasm-proc-macro = { version = "0.1.2", path = "packages/provwasm-proc-macro" }
 provwasm-std = { version = "2.3.0", path = "packages/provwasm-std" }
-provwasm-test-tube = { git = "https://github.com/provenance-io/provwasm-test-tube", branch = "main" }
 
 base64 = "0.22.0"
 chrono = { version = "0.4.37", default-features = false }
