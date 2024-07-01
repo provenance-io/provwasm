@@ -55,9 +55,9 @@ pub fn instantiate(
                 .add_attribute("contract_owner", info.sender);
             Ok(res)
         }
-        (_, _) => Err(ContractError::Std(StdError::GenericErr {
-            msg: "Invalid contract name".to_string(),
-        })),
+        (_, _) => Err(ContractError::Std(StdError::generic_err(
+            "Invalid contract name",
+        ))),
     }
 }
 
@@ -189,8 +189,8 @@ fn try_lookup(deps: Deps, address: String) -> Result<QueryResponse, StdError> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use cosmwasm_std::testing::{mock_env, mock_info};
-    use cosmwasm_std::{from_json, Binary, CosmosMsg};
+    use cosmwasm_std::testing::{message_info, mock_env};
+    use cosmwasm_std::{from_json, Addr, AnyMsg, Binary, CosmosMsg};
     use provwasm_mocks::mock_provenance_dependencies;
     use provwasm_std::types::provenance::name::v1::{
         QueryResolveRequest, QueryResolveResponse, QueryReverseLookupRequest,
@@ -202,7 +202,7 @@ mod tests {
         // Create default provenance mocks.
         let mut deps = mock_provenance_dependencies();
         let env = mock_env();
-        let info = mock_info("sender", &[]);
+        let info = message_info(&Addr::unchecked("sender"), &[]);
 
         // Give the contract a name
         let msg = InitMsg {
@@ -216,7 +216,7 @@ mod tests {
         assert_eq!(1, res.messages.len());
 
         match &res.messages[0].msg {
-            CosmosMsg::Stargate { type_url, value } => {
+            CosmosMsg::Any(AnyMsg { type_url, value }) => {
                 let expected: Binary = MsgBindNameRequest {
                     parent: Some(NameRecord {
                         name: "pb".to_string(),
@@ -243,7 +243,7 @@ mod tests {
         // Init state
         let mut deps = mock_provenance_dependencies();
         let env = mock_env();
-        let info = mock_info("sender", &[]);
+        let info = message_info(&Addr::unchecked("sender"), &[]);
         let msg = InitMsg {
             name: "contract.pb".into(),
         };
@@ -251,7 +251,7 @@ mod tests {
 
         // Bind a name
         let env = mock_env();
-        let info = mock_info("sender", &[]);
+        let info = message_info(&Addr::unchecked("sender"), &[]);
         let msg = ExecuteMsg::BindPrefix {
             prefix: "test".into(),
         };
@@ -262,7 +262,7 @@ mod tests {
 
         // Assert the correct message was created
         match &res.messages[0].msg {
-            CosmosMsg::Stargate { type_url, value } => {
+            CosmosMsg::Any(AnyMsg { type_url, value }) => {
                 let expected: Binary = MsgBindNameRequest {
                     parent: Some(NameRecord {
                         name: "contract.pb".to_string(),
@@ -289,7 +289,7 @@ mod tests {
         // Init state
         let mut deps = mock_provenance_dependencies();
         let env = mock_env();
-        let info = mock_info("sender", &[]);
+        let info = message_info(&Addr::unchecked("sender"), &[]);
         let msg = InitMsg {
             name: "contract.pb".into(),
         };
@@ -297,7 +297,7 @@ mod tests {
 
         // Bind a name
         let env = mock_env();
-        let info = mock_info("sender", &[]);
+        let info = message_info(&Addr::unchecked("sender"), &[]);
         let msg = ExecuteMsg::UnbindPrefix {
             prefix: "test".into(),
         };
@@ -309,7 +309,7 @@ mod tests {
         // Assert the correct message was created
         assert_eq!(1, res.messages.len());
         match &res.messages[0].msg {
-            CosmosMsg::Stargate { type_url, value } => {
+            CosmosMsg::Any(AnyMsg { type_url, value }) => {
                 let expected: Binary = MsgDeleteNameRequest {
                     record: Some(NameRecord {
                         name: "test.contract.pb".to_string(),
@@ -331,7 +331,7 @@ mod tests {
         // Init state
         let mut deps = mock_provenance_dependencies();
         let env = mock_env();
-        let info = mock_info("sender", &[]);
+        let info = message_info(&Addr::unchecked("sender"), &[]);
         let msg = InitMsg {
             name: "contract.pb".into(),
         };
@@ -339,7 +339,7 @@ mod tests {
 
         // Try to bind a name with some other sender address
         let env = mock_env();
-        let info = mock_info("other", &[]); // error: not 'sender'
+        let info = message_info(&Addr::unchecked("other"), &[]); // error: not 'sender'
         let msg = ExecuteMsg::BindPrefix {
             prefix: "test".into(),
         };
@@ -357,7 +357,7 @@ mod tests {
         // Init state
         let mut deps = mock_provenance_dependencies();
         let env = mock_env();
-        let info = mock_info("sender", &[]);
+        let info = message_info(&Addr::unchecked("sender"), &[]);
         let msg = InitMsg {
             name: "contract.pb".into(),
         };
@@ -365,7 +365,7 @@ mod tests {
 
         // Try to bind a name with some other sender address
         let env = mock_env();
-        let info = mock_info("other", &[]); // error: not 'sender'
+        let info = message_info(&Addr::unchecked("other"), &[]); // error: not 'sender'
         let msg = ExecuteMsg::UnbindPrefix {
             prefix: "test".into(),
         };
@@ -423,7 +423,7 @@ mod tests {
             deps.as_ref(),
             mock_env(),
             QueryMsg::Lookup {
-                address: "address".into(),
+                address: deps.api.addr_make("address").into(),
             },
         )
         .unwrap();
@@ -449,7 +449,7 @@ mod tests {
             deps.as_ref(),
             mock_env(),
             QueryMsg::Lookup {
-                address: "address2".into(),
+                address: deps.api.addr_make("address2").into(),
             },
         )
         .unwrap();
