@@ -269,8 +269,8 @@ fn try_get_marker_by_denom(deps: Deps, denom: String) -> Result<QueryResponse, S
 mod tests {
     use super::*;
     use crate::types::Marker;
-    use cosmwasm_std::testing::{mock_env, mock_info};
-    use cosmwasm_std::{from_json, Binary, CosmosMsg};
+    use cosmwasm_std::testing::{message_info, mock_env};
+    use cosmwasm_std::{from_json, AnyMsg, Binary, CosmosMsg};
     use prost::Message;
     use provwasm_mocks::mock_provenance_dependencies;
     use provwasm_std::shim::Any;
@@ -291,7 +291,7 @@ mod tests {
         let res = instantiate(
             deps.as_mut(),
             mock_env(),
-            mock_info("sender", &[]),
+            message_info(&Addr::unchecked("sender"), &[]),
             InitMsg {
                 name: "contract.pb".into(),
             },
@@ -306,7 +306,7 @@ mod tests {
         // Create default provenance mocks.
         let mut deps = mock_provenance_dependencies();
         let env = mock_env();
-        let info = mock_info("sender", &[]);
+        let info = message_info(&Addr::unchecked("sender"), &[]);
         let contract_address = env.contract.address.to_string();
 
         // Expected marker supply
@@ -344,7 +344,7 @@ mod tests {
         // Assert the correct params were created
 
         match &res.messages[0].msg {
-            CosmosMsg::Stargate { type_url, value } => {
+            CosmosMsg::Any(AnyMsg { type_url, value }) => {
                 assert_eq!(type_url, "/provenance.marker.v1.MsgAddMarkerRequest");
                 assert_eq!(value, &expected_msg)
             }
@@ -357,7 +357,7 @@ mod tests {
         // Create default provenance mocks.
         let mut deps = mock_provenance_dependencies();
         let env = mock_env();
-        let info = mock_info("sender", &[]);
+        let info = message_info(&Addr::unchecked("sender"), &[]);
         let contract_address = env.contract.address.to_string();
 
         // Expected marker supply
@@ -395,7 +395,7 @@ mod tests {
         // Assert the correct params were created
 
         match &res.messages[0].msg {
-            CosmosMsg::Stargate { type_url, value } => {
+            CosmosMsg::Any(AnyMsg { type_url, value }) => {
                 assert_eq!(type_url, "/provenance.marker.v1.MsgAddMarkerRequest");
                 assert_eq!(value, &expected_msg)
             }
@@ -408,7 +408,7 @@ mod tests {
         // Create default provenance mocks.
         let mut deps = mock_provenance_dependencies();
         let env = mock_env();
-        let info = mock_info("sender", &[]);
+        let info = message_info(&Addr::unchecked("sender"), &[]);
         let contract_address = env.contract.address.to_string();
 
         let expected_msg: Binary = MsgAddAccessRequest {
@@ -429,7 +429,7 @@ mod tests {
 
         // Assert the correct params were created
         match &res.messages[0].msg {
-            CosmosMsg::Stargate { type_url, value } => {
+            CosmosMsg::Any(AnyMsg { type_url, value }) => {
                 assert_eq!(type_url, "/provenance.marker.v1.MsgAddAccessRequest");
                 assert_eq!(value, &expected_msg)
             }
@@ -442,7 +442,7 @@ mod tests {
         // Create default provenance mocks.
         let mut deps = mock_provenance_dependencies();
         let env = mock_env();
-        let info = mock_info("sender", &[]);
+        let info = message_info(&Addr::unchecked("sender"), &[]);
 
         let expected_msg: Binary = MsgFinalizeRequest {
             denom: "budz".to_string(),
@@ -461,7 +461,7 @@ mod tests {
 
         // Assert the correct params were created
         match &res.messages[0].msg {
-            CosmosMsg::Stargate { type_url, value } => {
+            CosmosMsg::Any(AnyMsg { type_url, value }) => {
                 assert_eq!(type_url, "/provenance.marker.v1.MsgFinalizeRequest");
                 assert_eq!(value, &expected_msg)
             }
@@ -474,7 +474,7 @@ mod tests {
         // Create default provenance mocks.
         let mut deps = mock_provenance_dependencies();
         let env = mock_env();
-        let info = mock_info("sender", &[]);
+        let info = message_info(&Addr::unchecked("sender"), &[]);
 
         let expected_msg: Binary = MsgActivateRequest {
             denom: "budz".to_string(),
@@ -493,7 +493,7 @@ mod tests {
 
         // Assert the correct params were created
         match &res.messages[0].msg {
-            CosmosMsg::Stargate { type_url, value } => {
+            CosmosMsg::Any(AnyMsg { type_url, value }) => {
                 assert_eq!(type_url, "/provenance.marker.v1.MsgActivateRequest");
                 assert_eq!(value, &expected_msg)
             }
@@ -506,7 +506,7 @@ mod tests {
         // Create default provenance mocks.
         let mut deps = mock_provenance_dependencies();
         let env = mock_env();
-        let info = mock_info("sender", &[]);
+        let info = message_info(&Addr::unchecked("sender"), &[]);
         let contract_address = env.contract.address.to_string();
 
         let expected_msg: Binary = MsgWithdrawRequest {
@@ -532,7 +532,7 @@ mod tests {
 
         // Assert the correct params were created
         match &res.messages[0].msg {
-            CosmosMsg::Stargate { type_url, value } => {
+            CosmosMsg::Any(AnyMsg { type_url, value }) => {
                 assert_eq!(type_url, "/provenance.marker.v1.MsgWithdrawRequest");
                 assert_eq!(value, &expected_msg)
             }
@@ -545,7 +545,7 @@ mod tests {
         // Create default provenance mocks.
         let mut deps = mock_provenance_dependencies();
         let env = mock_env();
-        let info = mock_info("sender", &[]);
+        let info = message_info(&Addr::unchecked("sender"), &[]);
 
         let expected_msg: Binary = MsgMintRequest {
             amount: Some(Coin {
@@ -568,7 +568,7 @@ mod tests {
 
         // Assert the correct params were created
         match &res.messages[0].msg {
-            CosmosMsg::Stargate { type_url, value } => {
+            CosmosMsg::Any(AnyMsg { type_url, value }) => {
                 assert_eq!(type_url, "/provenance.marker.v1.MsgMintRequest");
                 assert_eq!(value, &expected_msg)
             }
@@ -581,7 +581,7 @@ mod tests {
         // Create default provenance mocks.
         let mut deps = mock_provenance_dependencies();
         let env = mock_env();
-        let info = mock_info("sender", &[]);
+        let info = message_info(&Addr::unchecked("sender"), &[]);
 
         let expected_msg: Binary = MsgBurnRequest {
             amount: Some(Coin {
@@ -604,7 +604,7 @@ mod tests {
 
         // Assert the correct params were created
         match &res.messages[0].msg {
-            CosmosMsg::Stargate { type_url, value } => {
+            CosmosMsg::Any(AnyMsg { type_url, value }) => {
                 assert_eq!(type_url, "/provenance.marker.v1.MsgBurnRequest");
                 assert_eq!(value, &expected_msg)
             }
@@ -617,7 +617,7 @@ mod tests {
         // Create default provenance mocks.
         let mut deps = mock_provenance_dependencies();
         let env = mock_env();
-        let info = mock_info("sender", &[]);
+        let info = message_info(&Addr::unchecked("sender"), &[]);
 
         let expected_msg: Binary = MsgCancelRequest {
             denom: "budz".to_string(),
@@ -636,7 +636,7 @@ mod tests {
 
         // Assert the correct params were created
         match &res.messages[0].msg {
-            CosmosMsg::Stargate { type_url, value } => {
+            CosmosMsg::Any(AnyMsg { type_url, value }) => {
                 assert_eq!(type_url, "/provenance.marker.v1.MsgCancelRequest");
                 assert_eq!(value, &expected_msg)
             }
@@ -649,7 +649,7 @@ mod tests {
         // Create default provenance mocks.
         let mut deps = mock_provenance_dependencies();
         let env = mock_env();
-        let info = mock_info("sender", &[]);
+        let info = message_info(&Addr::unchecked("sender"), &[]);
 
         let expected_msg: Binary = MsgDeleteRequest {
             denom: "budz".to_string(),
@@ -668,7 +668,7 @@ mod tests {
 
         // Assert the correct params were created
         match &res.messages[0].msg {
-            CosmosMsg::Stargate { type_url, value } => {
+            CosmosMsg::Any(AnyMsg { type_url, value }) => {
                 assert_eq!(type_url, "/provenance.marker.v1.MsgDeleteRequest");
                 assert_eq!(value, &expected_msg)
             }
@@ -681,7 +681,7 @@ mod tests {
         // Create default provenance mocks.
         let mut deps = mock_provenance_dependencies();
         let env = mock_env();
-        let info = mock_info("sender", &[]);
+        let info = message_info(&deps.api.addr_make("sender"), &[]);
 
         let expected_msg: Binary = MsgTransferRequest {
             amount: Some(Coin {
@@ -690,7 +690,7 @@ mod tests {
             }),
             administrator: env.contract.address.to_string(),
             from_address: env.contract.address.to_string(),
-            to_address: "toaddress".to_string(),
+            to_address: deps.api.addr_make("toaddress").into(),
         }
         .into();
 
@@ -698,7 +698,7 @@ mod tests {
         let msg = ExecuteMsg::Transfer {
             amount: Uint128::new(20),
             denom: "budz".into(),
-            to: "toaddress".into(),
+            to: deps.api.addr_make("toaddress").into(),
         };
 
         // Call execute and ensure a cosmos message was dispatched
@@ -707,7 +707,7 @@ mod tests {
 
         // Assert the correct params were created
         match &res.messages[0].msg {
-            CosmosMsg::Stargate { type_url, value } => {
+            CosmosMsg::Any(AnyMsg { type_url, value }) => {
                 assert_eq!(type_url, "/provenance.marker.v1.MsgTransferRequest");
                 assert_eq!(value, &expected_msg)
             }
