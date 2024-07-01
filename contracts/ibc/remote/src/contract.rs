@@ -107,9 +107,7 @@ fn receive_who_am_i(_deps: DepsMut, env: Env, _caller: String) -> StdResult<IbcR
     };
     let acknowledgement = to_json_binary(&AcknowledgementMsg::Ok(response))?;
     // and we are golden
-    Ok(IbcReceiveResponse::new()
-        .set_ack(acknowledgement)
-        .add_attribute("action", "receive_who_am_i"))
+    Ok(IbcReceiveResponse::new(acknowledgement).add_attribute("action", "receive_who_am_i"))
 }
 
 #[entry_point]

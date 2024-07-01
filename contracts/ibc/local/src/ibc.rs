@@ -1,7 +1,8 @@
 use cosmwasm_std::{
-    entry_point, from_json, to_json_binary, DepsMut, Env, IbcBasicResponse, IbcChannelCloseMsg,
-    IbcChannelConnectMsg, IbcChannelOpenMsg, IbcMsg, IbcOrder, IbcPacketAckMsg,
-    IbcPacketReceiveMsg, IbcPacketTimeoutMsg, IbcReceiveResponse, StdError, StdResult,
+    entry_point, from_json, to_json_binary, DepsMut, Env, Ibc3ChannelOpenResponse,
+    IbcBasicResponse, IbcChannelCloseMsg, IbcChannelConnectMsg, IbcChannelOpenMsg,
+    IbcChannelOpenResponse, IbcMsg, IbcOrder, IbcPacketAckMsg, IbcPacketReceiveMsg,
+    IbcPacketTimeoutMsg, IbcReceiveResponse, StdError, StdResult,
 };
 
 use crate::ibc_msg::{AcknowledgementMsg, PacketMsg, WhoAmIResponse};
@@ -11,7 +12,11 @@ pub const IBC_APP_VERSION: &str = "pio-ibc-example-v1";
 pub const PACKET_LIFETIME: u64 = 60 * 60;
 
 #[entry_point]
-pub fn ibc_channel_open(_deps: DepsMut, _env: Env, msg: IbcChannelOpenMsg) -> StdResult<()> {
+pub fn ibc_channel_open(
+    _deps: DepsMut,
+    _env: Env,
+    msg: IbcChannelOpenMsg,
+) -> StdResult<IbcChannelOpenResponse> {
     let channel = msg.channel();
 
     if channel.order != IbcOrder::Ordered {
@@ -33,7 +38,9 @@ pub fn ibc_channel_open(_deps: DepsMut, _env: Env, msg: IbcChannelOpenMsg) -> St
         }
     }
 
-    Ok(())
+    Ok(Some(Ibc3ChannelOpenResponse {
+        version: IBC_APP_VERSION.to_string(),
+    }))
 }
 
 #[entry_point]
@@ -88,9 +95,7 @@ pub fn ibc_packet_receive(
     _env: Env,
     _packet: IbcPacketReceiveMsg,
 ) -> StdResult<IbcReceiveResponse> {
-    Ok(IbcReceiveResponse::new()
-        .set_ack(b"{}")
-        .add_attribute("action", "ibc_packet_receive"))
+    Ok(IbcReceiveResponse::new(b"{}").add_attribute("action", "ibc_packet_receive"))
 }
 
 #[entry_point]
@@ -166,18 +171,18 @@ mod tests {
     use crate::msg::{AccountResponse, InstantiateMsg, QueryMsg};
 
     use cosmwasm_std::testing::{
-        mock_dependencies, mock_env, mock_ibc_channel_connect_ack, mock_ibc_channel_open_init,
-        mock_ibc_channel_open_try, mock_ibc_packet_ack, mock_info, MockApi, MockQuerier,
-        MockStorage,
+        message_info, mock_dependencies, mock_env, mock_ibc_channel_connect_ack,
+        mock_ibc_channel_open_init, mock_ibc_channel_open_try, mock_ibc_packet_ack, MockApi,
+        MockQuerier, MockStorage,
     };
-    use cosmwasm_std::{BlockInfo, CosmosMsg, IbcAcknowledgement, OwnedDeps, Timestamp};
+    use cosmwasm_std::{Addr, BlockInfo, CosmosMsg, IbcAcknowledgement, OwnedDeps, Timestamp};
 
     const CREATOR: &str = "creator";
 
     fn setup() -> OwnedDeps<MockStorage, MockApi, MockQuerier> {
         let mut deps = mock_dependencies();
         let msg = InstantiateMsg {};
-        let info = mock_info(CREATOR, &[]);
+        let info = message_info(&Addr::unchecked(CREATOR), &[]);
         let res = instantiate(deps.as_mut(), mock_env(), info, msg).unwrap();
         assert_eq!(0, res.messages.len());
         deps
@@ -251,7 +256,7 @@ mod tests {
             channel_id: channel_id.into(),
         };
         let r = query(deps.as_ref(), mock_env(), q).unwrap();
-        let acct: AccountResponse = from_json(&r).unwrap();
+        let acct: AccountResponse = from_json(r).unwrap();
         assert!(acct.remote_addr.is_none());
         assert!(acct.remote_balance.is_empty());
         assert_eq!(0, acct.last_update_time.nanos());
@@ -265,7 +270,7 @@ mod tests {
             channel_id: channel_id.into(),
         };
         let r = query(deps.as_ref(), mock_env(), q).unwrap();
-        let acct: AccountResponse = from_json(&r).unwrap();
+        let acct: AccountResponse = from_json(r).unwrap();
         assert_eq!(acct.remote_addr.unwrap(), remote_addr);
         assert!(acct.remote_balance.is_empty());
         assert_eq!(0, acct.last_update_time.nanos());
