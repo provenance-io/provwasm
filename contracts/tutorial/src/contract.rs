@@ -3,7 +3,6 @@ use cosmwasm_std::{
     MessageInfo, Response, StdError, StdResult,
 };
 use provwasm_std::types::provenance::name::v1::{MsgBindNameRequest, NameRecord};
-use std::ops::Mul;
 
 use crate::error::ContractError;
 use crate::msg::{ExecuteMsg, InitMsg, MigrateMsg, QueryMsg};
@@ -31,7 +30,7 @@ pub fn instantiate(
     }
 
     // Ensure the merchant address is not also the fee collection address
-    if msg.merchant_address == info.sender {
+    if msg.merchant_address.eq(&info.sender.to_string()) {
         return Err(StdError::generic_err(
             "merchant address can't be the fee collection address",
         ));
@@ -77,9 +76,7 @@ pub fn instantiate(
                 .add_attribute("action", "init");
             Ok(res)
         }
-        (_, _) => Err(StdError::GenericErr {
-            msg: "Invalid contract name".to_string(),
-        }),
+        (_, _) => Err(StdError::generic_err("Invalid contract name")),
     }
 }
 
@@ -151,7 +148,7 @@ fn try_purchase(
             .funds
             .iter()
             .map(|sent| {
-                let fees = sent.amount.mul(fee_pct).u128();
+                let fees = sent.amount.mul_floor(fee_pct).u128();
                 coin(sent.amount.u128() - fees, sent.denom.clone())
             })
             .collect(),
@@ -163,7 +160,7 @@ fn try_purchase(
         amount: info
             .funds
             .iter()
-            .map(|sent| coin(sent.amount.mul(fee_pct).u128(), sent.denom.clone()))
+            .map(|sent| coin(sent.amount.mul_floor(fee_pct).u128(), sent.denom.clone()))
             .collect(),
     });
 
