@@ -117,8 +117,8 @@ pub fn get_trigger(deps: Deps, id: Option<Uint64>) -> Result<QueryResponse, Cont
 
 #[cfg(test)]
 mod tests {
-    use cosmwasm_std::testing::{mock_env, mock_info};
-    use cosmwasm_std::{coin, Addr, Binary, CosmosMsg};
+    use cosmwasm_std::testing::{message_info, mock_env};
+    use cosmwasm_std::{coin, Addr, AnyMsg, Binary, CosmosMsg};
 
     use provwasm_mocks::mock_provenance_dependencies;
     use provwasm_std::shim::Timestamp;
@@ -138,7 +138,7 @@ mod tests {
         assert!(instantiate(
             deps.as_mut(),
             mock_env(),
-            mock_info("sender", &[]),
+            message_info(&Addr::unchecked("sender"), &[]),
             InitMsg {},
         )
         .is_ok());
@@ -148,7 +148,7 @@ mod tests {
     pub fn create_block_height() {
         let mut deps = mock_provenance_dependencies();
         let env = mock_env();
-        let info = mock_info("sender", &[coin(100, "hash")]);
+        let info = message_info(&Addr::unchecked("sender"), &[coin(100, "hash")]);
         let contract_address = env.contract.address.to_string();
         let receiver = Addr::unchecked("receiver");
 
@@ -176,7 +176,7 @@ mod tests {
         assert_eq!(1, res.messages.len());
 
         match &res.messages[0].msg {
-            CosmosMsg::Stargate { type_url, value } => {
+            CosmosMsg::Any(AnyMsg { type_url, value }) => {
                 assert_eq!(type_url, "/provenance.trigger.v1.MsgCreateTriggerRequest");
                 assert_eq!(value, &expected_msg)
             }
@@ -188,7 +188,7 @@ mod tests {
     pub fn create_block_time() {
         let mut deps = mock_provenance_dependencies();
         let env = mock_env();
-        let info = mock_info("sender", &[coin(100, "hash")]);
+        let info = message_info(&Addr::unchecked("sender"), &[coin(100, "hash")]);
         let contract_address = env.contract.address.to_string();
         let receiver = Addr::unchecked("receiver");
 
@@ -224,7 +224,7 @@ mod tests {
         assert_eq!(1, res.messages.len());
 
         match &res.messages[0].msg {
-            CosmosMsg::Stargate { type_url, value } => {
+            CosmosMsg::Any(AnyMsg { type_url, value }) => {
                 assert_eq!(type_url, "/provenance.trigger.v1.MsgCreateTriggerRequest");
                 assert_eq!(value, &expected_msg)
             }
