@@ -358,6 +358,14 @@ types:
     - provenance.name.v1.QueryResolveResponse
     - provenance.name.v1.QueryReverseLookupRequest
     - provenance.name.v1.QueryReverseLookupResponse
+    - provenance.oracle.v1.MsgUpdateOracleRequest
+    - provenance.oracle.v1.MsgUpdateOracleResponse
+    - provenance.oracle.v1.MsgSendQueryOracleRequest
+    - provenance.oracle.v1.MsgSendQueryOracleResponse
+    - provenance.oracle.v1.QueryOracleAddressRequest
+    - provenance.oracle.v1.QueryOracleAddressResponse
+    - provenance.oracle.v1.QueryOracleRequest
+    - provenance.oracle.v1.QueryOracleResponse
     - provenance.trigger.v1.MsgCreateTriggerRequest
     - provenance.trigger.v1.MsgCreateTriggerResponse
     - provenance.trigger.v1.MsgDestroyTriggerRequest
