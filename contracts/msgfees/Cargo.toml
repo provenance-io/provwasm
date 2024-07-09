@@ -19,7 +19,7 @@ backtraces = []
 
 [dependencies]
 cosmwasm-schema = { workspace = true }
-cosmwasm-std = { workspace = true, features = ["stargate", "std"] }
+cosmwasm-std = { workspace = true }
 cw-storage-plus = { workspace = true }
 provwasm-std = { workspace = true }
 schemars = { workspace = true }

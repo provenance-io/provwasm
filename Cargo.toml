@@ -26,8 +26,8 @@ license = "Apache-2.0"
 [workspace.dependencies]
 ### CosmWasm
 
-cosmwasm-schema = { version = "2.0.3" }
-cosmwasm-std = { version = "2.0.3", default-features = false, features = ["std"] }
+cosmwasm-schema = { version = "2.0.4" }
+cosmwasm-std = { version = "2.0.4", default-features = false, features = ["cosmwasm_2_0", "stargate", "std"] }
 cw-storage-plus = { version = "2.0.0" }
 
 ### ProvWasm
@@ -50,9 +50,6 @@ serde = { version = "1.0.197", default-features = false, features = [
 ] }
 serde_json = { version = "1.0.115", features = ["std"] }
 thiserror = { version = "1.0.58" }
-
-[patch.crates-io]
-provwasm-std = { version = "2.2.0", path = "packages/provwasm-std" }
 
 [profile.release]
 opt-level = 3
