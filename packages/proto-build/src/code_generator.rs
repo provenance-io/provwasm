@@ -159,8 +159,7 @@ impl CodeGenerator {
 
             if !project.exclude_mods.is_empty() {
                 for excluded_mod in project.exclude_mods.clone() {
-                    cmd.arg("--exclude-path")
-                        .arg(proto_path.join(project.name.clone()).join(excluded_mod));
+                    cmd.arg("--exclude-path").arg(proto_path.join(excluded_mod));
                 }
             }
 
@@ -187,8 +186,7 @@ impl CodeGenerator {
 
             if !project.exclude_mods.is_empty() {
                 for include_mod in project.exclude_mods {
-                    cmd.arg("--exclude-path")
-                        .arg(proto_path.join(project.name.clone()).join(include_mod));
+                    cmd.arg("--exclude-path").arg(proto_path.join(include_mod));
                 }
             }
 
