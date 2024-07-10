@@ -149,7 +149,7 @@ pub fn derive_cosmwasm_ext(input: TokenStream) -> TokenStream {
         impl TryFrom<crate::shim::Any> for #ident {
             type Error = prost::DecodeError;
 
-            fn try_from(value: crate::shim::Any) -> Result<Self, Self::Error> {
+            fn try_from(value: crate::shim::Any) -> ::std::result::Result<Self, Self::Error> {
                 prost::Message::decode(value.value.as_slice())
             }
         }
@@ -157,7 +157,7 @@ pub fn derive_cosmwasm_ext(input: TokenStream) -> TokenStream {
         impl TryInto<crate::shim::Any> for #ident {
             type Error = prost::EncodeError;
 
-            fn try_into(self) -> Result<crate::shim::Any, Self::Error> {
+            fn try_into(self) -> ::std::result::Result<crate::shim::Any, Self::Error> {
                 let value = prost::Message::encode_to_vec(&self);
                 Ok(crate::shim::Any {
                     type_url: <#ident>::TYPE_URL.to_string(),
