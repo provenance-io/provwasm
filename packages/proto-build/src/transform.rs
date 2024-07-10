@@ -14,7 +14,7 @@ use crate::transformers;
 
 /// Protos belonging to these Protobuf packages will be excluded
 /// (i.e. because they are sourced from `tendermint-proto`)
-const EXCLUDED_PROTO_PACKAGES: &[&str] = &["cosmos_proto", "gogoproto", "google"];
+const EXCLUDED_PROTO_PACKAGES: &[&str] = &["amino", "cosmos_proto", "gogoproto", "google"];
 
 pub fn copy_and_transform_all(from_dir: &Path, to_dir: &Path, descriptor: &FileDescriptorSet) {
     let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));

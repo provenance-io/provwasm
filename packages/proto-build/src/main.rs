@@ -19,7 +19,7 @@ const PROVENANCE_REV: &str = "v1.19.0-rc2";
 const OUT_DIR: &str = "../provwasm-std/src/types/";
 /// Directory where the provenance submodule is located
 const PROVENANCE_DIR: &str = "../../dependencies/provenance/";
-const THIRD_PARTY_DIR: &str = "../../dependencies/provenance/third_party/proto/";
+const THIRD_PARTY_DIR: &str = "../../dependencies/provenance/third_party/";
 
 /// A temporary directory for proto building
 const TMP_BUILD_DIR: &str = "/tmp/provwasm-std/proto-build";
@@ -46,7 +46,14 @@ pub fn generate() {
         version: PROVENANCE_REV.to_string(),
         project_dir: THIRD_PARTY_DIR.to_string(),
         buf_gen_template: "third-party.buf.gen.yaml".to_string(),
-        exclude_mods: vec![],
+        exclude_mods: vec![
+            "amino".to_string(),
+            "cosmos_proto".to_string(),
+            "cosmos/autocli".to_string(),
+            "cosmos/base/reflection".to_string(),
+            "cosmos/reflection".to_string(),
+            "gogoproto".to_string(),
+        ],
     };
 
     let provenance_code_generator = CodeGenerator::new(
