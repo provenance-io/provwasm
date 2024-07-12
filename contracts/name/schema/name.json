@@ -131,18 +131,21 @@
     "lookup": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "title": "QueryReverseLookupResponse",
+      "description": "QueryReverseLookupResponse is the response type for the Query/Resolve method.",
       "type": "object",
       "required": [
         "name"
       ],
       "properties": {
         "name": {
+          "description": "an array of names bound against a given address",
           "type": "array",
           "items": {
             "type": "string"
           }
         },
         "pagination": {
+          "description": "pagination defines an optional pagination for the request.",
           "anyOf": [
             {
               "$ref": "#/definitions/PageResponse"
@@ -155,12 +158,14 @@
       },
       "definitions": {
         "PageResponse": {
+          "description": "PageResponse is to be embedded in gRPC response messages where the corresponding request message has used PageRequest.\n\nmessage SomeResponse { repeated Bar results = 1; PageResponse page = 2; }",
           "type": "object",
           "required": [
             "total"
           ],
           "properties": {
             "next_key": {
+              "description": "next_key is the key to be passed to PageRequest.key to query the next page most efficiently. It will be empty if there are no more results.",
               "type": [
                 "array",
                 "null"
@@ -172,6 +177,7 @@
               }
             },
             "total": {
+              "description": "total is total number of results available if PageRequest.count_total was set, its value is undefined otherwise",
               "type": "integer",
               "format": "uint64",
               "minimum": 0.0
@@ -183,9 +189,11 @@
     "params": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "title": "QueryParamsResponse",
+      "description": "QueryParamsResponse is the response type for the Query/Params RPC method.",
       "type": "object",
       "properties": {
         "params": {
+          "description": "params defines the parameters of the module.",
           "anyOf": [
             {
               "$ref": "#/definitions/Params"
@@ -198,6 +206,7 @@
       },
       "definitions": {
         "Params": {
+          "description": "Params defines the set of params for the name module.",
           "type": "object",
           "required": [
             "allow_unrestricted_names",
@@ -207,19 +216,23 @@
           ],
           "properties": {
             "allow_unrestricted_names": {
+              "description": "determines if unrestricted name keys are allowed or not",
               "type": "boolean"
             },
             "max_name_levels": {
+              "description": "maximum number of name segments to allow.  Example: `foo.bar.baz` would be 3",
               "type": "integer",
               "format": "uint32",
               "minimum": 0.0
             },
             "max_segment_length": {
+              "description": "maximum length of name segment to allow",
               "type": "integer",
               "format": "uint32",
               "minimum": 0.0
             },
             "min_segment_length": {
+              "description": "minimum length of name segment to allow",
               "type": "integer",
               "format": "uint32",
               "minimum": 0.0
@@ -231,6 +244,7 @@
     "resolve": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "title": "QueryResolveResponse",
+      "description": "QueryResolveResponse is the response type for the Query/Resolve method.",
       "type": "object",
       "required": [
         "address",
@@ -238,9 +252,11 @@
       ],
       "properties": {
         "address": {
+          "description": "a string containing the address the name resolves to",
           "type": "string"
         },
         "restricted": {
+          "description": "Whether owner signature is required to add sub-names.",
           "type": "boolean"
         }
       }
