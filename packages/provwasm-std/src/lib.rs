@@ -10,9 +10,9 @@ pub mod shim;
     clippy::too_many_arguments
 )]
 pub mod types;
-// Indicate that smart contracts that use this lib can only be run on the Provenance Blockchain.
 
 pub use shim::{cosmwasm_to_proto_coins, try_proto_to_cosmwasm_coins};
 
+// Indicate that smart contracts that use this lib can only be run on the Provenance Blockchain.
 #[no_mangle]
 extern "C" fn requires_provenance() {}
