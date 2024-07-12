@@ -190,7 +190,7 @@ pub fn allow_serde_int_as_str(s: ItemStruct) -> ItemStruct {
 }
 
 pub fn allow_serde_vec_int_as_vec_str(s: ItemStruct) -> ItemStruct {
-    let vec_int_types = vec![
+    let vec_int_types: Vec<Type> = vec![
         parse_quote!(::prost::alloc::vec::Vec<i8>),
         parse_quote!(::prost::alloc::vec::Vec<i16>),
         parse_quote!(::prost::alloc::vec::Vec<i32>),
@@ -207,21 +207,18 @@ pub fn allow_serde_vec_int_as_vec_str(s: ItemStruct) -> ItemStruct {
 
     let fields_vec = s
         .fields
-        .clone()
         .into_iter()
         .map(|mut field| {
-            if vec_int_types.contains(&field.ty) {
+            if let Some(_) = vec_int_types.iter().position(|ty| ty.eq(&field.ty)) {
                 let from_str: syn::Attribute = parse_quote! {
                     #[serde(
                         serialize_with = "crate::serde::as_str_vec::serialize",
                         deserialize_with = "crate::serde::as_str_vec::deserialize"
                     )]
                 };
-                field.attrs.append(&mut vec![from_str]);
-                field
-            } else {
-                field
+                field.attrs.push(from_str);
             }
+            field
         })
         .collect::<Vec<syn::Field>>();
 
@@ -266,35 +263,36 @@ pub fn allow_serde_vec_u8_as_base64_encoded_string_or_string_bytes(s: ItemStruct
 
     let fields_vec = s
         .fields
-        .clone()
         .into_iter()
         .map(|mut field| {
             if field.ty == parse_quote!(::prost::alloc::vec::Vec<u8>) {
-                let from_str: syn::Attribute = if field
-                    .clone()
-                    .ident
-                    .is_some_and(|x| str_as_byte_fields.contains(&&***&&x.to_string()))
-                {
-                    parse_quote! {
-                        #[serde(
-                            serialize_with = "crate::serde::as_str_bytes::serialize",
-                            deserialize_with = "crate::serde::as_str_bytes::deserialize"
-                        )]
-                    }
+                let should_serialize_as_str = field.ident.as_ref().map_or(false, |x| {
+                    str_as_byte_fields.contains(&x.to_string().as_str())
+                });
+
+                let serialize_with = if should_serialize_as_str {
+                    "crate::serde::as_str_bytes::serialize"
                 } else {
-                    parse_quote! {
-                        #[serde(
-                            serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-                            deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-                        )]
-                    }
+                    "crate::serde::as_base64_encoded_string::serialize"
                 };
 
-                field.attrs.append(&mut vec![from_str]);
-                field
-            } else {
-                field
+                let deserialize_with = if should_serialize_as_str {
+                    "crate::serde::as_str_bytes::deserialize"
+                } else {
+                    "crate::serde::as_base64_encoded_string::deserialize"
+                };
+
+                let from_str: syn::Attribute = parse_quote! {
+                    #[serde(
+                        serialize_with = #serialize_with,
+                        deserialize_with = #deserialize_with
+                    )]
+                };
+
+                field.attrs.push(from_str);
             }
+
+            field
         })
         .collect::<Vec<syn::Field>>();
 
@@ -318,23 +316,18 @@ pub fn allow_serde_vec_vec_u8_as_vec_string_bytes(s: ItemStruct) -> ItemStruct {
         .into_iter()
         .map(|mut field| {
             if field.ty == parse_quote!(::prost::alloc::vec::Vec<::prost::alloc::vec::Vec<u8>>) {
-                if field
-                    .clone()
-                    .ident
-                    .is_some_and(|x| str_as_byte_fields.contains(&&***&&x.to_string()))
-                {
-                    field.attrs.append(&mut vec![parse_quote! {
+                if field.ident.as_ref().map_or(false, |ident| {
+                    str_as_byte_fields.contains(&ident.to_string().as_str())
+                }) {
+                    field.attrs.push(parse_quote! {
                         #[serde(
                             serialize_with = "crate::serde::as_str_bytes_vec::serialize",
                             deserialize_with = "crate::serde::as_str_bytes_vec::deserialize"
                         )]
-                    }]);
-                };
-
-                field
-            } else {
-                field
+                    });
+                }
             }
+            field
         })
         .collect::<Vec<syn::Field>>();
 
@@ -371,33 +364,33 @@ pub fn make_next_key_optional(mut s: ItemStruct) -> ItemStruct {
 }
 
 pub fn allow_serde_option_vec_u8_as_base64_encoded_string(s: syn::ItemStruct) -> syn::ItemStruct {
-    let fields_vec = s.fields
+    let fields_vec = s
+        .fields
         .clone()
         .into_iter()
         .map(|mut field| {
             if let syn::Type::Path(type_path) = &field.ty {
-                if let Some(segment) = type_path.path.segments.last() {
+                if type_path.path.segments.iter().any(|segment| {
                     if segment.ident == "Option" {
                         if let syn::PathArguments::AngleBracketed(args) = &segment.arguments {
-                            if let Some(arg) = args.args.first() {
-                                if let syn::GenericArgument::Type(inner_ty) = arg {
-                                    if let syn::Type::Path(inner_path) = inner_ty {
-                                        if let Some(inner_segment) = inner_path.path.segments.last() {
-                                            if inner_segment.ident == "Vec" {
-                                                let from_str: syn::Attribute = parse_quote! {
-                                                    #[serde(
-                                                        serialize_with = "crate::serde::as_option_base64_encoded_string::serialize",
-                                                        deserialize_with = "crate::serde::as_option_base64_encoded_string::deserialize"
-                                                    )]
-                                                };
-                                                field.attrs.push(from_str);
-                                            }
-                                        }
-                                    }
+                            if let Some(syn::GenericArgument::Type(inner_ty)) = args.args.first() {
+                                if let syn::Type::Path(inner_path) = inner_ty {
+                                    return inner_path.path.segments.iter().any(|inner_segment| {
+                                        inner_segment.ident == "Vec"
+                                    });
                                 }
                             }
                         }
                     }
+                    false
+                }) {
+                    let from_str: syn::Attribute = parse_quote! {
+                        #[serde(
+                            serialize_with = "crate::serde::as_option_base64_encoded_string::serialize",
+                            deserialize_with = "crate::serde::as_option_base64_encoded_string::deserialize"
+                        )]
+                    };
+                    field.attrs.push(from_str);
                 }
             }
             field
@@ -420,25 +413,21 @@ pub fn allow_serde_int_as_str_or_enum_as_i32(s: syn::ItemStruct) -> syn::ItemStr
         .into_iter()
         .map(|mut field| {
             if field.ty == parse_quote!(i32) {
-                let mut add_serde_attrs = false;
-                for attr in &field.attrs {
+                let add_serde_attrs = field.attrs.iter().any(|attr| {
                     if attr.path.is_ident("prost") {
-                        if let Ok(meta) = attr.parse_meta() {
-                            if let syn::Meta::List(meta_list) = meta {
-                                for nested_meta in meta_list.nested.iter() {
-                                    if let syn::NestedMeta::Meta(syn::Meta::NameValue(name_value)) =
-                                        nested_meta
-                                    {
-                                        if name_value.path.is_ident("enumeration") {
-                                            add_serde_attrs = true;
-                                            break;
-                                        }
-                                    }
+                        if let Ok(syn::Meta::List(meta_list)) = attr.parse_meta() {
+                            return meta_list.nested.iter().any(|nested_meta| {
+                                if let syn::NestedMeta::Meta(syn::Meta::NameValue(name_value)) =
+                                    nested_meta
+                                {
+                                    return name_value.path.is_ident("enumeration");
                                 }
-                            }
+                                false
+                            });
                         }
                     }
-                }
+                    false
+                });
 
                 if add_serde_attrs {
                     field.attrs.push(parse_quote! {
