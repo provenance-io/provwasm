@@ -834,4 +834,37 @@ mod tests {
 
         assert_ast_eq!(result, expected);
     }
+
+    #[test]
+    fn test_allow_serde_vec_u8_as_base64_encoded_string_or_string_bytes() {
+        let input: ItemStruct = parse_quote! {
+            pub struct PageResponse {
+                #[prost(bytes = "vec", optional, tag = "1")]
+                pub next_key: ::prost::alloc::vec::Vec<u8>,
+                #[prost(bytes = "vec", tag = "2")]
+                pub specification_id: ::prost::alloc::vec::Vec<u8>,
+            }
+        };
+
+        let result = allow_serde_vec_u8_as_base64_encoded_string_or_string_bytes(input);
+
+        let expected: ItemStruct = parse_quote! {
+            pub struct PageResponse {
+                #[prost(bytes = "vec", optional, tag = "1")]
+                #[serde(
+                    serialize_with = "crate::serde::as_base64_encoded_string::serialize",
+                    deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
+                )]
+                pub next_key: ::prost::alloc::vec::Vec<u8>,
+                #[prost(bytes = "vec", tag = "2")]
+                #[serde(
+                    serialize_with = "crate::serde::as_str_bytes::serialize",
+                    deserialize_with = "crate::serde::as_str_bytes::deserialize"
+                )]
+                pub specification_id: ::prost::alloc::vec::Vec<u8>,
+            }
+        };
+
+        assert_ast_eq!(result, expected);
+    }
 }
