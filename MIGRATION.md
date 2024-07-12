@@ -1,16 +1,25 @@
 # Migrating Contracts
 
-This guide provides information to assist in migrating contracts over major releases. 
+This guide provides information to assist in migrating contracts over major releases.
 
 ___There are also example [contracts](./contracts) that provide concrete examples using the current release.___
 
+## v2.1.0/v2.2.0 -> 2.3.0
+
+Cosmwasm is upgraded to 2.0.4 and Provenance to 1.19.0. These major upgrades are mostly handled within the library:
+
+- The encoding for `Any` types has changed. This means if your contract has a query that expects a `MarkerAccount` in
+  its response, it will fail as of `Provenance 1.19.0`. This is an internal change and only requires bumping the
+  provwasm-std dependency.
+- Follow the common [Cosmwasm migration path](https://github.com/cosmos/cosmos-rust). It is likely that your contract
+  will not require many changes. `QueryRequest::Grpc` is not supported (yet)
 
 ## v1.x.x -> 2.0.0
 
 This major upgrade changes the message base type from `CosmosMsg::Custom<ProvenanceMsg>` to `CosmosMsg::Stargate`. This
-allows all message types to be generated from the actual proto definitions in Provenance, making it much easier to add 
-and deprecate types. It will require updating all `provwasm` messages and queries. You will notice a `Deprecated` warning until
-you replace the older types.
+allows all message types to be generated from the actual proto definitions in Provenance, making it much easier to add
+and deprecate types. It will require updating all `provwasm` messages and queries. You will notice a `Deprecated`
+warning until you replace the older types.
 
 ---
 
@@ -65,7 +74,7 @@ you replace the older types.
       required_attributes: vec![],
   }
   ```
-  
+
 ---
 
 - Message:
@@ -103,10 +112,10 @@ you replace the older types.
       return MarkerAccount::try_from(marker)
   }
   ```
-  
-  ***`MarkerAccount` is the only special type that requires `::try_from()` since it is of type `Any`. Normally query 
+
+  ***`MarkerAccount` is the only special type that requires `::try_from()` since it is of type `Any`. Normally query
   responses are typed like the following:***
-  
+
   ```rust
   let querier = NameQuerier::new(&deps.querier);
   let query_response = querier.resolve(name)?; // query_response is of type QueryResolveResponse
