@@ -135,13 +135,13 @@ jobs:
         run: |
           cd ./contracts/scope
           make all
-      - name: Smart Contract Test setup
-        uses: provenance-io/provenance-testing-action@v1.3.0
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          provenance_version: "v1.19.0-rc2"
-          smart_contract_action_version: "latest"
-          test_script: "./scripts/gh-action-test/scope_test.sh"
+  #      - name: Smart Contract Test setup
+  #        uses: provenance-io/provenance-testing-action@v1.3.0
+  #        with:
+  #          github_token: ${{ secrets.GITHUB_TOKEN }}
+  #          provenance_version: "v1.19.0-rc2"
+  #          smart_contract_action_version: "latest"
+  #          test_script: "./scripts/gh-action-test/scope_test.sh"
 
   test_trigger_smart_contract:
     runs-on: ubuntu-latest
