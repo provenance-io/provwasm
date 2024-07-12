@@ -202,8 +202,8 @@ pub fn migrate(_deps: DepsMut, _env: Env, _msg: MigrateMsg) -> Result<Response, 
 
 #[cfg(test)]
 mod tests {
-    use cosmwasm_std::testing::{mock_env, mock_info, MOCK_CONTRACT_ADDR};
-    use cosmwasm_std::{from_json, Binary, CosmosMsg};
+    use cosmwasm_std::testing::{message_info, mock_env, MOCK_CONTRACT_ADDR};
+    use cosmwasm_std::{from_json, Addr, AnyMsg, Binary, CosmosMsg};
 
     use provwasm_mocks::mock_provenance_dependencies;
     use provwasm_std::types::provenance::attribute::v1::{
@@ -223,7 +223,7 @@ mod tests {
         let res = instantiate(
             deps.as_mut(),
             mock_env(),
-            mock_info("sender", &[]),
+            message_info(&Addr::unchecked("sender"), &[]),
             InitMsg {
                 name: "contract.pb".into(),
             },
@@ -234,7 +234,7 @@ mod tests {
         assert_eq!(1, res.messages.len());
 
         match &res.messages[0].msg {
-            CosmosMsg::Stargate { type_url, value } => {
+            CosmosMsg::Any(AnyMsg { type_url, value }) => {
                 let expected: Binary = MsgBindNameRequest {
                     parent: Some(NameRecord {
                         name: "pb".to_string(),
@@ -265,7 +265,7 @@ mod tests {
         let _ = instantiate(
             deps.as_mut(),
             mock_env(),
-            mock_info("sender", &[]),
+            message_info(&Addr::unchecked("sender"), &[]),
             InitMsg {
                 name: "contract.pb".into(),
             },
@@ -276,7 +276,7 @@ mod tests {
         let res = execute(
             deps.as_mut(),
             mock_env(),
-            mock_info("sender", &[]),
+            message_info(&Addr::unchecked("sender"), &[]),
             ExecuteMsg::BindLabelName {},
         )
         .unwrap(); // Panics on error
@@ -285,7 +285,7 @@ mod tests {
         assert_eq!(1, res.messages.len());
         // Assert the correct message was created
         match &res.messages[0].msg {
-            CosmosMsg::Stargate { type_url, value } => {
+            CosmosMsg::Any(AnyMsg { type_url, value }) => {
                 let expected: Binary = MsgBindNameRequest {
                     parent: Some(NameRecord {
                         name: "contract.pb".to_string(),
@@ -316,7 +316,7 @@ mod tests {
         let _ = instantiate(
             deps.as_mut(),
             mock_env(),
-            mock_info("sender", &[]),
+            message_info(&Addr::unchecked("sender"), &[]),
             InitMsg {
                 name: "contract.pb".into(),
             },
@@ -327,7 +327,7 @@ mod tests {
         let err = execute(
             deps.as_mut(),
             mock_env(),
-            mock_info("other", &[]), //  error: not 'sender'
+            message_info(&Addr::unchecked("other"), &[]), //  error: not 'sender'
             ExecuteMsg::BindLabelName {},
         )
         .unwrap_err();
@@ -348,7 +348,7 @@ mod tests {
         let _ = instantiate(
             deps.as_mut(),
             mock_env(),
-            mock_info("sender", &[]),
+            message_info(&Addr::unchecked("sender"), &[]),
             InitMsg {
                 name: "contract.pb".into(),
             },
@@ -359,7 +359,7 @@ mod tests {
         let res = execute(
             deps.as_mut(),
             mock_env(),
-            mock_info("sender", &[]),
+            message_info(&Addr::unchecked("sender"), &[]),
             ExecuteMsg::AddLabel {
                 text: "text".into(),
             },
@@ -369,14 +369,14 @@ mod tests {
         // Ensure a message was created to add a named JSON attribute.
         assert_eq!(1, res.messages.len());
         match &res.messages[0].msg {
-            CosmosMsg::Stargate { type_url, value } => {
+            CosmosMsg::Any(AnyMsg { type_url, value }) => {
                 let expected: Binary = MsgAddAttributeRequest {
                     name: "label.contract.pb".to_string(),
                     value: to_json_binary(&Label {
                         text: "text".to_string(),
                     })
                     .unwrap()
-                    .0,
+                    .to_vec(),
                     attribute_type: AttributeType::Json.into(),
                     account: MOCK_CONTRACT_ADDR.to_string(),
                     owner: MOCK_CONTRACT_ADDR.to_string(),
@@ -400,7 +400,7 @@ mod tests {
         let _ = instantiate(
             deps.as_mut(),
             mock_env(),
-            mock_info("sender", &[]),
+            message_info(&Addr::unchecked("sender"), &[]),
             InitMsg {
                 name: "contract.pb".into(),
             },
@@ -411,7 +411,7 @@ mod tests {
         let err = execute(
             deps.as_mut(),
             mock_env(),
-            mock_info("other", &[]), // error: not 'sender'
+            message_info(&Addr::unchecked("other"), &[]), // error: not 'sender'
             ExecuteMsg::AddLabel {
                 text: "text".into(),
             },
@@ -434,7 +434,7 @@ mod tests {
         let _ = instantiate(
             deps.as_mut(),
             mock_env(),
-            mock_info("sender", &[]),
+            message_info(&Addr::unchecked("sender"), &[]),
             InitMsg {
                 name: "contract.pb".into(),
             },
@@ -445,7 +445,7 @@ mod tests {
         let res = execute(
             deps.as_mut(),
             mock_env(),
-            mock_info("sender", &[]),
+            message_info(&Addr::unchecked("sender"), &[]),
             ExecuteMsg::DeleteLabels {},
         )
         .unwrap();
@@ -453,7 +453,7 @@ mod tests {
         // Ensure a message was created to delete all named JSON attributes.
         assert_eq!(1, res.messages.len());
         match &res.messages[0].msg {
-            CosmosMsg::Stargate { type_url, value } => {
+            CosmosMsg::Any(AnyMsg { type_url, value }) => {
                 let expected: Binary = MsgDeleteAttributeRequest {
                     name: "label.contract.pb".to_string(),
                     account: MOCK_CONTRACT_ADDR.to_string(),
@@ -480,7 +480,7 @@ mod tests {
         let _ = instantiate(
             deps.as_mut(),
             mock_env(),
-            mock_info("sender", &[]),
+            message_info(&Addr::unchecked("sender"), &[]),
             InitMsg {
                 name: "contract.pb".into(),
             },
@@ -491,7 +491,7 @@ mod tests {
         let err = execute(
             deps.as_mut(),
             mock_env(),
-            mock_info("other", &[]), // error: not 'sender'
+            message_info(&Addr::unchecked("other"), &[]), // error: not 'sender'
             ExecuteMsg::DeleteLabels {},
         )
         .unwrap_err();
@@ -512,7 +512,7 @@ mod tests {
         let _ = instantiate(
             deps.as_mut(),
             mock_env(),
-            mock_info("sender", &[]),
+            message_info(&Addr::unchecked("sender"), &[]),
             InitMsg {
                 name: "contract.pb".into(),
             },
@@ -523,7 +523,7 @@ mod tests {
         let res = execute(
             deps.as_mut(),
             mock_env(),
-            mock_info("sender", &[]),
+            message_info(&Addr::unchecked("sender"), &[]),
             ExecuteMsg::UpdateLabel {
                 original_text: "original_text".to_string(),
                 update_text: "update_text".to_string(),
@@ -535,18 +535,18 @@ mod tests {
         assert_eq!(1, res.messages.len());
 
         match &res.messages[0].msg {
-            CosmosMsg::Stargate { type_url, value } => {
+            CosmosMsg::Any(AnyMsg { type_url, value }) => {
                 let expected: Binary = MsgUpdateAttributeRequest {
                     original_value: to_json_binary(&Label {
                         text: "original_text".to_string(),
                     })
                     .unwrap()
-                    .0,
+                    .to_vec(),
                     update_value: to_json_binary(&Label {
                         text: "update_text".to_string(),
                     })
                     .unwrap()
-                    .0,
+                    .to_vec(),
                     original_attribute_type: AttributeType::Json.into(),
                     update_attribute_type: AttributeType::Json.into(),
                     account: MOCK_CONTRACT_ADDR.to_string(),
@@ -574,7 +574,7 @@ mod tests {
         let _ = instantiate(
             deps.as_mut(),
             mock_env(),
-            mock_info("sender", &[]),
+            message_info(&Addr::unchecked("sender"), &[]),
             InitMsg {
                 name: "contract.pb".into(),
             },
@@ -609,7 +609,7 @@ mod tests {
                         text: "text".to_string(),
                     })
                     .unwrap()
-                    .0,
+                    .to_vec(),
                     attribute_type: AttributeType::Json.into(),
                     address: "".to_string(),
                     expiration_date: None,
@@ -622,7 +622,7 @@ mod tests {
         let _ = instantiate(
             deps.as_mut(),
             mock_env(),
-            mock_info("sender", &[]),
+            message_info(&Addr::unchecked("sender"), &[]),
             InitMsg {
                 name: "contract.pb".into(),
             },

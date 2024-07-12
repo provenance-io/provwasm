@@ -54,9 +54,9 @@ pub fn instantiate(
                 .add_attribute("contract_owner", info.sender);
             Ok(res)
         }
-        (_, _) => Err(ContractError::Std(StdError::GenericErr {
-            msg: "Invalid contract name".to_string(),
-        })),
+        (_, _) => Err(ContractError::Std(StdError::generic_err(
+            "Invalid contract name",
+        ))),
     }
 }
 
@@ -178,8 +178,8 @@ fn try_get_records_by_name(
 
 #[cfg(test)]
 mod tests {
-    use cosmwasm_std::from_json;
-    use cosmwasm_std::testing::{mock_env, mock_info};
+    use cosmwasm_std::testing::{message_info, mock_env};
+    use cosmwasm_std::{from_json, Addr};
 
     use provwasm_mocks::mock_provenance_dependencies;
     use provwasm_std::types::provenance::metadata::v1::process::ProcessId;
@@ -201,7 +201,7 @@ mod tests {
         let res = instantiate(
             deps.as_mut(),
             mock_env(),
-            mock_info("sender", &[]),
+            message_info(&Addr::unchecked("sender"), &[]),
             InitMsg {
                 name: "contract.pb".into(),
             },

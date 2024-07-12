@@ -21,7 +21,7 @@ quote = "1.0.27"
 syn = "1.0.109"
 
 [dev-dependencies]
-cosmwasm-std = { workspace = true, features = ["stargate"] }
+cosmwasm-std = { workspace = true }
 prost = { workspace = true }
 serde = { workspace = true }
 trybuild = { version = "1.0.80", features = ["diff"] }

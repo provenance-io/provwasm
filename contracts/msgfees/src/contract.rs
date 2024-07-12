@@ -97,8 +97,8 @@ pub fn try_send_funds(
 #[cfg(test)]
 mod tests {
     use super::*;
-    use cosmwasm_std::testing::{mock_env, mock_info, MOCK_CONTRACT_ADDR};
-    use cosmwasm_std::{attr, coin, Binary, CosmosMsg};
+    use cosmwasm_std::testing::{message_info, mock_env, MOCK_CONTRACT_ADDR};
+    use cosmwasm_std::{attr, coin, AnyMsg, Binary, CosmosMsg};
     use provwasm_mocks::mock_provenance_dependencies;
     use provwasm_std::types::cosmos::base::v1beta1::Coin;
     use provwasm_std::types::provenance::msgfees::v1::MsgAssessCustomMsgFeeRequest;
@@ -108,7 +108,7 @@ mod tests {
         // Create default provenance mocks.
         let mut deps = mock_provenance_dependencies();
         let env = mock_env();
-        let info = mock_info("sender", &[]);
+        let info = message_info(&Addr::unchecked("sender"), &[]);
 
         // Init with fees
         let msg = InitMsg {
@@ -146,7 +146,7 @@ mod tests {
         // Init state
         let mut deps = mock_provenance_dependencies();
         let env = mock_env();
-        let info = mock_info("sender", &[coin(200_000, "nhash")]);
+        let info = message_info(&Addr::unchecked("sender"), &[coin(200_000, "nhash")]);
 
         CONFIG
             .save(
@@ -167,7 +167,7 @@ mod tests {
         // Assert the correct message was created
         assert_eq!(2, res.messages.len());
         match &res.messages[0].msg {
-            CosmosMsg::Stargate { type_url, value } => {
+            CosmosMsg::Any(AnyMsg { type_url, value }) => {
                 let expected: Binary = MsgAssessCustomMsgFeeRequest {
                     name: "std_contract_fee".to_string(),
                     amount: Some(Coin {
@@ -190,7 +190,7 @@ mod tests {
         }
 
         match &res.messages[1].msg {
-            CosmosMsg::Stargate { type_url, value } => {
+            CosmosMsg::Any(AnyMsg { type_url, value }) => {
                 let expected: Binary = MsgSend {
                     from_address: MOCK_CONTRACT_ADDR.to_string(),
                     to_address: "to_address".to_string(),
@@ -213,7 +213,7 @@ mod tests {
         // Init state
         let mut deps = mock_provenance_dependencies();
         let env = mock_env();
-        let info = mock_info("sender", &[]);
+        let info = message_info(&Addr::unchecked("sender"), &[]);
 
         CONFIG
             .save(
@@ -234,7 +234,7 @@ mod tests {
         // Assert the correct message was created
         assert_eq!(1, res.messages.len());
         match &res.messages[0].msg {
-            CosmosMsg::Stargate { type_url, value } => {
+            CosmosMsg::Any(AnyMsg { type_url, value }) => {
                 let expected: Binary = MsgSend {
                     from_address: MOCK_CONTRACT_ADDR.to_string(),
                     to_address: "to_address".to_string(),
