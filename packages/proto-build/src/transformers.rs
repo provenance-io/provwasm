@@ -233,7 +233,9 @@ pub fn allow_serde_vec_int_as_vec_str(s: ItemStruct) -> ItemStruct {
     syn::ItemStruct { fields, ..s }
 }
 
-pub fn allow_serde_vec_u8_as_base64_encoded_string_or_bytes(s: ItemStruct) -> ItemStruct {
+/// Adds `crate::serde::as_str_bytes` serde attribute to specific Metadata fields which are a Metadata Address
+/// or adds `crate::serde::as_base64_encoded_string` serde attribute to `::prost::alloc::vec::Vec<u8>` field types
+pub fn allow_serde_vec_u8_as_base64_encoded_string_or_string_bytes(s: ItemStruct) -> ItemStruct {
     // These fields are string of bytes (MetadataAddress type), not base64 strings
     let str_as_byte_fields = [
         "context",
@@ -304,34 +306,32 @@ pub fn allow_serde_vec_u8_as_base64_encoded_string_or_bytes(s: ItemStruct) -> It
     syn::ItemStruct { fields, ..s }
 }
 
-/// some of proto's fields in osmosis' modules are named `ID` but prost generates `id` field
-/// this function adds `#[serde(alias = "ID")]` to the `id` field
-/// so that serde can deserialize `ID` field to `id` field.
-/// This is required because the `ID` field is used in the query response and is serialized as json.
-pub fn serde_alias_id_with_uppercased(s: ItemStruct) -> ItemStruct {
+/// Adds `crate::serde::as_str_bytes_vec` serde attribute to specific Metadata fields which
+/// are a vector of Metadata Addresses
+pub fn allow_serde_vec_vec_u8_as_vec_string_bytes(s: ItemStruct) -> ItemStruct {
+    // These fields are string of bytes (MetadataAddress type), not base64 strings
+    let str_as_byte_fields = ["contract_spec_ids", "scope_ids"];
+
     let fields_vec = s
         .fields
         .clone()
         .into_iter()
         .map(|mut field| {
-            if let Some(ident) = &field.ident {
-                let ident_str = ident.to_string();
-                if ident_str == "id" {
-                    let serde_alias_id: syn::Attribute = parse_quote! {
-                        #[serde(alias = "ID")]
-                    };
-                    field.attrs.append(&mut vec![serde_alias_id]);
-                    field
-                } else if ident_str.contains("_id") {
-                    let ident_str = ident_str.replace("_id", "ID");
-                    let serde_alias_id: syn::Attribute = parse_quote! {
-                        #[serde(alias = #ident_str)]
-                    };
-                    field.attrs.append(&mut vec![serde_alias_id]);
-                    field
-                } else {
-                    field
-                }
+            if field.ty == parse_quote!(::prost::alloc::vec::Vec<::prost::alloc::vec::Vec<u8>>) {
+                if field
+                    .clone()
+                    .ident
+                    .is_some_and(|x| str_as_byte_fields.contains(&&***&&x.to_string()))
+                {
+                    field.attrs.append(&mut vec![parse_quote! {
+                        #[serde(
+                            serialize_with = "crate::serde::as_str_bytes_vec::serialize",
+                            deserialize_with = "crate::serde::as_str_bytes_vec::deserialize"
+                        )]
+                    }]);
+                };
+
+                field
             } else {
                 field
             }
@@ -783,57 +783,6 @@ mod tests {
             #[derive(PartialEq, Eq, Debug)]
             struct Hello {
                 name: String
-            }
-        };
-
-        assert_ast_eq!(result, expected);
-    }
-
-    #[test]
-    #[allow(non_snake_case)]
-    fn test_alias_id_with_ID_if_there_id_a_field_named_id() {
-        let item_struct: ItemStruct = syn::parse_quote! {
-            #[derive(PartialEq, Eq, Debug)]
-            struct PeriodLock {
-                id: u64,
-                duration: Duration,
-            }
-        };
-
-        let result = serde_alias_id_with_uppercased(item_struct);
-
-        let expected: ItemStruct = syn::parse_quote! {
-            #[derive(PartialEq, Eq, Debug)]
-            struct PeriodLock {
-                #[serde(alias = "ID")]
-                id: u64,
-                duration: Duration,
-            }
-        };
-
-        assert_ast_eq!(result, expected);
-    }
-
-    #[test]
-    #[allow(non_snake_case)]
-    fn test_alias_partial_id_with_ID() {
-        let item_struct: ItemStruct = syn::parse_quote! {
-            #[derive(PartialEq, Eq, Debug)]
-            pub struct FeeToken {
-                pub denom: ::prost::alloc::string::String,
-
-                pub pool_id: u64,
-            }
-        };
-
-        let result = serde_alias_id_with_uppercased(item_struct);
-
-        let expected: ItemStruct = syn::parse_quote! {
-            #[derive(PartialEq, Eq, Debug)]
-            pub struct FeeToken {
-                pub denom: ::prost::alloc::string::String,
-                #[serde(alias = "poolID")]
-                pub pool_id: u64,
             }
         };
 
