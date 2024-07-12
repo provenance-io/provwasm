@@ -419,40 +419,42 @@ pub fn allow_serde_int_as_str_or_enum_as_i32(s: syn::ItemStruct) -> syn::ItemStr
         .fields
         .into_iter()
         .map(|mut field| {
-            let mut add_serde_attrs = false;
-            for attr in &field.attrs {
-                if attr.path.is_ident("prost") {
-                    if let Ok(meta) = attr.parse_meta() {
-                        if let syn::Meta::List(meta_list) = meta {
-                            for nested_meta in meta_list.nested.iter() {
-                                if let syn::NestedMeta::Meta(syn::Meta::NameValue(name_value)) =
-                                    nested_meta
-                                {
-                                    if name_value.path.is_ident("enumeration") {
-                                        add_serde_attrs = true;
-                                        break;
+            if field.ty == parse_quote!(i32) {
+                let mut add_serde_attrs = false;
+                for attr in &field.attrs {
+                    if attr.path.is_ident("prost") {
+                        if let Ok(meta) = attr.parse_meta() {
+                            if let syn::Meta::List(meta_list) = meta {
+                                for nested_meta in meta_list.nested.iter() {
+                                    if let syn::NestedMeta::Meta(syn::Meta::NameValue(name_value)) =
+                                        nested_meta
+                                    {
+                                        if name_value.path.is_ident("enumeration") {
+                                            add_serde_attrs = true;
+                                            break;
+                                        }
                                     }
                                 }
                             }
                         }
                     }
                 }
-            }
 
-            if add_serde_attrs {
-                field.attrs.push(parse_quote! {
-                    #[serde(
-                        serialize_with = "crate::serde::enum_as_i32::serialize",
-                        deserialize_with = "crate::serde::enum_as_i32::deserialize"
-                    )]
-                });
-            } else {
-                field.attrs.push(parse_quote! {
-                    #[serde(
-                        serialize_with = "crate::serde::as_str::serialize",
-                        deserialize_with = "crate::serde::as_str::deserialize"
-                    )]
-                });
+                if add_serde_attrs {
+                    field.attrs.push(parse_quote! {
+                        #[serde(
+                            serialize_with = "crate::serde::enum_as_i32::serialize",
+                            deserialize_with = "crate::serde::enum_as_i32::deserialize"
+                        )]
+                    });
+                } else {
+                    field.attrs.push(parse_quote! {
+                        #[serde(
+                            serialize_with = "crate::serde::as_str::serialize",
+                            deserialize_with = "crate::serde::as_str::deserialize"
+                        )]
+                    });
+                }
             }
 
             field
