@@ -146,26 +146,26 @@ pub fn append_attrs_enum(src: &Path, e: &ItemEnum, descriptor: &FileDescriptorSe
 }
 
 pub fn allow_serde_int_as_str(s: ItemStruct) -> ItemStruct {
+    let int_types = vec![
+        parse_quote!(i8),
+        parse_quote!(i16),
+        parse_quote!(i32),
+        parse_quote!(i64),
+        parse_quote!(i128),
+        parse_quote!(isize),
+        parse_quote!(u8),
+        parse_quote!(u16),
+        parse_quote!(u32),
+        parse_quote!(u64),
+        parse_quote!(u128),
+        parse_quote!(usize),
+    ];
+
     let fields_vec = s
         .fields
         .clone()
         .into_iter()
         .map(|mut field| {
-            let int_types = vec![
-                parse_quote!(i8),
-                parse_quote!(i16),
-                parse_quote!(i32),
-                parse_quote!(i64),
-                parse_quote!(i128),
-                parse_quote!(isize),
-                parse_quote!(u8),
-                parse_quote!(u16),
-                parse_quote!(u32),
-                parse_quote!(u64),
-                parse_quote!(u128),
-                parse_quote!(usize),
-            ];
-
             if int_types.contains(&field.ty) {
                 let from_str: syn::Attribute = parse_quote! {
                     #[serde(
@@ -190,26 +190,26 @@ pub fn allow_serde_int_as_str(s: ItemStruct) -> ItemStruct {
 }
 
 pub fn allow_serde_vec_int_as_vec_str(s: ItemStruct) -> ItemStruct {
+    let vec_int_types = vec![
+        parse_quote!(::prost::alloc::vec::Vec<i8>),
+        parse_quote!(::prost::alloc::vec::Vec<i16>),
+        parse_quote!(::prost::alloc::vec::Vec<i32>),
+        parse_quote!(::prost::alloc::vec::Vec<i64>),
+        parse_quote!(::prost::alloc::vec::Vec<i128>),
+        parse_quote!(::prost::alloc::vec::Vec<isize>),
+        // parse_quote!(::prost::alloc::vec::Vec<u8>), -- this is not included because it is used for bytes and has it's own rule
+        parse_quote!(::prost::alloc::vec::Vec<u16>),
+        parse_quote!(::prost::alloc::vec::Vec<u32>),
+        parse_quote!(::prost::alloc::vec::Vec<u64>),
+        parse_quote!(::prost::alloc::vec::Vec<u128>),
+        parse_quote!(::prost::alloc::vec::Vec<usize>),
+    ];
+
     let fields_vec = s
         .fields
         .clone()
         .into_iter()
         .map(|mut field| {
-            let vec_int_types = vec![
-                parse_quote!(::prost::alloc::vec::Vec<i8>),
-                parse_quote!(::prost::alloc::vec::Vec<i16>),
-                parse_quote!(::prost::alloc::vec::Vec<i32>),
-                parse_quote!(::prost::alloc::vec::Vec<i64>),
-                parse_quote!(::prost::alloc::vec::Vec<i128>),
-                parse_quote!(::prost::alloc::vec::Vec<isize>),
-                // parse_quote!(::prost::alloc::vec::Vec<u8>), -- this is not included because it is used for bytes and has it's own rule
-                parse_quote!(::prost::alloc::vec::Vec<u16>),
-                parse_quote!(::prost::alloc::vec::Vec<u32>),
-                parse_quote!(::prost::alloc::vec::Vec<u64>),
-                parse_quote!(::prost::alloc::vec::Vec<u128>),
-                parse_quote!(::prost::alloc::vec::Vec<usize>),
-            ];
-
             if vec_int_types.contains(&field.ty) {
                 let from_str: syn::Attribute = parse_quote! {
                     #[serde(
@@ -233,19 +233,61 @@ pub fn allow_serde_vec_int_as_vec_str(s: ItemStruct) -> ItemStruct {
     syn::ItemStruct { fields, ..s }
 }
 
-pub fn allow_serde_vec_u8_as_base64_encoded_string(s: ItemStruct) -> ItemStruct {
+pub fn allow_serde_vec_u8_as_base64_encoded_string_or_bytes(s: ItemStruct) -> ItemStruct {
+    // These fields are string of bytes (MetadataAddress type), not base64 strings
+    let str_as_byte_fields = [
+        "context",
+        "contract_spec_id",
+        "contract_spec_id_prefix",
+        "contract_spec_id_contract_spec_uuid",
+        "contract_specification_id",
+        "record_id",
+        "record_id_hashed_name",
+        "record_id_prefix",
+        "record_id_scope_uuid",
+        "record_spec_id",
+        "record_spec_id_contract_spec_uuid",
+        "record_spec_id_hashed_name",
+        "record_spec_id_prefix",
+        "scope_spec_id",
+        "scope_spec_id_prefix",
+        "scope_spec_id_scope_spec_uuid",
+        "scope_specification_id",
+        "scope_id",
+        "scope_id_prefix",
+        "scope_id_scope_uuid",
+        "session_id",
+        "session_id_prefix",
+        "session_id_scope_uuid",
+        "specification_id",
+    ];
+
     let fields_vec = s
         .fields
         .clone()
         .into_iter()
         .map(|mut field| {
             if field.ty == parse_quote!(::prost::alloc::vec::Vec<u8>) {
-                let from_str: syn::Attribute = parse_quote! {
-                    #[serde(
-                        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-                        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-                    )]
+                let from_str: syn::Attribute = if field
+                    .clone()
+                    .ident
+                    .is_some_and(|x| str_as_byte_fields.contains(&&***&&x.to_string()))
+                {
+                    parse_quote! {
+                        #[serde(
+                            serialize_with = "crate::serde::as_str_bytes::serialize",
+                            deserialize_with = "crate::serde::as_str_bytes::deserialize"
+                        )]
+                    }
+                } else {
+                    parse_quote! {
+                        #[serde(
+                            serialize_with = "crate::serde::as_base64_encoded_string::serialize",
+                            deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
+                        )]
+                    }
                 };
+
                 field.attrs.append(&mut vec![from_str]);
                 field
             } else {
