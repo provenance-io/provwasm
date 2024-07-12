@@ -145,6 +145,7 @@ fn transform_items(
                     transformers::allow_serde_vec_u8_as_base64_encoded_string_or_string_bytes(s);
                 let s = transformers::allow_serde_vec_vec_u8_as_vec_string_bytes(s);
                 let s = transformers::allow_serde_int_as_str(s);
+                let s = transformers::allow_serde_int_as_str_or_enum_as_i32(s);
 
                 transformers::allow_serde_vec_int_as_vec_str(s)
             }),

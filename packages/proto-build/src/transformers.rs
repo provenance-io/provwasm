@@ -149,7 +149,7 @@ pub fn allow_serde_int_as_str(s: ItemStruct) -> ItemStruct {
     let int_types = vec![
         parse_quote!(i8),
         parse_quote!(i16),
-        parse_quote!(i32),
+        // parse_quote!(i32), -- this is not included since it could be either str or enum type
         parse_quote!(i64),
         parse_quote!(i128),
         parse_quote!(isize),
@@ -400,6 +400,61 @@ pub fn allow_serde_option_vec_u8_as_base64_encoded_string(s: syn::ItemStruct) ->
                     }
                 }
             }
+            field
+        })
+        .collect::<Vec<syn::Field>>();
+
+    let fields_named: syn::FieldsNamed = parse_quote! {
+        { #(#fields_vec,)* }
+    };
+    let fields = syn::Fields::Named(fields_named);
+
+    syn::ItemStruct { fields, ..s }
+}
+
+/// Adds `crate::serde::enum_as_i32` serde attribute to specific Metadata fields which
+/// are an enumerated type as an i32, or adds `crate::serde::as_str` serde attribute like `allow_serde_int_as_str`
+pub fn allow_serde_int_as_str_or_enum_as_i32(s: syn::ItemStruct) -> syn::ItemStruct {
+    let fields_vec = s
+        .fields
+        .into_iter()
+        .map(|mut field| {
+            let mut add_serde_attrs = false;
+            for attr in &field.attrs {
+                if attr.path.is_ident("prost") {
+                    if let Ok(meta) = attr.parse_meta() {
+                        if let syn::Meta::List(meta_list) = meta {
+                            for nested_meta in meta_list.nested.iter() {
+                                if let syn::NestedMeta::Meta(syn::Meta::NameValue(name_value)) =
+                                    nested_meta
+                                {
+                                    if name_value.path.is_ident("enumeration") {
+                                        add_serde_attrs = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            if add_serde_attrs {
+                field.attrs.push(parse_quote! {
+                    #[serde(
+                        serialize_with = "crate::serde::enum_as_i32::serialize",
+                        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+                    )]
+                });
+            } else {
+                field.attrs.push(parse_quote! {
+                    #[serde(
+                        serialize_with = "crate::serde::as_str::serialize",
+                        deserialize_with = "crate::serde::as_str::deserialize"
+                    )]
+                });
+            }
+
             field
         })
         .collect::<Vec<syn::Field>>();
@@ -862,6 +917,39 @@ mod tests {
                     deserialize_with = "crate::serde::as_str_bytes::deserialize"
                 )]
                 pub specification_id: ::prost::alloc::vec::Vec<u8>,
+            }
+        };
+
+        assert_ast_eq!(result, expected);
+    }
+
+    #[test]
+    fn test_allow_serde_enum_as_i32() {
+        let input: ItemStruct = parse_quote! {
+            pub struct Party {
+                #[prost(string, tag = "1")]
+                pub address: ::prost::alloc::string::String,
+                #[prost(enumeration = "PartyType", tag = "2")]
+                pub role: i32,
+                #[prost(bool, tag = "3")]
+                pub optional: bool,
+            }
+        };
+
+        let result = allow_serde_int_as_str_or_enum_as_i32(input);
+
+        let expected: ItemStruct = parse_quote! {
+            pub struct Party {
+                #[prost(string, tag = "1")]
+                pub address: ::prost::alloc::string::String,
+                #[prost(enumeration = "PartyType", tag = "2")]
+                #[serde(
+                    serialize_with = "crate::serde::enum_as_i32::serialize",
+                    deserialize_with = "crate::serde::enum_as_i32::deserialize"
+                )]
+                pub role: i32,
+                #[prost(bool, tag = "3")]
+                pub optional: bool,
             }
         };
 
