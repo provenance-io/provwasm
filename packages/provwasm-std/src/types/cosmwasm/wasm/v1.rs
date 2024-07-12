@@ -720,6 +720,20 @@ pub struct MsgIbcSendResponse {
     )]
     pub sequence: u64,
 }
+/// MsgIBCWriteAcknowledgementResponse
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(
+    Clone,
+    PartialEq,
+    Eq,
+    ::prost::Message,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
+)]
+#[proto_message(type_url = "/cosmwasm.wasm.v1.MsgIBCWriteAcknowledgementResponse")]
+pub struct MsgIbcWriteAcknowledgementResponse {}
 /// MsgIBCCloseChannel port and channel need to be owned by the contract
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
