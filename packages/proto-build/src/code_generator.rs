@@ -78,6 +78,7 @@ impl CodeGenerator {
 
     fn generate_mod_file(&self) {
         mod_gen::generate_mod_file(&self.absolute_out_dir());
+        mod_gen::add_root_features(&self.absolute_out_dir());
     }
 
     fn transform(&self) {
