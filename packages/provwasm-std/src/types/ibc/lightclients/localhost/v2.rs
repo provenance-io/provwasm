@@ -1,4 +1,4 @@
-use provwasm_proc_macro::CosmwasmExt;
+use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
 /// ClientState defines the 09-localhost client state
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(

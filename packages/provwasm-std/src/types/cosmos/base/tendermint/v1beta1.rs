@@ -1,4 +1,4 @@
-use provwasm_proc_macro::CosmwasmExt;
+use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
 /// Block is tendermint type Block, with the Header proposer address
 /// field converted to bech32 string.
 #[allow(clippy::derive_partial_eq_without_eq)]

@@ -1,4 +1,4 @@
-use provwasm_proc_macro::CosmwasmExt;
+use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
 /// Commitment contains information on committed funds.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
@@ -1128,16 +1128,12 @@ pub struct AccessGrant {
     pub address: ::prost::alloc::string::String,
     /// allowed is the list of permissions available for the address.
     #[prost(enumeration = "Permission", repeated, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str_vec::serialize",
-        deserialize_with = "crate::serde::as_str_vec::deserialize"
-    )]
     pub permissions: ::prost::alloc::vec::Vec<i32>,
 }
 /// Permission defines the different types of permission that can be given to an account for a market.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
+#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 pub enum Permission {
     /// PERMISSION_UNSPECIFIED is the zero-value Permission; it is an error to use it.
     Unspecified = 0,
@@ -1215,7 +1211,7 @@ pub struct Order {
 }
 /// Nested message and enum types in `Order`.
 pub mod order {
-    use provwasm_proc_macro::CosmwasmExt;
+    use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
     /// order is the specifics of this order.
     #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(

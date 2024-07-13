@@ -1,4 +1,4 @@
-use provwasm_proc_macro::CosmwasmExt;
+use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
 /// Coin defines a token with a denomination and an amount.
 ///
 /// NOTE: The amount field is an Int which implements the custom method

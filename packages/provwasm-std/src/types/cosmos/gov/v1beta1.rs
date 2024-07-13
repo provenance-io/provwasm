@@ -1,4 +1,4 @@
-use provwasm_proc_macro::CosmwasmExt;
+use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
 /// WeightedVoteOption defines a unit of vote for vote split.
 ///
 /// Since: cosmos-sdk 0.43
@@ -18,8 +18,8 @@ pub struct WeightedVoteOption {
     /// option defines the valid vote options, it must not contain duplicate vote options.
     #[prost(enumeration = "VoteOption", tag = "1")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "VoteOption::serialize",
+        deserialize_with = "VoteOption::deserialize"
     )]
     pub option: i32,
     /// weight is the vote weight associated with the vote option.
@@ -104,8 +104,8 @@ pub struct Proposal {
     /// status defines the proposal status.
     #[prost(enumeration = "ProposalStatus", tag = "3")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "ProposalStatus::serialize",
+        deserialize_with = "ProposalStatus::deserialize"
     )]
     pub status: i32,
     /// final_tally_result is the final tally result of the proposal. When
@@ -187,8 +187,8 @@ pub struct Vote {
     #[deprecated]
     #[prost(enumeration = "VoteOption", tag = "3")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "VoteOption::serialize",
+        deserialize_with = "VoteOption::deserialize"
     )]
     pub option: i32,
     /// options is the weighted vote options.
@@ -278,7 +278,7 @@ pub struct TallyParams {
 /// VoteOption enumerates the valid vote options for a given governance proposal.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
+#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 pub enum VoteOption {
     /// VOTE_OPTION_UNSPECIFIED defines a no-op vote option.
     Unspecified = 0,
@@ -320,7 +320,7 @@ impl VoteOption {
 /// ProposalStatus enumerates the valid statuses of a proposal.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
+#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 pub enum ProposalStatus {
     /// PROPOSAL_STATUS_UNSPECIFIED defines the default proposal status.
     Unspecified = 0,
@@ -472,8 +472,8 @@ pub struct QueryProposalsRequest {
     /// proposal_status defines the status of the proposals.
     #[prost(enumeration = "ProposalStatus", tag = "1")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "ProposalStatus::serialize",
+        deserialize_with = "ProposalStatus::deserialize"
     )]
     pub proposal_status: i32,
     /// voter defines the voter address for the proposals.
@@ -867,8 +867,8 @@ pub struct MsgVote {
     /// option defines the vote option.
     #[prost(enumeration = "VoteOption", tag = "3")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "VoteOption::serialize",
+        deserialize_with = "VoteOption::deserialize"
     )]
     pub option: i32,
 }

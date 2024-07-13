@@ -1,4 +1,4 @@
-use provwasm_proc_macro::CosmwasmExt;
+use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
 /// IdentifiedClientState defines a client state with an additional client
 /// identifier field.
 #[allow(clippy::derive_partial_eq_without_eq)]

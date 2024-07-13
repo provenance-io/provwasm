@@ -1,4 +1,4 @@
-use provwasm_proc_macro::CosmwasmExt;
+use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
@@ -179,7 +179,7 @@ pub struct Message {
 }
 /// Nested message and enum types in `Message`.
 pub mod message {
-    use provwasm_proc_macro::CosmwasmExt;
+    use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
     #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(
         Clone,
@@ -211,7 +211,7 @@ pub mod message {
 }
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
+#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 pub enum Errors {
     Unknown = 0,
     UnexpectedResponse = 1,

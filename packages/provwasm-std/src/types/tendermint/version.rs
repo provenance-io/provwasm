@@ -1,4 +1,4 @@
-use provwasm_proc_macro::CosmwasmExt;
+use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
 /// App includes the protocol and software version for the application.
 /// This information is included in ResponseInfo. The App.Protocol can be
 /// updated in ResponseEndBlock.

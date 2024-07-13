@@ -1,4 +1,4 @@
-use provwasm_proc_macro::CosmwasmExt;
+use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
 /// EventSend is emitted on Msg/Send
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(

@@ -1,4 +1,4 @@
-use provwasm_proc_macro::CosmwasmExt;
+use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
 /// InterchainAccountPacketData is comprised of a raw transaction, type of transaction and optional memo field.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
@@ -15,8 +15,8 @@ use provwasm_proc_macro::CosmwasmExt;
 pub struct InterchainAccountPacketData {
     #[prost(enumeration = "Type", tag = "1")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "Type::serialize",
+        deserialize_with = "Type::deserialize"
     )]
     pub r#type: i32,
     #[prost(bytes = "vec", tag = "2")]
@@ -49,7 +49,7 @@ pub struct CosmosTx {
 /// host
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
+#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 pub enum Type {
     /// Default zero value enumeration
     Unspecified = 0,

@@ -1,4 +1,4 @@
-use provwasm_proc_macro::CosmwasmExt;
+use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
 /// ConnectionEnd defines a stateful object on a chain connected to another
 /// separate one.
 /// NOTE: there must only be 2 defined ConnectionEnds to establish
@@ -26,8 +26,8 @@ pub struct ConnectionEnd {
     /// current state of the connection end.
     #[prost(enumeration = "State", tag = "3")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "State::serialize",
+        deserialize_with = "State::deserialize"
     )]
     pub state: i32,
     /// counterparty chain associated with this connection.
@@ -71,8 +71,8 @@ pub struct IdentifiedConnection {
     /// current state of the connection end.
     #[prost(enumeration = "State", tag = "4")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "State::serialize",
+        deserialize_with = "State::deserialize"
     )]
     pub state: i32,
     /// counterparty chain associated with this connection.
@@ -201,7 +201,7 @@ pub struct Params {
 /// INIT, TRYOPEN, OPEN or UNINITIALIZED.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
+#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 pub enum State {
     /// Default State
     UninitializedUnspecified = 0,

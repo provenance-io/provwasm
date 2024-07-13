@@ -1,4 +1,4 @@
-use provwasm_proc_macro::CosmwasmExt;
+use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
 /// BlockRequest requests a block for a specific height
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
@@ -119,7 +119,7 @@ pub struct Message {
 }
 /// Nested message and enum types in `Message`.
 pub mod message {
-    use provwasm_proc_macro::CosmwasmExt;
+    use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
     #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(
         Clone,

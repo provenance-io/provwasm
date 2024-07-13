@@ -1,4 +1,4 @@
-use provwasm_proc_macro::CosmwasmExt;
+use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
 /// PubKey defines a secp256k1 public key
 /// Key is the compressed form of the pubkey. The first byte depends is a 0x02 byte
 /// if the y-coordinate is the lexicographically largest of the two associated with

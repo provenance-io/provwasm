@@ -1,4 +1,4 @@
-use provwasm_proc_macro::CosmwasmExt;
+use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
 /// ValidatorSigningInfo defines a validator's signing info for monitoring their
 /// liveness activity.
 #[allow(clippy::derive_partial_eq_without_eq)]

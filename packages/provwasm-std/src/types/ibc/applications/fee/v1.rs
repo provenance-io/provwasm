@@ -1,4 +1,4 @@
-use provwasm_proc_macro::CosmwasmExt;
+use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
 /// IncentivizedAcknowledgement is the acknowledgement format to be used by applications wrapped in the fee middleware
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(

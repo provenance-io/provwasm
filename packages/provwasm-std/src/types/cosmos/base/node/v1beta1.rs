@@ -1,4 +1,4 @@
-use provwasm_proc_macro::CosmwasmExt;
+use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
 /// ConfigRequest defines the request structure for the Config gRPC query.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(

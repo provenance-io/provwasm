@@ -1,4 +1,4 @@
-use provwasm_proc_macro::CosmwasmExt;
+use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
 /// AccessTypeParam
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
@@ -15,8 +15,8 @@ use provwasm_proc_macro::CosmwasmExt;
 pub struct AccessTypeParam {
     #[prost(enumeration = "AccessType", tag = "1")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "AccessType::serialize",
+        deserialize_with = "AccessType::deserialize"
     )]
     pub value: i32,
 }
@@ -36,8 +36,8 @@ pub struct AccessTypeParam {
 pub struct AccessConfig {
     #[prost(enumeration = "AccessType", tag = "1")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "AccessType::serialize",
+        deserialize_with = "AccessType::deserialize"
     )]
     pub permission: i32,
     #[prost(string, repeated, tag = "3")]
@@ -61,8 +61,8 @@ pub struct Params {
     pub code_upload_access: ::core::option::Option<AccessConfig>,
     #[prost(enumeration = "AccessType", tag = "2")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "AccessType::serialize",
+        deserialize_with = "AccessType::deserialize"
     )]
     pub instantiate_default_permission: i32,
 }
@@ -150,8 +150,8 @@ pub struct ContractInfo {
 pub struct ContractCodeHistoryEntry {
     #[prost(enumeration = "ContractCodeHistoryOperationType", tag = "1")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "ContractCodeHistoryOperationType::serialize",
+        deserialize_with = "ContractCodeHistoryOperationType::deserialize"
     )]
     pub operation: i32,
     /// CodeID is the reference to the stored WASM code
@@ -234,7 +234,7 @@ pub struct Model {
 /// AccessType permission types
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
+#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 pub enum AccessType {
     /// AccessTypeUnspecified placeholder for empty value
     Unspecified = 0,
@@ -272,7 +272,7 @@ impl AccessType {
 /// ContractCodeHistoryOperationType actions that caused a code change
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
+#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 pub enum ContractCodeHistoryOperationType {
     /// ContractCodeHistoryOperationTypeUnspecified placeholder for empty value
     Unspecified = 0,

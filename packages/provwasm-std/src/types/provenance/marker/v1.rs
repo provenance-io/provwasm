@@ -1,4 +1,4 @@
-use provwasm_proc_macro::CosmwasmExt;
+use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
 /// AccessGrant associates a collection of permissions with an address for delegated marker account control.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
@@ -16,16 +16,12 @@ pub struct AccessGrant {
     #[prost(string, tag = "1")]
     pub address: ::prost::alloc::string::String,
     #[prost(enumeration = "Access", repeated, packed = "false", tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str_vec::serialize",
-        deserialize_with = "crate::serde::as_str_vec::deserialize"
-    )]
     pub permissions: ::prost::alloc::vec::Vec<i32>,
 }
 /// Access defines the different types of permissions that a marker supports granting to an address.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
+#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 pub enum Access {
     /// ACCESS_UNSPECIFIED defines a no-op vote option.
     Unspecified = 0,
@@ -174,8 +170,8 @@ pub struct MarkerAccount {
     /// Indicates the current status of this marker record.
     #[prost(enumeration = "MarkerStatus", tag = "4")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "MarkerStatus::serialize",
+        deserialize_with = "MarkerStatus::deserialize"
     )]
     pub status: i32,
     /// value denomination and total supply for the token.
@@ -187,8 +183,8 @@ pub struct MarkerAccount {
     /// Marker type information
     #[prost(enumeration = "MarkerType", tag = "7")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "MarkerType::serialize",
+        deserialize_with = "MarkerType::deserialize"
     )]
     pub marker_type: i32,
     /// A fixed supply will mint additional coin automatically if the total supply decreases below a set value.  This
@@ -589,7 +585,7 @@ pub struct EventMarkerParamsUpdated {
 /// MarkerType defines the types of marker
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
+#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 pub enum MarkerType {
     /// MARKER_TYPE_UNSPECIFIED is an invalid/unknown marker type.
     Unspecified = 0,
@@ -623,7 +619,7 @@ impl MarkerType {
 /// MarkerStatus defines the various states a marker account can be in.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
+#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 pub enum MarkerStatus {
     /// MARKER_STATUS_UNSPECIFIED - Unknown/Invalid Marker Status
     Unspecified = 0,
@@ -764,14 +760,14 @@ pub struct AddMarkerProposal {
     pub manager: ::prost::alloc::string::String,
     #[prost(enumeration = "MarkerStatus", tag = "5")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "MarkerStatus::serialize",
+        deserialize_with = "MarkerStatus::deserialize"
     )]
     pub status: i32,
     #[prost(enumeration = "MarkerType", tag = "6")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "MarkerType::serialize",
+        deserialize_with = "MarkerType::deserialize"
     )]
     pub marker_type: i32,
     #[prost(message, repeated, tag = "7")]
@@ -918,8 +914,8 @@ pub struct ChangeStatusProposal {
     pub denom: ::prost::alloc::string::String,
     #[prost(enumeration = "MarkerStatus", tag = "4")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "MarkerStatus::serialize",
+        deserialize_with = "MarkerStatus::deserialize"
     )]
     pub new_status: i32,
 }
@@ -1034,8 +1030,8 @@ pub struct QueryAllMarkersRequest {
     /// Optional status to filter request
     #[prost(enumeration = "MarkerStatus", tag = "1")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "MarkerStatus::serialize",
+        deserialize_with = "MarkerStatus::deserialize"
     )]
     pub status: i32,
     /// pagination defines an optional pagination for the request.
@@ -1410,7 +1406,7 @@ pub struct QueryNetAssetValuesResponse {
 /// SIPrefix represents an International System of Units (SI) Prefix.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
+#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 pub enum SiPrefix {
     /// 10^0    (none)
     None = 0,
@@ -1576,14 +1572,14 @@ pub struct MsgAddMarkerRequest {
     pub from_address: ::prost::alloc::string::String,
     #[prost(enumeration = "MarkerStatus", tag = "5")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "MarkerStatus::serialize",
+        deserialize_with = "MarkerStatus::deserialize"
     )]
     pub status: i32,
     #[prost(enumeration = "MarkerType", tag = "6")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "MarkerType::serialize",
+        deserialize_with = "MarkerType::deserialize"
     )]
     pub marker_type: i32,
     #[prost(message, repeated, tag = "7")]
@@ -2061,8 +2057,8 @@ pub struct MsgAddFinalizeActivateMarkerRequest {
     pub from_address: ::prost::alloc::string::String,
     #[prost(enumeration = "MarkerType", tag = "5")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "MarkerType::serialize",
+        deserialize_with = "MarkerType::deserialize"
     )]
     pub marker_type: i32,
     #[prost(message, repeated, tag = "6")]
@@ -2469,8 +2465,8 @@ pub struct MsgChangeStatusProposalRequest {
     pub denom: ::prost::alloc::string::String,
     #[prost(enumeration = "MarkerStatus", tag = "2")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "MarkerStatus::serialize",
+        deserialize_with = "MarkerStatus::deserialize"
     )]
     pub new_status: i32,
     /// The signer of the message.  Must have admin authority to marker or be governance module account address.

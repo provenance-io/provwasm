@@ -1,4 +1,4 @@
-use provwasm_proc_macro::CosmwasmExt;
+use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
 /// SendAuthorization allows the grantee to spend up to spend_limit coins from
 /// the granter's account.
 ///

@@ -1,4 +1,4 @@
-use provwasm_proc_macro::CosmwasmExt;
+use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
 /// SignatureDescriptors wraps multiple SignatureDescriptor's.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
@@ -51,7 +51,7 @@ pub struct SignatureDescriptor {
 }
 /// Nested message and enum types in `SignatureDescriptor`.
 pub mod signature_descriptor {
-    use provwasm_proc_macro::CosmwasmExt;
+    use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
     /// Data represents signature data
     #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(
@@ -72,7 +72,7 @@ pub mod signature_descriptor {
     }
     /// Nested message and enum types in `Data`.
     pub mod data {
-        use provwasm_proc_macro::CosmwasmExt;
+        use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
         /// Single is the signature data for a single signer
         #[allow(clippy::derive_partial_eq_without_eq)]
         #[derive(
@@ -90,8 +90,8 @@ pub mod signature_descriptor {
             /// mode is the signing mode of the single signer
             #[prost(enumeration = "super::super::SignMode", tag = "1")]
             #[serde(
-                serialize_with = "crate::serde::enum_as_i32::serialize",
-                deserialize_with = "crate::serde::enum_as_i32::deserialize"
+                serialize_with = "super::super::SignMode::serialize",
+                deserialize_with = "super::super::SignMode::deserialize"
             )]
             pub mode: i32,
             /// signature is the raw signature bytes
@@ -156,7 +156,7 @@ pub mod signature_descriptor {
 /// apps have a consistent version of this enum.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
+#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 pub enum SignMode {
     /// SIGN_MODE_UNSPECIFIED specifies an unknown signing mode and will be
     /// rejected.

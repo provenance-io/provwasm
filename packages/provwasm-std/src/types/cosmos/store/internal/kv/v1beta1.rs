@@ -1,4 +1,4 @@
-use provwasm_proc_macro::CosmwasmExt;
+use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
 /// Pairs defines a repeated slice of Pair objects.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(

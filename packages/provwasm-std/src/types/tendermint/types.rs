@@ -1,4 +1,4 @@
-use provwasm_proc_macro::CosmwasmExt;
+use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
 /// ConsensusParams contains consensus critical parameters that determine the
 /// validity of blocks.
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -278,7 +278,7 @@ pub struct SimpleValidator {
 /// BlockIdFlag indicates which BlockID the signature is for
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
+#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 pub enum BlockIdFlag {
     /// indicates an error condition
     Unknown = 0,
@@ -528,8 +528,8 @@ pub struct Data {
 pub struct Vote {
     #[prost(enumeration = "SignedMsgType", tag = "1")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "SignedMsgType::serialize",
+        deserialize_with = "SignedMsgType::deserialize"
     )]
     pub r#type: i32,
     #[prost(int64, tag = "2")]
@@ -634,8 +634,8 @@ pub struct Commit {
 pub struct CommitSig {
     #[prost(enumeration = "BlockIdFlag", tag = "1")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "BlockIdFlag::serialize",
+        deserialize_with = "BlockIdFlag::deserialize"
     )]
     pub block_id_flag: i32,
     #[prost(bytes = "vec", tag = "2")]
@@ -701,8 +701,8 @@ pub struct ExtendedCommit {
 pub struct ExtendedCommitSig {
     #[prost(enumeration = "BlockIdFlag", tag = "1")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "BlockIdFlag::serialize",
+        deserialize_with = "BlockIdFlag::deserialize"
     )]
     pub block_id_flag: i32,
     #[prost(bytes = "vec", tag = "2")]
@@ -749,8 +749,8 @@ pub struct ExtendedCommitSig {
 pub struct Proposal {
     #[prost(enumeration = "SignedMsgType", tag = "1")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "SignedMsgType::serialize",
+        deserialize_with = "SignedMsgType::deserialize"
     )]
     pub r#type: i32,
     #[prost(int64, tag = "2")]
@@ -880,7 +880,7 @@ pub struct TxProof {
 /// SignedMsgType is a type of signed message in the consensus.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
+#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 pub enum SignedMsgType {
     Unknown = 0,
     /// Votes
@@ -931,7 +931,7 @@ pub struct Evidence {
 }
 /// Nested message and enum types in `Evidence`.
 pub mod evidence {
-    use provwasm_proc_macro::CosmwasmExt;
+    use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
     #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(
         Clone,
@@ -1145,8 +1145,8 @@ pub struct CanonicalProposal {
     /// type alias for byte
     #[prost(enumeration = "SignedMsgType", tag = "1")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "SignedMsgType::serialize",
+        deserialize_with = "SignedMsgType::deserialize"
     )]
     pub r#type: i32,
     /// canonicalization requires fixed size encoding here
@@ -1192,8 +1192,8 @@ pub struct CanonicalVote {
     /// type alias for byte
     #[prost(enumeration = "SignedMsgType", tag = "1")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "SignedMsgType::serialize",
+        deserialize_with = "SignedMsgType::deserialize"
     )]
     pub r#type: i32,
     /// canonicalization requires fixed size encoding here

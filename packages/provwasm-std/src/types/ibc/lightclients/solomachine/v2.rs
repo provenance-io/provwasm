@@ -1,4 +1,4 @@
-use provwasm_proc_macro::CosmwasmExt;
+use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
 /// ClientState defines a solo machine client that tracks the current consensus
 /// state and if the client is frozen.
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -151,8 +151,8 @@ pub struct SignatureAndData {
     pub signature: ::prost::alloc::vec::Vec<u8>,
     #[prost(enumeration = "DataType", tag = "2")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "DataType::serialize",
+        deserialize_with = "DataType::deserialize"
     )]
     pub data_type: i32,
     #[prost(bytes = "vec", tag = "3")]
@@ -227,8 +227,8 @@ pub struct SignBytes {
     /// type of the data used
     #[prost(enumeration = "DataType", tag = "4")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "DataType::serialize",
+        deserialize_with = "DataType::deserialize"
     )]
     pub data_type: i32,
     /// marshaled data
@@ -466,7 +466,7 @@ pub struct NextSequenceRecvData {
 /// to preserve uniqueness of different data sign byte encodings.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
+#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 pub enum DataType {
     /// Default State
     UninitializedUnspecified = 0,

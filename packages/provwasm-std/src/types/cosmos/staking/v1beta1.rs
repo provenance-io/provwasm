@@ -1,4 +1,4 @@
-use provwasm_proc_macro::CosmwasmExt;
+use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
 /// StakeAuthorization defines authorization for delegate/undelegate/redelegate.
 ///
 /// Since: cosmos-sdk 0.43
@@ -22,8 +22,8 @@ pub struct StakeAuthorization {
     /// authorization_type defines one of AuthorizationType.
     #[prost(enumeration = "AuthorizationType", tag = "4")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "AuthorizationType::serialize",
+        deserialize_with = "AuthorizationType::deserialize"
     )]
     pub authorization_type: i32,
     /// validators is the oneof that represents either allow_list or deny_list
@@ -32,7 +32,7 @@ pub struct StakeAuthorization {
 }
 /// Nested message and enum types in `StakeAuthorization`.
 pub mod stake_authorization {
-    use provwasm_proc_macro::CosmwasmExt;
+    use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
     /// Validators defines list of validator addresses.
     #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(
@@ -76,7 +76,7 @@ pub mod stake_authorization {
 /// Since: cosmos-sdk 0.43
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
+#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 pub enum AuthorizationType {
     /// AUTHORIZATION_TYPE_UNSPECIFIED specifies an unknown authorization type
     Unspecified = 0,
@@ -250,8 +250,8 @@ pub struct Validator {
     /// status is the validator status (bonded/unbonding/unbonded).
     #[prost(enumeration = "BondStatus", tag = "4")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "BondStatus::serialize",
+        deserialize_with = "BondStatus::deserialize"
     )]
     pub status: i32,
     /// tokens define the delegated tokens (incl. self-delegation).
@@ -713,7 +713,7 @@ pub struct ValidatorUpdates {
 /// BondStatus is the status of a validator.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
+#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 pub enum BondStatus {
     /// UNSPECIFIED defines an invalid validator status.
     Unspecified = 0,
@@ -751,7 +751,7 @@ impl BondStatus {
 /// Infraction indicates the infraction a validator commited.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
+#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 pub enum Infraction {
     /// UNSPECIFIED defines an empty infraction.
     Unspecified = 0,

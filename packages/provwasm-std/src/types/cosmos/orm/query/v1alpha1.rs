@@ -1,4 +1,4 @@
-use provwasm_proc_macro::CosmwasmExt;
+use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
 /// GetRequest is the Query/Get request type.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
@@ -86,7 +86,7 @@ pub struct ListRequest {
 }
 /// Nested message and enum types in `ListRequest`.
 pub mod list_request {
-    use provwasm_proc_macro::CosmwasmExt;
+    use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
     /// Prefix specifies the arguments to a prefix query.
     #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(
@@ -195,7 +195,7 @@ pub struct IndexValue {
 }
 /// Nested message and enum types in `IndexValue`.
 pub mod index_value {
-    use provwasm_proc_macro::CosmwasmExt;
+    use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
     /// value specifies the index value
     #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(

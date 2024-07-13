@@ -1,4 +1,4 @@
-use provwasm_proc_macro::CosmwasmExt;
+use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
 /// LegacyABCIResponses retains the responses
 /// of the legacy ABCI calls during block processing.
 /// Note ReponseDeliverTx is renamed to ExecTxResult but they are semantically the same

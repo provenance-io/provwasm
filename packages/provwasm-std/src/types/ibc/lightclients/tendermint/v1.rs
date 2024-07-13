@@ -1,4 +1,4 @@
-use provwasm_proc_macro::CosmwasmExt;
+use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
 /// ClientState from Tendermint tracks the current validator set, latest height,
 /// and a possible frozen height.
 #[allow(clippy::derive_partial_eq_without_eq)]

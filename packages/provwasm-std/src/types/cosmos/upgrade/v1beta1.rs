@@ -1,4 +1,4 @@
-use provwasm_proc_macro::CosmwasmExt;
+use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
 /// Plan specifies information about a planned upgrade and when it should occur.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(

@@ -1,4 +1,4 @@
-use provwasm_proc_macro::CosmwasmExt;
+use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
 /// EventOptIn is an event emitted when an address opts into quarantine.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
@@ -121,8 +121,8 @@ pub struct AutoResponseEntry {
     /// response is the auto-response setting for these two addresses.
     #[prost(enumeration = "AutoResponse", tag = "3")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "AutoResponse::serialize",
+        deserialize_with = "AutoResponse::deserialize"
     )]
     pub response: i32,
 }
@@ -147,8 +147,8 @@ pub struct AutoResponseUpdate {
     /// Provide AUTO_RESPONSE_UNSPECIFIED to turn off an auto-response.
     #[prost(enumeration = "AutoResponse", tag = "2")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "AutoResponse::serialize",
+        deserialize_with = "AutoResponse::deserialize"
     )]
     pub response: i32,
 }
@@ -199,7 +199,7 @@ pub struct QuarantineRecordSuffixIndex {
 /// AutoResponse enumerates the quarantine auto-response options.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
+#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 pub enum AutoResponse {
     /// AUTO_RESPONSE_UNSPECIFIED defines that an automatic response has not been specified.
     /// This means that no automatic action should be taken, i.e. this auto-response is off,

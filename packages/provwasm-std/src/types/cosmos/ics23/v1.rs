@@ -1,4 +1,4 @@
-use provwasm_proc_macro::CosmwasmExt;
+use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
 /// *
 /// ExistenceProof takes a key and a value and a set of steps to perform on it.
 /// The result of peforming all these steps will provide a "root hash", which can
@@ -98,7 +98,7 @@ pub struct CommitmentProof {
 }
 /// Nested message and enum types in `CommitmentProof`.
 pub mod commitment_proof {
-    use provwasm_proc_macro::CosmwasmExt;
+    use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
     #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(
         Clone,
@@ -150,26 +150,26 @@ pub mod commitment_proof {
 pub struct LeafOp {
     #[prost(enumeration = "HashOp", tag = "1")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "HashOp::serialize",
+        deserialize_with = "HashOp::deserialize"
     )]
     pub hash: i32,
     #[prost(enumeration = "HashOp", tag = "2")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "HashOp::serialize",
+        deserialize_with = "HashOp::deserialize"
     )]
     pub prehash_key: i32,
     #[prost(enumeration = "HashOp", tag = "3")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "HashOp::serialize",
+        deserialize_with = "HashOp::deserialize"
     )]
     pub prehash_value: i32,
     #[prost(enumeration = "LengthOp", tag = "4")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "LengthOp::serialize",
+        deserialize_with = "LengthOp::deserialize"
     )]
     pub length: i32,
     /// prefix is a fixed bytes that may optionally be included at the beginning to differentiate
@@ -212,8 +212,8 @@ pub struct LeafOp {
 pub struct InnerOp {
     #[prost(enumeration = "HashOp", tag = "1")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "HashOp::serialize",
+        deserialize_with = "HashOp::deserialize"
     )]
     pub hash: i32,
     #[prost(bytes = "vec", tag = "2")]
@@ -305,10 +305,6 @@ pub struct InnerSpec {
     /// iavl tree is \[0, 1\] (left then right)
     /// merk is \[0, 2, 1\] (left, right, here)
     #[prost(int32, repeated, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str_vec::serialize",
-        deserialize_with = "crate::serde::as_str_vec::deserialize"
-    )]
     pub child_order: ::prost::alloc::vec::Vec<i32>,
     #[prost(int32, tag = "2")]
     #[serde(
@@ -338,8 +334,8 @@ pub struct InnerSpec {
     /// hash is the algorithm that must be used for each InnerOp
     #[prost(enumeration = "HashOp", tag = "6")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "HashOp::serialize",
+        deserialize_with = "HashOp::deserialize"
     )]
     pub hash: i32,
 }
@@ -380,7 +376,7 @@ pub struct BatchEntry {
 }
 /// Nested message and enum types in `BatchEntry`.
 pub mod batch_entry {
-    use provwasm_proc_macro::CosmwasmExt;
+    use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
     #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(
         Clone,
@@ -435,7 +431,7 @@ pub struct CompressedBatchEntry {
 }
 /// Nested message and enum types in `CompressedBatchEntry`.
 pub mod compressed_batch_entry {
-    use provwasm_proc_macro::CosmwasmExt;
+    use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
     #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(
         Clone,
@@ -482,10 +478,6 @@ pub struct CompressedExistenceProof {
     pub leaf: ::core::option::Option<LeafOp>,
     /// these are indexes into the lookup_inners table in CompressedBatchProof
     #[prost(int32, repeated, tag = "4")]
-    #[serde(
-        serialize_with = "crate::serde::as_str_vec::serialize",
-        deserialize_with = "crate::serde::as_str_vec::deserialize"
-    )]
     pub path: ::prost::alloc::vec::Vec<i32>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -515,7 +507,7 @@ pub struct CompressedNonExistenceProof {
 }
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
+#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 pub enum HashOp {
     /// NO_HASH is the default if no data passed. Note this is an illegal argument some places.
     NoHash = 0,
@@ -564,7 +556,7 @@ impl HashOp {
 /// (Each one with it's own encoded length)
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
+#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 pub enum LengthOp {
     /// NO_PREFIX don't include any length info
     NoPrefix = 0,

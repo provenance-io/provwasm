@@ -1,4 +1,4 @@
-use provwasm_proc_macro::CosmwasmExt;
+use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
 /// NewRoundStep is sent for every step taken in the ConsensusState.
 /// For every height/round/step transition
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -200,8 +200,8 @@ pub struct HasVote {
     pub round: i32,
     #[prost(enumeration = "super::types::SignedMsgType", tag = "3")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "super::types::SignedMsgType::serialize",
+        deserialize_with = "super::types::SignedMsgType::deserialize"
     )]
     pub r#type: i32,
     #[prost(int32, tag = "4")]
@@ -239,8 +239,8 @@ pub struct VoteSetMaj23 {
     pub round: i32,
     #[prost(enumeration = "super::types::SignedMsgType", tag = "3")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "super::types::SignedMsgType::serialize",
+        deserialize_with = "super::types::SignedMsgType::deserialize"
     )]
     pub r#type: i32,
     #[prost(message, optional, tag = "4")]
@@ -274,8 +274,8 @@ pub struct VoteSetBits {
     pub round: i32,
     #[prost(enumeration = "super::types::SignedMsgType", tag = "3")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "super::types::SignedMsgType::serialize",
+        deserialize_with = "super::types::SignedMsgType::deserialize"
     )]
     pub r#type: i32,
     #[prost(message, optional, tag = "4")]
@@ -301,7 +301,7 @@ pub struct Message {
 }
 /// Nested message and enum types in `Message`.
 pub mod message {
-    use provwasm_proc_macro::CosmwasmExt;
+    use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
     #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(
         Clone,
@@ -427,7 +427,7 @@ pub struct WalMessage {
 }
 /// Nested message and enum types in `WALMessage`.
 pub mod wal_message {
-    use provwasm_proc_macro::CosmwasmExt;
+    use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
     #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(
         Clone,

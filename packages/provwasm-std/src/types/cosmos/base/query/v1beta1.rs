@@ -1,4 +1,4 @@
-use provwasm_proc_macro::CosmwasmExt;
+use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
 /// PageRequest is to be embedded in gRPC request messages for efficient
 /// pagination. Ex:
 ///

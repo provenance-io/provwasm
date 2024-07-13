@@ -1,4 +1,4 @@
-use provwasm_proc_macro::CosmwasmExt;
+use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
 /// ClientState defines a solo machine client that tracks the current consensus
 /// state and if the client is frozen.
 #[allow(clippy::derive_partial_eq_without_eq)]

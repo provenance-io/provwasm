@@ -1,4 +1,4 @@
-use provwasm_proc_macro::CosmwasmExt;
+use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
 /// EventAddressSanctioned is an event emitted when an address is sanctioned.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
@@ -136,15 +136,15 @@ pub struct TemporaryEntry {
     /// status is whether the entry is a sanction or unsanction.
     #[prost(enumeration = "TempStatus", tag = "3")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "TempStatus::serialize",
+        deserialize_with = "TempStatus::deserialize"
     )]
     pub status: i32,
 }
 /// TempStatus is whether a temporary entry is a sanction or unsanction.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
+#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 pub enum TempStatus {
     /// TEMP_STATUS_UNSPECIFIED represents and unspecified status value.
     Unspecified = 0,

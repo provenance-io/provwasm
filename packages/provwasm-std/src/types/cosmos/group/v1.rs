@@ -1,4 +1,4 @@
-use provwasm_proc_macro::CosmwasmExt;
+use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
 /// Member represents a group member with an account address,
 /// non-zero weight, metadata and added_at timestamp.
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -315,8 +315,8 @@ pub struct Proposal {
     /// status represents the high level position in the life cycle of the proposal. Initial value is Submitted.
     #[prost(enumeration = "ProposalStatus", tag = "8")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "ProposalStatus::serialize",
+        deserialize_with = "ProposalStatus::deserialize"
     )]
     pub status: i32,
     /// final_tally_result contains the sums of all weighted votes for this
@@ -335,8 +335,8 @@ pub struct Proposal {
     /// executor_result is the final result of the proposal execution. Initial value is NotRun.
     #[prost(enumeration = "ProposalExecutorResult", tag = "11")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "ProposalExecutorResult::serialize",
+        deserialize_with = "ProposalExecutorResult::deserialize"
     )]
     pub executor_result: i32,
     /// messages is a list of `sdk.Msg`s that will be executed if the proposal passes.
@@ -407,8 +407,8 @@ pub struct Vote {
     /// option is the voter's choice on the proposal.
     #[prost(enumeration = "VoteOption", tag = "3")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "VoteOption::serialize",
+        deserialize_with = "VoteOption::deserialize"
     )]
     pub option: i32,
     /// metadata is any arbitrary metadata attached to the vote.
@@ -422,7 +422,7 @@ pub struct Vote {
 /// VoteOption enumerates the valid vote options for a given proposal.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
+#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 pub enum VoteOption {
     /// VOTE_OPTION_UNSPECIFIED defines an unspecified vote option which will
     /// return an error.
@@ -465,7 +465,7 @@ impl VoteOption {
 /// ProposalStatus defines proposal statuses.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
+#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 pub enum ProposalStatus {
     /// An empty value is invalid and not allowed.
     Unspecified = 0,
@@ -515,7 +515,7 @@ impl ProposalStatus {
 /// ProposalExecutorResult defines types of proposal executor results.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
+#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 pub enum ProposalExecutorResult {
     /// An empty value is not allowed.
     Unspecified = 0,
@@ -720,8 +720,8 @@ pub struct EventExec {
     /// result is the proposal execution result.
     #[prost(enumeration = "ProposalExecutorResult", tag = "2")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "ProposalExecutorResult::serialize",
+        deserialize_with = "ProposalExecutorResult::deserialize"
     )]
     pub result: i32,
     /// logs contains error logs in case the execution result is FAILURE.
@@ -777,8 +777,8 @@ pub struct EventProposalPruned {
     /// status is the proposal status (UNSPECIFIED, SUBMITTED, ACCEPTED, REJECTED, ABORTED, WITHDRAWN).
     #[prost(enumeration = "ProposalStatus", tag = "2")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "ProposalStatus::serialize",
+        deserialize_with = "ProposalStatus::deserialize"
     )]
     pub status: i32,
     /// tally_result is the proposal tally result (when applicable).
@@ -1912,8 +1912,8 @@ pub struct MsgSubmitProposal {
     /// If so, proposers signatures are considered as Yes votes.
     #[prost(enumeration = "Exec", tag = "5")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "Exec::serialize",
+        deserialize_with = "Exec::deserialize"
     )]
     pub exec: i32,
     /// title is the title of the proposal.
@@ -2015,8 +2015,8 @@ pub struct MsgVote {
     /// option is the voter's choice on the proposal.
     #[prost(enumeration = "VoteOption", tag = "3")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "VoteOption::serialize",
+        deserialize_with = "VoteOption::deserialize"
     )]
     pub option: i32,
     /// metadata is any arbitrary metadata attached to the vote.
@@ -2026,8 +2026,8 @@ pub struct MsgVote {
     /// immediately after voting or not.
     #[prost(enumeration = "Exec", tag = "5")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "Exec::serialize",
+        deserialize_with = "Exec::deserialize"
     )]
     pub exec: i32,
 }
@@ -2087,8 +2087,8 @@ pub struct MsgExecResponse {
     /// result is the final result of the proposal execution.
     #[prost(enumeration = "ProposalExecutorResult", tag = "2")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "ProposalExecutorResult::serialize",
+        deserialize_with = "ProposalExecutorResult::deserialize"
     )]
     pub result: i32,
 }
@@ -2134,7 +2134,7 @@ pub struct MsgLeaveGroupResponse {}
 /// Exec defines modes of execution of a proposal on creation or on new vote.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
+#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 pub enum Exec {
     /// An empty value means that there should be a separate
     /// MsgExec request for the proposal to execute.

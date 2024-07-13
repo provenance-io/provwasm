@@ -1,4 +1,4 @@
-use provwasm_proc_macro::CosmwasmExt;
+use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
 /// Channel defines pipeline for exactly-once packet delivery between specific
 /// modules on separate blockchains, which has at least one end capable of
 /// sending packets and one end capable of receiving packets.
@@ -18,15 +18,15 @@ pub struct Channel {
     /// current state of the channel end
     #[prost(enumeration = "State", tag = "1")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "State::serialize",
+        deserialize_with = "State::deserialize"
     )]
     pub state: i32,
     /// whether the channel is ordered or unordered
     #[prost(enumeration = "Order", tag = "2")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "Order::serialize",
+        deserialize_with = "Order::deserialize"
     )]
     pub ordering: i32,
     /// counterparty channel end
@@ -66,15 +66,15 @@ pub struct IdentifiedChannel {
     /// current state of the channel end
     #[prost(enumeration = "State", tag = "1")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "State::serialize",
+        deserialize_with = "State::deserialize"
     )]
     pub state: i32,
     /// whether the channel is ordered or unordered
     #[prost(enumeration = "Order", tag = "2")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "Order::serialize",
+        deserialize_with = "Order::deserialize"
     )]
     pub ordering: i32,
     /// counterparty channel end
@@ -270,7 +270,7 @@ pub struct Acknowledgement {
 }
 /// Nested message and enum types in `Acknowledgement`.
 pub mod acknowledgement {
-    use provwasm_proc_macro::CosmwasmExt;
+    use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
     /// response contains either a result or an error and must be non-empty
     #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(
@@ -338,7 +338,7 @@ pub struct Params {
 /// CLOSED, INIT, TRYOPEN, OPEN, FLUSHING, FLUSHCOMPLETE or UNINITIALIZED.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
+#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 pub enum State {
     /// Default State
     UninitializedUnspecified = 0,
@@ -390,7 +390,7 @@ impl State {
 /// Order defines if a channel is ORDERED or UNORDERED
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
+#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 pub enum Order {
     /// zero-value for channel ordering
     NoneUnspecified = 0,
@@ -532,8 +532,8 @@ pub struct Upgrade {
 pub struct UpgradeFields {
     #[prost(enumeration = "Order", tag = "1")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "Order::serialize",
+        deserialize_with = "Order::deserialize"
     )]
     pub ordering: i32,
     #[prost(string, repeated, tag = "2")]
@@ -1870,8 +1870,8 @@ pub struct MsgRecvPacket {
 pub struct MsgRecvPacketResponse {
     #[prost(enumeration = "ResponseResultType", tag = "1")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "ResponseResultType::serialize",
+        deserialize_with = "ResponseResultType::deserialize"
     )]
     pub result: i32,
 }
@@ -1924,8 +1924,8 @@ pub struct MsgTimeout {
 pub struct MsgTimeoutResponse {
     #[prost(enumeration = "ResponseResultType", tag = "1")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "ResponseResultType::serialize",
+        deserialize_with = "ResponseResultType::deserialize"
     )]
     pub result: i32,
 }
@@ -1990,8 +1990,8 @@ pub struct MsgTimeoutOnClose {
 pub struct MsgTimeoutOnCloseResponse {
     #[prost(enumeration = "ResponseResultType", tag = "1")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "ResponseResultType::serialize",
+        deserialize_with = "ResponseResultType::deserialize"
     )]
     pub result: i32,
 }
@@ -2044,8 +2044,8 @@ pub struct MsgAcknowledgement {
 pub struct MsgAcknowledgementResponse {
     #[prost(enumeration = "ResponseResultType", tag = "1")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "ResponseResultType::serialize",
+        deserialize_with = "ResponseResultType::deserialize"
     )]
     pub result: i32,
 }
@@ -2166,8 +2166,8 @@ pub struct MsgChannelUpgradeTryResponse {
     pub upgrade_sequence: u64,
     #[prost(enumeration = "ResponseResultType", tag = "3")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "ResponseResultType::serialize",
+        deserialize_with = "ResponseResultType::deserialize"
     )]
     pub result: i32,
 }
@@ -2224,8 +2224,8 @@ pub struct MsgChannelUpgradeAck {
 pub struct MsgChannelUpgradeAckResponse {
     #[prost(enumeration = "ResponseResultType", tag = "1")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "ResponseResultType::serialize",
+        deserialize_with = "ResponseResultType::deserialize"
     )]
     pub result: i32,
 }
@@ -2249,8 +2249,8 @@ pub struct MsgChannelUpgradeConfirm {
     pub channel_id: ::prost::alloc::string::String,
     #[prost(enumeration = "State", tag = "3")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "State::serialize",
+        deserialize_with = "State::deserialize"
     )]
     pub counterparty_channel_state: i32,
     #[prost(message, optional, tag = "4")]
@@ -2288,8 +2288,8 @@ pub struct MsgChannelUpgradeConfirm {
 pub struct MsgChannelUpgradeConfirmResponse {
     #[prost(enumeration = "ResponseResultType", tag = "1")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "ResponseResultType::serialize",
+        deserialize_with = "ResponseResultType::deserialize"
     )]
     pub result: i32,
 }
@@ -2313,8 +2313,8 @@ pub struct MsgChannelUpgradeOpen {
     pub channel_id: ::prost::alloc::string::String,
     #[prost(enumeration = "State", tag = "3")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "State::serialize",
+        deserialize_with = "State::deserialize"
     )]
     pub counterparty_channel_state: i32,
     #[prost(uint64, tag = "4")]
@@ -2534,7 +2534,7 @@ pub struct MsgPruneAcknowledgementsResponse {
 /// ResponseResultType defines the possible outcomes of the execution of a message
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
+#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 pub enum ResponseResultType {
     /// Default zero value enumeration
     Unspecified = 0,

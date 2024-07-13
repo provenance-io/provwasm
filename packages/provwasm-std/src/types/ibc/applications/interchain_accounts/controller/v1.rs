@@ -1,4 +1,4 @@
-use provwasm_proc_macro::CosmwasmExt;
+use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
 /// Params defines the set of on-chain interchain accounts parameters.
 /// The following parameters may be used to disable the controller submodule.
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -129,8 +129,8 @@ pub struct MsgRegisterInterchainAccount {
         tag = "4"
     )]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "super::super::super::super::core::channel::v1::Order::serialize",
+        deserialize_with = "super::super::super::super::core::channel::v1::Order::deserialize"
     )]
     pub ordering: i32,
 }

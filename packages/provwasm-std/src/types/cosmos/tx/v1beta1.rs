@@ -1,4 +1,4 @@
-use provwasm_proc_macro::CosmwasmExt;
+use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
 /// Tx is the standard type used for broadcasting transactions.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
@@ -300,7 +300,7 @@ pub struct ModeInfo {
 }
 /// Nested message and enum types in `ModeInfo`.
 pub mod mode_info {
-    use provwasm_proc_macro::CosmwasmExt;
+    use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
     /// Single is the mode info for a single signer. It is structured as a message
     /// to allow for additional fields such as locale for SIGN_MODE_TEXTUAL in the
     /// future
@@ -320,8 +320,8 @@ pub mod mode_info {
         /// mode is the signing mode of the single signer
         #[prost(enumeration = "super::super::signing::v1beta1::SignMode", tag = "1")]
         #[serde(
-            serialize_with = "crate::serde::enum_as_i32::serialize",
-            deserialize_with = "crate::serde::enum_as_i32::deserialize"
+            serialize_with = "super::super::signing::v1beta1::SignMode::serialize",
+            deserialize_with = "super::super::signing::v1beta1::SignMode::deserialize"
         )]
         pub mode: i32,
     }
@@ -463,8 +463,8 @@ pub struct AuxSignerData {
     /// mode is the signing mode of the single signer.
     #[prost(enumeration = "super::signing::v1beta1::SignMode", tag = "3")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "super::signing::v1beta1::SignMode::serialize",
+        deserialize_with = "super::signing::v1beta1::SignMode::deserialize"
     )]
     pub mode: i32,
     /// sig is the signature of the sign doc.
@@ -503,8 +503,8 @@ pub struct GetTxsEventRequest {
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageRequest>,
     #[prost(enumeration = "OrderBy", tag = "3")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "OrderBy::serialize",
+        deserialize_with = "OrderBy::deserialize"
     )]
     pub order_by: i32,
     /// page is the page number to query, starts at 1. If not provided, will
@@ -588,8 +588,8 @@ pub struct BroadcastTxRequest {
     pub tx_bytes: ::prost::alloc::vec::Vec<u8>,
     #[prost(enumeration = "BroadcastMode", tag = "2")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "BroadcastMode::serialize",
+        deserialize_with = "BroadcastMode::deserialize"
     )]
     pub mode: i32,
 }
@@ -943,7 +943,7 @@ pub struct TxDecodeAminoResponse {
 /// OrderBy defines the sorting order
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
+#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 pub enum OrderBy {
     /// ORDER_BY_UNSPECIFIED specifies an unknown sorting order. OrderBy defaults
     /// to ASC in this case.
@@ -979,7 +979,7 @@ impl OrderBy {
 /// method.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
+#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 pub enum BroadcastMode {
     /// zero-value for mode ordering
     Unspecified = 0,

@@ -1,4 +1,4 @@
-use provwasm_proc_macro::CosmwasmExt;
+use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
 /// Capability defines an implementation of an object capability. The index
 /// provided to a Capability must be globally unique.
 #[allow(clippy::derive_partial_eq_without_eq)]

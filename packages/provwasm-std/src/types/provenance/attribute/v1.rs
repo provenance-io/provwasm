@@ -1,4 +1,4 @@
-use provwasm_proc_macro::CosmwasmExt;
+use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
 /// Params defines the set of params for the attribute module.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
@@ -48,8 +48,8 @@ pub struct Attribute {
     /// The attribute value type.
     #[prost(enumeration = "AttributeType", tag = "3")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "AttributeType::serialize",
+        deserialize_with = "AttributeType::deserialize"
     )]
     pub attribute_type: i32,
     /// The address the attribute is bound to
@@ -250,7 +250,7 @@ pub struct EventAttributeParamsUpdated {
 /// AttributeType defines the type of the data stored in the attribute value
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
+#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 pub enum AttributeType {
     /// ATTRIBUTE_TYPE_UNSPECIFIED defines an unknown/invalid type
     Unspecified = 0,
@@ -637,8 +637,8 @@ pub struct MsgAddAttributeRequest {
     /// The attribute value type.
     #[prost(enumeration = "AttributeType", tag = "3")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "AttributeType::serialize",
+        deserialize_with = "AttributeType::deserialize"
     )]
     pub attribute_type: i32,
     /// The account to add the attribute to.
@@ -700,15 +700,15 @@ pub struct MsgUpdateAttributeRequest {
     /// The original attribute value type.
     #[prost(enumeration = "AttributeType", tag = "4")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "AttributeType::serialize",
+        deserialize_with = "AttributeType::deserialize"
     )]
     pub original_attribute_type: i32,
     /// The update attribute value type.
     #[prost(enumeration = "AttributeType", tag = "5")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "AttributeType::serialize",
+        deserialize_with = "AttributeType::deserialize"
     )]
     pub update_attribute_type: i32,
     /// The account to add the attribute to.

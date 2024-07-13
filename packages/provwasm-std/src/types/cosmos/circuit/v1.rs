@@ -1,4 +1,4 @@
-use provwasm_proc_macro::CosmwasmExt;
+use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
 /// Permissions are the permissions that an account has to trip
 /// or reset the circuit breaker.
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -17,8 +17,8 @@ pub struct Permissions {
     /// level is the level of permissions granted to this account.
     #[prost(enumeration = "permissions::Level", tag = "1")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "permissions::Level::serialize",
+        deserialize_with = "permissions::Level::deserialize"
     )]
     pub level: i32,
     /// limit_type_urls is used with LEVEL_SOME_MSGS to limit the lists of Msg type
@@ -29,11 +29,11 @@ pub struct Permissions {
 }
 /// Nested message and enum types in `Permissions`.
 pub mod permissions {
-    use provwasm_proc_macro::CosmwasmExt;
+    use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
     /// Level is the permission level.
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
-    #[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
+    #[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
     pub enum Level {
         /// LEVEL_NONE_UNSPECIFIED indicates that the account will have no circuit
         /// breaker permissions.

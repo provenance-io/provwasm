@@ -1,5 +1,5 @@
 pub mod p8e;
-use provwasm_proc_macro::CosmwasmExt;
+use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
 /// EventTxCompleted is an event message indicating that a TX has completed.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
@@ -787,10 +787,6 @@ pub struct ScopeSpecification {
     pub owner_addresses: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
     /// A list of parties that must be present on a scope (and their associated roles)
     #[prost(enumeration = "PartyType", repeated, tag = "4")]
-    #[serde(
-        serialize_with = "crate::serde::as_str_vec::serialize",
-        deserialize_with = "crate::serde::as_str_vec::deserialize"
-    )]
     pub parties_involved: ::prost::alloc::vec::Vec<i32>,
     /// A list of contract specification ids allowed for a scope based on this specification.
     #[prost(bytes = "vec", repeated, tag = "5")]
@@ -829,10 +825,6 @@ pub struct ContractSpecification {
     pub owner_addresses: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
     /// a list of party roles that must be fullfilled when signing a transaction for this contract specification
     #[prost(enumeration = "PartyType", repeated, tag = "4")]
-    #[serde(
-        serialize_with = "crate::serde::as_str_vec::serialize",
-        deserialize_with = "crate::serde::as_str_vec::deserialize"
-    )]
     pub parties_involved: ::prost::alloc::vec::Vec<i32>,
     /// name of the class/type of this contract executable
     #[prost(string, tag = "7")]
@@ -844,7 +836,7 @@ pub struct ContractSpecification {
 }
 /// Nested message and enum types in `ContractSpecification`.
 pub mod contract_specification {
-    use provwasm_proc_macro::CosmwasmExt;
+    use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
     /// Reference to a metadata record with a hash and type information for the instance of code that will process this
     /// contract
     #[allow(clippy::derive_partial_eq_without_eq)]
@@ -899,16 +891,12 @@ pub struct RecordSpecification {
     /// Type of result for this record specification (must be RECORD or RECORD_LIST)
     #[prost(enumeration = "DefinitionType", tag = "5")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "DefinitionType::serialize",
+        deserialize_with = "DefinitionType::deserialize"
     )]
     pub result_type: i32,
     /// Type of party responsible for this record
     #[prost(enumeration = "PartyType", repeated, tag = "6")]
-    #[serde(
-        serialize_with = "crate::serde::as_str_vec::serialize",
-        deserialize_with = "crate::serde::as_str_vec::deserialize"
-    )]
     pub responsible_parties: ::prost::alloc::vec::Vec<i32>,
 }
 /// InputSpecification defines a name, type_name, and source reference (either on or off chain) to define an input
@@ -938,7 +926,7 @@ pub struct InputSpecification {
 }
 /// Nested message and enum types in `InputSpecification`.
 pub mod input_specification {
-    use provwasm_proc_macro::CosmwasmExt;
+    use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
     /// source is either on chain (record_id) or off-chain (hash)
     #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(
@@ -989,7 +977,7 @@ pub struct Description {
 /// DefinitionType indicates the required definition type for this value
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
+#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 pub enum DefinitionType {
     /// DEFINITION_TYPE_UNSPECIFIED indicates an unknown/invalid value
     Unspecified = 0,
@@ -1028,7 +1016,7 @@ impl DefinitionType {
 /// PartyType are the different roles parties on a contract may use
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
+#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 pub enum PartyType {
     /// PARTY_TYPE_UNSPECIFIED is an error condition
     Unspecified = 0,
@@ -1249,7 +1237,7 @@ pub struct Process {
 }
 /// Nested message and enum types in `Process`.
 pub mod process {
-    use provwasm_proc_macro::CosmwasmExt;
+    use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
     /// unique identifier for this process
     #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(
@@ -1293,8 +1281,8 @@ pub struct RecordInput {
     /// Indicates if this input was a recorded fact on chain or just a given hashed input
     #[prost(enumeration = "RecordInputStatus", tag = "5")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "RecordInputStatus::serialize",
+        deserialize_with = "RecordInputStatus::deserialize"
     )]
     pub status: i32,
     /// data source
@@ -1303,7 +1291,7 @@ pub struct RecordInput {
 }
 /// Nested message and enum types in `RecordInput`.
 pub mod record_input {
-    use provwasm_proc_macro::CosmwasmExt;
+    use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
     /// data source
     #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(
@@ -1344,8 +1332,8 @@ pub struct RecordOutput {
     /// Status of the process execution associated with this output indicating success,failure, or pending
     #[prost(enumeration = "ResultStatus", tag = "2")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "ResultStatus::serialize",
+        deserialize_with = "ResultStatus::deserialize"
     )]
     pub status: i32,
 }
@@ -1369,8 +1357,8 @@ pub struct Party {
     /// a role for this account within the context of the processes used
     #[prost(enumeration = "PartyType", tag = "2")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "PartyType::serialize",
+        deserialize_with = "PartyType::deserialize"
     )]
     pub role: i32,
     /// whether this party's signature is optional
@@ -1442,7 +1430,7 @@ pub struct NetAssetValue {
 /// A set of types for inputs on a record (of fact)
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
+#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 pub enum RecordInputStatus {
     /// RECORD_INPUT_STATUS_UNSPECIFIED indicates an invalid/unknown input type
     Unspecified = 0,
@@ -1476,7 +1464,7 @@ impl RecordInputStatus {
 /// ResultStatus indicates the various states of execution of a record
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
+#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 pub enum ResultStatus {
     /// RESULT_STATUS_UNSPECIFIED indicates an unset condition
     Unspecified = 0,
@@ -3464,7 +3452,7 @@ pub struct SessionIdComponents {
 }
 /// Nested message and enum types in `SessionIdComponents`.
 pub mod session_id_components {
-    use provwasm_proc_macro::CosmwasmExt;
+    use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
     /// scope is used to define the scope this session belongs to.
     #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(

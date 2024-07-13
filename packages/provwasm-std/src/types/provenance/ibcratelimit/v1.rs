@@ -1,4 +1,4 @@
-use provwasm_proc_macro::CosmwasmExt;
+use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
 /// EventAckRevertFailure is emitted when an Ack revert fails
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(

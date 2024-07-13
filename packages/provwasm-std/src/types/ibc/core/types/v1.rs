@@ -1,4 +1,4 @@
-use provwasm_proc_macro::CosmwasmExt;
+use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
 /// GenesisState defines the ibc module's genesis state.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(

@@ -1,4 +1,4 @@
-use provwasm_proc_macro::CosmwasmExt;
+use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
 /// EventOracleQuerySuccess is an event for when the chain receives a successful response from an oracle query
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(

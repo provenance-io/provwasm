@@ -1,4 +1,4 @@
-use provwasm_proc_macro::CosmwasmExt;
+use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
 /// Deprecated: Do not use.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
@@ -67,8 +67,8 @@ pub struct DefinitionSpec {
     pub signature: ::core::option::Option<Signature>,
     #[prost(enumeration = "DefinitionSpecType", tag = "4")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "DefinitionSpecType::serialize",
+        deserialize_with = "DefinitionSpecType::deserialize"
     )]
     pub r#type: i32,
 }
@@ -177,8 +177,8 @@ pub struct ExecutionResult {
     pub output: ::core::option::Option<ProposedFact>,
     #[prost(enumeration = "ExecutionResultType", tag = "2")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "ExecutionResultType::serialize",
+        deserialize_with = "ExecutionResultType::deserialize"
     )]
     pub result: i32,
     #[prost(message, optional, tag = "3")]
@@ -221,8 +221,8 @@ pub struct Recitals {
 pub struct Recital {
     #[prost(enumeration = "PartyType", tag = "1")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "PartyType::serialize",
+        deserialize_with = "PartyType::deserialize"
     )]
     pub signer_role: i32,
     #[prost(message, optional, tag = "2")]
@@ -363,14 +363,14 @@ pub struct PublicKey {
     pub public_key_bytes: ::prost::alloc::vec::Vec<u8>,
     #[prost(enumeration = "PublicKeyType", tag = "2")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "PublicKeyType::serialize",
+        deserialize_with = "PublicKeyType::deserialize"
     )]
     pub r#type: i32,
     #[prost(enumeration = "PublicKeyCurve", tag = "3")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "PublicKeyCurve::serialize",
+        deserialize_with = "PublicKeyCurve::deserialize"
     )]
     pub curve: i32,
 }
@@ -440,10 +440,6 @@ pub struct ContractSpec {
     #[prost(message, repeated, tag = "2")]
     pub input_specs: ::prost::alloc::vec::Vec<DefinitionSpec>,
     #[prost(enumeration = "PartyType", repeated, tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_str_vec::serialize",
-        deserialize_with = "crate::serde::as_str_vec::deserialize"
-    )]
     pub parties_involved: ::prost::alloc::vec::Vec<i32>,
     #[prost(message, repeated, tag = "4")]
     pub condition_specs: ::prost::alloc::vec::Vec<ConditionSpec>,
@@ -491,8 +487,8 @@ pub struct ConsiderationSpec {
     pub func_name: ::prost::alloc::string::String,
     #[prost(enumeration = "PartyType", tag = "2")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "PartyType::serialize",
+        deserialize_with = "PartyType::deserialize"
     )]
     pub responsible_party: i32,
     #[prost(message, repeated, tag = "3")]
@@ -521,7 +517,7 @@ pub struct OutputSpec {
 /// Deprecated: Do not use.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
+#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 #[deprecated]
 pub enum DefinitionSpecType {
     /// Deprecated: Do not use.
@@ -560,7 +556,7 @@ impl DefinitionSpecType {
 /// Deprecated: Do not use.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
+#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 #[deprecated]
 pub enum PublicKeyCurve {
     /// Deprecated: Do not use.
@@ -591,7 +587,7 @@ impl PublicKeyCurve {
 /// Deprecated: Do not use.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
+#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 #[deprecated]
 pub enum PublicKeyType {
     /// Deprecated: Do not use.
@@ -618,7 +614,7 @@ impl PublicKeyType {
 /// Deprecated: Do not use.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
+#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 #[deprecated]
 pub enum ExecutionResultType {
     /// Deprecated: Do not use.
@@ -657,7 +653,7 @@ impl ExecutionResultType {
 /// Deprecated: Do not use.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
+#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 #[deprecated]
 pub enum PartyType {
     /// Deprecated: Do not use.

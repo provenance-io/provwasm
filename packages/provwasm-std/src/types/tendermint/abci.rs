@@ -1,4 +1,4 @@
-use provwasm_proc_macro::CosmwasmExt;
+use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
@@ -20,7 +20,7 @@ pub struct Request {
 }
 /// Nested message and enum types in `Request`.
 pub mod request {
-    use provwasm_proc_macro::CosmwasmExt;
+    use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
     #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(
         Clone,
@@ -210,8 +210,8 @@ pub struct RequestCheckTx {
     pub tx: ::prost::alloc::vec::Vec<u8>,
     #[prost(enumeration = "CheckTxType", tag = "2")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "CheckTxType::serialize",
+        deserialize_with = "CheckTxType::deserialize"
     )]
     pub r#type: i32,
 }
@@ -588,7 +588,7 @@ pub struct Response {
 }
 /// Nested message and enum types in `Response`.
 pub mod response {
-    use provwasm_proc_macro::CosmwasmExt;
+    use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
     #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(
         Clone,
@@ -897,17 +897,17 @@ pub struct ResponseListSnapshots {
 pub struct ResponseOfferSnapshot {
     #[prost(enumeration = "response_offer_snapshot::Result", tag = "1")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "response_offer_snapshot::Result::serialize",
+        deserialize_with = "response_offer_snapshot::Result::deserialize"
     )]
     pub result: i32,
 }
 /// Nested message and enum types in `ResponseOfferSnapshot`.
 pub mod response_offer_snapshot {
-    use provwasm_proc_macro::CosmwasmExt;
+    use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
-    #[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
+    #[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
     pub enum Result {
         /// Unknown result, abort all snapshot restoration
         Unknown = 0,
@@ -986,8 +986,8 @@ pub struct ResponseLoadSnapshotChunk {
 pub struct ResponseApplySnapshotChunk {
     #[prost(enumeration = "response_apply_snapshot_chunk::Result", tag = "1")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "response_apply_snapshot_chunk::Result::serialize",
+        deserialize_with = "response_apply_snapshot_chunk::Result::deserialize"
     )]
     pub result: i32,
     /// Chunks to refetch and reapply
@@ -1003,10 +1003,10 @@ pub struct ResponseApplySnapshotChunk {
 }
 /// Nested message and enum types in `ResponseApplySnapshotChunk`.
 pub mod response_apply_snapshot_chunk {
-    use provwasm_proc_macro::CosmwasmExt;
+    use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
-    #[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
+    #[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
     pub enum Result {
         /// Unknown result, abort all snapshot restoration
         Unknown = 0,
@@ -1081,17 +1081,17 @@ pub struct ResponsePrepareProposal {
 pub struct ResponseProcessProposal {
     #[prost(enumeration = "response_process_proposal::ProposalStatus", tag = "1")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "response_process_proposal::ProposalStatus::serialize",
+        deserialize_with = "response_process_proposal::ProposalStatus::deserialize"
     )]
     pub status: i32,
 }
 /// Nested message and enum types in `ResponseProcessProposal`.
 pub mod response_process_proposal {
-    use provwasm_proc_macro::CosmwasmExt;
+    use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
-    #[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
+    #[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
     pub enum ProposalStatus {
         Unknown = 0,
         Accept = 1,
@@ -1158,17 +1158,17 @@ pub struct ResponseVerifyVoteExtension {
         tag = "1"
     )]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "response_verify_vote_extension::VerifyStatus::serialize",
+        deserialize_with = "response_verify_vote_extension::VerifyStatus::deserialize"
     )]
     pub status: i32,
 }
 /// Nested message and enum types in `ResponseVerifyVoteExtension`.
 pub mod response_verify_vote_extension {
-    use provwasm_proc_macro::CosmwasmExt;
+    use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
-    #[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
+    #[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
     pub enum VerifyStatus {
         Unknown = 0,
         Accept = 1,
@@ -1487,8 +1487,8 @@ pub struct VoteInfo {
     pub validator: ::core::option::Option<Validator>,
     #[prost(enumeration = "super::types::BlockIdFlag", tag = "3")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "super::types::BlockIdFlag::serialize",
+        deserialize_with = "super::types::BlockIdFlag::deserialize"
     )]
     pub block_id_flag: i32,
 }
@@ -1525,8 +1525,8 @@ pub struct ExtendedVoteInfo {
     /// block_id_flag indicates whether the validator voted for a block, nil, or did not vote at all
     #[prost(enumeration = "super::types::BlockIdFlag", tag = "5")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "super::types::BlockIdFlag::serialize",
+        deserialize_with = "super::types::BlockIdFlag::deserialize"
     )]
     pub block_id_flag: i32,
 }
@@ -1545,8 +1545,8 @@ pub struct ExtendedVoteInfo {
 pub struct Misbehavior {
     #[prost(enumeration = "MisbehaviorType", tag = "1")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "MisbehaviorType::serialize",
+        deserialize_with = "MisbehaviorType::deserialize"
     )]
     pub r#type: i32,
     /// The offending validator
@@ -1623,7 +1623,7 @@ pub struct Snapshot {
 }
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
+#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 pub enum CheckTxType {
     New = 0,
     Recheck = 1,
@@ -1650,7 +1650,7 @@ impl CheckTxType {
 }
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
+#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 pub enum MisbehaviorType {
     Unknown = 0,
     DuplicateVote = 1,

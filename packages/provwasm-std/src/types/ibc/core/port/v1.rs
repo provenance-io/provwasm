@@ -1,4 +1,4 @@
-use provwasm_proc_macro::CosmwasmExt;
+use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
 /// QueryAppVersionRequest is the request type for the Query/AppVersion RPC method
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
@@ -26,8 +26,8 @@ pub struct QueryAppVersionRequest {
     /// whether the channel is ordered or unordered
     #[prost(enumeration = "super::super::channel::v1::Order", tag = "3")]
     #[serde(
-        serialize_with = "crate::serde::enum_as_i32::serialize",
-        deserialize_with = "crate::serde::enum_as_i32::deserialize"
+        serialize_with = "super::super::channel::v1::Order::serialize",
+        deserialize_with = "super::super::channel::v1::Order::deserialize"
     )]
     pub ordering: i32,
     /// counterparty channel end

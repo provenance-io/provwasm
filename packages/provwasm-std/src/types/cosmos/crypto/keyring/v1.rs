@@ -1,4 +1,4 @@
-use provwasm_proc_macro::CosmwasmExt;
+use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
 /// Record is used for representing a key in the keyring.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
@@ -25,7 +25,7 @@ pub struct Record {
 }
 /// Nested message and enum types in `Record`.
 pub mod record {
-    use provwasm_proc_macro::CosmwasmExt;
+    use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
     /// Item is a keyring item stored in a keyring backend.
     /// Local item
     #[allow(clippy::derive_partial_eq_without_eq)]

@@ -1,4 +1,4 @@
-use provwasm_proc_macro::CosmwasmExt;
+use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
 /// PubKey is an ed25519 public key for handling Tendermint keys in SDK.
 /// It's needed for Any serialization and SDK compatibility.
 /// It must not be used in a non Tendermint key context because it doesn't implement

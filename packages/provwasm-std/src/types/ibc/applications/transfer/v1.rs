@@ -1,4 +1,4 @@
-use provwasm_proc_macro::CosmwasmExt;
+use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
 /// Allocation defines the spend limit for a particular port and channel
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
