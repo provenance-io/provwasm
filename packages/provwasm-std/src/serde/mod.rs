@@ -153,24 +153,3 @@ pub mod as_option_base64_encoded_string {
         }
     }
 }
-
-pub mod enum_as_i32 {
-    use serde::{Deserialize, Deserializer, Serializer};
-
-    // Serialize the enum as i32
-    pub fn serialize<S>(value: &i32, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: Serializer,
-    {
-        serializer.serialize_i32(*value)
-    }
-
-    // Deserialize i32 as enum
-    pub fn deserialize<'de, D>(deserializer: D) -> Result<i32, D::Error>
-    where
-        D: Deserializer<'de>,
-    {
-        let value = i32::deserialize(deserializer)?;
-        Ok(value)
-    }
-}

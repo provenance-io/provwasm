@@ -115,7 +115,7 @@ fn prepend(items: Vec<Item>) -> Vec<Item> {
     let mut items = items;
 
     let mut prepending_items = vec![syn::parse_quote! {
-        use provwasm_proc_macro::CosmwasmExt;
+        use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
     }];
 
     items.splice(0..0, prepending_items.drain(..));
@@ -146,8 +146,8 @@ fn transform_items(
                         Some(file_stem) => {
                             format!(
                                 "{}::{}",
-                                file_stem.to_str().unwrap().replace(".", "::"),
-                                s.ident.to_string()
+                                file_stem.to_str().unwrap().replace('.', "::"),
+                                s.ident
                             )
                         }
                         _ => s.ident.to_string(),
@@ -168,7 +168,7 @@ fn transform_items(
                         );
                     let s = transformers::allow_serde_vec_vec_u8_as_vec_string_bytes(s);
                     let s = transformers::allow_serde_int_as_str(s);
-                    let s = transformers::allow_serde_int_as_str_or_enum_as_i32(s);
+                    let s = transformers::allow_serde_i32_or_vec_i32(s);
 
                     transformers::allow_serde_vec_int_as_vec_str(s)
                 })),

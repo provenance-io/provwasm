@@ -169,6 +169,79 @@ pub fn derive_cosmwasm_ext(input: TokenStream) -> TokenStream {
         .into()
 }
 
+#[proc_macro_derive(SerdeEnumAsInt)]
+pub fn derive_serde_enum_as_int(input: TokenStream) -> TokenStream {
+    let input = parse_macro_input!(input as DeriveInput);
+    let ident = input.ident;
+    (quote! {
+        impl #ident {
+            pub fn serialize<S>(v: &i32, serializer: S) -> std::result::Result<S::Ok, S::Error>
+            where
+                S: serde::Serializer,
+            {
+                let enum_value = Self::try_from(*v);
+                match enum_value {
+                    Ok(v) => serializer.serialize_str(v.as_str_name()),
+                    Err(e) => Err(serde::ser::Error::custom(e)),
+                }
+            }
+    
+            pub fn deserialize<'de, D>(deserializer: D) -> std::result::Result<i32, D::Error>
+            where
+                D: serde::Deserializer<'de>,
+            {
+                use serde::de::Deserialize;
+                let s = String::deserialize(deserializer)?;
+                match Self::from_str_name(&s) {
+                    Some(v) => Ok(v.into()),
+                    None => Err(serde::de::Error::custom("unknown value")),
+                }
+            }
+    
+            pub fn serialize_vec<S>(v: &Vec<i32>, serializer: S) -> std::result::Result<S::Ok, S::Error>
+            where
+                S: serde::Serializer,
+            {
+                use serde::ser::SerializeTuple;
+    
+                let mut enum_strs: Vec<&str> = Vec::new();
+                for ord in v {
+                    // let enum_value = Self::try_from(*ord);
+                    let enum_value = Self::try_from(*ord);
+                    match enum_value {
+                        Ok(v) => {
+                            enum_strs.push(v.as_str_name());
+                        }
+                        Err(e) => return Err(serde::ser::Error::custom(e)),
+                    }
+                }
+                let mut seq = serializer.serialize_tuple(enum_strs.len())?;
+                for item in enum_strs {
+                    seq.serialize_element(item)?;
+                }
+                seq.end()
+            }
+    
+            fn deserialize_vec<'de, D>(deserializer: D) -> std::result::Result<Vec<i32>, D::Error>
+            where
+                D: serde::Deserializer<'de>,
+            {
+                use serde::de::{Deserialize, Error};
+    
+                let strs: Vec<String> = Vec::deserialize(deserializer)?;
+                let mut ords: Vec<i32> = Vec::new();
+                for str_name in strs {
+                    let enum_value = Self::from_str_name(&str_name)
+                        .ok_or_else(|| Error::custom(format!("unknown enum string: {}", str_name)))?;
+                    ords.push(enum_value as i32);
+                }
+                Ok(ords)
+            }
+        }
+    })
+    .into()
+}
+
 fn get_type_url(attrs: &[syn::Attribute]) -> proc_macro2::TokenStream {
     let proto_message = get_attr("proto_message", attrs).and_then(|a| a.parse_meta().ok());
 
