@@ -163,19 +163,13 @@ pub fn append_attrs_enum(src: &Path, e: &ItemEnum, descriptor: &FileDescriptorSe
 }
 
 pub fn allow_serde_int_as_str(s: ItemStruct) -> ItemStruct {
+    // note:
+    // >= 64-bit is a string. see https://protobuf.dev/programming-guides/proto3/#json
     let int_types = vec![
-        parse_quote!(i8),
-        parse_quote!(i16),
-        // parse_quote!(i32), -- this is not included since it could be either str or enum type
         parse_quote!(i64),
         parse_quote!(i128),
-        parse_quote!(isize),
-        parse_quote!(u8),
-        parse_quote!(u16),
-        parse_quote!(u32),
         parse_quote!(u64),
         parse_quote!(u128),
-        parse_quote!(usize),
     ];
 
     let fields_vec = s
@@ -207,19 +201,13 @@ pub fn allow_serde_int_as_str(s: ItemStruct) -> ItemStruct {
 }
 
 pub fn allow_serde_vec_int_as_vec_str(s: ItemStruct) -> ItemStruct {
+    // note:
+    // >= 64-bit is a string. see https://protobuf.dev/programming-guides/proto3/#json
     let vec_int_types: Vec<Type> = vec![
-        parse_quote!(::prost::alloc::vec::Vec<i8>),
-        parse_quote!(::prost::alloc::vec::Vec<i16>),
-        //parse_quote!(::prost::alloc::vec::Vec<i32>), -- this is not included since it could be either vec<str> or vec<enum> type
         parse_quote!(::prost::alloc::vec::Vec<i64>),
         parse_quote!(::prost::alloc::vec::Vec<i128>),
-        parse_quote!(::prost::alloc::vec::Vec<isize>),
-        // parse_quote!(::prost::alloc::vec::Vec<u8>), -- this is not included because it is used for bytes and has it's own rule
-        parse_quote!(::prost::alloc::vec::Vec<u16>),
-        parse_quote!(::prost::alloc::vec::Vec<u32>),
         parse_quote!(::prost::alloc::vec::Vec<u64>),
         parse_quote!(::prost::alloc::vec::Vec<u128>),
-        parse_quote!(::prost::alloc::vec::Vec<usize>),
     ];
 
     let fields_vec = s
@@ -460,23 +448,9 @@ pub fn allow_serde_i32_or_vec_i32(s: syn::ItemStruct) -> syn::ItemStruct {
                     // determine if enum and type
                     match (vec_int_types_index, prost_enum_literal_value) {
                         // i32
-                        (0, None) => {
-                            field.attrs.push(parse_quote! {
-                                #[serde(
-                                    serialize_with = "crate::serde::as_str::serialize",
-                                    deserialize_with = "crate::serde::as_str::deserialize"
-                                )]
-                            });
-                        }
+                        (0, None) => (),
                         // Vec<i32>
-                        (1, None) => {
-                            field.attrs.push(parse_quote! {
-                                #[serde(
-                                    serialize_with = "crate::serde::as_str_vec::serialize",
-                                    deserialize_with = "crate::serde::as_str_vec::deserialize"
-                                )]
-                            });
-                        }
+                        (1, None) => (),
                         // i32 enum
                         (0, Some(enum_type)) => {
                             let serialize_with = format!("{}::serialize", enum_type);
