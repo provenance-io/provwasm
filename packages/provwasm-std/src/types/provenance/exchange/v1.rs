@@ -18,10 +18,6 @@ pub struct Commitment {
     pub account: ::prost::alloc::string::String,
     /// market_id is the numeric identifier of the market the funds are committed to.
     #[prost(uint32, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub market_id: u32,
     /// amount is the funds that have been committed by the account to the market.
     #[prost(message, repeated, tag = "3")]
@@ -64,10 +60,6 @@ pub struct AccountAmount {
 pub struct MarketAmount {
     /// market_id is the numeric identifier the amount has been committed to.
     #[prost(uint32, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub market_id: u32,
     /// amount is the funds associated with the address.
     #[prost(message, repeated, tag = "2")]
@@ -121,10 +113,6 @@ pub struct EventOrderCreated {
     pub order_type: ::prost::alloc::string::String,
     /// market_id is the numerical identifier of the market.
     #[prost(uint32, tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub market_id: u32,
     /// external_id is the order's external id.
     #[prost(string, tag = "4")]
@@ -156,10 +144,6 @@ pub struct EventOrderCancelled {
     pub cancelled_by: ::prost::alloc::string::String,
     /// market_id is the numerical identifier of the market.
     #[prost(uint32, tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub market_id: u32,
     /// external_id is the order's external id.
     #[prost(string, tag = "4")]
@@ -198,10 +182,6 @@ pub struct EventOrderFilled {
     pub fees: ::prost::alloc::string::String,
     /// market_id is the numerical identifier of the market.
     #[prost(uint32, tag = "5")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub market_id: u32,
     /// external_id is the order's external id.
     #[prost(string, tag = "6")]
@@ -241,10 +221,6 @@ pub struct EventOrderPartiallyFilled {
     pub fees: ::prost::alloc::string::String,
     /// market_id is the numerical identifier of the market.
     #[prost(uint32, tag = "5")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub market_id: u32,
     /// external_id is the order's external id.
     #[prost(string, tag = "6")]
@@ -273,10 +249,6 @@ pub struct EventOrderExternalIdUpdated {
     pub order_id: u64,
     /// market_id is the numerical identifier of the market.
     #[prost(uint32, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub market_id: u32,
     /// external_id is the order's new external id.
     #[prost(string, tag = "3")]
@@ -301,10 +273,6 @@ pub struct EventFundsCommitted {
     pub account: ::prost::alloc::string::String,
     /// market_id is the numerical identifier of the market.
     #[prost(uint32, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub market_id: u32,
     /// amount is the coins string of the newly committed funds.
     #[prost(string, tag = "3")]
@@ -332,10 +300,6 @@ pub struct EventCommitmentReleased {
     pub account: ::prost::alloc::string::String,
     /// market_id is the numerical identifier of the market.
     #[prost(uint32, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub market_id: u32,
     /// amount is the coins string of the funds that were released from commitment.
     #[prost(string, tag = "3")]
@@ -360,10 +324,6 @@ pub struct EventCommitmentReleased {
 pub struct EventMarketWithdraw {
     /// market_id is the numerical identifier of the market.
     #[prost(uint32, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub market_id: u32,
     /// amount is the coins amount string of funds withdrawn from the market account.
     #[prost(string, tag = "2")]
@@ -391,10 +351,6 @@ pub struct EventMarketWithdraw {
 pub struct EventMarketDetailsUpdated {
     /// market_id is the numerical identifier of the market.
     #[prost(uint32, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub market_id: u32,
     /// updated_by is the account that updated the details.
     #[prost(string, tag = "2")]
@@ -418,10 +374,6 @@ pub struct EventMarketDetailsUpdated {
 pub struct EventMarketEnabled {
     /// market_id is the numerical identifier of the market.
     #[prost(uint32, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub market_id: u32,
     /// updated_by is the account that enabled the market.
     #[prost(string, tag = "2")]
@@ -445,10 +397,6 @@ pub struct EventMarketEnabled {
 pub struct EventMarketDisabled {
     /// market_id is the numerical identifier of the market.
     #[prost(uint32, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub market_id: u32,
     /// updated_by is the account that disabled the market.
     #[prost(string, tag = "2")]
@@ -470,10 +418,6 @@ pub struct EventMarketDisabled {
 pub struct EventMarketOrdersEnabled {
     /// market_id is the numerical identifier of the market.
     #[prost(uint32, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub market_id: u32,
     /// updated_by is the account that updated the accepting_orders option.
     #[prost(string, tag = "2")]
@@ -495,10 +439,6 @@ pub struct EventMarketOrdersEnabled {
 pub struct EventMarketOrdersDisabled {
     /// market_id is the numerical identifier of the market.
     #[prost(uint32, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub market_id: u32,
     /// updated_by is the account that updated the accepting_orders option.
     #[prost(string, tag = "2")]
@@ -520,10 +460,6 @@ pub struct EventMarketOrdersDisabled {
 pub struct EventMarketUserSettleEnabled {
     /// market_id is the numerical identifier of the market.
     #[prost(uint32, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub market_id: u32,
     /// updated_by is the account that updated the user_settle option.
     #[prost(string, tag = "2")]
@@ -545,10 +481,6 @@ pub struct EventMarketUserSettleEnabled {
 pub struct EventMarketUserSettleDisabled {
     /// market_id is the numerical identifier of the market.
     #[prost(uint32, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub market_id: u32,
     /// updated_by is the account that updated the user_settle option.
     #[prost(string, tag = "2")]
@@ -570,10 +502,6 @@ pub struct EventMarketUserSettleDisabled {
 pub struct EventMarketCommitmentsEnabled {
     /// market_id is the numerical identifier of the market.
     #[prost(uint32, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub market_id: u32,
     /// updated_by is the account that updated the accepting_commitments option.
     #[prost(string, tag = "2")]
@@ -595,10 +523,6 @@ pub struct EventMarketCommitmentsEnabled {
 pub struct EventMarketCommitmentsDisabled {
     /// market_id is the numerical identifier of the market.
     #[prost(uint32, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub market_id: u32,
     /// updated_by is the account that updated the accepting_commitments option.
     #[prost(string, tag = "2")]
@@ -621,10 +545,6 @@ pub struct EventMarketCommitmentsDisabled {
 pub struct EventMarketIntermediaryDenomUpdated {
     /// market_id is the numerical identifier of the market.
     #[prost(uint32, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub market_id: u32,
     /// updated_by is the account that updated the intermediary denom.
     #[prost(string, tag = "2")]
@@ -646,10 +566,6 @@ pub struct EventMarketIntermediaryDenomUpdated {
 pub struct EventMarketPermissionsUpdated {
     /// market_id is the numerical identifier of the market.
     #[prost(uint32, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub market_id: u32,
     /// updated_by is the account that updated the permissions.
     #[prost(string, tag = "2")]
@@ -671,10 +587,6 @@ pub struct EventMarketPermissionsUpdated {
 pub struct EventMarketReqAttrUpdated {
     /// market_id is the numerical identifier of the market.
     #[prost(uint32, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub market_id: u32,
     /// updated_by is the account that updated the required attributes.
     #[prost(string, tag = "2")]
@@ -696,10 +608,6 @@ pub struct EventMarketReqAttrUpdated {
 pub struct EventMarketCreated {
     /// market_id is the numerical identifier of the market.
     #[prost(uint32, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub market_id: u32,
 }
 /// EventMarketFeesUpdated is an event emitted when a market's fees have been updated.
@@ -718,10 +626,6 @@ pub struct EventMarketCreated {
 pub struct EventMarketFeesUpdated {
     /// market_id is the numerical identifier of the market.
     #[prost(uint32, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub market_id: u32,
 }
 /// EventParamsUpdated is an event emitted when the exchange module's params have been updated.
@@ -899,10 +803,6 @@ pub struct MarketAccount {
         ::core::option::Option<super::super::super::cosmos::auth::v1beta1::BaseAccount>,
     /// market_id is the numerical identifier for this market.
     #[prost(uint32, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub market_id: u32,
     /// market_details is some human-consumable information about this market.
     #[prost(message, optional, tag = "3")]
@@ -951,10 +851,6 @@ pub struct MarketDetails {
 pub struct MarketBrief {
     /// market_id is the numerical identifier for this market.
     #[prost(uint32, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub market_id: u32,
     /// market_address is the bech32 address string of this market's account.
     #[prost(string, tag = "2")]
@@ -979,10 +875,6 @@ pub struct MarketBrief {
 pub struct Market {
     /// market_id is the numerical identifier for this market.
     #[prost(uint32, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub market_id: u32,
     /// market_details is some information about this market.
     #[prost(message, optional, tag = "2")]
@@ -1068,10 +960,6 @@ pub struct Market {
     /// (which might then be converted to USD then nhash before applying this ratio); Usually, though, the value
     /// of that trade would be viewed as either just 10apples or just 100grapes.
     #[prost(uint32, tag = "16")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub commitment_settlement_bips: u32,
     /// intermediary_denom is the denom that funds get converted to (before being converted to the chain's fee denom)
     /// when calculating the fees that are paid to the exchange. NAVs are used for this conversion and actions will fail
@@ -1248,10 +1136,6 @@ pub mod order {
 pub struct AskOrder {
     /// market_id identifies the market that this order belongs to.
     #[prost(uint32, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub market_id: u32,
     /// seller is the address of the account that owns this order and has the assets to sell.
     #[prost(string, tag = "2")]
@@ -1296,10 +1180,6 @@ pub struct AskOrder {
 pub struct BidOrder {
     /// market_id identifies the market that this order belongs to.
     #[prost(uint32, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub market_id: u32,
     /// buyer is the address of the account that owns this order and has the price to spend.
     #[prost(string, tag = "2")]
@@ -1343,10 +1223,6 @@ pub struct Params {
     /// It is used if there isn't an applicable denom-specific split defined.
     /// E.g. 100 = 1%. Min = 0, Max = 10000.
     #[prost(uint32, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub default_split: u32,
     /// denom_splits are the denom-specific amounts the exchange receives.
     #[prost(message, repeated, tag = "2")]
@@ -1384,10 +1260,6 @@ pub struct DenomSplit {
     /// split is the proportion of fees the exchange receives for this denom in basis points.
     /// E.g. 100 = 1%. Min = 0, Max = 10000.
     #[prost(uint32, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub split: u32,
 }
 /// Payment represents one account's desire to trade funds with another account.
@@ -1459,10 +1331,6 @@ pub struct GenesisState {
     pub orders: ::prost::alloc::vec::Vec<Order>,
     /// last_market_id is the value of the last auto-selected market id.
     #[prost(uint32, tag = "4")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub last_market_id: u32,
     /// last_order_id is the value of the last order id created.
     #[prost(uint64, tag = "5")]
@@ -1585,10 +1453,6 @@ pub struct MsgCommitFundsRequest {
     pub account: ::prost::alloc::string::String,
     /// market_id is the numerical identifier of the market the funds will be committed to.
     #[prost(uint32, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub market_id: u32,
     /// amount is the funds being committed to the market.
     #[prost(message, repeated, tag = "3")]
@@ -1675,10 +1539,6 @@ pub struct MsgFillBidsRequest {
     /// market_id is the numerical identifier of the market with the bids to fill.
     /// All bid orders being filled must be in this market.
     #[prost(uint32, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub market_id: u32,
     /// total_assets are the things that the seller wishes to sell.
     /// It must be the sum of all bid order assets.
@@ -1735,10 +1595,6 @@ pub struct MsgFillAsksRequest {
     /// market_id is the numerical identifier of the market with the asks to fill.
     /// All ask orders being filled must be in this market.
     #[prost(uint32, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub market_id: u32,
     /// total_price is the total amount being spent on some assets.
     /// It must be the sum of all ask order prices.
@@ -1795,10 +1651,6 @@ pub struct MsgMarketSettleRequest {
     pub admin: ::prost::alloc::string::String,
     /// market_id is the numerical identifier of the market requesting this settlement.
     #[prost(uint32, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub market_id: u32,
     /// ask_order_ids are the ask orders being filled.
     #[prost(uint64, repeated, tag = "3")]
@@ -1853,10 +1705,6 @@ pub struct MsgMarketCommitmentSettleRequest {
     pub admin: ::prost::alloc::string::String,
     /// market_id is the numerical identifier of the market requesting this settlement.
     #[prost(uint32, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub market_id: u32,
     /// inputs defines where the funds are coming from. All of these funds must be already committed to the market.
     #[prost(message, repeated, tag = "3")]
@@ -1908,10 +1756,6 @@ pub struct MsgMarketReleaseCommitmentsRequest {
     pub admin: ::prost::alloc::string::String,
     /// market_id is the numerical identifier of the market releasing these funds.
     #[prost(uint32, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub market_id: u32,
     /// to_release is the funds that are to be released.
     /// An entry with a zero amount indicates that all committed funds for that account should be released.
@@ -1954,10 +1798,6 @@ pub struct MsgMarketSetOrderExternalIdRequest {
     pub admin: ::prost::alloc::string::String,
     /// market_id is the numerical identifier of the market with the orders to update.
     #[prost(uint32, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub market_id: u32,
     /// order_id is the numerical identifier of the order to update.
     #[prost(uint64, tag = "3")]
@@ -2004,10 +1844,6 @@ pub struct MsgMarketWithdrawRequest {
     pub admin: ::prost::alloc::string::String,
     /// market_id is the numerical identifier of the market to withdraw from.
     #[prost(uint32, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub market_id: u32,
     /// to_address is the address that will receive the funds.
     #[prost(string, tag = "3")]
@@ -2049,10 +1885,6 @@ pub struct MsgMarketUpdateDetailsRequest {
     pub admin: ::prost::alloc::string::String,
     /// market_id is the numerical identifier of the market to update details for.
     #[prost(uint32, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub market_id: u32,
     /// market_details is some information about this market.
     #[prost(message, optional, tag = "3")]
@@ -2097,10 +1929,6 @@ pub struct MsgMarketUpdateEnabledRequest {
     /// Deprecated: This endpoint is no longer usable. It is replaced by MarketUpdateAcceptingOrders.
     #[deprecated]
     #[prost(uint32, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub market_id: u32,
     /// accepting_orders is whether this market is allowing orders to be created for it.
     /// Deprecated: This endpoint is no longer usable. It is replaced by MarketUpdateAcceptingOrders.
@@ -2143,10 +1971,6 @@ pub struct MsgMarketUpdateAcceptingOrdersRequest {
     pub admin: ::prost::alloc::string::String,
     /// market_id is the numerical identifier of the market to enable or disable.
     #[prost(uint32, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub market_id: u32,
     /// accepting_orders is whether this market is allowing orders to be created for it.
     #[prost(bool, tag = "3")]
@@ -2185,10 +2009,6 @@ pub struct MsgMarketUpdateUserSettleRequest {
     pub admin: ::prost::alloc::string::String,
     /// market_id is the numerical identifier of the market to enable or disable user-settlement for.
     #[prost(uint32, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub market_id: u32,
     /// allow_user_settlement is whether this market allows users to initiate their own settlements.
     /// For example, the FillBids and FillAsks endpoints are available if and only if this is true.
@@ -2229,10 +2049,6 @@ pub struct MsgMarketUpdateAcceptingCommitmentsRequest {
     pub admin: ::prost::alloc::string::String,
     /// market_id is the numerical identifier of the market to enable or disable commitments for.
     #[prost(uint32, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub market_id: u32,
     /// accepting_commitments is whether this market allows users to commit funds to it.
     /// For example, the CommitFunds endpoint is available if and only if this is true.
@@ -2273,10 +2089,6 @@ pub struct MsgMarketUpdateIntermediaryDenomRequest {
     pub admin: ::prost::alloc::string::String,
     /// market_id is the numerical identifier of the market changing the intermediary denom.
     #[prost(uint32, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub market_id: u32,
     /// intermediary_denom is the new intermediary denom for this market to use.
     #[prost(string, tag = "3")]
@@ -2315,10 +2127,6 @@ pub struct MsgMarketManagePermissionsRequest {
     pub admin: ::prost::alloc::string::String,
     /// market_id is the numerical identifier of the market to manage permissions for.
     #[prost(uint32, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub market_id: u32,
     /// revoke_all are addresses that should have all their permissions revoked.
     #[prost(string, repeated, tag = "3")]
@@ -2363,10 +2171,6 @@ pub struct MsgMarketManageReqAttrsRequest {
     pub admin: ::prost::alloc::string::String,
     /// market_id is the numerical identifier of the market to update required attributes for.
     #[prost(uint32, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub market_id: u32,
     /// create_ask_to_add are the attributes that should now also be required to create an ask order.
     #[prost(string, repeated, tag = "3")]
@@ -2673,10 +2477,6 @@ pub struct MsgGovManageFeesRequest {
     pub authority: ::prost::alloc::string::String,
     /// market_id is the market id that will get these fee updates.
     #[prost(uint32, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub market_id: u32,
     /// add_fee_create_ask_flat are the create-ask flat fee options to add.
     #[prost(message, repeated, tag = "3")]
@@ -2733,10 +2533,6 @@ pub struct MsgGovManageFeesRequest {
     /// set_fee_commitment_settlement_bips is the new fee_commitment_settlement_bips for the market.
     /// It is ignored if it is zero. To set it to zero set unset_fee_commitment_settlement_bips to true.
     #[prost(uint32, tag = "17")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub set_fee_commitment_settlement_bips: u32,
     /// unset_fee_commitment_settlement_bips, if true, sets the fee_commitment_settlement_bips to zero.
     /// If false, it is ignored.
@@ -2776,10 +2572,6 @@ pub struct MsgGovCloseMarketRequest {
     pub authority: ::prost::alloc::string::String,
     /// market_id is the numerical identifier of the market to close.
     #[prost(uint32, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub market_id: u32,
 }
 /// MsgGovCloseMarketResponse is a response message for the GovCloseMarket endpoint.
@@ -2998,10 +2790,6 @@ pub struct QueryGetOrderResponse {
 pub struct QueryGetOrderByExternalIdRequest {
     /// market_id is the id of the market that's expected to have the order.
     #[prost(uint32, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub market_id: u32,
     /// external_id the external id to look up.
     #[prost(string, tag = "2")]
@@ -3045,10 +2833,6 @@ pub struct QueryGetOrderByExternalIdResponse {
 pub struct QueryGetMarketOrdersRequest {
     /// market_id is the id of the market to get all the orders for.
     #[prost(uint32, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub market_id: u32,
     /// order_type is optional and can limit orders to only "ask" or "bid" orders.
     #[prost(string, tag = "2")]
@@ -3271,10 +3055,6 @@ pub struct QueryGetCommitmentRequest {
     pub account: ::prost::alloc::string::String,
     /// market_id is the numeric identifier of the market in the commitment.
     #[prost(uint32, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub market_id: u32,
 }
 /// QueryGetCommitmentResponse is a response message for the GetCommitment query.
@@ -3355,10 +3135,6 @@ pub struct QueryGetAccountCommitmentsResponse {
 pub struct QueryGetMarketCommitmentsRequest {
     /// market_id is the numeric identifier of the market with the commitment.
     #[prost(uint32, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub market_id: u32,
     /// pagination defines an optional pagination for the request.
     #[prost(message, optional, tag = "99")]
@@ -3452,10 +3228,6 @@ pub struct QueryGetAllCommitmentsResponse {
 pub struct QueryGetMarketRequest {
     /// market_id is the id of the market to look up.
     #[prost(uint32, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub market_id: u32,
 }
 /// QueryGetMarketResponse is a response message for the GetMarket query.
@@ -3686,10 +3458,6 @@ pub struct QueryValidateCreateMarketResponse {
 pub struct QueryValidateMarketRequest {
     /// market_id is the id of the market to check.
     #[prost(uint32, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub market_id: u32,
 }
 /// QueryValidateMarketResponse is a response message for the ValidateMarket query.

@@ -13,10 +13,6 @@ use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
 #[proto_message(type_url = "/tendermint.privval.RemoteSignerError")]
 pub struct RemoteSignerError {
     #[prost(int32, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub code: i32,
     #[prost(string, tag = "2")]
     pub description: ::prost::alloc::string::String,

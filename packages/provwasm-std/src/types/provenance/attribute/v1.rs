@@ -15,10 +15,6 @@ use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
 pub struct Params {
     /// maximum length of data to allow in an attribute value
     #[prost(uint32, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub max_value_length: u32,
 }
 /// Attribute holds a typed key/value structure for data associated with an account

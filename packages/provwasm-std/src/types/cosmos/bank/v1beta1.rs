@@ -152,10 +152,6 @@ pub struct DenomUnit {
     /// (e.g. with a base_denom of uatom, one can create a DenomUnit of 'atom' with
     /// exponent = 6, thus: 1 atom = 10^6 uatom).
     #[prost(uint32, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub exponent: u32,
     /// aliases is a list of string aliases for the given denom
     #[prost(string, repeated, tag = "3")]

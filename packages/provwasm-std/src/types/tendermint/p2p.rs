@@ -17,10 +17,6 @@ pub struct NetAddress {
     #[prost(string, tag = "2")]
     pub ip: ::prost::alloc::string::String,
     #[prost(uint32, tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub port: u32,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -147,10 +143,6 @@ pub struct PacketPong {}
 #[proto_message(type_url = "/tendermint.p2p.PacketMsg")]
 pub struct PacketMsg {
     #[prost(int32, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub channel_id: i32,
     #[prost(bool, tag = "2")]
     pub eof: bool,

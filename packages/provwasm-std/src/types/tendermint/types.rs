@@ -328,10 +328,6 @@ impl BlockIdFlag {
 #[proto_message(type_url = "/tendermint.types.PartSetHeader")]
 pub struct PartSetHeader {
     #[prost(uint32, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub total: u32,
     #[prost(bytes = "vec", tag = "2")]
     #[serde(
@@ -354,10 +350,6 @@ pub struct PartSetHeader {
 #[proto_message(type_url = "/tendermint.types.Part")]
 pub struct Part {
     #[prost(uint32, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub index: u32,
     #[prost(bytes = "vec", tag = "2")]
     #[serde(
@@ -539,10 +531,6 @@ pub struct Vote {
     )]
     pub height: i64,
     #[prost(int32, tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub round: i32,
     /// zero if vote is nil.
     #[prost(message, optional, tag = "4")]
@@ -556,10 +544,6 @@ pub struct Vote {
     )]
     pub validator_address: ::prost::alloc::vec::Vec<u8>,
     #[prost(int32, tag = "7")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub validator_index: i32,
     /// Vote signature by the validator if they participated in consensus for the
     /// associated block.
@@ -608,10 +592,6 @@ pub struct Commit {
     )]
     pub height: i64,
     #[prost(int32, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub round: i32,
     #[prost(message, optional, tag = "3")]
     pub block_id: ::core::option::Option<BlockId>,
@@ -673,10 +653,6 @@ pub struct ExtendedCommit {
     )]
     pub height: i64,
     #[prost(int32, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub round: i32,
     #[prost(message, optional, tag = "3")]
     pub block_id: ::core::option::Option<BlockId>,
@@ -760,16 +736,8 @@ pub struct Proposal {
     )]
     pub height: i64,
     #[prost(int32, tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub round: i32,
     #[prost(int32, tag = "4")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub pol_round: i32,
     #[prost(message, optional, tag = "5")]
     pub block_id: ::core::option::Option<BlockId>,
@@ -1073,10 +1041,6 @@ pub struct EventDataRoundState {
     )]
     pub height: i64,
     #[prost(int32, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub round: i32,
     #[prost(string, tag = "3")]
     pub step: ::prost::alloc::string::String,
@@ -1117,10 +1081,6 @@ pub struct CanonicalBlockId {
 #[proto_message(type_url = "/tendermint.types.CanonicalPartSetHeader")]
 pub struct CanonicalPartSetHeader {
     #[prost(uint32, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub total: u32,
     #[prost(bytes = "vec", tag = "2")]
     #[serde(

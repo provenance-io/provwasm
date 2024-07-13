@@ -21,16 +21,8 @@ pub struct NewRoundStep {
     )]
     pub height: i64,
     #[prost(int32, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub round: i32,
     #[prost(uint32, tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub step: u32,
     #[prost(int64, tag = "4")]
     #[serde(
@@ -39,10 +31,6 @@ pub struct NewRoundStep {
     )]
     pub seconds_since_start_time: i64,
     #[prost(int32, tag = "5")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub last_commit_round: i32,
 }
 /// NewValidBlock is sent when a validator observes a valid block B in some round r,
@@ -68,10 +56,6 @@ pub struct NewValidBlock {
     )]
     pub height: i64,
     #[prost(int32, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub round: i32,
     #[prost(message, optional, tag = "3")]
     pub block_part_set_header: ::core::option::Option<super::types::PartSetHeader>,
@@ -118,10 +102,6 @@ pub struct ProposalPol {
     )]
     pub height: i64,
     #[prost(int32, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub proposal_pol_round: i32,
     #[prost(message, optional, tag = "3")]
     pub proposal_pol: ::core::option::Option<super::libs::bits::BitArray>,
@@ -147,10 +127,6 @@ pub struct BlockPart {
     )]
     pub height: i64,
     #[prost(int32, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub round: i32,
     #[prost(message, optional, tag = "3")]
     pub part: ::core::option::Option<super::types::Part>,
@@ -193,10 +169,6 @@ pub struct HasVote {
     )]
     pub height: i64,
     #[prost(int32, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub round: i32,
     #[prost(enumeration = "super::types::SignedMsgType", tag = "3")]
     #[serde(
@@ -205,10 +177,6 @@ pub struct HasVote {
     )]
     pub r#type: i32,
     #[prost(int32, tag = "4")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub index: i32,
 }
 /// VoteSetMaj23 is sent to indicate that a given BlockID has seen +2/3 votes.
@@ -232,10 +200,6 @@ pub struct VoteSetMaj23 {
     )]
     pub height: i64,
     #[prost(int32, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub round: i32,
     #[prost(enumeration = "super::types::SignedMsgType", tag = "3")]
     #[serde(
@@ -267,10 +231,6 @@ pub struct VoteSetBits {
     )]
     pub height: i64,
     #[prost(int32, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub round: i32,
     #[prost(enumeration = "super::types::SignedMsgType", tag = "3")]
     #[serde(
@@ -375,16 +335,8 @@ pub struct TimeoutInfo {
     )]
     pub height: i64,
     #[prost(int32, tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub round: i32,
     #[prost(uint32, tag = "4")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub step: u32,
 }
 /// EndHeight marks the end of the given height inside WAL.

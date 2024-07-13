@@ -17,10 +17,6 @@ use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
 #[proto_message(type_url = "/cosmos.crypto.multisig.LegacyAminoPubKey")]
 pub struct LegacyAminoPubKey {
     #[prost(uint32, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub threshold: u32,
     #[prost(message, repeated, tag = "2")]
     pub public_keys: ::prost::alloc::vec::Vec<crate::shim::Any>,

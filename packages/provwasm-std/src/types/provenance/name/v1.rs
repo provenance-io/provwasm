@@ -15,24 +15,12 @@ use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
 pub struct Params {
     /// maximum length of name segment to allow
     #[prost(uint32, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub max_segment_length: u32,
     /// minimum length of name segment to allow
     #[prost(uint32, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub min_segment_length: u32,
     /// maximum number of name segments to allow.  Example: `foo.bar.baz` would be 3
     #[prost(uint32, tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub max_name_levels: u32,
     /// determines if unrestricted name keys are allowed or not
     #[prost(bool, tag = "4")]

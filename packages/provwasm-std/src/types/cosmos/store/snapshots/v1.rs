@@ -20,16 +20,8 @@ pub struct Snapshot {
     )]
     pub height: u64,
     #[prost(uint32, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub format: u32,
     #[prost(uint32, tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub chunks: u32,
     #[prost(bytes = "vec", tag = "4")]
     #[serde(
@@ -159,10 +151,6 @@ pub struct SnapshotIavlItem {
     pub version: i64,
     /// height is depth of the tree.
     #[prost(int32, tag = "4")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub height: i32,
 }
 /// SnapshotExtensionMeta contains metadata about an external snapshotter.
@@ -184,10 +172,6 @@ pub struct SnapshotExtensionMeta {
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
     #[prost(uint32, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub format: u32,
 }
 /// SnapshotExtensionPayload contains payloads of an external snapshotter.

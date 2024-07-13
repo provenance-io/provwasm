@@ -67,10 +67,6 @@ pub struct MsgFee {
     /// The recipient will receive additional_fee * recipient_basis_points / 10,000.
     /// The fee collector will receive the rest, i.e. additional_fee * (10,000 - recipient_basis_points) / 10,000.
     #[prost(uint32, tag = "4")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub recipient_basis_points: u32,
 }
 /// EventMsgFee final event property for msg fee on type

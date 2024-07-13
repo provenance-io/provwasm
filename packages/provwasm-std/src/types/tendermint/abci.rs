@@ -288,16 +288,8 @@ pub struct RequestLoadSnapshotChunk {
     )]
     pub height: u64,
     #[prost(uint32, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub format: u32,
     #[prost(uint32, tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub chunk: u32,
 }
 /// Applies a snapshot chunk
@@ -315,10 +307,6 @@ pub struct RequestLoadSnapshotChunk {
 #[proto_message(type_url = "/tendermint.abci.RequestApplySnapshotChunk")]
 pub struct RequestApplySnapshotChunk {
     #[prost(uint32, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub index: u32,
     #[prost(bytes = "vec", tag = "2")]
     #[serde(
@@ -756,10 +744,6 @@ pub struct ResponseInitChain {
 #[proto_message(type_url = "/tendermint.abci.ResponseQuery")]
 pub struct ResponseQuery {
     #[prost(uint32, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub code: u32,
     /// bytes data = 2; // use "value" instead.
     ///
@@ -812,10 +796,6 @@ pub struct ResponseQuery {
 #[proto_message(type_url = "/tendermint.abci.ResponseCheckTx")]
 pub struct ResponseCheckTx {
     #[prost(uint32, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub code: u32,
     #[prost(bytes = "vec", tag = "2")]
     #[serde(
@@ -992,10 +972,6 @@ pub struct ResponseApplySnapshotChunk {
     pub result: i32,
     /// Chunks to refetch and reapply
     #[prost(uint32, repeated, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str_vec::serialize",
-        deserialize_with = "crate::serde::as_str_vec::deserialize"
-    )]
     pub refetch_chunks: ::prost::alloc::vec::Vec<u32>,
     /// Chunk senders to reject and ban
     #[prost(string, repeated, tag = "3")]
@@ -1250,10 +1226,6 @@ pub struct ResponseFinalizeBlock {
 #[proto_message(type_url = "/tendermint.abci.CommitInfo")]
 pub struct CommitInfo {
     #[prost(int32, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub round: i32,
     #[prost(message, repeated, tag = "2")]
     pub votes: ::prost::alloc::vec::Vec<VoteInfo>,
@@ -1276,10 +1248,6 @@ pub struct CommitInfo {
 pub struct ExtendedCommitInfo {
     /// The round at which the block proposer decided in the previous height.
     #[prost(int32, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub round: i32,
     /// List of validators' addresses in the last validator set with their voting
     /// information, including vote extensions.
@@ -1346,10 +1314,6 @@ pub struct EventAttribute {
 #[proto_message(type_url = "/tendermint.abci.ExecTxResult")]
 pub struct ExecTxResult {
     #[prost(uint32, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub code: u32,
     #[prost(bytes = "vec", tag = "2")]
     #[serde(
@@ -1404,10 +1368,6 @@ pub struct TxResult {
     )]
     pub height: i64,
     #[prost(uint32, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub index: u32,
     #[prost(bytes = "vec", tag = "3")]
     #[serde(
@@ -1594,17 +1554,9 @@ pub struct Snapshot {
     pub height: u64,
     /// The application-specific snapshot format
     #[prost(uint32, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub format: u32,
     /// Number of chunks in the snapshot
     #[prost(uint32, tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub chunks: u32,
     /// Arbitrary snapshot hash, equal only if identical
     #[prost(bytes = "vec", tag = "4")]

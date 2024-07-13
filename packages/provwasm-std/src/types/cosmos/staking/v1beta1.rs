@@ -584,24 +584,12 @@ pub struct Params {
     pub unbonding_time: ::core::option::Option<crate::shim::Duration>,
     /// max_validators is the maximum number of validators.
     #[prost(uint32, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub max_validators: u32,
     /// max_entries is the max entries for either unbonding delegation or redelegation (per pair/trio).
     #[prost(uint32, tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub max_entries: u32,
     /// historical_entries is the number of historical entries to persist.
     #[prost(uint32, tag = "4")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub historical_entries: u32,
     /// bond_denom defines the bondable coin denomination.
     #[prost(string, tag = "5")]

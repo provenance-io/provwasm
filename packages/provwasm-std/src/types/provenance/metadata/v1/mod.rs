@@ -1393,10 +1393,6 @@ pub struct AuditFields {
     pub updated_by: ::prost::alloc::string::String,
     /// an optional version number that is incremented with each update
     #[prost(uint32, tag = "5")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub version: u32,
     /// an optional message associated with the creation/update event
     #[prost(string, tag = "6")]
@@ -1539,10 +1535,6 @@ pub struct ObjectStoreLocator {
 #[proto_message(type_url = "/provenance.metadata.v1.OSLocatorParams")]
 pub struct OsLocatorParams {
     #[prost(uint32, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub max_uri_length: u32,
 }
 /// GenesisState defines the account module's genesis state.

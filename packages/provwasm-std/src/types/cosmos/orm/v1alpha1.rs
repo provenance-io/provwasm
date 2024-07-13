@@ -44,10 +44,6 @@ pub mod module_schema_descriptor {
         /// id is a prefix that will be varint encoded and prepended to all the
         /// table keys specified in the file's tables.
         #[prost(uint32, tag = "1")]
-        #[serde(
-            serialize_with = "crate::serde::as_str::serialize",
-            deserialize_with = "crate::serde::as_str::deserialize"
-        )]
         pub id: u32,
         /// proto_file_name is the name of a file .proto in that contains
         /// table definitions. The .proto file must be in a package that the

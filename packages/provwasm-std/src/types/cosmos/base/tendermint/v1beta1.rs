@@ -501,10 +501,6 @@ pub struct AbciQueryRequest {
 #[proto_message(type_url = "/cosmos.base.tendermint.v1beta1.ABCIQueryResponse")]
 pub struct AbciQueryResponse {
     #[prost(uint32, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub code: u32,
     /// nondeterministic
     #[prost(string, tag = "3")]

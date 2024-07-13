@@ -23,10 +23,6 @@ pub struct TableDescriptor {
     /// tables and singletons in this file. It may be deprecated in the future when this
     /// can be auto-generated.
     #[prost(uint32, tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub id: u32,
 }
 /// PrimaryKeyDescriptor describes a table primary key.
@@ -113,10 +109,6 @@ pub struct SecondaryIndexDescriptor {
     /// table and less than 32768. It may be deprecated in the future when this can
     /// be auto-generated.
     #[prost(uint32, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub id: u32,
     /// unique specifies that this an unique index.
     #[prost(bool, tag = "3")]
@@ -140,9 +132,5 @@ pub struct SingletonDescriptor {
     /// tables and singletons in this file. It may be deprecated in the future when this
     /// can be auto-generated.
     #[prost(uint32, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub id: u32,
 }

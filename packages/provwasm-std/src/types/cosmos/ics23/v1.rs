@@ -261,17 +261,9 @@ pub struct ProofSpec {
     pub inner_spec: ::core::option::Option<InnerSpec>,
     /// max_depth (if > 0) is the maximum number of InnerOps allowed (mainly for fixed-depth tries)
     #[prost(int32, tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub max_depth: i32,
     /// min_depth (if > 0) is the minimum number of InnerOps allowed (mainly for fixed-depth tries)
     #[prost(int32, tag = "4")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub min_depth: i32,
     /// prehash_key_before_comparison is a flag that indicates whether to use the
     /// prehash_key specified by LeafOp to compare lexical ordering of keys for
@@ -307,22 +299,10 @@ pub struct InnerSpec {
     #[prost(int32, repeated, tag = "1")]
     pub child_order: ::prost::alloc::vec::Vec<i32>,
     #[prost(int32, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub child_size: i32,
     #[prost(int32, tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub min_prefix_length: i32,
     #[prost(int32, tag = "4")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub max_prefix_length: i32,
     /// empty child is the prehash image that is used when one child is nil (eg. 20 bytes of 0)
     #[prost(bytes = "vec", tag = "5")]

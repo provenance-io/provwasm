@@ -87,10 +87,6 @@ pub struct PackageReference {
     ///    are important good client UX
     /// * protobuf files are changed in backwards and forwards compatible ways
     #[prost(uint32, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub revision: u32,
 }
 /// MigrateFromInfo is information on a module version that a newer module

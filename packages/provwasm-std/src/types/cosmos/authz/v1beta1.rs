@@ -38,10 +38,6 @@ pub struct CountAuthorization {
     pub msg: ::prost::alloc::string::String,
     /// Allowed number of authorizations assigned to grantee
     #[prost(int32, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub allowed_authorizations: i32,
 }
 /// Grant gives permissions to execute

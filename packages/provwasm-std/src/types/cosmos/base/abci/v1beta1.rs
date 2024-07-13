@@ -29,10 +29,6 @@ pub struct TxResponse {
     pub codespace: ::prost::alloc::string::String,
     /// Response code.
     #[prost(uint32, tag = "4")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub code: u32,
     /// Result bytes, if any.
     #[prost(string, tag = "5")]
@@ -93,10 +89,6 @@ pub struct TxResponse {
 #[proto_message(type_url = "/cosmos.base.abci.v1beta1.ABCIMessageLog")]
 pub struct AbciMessageLog {
     #[prost(uint32, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub msg_index: u32,
     #[prost(string, tag = "2")]
     pub log: ::prost::alloc::string::String,

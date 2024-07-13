@@ -30,10 +30,6 @@ pub struct Contract {
     #[prost(message, repeated, tag = "7")]
     pub recitals: ::prost::alloc::vec::Vec<Recital>,
     #[prost(int32, tag = "8")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub times_executed: i32,
     #[prost(message, optional, tag = "9")]
     pub start_time: ::core::option::Option<Timestamp>,
@@ -414,10 +410,6 @@ pub struct Timestamp {
     )]
     pub seconds: i64,
     #[prost(int32, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub nanos: i32,
 }
 /// Deprecated: Do not use.
