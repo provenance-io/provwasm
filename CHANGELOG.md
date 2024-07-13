@@ -6,9 +6,8 @@
 * fix code generation ([#150](https://github.com/provenance-io/provwasm/issues/150))
 * refactor `Any` to support Trigger messages ([#123](https://github.com/provenance-io/provwasm/issues/123))
 * Update to cosmwasm 2.x ([#141](https://github.com/provenance-io/provwasm/issues/141))
-* add module features to provwasm-std ([#142](https://github.com/provenance-io/provwasm/issues/142))
 * minimize generated types ([#152](https://github.com/provenance-io/provwasm/issues/152))
-* update to provenance 1.19.0 ([#155](https://github.com/provenance-io/provwasm/issues/155))
+* update to provenance 1.19.0-rc5 ([#155](https://github.com/provenance-io/provwasm/issues/155))
 
 ## Releases
 
