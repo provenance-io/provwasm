@@ -185,7 +185,7 @@ pub fn derive_serde_enum_as_int(input: TokenStream) -> TokenStream {
                     Err(e) => Err(serde::ser::Error::custom(e)),
                 }
             }
-    
+
             pub fn deserialize<'de, D>(deserializer: D) -> std::result::Result<i32, D::Error>
             where
                 D: serde::Deserializer<'de>,
@@ -197,13 +197,13 @@ pub fn derive_serde_enum_as_int(input: TokenStream) -> TokenStream {
                     None => Err(serde::de::Error::custom("unknown value")),
                 }
             }
-    
+
             pub fn serialize_vec<S>(v: &Vec<i32>, serializer: S) -> std::result::Result<S::Ok, S::Error>
             where
                 S: serde::Serializer,
             {
                 use serde::ser::SerializeTuple;
-    
+
                 let mut enum_strs: Vec<&str> = Vec::new();
                 for ord in v {
                     // let enum_value = Self::try_from(*ord);
@@ -221,13 +221,13 @@ pub fn derive_serde_enum_as_int(input: TokenStream) -> TokenStream {
                 }
                 seq.end()
             }
-    
+
             fn deserialize_vec<'de, D>(deserializer: D) -> std::result::Result<Vec<i32>, D::Error>
             where
                 D: serde::Deserializer<'de>,
             {
                 use serde::de::{Deserialize, Error};
-    
+
                 let strs: Vec<String> = Vec::deserialize(deserializer)?;
                 let mut ords: Vec<i32> = Vec::new();
                 for str_name in strs {
