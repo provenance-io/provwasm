@@ -51,6 +51,7 @@
     ],
     "definitions": {
       "Party": {
+        "description": "A Party is an address with/in a given role associated with a contract",
         "type": "object",
         "required": [
           "address",
@@ -59,18 +60,22 @@
         ],
         "properties": {
           "address": {
+            "description": "address of the account (on chain)",
             "type": "string"
           },
           "optional": {
+            "description": "whether this party's signature is optional",
             "type": "boolean"
           },
           "role": {
+            "description": "a role for this account within the context of the processes used",
             "type": "integer",
             "format": "int32"
           }
         }
       },
       "Scope": {
+        "description": "Scope defines a root reference for a collection of records owned by one or more parties.",
         "type": "object",
         "required": [
           "data_access",
@@ -82,21 +87,25 @@
         ],
         "properties": {
           "data_access": {
+            "description": "Addresses in this list are authorized to receive off-chain data associated with this scope.",
             "type": "array",
             "items": {
               "type": "string"
             }
           },
           "owners": {
+            "description": "These parties represent top level owners of the records within.  These parties must sign any requests that modify the data within the scope.  These addresses are in union with parties listed on the sessions.",
             "type": "array",
             "items": {
               "$ref": "#/definitions/Party"
             }
           },
           "require_party_rollup": {
+            "description": "Whether all parties in this scope and its sessions must be present in this scope's owners field. This also enables use of optional=true scope owners and session parties.",
             "type": "boolean"
           },
           "scope_id": {
+            "description": "Unique ID for this scope.  Implements sdk.Address interface for use where addresses are required in Cosmos",
             "type": "array",
             "items": {
               "type": "integer",
@@ -105,6 +114,7 @@
             }
           },
           "specification_id": {
+            "description": "the scope specification that contains the specifications for data elements allowed within this scope",
             "type": "array",
             "items": {
               "type": "integer",
@@ -113,6 +123,7 @@
             }
           },
           "value_owner_address": {
+            "description": "An address that controls the value associated with this scope.  Standard blockchain accounts and marker accounts are supported for this value.  This attribute may only be changed by the entity indicated once it is set.",
             "type": "string"
           }
         }
@@ -240,12 +251,14 @@
     "get_contract_spec": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "title": "ContractSpecificationResponse",
+      "description": "ContractSpecificationResponse is the response type for the Query/ContractSpecification RPC method.",
       "type": "object",
       "required": [
         "record_specifications"
       ],
       "properties": {
         "contract_specification": {
+          "description": "contract_specification is the wrapped contract specification.",
           "anyOf": [
             {
               "$ref": "#/definitions/ContractSpecificationWrapper"
@@ -256,12 +269,14 @@
           ]
         },
         "record_specifications": {
+          "description": "record_specifications is any number or wrapped record specifications associated with this contract_specification (if requested).",
           "type": "array",
           "items": {
             "$ref": "#/definitions/RecordSpecificationWrapper"
           }
         },
         "request": {
+          "description": "request is a copy of the request that generated these results.",
           "anyOf": [
             {
               "$ref": "#/definitions/ContractSpecificationRequest"
@@ -274,6 +289,7 @@
       },
       "definitions": {
         "ContractSpecIdInfo": {
+          "description": "ContractSpecIdInfo contains various info regarding a contract specification id.",
           "type": "object",
           "required": [
             "contract_spec_addr",
@@ -284,9 +300,11 @@
           ],
           "properties": {
             "contract_spec_addr": {
+              "description": "contract_spec_addr is the bech32 string version of the contract_spec_id.",
               "type": "string"
             },
             "contract_spec_id": {
+              "description": "contract_spec_id is the raw bytes of the contract specification address.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -295,6 +313,7 @@
               }
             },
             "contract_spec_id_contract_spec_uuid": {
+              "description": "contract_spec_id_contract_spec_uuid is the contract_spec_uuid portion of the contract_spec_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -303,6 +322,7 @@
               }
             },
             "contract_spec_id_prefix": {
+              "description": "contract_spec_id_prefix is the prefix portion of the contract_spec_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -311,11 +331,13 @@
               }
             },
             "contract_spec_uuid": {
+              "description": "contract_spec_uuid is the uuid hex string of the contract_spec_id_contract_spec_uuid.",
               "type": "string"
             }
           }
         },
         "ContractSpecification": {
+          "description": "ContractSpecification defines the required parties, resources, conditions, and consideration outputs for a contract",
           "type": "object",
           "required": [
             "class_name",
@@ -325,9 +347,11 @@
           ],
           "properties": {
             "class_name": {
+              "description": "name of the class/type of this contract executable",
               "type": "string"
             },
             "description": {
+              "description": "Description information for this contract specification",
               "anyOf": [
                 {
                   "$ref": "#/definitions/Description"
@@ -338,12 +362,14 @@
               ]
             },
             "owner_addresses": {
+              "description": "Address of the account that owns this specificaiton",
               "type": "array",
               "items": {
                 "type": "string"
               }
             },
             "parties_involved": {
+              "description": "a list of party roles that must be fullfilled when signing a transaction for this contract specification",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -351,6 +377,7 @@
               }
             },
             "source": {
+              "description": "Reference to a metadata record with a hash and type information for the instance of code that will process this contract",
               "anyOf": [
                 {
                   "$ref": "#/definitions/Source"
@@ -361,6 +388,7 @@
               ]
             },
             "specification_id": {
+              "description": "unique identifier for this specification on chain",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -371,6 +399,7 @@
           }
         },
         "ContractSpecificationRequest": {
+          "description": "ContractSpecificationRequest is the request type for the Query/ContractSpecification RPC method.",
           "type": "object",
           "required": [
             "exclude_id_info",
@@ -380,23 +409,29 @@
           ],
           "properties": {
             "exclude_id_info": {
+              "description": "exclude_id_info is a flag for whether to exclude the id info from the response.",
               "type": "boolean"
             },
             "include_record_specs": {
+              "description": "include_record_specs is a flag for whether to include the the record specifications of this contract specification in the response.",
               "type": "boolean"
             },
             "include_request": {
+              "description": "include_request is a flag for whether to include this request in your result.",
               "type": "boolean"
             },
             "specification_id": {
+              "description": "specification_id can either be a uuid, e.g. def6bc0a-c9dd-4874-948f-5206e6060a84 or a bech32 contract specification address, e.g. contractspec1q000d0q2e8w5say53afqdesxp2zqzkr4fn. It can also be a record specification address, e.g. recspec1qh00d0q2e8w5say53afqdesxp2zw42dq2jdvmdazuwzcaddhh8gmuqhez44.",
               "type": "string"
             }
           }
         },
         "ContractSpecificationWrapper": {
+          "description": "ContractSpecificationWrapper contains a single contract specification and some extra identifiers for it.",
           "type": "object",
           "properties": {
             "contract_spec_id_info": {
+              "description": "contract_spec_id_info contains information about the id/address of the contract specification.",
               "anyOf": [
                 {
                   "$ref": "#/definitions/ContractSpecIdInfo"
@@ -407,6 +442,7 @@
               ]
             },
             "specification": {
+              "description": "specification is the on-chain contract specification message.",
               "anyOf": [
                 {
                   "$ref": "#/definitions/ContractSpecification"
@@ -419,6 +455,7 @@
           }
         },
         "Description": {
+          "description": "Description holds general information that is handy to associate with a structure.",
           "type": "object",
           "required": [
             "description",
@@ -428,20 +465,25 @@
           ],
           "properties": {
             "description": {
+              "description": "A description of this thing.",
               "type": "string"
             },
             "icon_url": {
+              "description": "URL of an icon.",
               "type": "string"
             },
             "name": {
+              "description": "A Name for this thing.",
               "type": "string"
             },
             "website_url": {
+              "description": "URL to find even more info.",
               "type": "string"
             }
           }
         },
         "InputSpecification": {
+          "description": "InputSpecification defines a name, type_name, and source reference (either on or off chain) to define an input parameter",
           "type": "object",
           "required": [
             "name",
@@ -449,9 +491,11 @@
           ],
           "properties": {
             "name": {
+              "description": "name for this input",
               "type": "string"
             },
             "source": {
+              "description": "source is either on chain (record_id) or off-chain (hash)",
               "anyOf": [
                 {
                   "$ref": "#/definitions/Source2"
@@ -462,11 +506,13 @@
               ]
             },
             "type_name": {
+              "description": "a type_name (typically a proto name or class_name)",
               "type": "string"
             }
           }
         },
         "RecordSpecIdInfo": {
+          "description": "RecordSpecIdInfo contains various info regarding a record specification id.",
           "type": "object",
           "required": [
             "record_spec_addr",
@@ -477,6 +523,7 @@
           ],
           "properties": {
             "contract_spec_id_info": {
+              "description": "contract_spec_id_info is information about the contract spec id referenced in the record_spec_id.",
               "anyOf": [
                 {
                   "$ref": "#/definitions/ContractSpecIdInfo"
@@ -487,9 +534,11 @@
               ]
             },
             "record_spec_addr": {
+              "description": "record_spec_addr is the bech32 string version of the record_spec_id.",
               "type": "string"
             },
             "record_spec_id": {
+              "description": "record_spec_id is the raw bytes of the record specification address.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -498,6 +547,7 @@
               }
             },
             "record_spec_id_contract_spec_uuid": {
+              "description": "record_spec_id_contract_spec_uuid is the contract_spec_uuid portion of the record_spec_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -506,6 +556,7 @@
               }
             },
             "record_spec_id_hashed_name": {
+              "description": "record_spec_id_hashed_name is the hashed name portion of the record_spec_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -514,6 +565,7 @@
               }
             },
             "record_spec_id_prefix": {
+              "description": "record_spec_id_prefix is the prefix portion of the record_spec_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -524,6 +576,7 @@
           }
         },
         "RecordSpecification": {
+          "description": "RecordSpecification defines the specification for a Record including allowed/required inputs/outputs",
           "type": "object",
           "required": [
             "inputs",
@@ -535,15 +588,18 @@
           ],
           "properties": {
             "inputs": {
+              "description": "A set of inputs that must be satisified to apply this RecordSpecification and create a Record",
               "type": "array",
               "items": {
                 "$ref": "#/definitions/InputSpecification"
               }
             },
             "name": {
+              "description": "Name of Record that will be created when this specification is used",
               "type": "string"
             },
             "responsible_parties": {
+              "description": "Type of party responsible for this record",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -551,10 +607,12 @@
               }
             },
             "result_type": {
+              "description": "Type of result for this record specification (must be RECORD or RECORD_LIST)",
               "type": "integer",
               "format": "int32"
             },
             "specification_id": {
+              "description": "unique identifier for this specification on chain",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -563,14 +621,17 @@
               }
             },
             "type_name": {
+              "description": "A type name for data associated with this record (typically a class or proto name)",
               "type": "string"
             }
           }
         },
         "RecordSpecificationWrapper": {
+          "description": "RecordSpecificationWrapper contains a single record specification and some extra identifiers for it.",
           "type": "object",
           "properties": {
             "record_spec_id_info": {
+              "description": "record_spec_id_info contains information about the id/address of the record specification.",
               "anyOf": [
                 {
                   "$ref": "#/definitions/RecordSpecIdInfo"
@@ -581,6 +642,7 @@
               ]
             },
             "specification": {
+              "description": "specification is the on-chain record specification message.",
               "anyOf": [
                 {
                   "$ref": "#/definitions/RecordSpecification"
@@ -593,8 +655,10 @@
           }
         },
         "Source": {
+          "description": "Reference to a metadata record with a hash and type information for the instance of code that will process this contract",
           "oneOf": [
             {
+              "description": "the address of a record on chain that represents this contract",
               "type": "object",
               "required": [
                 "ResourceId"
@@ -612,6 +676,7 @@
               "additionalProperties": false
             },
             {
+              "description": "the hash of contract binary (off-chain instance)",
               "type": "object",
               "required": [
                 "Hash"
@@ -626,8 +691,10 @@
           ]
         },
         "Source2": {
+          "description": "source is either on chain (record_id) or off-chain (hash)",
           "oneOf": [
             {
+              "description": "the address of a record on chain (For Established Records)",
               "type": "object",
               "required": [
                 "RecordId"
@@ -645,6 +712,7 @@
               "additionalProperties": false
             },
             {
+              "description": "the hash of an off-chain piece of information (For Proposed Records)",
               "type": "object",
               "required": [
                 "Hash"
@@ -663,6 +731,7 @@
     "get_record_by_name": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "title": "RecordsResponse",
+      "description": "RecordsResponse is the response type for the Query/Records RPC method.",
       "type": "object",
       "required": [
         "records",
@@ -670,12 +739,14 @@
       ],
       "properties": {
         "records": {
+          "description": "records is any number of wrapped record results.",
           "type": "array",
           "items": {
             "$ref": "#/definitions/RecordWrapper"
           }
         },
         "request": {
+          "description": "request is a copy of the request that generated these results.",
           "anyOf": [
             {
               "$ref": "#/definitions/RecordsRequest"
@@ -686,6 +757,7 @@
           ]
         },
         "scope": {
+          "description": "scope is the wrapped scope that holds these records (if requested).",
           "anyOf": [
             {
               "$ref": "#/definitions/ScopeWrapper"
@@ -696,6 +768,7 @@
           ]
         },
         "sessions": {
+          "description": "sessions is any number of wrapped sessions that hold these records (if requested).",
           "type": "array",
           "items": {
             "$ref": "#/definitions/SessionWrapper"
@@ -704,6 +777,7 @@
       },
       "definitions": {
         "AuditFields": {
+          "description": "AuditFields capture information about the last account to make modifications and when they were made",
           "type": "object",
           "required": [
             "created_by",
@@ -713,9 +787,11 @@
           ],
           "properties": {
             "created_by": {
+              "description": "the address of the account that created this record",
               "type": "string"
             },
             "created_date": {
+              "description": "the date/time when this entry was created",
               "anyOf": [
                 {
                   "$ref": "#/definitions/Timestamp"
@@ -726,12 +802,15 @@
               ]
             },
             "message": {
+              "description": "an optional message associated with the creation/update event",
               "type": "string"
             },
             "updated_by": {
+              "description": "the address of the account that modified this record",
               "type": "string"
             },
             "updated_date": {
+              "description": "the date/time when this entry was last updated",
               "anyOf": [
                 {
                   "$ref": "#/definitions/Timestamp"
@@ -742,6 +821,7 @@
               ]
             },
             "version": {
+              "description": "an optional version number that is incremented with each update",
               "type": "integer",
               "format": "uint32",
               "minimum": 0.0
@@ -749,6 +829,7 @@
           }
         },
         "ContractSpecIdInfo": {
+          "description": "ContractSpecIdInfo contains various info regarding a contract specification id.",
           "type": "object",
           "required": [
             "contract_spec_addr",
@@ -759,9 +840,11 @@
           ],
           "properties": {
             "contract_spec_addr": {
+              "description": "contract_spec_addr is the bech32 string version of the contract_spec_id.",
               "type": "string"
             },
             "contract_spec_id": {
+              "description": "contract_spec_id is the raw bytes of the contract specification address.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -770,6 +853,7 @@
               }
             },
             "contract_spec_id_contract_spec_uuid": {
+              "description": "contract_spec_id_contract_spec_uuid is the contract_spec_uuid portion of the contract_spec_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -778,6 +862,7 @@
               }
             },
             "contract_spec_id_prefix": {
+              "description": "contract_spec_id_prefix is the prefix portion of the contract_spec_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -786,11 +871,13 @@
               }
             },
             "contract_spec_uuid": {
+              "description": "contract_spec_uuid is the uuid hex string of the contract_spec_id_contract_spec_uuid.",
               "type": "string"
             }
           }
         },
         "Party": {
+          "description": "A Party is an address with/in a given role associated with a contract",
           "type": "object",
           "required": [
             "address",
@@ -799,18 +886,22 @@
           ],
           "properties": {
             "address": {
+              "description": "address of the account (on chain)",
               "type": "string"
             },
             "optional": {
+              "description": "whether this party's signature is optional",
               "type": "boolean"
             },
             "role": {
+              "description": "a role for this account within the context of the processes used",
               "type": "integer",
               "format": "int32"
             }
           }
         },
         "Process": {
+          "description": "Process contains information used to uniquely identify what was used to generate this record",
           "type": "object",
           "required": [
             "method",
@@ -818,12 +909,15 @@
           ],
           "properties": {
             "method": {
+              "description": "method is a name or reference to a specific operation (method) within a class/contract that was invoked",
               "type": "string"
             },
             "name": {
+              "description": "a name associated with the process (type_name, classname or smart contract common name)",
               "type": "string"
             },
             "process_id": {
+              "description": "unique identifier for this process",
               "anyOf": [
                 {
                   "$ref": "#/definitions/ProcessId"
@@ -836,8 +930,10 @@
           }
         },
         "ProcessId": {
+          "description": "unique identifier for this process",
           "oneOf": [
             {
+              "description": "the address of a smart contract used for this process",
               "type": "object",
               "required": [
                 "Address"
@@ -850,6 +946,7 @@
               "additionalProperties": false
             },
             {
+              "description": "the hash of an off-chain process used",
               "type": "object",
               "required": [
                 "Hash"
@@ -864,6 +961,7 @@
           ]
         },
         "Record": {
+          "description": "A record (of fact) is attached to a session or each consideration output from a contract",
           "type": "object",
           "required": [
             "inputs",
@@ -874,21 +972,25 @@
           ],
           "properties": {
             "inputs": {
+              "description": "inputs used with the process to achieve the output on this record",
               "type": "array",
               "items": {
                 "$ref": "#/definitions/RecordInput"
               }
             },
             "name": {
+              "description": "name/identifier for this record.  Value must be unique within the scope.  Also known as a Fact name",
               "type": "string"
             },
             "outputs": {
+              "description": "output(s) is the results of executing the process on the given process indicated in this record",
               "type": "array",
               "items": {
                 "$ref": "#/definitions/RecordOutput"
               }
             },
             "process": {
+              "description": "process contain information used to uniquely identify an execution on or off chain that generated this record",
               "anyOf": [
                 {
                   "$ref": "#/definitions/Process"
@@ -899,6 +1001,7 @@
               ]
             },
             "session_id": {
+              "description": "id of the session context that was used to create this record (use with filtered kvprefix iterator)",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -907,6 +1010,7 @@
               }
             },
             "specification_id": {
+              "description": "specification_id is the id of the record specification that was used to create this record.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -917,6 +1021,7 @@
           }
         },
         "RecordIdInfo": {
+          "description": "RecordIdInfo contains various info regarding a record id.",
           "type": "object",
           "required": [
             "record_addr",
@@ -927,9 +1032,11 @@
           ],
           "properties": {
             "record_addr": {
+              "description": "record_addr is the bech32 string version of the record_id.",
               "type": "string"
             },
             "record_id": {
+              "description": "record_id is the raw bytes of the record address.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -938,6 +1045,7 @@
               }
             },
             "record_id_hashed_name": {
+              "description": "record_id_hashed_name is the hashed name portion of the record_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -946,6 +1054,7 @@
               }
             },
             "record_id_prefix": {
+              "description": "record_id_prefix is the prefix portion of the record_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -954,6 +1063,7 @@
               }
             },
             "record_id_scope_uuid": {
+              "description": "record_id_scope_uuid is the scope_uuid portion of the record_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -962,6 +1072,7 @@
               }
             },
             "scope_id_info": {
+              "description": "scope_id_info is information about the scope id referenced in the record_id.",
               "anyOf": [
                 {
                   "$ref": "#/definitions/ScopeIdInfo"
@@ -974,6 +1085,7 @@
           }
         },
         "RecordInput": {
+          "description": "Tracks the inputs used to establish this record",
           "type": "object",
           "required": [
             "name",
@@ -982,9 +1094,11 @@
           ],
           "properties": {
             "name": {
+              "description": "Name value included to link back to the definition spec.",
               "type": "string"
             },
             "source": {
+              "description": "data source",
               "anyOf": [
                 {
                   "$ref": "#/definitions/Source"
@@ -995,15 +1109,18 @@
               ]
             },
             "status": {
+              "description": "Indicates if this input was a recorded fact on chain or just a given hashed input",
               "type": "integer",
               "format": "int32"
             },
             "type_name": {
+              "description": "from proposed fact structure to unmarshal",
               "type": "string"
             }
           }
         },
         "RecordOutput": {
+          "description": "RecordOutput encapsulates the output of a process recorded on chain",
           "type": "object",
           "required": [
             "hash",
@@ -1011,15 +1128,18 @@
           ],
           "properties": {
             "hash": {
+              "description": "Hash of the data output that was output/generated for this record",
               "type": "string"
             },
             "status": {
+              "description": "Status of the process execution associated with this output indicating success,failure, or pending",
               "type": "integer",
               "format": "int32"
             }
           }
         },
         "RecordSpecIdInfo": {
+          "description": "RecordSpecIdInfo contains various info regarding a record specification id.",
           "type": "object",
           "required": [
             "record_spec_addr",
@@ -1030,6 +1150,7 @@
           ],
           "properties": {
             "contract_spec_id_info": {
+              "description": "contract_spec_id_info is information about the contract spec id referenced in the record_spec_id.",
               "anyOf": [
                 {
                   "$ref": "#/definitions/ContractSpecIdInfo"
@@ -1040,9 +1161,11 @@
               ]
             },
             "record_spec_addr": {
+              "description": "record_spec_addr is the bech32 string version of the record_spec_id.",
               "type": "string"
             },
             "record_spec_id": {
+              "description": "record_spec_id is the raw bytes of the record specification address.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -1051,6 +1174,7 @@
               }
             },
             "record_spec_id_contract_spec_uuid": {
+              "description": "record_spec_id_contract_spec_uuid is the contract_spec_uuid portion of the record_spec_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -1059,6 +1183,7 @@
               }
             },
             "record_spec_id_hashed_name": {
+              "description": "record_spec_id_hashed_name is the hashed name portion of the record_spec_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -1067,6 +1192,7 @@
               }
             },
             "record_spec_id_prefix": {
+              "description": "record_spec_id_prefix is the prefix portion of the record_spec_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -1077,9 +1203,11 @@
           }
         },
         "RecordWrapper": {
+          "description": "RecordWrapper contains a single record and some extra identifiers for it.",
           "type": "object",
           "properties": {
             "record": {
+              "description": "record is the on-chain record message.",
               "anyOf": [
                 {
                   "$ref": "#/definitions/Record"
@@ -1090,6 +1218,7 @@
               ]
             },
             "record_id_info": {
+              "description": "record_id_info contains information about the id/address of the record.",
               "anyOf": [
                 {
                   "$ref": "#/definitions/RecordIdInfo"
@@ -1100,6 +1229,7 @@
               ]
             },
             "record_spec_id_info": {
+              "description": "record_spec_id_info contains information about the id/address of the record specification.",
               "anyOf": [
                 {
                   "$ref": "#/definitions/RecordSpecIdInfo"
@@ -1112,6 +1242,7 @@
           }
         },
         "RecordsRequest": {
+          "description": "RecordsRequest is the request type for the Query/Records RPC method.",
           "type": "object",
           "required": [
             "exclude_id_info",
@@ -1125,32 +1256,41 @@
           ],
           "properties": {
             "exclude_id_info": {
+              "description": "exclude_id_info is a flag for whether to exclude the id info from the response.",
               "type": "boolean"
             },
             "include_request": {
+              "description": "include_request is a flag for whether to include this request in your result.",
               "type": "boolean"
             },
             "include_scope": {
+              "description": "include_scope is a flag for whether to include the the scope containing these records in the response.",
               "type": "boolean"
             },
             "include_sessions": {
+              "description": "include_sessions is a flag for whether to include the sessions containing these records in the response.",
               "type": "boolean"
             },
             "name": {
+              "description": "name is the name of the record to look for",
               "type": "string"
             },
             "record_addr": {
+              "description": "record_addr is a bech32 record address, e.g. record1q2ge0zaztu65tx5x5llv5xc9ztsw42dq2jdvmdazuwzcaddhh8gmu3mcze3.",
               "type": "string"
             },
             "scope_id": {
+              "description": "scope_id can either be a uuid, e.g. 91978ba2-5f35-459a-86a7-feca1b0512e0 or a bech32 scope address, e.g. scope1qzge0zaztu65tx5x5llv5xc9ztsqxlkwel.",
               "type": "string"
             },
             "session_id": {
+              "description": "session_id can either be a uuid, e.g. 5803f8bc-6067-4eb5-951f-2121671c2ec0 or a bech32 session address, e.g. session1qxge0zaztu65tx5x5llv5xc9zts9sqlch3sxwn44j50jzgt8rshvqyfrjcr. This can only be a uuid if a scope_id is also provided.",
               "type": "string"
             }
           }
         },
         "Scope": {
+          "description": "Scope defines a root reference for a collection of records owned by one or more parties.",
           "type": "object",
           "required": [
             "data_access",
@@ -1162,21 +1302,25 @@
           ],
           "properties": {
             "data_access": {
+              "description": "Addresses in this list are authorized to receive off-chain data associated with this scope.",
               "type": "array",
               "items": {
                 "type": "string"
               }
             },
             "owners": {
+              "description": "These parties represent top level owners of the records within.  These parties must sign any requests that modify the data within the scope.  These addresses are in union with parties listed on the sessions.",
               "type": "array",
               "items": {
                 "$ref": "#/definitions/Party"
               }
             },
             "require_party_rollup": {
+              "description": "Whether all parties in this scope and its sessions must be present in this scope's owners field. This also enables use of optional=true scope owners and session parties.",
               "type": "boolean"
             },
             "scope_id": {
+              "description": "Unique ID for this scope.  Implements sdk.Address interface for use where addresses are required in Cosmos",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -1185,6 +1329,7 @@
               }
             },
             "specification_id": {
+              "description": "the scope specification that contains the specifications for data elements allowed within this scope",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -1193,11 +1338,13 @@
               }
             },
             "value_owner_address": {
+              "description": "An address that controls the value associated with this scope.  Standard blockchain accounts and marker accounts are supported for this value.  This attribute may only be changed by the entity indicated once it is set.",
               "type": "string"
             }
           }
         },
         "ScopeIdInfo": {
+          "description": "ScopeIdInfo contains various info regarding a scope id.",
           "type": "object",
           "required": [
             "scope_addr",
@@ -1208,9 +1355,11 @@
           ],
           "properties": {
             "scope_addr": {
+              "description": "scope_addr is the bech32 string version of the scope_id.",
               "type": "string"
             },
             "scope_id": {
+              "description": "scope_id is the raw bytes of the scope address.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -1219,6 +1368,7 @@
               }
             },
             "scope_id_prefix": {
+              "description": "scope_id_prefix is the prefix portion of the scope_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -1227,6 +1377,7 @@
               }
             },
             "scope_id_scope_uuid": {
+              "description": "scope_id_scope_uuid is the scope_uuid portion of the scope_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -1235,11 +1386,13 @@
               }
             },
             "scope_uuid": {
+              "description": "scope_uuid is the uuid hex string of the scope_id_scope_uuid.",
               "type": "string"
             }
           }
         },
         "ScopeSpecIdInfo": {
+          "description": "ScopeSpecIdInfo contains various info regarding a scope specification id.",
           "type": "object",
           "required": [
             "scope_spec_addr",
@@ -1250,9 +1403,11 @@
           ],
           "properties": {
             "scope_spec_addr": {
+              "description": "scope_spec_addr is the bech32 string version of the scope_spec_id.",
               "type": "string"
             },
             "scope_spec_id": {
+              "description": "scope_spec_id is the raw bytes of the scope specification address.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -1261,6 +1416,7 @@
               }
             },
             "scope_spec_id_prefix": {
+              "description": "scope_spec_id_prefix is the prefix portion of the scope_spec_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -1269,6 +1425,7 @@
               }
             },
             "scope_spec_id_scope_spec_uuid": {
+              "description": "scope_spec_id_scope_spec_uuid is the scope_spec_uuid portion of the scope_spec_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -1277,14 +1434,17 @@
               }
             },
             "scope_spec_uuid": {
+              "description": "scope_spec_uuid is the uuid hex string of the scope_spec_id_scope_spec_uuid.",
               "type": "string"
             }
           }
         },
         "ScopeWrapper": {
+          "description": "SessionWrapper contains a single scope and its uuid.",
           "type": "object",
           "properties": {
             "scope": {
+              "description": "scope is the on-chain scope message.",
               "anyOf": [
                 {
                   "$ref": "#/definitions/Scope"
@@ -1295,6 +1455,7 @@
               ]
             },
             "scope_id_info": {
+              "description": "scope_id_info contains information about the id/address of the scope.",
               "anyOf": [
                 {
                   "$ref": "#/definitions/ScopeIdInfo"
@@ -1305,6 +1466,7 @@
               ]
             },
             "scope_spec_id_info": {
+              "description": "scope_spec_id_info contains information about the id/address of the scope specification.",
               "anyOf": [
                 {
                   "$ref": "#/definitions/ScopeSpecIdInfo"
@@ -1317,6 +1479,7 @@
           }
         },
         "Session": {
+          "description": "Session defines an execution context against a specific specification instance. The context will have a specification and set of parties involved.\n\nNOTE: When there are no more Records within a Scope that reference a Session, the Session is removed.",
           "type": "object",
           "required": [
             "context",
@@ -1327,6 +1490,7 @@
           ],
           "properties": {
             "audit": {
+              "description": "Created by, updated by, timestamps, version number, and related info.",
               "anyOf": [
                 {
                   "$ref": "#/definitions/AuditFields"
@@ -1337,6 +1501,7 @@
               ]
             },
             "context": {
+              "description": "context is a field for storing client specific data associated with a session.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -1345,9 +1510,11 @@
               }
             },
             "name": {
+              "description": "name to associate with this session execution context, typically classname",
               "type": "string"
             },
             "parties": {
+              "description": "parties is the set of identities that signed this contract",
               "type": "array",
               "items": {
                 "$ref": "#/definitions/Party"
@@ -1362,6 +1529,7 @@
               }
             },
             "specification_id": {
+              "description": "unique id of the contract specification that was used to create this session.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -1372,6 +1540,7 @@
           }
         },
         "SessionIdInfo": {
+          "description": "SessionIdInfo contains various info regarding a session id.",
           "type": "object",
           "required": [
             "session_addr",
@@ -1383,6 +1552,7 @@
           ],
           "properties": {
             "scope_id_info": {
+              "description": "scope_id_info is information about the scope id referenced in the session_id.",
               "anyOf": [
                 {
                   "$ref": "#/definitions/ScopeIdInfo"
@@ -1393,9 +1563,11 @@
               ]
             },
             "session_addr": {
+              "description": "session_addr is the bech32 string version of the session_id.",
               "type": "string"
             },
             "session_id": {
+              "description": "session_id is the raw bytes of the session address.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -1404,6 +1576,7 @@
               }
             },
             "session_id_prefix": {
+              "description": "session_id_prefix is the prefix portion of the session_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -1412,6 +1585,7 @@
               }
             },
             "session_id_scope_uuid": {
+              "description": "session_id_scope_uuid is the scope_uuid portion of the session_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -1420,6 +1594,7 @@
               }
             },
             "session_id_session_uuid": {
+              "description": "session_id_session_uuid is the session_uuid portion of the session_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -1428,14 +1603,17 @@
               }
             },
             "session_uuid": {
+              "description": "session_uuid is the uuid hex string of the session_id_session_uuid.",
               "type": "string"
             }
           }
         },
         "SessionWrapper": {
+          "description": "SessionWrapper contains a single session and some extra identifiers for it.",
           "type": "object",
           "properties": {
             "contract_spec_id_info": {
+              "description": "contract_spec_id_info contains information about the id/address of the contract specification.",
               "anyOf": [
                 {
                   "$ref": "#/definitions/ContractSpecIdInfo"
@@ -1446,6 +1624,7 @@
               ]
             },
             "session": {
+              "description": "session is the on-chain session message.",
               "anyOf": [
                 {
                   "$ref": "#/definitions/Session"
@@ -1456,6 +1635,7 @@
               ]
             },
             "session_id_info": {
+              "description": "session_id_info contains information about the id/address of the session.",
               "anyOf": [
                 {
                   "$ref": "#/definitions/SessionIdInfo"
@@ -1468,8 +1648,10 @@
           }
         },
         "Source": {
+          "description": "data source",
           "oneOf": [
             {
+              "description": "the address of a record on chain (For Established Records)",
               "type": "object",
               "required": [
                 "RecordId"
@@ -1487,6 +1669,7 @@
               "additionalProperties": false
             },
             {
+              "description": "the hash of an off-chain piece of information (For Proposed Records)",
               "type": "object",
               "required": [
                 "Hash"
@@ -1530,6 +1713,7 @@
       },
       "definitions": {
         "AuditFields": {
+          "description": "AuditFields capture information about the last account to make modifications and when they were made",
           "type": "object",
           "required": [
             "created_by",
@@ -1539,9 +1723,11 @@
           ],
           "properties": {
             "created_by": {
+              "description": "the address of the account that created this record",
               "type": "string"
             },
             "created_date": {
+              "description": "the date/time when this entry was created",
               "anyOf": [
                 {
                   "$ref": "#/definitions/Timestamp"
@@ -1552,12 +1738,15 @@
               ]
             },
             "message": {
+              "description": "an optional message associated with the creation/update event",
               "type": "string"
             },
             "updated_by": {
+              "description": "the address of the account that modified this record",
               "type": "string"
             },
             "updated_date": {
+              "description": "the date/time when this entry was last updated",
               "anyOf": [
                 {
                   "$ref": "#/definitions/Timestamp"
@@ -1568,6 +1757,7 @@
               ]
             },
             "version": {
+              "description": "an optional version number that is incremented with each update",
               "type": "integer",
               "format": "uint32",
               "minimum": 0.0
@@ -1575,6 +1765,7 @@
           }
         },
         "ContractSpecIdInfo": {
+          "description": "ContractSpecIdInfo contains various info regarding a contract specification id.",
           "type": "object",
           "required": [
             "contract_spec_addr",
@@ -1585,9 +1776,11 @@
           ],
           "properties": {
             "contract_spec_addr": {
+              "description": "contract_spec_addr is the bech32 string version of the contract_spec_id.",
               "type": "string"
             },
             "contract_spec_id": {
+              "description": "contract_spec_id is the raw bytes of the contract specification address.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -1596,6 +1789,7 @@
               }
             },
             "contract_spec_id_contract_spec_uuid": {
+              "description": "contract_spec_id_contract_spec_uuid is the contract_spec_uuid portion of the contract_spec_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -1604,6 +1798,7 @@
               }
             },
             "contract_spec_id_prefix": {
+              "description": "contract_spec_id_prefix is the prefix portion of the contract_spec_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -1612,11 +1807,13 @@
               }
             },
             "contract_spec_uuid": {
+              "description": "contract_spec_uuid is the uuid hex string of the contract_spec_id_contract_spec_uuid.",
               "type": "string"
             }
           }
         },
         "Party": {
+          "description": "A Party is an address with/in a given role associated with a contract",
           "type": "object",
           "required": [
             "address",
@@ -1625,18 +1822,22 @@
           ],
           "properties": {
             "address": {
+              "description": "address of the account (on chain)",
               "type": "string"
             },
             "optional": {
+              "description": "whether this party's signature is optional",
               "type": "boolean"
             },
             "role": {
+              "description": "a role for this account within the context of the processes used",
               "type": "integer",
               "format": "int32"
             }
           }
         },
         "Process": {
+          "description": "Process contains information used to uniquely identify what was used to generate this record",
           "type": "object",
           "required": [
             "method",
@@ -1644,12 +1845,15 @@
           ],
           "properties": {
             "method": {
+              "description": "method is a name or reference to a specific operation (method) within a class/contract that was invoked",
               "type": "string"
             },
             "name": {
+              "description": "a name associated with the process (type_name, classname or smart contract common name)",
               "type": "string"
             },
             "process_id": {
+              "description": "unique identifier for this process",
               "anyOf": [
                 {
                   "$ref": "#/definitions/ProcessId"
@@ -1662,8 +1866,10 @@
           }
         },
         "ProcessId": {
+          "description": "unique identifier for this process",
           "oneOf": [
             {
+              "description": "the address of a smart contract used for this process",
               "type": "object",
               "required": [
                 "Address"
@@ -1676,6 +1882,7 @@
               "additionalProperties": false
             },
             {
+              "description": "the hash of an off-chain process used",
               "type": "object",
               "required": [
                 "Hash"
@@ -1690,6 +1897,7 @@
           ]
         },
         "Record": {
+          "description": "A record (of fact) is attached to a session or each consideration output from a contract",
           "type": "object",
           "required": [
             "inputs",
@@ -1700,21 +1908,25 @@
           ],
           "properties": {
             "inputs": {
+              "description": "inputs used with the process to achieve the output on this record",
               "type": "array",
               "items": {
                 "$ref": "#/definitions/RecordInput"
               }
             },
             "name": {
+              "description": "name/identifier for this record.  Value must be unique within the scope.  Also known as a Fact name",
               "type": "string"
             },
             "outputs": {
+              "description": "output(s) is the results of executing the process on the given process indicated in this record",
               "type": "array",
               "items": {
                 "$ref": "#/definitions/RecordOutput"
               }
             },
             "process": {
+              "description": "process contain information used to uniquely identify an execution on or off chain that generated this record",
               "anyOf": [
                 {
                   "$ref": "#/definitions/Process"
@@ -1725,6 +1937,7 @@
               ]
             },
             "session_id": {
+              "description": "id of the session context that was used to create this record (use with filtered kvprefix iterator)",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -1733,6 +1946,7 @@
               }
             },
             "specification_id": {
+              "description": "specification_id is the id of the record specification that was used to create this record.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -1743,6 +1957,7 @@
           }
         },
         "RecordIdInfo": {
+          "description": "RecordIdInfo contains various info regarding a record id.",
           "type": "object",
           "required": [
             "record_addr",
@@ -1753,9 +1968,11 @@
           ],
           "properties": {
             "record_addr": {
+              "description": "record_addr is the bech32 string version of the record_id.",
               "type": "string"
             },
             "record_id": {
+              "description": "record_id is the raw bytes of the record address.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -1764,6 +1981,7 @@
               }
             },
             "record_id_hashed_name": {
+              "description": "record_id_hashed_name is the hashed name portion of the record_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -1772,6 +1990,7 @@
               }
             },
             "record_id_prefix": {
+              "description": "record_id_prefix is the prefix portion of the record_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -1780,6 +1999,7 @@
               }
             },
             "record_id_scope_uuid": {
+              "description": "record_id_scope_uuid is the scope_uuid portion of the record_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -1788,6 +2008,7 @@
               }
             },
             "scope_id_info": {
+              "description": "scope_id_info is information about the scope id referenced in the record_id.",
               "anyOf": [
                 {
                   "$ref": "#/definitions/ScopeIdInfo"
@@ -1800,6 +2021,7 @@
           }
         },
         "RecordInput": {
+          "description": "Tracks the inputs used to establish this record",
           "type": "object",
           "required": [
             "name",
@@ -1808,9 +2030,11 @@
           ],
           "properties": {
             "name": {
+              "description": "Name value included to link back to the definition spec.",
               "type": "string"
             },
             "source": {
+              "description": "data source",
               "anyOf": [
                 {
                   "$ref": "#/definitions/Source"
@@ -1821,15 +2045,18 @@
               ]
             },
             "status": {
+              "description": "Indicates if this input was a recorded fact on chain or just a given hashed input",
               "type": "integer",
               "format": "int32"
             },
             "type_name": {
+              "description": "from proposed fact structure to unmarshal",
               "type": "string"
             }
           }
         },
         "RecordOutput": {
+          "description": "RecordOutput encapsulates the output of a process recorded on chain",
           "type": "object",
           "required": [
             "hash",
@@ -1837,15 +2064,18 @@
           ],
           "properties": {
             "hash": {
+              "description": "Hash of the data output that was output/generated for this record",
               "type": "string"
             },
             "status": {
+              "description": "Status of the process execution associated with this output indicating success,failure, or pending",
               "type": "integer",
               "format": "int32"
             }
           }
         },
         "RecordSpecIdInfo": {
+          "description": "RecordSpecIdInfo contains various info regarding a record specification id.",
           "type": "object",
           "required": [
             "record_spec_addr",
@@ -1856,6 +2086,7 @@
           ],
           "properties": {
             "contract_spec_id_info": {
+              "description": "contract_spec_id_info is information about the contract spec id referenced in the record_spec_id.",
               "anyOf": [
                 {
                   "$ref": "#/definitions/ContractSpecIdInfo"
@@ -1866,9 +2097,11 @@
               ]
             },
             "record_spec_addr": {
+              "description": "record_spec_addr is the bech32 string version of the record_spec_id.",
               "type": "string"
             },
             "record_spec_id": {
+              "description": "record_spec_id is the raw bytes of the record specification address.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -1877,6 +2110,7 @@
               }
             },
             "record_spec_id_contract_spec_uuid": {
+              "description": "record_spec_id_contract_spec_uuid is the contract_spec_uuid portion of the record_spec_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -1885,6 +2119,7 @@
               }
             },
             "record_spec_id_hashed_name": {
+              "description": "record_spec_id_hashed_name is the hashed name portion of the record_spec_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -1893,6 +2128,7 @@
               }
             },
             "record_spec_id_prefix": {
+              "description": "record_spec_id_prefix is the prefix portion of the record_spec_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -1903,9 +2139,11 @@
           }
         },
         "RecordWrapper": {
+          "description": "RecordWrapper contains a single record and some extra identifiers for it.",
           "type": "object",
           "properties": {
             "record": {
+              "description": "record is the on-chain record message.",
               "anyOf": [
                 {
                   "$ref": "#/definitions/Record"
@@ -1916,6 +2154,7 @@
               ]
             },
             "record_id_info": {
+              "description": "record_id_info contains information about the id/address of the record.",
               "anyOf": [
                 {
                   "$ref": "#/definitions/RecordIdInfo"
@@ -1926,6 +2165,7 @@
               ]
             },
             "record_spec_id_info": {
+              "description": "record_spec_id_info contains information about the id/address of the record specification.",
               "anyOf": [
                 {
                   "$ref": "#/definitions/RecordSpecIdInfo"
@@ -1938,6 +2178,7 @@
           }
         },
         "RecordsRequest": {
+          "description": "RecordsRequest is the request type for the Query/Records RPC method.",
           "type": "object",
           "required": [
             "exclude_id_info",
@@ -1951,32 +2192,41 @@
           ],
           "properties": {
             "exclude_id_info": {
+              "description": "exclude_id_info is a flag for whether to exclude the id info from the response.",
               "type": "boolean"
             },
             "include_request": {
+              "description": "include_request is a flag for whether to include this request in your result.",
               "type": "boolean"
             },
             "include_scope": {
+              "description": "include_scope is a flag for whether to include the the scope containing these records in the response.",
               "type": "boolean"
             },
             "include_sessions": {
+              "description": "include_sessions is a flag for whether to include the sessions containing these records in the response.",
               "type": "boolean"
             },
             "name": {
+              "description": "name is the name of the record to look for",
               "type": "string"
             },
             "record_addr": {
+              "description": "record_addr is a bech32 record address, e.g. record1q2ge0zaztu65tx5x5llv5xc9ztsw42dq2jdvmdazuwzcaddhh8gmu3mcze3.",
               "type": "string"
             },
             "scope_id": {
+              "description": "scope_id can either be a uuid, e.g. 91978ba2-5f35-459a-86a7-feca1b0512e0 or a bech32 scope address, e.g. scope1qzge0zaztu65tx5x5llv5xc9ztsqxlkwel.",
               "type": "string"
             },
             "session_id": {
+              "description": "session_id can either be a uuid, e.g. 5803f8bc-6067-4eb5-951f-2121671c2ec0 or a bech32 session address, e.g. session1qxge0zaztu65tx5x5llv5xc9zts9sqlch3sxwn44j50jzgt8rshvqyfrjcr. This can only be a uuid if a scope_id is also provided.",
               "type": "string"
             }
           }
         },
         "RecordsResponse": {
+          "description": "RecordsResponse is the response type for the Query/Records RPC method.",
           "type": "object",
           "required": [
             "records",
@@ -1984,12 +2234,14 @@
           ],
           "properties": {
             "records": {
+              "description": "records is any number of wrapped record results.",
               "type": "array",
               "items": {
                 "$ref": "#/definitions/RecordWrapper"
               }
             },
             "request": {
+              "description": "request is a copy of the request that generated these results.",
               "anyOf": [
                 {
                   "$ref": "#/definitions/RecordsRequest"
@@ -2000,6 +2252,7 @@
               ]
             },
             "scope": {
+              "description": "scope is the wrapped scope that holds these records (if requested).",
               "anyOf": [
                 {
                   "$ref": "#/definitions/ScopeWrapper"
@@ -2010,6 +2263,7 @@
               ]
             },
             "sessions": {
+              "description": "sessions is any number of wrapped sessions that hold these records (if requested).",
               "type": "array",
               "items": {
                 "$ref": "#/definitions/SessionWrapper"
@@ -2018,6 +2272,7 @@
           }
         },
         "Scope": {
+          "description": "Scope defines a root reference for a collection of records owned by one or more parties.",
           "type": "object",
           "required": [
             "data_access",
@@ -2029,21 +2284,25 @@
           ],
           "properties": {
             "data_access": {
+              "description": "Addresses in this list are authorized to receive off-chain data associated with this scope.",
               "type": "array",
               "items": {
                 "type": "string"
               }
             },
             "owners": {
+              "description": "These parties represent top level owners of the records within.  These parties must sign any requests that modify the data within the scope.  These addresses are in union with parties listed on the sessions.",
               "type": "array",
               "items": {
                 "$ref": "#/definitions/Party"
               }
             },
             "require_party_rollup": {
+              "description": "Whether all parties in this scope and its sessions must be present in this scope's owners field. This also enables use of optional=true scope owners and session parties.",
               "type": "boolean"
             },
             "scope_id": {
+              "description": "Unique ID for this scope.  Implements sdk.Address interface for use where addresses are required in Cosmos",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -2052,6 +2311,7 @@
               }
             },
             "specification_id": {
+              "description": "the scope specification that contains the specifications for data elements allowed within this scope",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -2060,11 +2320,13 @@
               }
             },
             "value_owner_address": {
+              "description": "An address that controls the value associated with this scope.  Standard blockchain accounts and marker accounts are supported for this value.  This attribute may only be changed by the entity indicated once it is set.",
               "type": "string"
             }
           }
         },
         "ScopeIdInfo": {
+          "description": "ScopeIdInfo contains various info regarding a scope id.",
           "type": "object",
           "required": [
             "scope_addr",
@@ -2075,9 +2337,11 @@
           ],
           "properties": {
             "scope_addr": {
+              "description": "scope_addr is the bech32 string version of the scope_id.",
               "type": "string"
             },
             "scope_id": {
+              "description": "scope_id is the raw bytes of the scope address.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -2086,6 +2350,7 @@
               }
             },
             "scope_id_prefix": {
+              "description": "scope_id_prefix is the prefix portion of the scope_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -2094,6 +2359,7 @@
               }
             },
             "scope_id_scope_uuid": {
+              "description": "scope_id_scope_uuid is the scope_uuid portion of the scope_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -2102,11 +2368,13 @@
               }
             },
             "scope_uuid": {
+              "description": "scope_uuid is the uuid hex string of the scope_id_scope_uuid.",
               "type": "string"
             }
           }
         },
         "ScopeSpecIdInfo": {
+          "description": "ScopeSpecIdInfo contains various info regarding a scope specification id.",
           "type": "object",
           "required": [
             "scope_spec_addr",
@@ -2117,9 +2385,11 @@
           ],
           "properties": {
             "scope_spec_addr": {
+              "description": "scope_spec_addr is the bech32 string version of the scope_spec_id.",
               "type": "string"
             },
             "scope_spec_id": {
+              "description": "scope_spec_id is the raw bytes of the scope specification address.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -2128,6 +2398,7 @@
               }
             },
             "scope_spec_id_prefix": {
+              "description": "scope_spec_id_prefix is the prefix portion of the scope_spec_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -2136,6 +2407,7 @@
               }
             },
             "scope_spec_id_scope_spec_uuid": {
+              "description": "scope_spec_id_scope_spec_uuid is the scope_spec_uuid portion of the scope_spec_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -2144,14 +2416,17 @@
               }
             },
             "scope_spec_uuid": {
+              "description": "scope_spec_uuid is the uuid hex string of the scope_spec_id_scope_spec_uuid.",
               "type": "string"
             }
           }
         },
         "ScopeWrapper": {
+          "description": "SessionWrapper contains a single scope and its uuid.",
           "type": "object",
           "properties": {
             "scope": {
+              "description": "scope is the on-chain scope message.",
               "anyOf": [
                 {
                   "$ref": "#/definitions/Scope"
@@ -2162,6 +2437,7 @@
               ]
             },
             "scope_id_info": {
+              "description": "scope_id_info contains information about the id/address of the scope.",
               "anyOf": [
                 {
                   "$ref": "#/definitions/ScopeIdInfo"
@@ -2172,6 +2448,7 @@
               ]
             },
             "scope_spec_id_info": {
+              "description": "scope_spec_id_info contains information about the id/address of the scope specification.",
               "anyOf": [
                 {
                   "$ref": "#/definitions/ScopeSpecIdInfo"
@@ -2184,6 +2461,7 @@
           }
         },
         "Session": {
+          "description": "Session defines an execution context against a specific specification instance. The context will have a specification and set of parties involved.\n\nNOTE: When there are no more Records within a Scope that reference a Session, the Session is removed.",
           "type": "object",
           "required": [
             "context",
@@ -2194,6 +2472,7 @@
           ],
           "properties": {
             "audit": {
+              "description": "Created by, updated by, timestamps, version number, and related info.",
               "anyOf": [
                 {
                   "$ref": "#/definitions/AuditFields"
@@ -2204,6 +2483,7 @@
               ]
             },
             "context": {
+              "description": "context is a field for storing client specific data associated with a session.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -2212,9 +2492,11 @@
               }
             },
             "name": {
+              "description": "name to associate with this session execution context, typically classname",
               "type": "string"
             },
             "parties": {
+              "description": "parties is the set of identities that signed this contract",
               "type": "array",
               "items": {
                 "$ref": "#/definitions/Party"
@@ -2229,6 +2511,7 @@
               }
             },
             "specification_id": {
+              "description": "unique id of the contract specification that was used to create this session.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -2239,6 +2522,7 @@
           }
         },
         "SessionIdInfo": {
+          "description": "SessionIdInfo contains various info regarding a session id.",
           "type": "object",
           "required": [
             "session_addr",
@@ -2250,6 +2534,7 @@
           ],
           "properties": {
             "scope_id_info": {
+              "description": "scope_id_info is information about the scope id referenced in the session_id.",
               "anyOf": [
                 {
                   "$ref": "#/definitions/ScopeIdInfo"
@@ -2260,9 +2545,11 @@
               ]
             },
             "session_addr": {
+              "description": "session_addr is the bech32 string version of the session_id.",
               "type": "string"
             },
             "session_id": {
+              "description": "session_id is the raw bytes of the session address.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -2271,6 +2558,7 @@
               }
             },
             "session_id_prefix": {
+              "description": "session_id_prefix is the prefix portion of the session_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -2279,6 +2567,7 @@
               }
             },
             "session_id_scope_uuid": {
+              "description": "session_id_scope_uuid is the scope_uuid portion of the session_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -2287,6 +2576,7 @@
               }
             },
             "session_id_session_uuid": {
+              "description": "session_id_session_uuid is the session_uuid portion of the session_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -2295,14 +2585,17 @@
               }
             },
             "session_uuid": {
+              "description": "session_uuid is the uuid hex string of the session_id_session_uuid.",
               "type": "string"
             }
           }
         },
         "SessionWrapper": {
+          "description": "SessionWrapper contains a single session and some extra identifiers for it.",
           "type": "object",
           "properties": {
             "contract_spec_id_info": {
+              "description": "contract_spec_id_info contains information about the id/address of the contract specification.",
               "anyOf": [
                 {
                   "$ref": "#/definitions/ContractSpecIdInfo"
@@ -2313,6 +2606,7 @@
               ]
             },
             "session": {
+              "description": "session is the on-chain session message.",
               "anyOf": [
                 {
                   "$ref": "#/definitions/Session"
@@ -2323,6 +2617,7 @@
               ]
             },
             "session_id_info": {
+              "description": "session_id_info contains information about the id/address of the session.",
               "anyOf": [
                 {
                   "$ref": "#/definitions/SessionIdInfo"
@@ -2335,8 +2630,10 @@
           }
         },
         "Source": {
+          "description": "data source",
           "oneOf": [
             {
+              "description": "the address of a record on chain (For Established Records)",
               "type": "object",
               "required": [
                 "RecordId"
@@ -2354,6 +2651,7 @@
               "additionalProperties": false
             },
             {
+              "description": "the hash of an off-chain piece of information (For Proposed Records)",
               "type": "object",
               "required": [
                 "Hash"
@@ -2391,6 +2689,7 @@
     "get_scope": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "title": "ScopeResponse",
+      "description": "ScopeResponse is the response type for the Query/Scope RPC method.",
       "type": "object",
       "required": [
         "records",
@@ -2398,12 +2697,14 @@
       ],
       "properties": {
         "records": {
+          "description": "records is any number of wrapped records in this scope (if requested).",
           "type": "array",
           "items": {
             "$ref": "#/definitions/RecordWrapper"
           }
         },
         "request": {
+          "description": "request is a copy of the request that generated these results.",
           "anyOf": [
             {
               "$ref": "#/definitions/ScopeRequest"
@@ -2414,6 +2715,7 @@
           ]
         },
         "scope": {
+          "description": "scope is the wrapped scope result.",
           "anyOf": [
             {
               "$ref": "#/definitions/ScopeWrapper"
@@ -2424,6 +2726,7 @@
           ]
         },
         "sessions": {
+          "description": "sessions is any number of wrapped sessions in this scope (if requested).",
           "type": "array",
           "items": {
             "$ref": "#/definitions/SessionWrapper"
@@ -2432,6 +2735,7 @@
       },
       "definitions": {
         "AuditFields": {
+          "description": "AuditFields capture information about the last account to make modifications and when they were made",
           "type": "object",
           "required": [
             "created_by",
@@ -2441,9 +2745,11 @@
           ],
           "properties": {
             "created_by": {
+              "description": "the address of the account that created this record",
               "type": "string"
             },
             "created_date": {
+              "description": "the date/time when this entry was created",
               "anyOf": [
                 {
                   "$ref": "#/definitions/Timestamp"
@@ -2454,12 +2760,15 @@
               ]
             },
             "message": {
+              "description": "an optional message associated with the creation/update event",
               "type": "string"
             },
             "updated_by": {
+              "description": "the address of the account that modified this record",
               "type": "string"
             },
             "updated_date": {
+              "description": "the date/time when this entry was last updated",
               "anyOf": [
                 {
                   "$ref": "#/definitions/Timestamp"
@@ -2470,6 +2779,7 @@
               ]
             },
             "version": {
+              "description": "an optional version number that is incremented with each update",
               "type": "integer",
               "format": "uint32",
               "minimum": 0.0
@@ -2477,6 +2787,7 @@
           }
         },
         "ContractSpecIdInfo": {
+          "description": "ContractSpecIdInfo contains various info regarding a contract specification id.",
           "type": "object",
           "required": [
             "contract_spec_addr",
@@ -2487,9 +2798,11 @@
           ],
           "properties": {
             "contract_spec_addr": {
+              "description": "contract_spec_addr is the bech32 string version of the contract_spec_id.",
               "type": "string"
             },
             "contract_spec_id": {
+              "description": "contract_spec_id is the raw bytes of the contract specification address.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -2498,6 +2811,7 @@
               }
             },
             "contract_spec_id_contract_spec_uuid": {
+              "description": "contract_spec_id_contract_spec_uuid is the contract_spec_uuid portion of the contract_spec_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -2506,6 +2820,7 @@
               }
             },
             "contract_spec_id_prefix": {
+              "description": "contract_spec_id_prefix is the prefix portion of the contract_spec_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -2514,11 +2829,13 @@
               }
             },
             "contract_spec_uuid": {
+              "description": "contract_spec_uuid is the uuid hex string of the contract_spec_id_contract_spec_uuid.",
               "type": "string"
             }
           }
         },
         "Party": {
+          "description": "A Party is an address with/in a given role associated with a contract",
           "type": "object",
           "required": [
             "address",
@@ -2527,18 +2844,22 @@
           ],
           "properties": {
             "address": {
+              "description": "address of the account (on chain)",
               "type": "string"
             },
             "optional": {
+              "description": "whether this party's signature is optional",
               "type": "boolean"
             },
             "role": {
+              "description": "a role for this account within the context of the processes used",
               "type": "integer",
               "format": "int32"
             }
           }
         },
         "Process": {
+          "description": "Process contains information used to uniquely identify what was used to generate this record",
           "type": "object",
           "required": [
             "method",
@@ -2546,12 +2867,15 @@
           ],
           "properties": {
             "method": {
+              "description": "method is a name or reference to a specific operation (method) within a class/contract that was invoked",
               "type": "string"
             },
             "name": {
+              "description": "a name associated with the process (type_name, classname or smart contract common name)",
               "type": "string"
             },
             "process_id": {
+              "description": "unique identifier for this process",
               "anyOf": [
                 {
                   "$ref": "#/definitions/ProcessId"
@@ -2564,8 +2888,10 @@
           }
         },
         "ProcessId": {
+          "description": "unique identifier for this process",
           "oneOf": [
             {
+              "description": "the address of a smart contract used for this process",
               "type": "object",
               "required": [
                 "Address"
@@ -2578,6 +2904,7 @@
               "additionalProperties": false
             },
             {
+              "description": "the hash of an off-chain process used",
               "type": "object",
               "required": [
                 "Hash"
@@ -2592,6 +2919,7 @@
           ]
         },
         "Record": {
+          "description": "A record (of fact) is attached to a session or each consideration output from a contract",
           "type": "object",
           "required": [
             "inputs",
@@ -2602,21 +2930,25 @@
           ],
           "properties": {
             "inputs": {
+              "description": "inputs used with the process to achieve the output on this record",
               "type": "array",
               "items": {
                 "$ref": "#/definitions/RecordInput"
               }
             },
             "name": {
+              "description": "name/identifier for this record.  Value must be unique within the scope.  Also known as a Fact name",
               "type": "string"
             },
             "outputs": {
+              "description": "output(s) is the results of executing the process on the given process indicated in this record",
               "type": "array",
               "items": {
                 "$ref": "#/definitions/RecordOutput"
               }
             },
             "process": {
+              "description": "process contain information used to uniquely identify an execution on or off chain that generated this record",
               "anyOf": [
                 {
                   "$ref": "#/definitions/Process"
@@ -2627,6 +2959,7 @@
               ]
             },
             "session_id": {
+              "description": "id of the session context that was used to create this record (use with filtered kvprefix iterator)",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -2635,6 +2968,7 @@
               }
             },
             "specification_id": {
+              "description": "specification_id is the id of the record specification that was used to create this record.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -2645,6 +2979,7 @@
           }
         },
         "RecordIdInfo": {
+          "description": "RecordIdInfo contains various info regarding a record id.",
           "type": "object",
           "required": [
             "record_addr",
@@ -2655,9 +2990,11 @@
           ],
           "properties": {
             "record_addr": {
+              "description": "record_addr is the bech32 string version of the record_id.",
               "type": "string"
             },
             "record_id": {
+              "description": "record_id is the raw bytes of the record address.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -2666,6 +3003,7 @@
               }
             },
             "record_id_hashed_name": {
+              "description": "record_id_hashed_name is the hashed name portion of the record_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -2674,6 +3012,7 @@
               }
             },
             "record_id_prefix": {
+              "description": "record_id_prefix is the prefix portion of the record_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -2682,6 +3021,7 @@
               }
             },
             "record_id_scope_uuid": {
+              "description": "record_id_scope_uuid is the scope_uuid portion of the record_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -2690,6 +3030,7 @@
               }
             },
             "scope_id_info": {
+              "description": "scope_id_info is information about the scope id referenced in the record_id.",
               "anyOf": [
                 {
                   "$ref": "#/definitions/ScopeIdInfo"
@@ -2702,6 +3043,7 @@
           }
         },
         "RecordInput": {
+          "description": "Tracks the inputs used to establish this record",
           "type": "object",
           "required": [
             "name",
@@ -2710,9 +3052,11 @@
           ],
           "properties": {
             "name": {
+              "description": "Name value included to link back to the definition spec.",
               "type": "string"
             },
             "source": {
+              "description": "data source",
               "anyOf": [
                 {
                   "$ref": "#/definitions/Source"
@@ -2723,15 +3067,18 @@
               ]
             },
             "status": {
+              "description": "Indicates if this input was a recorded fact on chain or just a given hashed input",
               "type": "integer",
               "format": "int32"
             },
             "type_name": {
+              "description": "from proposed fact structure to unmarshal",
               "type": "string"
             }
           }
         },
         "RecordOutput": {
+          "description": "RecordOutput encapsulates the output of a process recorded on chain",
           "type": "object",
           "required": [
             "hash",
@@ -2739,15 +3086,18 @@
           ],
           "properties": {
             "hash": {
+              "description": "Hash of the data output that was output/generated for this record",
               "type": "string"
             },
             "status": {
+              "description": "Status of the process execution associated with this output indicating success,failure, or pending",
               "type": "integer",
               "format": "int32"
             }
           }
         },
         "RecordSpecIdInfo": {
+          "description": "RecordSpecIdInfo contains various info regarding a record specification id.",
           "type": "object",
           "required": [
             "record_spec_addr",
@@ -2758,6 +3108,7 @@
           ],
           "properties": {
             "contract_spec_id_info": {
+              "description": "contract_spec_id_info is information about the contract spec id referenced in the record_spec_id.",
               "anyOf": [
                 {
                   "$ref": "#/definitions/ContractSpecIdInfo"
@@ -2768,9 +3119,11 @@
               ]
             },
             "record_spec_addr": {
+              "description": "record_spec_addr is the bech32 string version of the record_spec_id.",
               "type": "string"
             },
             "record_spec_id": {
+              "description": "record_spec_id is the raw bytes of the record specification address.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -2779,6 +3132,7 @@
               }
             },
             "record_spec_id_contract_spec_uuid": {
+              "description": "record_spec_id_contract_spec_uuid is the contract_spec_uuid portion of the record_spec_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -2787,6 +3141,7 @@
               }
             },
             "record_spec_id_hashed_name": {
+              "description": "record_spec_id_hashed_name is the hashed name portion of the record_spec_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -2795,6 +3150,7 @@
               }
             },
             "record_spec_id_prefix": {
+              "description": "record_spec_id_prefix is the prefix portion of the record_spec_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -2805,9 +3161,11 @@
           }
         },
         "RecordWrapper": {
+          "description": "RecordWrapper contains a single record and some extra identifiers for it.",
           "type": "object",
           "properties": {
             "record": {
+              "description": "record is the on-chain record message.",
               "anyOf": [
                 {
                   "$ref": "#/definitions/Record"
@@ -2818,6 +3176,7 @@
               ]
             },
             "record_id_info": {
+              "description": "record_id_info contains information about the id/address of the record.",
               "anyOf": [
                 {
                   "$ref": "#/definitions/RecordIdInfo"
@@ -2828,6 +3187,7 @@
               ]
             },
             "record_spec_id_info": {
+              "description": "record_spec_id_info contains information about the id/address of the record specification.",
               "anyOf": [
                 {
                   "$ref": "#/definitions/RecordSpecIdInfo"
@@ -2840,6 +3200,7 @@
           }
         },
         "Scope": {
+          "description": "Scope defines a root reference for a collection of records owned by one or more parties.",
           "type": "object",
           "required": [
             "data_access",
@@ -2851,21 +3212,25 @@
           ],
           "properties": {
             "data_access": {
+              "description": "Addresses in this list are authorized to receive off-chain data associated with this scope.",
               "type": "array",
               "items": {
                 "type": "string"
               }
             },
             "owners": {
+              "description": "These parties represent top level owners of the records within.  These parties must sign any requests that modify the data within the scope.  These addresses are in union with parties listed on the sessions.",
               "type": "array",
               "items": {
                 "$ref": "#/definitions/Party"
               }
             },
             "require_party_rollup": {
+              "description": "Whether all parties in this scope and its sessions must be present in this scope's owners field. This also enables use of optional=true scope owners and session parties.",
               "type": "boolean"
             },
             "scope_id": {
+              "description": "Unique ID for this scope.  Implements sdk.Address interface for use where addresses are required in Cosmos",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -2874,6 +3239,7 @@
               }
             },
             "specification_id": {
+              "description": "the scope specification that contains the specifications for data elements allowed within this scope",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -2882,11 +3248,13 @@
               }
             },
             "value_owner_address": {
+              "description": "An address that controls the value associated with this scope.  Standard blockchain accounts and marker accounts are supported for this value.  This attribute may only be changed by the entity indicated once it is set.",
               "type": "string"
             }
           }
         },
         "ScopeIdInfo": {
+          "description": "ScopeIdInfo contains various info regarding a scope id.",
           "type": "object",
           "required": [
             "scope_addr",
@@ -2897,9 +3265,11 @@
           ],
           "properties": {
             "scope_addr": {
+              "description": "scope_addr is the bech32 string version of the scope_id.",
               "type": "string"
             },
             "scope_id": {
+              "description": "scope_id is the raw bytes of the scope address.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -2908,6 +3278,7 @@
               }
             },
             "scope_id_prefix": {
+              "description": "scope_id_prefix is the prefix portion of the scope_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -2916,6 +3287,7 @@
               }
             },
             "scope_id_scope_uuid": {
+              "description": "scope_id_scope_uuid is the scope_uuid portion of the scope_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -2924,11 +3296,13 @@
               }
             },
             "scope_uuid": {
+              "description": "scope_uuid is the uuid hex string of the scope_id_scope_uuid.",
               "type": "string"
             }
           }
         },
         "ScopeRequest": {
+          "description": "ScopeRequest is the request type for the Query/Scope RPC method.",
           "type": "object",
           "required": [
             "exclude_id_info",
@@ -2941,29 +3315,37 @@
           ],
           "properties": {
             "exclude_id_info": {
+              "description": "exclude_id_info is a flag for whether to exclude the id info from the response.",
               "type": "boolean"
             },
             "include_records": {
+              "description": "include_records is a flag for whether to include the records of the scope in the response.",
               "type": "boolean"
             },
             "include_request": {
+              "description": "include_request is a flag for whether to include this request in your result.",
               "type": "boolean"
             },
             "include_sessions": {
+              "description": "include_sessions is a flag for whether to include the sessions of the scope in the response.",
               "type": "boolean"
             },
             "record_addr": {
+              "description": "record_addr is a bech32 record address, e.g. record1q2ge0zaztu65tx5x5llv5xc9ztsw42dq2jdvmdazuwzcaddhh8gmu3mcze3.",
               "type": "string"
             },
             "scope_id": {
+              "description": "scope_id can either be a uuid, e.g. 91978ba2-5f35-459a-86a7-feca1b0512e0 or a bech32 scope address, e.g. scope1qzge0zaztu65tx5x5llv5xc9ztsqxlkwel.",
               "type": "string"
             },
             "session_addr": {
+              "description": "session_addr is a bech32 session address, e.g. session1qxge0zaztu65tx5x5llv5xc9zts9sqlch3sxwn44j50jzgt8rshvqyfrjcr.",
               "type": "string"
             }
           }
         },
         "ScopeSpecIdInfo": {
+          "description": "ScopeSpecIdInfo contains various info regarding a scope specification id.",
           "type": "object",
           "required": [
             "scope_spec_addr",
@@ -2974,9 +3356,11 @@
           ],
           "properties": {
             "scope_spec_addr": {
+              "description": "scope_spec_addr is the bech32 string version of the scope_spec_id.",
               "type": "string"
             },
             "scope_spec_id": {
+              "description": "scope_spec_id is the raw bytes of the scope specification address.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -2985,6 +3369,7 @@
               }
             },
             "scope_spec_id_prefix": {
+              "description": "scope_spec_id_prefix is the prefix portion of the scope_spec_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -2993,6 +3378,7 @@
               }
             },
             "scope_spec_id_scope_spec_uuid": {
+              "description": "scope_spec_id_scope_spec_uuid is the scope_spec_uuid portion of the scope_spec_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -3001,14 +3387,17 @@
               }
             },
             "scope_spec_uuid": {
+              "description": "scope_spec_uuid is the uuid hex string of the scope_spec_id_scope_spec_uuid.",
               "type": "string"
             }
           }
         },
         "ScopeWrapper": {
+          "description": "SessionWrapper contains a single scope and its uuid.",
           "type": "object",
           "properties": {
             "scope": {
+              "description": "scope is the on-chain scope message.",
               "anyOf": [
                 {
                   "$ref": "#/definitions/Scope"
@@ -3019,6 +3408,7 @@
               ]
             },
             "scope_id_info": {
+              "description": "scope_id_info contains information about the id/address of the scope.",
               "anyOf": [
                 {
                   "$ref": "#/definitions/ScopeIdInfo"
@@ -3029,6 +3419,7 @@
               ]
             },
             "scope_spec_id_info": {
+              "description": "scope_spec_id_info contains information about the id/address of the scope specification.",
               "anyOf": [
                 {
                   "$ref": "#/definitions/ScopeSpecIdInfo"
@@ -3041,6 +3432,7 @@
           }
         },
         "Session": {
+          "description": "Session defines an execution context against a specific specification instance. The context will have a specification and set of parties involved.\n\nNOTE: When there are no more Records within a Scope that reference a Session, the Session is removed.",
           "type": "object",
           "required": [
             "context",
@@ -3051,6 +3443,7 @@
           ],
           "properties": {
             "audit": {
+              "description": "Created by, updated by, timestamps, version number, and related info.",
               "anyOf": [
                 {
                   "$ref": "#/definitions/AuditFields"
@@ -3061,6 +3454,7 @@
               ]
             },
             "context": {
+              "description": "context is a field for storing client specific data associated with a session.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -3069,9 +3463,11 @@
               }
             },
             "name": {
+              "description": "name to associate with this session execution context, typically classname",
               "type": "string"
             },
             "parties": {
+              "description": "parties is the set of identities that signed this contract",
               "type": "array",
               "items": {
                 "$ref": "#/definitions/Party"
@@ -3086,6 +3482,7 @@
               }
             },
             "specification_id": {
+              "description": "unique id of the contract specification that was used to create this session.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -3096,6 +3493,7 @@
           }
         },
         "SessionIdInfo": {
+          "description": "SessionIdInfo contains various info regarding a session id.",
           "type": "object",
           "required": [
             "session_addr",
@@ -3107,6 +3505,7 @@
           ],
           "properties": {
             "scope_id_info": {
+              "description": "scope_id_info is information about the scope id referenced in the session_id.",
               "anyOf": [
                 {
                   "$ref": "#/definitions/ScopeIdInfo"
@@ -3117,9 +3516,11 @@
               ]
             },
             "session_addr": {
+              "description": "session_addr is the bech32 string version of the session_id.",
               "type": "string"
             },
             "session_id": {
+              "description": "session_id is the raw bytes of the session address.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -3128,6 +3529,7 @@
               }
             },
             "session_id_prefix": {
+              "description": "session_id_prefix is the prefix portion of the session_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -3136,6 +3538,7 @@
               }
             },
             "session_id_scope_uuid": {
+              "description": "session_id_scope_uuid is the scope_uuid portion of the session_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -3144,6 +3547,7 @@
               }
             },
             "session_id_session_uuid": {
+              "description": "session_id_session_uuid is the session_uuid portion of the session_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -3152,14 +3556,17 @@
               }
             },
             "session_uuid": {
+              "description": "session_uuid is the uuid hex string of the session_id_session_uuid.",
               "type": "string"
             }
           }
         },
         "SessionWrapper": {
+          "description": "SessionWrapper contains a single session and some extra identifiers for it.",
           "type": "object",
           "properties": {
             "contract_spec_id_info": {
+              "description": "contract_spec_id_info contains information about the id/address of the contract specification.",
               "anyOf": [
                 {
                   "$ref": "#/definitions/ContractSpecIdInfo"
@@ -3170,6 +3577,7 @@
               ]
             },
             "session": {
+              "description": "session is the on-chain session message.",
               "anyOf": [
                 {
                   "$ref": "#/definitions/Session"
@@ -3180,6 +3588,7 @@
               ]
             },
             "session_id_info": {
+              "description": "session_id_info contains information about the id/address of the session.",
               "anyOf": [
                 {
                   "$ref": "#/definitions/SessionIdInfo"
@@ -3192,8 +3601,10 @@
           }
         },
         "Source": {
+          "description": "data source",
           "oneOf": [
             {
+              "description": "the address of a record on chain (For Established Records)",
               "type": "object",
               "required": [
                 "RecordId"
@@ -3211,6 +3622,7 @@
               "additionalProperties": false
             },
             {
+              "description": "the hash of an off-chain piece of information (For Proposed Records)",
               "type": "object",
               "required": [
                 "Hash"
@@ -3248,6 +3660,7 @@
     "get_sessions": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "title": "SessionsResponse",
+      "description": "SessionsResponse is the response type for the Query/Sessions RPC method.",
       "type": "object",
       "required": [
         "records",
@@ -3255,12 +3668,14 @@
       ],
       "properties": {
         "records": {
+          "description": "records is any number of wrapped records contained in these sessions (if requested).",
           "type": "array",
           "items": {
             "$ref": "#/definitions/RecordWrapper"
           }
         },
         "request": {
+          "description": "request is a copy of the request that generated these results.",
           "anyOf": [
             {
               "$ref": "#/definitions/SessionsRequest"
@@ -3271,6 +3686,7 @@
           ]
         },
         "scope": {
+          "description": "scope is the wrapped scope that holds these sessions (if requested).",
           "anyOf": [
             {
               "$ref": "#/definitions/ScopeWrapper"
@@ -3281,6 +3697,7 @@
           ]
         },
         "sessions": {
+          "description": "sessions is any number of wrapped session results.",
           "type": "array",
           "items": {
             "$ref": "#/definitions/SessionWrapper"
@@ -3289,6 +3706,7 @@
       },
       "definitions": {
         "AuditFields": {
+          "description": "AuditFields capture information about the last account to make modifications and when they were made",
           "type": "object",
           "required": [
             "created_by",
@@ -3298,9 +3716,11 @@
           ],
           "properties": {
             "created_by": {
+              "description": "the address of the account that created this record",
               "type": "string"
             },
             "created_date": {
+              "description": "the date/time when this entry was created",
               "anyOf": [
                 {
                   "$ref": "#/definitions/Timestamp"
@@ -3311,12 +3731,15 @@
               ]
             },
             "message": {
+              "description": "an optional message associated with the creation/update event",
               "type": "string"
             },
             "updated_by": {
+              "description": "the address of the account that modified this record",
               "type": "string"
             },
             "updated_date": {
+              "description": "the date/time when this entry was last updated",
               "anyOf": [
                 {
                   "$ref": "#/definitions/Timestamp"
@@ -3327,6 +3750,7 @@
               ]
             },
             "version": {
+              "description": "an optional version number that is incremented with each update",
               "type": "integer",
               "format": "uint32",
               "minimum": 0.0
@@ -3334,6 +3758,7 @@
           }
         },
         "ContractSpecIdInfo": {
+          "description": "ContractSpecIdInfo contains various info regarding a contract specification id.",
           "type": "object",
           "required": [
             "contract_spec_addr",
@@ -3344,9 +3769,11 @@
           ],
           "properties": {
             "contract_spec_addr": {
+              "description": "contract_spec_addr is the bech32 string version of the contract_spec_id.",
               "type": "string"
             },
             "contract_spec_id": {
+              "description": "contract_spec_id is the raw bytes of the contract specification address.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -3355,6 +3782,7 @@
               }
             },
             "contract_spec_id_contract_spec_uuid": {
+              "description": "contract_spec_id_contract_spec_uuid is the contract_spec_uuid portion of the contract_spec_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -3363,6 +3791,7 @@
               }
             },
             "contract_spec_id_prefix": {
+              "description": "contract_spec_id_prefix is the prefix portion of the contract_spec_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -3371,11 +3800,13 @@
               }
             },
             "contract_spec_uuid": {
+              "description": "contract_spec_uuid is the uuid hex string of the contract_spec_id_contract_spec_uuid.",
               "type": "string"
             }
           }
         },
         "Party": {
+          "description": "A Party is an address with/in a given role associated with a contract",
           "type": "object",
           "required": [
             "address",
@@ -3384,18 +3815,22 @@
           ],
           "properties": {
             "address": {
+              "description": "address of the account (on chain)",
               "type": "string"
             },
             "optional": {
+              "description": "whether this party's signature is optional",
               "type": "boolean"
             },
             "role": {
+              "description": "a role for this account within the context of the processes used",
               "type": "integer",
               "format": "int32"
             }
           }
         },
         "Process": {
+          "description": "Process contains information used to uniquely identify what was used to generate this record",
           "type": "object",
           "required": [
             "method",
@@ -3403,12 +3838,15 @@
           ],
           "properties": {
             "method": {
+              "description": "method is a name or reference to a specific operation (method) within a class/contract that was invoked",
               "type": "string"
             },
             "name": {
+              "description": "a name associated with the process (type_name, classname or smart contract common name)",
               "type": "string"
             },
             "process_id": {
+              "description": "unique identifier for this process",
               "anyOf": [
                 {
                   "$ref": "#/definitions/ProcessId"
@@ -3421,8 +3859,10 @@
           }
         },
         "ProcessId": {
+          "description": "unique identifier for this process",
           "oneOf": [
             {
+              "description": "the address of a smart contract used for this process",
               "type": "object",
               "required": [
                 "Address"
@@ -3435,6 +3875,7 @@
               "additionalProperties": false
             },
             {
+              "description": "the hash of an off-chain process used",
               "type": "object",
               "required": [
                 "Hash"
@@ -3449,6 +3890,7 @@
           ]
         },
         "Record": {
+          "description": "A record (of fact) is attached to a session or each consideration output from a contract",
           "type": "object",
           "required": [
             "inputs",
@@ -3459,21 +3901,25 @@
           ],
           "properties": {
             "inputs": {
+              "description": "inputs used with the process to achieve the output on this record",
               "type": "array",
               "items": {
                 "$ref": "#/definitions/RecordInput"
               }
             },
             "name": {
+              "description": "name/identifier for this record.  Value must be unique within the scope.  Also known as a Fact name",
               "type": "string"
             },
             "outputs": {
+              "description": "output(s) is the results of executing the process on the given process indicated in this record",
               "type": "array",
               "items": {
                 "$ref": "#/definitions/RecordOutput"
               }
             },
             "process": {
+              "description": "process contain information used to uniquely identify an execution on or off chain that generated this record",
               "anyOf": [
                 {
                   "$ref": "#/definitions/Process"
@@ -3484,6 +3930,7 @@
               ]
             },
             "session_id": {
+              "description": "id of the session context that was used to create this record (use with filtered kvprefix iterator)",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -3492,6 +3939,7 @@
               }
             },
             "specification_id": {
+              "description": "specification_id is the id of the record specification that was used to create this record.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -3502,6 +3950,7 @@
           }
         },
         "RecordIdInfo": {
+          "description": "RecordIdInfo contains various info regarding a record id.",
           "type": "object",
           "required": [
             "record_addr",
@@ -3512,9 +3961,11 @@
           ],
           "properties": {
             "record_addr": {
+              "description": "record_addr is the bech32 string version of the record_id.",
               "type": "string"
             },
             "record_id": {
+              "description": "record_id is the raw bytes of the record address.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -3523,6 +3974,7 @@
               }
             },
             "record_id_hashed_name": {
+              "description": "record_id_hashed_name is the hashed name portion of the record_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -3531,6 +3983,7 @@
               }
             },
             "record_id_prefix": {
+              "description": "record_id_prefix is the prefix portion of the record_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -3539,6 +3992,7 @@
               }
             },
             "record_id_scope_uuid": {
+              "description": "record_id_scope_uuid is the scope_uuid portion of the record_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -3547,6 +4001,7 @@
               }
             },
             "scope_id_info": {
+              "description": "scope_id_info is information about the scope id referenced in the record_id.",
               "anyOf": [
                 {
                   "$ref": "#/definitions/ScopeIdInfo"
@@ -3559,6 +4014,7 @@
           }
         },
         "RecordInput": {
+          "description": "Tracks the inputs used to establish this record",
           "type": "object",
           "required": [
             "name",
@@ -3567,9 +4023,11 @@
           ],
           "properties": {
             "name": {
+              "description": "Name value included to link back to the definition spec.",
               "type": "string"
             },
             "source": {
+              "description": "data source",
               "anyOf": [
                 {
                   "$ref": "#/definitions/Source"
@@ -3580,15 +4038,18 @@
               ]
             },
             "status": {
+              "description": "Indicates if this input was a recorded fact on chain or just a given hashed input",
               "type": "integer",
               "format": "int32"
             },
             "type_name": {
+              "description": "from proposed fact structure to unmarshal",
               "type": "string"
             }
           }
         },
         "RecordOutput": {
+          "description": "RecordOutput encapsulates the output of a process recorded on chain",
           "type": "object",
           "required": [
             "hash",
@@ -3596,15 +4057,18 @@
           ],
           "properties": {
             "hash": {
+              "description": "Hash of the data output that was output/generated for this record",
               "type": "string"
             },
             "status": {
+              "description": "Status of the process execution associated with this output indicating success,failure, or pending",
               "type": "integer",
               "format": "int32"
             }
           }
         },
         "RecordSpecIdInfo": {
+          "description": "RecordSpecIdInfo contains various info regarding a record specification id.",
           "type": "object",
           "required": [
             "record_spec_addr",
@@ -3615,6 +4079,7 @@
           ],
           "properties": {
             "contract_spec_id_info": {
+              "description": "contract_spec_id_info is information about the contract spec id referenced in the record_spec_id.",
               "anyOf": [
                 {
                   "$ref": "#/definitions/ContractSpecIdInfo"
@@ -3625,9 +4090,11 @@
               ]
             },
             "record_spec_addr": {
+              "description": "record_spec_addr is the bech32 string version of the record_spec_id.",
               "type": "string"
             },
             "record_spec_id": {
+              "description": "record_spec_id is the raw bytes of the record specification address.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -3636,6 +4103,7 @@
               }
             },
             "record_spec_id_contract_spec_uuid": {
+              "description": "record_spec_id_contract_spec_uuid is the contract_spec_uuid portion of the record_spec_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -3644,6 +4112,7 @@
               }
             },
             "record_spec_id_hashed_name": {
+              "description": "record_spec_id_hashed_name is the hashed name portion of the record_spec_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -3652,6 +4121,7 @@
               }
             },
             "record_spec_id_prefix": {
+              "description": "record_spec_id_prefix is the prefix portion of the record_spec_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -3662,9 +4132,11 @@
           }
         },
         "RecordWrapper": {
+          "description": "RecordWrapper contains a single record and some extra identifiers for it.",
           "type": "object",
           "properties": {
             "record": {
+              "description": "record is the on-chain record message.",
               "anyOf": [
                 {
                   "$ref": "#/definitions/Record"
@@ -3675,6 +4147,7 @@
               ]
             },
             "record_id_info": {
+              "description": "record_id_info contains information about the id/address of the record.",
               "anyOf": [
                 {
                   "$ref": "#/definitions/RecordIdInfo"
@@ -3685,6 +4158,7 @@
               ]
             },
             "record_spec_id_info": {
+              "description": "record_spec_id_info contains information about the id/address of the record specification.",
               "anyOf": [
                 {
                   "$ref": "#/definitions/RecordSpecIdInfo"
@@ -3697,6 +4171,7 @@
           }
         },
         "Scope": {
+          "description": "Scope defines a root reference for a collection of records owned by one or more parties.",
           "type": "object",
           "required": [
             "data_access",
@@ -3708,21 +4183,25 @@
           ],
           "properties": {
             "data_access": {
+              "description": "Addresses in this list are authorized to receive off-chain data associated with this scope.",
               "type": "array",
               "items": {
                 "type": "string"
               }
             },
             "owners": {
+              "description": "These parties represent top level owners of the records within.  These parties must sign any requests that modify the data within the scope.  These addresses are in union with parties listed on the sessions.",
               "type": "array",
               "items": {
                 "$ref": "#/definitions/Party"
               }
             },
             "require_party_rollup": {
+              "description": "Whether all parties in this scope and its sessions must be present in this scope's owners field. This also enables use of optional=true scope owners and session parties.",
               "type": "boolean"
             },
             "scope_id": {
+              "description": "Unique ID for this scope.  Implements sdk.Address interface for use where addresses are required in Cosmos",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -3731,6 +4210,7 @@
               }
             },
             "specification_id": {
+              "description": "the scope specification that contains the specifications for data elements allowed within this scope",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -3739,11 +4219,13 @@
               }
             },
             "value_owner_address": {
+              "description": "An address that controls the value associated with this scope.  Standard blockchain accounts and marker accounts are supported for this value.  This attribute may only be changed by the entity indicated once it is set.",
               "type": "string"
             }
           }
         },
         "ScopeIdInfo": {
+          "description": "ScopeIdInfo contains various info regarding a scope id.",
           "type": "object",
           "required": [
             "scope_addr",
@@ -3754,9 +4236,11 @@
           ],
           "properties": {
             "scope_addr": {
+              "description": "scope_addr is the bech32 string version of the scope_id.",
               "type": "string"
             },
             "scope_id": {
+              "description": "scope_id is the raw bytes of the scope address.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -3765,6 +4249,7 @@
               }
             },
             "scope_id_prefix": {
+              "description": "scope_id_prefix is the prefix portion of the scope_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -3773,6 +4258,7 @@
               }
             },
             "scope_id_scope_uuid": {
+              "description": "scope_id_scope_uuid is the scope_uuid portion of the scope_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -3781,11 +4267,13 @@
               }
             },
             "scope_uuid": {
+              "description": "scope_uuid is the uuid hex string of the scope_id_scope_uuid.",
               "type": "string"
             }
           }
         },
         "ScopeSpecIdInfo": {
+          "description": "ScopeSpecIdInfo contains various info regarding a scope specification id.",
           "type": "object",
           "required": [
             "scope_spec_addr",
@@ -3796,9 +4284,11 @@
           ],
           "properties": {
             "scope_spec_addr": {
+              "description": "scope_spec_addr is the bech32 string version of the scope_spec_id.",
               "type": "string"
             },
             "scope_spec_id": {
+              "description": "scope_spec_id is the raw bytes of the scope specification address.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -3807,6 +4297,7 @@
               }
             },
             "scope_spec_id_prefix": {
+              "description": "scope_spec_id_prefix is the prefix portion of the scope_spec_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -3815,6 +4306,7 @@
               }
             },
             "scope_spec_id_scope_spec_uuid": {
+              "description": "scope_spec_id_scope_spec_uuid is the scope_spec_uuid portion of the scope_spec_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -3823,14 +4315,17 @@
               }
             },
             "scope_spec_uuid": {
+              "description": "scope_spec_uuid is the uuid hex string of the scope_spec_id_scope_spec_uuid.",
               "type": "string"
             }
           }
         },
         "ScopeWrapper": {
+          "description": "SessionWrapper contains a single scope and its uuid.",
           "type": "object",
           "properties": {
             "scope": {
+              "description": "scope is the on-chain scope message.",
               "anyOf": [
                 {
                   "$ref": "#/definitions/Scope"
@@ -3841,6 +4336,7 @@
               ]
             },
             "scope_id_info": {
+              "description": "scope_id_info contains information about the id/address of the scope.",
               "anyOf": [
                 {
                   "$ref": "#/definitions/ScopeIdInfo"
@@ -3851,6 +4347,7 @@
               ]
             },
             "scope_spec_id_info": {
+              "description": "scope_spec_id_info contains information about the id/address of the scope specification.",
               "anyOf": [
                 {
                   "$ref": "#/definitions/ScopeSpecIdInfo"
@@ -3863,6 +4360,7 @@
           }
         },
         "Session": {
+          "description": "Session defines an execution context against a specific specification instance. The context will have a specification and set of parties involved.\n\nNOTE: When there are no more Records within a Scope that reference a Session, the Session is removed.",
           "type": "object",
           "required": [
             "context",
@@ -3873,6 +4371,7 @@
           ],
           "properties": {
             "audit": {
+              "description": "Created by, updated by, timestamps, version number, and related info.",
               "anyOf": [
                 {
                   "$ref": "#/definitions/AuditFields"
@@ -3883,6 +4382,7 @@
               ]
             },
             "context": {
+              "description": "context is a field for storing client specific data associated with a session.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -3891,9 +4391,11 @@
               }
             },
             "name": {
+              "description": "name to associate with this session execution context, typically classname",
               "type": "string"
             },
             "parties": {
+              "description": "parties is the set of identities that signed this contract",
               "type": "array",
               "items": {
                 "$ref": "#/definitions/Party"
@@ -3908,6 +4410,7 @@
               }
             },
             "specification_id": {
+              "description": "unique id of the contract specification that was used to create this session.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -3918,6 +4421,7 @@
           }
         },
         "SessionIdInfo": {
+          "description": "SessionIdInfo contains various info regarding a session id.",
           "type": "object",
           "required": [
             "session_addr",
@@ -3929,6 +4433,7 @@
           ],
           "properties": {
             "scope_id_info": {
+              "description": "scope_id_info is information about the scope id referenced in the session_id.",
               "anyOf": [
                 {
                   "$ref": "#/definitions/ScopeIdInfo"
@@ -3939,9 +4444,11 @@
               ]
             },
             "session_addr": {
+              "description": "session_addr is the bech32 string version of the session_id.",
               "type": "string"
             },
             "session_id": {
+              "description": "session_id is the raw bytes of the session address.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -3950,6 +4457,7 @@
               }
             },
             "session_id_prefix": {
+              "description": "session_id_prefix is the prefix portion of the session_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -3958,6 +4466,7 @@
               }
             },
             "session_id_scope_uuid": {
+              "description": "session_id_scope_uuid is the scope_uuid portion of the session_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -3966,6 +4475,7 @@
               }
             },
             "session_id_session_uuid": {
+              "description": "session_id_session_uuid is the session_uuid portion of the session_id.",
               "type": "array",
               "items": {
                 "type": "integer",
@@ -3974,14 +4484,17 @@
               }
             },
             "session_uuid": {
+              "description": "session_uuid is the uuid hex string of the session_id_session_uuid.",
               "type": "string"
             }
           }
         },
         "SessionWrapper": {
+          "description": "SessionWrapper contains a single session and some extra identifiers for it.",
           "type": "object",
           "properties": {
             "contract_spec_id_info": {
+              "description": "contract_spec_id_info contains information about the id/address of the contract specification.",
               "anyOf": [
                 {
                   "$ref": "#/definitions/ContractSpecIdInfo"
@@ -3992,6 +4505,7 @@
               ]
             },
             "session": {
+              "description": "session is the on-chain session message.",
               "anyOf": [
                 {
                   "$ref": "#/definitions/Session"
@@ -4002,6 +4516,7 @@
               ]
             },
             "session_id_info": {
+              "description": "session_id_info contains information about the id/address of the session.",
               "anyOf": [
                 {
                   "$ref": "#/definitions/SessionIdInfo"
@@ -4014,6 +4529,7 @@
           }
         },
         "SessionsRequest": {
+          "description": "SessionsRequest is the request type for the Query/Sessions RPC method.",
           "type": "object",
           "required": [
             "exclude_id_info",
@@ -4027,34 +4543,44 @@
           ],
           "properties": {
             "exclude_id_info": {
+              "description": "exclude_id_info is a flag for whether to exclude the id info from the response.",
               "type": "boolean"
             },
             "include_records": {
+              "description": "include_records is a flag for whether to include the records of these sessions in the response.",
               "type": "boolean"
             },
             "include_request": {
+              "description": "include_request is a flag for whether to include this request in your result.",
               "type": "boolean"
             },
             "include_scope": {
+              "description": "include_scope is a flag for whether to include the scope containing these sessions in the response.",
               "type": "boolean"
             },
             "record_addr": {
+              "description": "record_addr is a bech32 record address, e.g. record1q2ge0zaztu65tx5x5llv5xc9ztsw42dq2jdvmdazuwzcaddhh8gmu3mcze3.",
               "type": "string"
             },
             "record_name": {
+              "description": "record_name is the name of the record to find the session for in the provided scope.",
               "type": "string"
             },
             "scope_id": {
+              "description": "scope_id can either be a uuid, e.g. 91978ba2-5f35-459a-86a7-feca1b0512e0 or a bech32 scope address, e.g. scope1qzge0zaztu65tx5x5llv5xc9ztsqxlkwel.",
               "type": "string"
             },
             "session_id": {
+              "description": "session_id can either be a uuid, e.g. 5803f8bc-6067-4eb5-951f-2121671c2ec0 or a bech32 session address, e.g. session1qxge0zaztu65tx5x5llv5xc9zts9sqlch3sxwn44j50jzgt8rshvqyfrjcr. This can only be a uuid if a scope_id is also provided.",
               "type": "string"
             }
           }
         },
         "Source": {
+          "description": "data source",
           "oneOf": [
             {
+              "description": "the address of a record on chain (For Established Records)",
               "type": "object",
               "required": [
                 "RecordId"
@@ -4072,6 +4598,7 @@
               "additionalProperties": false
             },
             {
+              "description": "the hash of an off-chain piece of information (For Proposed Records)",
               "type": "object",
               "required": [
                 "Hash"

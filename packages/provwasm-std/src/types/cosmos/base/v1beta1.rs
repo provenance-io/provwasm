@@ -1,4 +1,8 @@
-use provwasm_proc_macro::CosmwasmExt;
+use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
+/// Coin defines a token with a denomination and an amount.
+///
+/// NOTE: The amount field is an Int which implements the custom method
+/// signatures required by gogoproto.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
@@ -17,6 +21,10 @@ pub struct Coin {
     #[prost(string, tag = "2")]
     pub amount: ::prost::alloc::string::String,
 }
+/// DecCoin defines a token with a denomination and a decimal amount.
+///
+/// NOTE: The amount field is an Dec which implements the custom method
+/// signatures required by gogoproto.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
@@ -35,6 +43,8 @@ pub struct DecCoin {
     #[prost(string, tag = "2")]
     pub amount: ::prost::alloc::string::String,
 }
+/// IntProto defines a Protobuf wrapper around an Int object.
+/// Deprecated: Prefer to use math.Int directly. It supports binary Marshal and Unmarshal.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
@@ -51,6 +61,8 @@ pub struct IntProto {
     #[prost(string, tag = "1")]
     pub int: ::prost::alloc::string::String,
 }
+/// DecProto defines a Protobuf wrapper around a Dec object.
+/// Deprecated: Prefer to use math.LegacyDec directly. It supports binary Marshal and Unmarshal.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,

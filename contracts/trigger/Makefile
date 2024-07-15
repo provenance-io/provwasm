@@ -42,7 +42,7 @@ optimize:
 	docker run --rm -v $(CURDIR)/../../:/code:Z --workdir /code/contracts/trigger \
 		--mount type=volume,source=trigger_cache,target=/code/target \
 		--mount type=volume,source=registry_cache,target=/usr/local/cargo/registry \
-		$$image:0.15.0
+		$$image:0.16.0
 
 .PHONY: install
 install:

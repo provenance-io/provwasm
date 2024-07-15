@@ -339,6 +339,7 @@
       "additionalProperties": false,
       "definitions": {
         "AccessGrant": {
+          "description": "AccessGrant associates a collection of permissions with an address for delegated marker account control.",
           "type": "object",
           "required": [
             "address",
@@ -380,6 +381,7 @@
           }
         },
         "BaseAccount": {
+          "description": "BaseAccount defines a base account type. It contains all the necessary fields for basic account functionality. Any custom account type should extend this type for additional functionality (e.g. vesting).",
           "type": "object",
           "required": [
             "account_number",
@@ -413,6 +415,7 @@
           }
         },
         "Coin": {
+          "description": "Coin defines a token with a denomination and an amount.\n\nNOTE: The amount field is an Int which implements the custom method signatures required by gogoproto.",
           "type": "object",
           "required": [
             "amount",
@@ -428,6 +431,7 @@
           }
         },
         "MarkerAccount": {
+          "description": "MarkerAccount holds the marker configuration information in addition to a base account structure.",
           "type": "object",
           "required": [
             "access_control",
@@ -443,18 +447,22 @@
           ],
           "properties": {
             "access_control": {
+              "description": "Access control lists",
               "type": "array",
               "items": {
                 "$ref": "#/definitions/AccessGrant"
               }
             },
             "allow_forced_transfer": {
+              "description": "Whether an admin can transfer restricted coins from a 3rd-party account without their signature.",
               "type": "boolean"
             },
             "allow_governance_control": {
+              "description": "indicates that governance based control is allowed for this marker",
               "type": "boolean"
             },
             "base_account": {
+              "description": "base cosmos account information including address and coin holdings.",
               "anyOf": [
                 {
                   "$ref": "#/definitions/BaseAccount"
@@ -465,29 +473,36 @@
               ]
             },
             "denom": {
+              "description": "value denomination and total supply for the token.",
               "type": "string"
             },
             "manager": {
+              "description": "Address that owns the marker configuration.  This account must sign any requests to change marker config (only valid for statuses prior to finalization)",
               "type": "string"
             },
             "marker_type": {
+              "description": "Marker type information",
               "type": "integer",
               "format": "int32"
             },
             "required_attributes": {
+              "description": "list of required attributes on restricted marker in order to send and receive transfers if sender does not have transfer authority",
               "type": "array",
               "items": {
                 "type": "string"
               }
             },
             "status": {
+              "description": "Indicates the current status of this marker record.",
               "type": "integer",
               "format": "int32"
             },
             "supply": {
+              "description": "the total supply expected for a marker.  This is the amount that is minted when a marker is created.",
               "type": "string"
             },
             "supply_fixed": {
+              "description": "A fixed supply will mint additional coin automatically if the total supply decreases below a set value.  This may occur if the coin is burned or an account holding the coin is slashed. (default: true)",
               "type": "boolean"
             }
           }
@@ -516,6 +531,7 @@
       "additionalProperties": false,
       "definitions": {
         "AccessGrant": {
+          "description": "AccessGrant associates a collection of permissions with an address for delegated marker account control.",
           "type": "object",
           "required": [
             "address",
@@ -557,6 +573,7 @@
           }
         },
         "BaseAccount": {
+          "description": "BaseAccount defines a base account type. It contains all the necessary fields for basic account functionality. Any custom account type should extend this type for additional functionality (e.g. vesting).",
           "type": "object",
           "required": [
             "account_number",
@@ -590,6 +607,7 @@
           }
         },
         "Coin": {
+          "description": "Coin defines a token with a denomination and an amount.\n\nNOTE: The amount field is an Int which implements the custom method signatures required by gogoproto.",
           "type": "object",
           "required": [
             "amount",
@@ -605,6 +623,7 @@
           }
         },
         "MarkerAccount": {
+          "description": "MarkerAccount holds the marker configuration information in addition to a base account structure.",
           "type": "object",
           "required": [
             "access_control",
@@ -620,18 +639,22 @@
           ],
           "properties": {
             "access_control": {
+              "description": "Access control lists",
               "type": "array",
               "items": {
                 "$ref": "#/definitions/AccessGrant"
               }
             },
             "allow_forced_transfer": {
+              "description": "Whether an admin can transfer restricted coins from a 3rd-party account without their signature.",
               "type": "boolean"
             },
             "allow_governance_control": {
+              "description": "indicates that governance based control is allowed for this marker",
               "type": "boolean"
             },
             "base_account": {
+              "description": "base cosmos account information including address and coin holdings.",
               "anyOf": [
                 {
                   "$ref": "#/definitions/BaseAccount"
@@ -642,29 +665,36 @@
               ]
             },
             "denom": {
+              "description": "value denomination and total supply for the token.",
               "type": "string"
             },
             "manager": {
+              "description": "Address that owns the marker configuration.  This account must sign any requests to change marker config (only valid for statuses prior to finalization)",
               "type": "string"
             },
             "marker_type": {
+              "description": "Marker type information",
               "type": "integer",
               "format": "int32"
             },
             "required_attributes": {
+              "description": "list of required attributes on restricted marker in order to send and receive transfers if sender does not have transfer authority",
               "type": "array",
               "items": {
                 "type": "string"
               }
             },
             "status": {
+              "description": "Indicates the current status of this marker record.",
               "type": "integer",
               "format": "int32"
             },
             "supply": {
+              "description": "the total supply expected for a marker.  This is the amount that is minted when a marker is created.",
               "type": "string"
             },
             "supply_fixed": {
+              "description": "A fixed supply will mint additional coin automatically if the total supply decreases below a set value.  This may occur if the coin is burned or an account holding the coin is slashed. (default: true)",
               "type": "boolean"
             }
           }

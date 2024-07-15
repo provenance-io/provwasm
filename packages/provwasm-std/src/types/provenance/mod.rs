@@ -1,9 +1,11 @@
 pub mod attribute;
 pub mod exchange;
 pub mod hold;
+pub mod ibchooks;
+pub mod ibcratelimit;
 pub mod marker;
 pub mod metadata;
 pub mod msgfees;
 pub mod name;
-pub mod reward;
+pub mod oracle;
 pub mod trigger;

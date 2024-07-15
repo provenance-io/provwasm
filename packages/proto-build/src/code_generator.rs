@@ -78,6 +78,7 @@ impl CodeGenerator {
 
     fn generate_mod_file(&self) {
         mod_gen::generate_mod_file(&self.absolute_out_dir());
+        // mod_gen::add_root_features(&self.absolute_out_dir()); // disable until grpc enabled
     }
 
     fn transform(&self) {
@@ -159,8 +160,7 @@ impl CodeGenerator {
 
             if !project.exclude_mods.is_empty() {
                 for excluded_mod in project.exclude_mods.clone() {
-                    cmd.arg("--exclude-path")
-                        .arg(proto_path.join(project.name.clone()).join(excluded_mod));
+                    cmd.arg("--exclude-path").arg(proto_path.join(excluded_mod));
                 }
             }
 
@@ -187,8 +187,7 @@ impl CodeGenerator {
 
             if !project.exclude_mods.is_empty() {
                 for include_mod in project.exclude_mods {
-                    cmd.arg("--exclude-path")
-                        .arg(proto_path.join(project.name.clone()).join(include_mod));
+                    cmd.arg("--exclude-path").arg(proto_path.join(include_mod));
                 }
             }
 

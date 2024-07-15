@@ -1,4 +1,5 @@
-use provwasm_proc_macro::CosmwasmExt;
+use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
+/// SignatureDescriptors wraps multiple SignatureDescriptor's.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
@@ -12,9 +13,14 @@ use provwasm_proc_macro::CosmwasmExt;
 )]
 #[proto_message(type_url = "/cosmos.tx.signing.v1beta1.SignatureDescriptors")]
 pub struct SignatureDescriptors {
+    /// signatures are the signature descriptors
     #[prost(message, repeated, tag = "1")]
     pub signatures: ::prost::alloc::vec::Vec<SignatureDescriptor>,
 }
+/// SignatureDescriptor is a convenience type which represents the full data for
+/// a signature including the public key of the signer, signing modes and the
+/// signature itself. It is primarily used for coordinating signatures between
+/// clients.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
@@ -28,10 +34,14 @@ pub struct SignatureDescriptors {
 )]
 #[proto_message(type_url = "/cosmos.tx.signing.v1beta1.SignatureDescriptor")]
 pub struct SignatureDescriptor {
+    /// public_key is the public key of the signer
     #[prost(message, optional, tag = "1")]
     pub public_key: ::core::option::Option<crate::shim::Any>,
     #[prost(message, optional, tag = "2")]
     pub data: ::core::option::Option<signature_descriptor::Data>,
+    /// sequence is the sequence of the account, which describes the
+    /// number of committed transactions signed by a given address. It is used to prevent
+    /// replay attacks.
     #[prost(uint64, tag = "3")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
@@ -41,7 +51,8 @@ pub struct SignatureDescriptor {
 }
 /// Nested message and enum types in `SignatureDescriptor`.
 pub mod signature_descriptor {
-    use provwasm_proc_macro::CosmwasmExt;
+    use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
+    /// Data represents signature data
     #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(
         Clone,
@@ -55,12 +66,14 @@ pub mod signature_descriptor {
     )]
     #[proto_message(type_url = "/cosmos.tx.signing.v1beta1.SignatureDescriptor.Data")]
     pub struct Data {
+        /// sum is the oneof that specifies whether this represents single or multi-signature data
         #[prost(oneof = "data::Sum", tags = "1, 2")]
         pub sum: ::core::option::Option<data::Sum>,
     }
     /// Nested message and enum types in `Data`.
     pub mod data {
-        use provwasm_proc_macro::CosmwasmExt;
+        use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
+        /// Single is the signature data for a single signer
         #[allow(clippy::derive_partial_eq_without_eq)]
         #[derive(
             Clone,
@@ -74,12 +87,14 @@ pub mod signature_descriptor {
         )]
         #[proto_message(type_url = "/cosmos.tx.signing.v1beta1.SignatureDescriptor.Data.Single")]
         pub struct Single {
+            /// mode is the signing mode of the single signer
             #[prost(enumeration = "super::super::SignMode", tag = "1")]
             #[serde(
                 serialize_with = "super::super::SignMode::serialize",
                 deserialize_with = "super::super::SignMode::deserialize"
             )]
             pub mode: i32,
+            /// signature is the raw signature bytes
             #[prost(bytes = "vec", tag = "2")]
             #[serde(
                 serialize_with = "crate::serde::as_base64_encoded_string::serialize",
@@ -87,6 +102,7 @@ pub mod signature_descriptor {
             )]
             pub signature: ::prost::alloc::vec::Vec<u8>,
         }
+        /// Multi is the signature data for a multisig public key
         #[allow(clippy::derive_partial_eq_without_eq)]
         #[derive(
             Clone,
@@ -100,13 +116,16 @@ pub mod signature_descriptor {
         )]
         #[proto_message(type_url = "/cosmos.tx.signing.v1beta1.SignatureDescriptor.Data.Multi")]
         pub struct Multi {
+            /// bitarray specifies which keys within the multisig are signing
             #[prost(message, optional, tag = "1")]
             pub bitarray: ::core::option::Option<
                 super::super::super::super::super::crypto::multisig::v1beta1::CompactBitArray,
             >,
+            /// signatures is the signatures of the multi-signature
             #[prost(message, repeated, tag = "2")]
             pub signatures: ::prost::alloc::vec::Vec<super::Data>,
         }
+        /// sum is the oneof that specifies whether this represents single or multi-signature data
         #[allow(clippy::derive_partial_eq_without_eq)]
         #[derive(
             Clone,
@@ -118,22 +137,58 @@ pub mod signature_descriptor {
             ::schemars::JsonSchema,
         )]
         pub enum Sum {
+            /// single represents a single signer
             #[prost(message, tag = "1")]
             Single(Single),
+            /// multi represents a multisig signer
             #[prost(message, tag = "2")]
             Multi(Multi),
         }
     }
 }
+/// SignMode represents a signing mode with its own security guarantees.
+///
+/// This enum should be considered a registry of all known sign modes
+/// in the Cosmos ecosystem. Apps are not expected to support all known
+/// sign modes. Apps that would like to support custom  sign modes are
+/// encouraged to open a small PR against this file to add a new case
+/// to this SignMode enum describing their sign mode so that different
+/// apps have a consistent version of this enum.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema)]
+#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 pub enum SignMode {
+    /// SIGN_MODE_UNSPECIFIED specifies an unknown signing mode and will be
+    /// rejected.
     Unspecified = 0,
+    /// SIGN_MODE_DIRECT specifies a signing mode which uses SignDoc and is
+    /// verified with raw bytes from Tx.
     Direct = 1,
+    /// SIGN_MODE_TEXTUAL is a future signing mode that will verify some
+    /// human-readable textual representation on top of the binary representation
+    /// from SIGN_MODE_DIRECT.
+    ///
+    /// Since: cosmos-sdk 0.50
     Textual = 2,
+    /// SIGN_MODE_DIRECT_AUX specifies a signing mode which uses
+    /// SignDocDirectAux. As opposed to SIGN_MODE_DIRECT, this sign mode does not
+    /// require signers signing over other signers' `signer_info`.
+    ///
+    /// Since: cosmos-sdk 0.46
     DirectAux = 3,
+    /// SIGN_MODE_LEGACY_AMINO_JSON is a backwards compatibility mode which uses
+    /// Amino JSON and will be removed in the future.
     LegacyAminoJson = 127,
+    /// SIGN_MODE_EIP_191 specifies the sign mode for EIP 191 signing on the Cosmos
+    /// SDK. Ref: <https://eips.ethereum.org/EIPS/eip-191>
+    ///
+    /// Currently, SIGN_MODE_EIP_191 is registered as a SignMode enum variant,
+    /// but is not implemented on the SDK by default. To enable EIP-191, you need
+    /// to pass a custom `TxConfig` that has an implementation of
+    /// `SignModeHandler` for EIP-191. The SDK may decide to fully support
+    /// EIP-191 in the future.
+    ///
+    /// Since: cosmos-sdk 0.45.2
     Eip191 = 191,
 }
 impl SignMode {
@@ -161,29 +216,6 @@ impl SignMode {
             "SIGN_MODE_LEGACY_AMINO_JSON" => Some(Self::LegacyAminoJson),
             "SIGN_MODE_EIP_191" => Some(Self::Eip191),
             _ => None,
-        }
-    }
-
-    pub fn serialize<S>(v: &i32, serializer: S) -> std::result::Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        let enum_value = Self::try_from(*v);
-        match enum_value {
-            Ok(v) => serializer.serialize_str(v.as_str_name()),
-            Err(e) => Err(serde::ser::Error::custom(e)),
-        }
-    }
-
-    pub fn deserialize<'de, D>(deserializer: D) -> std::result::Result<i32, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        use serde::de::Deserialize;
-        let s = String::deserialize(deserializer)?;
-        match Self::from_str_name(&s) {
-            Some(v) => Ok(v.into()),
-            None => Err(serde::de::Error::custom("unknown value")),
         }
     }
 }

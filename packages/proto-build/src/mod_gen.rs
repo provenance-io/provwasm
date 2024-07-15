@@ -1,10 +1,12 @@
-use itertools::Itertools;
-use proc_macro2::TokenStream as TokenStream2;
-use quote::{format_ident, quote};
 use std::ffi::OsStr;
 use std::fs;
 use std::fs::create_dir_all;
 use std::path::{Path, PathBuf};
+
+use itertools::Itertools;
+use proc_macro2::TokenStream as TokenStream2;
+use quote::{format_ident, quote, ToTokens};
+use syn::{self, File, Item};
 
 pub fn generate_mod_file(for_dir: &Path) {
     let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
@@ -112,4 +114,39 @@ fn create_mod_rs(ts: TokenStream2, path: &Path) {
     if let Err(e) = write {
         panic!("[error] Error while generating mod.rs: {}", e);
     }
+}
+
+pub fn add_root_features(root: &PathBuf) {
+    // Read mod.rs
+    let mod_rs_path = root.join("mod.rs");
+    let contents = fs::read_to_string(&mod_rs_path).expect("Unable to read mod.rs file");
+
+    // Parse mod.rs into a syntax tree
+    let mut syntax_tree: File = syn::parse_file(&contents).expect("Unable to parse mod.rs file");
+
+    // Update items
+    for item in syntax_tree.items.iter_mut() {
+        if let Item::Mod(module) = item {
+            // Create the feature flag attribute
+            let feature_name = format!("feature = \"{}\"", module.ident);
+            let feature_meta: syn::Meta =
+                syn::parse_str(&feature_name).expect("Failed to parse feature attribute");
+            let feature_attr = syn::Attribute {
+                pound_token: syn::token::Pound::default(),
+                style: syn::AttrStyle::Outer,
+                bracket_token: syn::token::Bracket::default(),
+                path: syn::Path::from(syn::Ident::new("cfg", module.ident.span())),
+                tokens: quote::quote!( ( #feature_meta ) ).into(),
+            };
+
+            // Add the feature attribute to the module's attributes
+            module.attrs.push(feature_attr);
+        }
+    }
+
+    // Generate the updated file contents
+    let updated_file = syntax_tree.to_token_stream().to_string();
+
+    // Write the updated contents back to mod.rs
+    fs::write(mod_rs_path, updated_file).expect("Unable to write to mod.rs file");
 }

@@ -14,7 +14,13 @@ use crate::transformers;
 
 /// Protos belonging to these Protobuf packages will be excluded
 /// (i.e. because they are sourced from `tendermint-proto`)
-const EXCLUDED_PROTO_PACKAGES: &[&str] = &["cosmos_proto", "gogoproto", "google"];
+const EXCLUDED_PROTO_PACKAGES: &[&str] = &["amino", "cosmos_proto", "gogoproto", "google"];
+
+/// These structures are excluded from the final module
+const EXCLUDED_STRUCTURES: &[&str] = &[
+    "provenance::msgfees::v1::CalculateTxFeesRequest",
+    "provenance::msgfees::v1::CalculateTxFeesResponse",
+];
 
 pub fn copy_and_transform_all(from_dir: &Path, to_dir: &Path, descriptor: &FileDescriptorSet) {
     let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
@@ -22,7 +28,7 @@ pub fn copy_and_transform_all(from_dir: &Path, to_dir: &Path, descriptor: &FileD
     debug!("Copying generated files into '{}'...", to_dir.display());
 
     // Remove old compiled files
-    remove_dir_all(&to_dir).unwrap_or_default();
+    remove_dir_all(&to_dir).unwrap_or(());
     create_dir_all(&to_dir).unwrap();
 
     let mut filenames = Vec::new();
@@ -109,7 +115,7 @@ fn prepend(items: Vec<Item>) -> Vec<Item> {
     let mut items = items;
 
     let mut prepending_items = vec![syn::parse_quote! {
-        use provwasm_proc_macro::CosmwasmExt;
+        use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
     }];
 
     items.splice(0..0, prepending_items.drain(..));
@@ -133,30 +139,52 @@ fn transform_items(
 ) -> Vec<Item> {
     items
         .into_iter()
-        .map(|i| match i {
-            Item::Struct(s) => Item::Struct({
-                let s = transformers::add_derive_eq_struct(&s);
-                let s = transformers::append_attrs_struct(src, &s, descriptor);
-                let s = transformers::serde_alias_id_with_uppercased(s);
-                // A hack to make Pagination::next_key optional.
-                // Remove if [this PR](https://github.com/cosmos/cosmos-sdk/pull/20246) is merged and released
-                let s = transformers::make_next_key_optional(s);
-                let s = transformers::allow_serde_option_vec_u8_as_base64_encoded_string(s);
-                let s = transformers::allow_serde_vec_u8_as_base64_encoded_string(s);
-                let s = transformers::allow_serde_int_as_str(s);
+        .filter_map(|i| {
+            match i {
+                Item::Struct(s) => Some(Item::Struct({
+                    let full_path = match src.file_stem() {
+                        Some(file_stem) => {
+                            format!(
+                                "{}::{}",
+                                file_stem.to_str().unwrap().replace('.', "::"),
+                                s.ident
+                            )
+                        }
+                        _ => s.ident.to_string(),
+                    };
 
-                transformers::allow_serde_vec_int_as_vec_str(s)
-            }),
+                    if EXCLUDED_STRUCTURES.contains(&full_path.as_str()) {
+                        return None;
+                    }
+                    let s = transformers::add_derive_eq_struct(&s);
+                    let s = transformers::append_attrs_struct(src, &s, descriptor);
+                    // A hack to make Pagination::next_key optional.
+                    // Remove if [this PR](https://github.com/cosmos/cosmos-sdk/pull/20246) is merged and released
+                    let s = transformers::make_next_key_optional(s);
+                    let s = transformers::allow_serde_option_vec_u8_as_base64_encoded_string(s);
+                    let s =
+                        transformers::allow_serde_vec_u8_as_base64_encoded_string_or_string_bytes(
+                            s,
+                        );
+                    let s = transformers::allow_serde_vec_vec_u8_as_vec_string_bytes(s);
+                    let s = transformers::allow_serde_int_as_str(s);
+                    let s = transformers::allow_serde_i32_or_vec_i32(s);
 
-            Item::Enum(e) => Item::Enum({
-                let e = transformers::add_derive_eq_enum(&e);
-                transformers::append_attrs_enum(src, &e, descriptor)
-            }),
+                    transformers::allow_serde_vec_int_as_vec_str(s)
+                })),
 
-            // This is a temporary hack to fix the issue with clashing stake authorization validators
-            Item::Mod(m) => Item::Mod(transformers::fix_clashing_stake_authorization_validators(m)),
+                Item::Enum(e) => Some(Item::Enum({
+                    let e = transformers::add_derive_eq_enum(&e);
+                    transformers::append_attrs_enum(src, &e, descriptor)
+                })),
 
-            i => i,
+                // This is a temporary hack to fix the issue with clashing stake authorization validators
+                Item::Mod(m) => Some(Item::Mod(
+                    transformers::fix_clashing_stake_authorization_validators(m),
+                )),
+
+                i => Some(i),
+            }
         })
         .map(|i: Item| transform_nested_mod(i, src, ancestors, descriptor))
         .collect::<Vec<Item>>()
