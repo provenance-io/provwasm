@@ -1,0 +1,84 @@
+version: v2
+modules:
+  - path: dependencies/provenance/proto
+    name: buf.build/provenance-io/provenance
+    lint:
+      use:
+        - COMMENTS
+        - DEFAULT
+        - FILE_LOWER_SNAKE_CASE
+      except:
+        - COMMENT_FIELD
+        - FIELD_NOT_REQUIRED
+        - PACKAGE_NO_IMPORT_CYCLE
+        - PACKAGE_VERSION_SUFFIX
+        - RPC_REQUEST_STANDARD_NAME
+        - SERVICE_SUFFIX
+        - UNARY_RPC
+      ignore:
+        - dependencies/provenance/proto/cosmos
+        - dependencies/provenance/proto/cosmos_proto
+        - dependencies/provenance/proto/cosmowasm
+        - dependencies/provenance/proto/gogoproto
+        - dependencies/provenance/proto/google
+        - dependencies/provenance/proto/ibc
+        - dependencies/provenance/proto/proofs.proto
+        - dependencies/provenance/proto/tendermint
+      ignore_only:
+        ENUM_VALUE_PREFIX:
+          - dependencies/provenance/proto/provenance/metadata/v1/p8e/p8e.proto
+        ENUM_ZERO_VALUE_SUFFIX:
+          - dependencies/provenance/proto/provenance/marker/v1/si.proto
+          - dependencies/provenance/proto/provenance/metadata/v1/p8e/p8e.proto
+      disallow_comment_ignores: true
+    breaking:
+      use:
+        - FILE
+      except:
+        - EXTENSION_NO_DELETE
+        - FIELD_SAME_DEFAULT
+        - FILE_NO_DELETE
+        - FILE_SAME_SYNTAX
+      ignore:
+        - dependencies/provenance/proto/cosmos
+        - dependencies/provenance/proto/cosmos_proto
+        - dependencies/provenance/proto/cosmowasm
+        - dependencies/provenance/proto/gogoproto
+        - dependencies/provenance/proto/google
+        - dependencies/provenance/proto/ibc
+        - dependencies/provenance/proto/proofs.proto
+        - dependencies/provenance/proto/tendermint
+  - path: dependencies/provenance/third_party/proto
+    name: buf.build/provenance-io/third-party
+    lint:
+      use:
+        - COMMENTS
+        - DEFAULT
+        - FILE_LOWER_SNAKE_CASE
+      except:
+        - COMMENT_FIELD
+        - FIELD_NOT_REQUIRED
+        - PACKAGE_NO_IMPORT_CYCLE
+        - PACKAGE_VERSION_SUFFIX
+        - RPC_REQUEST_STANDARD_NAME
+        - SERVICE_SUFFIX
+        - UNARY_RPC
+      ignore:
+        - dependencies/provenance/third_party/proto/cosmos
+        - dependencies/provenance/third_party/proto/cosmos_proto
+        - dependencies/provenance/third_party/proto/cosmowasm
+        - dependencies/provenance/third_party/proto/gogoproto
+        - dependencies/provenance/third_party/proto/google
+        - dependencies/provenance/third_party/proto/ibc
+        - dependencies/provenance/third_party/proto/proofs.proto
+        - dependencies/provenance/third_party/proto/tendermint
+      disallow_comment_ignores: true
+    breaking:
+      use:
+        - FILE
+        - FILE_NO_DELETE
+      except:
+        - EXTENSION_NO_DELETE
+        - FIELD_NO_DELETE
+        - FIELD_SAME_DEFAULT
+        - FILE_SAME_GO_PACKAGE
