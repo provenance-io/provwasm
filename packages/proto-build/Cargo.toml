@@ -4,7 +4,7 @@ version = "0.1.0"
 repository = { workspace = true }
 edition = { workspace = true }
 license = { workspace = true }
-authors = ["Ken Talley <ktalley@figure.com>"]
+authors = ["Ken Talley <4344285+kwtalley@users.noreply.github.com"]
 publish = false
 
 [dependencies]

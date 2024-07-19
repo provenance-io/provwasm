@@ -4,7 +4,7 @@ version = "0.1.2"
 repository = { workspace = true }
 edition = { workspace = true }
 license = { workspace = true }
-authors = ["Ken Talley <ktalley@figure.com>"]
+authors = ["Ken Talley <4344285+kwtalley@users.noreply.github.com"]
 description = "Rust macros that simplify query and response types for Provenance Blockchain smart contracts"
 keywords = ["provenance", "blockchain", "smart-contracts", "defi", "finance"]
 categories = ["api-bindings", "cryptography::cryptocurrencies", "wasm"]
