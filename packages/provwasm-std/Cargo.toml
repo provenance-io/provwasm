@@ -9,15 +9,6 @@ description = "Rust bindings that enable CosmWasm smart contracts to interact wi
 keywords = ["provenance", "blockchain", "smart-contracts", "defi", "finance"]
 categories = ["api-bindings", "cryptography::cryptocurrencies", "wasm"]
 
-[features]
-default = ["capability", "cosmos", "cosmwasm", "ibc", "provenance", "tendermint"]
-capability = []
-cosmos = []
-cosmwasm = []
-ibc = []
-provenance = []
-tendermint = []
-
 [dependencies]
 chrono = { version = "0.4.24", default-features = false }
 cosmwasm-std = { workspace = true }
