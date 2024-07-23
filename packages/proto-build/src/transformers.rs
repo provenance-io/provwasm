@@ -9,9 +9,9 @@ use prost_types::{
 };
 use quote::{format_ident, quote};
 use regex::Regex;
-use syn::ItemMod;
-use syn::{parse_quote, Attribute, Fields, Ident, Item, ItemStruct, Type};
+use syn::{parse_quote, Attribute, Fields, Ident, Item, ItemStruct, NestedMeta, Type};
 use syn::{ItemEnum, Lit};
+use syn::{ItemMod, Meta};
 
 /// Regex substitutions to apply to the prost-generated output
 pub const REPLACEMENTS: &[(&str, &str)] = &[
@@ -87,6 +87,30 @@ pub fn add_derive_eq(mut attr: Attribute) -> Attribute {
     }
 }
 
+pub fn add_derive_json(mut attr: Attribute) -> Attribute {
+    if attr.path.is_ident("derive") {
+        if let Ok(Meta::List(mut meta_list)) = attr.parse_meta() {
+            // Check if ::schemars::JsonSchema is already present
+            let already_present = meta_list.nested.iter().any(|nested_meta| {
+                if let NestedMeta::Meta(Meta::Path(path)) = nested_meta {
+                    return path.is_ident("::schemars::JsonSchema");
+                }
+                false
+            });
+
+            if !already_present {
+                meta_list.nested.push(parse_quote!(::schemars::JsonSchema));
+            }
+
+            let nested = meta_list.nested;
+
+            // Reconstruct the attribute tokens
+            attr.tokens = quote! {(#nested)};
+        }
+    }
+    attr
+}
+
 pub fn add_derive_eq_struct(s: &ItemStruct) -> ItemStruct {
     let mut item_struct = s.clone();
     item_struct.attrs = item_struct.attrs.into_iter().map(add_derive_eq).collect();
@@ -97,6 +121,13 @@ pub fn add_derive_eq_struct(s: &ItemStruct) -> ItemStruct {
 pub fn add_derive_eq_enum(s: &ItemEnum) -> ItemEnum {
     let mut item_enum = s.clone();
     item_enum.attrs = item_enum.attrs.into_iter().map(add_derive_eq).collect();
+
+    item_enum
+}
+
+pub fn add_derive_json_enum(s: &ItemEnum) -> ItemEnum {
+    let mut item_enum = s.clone();
+    item_enum.attrs = item_enum.attrs.into_iter().map(add_derive_json).collect();
 
     item_enum
 }
@@ -113,7 +144,7 @@ pub fn append_attrs_struct(
     let deprecated = get_deprecation(src, &s.ident, descriptor);
 
     s.attrs.append(&mut vec![
-        syn::parse_quote! { #[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, CosmwasmExt)] },
+        syn::parse_quote! { #[derive(::schemars::JsonSchema, CosmwasmExt)] },
         syn::parse_quote! { #[proto_message(type_url = #type_url)] },
     ]);
 
@@ -793,8 +824,9 @@ pub fn fix_clashing_stake_authorization_validators(input: ItemMod) -> ItemMod {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
     use syn::ItemStruct;
+
+    use super::*;
 
     macro_rules! assert_ast_eq {
         ($left:ident, $right:ident) => {
@@ -977,5 +1009,31 @@ mod tests {
         };
 
         assert_ast_eq!(result, expected);
+    }
+
+    #[test]
+    pub fn test_add_derive_json() {
+        let attr: ItemEnum = parse_quote!(
+            #[derive(Eq, PartialEq)]
+            pub enum Level {
+                NoneUnspecified = 0,
+                SomeMsgs = 1,
+                AllMsgs = 2,
+                SuperAdmin = 3,
+            }
+        );
+        let updated_attr = add_derive_json_enum(&attr);
+
+        let expected_attr = parse_quote!(
+            #[derive(Eq, PartialEq, ::schemars::JsonSchema)]
+            pub enum Level {
+                NoneUnspecified = 0,
+                SomeMsgs = 1,
+                AllMsgs = 2,
+                SuperAdmin = 3,
+            }
+        );
+
+        assert_ast_eq!(updated_attr, expected_attr);
     }
 }
