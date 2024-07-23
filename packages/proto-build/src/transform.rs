@@ -115,7 +115,7 @@ fn prepend(items: Vec<Item>) -> Vec<Item> {
     let mut items = items;
 
     let mut prepending_items = vec![syn::parse_quote! {
-        use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
+        use provwasm_proc_macro::{CosmwasmExt};
     }];
 
     items.splice(0..0, prepending_items.drain(..));
@@ -160,22 +160,23 @@ fn transform_items(
                     let s = transformers::append_attrs_struct(src, &s, descriptor);
                     // A hack to make Pagination::next_key optional.
                     // Remove if [this PR](https://github.com/cosmos/cosmos-sdk/pull/20246) is merged and released
-                    let s = transformers::make_next_key_optional(s);
-                    let s = transformers::allow_serde_option_vec_u8_as_base64_encoded_string(s);
-                    let s =
-                        transformers::allow_serde_vec_u8_as_base64_encoded_string_or_string_bytes(
-                            s,
-                        );
-                    let s = transformers::allow_serde_vec_vec_u8_as_vec_string_bytes(s);
-                    let s = transformers::allow_serde_int_as_str(s);
-                    let s = transformers::allow_serde_i32_or_vec_i32(s);
+                    transformers::make_next_key_optional(s)
+                    // let s = transformers::allow_serde_option_vec_u8_as_base64_encoded_string(s);
+                    // let s =
+                    //     transformers::allow_serde_vec_u8_as_base64_encoded_string_or_string_bytes(
+                    //         s,
+                    //     );
+                    // let s = transformers::allow_serde_vec_vec_u8_as_vec_string_bytes(s);
+                    // let s = transformers::allow_serde_int_as_str(s);
+                    // let s = transformers::allow_serde_i32_or_vec_i32(s);
 
-                    transformers::allow_serde_vec_int_as_vec_str(s)
+                    // transformers::allow_serde_vec_int_as_vec_str(s)
                 })),
 
                 Item::Enum(e) => Some(Item::Enum({
                     let e = transformers::add_derive_eq_enum(&e);
-                    transformers::append_attrs_enum(src, &e, descriptor)
+                    transformers::add_derive_json_enum(&e)
+                    // transformers::append_attrs_enum(src, &e, descriptor)
                 })),
 
                 // This is a temporary hack to fix the issue with clashing stake authorization validators
