@@ -15,7 +15,6 @@ pub struct CosmosProject {
     pub name: String,
     pub version: String,
     pub project_dir: String,
-    pub buf_gen_template: String,
     /// determines which modules to exclude from the project
     pub exclude_mods: Vec<String>,
 }
