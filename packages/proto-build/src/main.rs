@@ -37,7 +37,6 @@ pub fn generate() {
         name: "provenance".to_string(),
         version: PROVENANCE_REV.to_string(),
         project_dir: PROVENANCE_DIR.to_string(),
-        buf_gen_template: "provenance.buf.gen.yaml".to_string(),
         exclude_mods: vec![],
     };
 
@@ -45,7 +44,6 @@ pub fn generate() {
         name: "third-party".to_string(),
         version: PROVENANCE_REV.to_string(),
         project_dir: THIRD_PARTY_DIR.to_string(),
-        buf_gen_template: "third-party.buf.gen.yaml".to_string(),
         exclude_mods: vec![
             "amino".to_string(),
             "cosmos_proto".to_string(),
