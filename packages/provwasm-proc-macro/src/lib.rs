@@ -42,24 +42,23 @@ pub fn derive_cosmwasm_ext(input: TokenStream) -> TokenStream {
         let query_request_conversion = quote! {
             impl <Q: cosmwasm_std::CustomQuery> From<#ident> for cosmwasm_std::QueryRequest<Q> {
                 fn from(msg: #ident) -> Self {
-                    cosmwasm_std::QueryRequest::<Q>::Stargate {
+                    cosmwasm_std::QueryRequest::<Q>::Grpc(cosmwasm_std::GrpcQuery{
                         path: #path.to_string(),
                         data: msg.into(),
-                    }
+                    })
                 }
             }
         };
 
         let cosmwasm_query = quote! {
             pub fn query(self, querier: &cosmwasm_std::QuerierWrapper<impl cosmwasm_std::CustomQuery>) -> cosmwasm_std::StdResult<#res> {
-                querier.query::<#res>(&self.into())
+                #res::try_from(querier.query_grpc(#path.to_string(), self.into())?)
             }
 
             pub fn mock_response<T: provwasm_common::MockableQuerier>(querier: &mut T, response: #res) {
                 querier.register_custom_query(#path.to_string(), Box::new(move |data| {
                     cosmwasm_std::SystemResult::Ok(cosmwasm_std::ContractResult::Ok(
-                        cosmwasm_std::to_binary(&response)
-                            .unwrap()))
+                        cosmwasm_std::Binary::new(response.to_proto_bytes())))
                 }))
             }
 
@@ -239,7 +238,7 @@ pub fn derive_serde_enum_as_int(input: TokenStream) -> TokenStream {
             }
         }
     })
-    .into()
+        .into()
 }
 
 fn get_type_url(attrs: &[syn::Attribute]) -> proc_macro2::TokenStream {
