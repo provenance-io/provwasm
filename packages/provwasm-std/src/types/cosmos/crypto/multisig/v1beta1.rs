@@ -1,18 +1,9 @@
-use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
+use provwasm_proc_macro::CosmwasmExt;
 /// MultiSignature wraps the signatures from a multisig.LegacyAminoPubKey.
 /// See cosmos.tx.v1betata1.ModeInfo.Multi for how to specify which signers
 /// signed and with which modes.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.crypto.multisig.v1beta1.MultiSignature")]
 pub struct MultiSignature {
     #[prost(bytes = "vec", repeated, tag = "1")]
@@ -23,24 +14,11 @@ pub struct MultiSignature {
 /// space after proto encoding.
 /// This is not thread safe, and is not intended for concurrent usage.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.crypto.multisig.v1beta1.CompactBitArray")]
 pub struct CompactBitArray {
     #[prost(uint32, tag = "1")]
     pub extra_bits_stored: u32,
     #[prost(bytes = "vec", tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
     pub elems: ::prost::alloc::vec::Vec<u8>,
 }

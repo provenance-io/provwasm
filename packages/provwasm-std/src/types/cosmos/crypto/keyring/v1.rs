@@ -1,16 +1,7 @@
-use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
+use provwasm_proc_macro::CosmwasmExt;
 /// Record is used for representing a key in the keyring.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.crypto.keyring.v1.Record")]
 pub struct Record {
     /// name represents a name of Record
@@ -25,20 +16,11 @@ pub struct Record {
 }
 /// Nested message and enum types in `Record`.
 pub mod record {
-    use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
+    use provwasm_proc_macro::CosmwasmExt;
     /// Item is a keyring item stored in a keyring backend.
     /// Local item
     #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(
-        Clone,
-        PartialEq,
-        Eq,
-        ::prost::Message,
-        ::serde::Serialize,
-        ::serde::Deserialize,
-        ::schemars::JsonSchema,
-        CosmwasmExt,
-    )]
+    #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
     #[proto_message(type_url = "/cosmos.crypto.keyring.v1.Record.Local")]
     pub struct Local {
         #[prost(message, optional, tag = "1")]
@@ -46,16 +28,7 @@ pub mod record {
     }
     /// Ledger item
     #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(
-        Clone,
-        PartialEq,
-        Eq,
-        ::prost::Message,
-        ::serde::Serialize,
-        ::serde::Deserialize,
-        ::schemars::JsonSchema,
-        CosmwasmExt,
-    )]
+    #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
     #[proto_message(type_url = "/cosmos.crypto.keyring.v1.Record.Ledger")]
     pub struct Ledger {
         #[prost(message, optional, tag = "1")]
@@ -63,43 +36,17 @@ pub mod record {
     }
     /// Multi item
     #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(
-        Clone,
-        PartialEq,
-        Eq,
-        ::prost::Message,
-        ::serde::Serialize,
-        ::serde::Deserialize,
-        ::schemars::JsonSchema,
-        CosmwasmExt,
-    )]
+    #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
     #[proto_message(type_url = "/cosmos.crypto.keyring.v1.Record.Multi")]
     pub struct Multi {}
     /// Offline item
     #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(
-        Clone,
-        PartialEq,
-        Eq,
-        ::prost::Message,
-        ::serde::Serialize,
-        ::serde::Deserialize,
-        ::schemars::JsonSchema,
-        CosmwasmExt,
-    )]
+    #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
     #[proto_message(type_url = "/cosmos.crypto.keyring.v1.Record.Offline")]
     pub struct Offline {}
     /// Record contains one of the following items
     #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(
-        Clone,
-        PartialEq,
-        Eq,
-        ::prost::Oneof,
-        ::serde::Serialize,
-        ::serde::Deserialize,
-        ::schemars::JsonSchema,
-    )]
+    #[derive(Clone, PartialEq, Eq, ::prost::Oneof, ::schemars::JsonSchema)]
     pub enum Item {
         /// local stores the private key locally.
         #[prost(message, tag = "3")]

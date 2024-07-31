@@ -1,16 +1,7 @@
-use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
+use provwasm_proc_macro::CosmwasmExt;
 /// SignatureDescriptors wraps multiple SignatureDescriptor's.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.tx.signing.v1beta1.SignatureDescriptors")]
 pub struct SignatureDescriptors {
     /// signatures are the signature descriptors
@@ -22,16 +13,7 @@ pub struct SignatureDescriptors {
 /// signature itself. It is primarily used for coordinating signatures between
 /// clients.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.tx.signing.v1beta1.SignatureDescriptor")]
 pub struct SignatureDescriptor {
     /// public_key is the public key of the signer
@@ -43,27 +25,14 @@ pub struct SignatureDescriptor {
     /// number of committed transactions signed by a given address. It is used to prevent
     /// replay attacks.
     #[prost(uint64, tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub sequence: u64,
 }
 /// Nested message and enum types in `SignatureDescriptor`.
 pub mod signature_descriptor {
-    use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
+    use provwasm_proc_macro::CosmwasmExt;
     /// Data represents signature data
     #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(
-        Clone,
-        PartialEq,
-        Eq,
-        ::prost::Message,
-        ::serde::Serialize,
-        ::serde::Deserialize,
-        ::schemars::JsonSchema,
-        CosmwasmExt,
-    )]
+    #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
     #[proto_message(type_url = "/cosmos.tx.signing.v1beta1.SignatureDescriptor.Data")]
     pub struct Data {
         /// sum is the oneof that specifies whether this represents single or multi-signature data
@@ -72,48 +41,22 @@ pub mod signature_descriptor {
     }
     /// Nested message and enum types in `Data`.
     pub mod data {
-        use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
+        use provwasm_proc_macro::CosmwasmExt;
         /// Single is the signature data for a single signer
         #[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(
-            Clone,
-            PartialEq,
-            Eq,
-            ::prost::Message,
-            ::serde::Serialize,
-            ::serde::Deserialize,
-            ::schemars::JsonSchema,
-            CosmwasmExt,
-        )]
+        #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
         #[proto_message(type_url = "/cosmos.tx.signing.v1beta1.SignatureDescriptor.Data.Single")]
         pub struct Single {
             /// mode is the signing mode of the single signer
             #[prost(enumeration = "super::super::SignMode", tag = "1")]
-            #[serde(
-                serialize_with = "super::super::SignMode::serialize",
-                deserialize_with = "super::super::SignMode::deserialize"
-            )]
             pub mode: i32,
             /// signature is the raw signature bytes
             #[prost(bytes = "vec", tag = "2")]
-            #[serde(
-                serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-                deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-            )]
             pub signature: ::prost::alloc::vec::Vec<u8>,
         }
         /// Multi is the signature data for a multisig public key
         #[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(
-            Clone,
-            PartialEq,
-            Eq,
-            ::prost::Message,
-            ::serde::Serialize,
-            ::serde::Deserialize,
-            ::schemars::JsonSchema,
-            CosmwasmExt,
-        )]
+        #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
         #[proto_message(type_url = "/cosmos.tx.signing.v1beta1.SignatureDescriptor.Data.Multi")]
         pub struct Multi {
             /// bitarray specifies which keys within the multisig are signing
@@ -127,15 +70,7 @@ pub mod signature_descriptor {
         }
         /// sum is the oneof that specifies whether this represents single or multi-signature data
         #[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(
-            Clone,
-            PartialEq,
-            Eq,
-            ::prost::Oneof,
-            ::serde::Serialize,
-            ::serde::Deserialize,
-            ::schemars::JsonSchema,
-        )]
+        #[derive(Clone, PartialEq, Eq, ::prost::Oneof, ::schemars::JsonSchema)]
         pub enum Sum {
             /// single represents a single signer
             #[prost(message, tag = "1")]
@@ -154,9 +89,19 @@ pub mod signature_descriptor {
 /// encouraged to open a small PR against this file to add a new case
 /// to this SignMode enum describing their sign mode so that different
 /// apps have a consistent version of this enum.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[derive(
+    Clone,
+    Copy,
+    Debug,
+    PartialEq,
+    Eq,
+    Hash,
+    PartialOrd,
+    Ord,
+    ::prost::Enumeration,
+    ::schemars::JsonSchema,
+)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 pub enum SignMode {
     /// SIGN_MODE_UNSPECIFIED specifies an unknown signing mode and will be
     /// rejected.

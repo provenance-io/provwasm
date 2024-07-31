@@ -1,16 +1,7 @@
-use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
+use provwasm_proc_macro::CosmwasmExt;
 /// EventOptIn is an event emitted when an address opts into quarantine.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.quarantine.v1beta1.EventOptIn")]
 pub struct EventOptIn {
     #[prost(string, tag = "1")]
@@ -18,16 +9,7 @@ pub struct EventOptIn {
 }
 /// EventOptOut is an event emitted when an address opts out of quarantine.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.quarantine.v1beta1.EventOptOut")]
 pub struct EventOptOut {
     #[prost(string, tag = "1")]
@@ -35,16 +17,7 @@ pub struct EventOptOut {
 }
 /// EventFundsQuarantined is an event emitted when funds are quarantined.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.quarantine.v1beta1.EventFundsQuarantined")]
 pub struct EventFundsQuarantined {
     #[prost(string, tag = "1")]
@@ -54,16 +27,7 @@ pub struct EventFundsQuarantined {
 }
 /// EventFundsReleased is an event emitted when quarantined funds are accepted and released.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.quarantine.v1beta1.EventFundsReleased")]
 pub struct EventFundsReleased {
     #[prost(string, tag = "1")]
@@ -73,16 +37,7 @@ pub struct EventFundsReleased {
 }
 /// QuarantinedFunds defines structure that represents coins that have been quarantined.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.quarantine.v1beta1.QuarantinedFunds")]
 pub struct QuarantinedFunds {
     /// to_address is the intended recipient of the coins that have been quarantined.
@@ -100,16 +55,7 @@ pub struct QuarantinedFunds {
 }
 /// AutoResponseEntry defines the auto response to one address from another.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.quarantine.v1beta1.AutoResponseEntry")]
 pub struct AutoResponseEntry {
     /// to_address is the receiving address.
@@ -120,24 +66,11 @@ pub struct AutoResponseEntry {
     pub from_address: ::prost::alloc::string::String,
     /// response is the auto-response setting for these two addresses.
     #[prost(enumeration = "AutoResponse", tag = "3")]
-    #[serde(
-        serialize_with = "AutoResponse::serialize",
-        deserialize_with = "AutoResponse::deserialize"
-    )]
     pub response: i32,
 }
 /// AutoResponseUpdate defines a quarantine auto response update that should be applied.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.quarantine.v1beta1.AutoResponseUpdate")]
 pub struct AutoResponseUpdate {
     /// from_address is the address that funds would be coming from.
@@ -146,24 +79,11 @@ pub struct AutoResponseUpdate {
     /// response is the automatic action to take on funds sent from from_address.
     /// Provide AUTO_RESPONSE_UNSPECIFIED to turn off an auto-response.
     #[prost(enumeration = "AutoResponse", tag = "2")]
-    #[serde(
-        serialize_with = "AutoResponse::serialize",
-        deserialize_with = "AutoResponse::deserialize"
-    )]
     pub response: i32,
 }
 /// QuarantineRecord defines information regarding quarantined funds that is stored in state.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.quarantine.v1beta1.QuarantineRecord")]
 pub struct QuarantineRecord {
     /// unaccepted_from_addresses are the senders that have not been part of an accept yet for these coins.
@@ -181,25 +101,26 @@ pub struct QuarantineRecord {
 }
 /// QuarantineRecordSuffixIndex defines a list of record suffixes that can be stored in state and used as an index.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.quarantine.v1beta1.QuarantineRecordSuffixIndex")]
 pub struct QuarantineRecordSuffixIndex {
     #[prost(bytes = "vec", repeated, tag = "1")]
     pub record_suffixes: ::prost::alloc::vec::Vec<::prost::alloc::vec::Vec<u8>>,
 }
 /// AutoResponse enumerates the quarantine auto-response options.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[derive(
+    Clone,
+    Copy,
+    Debug,
+    PartialEq,
+    Eq,
+    Hash,
+    PartialOrd,
+    Ord,
+    ::prost::Enumeration,
+    ::schemars::JsonSchema,
+)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 pub enum AutoResponse {
     /// AUTO_RESPONSE_UNSPECIFIED defines that an automatic response has not been specified.
     /// This means that no automatic action should be taken, i.e. this auto-response is off,
@@ -234,16 +155,7 @@ impl AutoResponse {
 }
 /// GenesisState defines the quarantine module's genesis state.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.quarantine.v1beta1.GenesisState")]
 pub struct GenesisState {
     /// quarantined_addresses defines account addresses that are opted into quarantine.
@@ -258,16 +170,7 @@ pub struct GenesisState {
 }
 /// QueryIsQuarantinedRequest defines the RPC request for checking if an account has opted into quarantine.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.quarantine.v1beta1.QueryIsQuarantinedRequest")]
 #[proto_query(
     path = "/cosmos.quarantine.v1beta1.Query/IsQuarantined",
@@ -280,16 +183,7 @@ pub struct QueryIsQuarantinedRequest {
 }
 /// QueryIsQuarantinedResponse defines the RPC response of an IsQuarantined query.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.quarantine.v1beta1.QueryIsQuarantinedResponse")]
 pub struct QueryIsQuarantinedResponse {
     /// is_quarantined is true if the to_address has opted into quarantine.
@@ -298,16 +192,7 @@ pub struct QueryIsQuarantinedResponse {
 }
 /// QueryQuarantinedFundsRequest defines the RPC request for looking up quarantined funds.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.quarantine.v1beta1.QueryQuarantinedFundsRequest")]
 #[proto_query(
     path = "/cosmos.quarantine.v1beta1.Query/QuarantinedFunds",
@@ -326,16 +211,7 @@ pub struct QueryQuarantinedFundsRequest {
 }
 /// QueryQuarantinedFundsResponse defines the RPC response of a QuarantinedFunds query.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.quarantine.v1beta1.QueryQuarantinedFundsResponse")]
 pub struct QueryQuarantinedFundsResponse {
     /// quarantinedFunds is info about coins sitting in quarantine.
@@ -347,16 +223,7 @@ pub struct QueryQuarantinedFundsResponse {
 }
 /// QueryAutoResponsesRequest defines the RPC request for getting auto-response settings for an address.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.quarantine.v1beta1.QueryAutoResponsesRequest")]
 #[proto_query(
     path = "/cosmos.quarantine.v1beta1.Query/AutoResponses",
@@ -375,16 +242,7 @@ pub struct QueryAutoResponsesRequest {
 }
 /// QueryAutoResponsesResponse defines the RPC response of a AutoResponses query.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.quarantine.v1beta1.QueryAutoResponsesResponse")]
 pub struct QueryAutoResponsesResponse {
     /// auto_responses are the auto-response entries from the provided query.
@@ -396,16 +254,7 @@ pub struct QueryAutoResponsesResponse {
 }
 /// MsgOptIn represents a message for opting in to account quarantine.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.quarantine.v1beta1.MsgOptIn")]
 pub struct MsgOptIn {
     #[prost(string, tag = "1")]
@@ -413,30 +262,12 @@ pub struct MsgOptIn {
 }
 /// MsgOptInResponse defines the Msg/OptIn response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.quarantine.v1beta1.MsgOptInResponse")]
 pub struct MsgOptInResponse {}
 /// MsgOptOut represents a message for opting in to account quarantine.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.quarantine.v1beta1.MsgOptOut")]
 pub struct MsgOptOut {
     #[prost(string, tag = "1")]
@@ -444,30 +275,12 @@ pub struct MsgOptOut {
 }
 /// MsgOptOutResponse defines the Msg/OptOut response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.quarantine.v1beta1.MsgOptOutResponse")]
 pub struct MsgOptOutResponse {}
 /// MsgAccept represents a message for accepting quarantined funds.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.quarantine.v1beta1.MsgAccept")]
 pub struct MsgAccept {
     /// to_address is the address of the quarantined account that is accepting funds.
@@ -485,16 +298,7 @@ pub struct MsgAccept {
 }
 /// MsgAcceptResponse defines the Msg/Accept response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.quarantine.v1beta1.MsgAcceptResponse")]
 pub struct MsgAcceptResponse {
     /// funds_released is the amount that was quarantined but has now been released and sent to the requester.
@@ -503,16 +307,7 @@ pub struct MsgAcceptResponse {
 }
 /// MsgDecline represents a message for declining quarantined funds.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.quarantine.v1beta1.MsgDecline")]
 pub struct MsgDecline {
     /// to_address is the address of the quarantined account that is accepting funds.
@@ -530,30 +325,12 @@ pub struct MsgDecline {
 }
 /// MsgDeclineResponse defines the Msg/Decline response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.quarantine.v1beta1.MsgDeclineResponse")]
 pub struct MsgDeclineResponse {}
 /// MsgUpdateAutoResponses represents a message for updating quarantine auto-responses for a receiving address.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.quarantine.v1beta1.MsgUpdateAutoResponses")]
 pub struct MsgUpdateAutoResponses {
     /// to_address is the quarantined address that would be accepting or declining funds.
@@ -565,16 +342,7 @@ pub struct MsgUpdateAutoResponses {
 }
 /// MsgUpdateAutoResponsesResponse defines the Msg/UpdateAutoResponse response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.quarantine.v1beta1.MsgUpdateAutoResponsesResponse")]
 pub struct MsgUpdateAutoResponsesResponse {}
 pub struct QuarantineQuerier<'a, Q: cosmwasm_std::CustomQuery> {

@@ -1,35 +1,18 @@
-use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
+use provwasm_proc_macro::CosmwasmExt;
 /// Equivocation implements the Evidence interface and defines evidence of double
 /// signing misbehavior.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.evidence.v1beta1.Equivocation")]
 pub struct Equivocation {
     /// height is the equivocation height.
     #[prost(int64, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub height: i64,
     /// time is the equivocation time.
     #[prost(message, optional, tag = "2")]
     pub time: ::core::option::Option<crate::shim::Timestamp>,
     /// power is the equivocation validator power.
     #[prost(int64, tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub power: i64,
     /// consensus_address is the equivocation validator consensus address.
     #[prost(string, tag = "4")]
@@ -37,16 +20,7 @@ pub struct Equivocation {
 }
 /// GenesisState defines the evidence module's genesis state.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.evidence.v1beta1.GenesisState")]
 pub struct GenesisState {
     /// evidence defines all the evidence at genesis.
@@ -55,16 +29,7 @@ pub struct GenesisState {
 }
 /// QueryEvidenceRequest is the request type for the Query/Evidence RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.evidence.v1beta1.QueryEvidenceRequest")]
 #[proto_query(
     path = "/cosmos.evidence.v1beta1.Query/Evidence",
@@ -75,10 +40,6 @@ pub struct QueryEvidenceRequest {
     /// Deprecated: Use hash, a HEX encoded string, instead.
     #[deprecated]
     #[prost(bytes = "vec", tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
     pub evidence_hash: ::prost::alloc::vec::Vec<u8>,
     /// hash defines the evidence hash of the requested evidence.
     ///
@@ -88,16 +49,7 @@ pub struct QueryEvidenceRequest {
 }
 /// QueryEvidenceResponse is the response type for the Query/Evidence RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.evidence.v1beta1.QueryEvidenceResponse")]
 pub struct QueryEvidenceResponse {
     /// evidence returns the requested evidence.
@@ -107,16 +59,7 @@ pub struct QueryEvidenceResponse {
 /// QueryEvidenceRequest is the request type for the Query/AllEvidence RPC
 /// method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.evidence.v1beta1.QueryAllEvidenceRequest")]
 #[proto_query(
     path = "/cosmos.evidence.v1beta1.Query/AllEvidence",
@@ -130,16 +73,7 @@ pub struct QueryAllEvidenceRequest {
 /// QueryAllEvidenceResponse is the response type for the Query/AllEvidence RPC
 /// method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.evidence.v1beta1.QueryAllEvidenceResponse")]
 pub struct QueryAllEvidenceResponse {
     /// evidence returns all evidences.
@@ -152,16 +86,7 @@ pub struct QueryAllEvidenceResponse {
 /// MsgSubmitEvidence represents a message that supports submitting arbitrary
 /// Evidence of misbehavior such as equivocation or counterfactual signing.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.evidence.v1beta1.MsgSubmitEvidence")]
 pub struct MsgSubmitEvidence {
     /// submitter is the signer account address of evidence.
@@ -173,24 +98,11 @@ pub struct MsgSubmitEvidence {
 }
 /// MsgSubmitEvidenceResponse defines the Msg/SubmitEvidence response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.evidence.v1beta1.MsgSubmitEvidenceResponse")]
 pub struct MsgSubmitEvidenceResponse {
     /// hash defines the hash of the evidence.
     #[prost(bytes = "vec", tag = "4")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
     pub hash: ::prost::alloc::vec::Vec<u8>,
 }
 pub struct EvidenceQuerier<'a, Q: cosmwasm_std::CustomQuery> {

@@ -1,4 +1,4 @@
-use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
+use provwasm_proc_macro::CosmwasmExt;
 /// PageRequest is to be embedded in gRPC request messages for efficient
 /// pagination. Ex:
 ///
@@ -7,43 +7,22 @@ use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
 ///           PageRequest pagination = 2;
 ///   }
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.base.query.v1beta1.PageRequest")]
 pub struct PageRequest {
     /// key is a value returned in PageResponse.next_key to begin
     /// querying the next page most efficiently. Only one of offset or key
     /// should be set.
     #[prost(bytes = "vec", tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
     pub key: ::prost::alloc::vec::Vec<u8>,
     /// offset is a numeric offset that can be used when key is unavailable.
     /// It is less efficient than using key. Only one of offset or key should
     /// be set.
     #[prost(uint64, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub offset: u64,
     /// limit is the total number of results to be returned in the result page.
     /// If left empty it will default to a value to be set by each app.
     #[prost(uint64, tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub limit: u64,
     /// count_total is set to true  to indicate that the result set should include
     /// a count of the total number of items available for pagination in UIs.
@@ -65,33 +44,16 @@ pub struct PageRequest {
 ///           PageResponse page = 2;
 ///   }
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.base.query.v1beta1.PageResponse")]
 pub struct PageResponse {
     /// next_key is the key to be passed to PageRequest.key to
     /// query the next page most efficiently. It will be empty if
     /// there are no more results.
     #[prost(bytes = "vec", optional, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_option_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_option_base64_encoded_string::deserialize"
-    )]
     pub next_key: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
     /// total is total number of results available if PageRequest.count_total
     /// was set, its value is undefined otherwise
     #[prost(uint64, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub total: u64,
 }
