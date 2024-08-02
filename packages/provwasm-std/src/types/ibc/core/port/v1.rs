@@ -1,16 +1,7 @@
-use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
+use provwasm_proc_macro::CosmwasmExt;
 /// QueryAppVersionRequest is the request type for the Query/AppVersion RPC method
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.port.v1.QueryAppVersionRequest")]
 #[proto_query(
     path = "/ibc.core.port.v1.Query/AppVersion",
@@ -25,10 +16,6 @@ pub struct QueryAppVersionRequest {
     pub connection_id: ::prost::alloc::string::String,
     /// whether the channel is ordered or unordered
     #[prost(enumeration = "super::super::channel::v1::Order", tag = "3")]
-    #[serde(
-        serialize_with = "super::super::channel::v1::Order::serialize",
-        deserialize_with = "super::super::channel::v1::Order::deserialize"
-    )]
     pub ordering: i32,
     /// counterparty channel end
     #[prost(message, optional, tag = "4")]
@@ -39,16 +26,7 @@ pub struct QueryAppVersionRequest {
 }
 /// QueryAppVersionResponse is the response type for the Query/AppVersion RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.port.v1.QueryAppVersionResponse")]
 pub struct QueryAppVersionResponse {
     /// port id associated with the request identifiers

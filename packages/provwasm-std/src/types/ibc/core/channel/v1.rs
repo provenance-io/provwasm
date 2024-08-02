@@ -1,33 +1,16 @@
-use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
+use provwasm_proc_macro::CosmwasmExt;
 /// Channel defines pipeline for exactly-once packet delivery between specific
 /// modules on separate blockchains, which has at least one end capable of
 /// sending packets and one end capable of receiving packets.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.Channel")]
 pub struct Channel {
     /// current state of the channel end
     #[prost(enumeration = "State", tag = "1")]
-    #[serde(
-        serialize_with = "State::serialize",
-        deserialize_with = "State::deserialize"
-    )]
     pub state: i32,
     /// whether the channel is ordered or unordered
     #[prost(enumeration = "Order", tag = "2")]
-    #[serde(
-        serialize_with = "Order::serialize",
-        deserialize_with = "Order::deserialize"
-    )]
     pub ordering: i32,
     /// counterparty channel end
     #[prost(message, optional, tag = "3")]
@@ -42,40 +25,19 @@ pub struct Channel {
     /// upgrade sequence indicates the latest upgrade attempt performed by this channel
     /// the value of 0 indicates the channel has never been upgraded
     #[prost(uint64, tag = "6")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub upgrade_sequence: u64,
 }
 /// IdentifiedChannel defines a channel with additional port and channel
 /// identifier fields.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.IdentifiedChannel")]
 pub struct IdentifiedChannel {
     /// current state of the channel end
     #[prost(enumeration = "State", tag = "1")]
-    #[serde(
-        serialize_with = "State::serialize",
-        deserialize_with = "State::deserialize"
-    )]
     pub state: i32,
     /// whether the channel is ordered or unordered
     #[prost(enumeration = "Order", tag = "2")]
-    #[serde(
-        serialize_with = "Order::serialize",
-        deserialize_with = "Order::deserialize"
-    )]
     pub ordering: i32,
     /// counterparty channel end
     #[prost(message, optional, tag = "3")]
@@ -96,24 +58,11 @@ pub struct IdentifiedChannel {
     /// upgrade sequence indicates the latest upgrade attempt performed by this channel
     /// the value of 0 indicates the channel has never been upgraded
     #[prost(uint64, tag = "8")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub upgrade_sequence: u64,
 }
 /// Counterparty defines a channel end counterparty
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.Counterparty")]
 pub struct Counterparty {
     /// port on the counterparty chain which owns the other end of the channel.
@@ -125,26 +74,13 @@ pub struct Counterparty {
 }
 /// Packet defines a type that carries data across different chains through IBC
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.Packet")]
 pub struct Packet {
     /// number corresponds to the order of sends and receives, where a Packet
     /// with an earlier sequence number must be sent and received before a Packet
     /// with a later sequence number.
     #[prost(uint64, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub sequence: u64,
     /// identifies the port on the sending chain.
     #[prost(string, tag = "2")]
@@ -160,20 +96,12 @@ pub struct Packet {
     pub destination_channel: ::prost::alloc::string::String,
     /// actual opaque bytes transferred directly to the application module
     #[prost(bytes = "vec", tag = "6")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
     pub data: ::prost::alloc::vec::Vec<u8>,
     /// block height after which the packet times out
     #[prost(message, optional, tag = "7")]
     pub timeout_height: ::core::option::Option<super::super::client::v1::Height>,
     /// block timestamp (in nanoseconds) after which the packet times out
     #[prost(uint64, tag = "8")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub timeout_timestamp: u64,
 }
 /// PacketState defines the generic type necessary to retrieve and store
@@ -181,16 +109,7 @@ pub struct Packet {
 /// Caller is responsible for knowing the context necessary to interpret this
 /// state as a commitment, acknowledgement, or a receipt.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.PacketState")]
 pub struct PacketState {
     /// channel port identifier.
@@ -201,33 +120,16 @@ pub struct PacketState {
     pub channel_id: ::prost::alloc::string::String,
     /// packet sequence.
     #[prost(uint64, tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub sequence: u64,
     /// embedded data that represents packet state.
     #[prost(bytes = "vec", tag = "4")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
     pub data: ::prost::alloc::vec::Vec<u8>,
 }
 /// PacketId is an identifer for a unique Packet
 /// Source chains refer to packets by source port/channel
 /// Destination chains refer to packets by destination port/channel
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.PacketId")]
 pub struct PacketId {
     /// channel port identifier
@@ -238,10 +140,6 @@ pub struct PacketId {
     pub channel_id: ::prost::alloc::string::String,
     /// packet sequence
     #[prost(uint64, tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub sequence: u64,
 }
 /// Acknowledgement is the recommended acknowledgement format to be used by
@@ -252,16 +150,7 @@ pub struct PacketId {
 /// `0xaa` (result) or `0xb2` (error). Implemented as defined by ICS:
 /// <https://github.com/cosmos/ibc/tree/master/spec/core/ics-004-channel-and-packet-semantics#acknowledgement-envelope>
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.Acknowledgement")]
 pub struct Acknowledgement {
     /// response contains either a result or an error and must be non-empty
@@ -270,18 +159,10 @@ pub struct Acknowledgement {
 }
 /// Nested message and enum types in `Acknowledgement`.
 pub mod acknowledgement {
-    use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
+    use provwasm_proc_macro::CosmwasmExt;
     /// response contains either a result or an error and must be non-empty
     #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(
-        Clone,
-        PartialEq,
-        Eq,
-        ::prost::Oneof,
-        ::serde::Serialize,
-        ::serde::Deserialize,
-        ::schemars::JsonSchema,
-    )]
+    #[derive(Clone, PartialEq, Eq, ::prost::Oneof, ::schemars::JsonSchema)]
     pub enum Response {
         #[prost(bytes, tag = "21")]
         Result(::prost::alloc::vec::Vec<u8>),
@@ -293,16 +174,7 @@ pub mod acknowledgement {
 /// This includes packet lifecycle handlers as well as the upgrade handshake handlers.
 /// A valid Timeout contains either one or both of a timestamp and block height (sequence).
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.Timeout")]
 pub struct Timeout {
     /// block height after which the packet or upgrade times out
@@ -310,24 +182,11 @@ pub struct Timeout {
     pub height: ::core::option::Option<super::super::client::v1::Height>,
     /// block timestamp (in nanoseconds) after which the packet or upgrade times out
     #[prost(uint64, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub timestamp: u64,
 }
 /// Params defines the set of IBC channel parameters.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.Params")]
 pub struct Params {
     /// the relative timeout after which channel upgrades will time out.
@@ -336,9 +195,19 @@ pub struct Params {
 }
 /// State defines if a channel is in one of the following states:
 /// CLOSED, INIT, TRYOPEN, OPEN, FLUSHING, FLUSHCOMPLETE or UNINITIALIZED.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[derive(
+    Clone,
+    Copy,
+    Debug,
+    PartialEq,
+    Eq,
+    Hash,
+    PartialOrd,
+    Ord,
+    ::prost::Enumeration,
+    ::schemars::JsonSchema,
+)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 pub enum State {
     /// Default State
     UninitializedUnspecified = 0,
@@ -388,9 +257,19 @@ impl State {
     }
 }
 /// Order defines if a channel is ORDERED or UNORDERED
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[derive(
+    Clone,
+    Copy,
+    Debug,
+    PartialEq,
+    Eq,
+    Hash,
+    PartialOrd,
+    Ord,
+    ::prost::Enumeration,
+    ::schemars::JsonSchema,
+)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 pub enum Order {
     /// zero-value for channel ordering
     NoneUnspecified = 0,
@@ -424,16 +303,7 @@ impl Order {
 }
 /// GenesisState defines the ibc channel submodule's genesis state.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.GenesisState")]
 pub struct GenesisState {
     #[prost(message, repeated, tag = "1")]
@@ -452,10 +322,6 @@ pub struct GenesisState {
     pub ack_sequences: ::prost::alloc::vec::Vec<PacketSequence>,
     /// the sequence for the next generated channel identifier
     #[prost(uint64, tag = "8")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub next_channel_sequence: u64,
     #[prost(message, optional, tag = "9")]
     pub params: ::core::option::Option<Params>,
@@ -463,16 +329,7 @@ pub struct GenesisState {
 /// PacketSequence defines the genesis type necessary to retrieve and store
 /// next send and receive sequences.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.PacketSequence")]
 pub struct PacketSequence {
     #[prost(string, tag = "1")]
@@ -480,10 +337,6 @@ pub struct PacketSequence {
     #[prost(string, tag = "2")]
     pub channel_id: ::prost::alloc::string::String,
     #[prost(uint64, tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub sequence: u64,
 }
 /// Upgrade is a verifiable type which contains the relevant information
@@ -492,16 +345,7 @@ pub struct PacketSequence {
 /// which allows the counterparty to efficiently know the highest sequence it has received.
 /// The next sequence send is used for pruning and upgrading from unordered to ordered channels.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.Upgrade")]
 pub struct Upgrade {
     #[prost(message, optional, tag = "1")]
@@ -509,32 +353,15 @@ pub struct Upgrade {
     #[prost(message, optional, tag = "2")]
     pub timeout: ::core::option::Option<Timeout>,
     #[prost(uint64, tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub next_sequence_send: u64,
 }
 /// UpgradeFields are the fields in a channel end which may be changed
 /// during a channel upgrade.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.UpgradeFields")]
 pub struct UpgradeFields {
     #[prost(enumeration = "Order", tag = "1")]
-    #[serde(
-        serialize_with = "Order::serialize",
-        deserialize_with = "Order::deserialize"
-    )]
     pub ordering: i32,
     #[prost(string, repeated, tag = "2")]
     pub connection_hops: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
@@ -545,24 +372,11 @@ pub struct UpgradeFields {
 /// upgrade handshake failure. When a channel upgrade handshake is aborted both chains are expected to increment to the
 /// next sequence.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.ErrorReceipt")]
 pub struct ErrorReceipt {
     /// the channel upgrade sequence
     #[prost(uint64, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub sequence: u64,
     /// the error message detailing the cause of failure
     #[prost(string, tag = "2")]
@@ -570,16 +384,7 @@ pub struct ErrorReceipt {
 }
 /// QueryChannelRequest is the request type for the Query/Channel RPC method
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryChannelRequest")]
 #[proto_query(
     path = "/ibc.core.channel.v1.Query/Channel",
@@ -597,16 +402,7 @@ pub struct QueryChannelRequest {
 /// Besides the Channel end, it includes a proof and the height from which the
 /// proof was retrieved.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryChannelResponse")]
 pub struct QueryChannelResponse {
     /// channel associated with the request identifiers
@@ -614,10 +410,6 @@ pub struct QueryChannelResponse {
     pub channel: ::core::option::Option<Channel>,
     /// merkle proof of existence
     #[prost(bytes = "vec", tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
     pub proof: ::prost::alloc::vec::Vec<u8>,
     /// height at which the proof was retrieved
     #[prost(message, optional, tag = "3")]
@@ -625,16 +417,7 @@ pub struct QueryChannelResponse {
 }
 /// QueryChannelsRequest is the request type for the Query/Channels RPC method
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryChannelsRequest")]
 #[proto_query(
     path = "/ibc.core.channel.v1.Query/Channels",
@@ -649,16 +432,7 @@ pub struct QueryChannelsRequest {
 }
 /// QueryChannelsResponse is the response type for the Query/Channels RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryChannelsResponse")]
 pub struct QueryChannelsResponse {
     /// list of stored channels of the chain.
@@ -676,16 +450,7 @@ pub struct QueryChannelsResponse {
 /// QueryConnectionChannelsRequest is the request type for the
 /// Query/QueryConnectionChannels RPC method
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryConnectionChannelsRequest")]
 #[proto_query(
     path = "/ibc.core.channel.v1.Query/ConnectionChannels",
@@ -704,16 +469,7 @@ pub struct QueryConnectionChannelsRequest {
 /// QueryConnectionChannelsResponse is the Response type for the
 /// Query/QueryConnectionChannels RPC method
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryConnectionChannelsResponse")]
 pub struct QueryConnectionChannelsResponse {
     /// list of channels associated with a connection.
@@ -731,16 +487,7 @@ pub struct QueryConnectionChannelsResponse {
 /// QueryChannelClientStateRequest is the request type for the Query/ClientState
 /// RPC method
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryChannelClientStateRequest")]
 #[proto_query(
     path = "/ibc.core.channel.v1.Query/ChannelClientState",
@@ -757,16 +504,7 @@ pub struct QueryChannelClientStateRequest {
 /// QueryChannelClientStateResponse is the Response type for the
 /// Query/QueryChannelClientState RPC method
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryChannelClientStateResponse")]
 pub struct QueryChannelClientStateResponse {
     /// client state associated with the channel
@@ -775,10 +513,6 @@ pub struct QueryChannelClientStateResponse {
         ::core::option::Option<super::super::client::v1::IdentifiedClientState>,
     /// merkle proof of existence
     #[prost(bytes = "vec", tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
     pub proof: ::prost::alloc::vec::Vec<u8>,
     /// height at which the proof was retrieved
     #[prost(message, optional, tag = "3")]
@@ -787,16 +521,7 @@ pub struct QueryChannelClientStateResponse {
 /// QueryChannelConsensusStateRequest is the request type for the
 /// Query/ConsensusState RPC method
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryChannelConsensusStateRequest")]
 #[proto_query(
     path = "/ibc.core.channel.v1.Query/ChannelConsensusState",
@@ -811,32 +536,15 @@ pub struct QueryChannelConsensusStateRequest {
     pub channel_id: ::prost::alloc::string::String,
     /// revision number of the consensus state
     #[prost(uint64, tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub revision_number: u64,
     /// revision height of the consensus state
     #[prost(uint64, tag = "4")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub revision_height: u64,
 }
 /// QueryChannelClientStateResponse is the Response type for the
 /// Query/QueryChannelClientState RPC method
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryChannelConsensusStateResponse")]
 pub struct QueryChannelConsensusStateResponse {
     /// consensus state associated with the channel
@@ -847,10 +555,6 @@ pub struct QueryChannelConsensusStateResponse {
     pub client_id: ::prost::alloc::string::String,
     /// merkle proof of existence
     #[prost(bytes = "vec", tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
     pub proof: ::prost::alloc::vec::Vec<u8>,
     /// height at which the proof was retrieved
     #[prost(message, optional, tag = "4")]
@@ -859,16 +563,7 @@ pub struct QueryChannelConsensusStateResponse {
 /// QueryPacketCommitmentRequest is the request type for the
 /// Query/PacketCommitment RPC method
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryPacketCommitmentRequest")]
 #[proto_query(
     path = "/ibc.core.channel.v1.Query/PacketCommitment",
@@ -883,41 +578,20 @@ pub struct QueryPacketCommitmentRequest {
     pub channel_id: ::prost::alloc::string::String,
     /// packet sequence
     #[prost(uint64, tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub sequence: u64,
 }
 /// QueryPacketCommitmentResponse defines the client query response for a packet
 /// which also includes a proof and the height from which the proof was
 /// retrieved
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryPacketCommitmentResponse")]
 pub struct QueryPacketCommitmentResponse {
     /// packet associated with the request fields
     #[prost(bytes = "vec", tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
     pub commitment: ::prost::alloc::vec::Vec<u8>,
     /// merkle proof of existence
     #[prost(bytes = "vec", tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
     pub proof: ::prost::alloc::vec::Vec<u8>,
     /// height at which the proof was retrieved
     #[prost(message, optional, tag = "3")]
@@ -926,16 +600,7 @@ pub struct QueryPacketCommitmentResponse {
 /// QueryPacketCommitmentsRequest is the request type for the
 /// Query/QueryPacketCommitments RPC method
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryPacketCommitmentsRequest")]
 #[proto_query(
     path = "/ibc.core.channel.v1.Query/PacketCommitments",
@@ -957,16 +622,7 @@ pub struct QueryPacketCommitmentsRequest {
 /// QueryPacketCommitmentsResponse is the request type for the
 /// Query/QueryPacketCommitments RPC method
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryPacketCommitmentsResponse")]
 pub struct QueryPacketCommitmentsResponse {
     #[prost(message, repeated, tag = "1")]
@@ -983,16 +639,7 @@ pub struct QueryPacketCommitmentsResponse {
 /// QueryPacketReceiptRequest is the request type for the
 /// Query/PacketReceipt RPC method
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryPacketReceiptRequest")]
 #[proto_query(
     path = "/ibc.core.channel.v1.Query/PacketReceipt",
@@ -1007,26 +654,13 @@ pub struct QueryPacketReceiptRequest {
     pub channel_id: ::prost::alloc::string::String,
     /// packet sequence
     #[prost(uint64, tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub sequence: u64,
 }
 /// QueryPacketReceiptResponse defines the client query response for a packet
 /// receipt which also includes a proof, and the height from which the proof was
 /// retrieved
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryPacketReceiptResponse")]
 pub struct QueryPacketReceiptResponse {
     /// success flag for if receipt exists
@@ -1034,10 +668,6 @@ pub struct QueryPacketReceiptResponse {
     pub received: bool,
     /// merkle proof of existence
     #[prost(bytes = "vec", tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
     pub proof: ::prost::alloc::vec::Vec<u8>,
     /// height at which the proof was retrieved
     #[prost(message, optional, tag = "4")]
@@ -1046,16 +676,7 @@ pub struct QueryPacketReceiptResponse {
 /// QueryPacketAcknowledgementRequest is the request type for the
 /// Query/PacketAcknowledgement RPC method
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryPacketAcknowledgementRequest")]
 #[proto_query(
     path = "/ibc.core.channel.v1.Query/PacketAcknowledgement",
@@ -1070,41 +691,20 @@ pub struct QueryPacketAcknowledgementRequest {
     pub channel_id: ::prost::alloc::string::String,
     /// packet sequence
     #[prost(uint64, tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub sequence: u64,
 }
 /// QueryPacketAcknowledgementResponse defines the client query response for a
 /// packet which also includes a proof and the height from which the
 /// proof was retrieved
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryPacketAcknowledgementResponse")]
 pub struct QueryPacketAcknowledgementResponse {
     /// packet associated with the request fields
     #[prost(bytes = "vec", tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
     pub acknowledgement: ::prost::alloc::vec::Vec<u8>,
     /// merkle proof of existence
     #[prost(bytes = "vec", tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
     pub proof: ::prost::alloc::vec::Vec<u8>,
     /// height at which the proof was retrieved
     #[prost(message, optional, tag = "3")]
@@ -1113,16 +713,7 @@ pub struct QueryPacketAcknowledgementResponse {
 /// QueryPacketAcknowledgementsRequest is the request type for the
 /// Query/QueryPacketCommitments RPC method
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryPacketAcknowledgementsRequest")]
 #[proto_query(
     path = "/ibc.core.channel.v1.Query/PacketAcknowledgements",
@@ -1142,25 +733,12 @@ pub struct QueryPacketAcknowledgementsRequest {
     >,
     /// list of packet sequences
     #[prost(uint64, repeated, tag = "4")]
-    #[serde(
-        serialize_with = "crate::serde::as_str_vec::serialize",
-        deserialize_with = "crate::serde::as_str_vec::deserialize"
-    )]
     pub packet_commitment_sequences: ::prost::alloc::vec::Vec<u64>,
 }
 /// QueryPacketAcknowledgemetsResponse is the request type for the
 /// Query/QueryPacketAcknowledgements RPC method
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryPacketAcknowledgementsResponse")]
 pub struct QueryPacketAcknowledgementsResponse {
     #[prost(message, repeated, tag = "1")]
@@ -1177,16 +755,7 @@ pub struct QueryPacketAcknowledgementsResponse {
 /// QueryUnreceivedPacketsRequest is the request type for the
 /// Query/UnreceivedPackets RPC method
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryUnreceivedPacketsRequest")]
 #[proto_query(
     path = "/ibc.core.channel.v1.Query/UnreceivedPackets",
@@ -1201,33 +770,16 @@ pub struct QueryUnreceivedPacketsRequest {
     pub channel_id: ::prost::alloc::string::String,
     /// list of packet sequences
     #[prost(uint64, repeated, tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_str_vec::serialize",
-        deserialize_with = "crate::serde::as_str_vec::deserialize"
-    )]
     pub packet_commitment_sequences: ::prost::alloc::vec::Vec<u64>,
 }
 /// QueryUnreceivedPacketsResponse is the response type for the
 /// Query/UnreceivedPacketCommitments RPC method
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryUnreceivedPacketsResponse")]
 pub struct QueryUnreceivedPacketsResponse {
     /// list of unreceived packet sequences
     #[prost(uint64, repeated, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str_vec::serialize",
-        deserialize_with = "crate::serde::as_str_vec::deserialize"
-    )]
     pub sequences: ::prost::alloc::vec::Vec<u64>,
     /// query block height
     #[prost(message, optional, tag = "2")]
@@ -1236,16 +788,7 @@ pub struct QueryUnreceivedPacketsResponse {
 /// QueryUnreceivedAcks is the request type for the
 /// Query/UnreceivedAcks RPC method
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryUnreceivedAcksRequest")]
 #[proto_query(
     path = "/ibc.core.channel.v1.Query/UnreceivedAcks",
@@ -1260,33 +803,16 @@ pub struct QueryUnreceivedAcksRequest {
     pub channel_id: ::prost::alloc::string::String,
     /// list of acknowledgement sequences
     #[prost(uint64, repeated, tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_str_vec::serialize",
-        deserialize_with = "crate::serde::as_str_vec::deserialize"
-    )]
     pub packet_ack_sequences: ::prost::alloc::vec::Vec<u64>,
 }
 /// QueryUnreceivedAcksResponse is the response type for the
 /// Query/UnreceivedAcks RPC method
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryUnreceivedAcksResponse")]
 pub struct QueryUnreceivedAcksResponse {
     /// list of unreceived acknowledgement sequences
     #[prost(uint64, repeated, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str_vec::serialize",
-        deserialize_with = "crate::serde::as_str_vec::deserialize"
-    )]
     pub sequences: ::prost::alloc::vec::Vec<u64>,
     /// query block height
     #[prost(message, optional, tag = "2")]
@@ -1295,16 +821,7 @@ pub struct QueryUnreceivedAcksResponse {
 /// QueryNextSequenceReceiveRequest is the request type for the
 /// Query/QueryNextSequenceReceiveRequest RPC method
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryNextSequenceReceiveRequest")]
 #[proto_query(
     path = "/ibc.core.channel.v1.Query/NextSequenceReceive",
@@ -1321,31 +838,14 @@ pub struct QueryNextSequenceReceiveRequest {
 /// QuerySequenceResponse is the response type for the
 /// Query/QueryNextSequenceReceiveResponse RPC method
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryNextSequenceReceiveResponse")]
 pub struct QueryNextSequenceReceiveResponse {
     /// next sequence receive number
     #[prost(uint64, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub next_sequence_receive: u64,
     /// merkle proof of existence
     #[prost(bytes = "vec", tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
     pub proof: ::prost::alloc::vec::Vec<u8>,
     /// height at which the proof was retrieved
     #[prost(message, optional, tag = "3")]
@@ -1354,16 +854,7 @@ pub struct QueryNextSequenceReceiveResponse {
 /// QueryNextSequenceSendRequest is the request type for the
 /// Query/QueryNextSequenceSend RPC method
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryNextSequenceSendRequest")]
 #[proto_query(
     path = "/ibc.core.channel.v1.Query/NextSequenceSend",
@@ -1380,31 +871,14 @@ pub struct QueryNextSequenceSendRequest {
 /// QueryNextSequenceSendResponse is the request type for the
 /// Query/QueryNextSequenceSend RPC method
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryNextSequenceSendResponse")]
 pub struct QueryNextSequenceSendResponse {
     /// next sequence send number
     #[prost(uint64, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub next_sequence_send: u64,
     /// merkle proof of existence
     #[prost(bytes = "vec", tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
     pub proof: ::prost::alloc::vec::Vec<u8>,
     /// height at which the proof was retrieved
     #[prost(message, optional, tag = "3")]
@@ -1412,16 +886,7 @@ pub struct QueryNextSequenceSendResponse {
 }
 /// QueryUpgradeErrorRequest is the request type for the Query/QueryUpgradeError RPC method
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryUpgradeErrorRequest")]
 #[proto_query(
     path = "/ibc.core.channel.v1.Query/UpgradeError",
@@ -1435,26 +900,13 @@ pub struct QueryUpgradeErrorRequest {
 }
 /// QueryUpgradeErrorResponse is the response type for the Query/QueryUpgradeError RPC method
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryUpgradeErrorResponse")]
 pub struct QueryUpgradeErrorResponse {
     #[prost(message, optional, tag = "1")]
     pub error_receipt: ::core::option::Option<ErrorReceipt>,
     /// merkle proof of existence
     #[prost(bytes = "vec", tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
     pub proof: ::prost::alloc::vec::Vec<u8>,
     /// height at which the proof was retrieved
     #[prost(message, optional, tag = "3")]
@@ -1462,16 +914,7 @@ pub struct QueryUpgradeErrorResponse {
 }
 /// QueryUpgradeRequest is the request type for the QueryUpgradeRequest RPC method
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryUpgradeRequest")]
 #[proto_query(
     path = "/ibc.core.channel.v1.Query/Upgrade",
@@ -1485,26 +928,13 @@ pub struct QueryUpgradeRequest {
 }
 /// QueryUpgradeResponse is the response type for the QueryUpgradeResponse RPC method
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryUpgradeResponse")]
 pub struct QueryUpgradeResponse {
     #[prost(message, optional, tag = "1")]
     pub upgrade: ::core::option::Option<Upgrade>,
     /// merkle proof of existence
     #[prost(bytes = "vec", tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
     pub proof: ::prost::alloc::vec::Vec<u8>,
     /// height at which the proof was retrieved
     #[prost(message, optional, tag = "3")]
@@ -1512,16 +942,7 @@ pub struct QueryUpgradeResponse {
 }
 /// QueryChannelParamsRequest is the request type for the Query/ChannelParams RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryChannelParamsRequest")]
 #[proto_query(
     path = "/ibc.core.channel.v1.Query/ChannelParams",
@@ -1530,16 +951,7 @@ pub struct QueryUpgradeResponse {
 pub struct QueryChannelParamsRequest {}
 /// QueryChannelParamsResponse is the response type for the Query/ChannelParams RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryChannelParamsResponse")]
 pub struct QueryChannelParamsResponse {
     /// params defines the parameters of the module.
@@ -1549,16 +961,7 @@ pub struct QueryChannelParamsResponse {
 /// MsgChannelOpenInit defines an sdk.Msg to initialize a channel handshake. It
 /// is called by a relayer on Chain A.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgChannelOpenInit")]
 pub struct MsgChannelOpenInit {
     #[prost(string, tag = "1")]
@@ -1570,16 +973,7 @@ pub struct MsgChannelOpenInit {
 }
 /// MsgChannelOpenInitResponse defines the Msg/ChannelOpenInit response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgChannelOpenInitResponse")]
 pub struct MsgChannelOpenInitResponse {
     #[prost(string, tag = "1")]
@@ -1591,16 +985,7 @@ pub struct MsgChannelOpenInitResponse {
 /// on Chain B. The version field within the Channel field has been deprecated. Its
 /// value will be ignored by core IBC.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgChannelOpenTry")]
 pub struct MsgChannelOpenTry {
     #[prost(string, tag = "1")]
@@ -1615,10 +1000,6 @@ pub struct MsgChannelOpenTry {
     #[prost(string, tag = "4")]
     pub counterparty_version: ::prost::alloc::string::String,
     #[prost(bytes = "vec", tag = "5")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
     pub proof_init: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "6")]
     pub proof_height: ::core::option::Option<super::super::client::v1::Height>,
@@ -1627,16 +1008,7 @@ pub struct MsgChannelOpenTry {
 }
 /// MsgChannelOpenTryResponse defines the Msg/ChannelOpenTry response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgChannelOpenTryResponse")]
 pub struct MsgChannelOpenTryResponse {
     #[prost(string, tag = "1")]
@@ -1650,16 +1022,7 @@ pub struct MsgChannelOpenTryResponse {
 /// in the same block as executing this message otherwise the counterparty will
 /// be incapable of opening.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgChannelOpenAck")]
 pub struct MsgChannelOpenAck {
     #[prost(string, tag = "1")]
@@ -1671,10 +1034,6 @@ pub struct MsgChannelOpenAck {
     #[prost(string, tag = "4")]
     pub counterparty_version: ::prost::alloc::string::String,
     #[prost(bytes = "vec", tag = "5")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
     pub proof_try: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "6")]
     pub proof_height: ::core::option::Option<super::super::client::v1::Height>,
@@ -1683,31 +1042,13 @@ pub struct MsgChannelOpenAck {
 }
 /// MsgChannelOpenAckResponse defines the Msg/ChannelOpenAck response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgChannelOpenAckResponse")]
 pub struct MsgChannelOpenAckResponse {}
 /// MsgChannelOpenConfirm defines a msg sent by a Relayer to Chain B to
 /// acknowledge the change of channel state to OPEN on Chain A.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgChannelOpenConfirm")]
 pub struct MsgChannelOpenConfirm {
     #[prost(string, tag = "1")]
@@ -1715,10 +1056,6 @@ pub struct MsgChannelOpenConfirm {
     #[prost(string, tag = "2")]
     pub channel_id: ::prost::alloc::string::String,
     #[prost(bytes = "vec", tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
     pub proof_ack: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "4")]
     pub proof_height: ::core::option::Option<super::super::client::v1::Height>,
@@ -1728,31 +1065,13 @@ pub struct MsgChannelOpenConfirm {
 /// MsgChannelOpenConfirmResponse defines the Msg/ChannelOpenConfirm response
 /// type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgChannelOpenConfirmResponse")]
 pub struct MsgChannelOpenConfirmResponse {}
 /// MsgChannelCloseInit defines a msg sent by a Relayer to Chain A
 /// to close a channel with Chain B.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgChannelCloseInit")]
 pub struct MsgChannelCloseInit {
     #[prost(string, tag = "1")]
@@ -1764,31 +1083,13 @@ pub struct MsgChannelCloseInit {
 }
 /// MsgChannelCloseInitResponse defines the Msg/ChannelCloseInit response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgChannelCloseInitResponse")]
 pub struct MsgChannelCloseInitResponse {}
 /// MsgChannelCloseConfirm defines a msg sent by a Relayer to Chain B
 /// to acknowledge the change of channel state to CLOSED on Chain A.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgChannelCloseConfirm")]
 pub struct MsgChannelCloseConfirm {
     #[prost(string, tag = "1")]
@@ -1796,58 +1097,28 @@ pub struct MsgChannelCloseConfirm {
     #[prost(string, tag = "2")]
     pub channel_id: ::prost::alloc::string::String,
     #[prost(bytes = "vec", tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
     pub proof_init: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "4")]
     pub proof_height: ::core::option::Option<super::super::client::v1::Height>,
     #[prost(string, tag = "5")]
     pub signer: ::prost::alloc::string::String,
     #[prost(uint64, tag = "6")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub counterparty_upgrade_sequence: u64,
 }
 /// MsgChannelCloseConfirmResponse defines the Msg/ChannelCloseConfirm response
 /// type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgChannelCloseConfirmResponse")]
 pub struct MsgChannelCloseConfirmResponse {}
 /// MsgRecvPacket receives incoming IBC packet
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgRecvPacket")]
 pub struct MsgRecvPacket {
     #[prost(message, optional, tag = "1")]
     pub packet: ::core::option::Option<Packet>,
     #[prost(bytes = "vec", tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
     pub proof_commitment: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "3")]
     pub proof_height: ::core::option::Option<super::super::client::v1::Height>,
@@ -1856,172 +1127,74 @@ pub struct MsgRecvPacket {
 }
 /// MsgRecvPacketResponse defines the Msg/RecvPacket response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgRecvPacketResponse")]
 pub struct MsgRecvPacketResponse {
     #[prost(enumeration = "ResponseResultType", tag = "1")]
-    #[serde(
-        serialize_with = "ResponseResultType::serialize",
-        deserialize_with = "ResponseResultType::deserialize"
-    )]
     pub result: i32,
 }
 /// MsgTimeout receives timed-out packet
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgTimeout")]
 pub struct MsgTimeout {
     #[prost(message, optional, tag = "1")]
     pub packet: ::core::option::Option<Packet>,
     #[prost(bytes = "vec", tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
     pub proof_unreceived: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "3")]
     pub proof_height: ::core::option::Option<super::super::client::v1::Height>,
     #[prost(uint64, tag = "4")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub next_sequence_recv: u64,
     #[prost(string, tag = "5")]
     pub signer: ::prost::alloc::string::String,
 }
 /// MsgTimeoutResponse defines the Msg/Timeout response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgTimeoutResponse")]
 pub struct MsgTimeoutResponse {
     #[prost(enumeration = "ResponseResultType", tag = "1")]
-    #[serde(
-        serialize_with = "ResponseResultType::serialize",
-        deserialize_with = "ResponseResultType::deserialize"
-    )]
     pub result: i32,
 }
 /// MsgTimeoutOnClose timed-out packet upon counterparty channel closure.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgTimeoutOnClose")]
 pub struct MsgTimeoutOnClose {
     #[prost(message, optional, tag = "1")]
     pub packet: ::core::option::Option<Packet>,
     #[prost(bytes = "vec", tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
     pub proof_unreceived: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
     pub proof_close: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "4")]
     pub proof_height: ::core::option::Option<super::super::client::v1::Height>,
     #[prost(uint64, tag = "5")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub next_sequence_recv: u64,
     #[prost(string, tag = "6")]
     pub signer: ::prost::alloc::string::String,
     #[prost(uint64, tag = "7")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub counterparty_upgrade_sequence: u64,
 }
 /// MsgTimeoutOnCloseResponse defines the Msg/TimeoutOnClose response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgTimeoutOnCloseResponse")]
 pub struct MsgTimeoutOnCloseResponse {
     #[prost(enumeration = "ResponseResultType", tag = "1")]
-    #[serde(
-        serialize_with = "ResponseResultType::serialize",
-        deserialize_with = "ResponseResultType::deserialize"
-    )]
     pub result: i32,
 }
 /// MsgAcknowledgement receives incoming IBC acknowledgement
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgAcknowledgement")]
 pub struct MsgAcknowledgement {
     #[prost(message, optional, tag = "1")]
     pub packet: ::core::option::Option<Packet>,
     #[prost(bytes = "vec", tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
     pub acknowledgement: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
     pub proof_acked: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "4")]
     pub proof_height: ::core::option::Option<super::super::client::v1::Height>,
@@ -2030,39 +1203,17 @@ pub struct MsgAcknowledgement {
 }
 /// MsgAcknowledgementResponse defines the Msg/Acknowledgement response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgAcknowledgementResponse")]
 pub struct MsgAcknowledgementResponse {
     #[prost(enumeration = "ResponseResultType", tag = "1")]
-    #[serde(
-        serialize_with = "ResponseResultType::serialize",
-        deserialize_with = "ResponseResultType::deserialize"
-    )]
     pub result: i32,
 }
 /// MsgChannelUpgradeInit defines the request type for the ChannelUpgradeInit rpc
 /// WARNING: Initializing a channel upgrade in the same block as opening the channel
 /// may result in the counterparty being incapable of opening.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgChannelUpgradeInit")]
 pub struct MsgChannelUpgradeInit {
     #[prost(string, tag = "1")]
@@ -2076,39 +1227,17 @@ pub struct MsgChannelUpgradeInit {
 }
 /// MsgChannelUpgradeInitResponse defines the MsgChannelUpgradeInit response type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgChannelUpgradeInitResponse")]
 pub struct MsgChannelUpgradeInitResponse {
     #[prost(message, optional, tag = "1")]
     pub upgrade: ::core::option::Option<Upgrade>,
     #[prost(uint64, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub upgrade_sequence: u64,
 }
 /// MsgChannelUpgradeTry defines the request type for the ChannelUpgradeTry rpc
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgChannelUpgradeTry")]
 pub struct MsgChannelUpgradeTry {
     #[prost(string, tag = "1")]
@@ -2120,22 +1249,10 @@ pub struct MsgChannelUpgradeTry {
     #[prost(message, optional, tag = "4")]
     pub counterparty_upgrade_fields: ::core::option::Option<UpgradeFields>,
     #[prost(uint64, tag = "5")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub counterparty_upgrade_sequence: u64,
     #[prost(bytes = "vec", tag = "6")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
     pub proof_channel: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "7")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
     pub proof_upgrade: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "8")]
     pub proof_height: ::core::option::Option<super::super::client::v1::Height>,
@@ -2144,45 +1261,19 @@ pub struct MsgChannelUpgradeTry {
 }
 /// MsgChannelUpgradeTryResponse defines the MsgChannelUpgradeTry response type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgChannelUpgradeTryResponse")]
 pub struct MsgChannelUpgradeTryResponse {
     #[prost(message, optional, tag = "1")]
     pub upgrade: ::core::option::Option<Upgrade>,
     #[prost(uint64, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub upgrade_sequence: u64,
     #[prost(enumeration = "ResponseResultType", tag = "3")]
-    #[serde(
-        serialize_with = "ResponseResultType::serialize",
-        deserialize_with = "ResponseResultType::deserialize"
-    )]
     pub result: i32,
 }
 /// MsgChannelUpgradeAck defines the request type for the ChannelUpgradeAck rpc
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgChannelUpgradeAck")]
 pub struct MsgChannelUpgradeAck {
     #[prost(string, tag = "1")]
@@ -2192,16 +1283,8 @@ pub struct MsgChannelUpgradeAck {
     #[prost(message, optional, tag = "3")]
     pub counterparty_upgrade: ::core::option::Option<Upgrade>,
     #[prost(bytes = "vec", tag = "4")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
     pub proof_channel: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "5")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
     pub proof_upgrade: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "6")]
     pub proof_height: ::core::option::Option<super::super::client::v1::Height>,
@@ -2210,37 +1293,15 @@ pub struct MsgChannelUpgradeAck {
 }
 /// MsgChannelUpgradeAckResponse defines MsgChannelUpgradeAck response type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgChannelUpgradeAckResponse")]
 pub struct MsgChannelUpgradeAckResponse {
     #[prost(enumeration = "ResponseResultType", tag = "1")]
-    #[serde(
-        serialize_with = "ResponseResultType::serialize",
-        deserialize_with = "ResponseResultType::deserialize"
-    )]
     pub result: i32,
 }
 /// MsgChannelUpgradeConfirm defines the request type for the ChannelUpgradeConfirm rpc
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgChannelUpgradeConfirm")]
 pub struct MsgChannelUpgradeConfirm {
     #[prost(string, tag = "1")]
@@ -2248,24 +1309,12 @@ pub struct MsgChannelUpgradeConfirm {
     #[prost(string, tag = "2")]
     pub channel_id: ::prost::alloc::string::String,
     #[prost(enumeration = "State", tag = "3")]
-    #[serde(
-        serialize_with = "State::serialize",
-        deserialize_with = "State::deserialize"
-    )]
     pub counterparty_channel_state: i32,
     #[prost(message, optional, tag = "4")]
     pub counterparty_upgrade: ::core::option::Option<Upgrade>,
     #[prost(bytes = "vec", tag = "5")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
     pub proof_channel: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "6")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
     pub proof_upgrade: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "7")]
     pub proof_height: ::core::option::Option<super::super::client::v1::Height>,
@@ -2274,37 +1323,15 @@ pub struct MsgChannelUpgradeConfirm {
 }
 /// MsgChannelUpgradeConfirmResponse defines MsgChannelUpgradeConfirm response type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgChannelUpgradeConfirmResponse")]
 pub struct MsgChannelUpgradeConfirmResponse {
     #[prost(enumeration = "ResponseResultType", tag = "1")]
-    #[serde(
-        serialize_with = "ResponseResultType::serialize",
-        deserialize_with = "ResponseResultType::deserialize"
-    )]
     pub result: i32,
 }
 /// MsgChannelUpgradeOpen defines the request type for the ChannelUpgradeOpen rpc
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgChannelUpgradeOpen")]
 pub struct MsgChannelUpgradeOpen {
     #[prost(string, tag = "1")]
@@ -2312,22 +1339,10 @@ pub struct MsgChannelUpgradeOpen {
     #[prost(string, tag = "2")]
     pub channel_id: ::prost::alloc::string::String,
     #[prost(enumeration = "State", tag = "3")]
-    #[serde(
-        serialize_with = "State::serialize",
-        deserialize_with = "State::deserialize"
-    )]
     pub counterparty_channel_state: i32,
     #[prost(uint64, tag = "4")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub counterparty_upgrade_sequence: u64,
     #[prost(bytes = "vec", tag = "5")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
     pub proof_channel: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "6")]
     pub proof_height: ::core::option::Option<super::super::client::v1::Height>,
@@ -2336,30 +1351,12 @@ pub struct MsgChannelUpgradeOpen {
 }
 /// MsgChannelUpgradeOpenResponse defines the MsgChannelUpgradeOpen response type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgChannelUpgradeOpenResponse")]
 pub struct MsgChannelUpgradeOpenResponse {}
 /// MsgChannelUpgradeTimeout defines the request type for the ChannelUpgradeTimeout rpc
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgChannelUpgradeTimeout")]
 pub struct MsgChannelUpgradeTimeout {
     #[prost(string, tag = "1")]
@@ -2369,10 +1366,6 @@ pub struct MsgChannelUpgradeTimeout {
     #[prost(message, optional, tag = "3")]
     pub counterparty_channel: ::core::option::Option<Channel>,
     #[prost(bytes = "vec", tag = "4")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
     pub proof_channel: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "5")]
     pub proof_height: ::core::option::Option<super::super::client::v1::Height>,
@@ -2381,30 +1374,12 @@ pub struct MsgChannelUpgradeTimeout {
 }
 /// MsgChannelUpgradeTimeoutRepsonse defines the MsgChannelUpgradeTimeout response type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgChannelUpgradeTimeoutResponse")]
 pub struct MsgChannelUpgradeTimeoutResponse {}
 /// MsgChannelUpgradeCancel defines the request type for the ChannelUpgradeCancel rpc
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgChannelUpgradeCancel")]
 pub struct MsgChannelUpgradeCancel {
     #[prost(string, tag = "1")]
@@ -2414,10 +1389,6 @@ pub struct MsgChannelUpgradeCancel {
     #[prost(message, optional, tag = "3")]
     pub error_receipt: ::core::option::Option<ErrorReceipt>,
     #[prost(bytes = "vec", tag = "4")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
     pub proof_error_receipt: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "5")]
     pub proof_height: ::core::option::Option<super::super::client::v1::Height>,
@@ -2426,30 +1397,12 @@ pub struct MsgChannelUpgradeCancel {
 }
 /// MsgChannelUpgradeCancelResponse defines the MsgChannelUpgradeCancel response type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgChannelUpgradeCancelResponse")]
 pub struct MsgChannelUpgradeCancelResponse {}
 /// MsgUpdateParams is the MsgUpdateParams request type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgUpdateParams")]
 pub struct MsgUpdateParams {
     /// authority is the address that controls the module (defaults to x/gov unless overwritten).
@@ -2463,30 +1416,12 @@ pub struct MsgUpdateParams {
 }
 /// MsgUpdateParamsResponse defines the MsgUpdateParams response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgUpdateParamsResponse")]
 pub struct MsgUpdateParamsResponse {}
 /// MsgPruneAcknowledgements defines the request type for the PruneAcknowledgements rpc.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgPruneAcknowledgements")]
 pub struct MsgPruneAcknowledgements {
     #[prost(string, tag = "1")]
@@ -2494,47 +1429,36 @@ pub struct MsgPruneAcknowledgements {
     #[prost(string, tag = "2")]
     pub channel_id: ::prost::alloc::string::String,
     #[prost(uint64, tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub limit: u64,
     #[prost(string, tag = "4")]
     pub signer: ::prost::alloc::string::String,
 }
 /// MsgPruneAcknowledgementsResponse defines the response type for the PruneAcknowledgements rpc.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgPruneAcknowledgementsResponse")]
 pub struct MsgPruneAcknowledgementsResponse {
     /// Number of sequences pruned (includes both packet acknowledgements and packet receipts where appropriate).
     #[prost(uint64, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub total_pruned_sequences: u64,
     /// Number of sequences left after pruning.
     #[prost(uint64, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub total_remaining_sequences: u64,
 }
 /// ResponseResultType defines the possible outcomes of the execution of a message
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[derive(
+    Clone,
+    Copy,
+    Debug,
+    PartialEq,
+    Eq,
+    Hash,
+    PartialOrd,
+    Ord,
+    ::prost::Enumeration,
+    ::schemars::JsonSchema,
+)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 pub enum ResponseResultType {
     /// Default zero value enumeration
     Unspecified = 0,

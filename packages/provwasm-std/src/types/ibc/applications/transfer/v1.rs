@@ -1,16 +1,7 @@
-use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
+use provwasm_proc_macro::CosmwasmExt;
 /// Allocation defines the spend limit for a particular port and channel
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.transfer.v1.Allocation")]
 pub struct Allocation {
     /// the port on which the packet will be sent
@@ -34,16 +25,7 @@ pub struct Allocation {
 /// TransferAuthorization allows the grantee to spend up to spend_limit coins from
 /// the granter's account for ibc transfer on a specific channel
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.transfer.v1.TransferAuthorization")]
 pub struct TransferAuthorization {
     /// port and channel amounts
@@ -53,16 +35,7 @@ pub struct TransferAuthorization {
 /// DenomTrace contains the base denomination for ICS20 fungible tokens and the
 /// source tracing information path.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.transfer.v1.DenomTrace")]
 pub struct DenomTrace {
     /// path defines the chain of port/channel identifiers used for tracing the
@@ -78,16 +51,7 @@ pub struct DenomTrace {
 /// TransfersEnabled parameter to true and then set the bank module's SendEnabled
 /// parameter for the denomination to false.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.transfer.v1.Params")]
 pub struct Params {
     /// send_enabled enables or disables all cross-chain token transfers from this
@@ -101,16 +65,7 @@ pub struct Params {
 }
 /// GenesisState defines the ibc-transfer genesis state
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.transfer.v1.GenesisState")]
 pub struct GenesisState {
     #[prost(string, tag = "1")]
@@ -128,16 +83,7 @@ pub struct GenesisState {
 /// QueryDenomTraceRequest is the request type for the Query/DenomTrace RPC
 /// method
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.transfer.v1.QueryDenomTraceRequest")]
 #[proto_query(
     path = "/ibc.applications.transfer.v1.Query/DenomTrace",
@@ -151,16 +97,7 @@ pub struct QueryDenomTraceRequest {
 /// QueryDenomTraceResponse is the response type for the Query/DenomTrace RPC
 /// method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.transfer.v1.QueryDenomTraceResponse")]
 pub struct QueryDenomTraceResponse {
     /// denom_trace returns the requested denomination trace information.
@@ -170,16 +107,7 @@ pub struct QueryDenomTraceResponse {
 /// QueryConnectionsRequest is the request type for the Query/DenomTraces RPC
 /// method
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.transfer.v1.QueryDenomTracesRequest")]
 #[proto_query(
     path = "/ibc.applications.transfer.v1.Query/DenomTraces",
@@ -195,16 +123,7 @@ pub struct QueryDenomTracesRequest {
 /// QueryConnectionsResponse is the response type for the Query/DenomTraces RPC
 /// method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.transfer.v1.QueryDenomTracesResponse")]
 pub struct QueryDenomTracesResponse {
     /// denom_traces returns all denominations trace information.
@@ -218,16 +137,7 @@ pub struct QueryDenomTracesResponse {
 }
 /// QueryParamsRequest is the request type for the Query/Params RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.transfer.v1.QueryParamsRequest")]
 #[proto_query(
     path = "/ibc.applications.transfer.v1.Query/Params",
@@ -236,16 +146,7 @@ pub struct QueryDenomTracesResponse {
 pub struct QueryParamsRequest {}
 /// QueryParamsResponse is the response type for the Query/Params RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.transfer.v1.QueryParamsResponse")]
 pub struct QueryParamsResponse {
     /// params defines the parameters of the module.
@@ -255,16 +156,7 @@ pub struct QueryParamsResponse {
 /// QueryDenomHashRequest is the request type for the Query/DenomHash RPC
 /// method
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.transfer.v1.QueryDenomHashRequest")]
 #[proto_query(
     path = "/ibc.applications.transfer.v1.Query/DenomHash",
@@ -278,16 +170,7 @@ pub struct QueryDenomHashRequest {
 /// QueryDenomHashResponse is the response type for the Query/DenomHash RPC
 /// method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.transfer.v1.QueryDenomHashResponse")]
 pub struct QueryDenomHashResponse {
     /// hash (in hex format) of the denomination trace information.
@@ -296,16 +179,7 @@ pub struct QueryDenomHashResponse {
 }
 /// QueryEscrowAddressRequest is the request type for the EscrowAddress RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.transfer.v1.QueryEscrowAddressRequest")]
 #[proto_query(
     path = "/ibc.applications.transfer.v1.Query/EscrowAddress",
@@ -321,16 +195,7 @@ pub struct QueryEscrowAddressRequest {
 }
 /// QueryEscrowAddressResponse is the response type of the EscrowAddress RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.transfer.v1.QueryEscrowAddressResponse")]
 pub struct QueryEscrowAddressResponse {
     /// the escrow account address
@@ -339,16 +204,7 @@ pub struct QueryEscrowAddressResponse {
 }
 /// QueryTotalEscrowForDenomRequest is the request type for TotalEscrowForDenom RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.transfer.v1.QueryTotalEscrowForDenomRequest")]
 #[proto_query(
     path = "/ibc.applications.transfer.v1.Query/TotalEscrowForDenom",
@@ -360,16 +216,7 @@ pub struct QueryTotalEscrowForDenomRequest {
 }
 /// QueryTotalEscrowForDenomResponse is the response type for TotalEscrowForDenom RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.transfer.v1.QueryTotalEscrowForDenomResponse")]
 pub struct QueryTotalEscrowForDenomResponse {
     #[prost(message, optional, tag = "1")]
@@ -379,16 +226,7 @@ pub struct QueryTotalEscrowForDenomResponse {
 /// ICS20 enabled chains. See ICS Spec here:
 /// <https://github.com/cosmos/ibc/tree/master/spec/app/ics-020-fungible-token-transfer#data-structures>
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.transfer.v1.MsgTransfer")]
 pub struct MsgTransfer {
     /// the port on which the packet will be sent
@@ -413,10 +251,6 @@ pub struct MsgTransfer {
     /// Timeout timestamp in absolute nanoseconds since unix epoch.
     /// The timeout is disabled when set to 0.
     #[prost(uint64, tag = "7")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub timeout_timestamp: u64,
     /// optional memo
     #[prost(string, tag = "8")]
@@ -424,38 +258,16 @@ pub struct MsgTransfer {
 }
 /// MsgTransferResponse defines the Msg/Transfer response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.transfer.v1.MsgTransferResponse")]
 pub struct MsgTransferResponse {
     /// sequence number of the transfer packet sent
     #[prost(uint64, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub sequence: u64,
 }
 /// MsgUpdateParams is the Msg/UpdateParams request type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.transfer.v1.MsgUpdateParams")]
 pub struct MsgUpdateParams {
     /// signer address
@@ -470,16 +282,7 @@ pub struct MsgUpdateParams {
 /// MsgUpdateParamsResponse defines the response structure for executing a
 /// MsgUpdateParams message.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.transfer.v1.MsgUpdateParamsResponse")]
 pub struct MsgUpdateParamsResponse {}
 pub struct TransferQuerier<'a, Q: cosmwasm_std::CustomQuery> {

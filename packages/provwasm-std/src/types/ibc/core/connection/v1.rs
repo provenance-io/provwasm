@@ -1,19 +1,10 @@
-use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
+use provwasm_proc_macro::CosmwasmExt;
 /// ConnectionEnd defines a stateful object on a chain connected to another
 /// separate one.
 /// NOTE: there must only be 2 defined ConnectionEnds to establish
 /// a connection between two chains.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.connection.v1.ConnectionEnd")]
 pub struct ConnectionEnd {
     /// client associated with this connection.
@@ -25,10 +16,6 @@ pub struct ConnectionEnd {
     pub versions: ::prost::alloc::vec::Vec<Version>,
     /// current state of the connection end.
     #[prost(enumeration = "State", tag = "3")]
-    #[serde(
-        serialize_with = "State::serialize",
-        deserialize_with = "State::deserialize"
-    )]
     pub state: i32,
     /// counterparty chain associated with this connection.
     #[prost(message, optional, tag = "4")]
@@ -37,25 +24,12 @@ pub struct ConnectionEnd {
     /// packet-verification NOTE: delay period logic is only implemented by some
     /// clients.
     #[prost(uint64, tag = "5")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub delay_period: u64,
 }
 /// IdentifiedConnection defines a connection with additional connection
 /// identifier field.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.connection.v1.IdentifiedConnection")]
 pub struct IdentifiedConnection {
     /// connection identifier.
@@ -70,34 +44,17 @@ pub struct IdentifiedConnection {
     pub versions: ::prost::alloc::vec::Vec<Version>,
     /// current state of the connection end.
     #[prost(enumeration = "State", tag = "4")]
-    #[serde(
-        serialize_with = "State::serialize",
-        deserialize_with = "State::deserialize"
-    )]
     pub state: i32,
     /// counterparty chain associated with this connection.
     #[prost(message, optional, tag = "5")]
     pub counterparty: ::core::option::Option<Counterparty>,
     /// delay period associated with this connection.
     #[prost(uint64, tag = "6")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub delay_period: u64,
 }
 /// Counterparty defines the counterparty chain associated with a connection end.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.connection.v1.Counterparty")]
 pub struct Counterparty {
     /// identifies the client on the counterparty chain associated with a given
@@ -114,16 +71,7 @@ pub struct Counterparty {
 }
 /// ClientPaths define all the connection paths for a client state.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.connection.v1.ClientPaths")]
 pub struct ClientPaths {
     /// list of connection paths
@@ -132,16 +80,7 @@ pub struct ClientPaths {
 }
 /// ConnectionPaths define all the connection paths for a given client state.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.connection.v1.ConnectionPaths")]
 pub struct ConnectionPaths {
     /// client state unique identifier
@@ -154,16 +93,7 @@ pub struct ConnectionPaths {
 /// Version defines the versioning scheme used to negotiate the IBC verison in
 /// the connection handshake.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.connection.v1.Version")]
 pub struct Version {
     /// unique version identifier
@@ -175,33 +105,30 @@ pub struct Version {
 }
 /// Params defines the set of Connection parameters.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.connection.v1.Params")]
 pub struct Params {
     /// maximum expected time per block (in nanoseconds), used to enforce block delay. This parameter should reflect the
     /// largest amount of time that the chain might reasonably take to produce the next block under normal operating
     /// conditions. A safe choice is 3-5x the expected time per block.
     #[prost(uint64, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub max_expected_time_per_block: u64,
 }
 /// State defines if a connection is in one of the following states:
 /// INIT, TRYOPEN, OPEN or UNINITIALIZED.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[derive(
+    Clone,
+    Copy,
+    Debug,
+    PartialEq,
+    Eq,
+    Hash,
+    PartialOrd,
+    Ord,
+    ::prost::Enumeration,
+    ::schemars::JsonSchema,
+)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 pub enum State {
     /// Default State
     UninitializedUnspecified = 0,
@@ -239,16 +166,7 @@ impl State {
 }
 /// GenesisState defines the ibc connection submodule's genesis state.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.connection.v1.GenesisState")]
 pub struct GenesisState {
     #[prost(message, repeated, tag = "1")]
@@ -257,10 +175,6 @@ pub struct GenesisState {
     pub client_connection_paths: ::prost::alloc::vec::Vec<ConnectionPaths>,
     /// the sequence for the next generated connection identifier
     #[prost(uint64, tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub next_connection_sequence: u64,
     #[prost(message, optional, tag = "4")]
     pub params: ::core::option::Option<Params>,
@@ -268,16 +182,7 @@ pub struct GenesisState {
 /// QueryConnectionRequest is the request type for the Query/Connection RPC
 /// method
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.connection.v1.QueryConnectionRequest")]
 #[proto_query(
     path = "/ibc.core.connection.v1.Query/Connection",
@@ -292,16 +197,7 @@ pub struct QueryConnectionRequest {
 /// method. Besides the connection end, it includes a proof and the height from
 /// which the proof was retrieved.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.connection.v1.QueryConnectionResponse")]
 pub struct QueryConnectionResponse {
     /// connection associated with the request identifier
@@ -309,10 +205,6 @@ pub struct QueryConnectionResponse {
     pub connection: ::core::option::Option<ConnectionEnd>,
     /// merkle proof of existence
     #[prost(bytes = "vec", tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
     pub proof: ::prost::alloc::vec::Vec<u8>,
     /// height at which the proof was retrieved
     #[prost(message, optional, tag = "3")]
@@ -321,16 +213,7 @@ pub struct QueryConnectionResponse {
 /// QueryConnectionsRequest is the request type for the Query/Connections RPC
 /// method
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.connection.v1.QueryConnectionsRequest")]
 #[proto_query(
     path = "/ibc.core.connection.v1.Query/Connections",
@@ -345,16 +228,7 @@ pub struct QueryConnectionsRequest {
 /// QueryConnectionsResponse is the response type for the Query/Connections RPC
 /// method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.connection.v1.QueryConnectionsResponse")]
 pub struct QueryConnectionsResponse {
     /// list of stored connections of the chain.
@@ -372,16 +246,7 @@ pub struct QueryConnectionsResponse {
 /// QueryClientConnectionsRequest is the request type for the
 /// Query/ClientConnections RPC method
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.connection.v1.QueryClientConnectionsRequest")]
 #[proto_query(
     path = "/ibc.core.connection.v1.Query/ClientConnections",
@@ -395,16 +260,7 @@ pub struct QueryClientConnectionsRequest {
 /// QueryClientConnectionsResponse is the response type for the
 /// Query/ClientConnections RPC method
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.connection.v1.QueryClientConnectionsResponse")]
 pub struct QueryClientConnectionsResponse {
     /// slice of all the connection paths associated with a client.
@@ -412,10 +268,6 @@ pub struct QueryClientConnectionsResponse {
     pub connection_paths: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
     /// merkle proof of existence
     #[prost(bytes = "vec", tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
     pub proof: ::prost::alloc::vec::Vec<u8>,
     /// height at which the proof was generated
     #[prost(message, optional, tag = "3")]
@@ -424,16 +276,7 @@ pub struct QueryClientConnectionsResponse {
 /// QueryConnectionClientStateRequest is the request type for the
 /// Query/ConnectionClientState RPC method
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.connection.v1.QueryConnectionClientStateRequest")]
 #[proto_query(
     path = "/ibc.core.connection.v1.Query/ConnectionClientState",
@@ -447,16 +290,7 @@ pub struct QueryConnectionClientStateRequest {
 /// QueryConnectionClientStateResponse is the response type for the
 /// Query/ConnectionClientState RPC method
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.connection.v1.QueryConnectionClientStateResponse")]
 pub struct QueryConnectionClientStateResponse {
     /// client state associated with the channel
@@ -465,10 +299,6 @@ pub struct QueryConnectionClientStateResponse {
         ::core::option::Option<super::super::client::v1::IdentifiedClientState>,
     /// merkle proof of existence
     #[prost(bytes = "vec", tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
     pub proof: ::prost::alloc::vec::Vec<u8>,
     /// height at which the proof was retrieved
     #[prost(message, optional, tag = "3")]
@@ -477,16 +307,7 @@ pub struct QueryConnectionClientStateResponse {
 /// QueryConnectionConsensusStateRequest is the request type for the
 /// Query/ConnectionConsensusState RPC method
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.connection.v1.QueryConnectionConsensusStateRequest")]
 #[proto_query(
     path = "/ibc.core.connection.v1.Query/ConnectionConsensusState",
@@ -497,31 +318,14 @@ pub struct QueryConnectionConsensusStateRequest {
     #[prost(string, tag = "1")]
     pub connection_id: ::prost::alloc::string::String,
     #[prost(uint64, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub revision_number: u64,
     #[prost(uint64, tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub revision_height: u64,
 }
 /// QueryConnectionConsensusStateResponse is the response type for the
 /// Query/ConnectionConsensusState RPC method
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.connection.v1.QueryConnectionConsensusStateResponse")]
 pub struct QueryConnectionConsensusStateResponse {
     /// consensus state associated with the channel
@@ -532,10 +336,6 @@ pub struct QueryConnectionConsensusStateResponse {
     pub client_id: ::prost::alloc::string::String,
     /// merkle proof of existence
     #[prost(bytes = "vec", tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
     pub proof: ::prost::alloc::vec::Vec<u8>,
     /// height at which the proof was retrieved
     #[prost(message, optional, tag = "4")]
@@ -543,16 +343,7 @@ pub struct QueryConnectionConsensusStateResponse {
 }
 /// QueryConnectionParamsRequest is the request type for the Query/ConnectionParams RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.connection.v1.QueryConnectionParamsRequest")]
 #[proto_query(
     path = "/ibc.core.connection.v1.Query/ConnectionParams",
@@ -561,16 +352,7 @@ pub struct QueryConnectionConsensusStateResponse {
 pub struct QueryConnectionParamsRequest {}
 /// QueryConnectionParamsResponse is the response type for the Query/ConnectionParams RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.connection.v1.QueryConnectionParamsResponse")]
 pub struct QueryConnectionParamsResponse {
     /// params defines the parameters of the module.
@@ -580,16 +362,7 @@ pub struct QueryConnectionParamsResponse {
 /// MsgConnectionOpenInit defines the msg sent by an account on Chain A to
 /// initialize a connection with Chain B.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.connection.v1.MsgConnectionOpenInit")]
 pub struct MsgConnectionOpenInit {
     #[prost(string, tag = "1")]
@@ -599,10 +372,6 @@ pub struct MsgConnectionOpenInit {
     #[prost(message, optional, tag = "3")]
     pub version: ::core::option::Option<Version>,
     #[prost(uint64, tag = "4")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub delay_period: u64,
     #[prost(string, tag = "5")]
     pub signer: ::prost::alloc::string::String,
@@ -610,31 +379,13 @@ pub struct MsgConnectionOpenInit {
 /// MsgConnectionOpenInitResponse defines the Msg/ConnectionOpenInit response
 /// type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.connection.v1.MsgConnectionOpenInitResponse")]
 pub struct MsgConnectionOpenInitResponse {}
 /// MsgConnectionOpenTry defines a msg sent by a Relayer to try to open a
 /// connection on Chain B.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.connection.v1.MsgConnectionOpenTry")]
 pub struct MsgConnectionOpenTry {
     #[prost(string, tag = "1")]
@@ -648,10 +399,6 @@ pub struct MsgConnectionOpenTry {
     #[prost(message, optional, tag = "4")]
     pub counterparty: ::core::option::Option<Counterparty>,
     #[prost(uint64, tag = "5")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub delay_period: u64,
     #[prost(message, repeated, tag = "6")]
     pub counterparty_versions: ::prost::alloc::vec::Vec<Version>,
@@ -660,24 +407,12 @@ pub struct MsgConnectionOpenTry {
     /// proof of the initialization the connection on Chain A: `UNITIALIZED ->
     /// INIT`
     #[prost(bytes = "vec", tag = "8")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
     pub proof_init: ::prost::alloc::vec::Vec<u8>,
     /// proof of client state included in message
     #[prost(bytes = "vec", tag = "9")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
     pub proof_client: ::prost::alloc::vec::Vec<u8>,
     /// proof of client consensus state
     #[prost(bytes = "vec", tag = "10")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
     pub proof_consensus: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "11")]
     pub consensus_height: ::core::option::Option<super::super::client::v1::Height>,
@@ -685,39 +420,17 @@ pub struct MsgConnectionOpenTry {
     pub signer: ::prost::alloc::string::String,
     /// optional proof data for host state machines that are unable to introspect their own consensus state
     #[prost(bytes = "vec", tag = "13")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
     pub host_consensus_state_proof: ::prost::alloc::vec::Vec<u8>,
 }
 /// MsgConnectionOpenTryResponse defines the Msg/ConnectionOpenTry response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.connection.v1.MsgConnectionOpenTryResponse")]
 pub struct MsgConnectionOpenTryResponse {}
 /// MsgConnectionOpenAck defines a msg sent by a Relayer to Chain A to
 /// acknowledge the change of connection state to TRYOPEN on Chain B.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.connection.v1.MsgConnectionOpenAck")]
 pub struct MsgConnectionOpenAck {
     #[prost(string, tag = "1")]
@@ -733,24 +446,12 @@ pub struct MsgConnectionOpenAck {
     /// proof of the initialization the connection on Chain B: `UNITIALIZED ->
     /// TRYOPEN`
     #[prost(bytes = "vec", tag = "6")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
     pub proof_try: ::prost::alloc::vec::Vec<u8>,
     /// proof of client state included in message
     #[prost(bytes = "vec", tag = "7")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
     pub proof_client: ::prost::alloc::vec::Vec<u8>,
     /// proof of client consensus state
     #[prost(bytes = "vec", tag = "8")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
     pub proof_consensus: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "9")]
     pub consensus_height: ::core::option::Option<super::super::client::v1::Height>,
@@ -758,49 +459,23 @@ pub struct MsgConnectionOpenAck {
     pub signer: ::prost::alloc::string::String,
     /// optional proof data for host state machines that are unable to introspect their own consensus state
     #[prost(bytes = "vec", tag = "11")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
     pub host_consensus_state_proof: ::prost::alloc::vec::Vec<u8>,
 }
 /// MsgConnectionOpenAckResponse defines the Msg/ConnectionOpenAck response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.connection.v1.MsgConnectionOpenAckResponse")]
 pub struct MsgConnectionOpenAckResponse {}
 /// MsgConnectionOpenConfirm defines a msg sent by a Relayer to Chain B to
 /// acknowledge the change of connection state to OPEN on Chain A.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.connection.v1.MsgConnectionOpenConfirm")]
 pub struct MsgConnectionOpenConfirm {
     #[prost(string, tag = "1")]
     pub connection_id: ::prost::alloc::string::String,
     /// proof for the change of the connection state on Chain A: `INIT -> OPEN`
     #[prost(bytes = "vec", tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
     pub proof_ack: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "3")]
     pub proof_height: ::core::option::Option<super::super::client::v1::Height>,
@@ -810,30 +485,12 @@ pub struct MsgConnectionOpenConfirm {
 /// MsgConnectionOpenConfirmResponse defines the Msg/ConnectionOpenConfirm
 /// response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.connection.v1.MsgConnectionOpenConfirmResponse")]
 pub struct MsgConnectionOpenConfirmResponse {}
 /// MsgUpdateParams defines the sdk.Msg type to update the connection parameters.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.connection.v1.MsgUpdateParams")]
 pub struct MsgUpdateParams {
     /// signer address
@@ -847,16 +504,7 @@ pub struct MsgUpdateParams {
 }
 /// MsgUpdateParamsResponse defines the MsgUpdateParams response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.connection.v1.MsgUpdateParamsResponse")]
 pub struct MsgUpdateParamsResponse {}
 pub struct ConnectionQuerier<'a, Q: cosmwasm_std::CustomQuery> {
