@@ -1,16 +1,7 @@
-use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
+use provwasm_proc_macro::CosmwasmExt;
 /// AccessGrant associates a collection of permissions with an address for delegated marker account control.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.AccessGrant")]
 pub struct AccessGrant {
     #[prost(string, tag = "1")]
@@ -19,9 +10,19 @@ pub struct AccessGrant {
     pub permissions: ::prost::alloc::vec::Vec<i32>,
 }
 /// Access defines the different types of permissions that a marker supports granting to an address.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[derive(
+    Clone,
+    Copy,
+    Debug,
+    PartialEq,
+    Eq,
+    Hash,
+    PartialOrd,
+    Ord,
+    ::prost::Enumeration,
+    ::schemars::JsonSchema,
+)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 pub enum Access {
     /// ACCESS_UNSPECIFIED defines a no-op vote option.
     Unspecified = 0,
@@ -89,16 +90,7 @@ impl Access {
 /// MarkerTransferAuthorization gives the grantee permissions to execute
 /// a marker transfer on behalf of the granter's account.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.MarkerTransferAuthorization")]
 pub struct MarkerTransferAuthorization {
     /// transfer_limit is the total amount the grantee can transfer
@@ -111,25 +103,12 @@ pub struct MarkerTransferAuthorization {
 }
 /// Params defines the set of params for the account module.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.Params")]
 pub struct Params {
     /// Deprecated: Prefer to use `max_supply` instead. Maximum amount of supply to allow a marker to be created with
     #[deprecated]
     #[prost(uint64, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub max_total_supply: u64,
     /// indicates if governance based controls of markers is allowed.
     #[prost(bool, tag = "2")]
@@ -144,16 +123,7 @@ pub struct Params {
 }
 /// MarkerAccount holds the marker configuration information in addition to a base account structure.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.MarkerAccount")]
 pub struct MarkerAccount {
     /// base cosmos account information including address and coin holdings.
@@ -169,10 +139,6 @@ pub struct MarkerAccount {
     pub access_control: ::prost::alloc::vec::Vec<AccessGrant>,
     /// Indicates the current status of this marker record.
     #[prost(enumeration = "MarkerStatus", tag = "4")]
-    #[serde(
-        serialize_with = "MarkerStatus::serialize",
-        deserialize_with = "MarkerStatus::deserialize"
-    )]
     pub status: i32,
     /// value denomination and total supply for the token.
     #[prost(string, tag = "5")]
@@ -182,10 +148,6 @@ pub struct MarkerAccount {
     pub supply: ::prost::alloc::string::String,
     /// Marker type information
     #[prost(enumeration = "MarkerType", tag = "7")]
-    #[serde(
-        serialize_with = "MarkerType::serialize",
-        deserialize_with = "MarkerType::deserialize"
-    )]
     pub marker_type: i32,
     /// A fixed supply will mint additional coin automatically if the total supply decreases below a set value.  This
     /// may occur if the coin is burned or an account holding the coin is slashed. (default: true)
@@ -204,16 +166,7 @@ pub struct MarkerAccount {
 }
 /// NetAssetValue defines a marker's net asset value
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.NetAssetValue")]
 pub struct NetAssetValue {
     /// price is the complete value of the asset's volume
@@ -221,31 +174,14 @@ pub struct NetAssetValue {
     pub price: ::core::option::Option<super::super::super::cosmos::base::v1beta1::Coin>,
     /// volume is the number of tokens of the marker that were purchased for the price
     #[prost(uint64, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub volume: u64,
     /// updated_block_height is the block height of last update
     #[prost(uint64, tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub updated_block_height: u64,
 }
 /// EventMarkerAdd event emitted when marker is added
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.EventMarkerAdd")]
 pub struct EventMarkerAdd {
     #[prost(string, tag = "1")]
@@ -263,16 +199,7 @@ pub struct EventMarkerAdd {
 }
 /// EventMarkerAddAccess event emitted when marker access is added
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.EventMarkerAddAccess")]
 pub struct EventMarkerAddAccess {
     #[prost(message, optional, tag = "1")]
@@ -284,16 +211,7 @@ pub struct EventMarkerAddAccess {
 }
 /// EventMarkerAccess event access permissions for address
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.EventMarkerAccess")]
 pub struct EventMarkerAccess {
     #[prost(string, tag = "1")]
@@ -303,16 +221,7 @@ pub struct EventMarkerAccess {
 }
 /// EventMarkerDeleteAccess event emitted when marker access is revoked
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.EventMarkerDeleteAccess")]
 pub struct EventMarkerDeleteAccess {
     #[prost(string, tag = "1")]
@@ -324,16 +233,7 @@ pub struct EventMarkerDeleteAccess {
 }
 /// EventMarkerFinalize event emitted when marker is finalized
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.EventMarkerFinalize")]
 pub struct EventMarkerFinalize {
     #[prost(string, tag = "1")]
@@ -343,16 +243,7 @@ pub struct EventMarkerFinalize {
 }
 /// EventMarkerActivate event emitted when marker is activated
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.EventMarkerActivate")]
 pub struct EventMarkerActivate {
     #[prost(string, tag = "1")]
@@ -362,16 +253,7 @@ pub struct EventMarkerActivate {
 }
 /// EventMarkerCancel event emitted when marker is cancelled
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.EventMarkerCancel")]
 pub struct EventMarkerCancel {
     #[prost(string, tag = "1")]
@@ -381,16 +263,7 @@ pub struct EventMarkerCancel {
 }
 /// EventMarkerDelete event emitted when marker is deleted
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.EventMarkerDelete")]
 pub struct EventMarkerDelete {
     #[prost(string, tag = "1")]
@@ -400,16 +273,7 @@ pub struct EventMarkerDelete {
 }
 /// EventMarkerMint event emitted when additional marker supply is minted
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.EventMarkerMint")]
 pub struct EventMarkerMint {
     #[prost(string, tag = "1")]
@@ -421,16 +285,7 @@ pub struct EventMarkerMint {
 }
 /// EventMarkerBurn event emitted when coin is burned from marker
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.EventMarkerBurn")]
 pub struct EventMarkerBurn {
     #[prost(string, tag = "1")]
@@ -442,16 +297,7 @@ pub struct EventMarkerBurn {
 }
 /// EventMarkerWithdraw event emitted when coins are withdrew from marker
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.EventMarkerWithdraw")]
 pub struct EventMarkerWithdraw {
     #[prost(string, tag = "1")]
@@ -465,16 +311,7 @@ pub struct EventMarkerWithdraw {
 }
 /// EventMarkerTransfer event emitted when coins are transfered to from account to another
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.EventMarkerTransfer")]
 pub struct EventMarkerTransfer {
     #[prost(string, tag = "1")]
@@ -490,16 +327,7 @@ pub struct EventMarkerTransfer {
 }
 /// EventMarkerSetDenomMetadata event emitted when metadata is set on marker with denom
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.EventMarkerSetDenomMetadata")]
 pub struct EventMarkerSetDenomMetadata {
     #[prost(string, tag = "1")]
@@ -519,16 +347,7 @@ pub struct EventMarkerSetDenomMetadata {
 }
 /// EventDenomUnit denom units for set denom metadata event
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.EventDenomUnit")]
 pub struct EventDenomUnit {
     #[prost(string, tag = "1")]
@@ -540,16 +359,7 @@ pub struct EventDenomUnit {
 }
 /// EventSetNetAssetValue event emitted when Net Asset Value for marker is update or added
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.EventSetNetAssetValue")]
 pub struct EventSetNetAssetValue {
     #[prost(string, tag = "1")]
@@ -563,16 +373,7 @@ pub struct EventSetNetAssetValue {
 }
 /// EventMarkerParamsUpdated event emitted when marker params are updated.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.EventMarkerParamsUpdated")]
 pub struct EventMarkerParamsUpdated {
     #[prost(string, tag = "1")]
@@ -583,9 +384,19 @@ pub struct EventMarkerParamsUpdated {
     pub max_supply: ::prost::alloc::string::String,
 }
 /// MarkerType defines the types of marker
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[derive(
+    Clone,
+    Copy,
+    Debug,
+    PartialEq,
+    Eq,
+    Hash,
+    PartialOrd,
+    Ord,
+    ::prost::Enumeration,
+    ::schemars::JsonSchema,
+)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 pub enum MarkerType {
     /// MARKER_TYPE_UNSPECIFIED is an invalid/unknown marker type.
     Unspecified = 0,
@@ -617,9 +428,19 @@ impl MarkerType {
     }
 }
 /// MarkerStatus defines the various states a marker account can be in.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[derive(
+    Clone,
+    Copy,
+    Debug,
+    PartialEq,
+    Eq,
+    Hash,
+    PartialOrd,
+    Ord,
+    ::prost::Enumeration,
+    ::schemars::JsonSchema,
+)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 pub enum MarkerStatus {
     /// MARKER_STATUS_UNSPECIFIED - Unknown/Invalid Marker Status
     Unspecified = 0,
@@ -665,16 +486,7 @@ impl MarkerStatus {
 }
 /// GenesisState defines the account module's genesis state.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.GenesisState")]
 pub struct GenesisState {
     /// params defines all the parameters of the module.
@@ -692,16 +504,7 @@ pub struct GenesisState {
 }
 /// DenySendAddress defines addresses that are denied sends for marker denom
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.DenySendAddress")]
 pub struct DenySendAddress {
     /// marker_address is the marker's address for denied address
@@ -713,16 +516,7 @@ pub struct DenySendAddress {
 }
 /// MarkerNetAssetValues defines the net asset values for a marker
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.MarkerNetAssetValues")]
 pub struct MarkerNetAssetValues {
     /// address defines the marker address
@@ -737,16 +531,7 @@ pub struct MarkerNetAssetValues {
 /// backwards compatibility (e.g. looking up old governance proposals).
 /// It is replaced by providing a MsgAddMarkerRequest in a governance proposal.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.AddMarkerProposal")]
 #[deprecated]
 pub struct AddMarkerProposal {
@@ -759,16 +544,8 @@ pub struct AddMarkerProposal {
     #[prost(string, tag = "4")]
     pub manager: ::prost::alloc::string::String,
     #[prost(enumeration = "MarkerStatus", tag = "5")]
-    #[serde(
-        serialize_with = "MarkerStatus::serialize",
-        deserialize_with = "MarkerStatus::deserialize"
-    )]
     pub status: i32,
     #[prost(enumeration = "MarkerType", tag = "6")]
-    #[serde(
-        serialize_with = "MarkerType::serialize",
-        deserialize_with = "MarkerType::deserialize"
-    )]
     pub marker_type: i32,
     #[prost(message, repeated, tag = "7")]
     pub access_list: ::prost::alloc::vec::Vec<AccessGrant>,
@@ -783,16 +560,7 @@ pub struct AddMarkerProposal {
 /// backwards compatibility (e.g. looking up old governance proposals).
 /// It is replaced by providing a MsgSupplyIncreaseProposalRequest in a governance proposal.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.SupplyIncreaseProposal")]
 #[deprecated]
 pub struct SupplyIncreaseProposal {
@@ -812,16 +580,7 @@ pub struct SupplyIncreaseProposal {
 /// backwards compatibility (e.g. looking up old governance proposals).
 /// It is replaced by providing a MsgSupplyDecreaseProposalRequest in a governance proposal.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.SupplyDecreaseProposal")]
 #[deprecated]
 pub struct SupplyDecreaseProposal {
@@ -838,16 +597,7 @@ pub struct SupplyDecreaseProposal {
 /// backwards compatibility (e.g. looking up old governance proposals).
 /// It is replaced by providing a MsgSetAdministratorProposalRequest in a governance proposal.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.SetAdministratorProposal")]
 #[deprecated]
 pub struct SetAdministratorProposal {
@@ -866,16 +616,7 @@ pub struct SetAdministratorProposal {
 /// backwards compatibility (e.g. looking up old governance proposals).
 /// It is replaced by providing a MsgRemoveAdministratorProposalRequest in a governance proposal.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.RemoveAdministratorProposal")]
 #[deprecated]
 pub struct RemoveAdministratorProposal {
@@ -893,16 +634,7 @@ pub struct RemoveAdministratorProposal {
 /// backwards compatibility (e.g. looking up old governance proposals).
 /// It is replaced by providing a MsgChangeStatusProposalRequest in a governance proposal.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.ChangeStatusProposal")]
 #[deprecated]
 pub struct ChangeStatusProposal {
@@ -913,10 +645,6 @@ pub struct ChangeStatusProposal {
     #[prost(string, tag = "3")]
     pub denom: ::prost::alloc::string::String,
     #[prost(enumeration = "MarkerStatus", tag = "4")]
-    #[serde(
-        serialize_with = "MarkerStatus::serialize",
-        deserialize_with = "MarkerStatus::deserialize"
-    )]
     pub new_status: i32,
 }
 /// WithdrawEscrowProposal defines a governance proposal to withdraw escrow coins from a marker
@@ -924,16 +652,7 @@ pub struct ChangeStatusProposal {
 /// backwards compatibility (e.g. looking up old governance proposals).
 /// It is replaced by providing a MsgWithdrawEscrowProposalRequest in a governance proposal.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.WithdrawEscrowProposal")]
 #[deprecated]
 pub struct WithdrawEscrowProposal {
@@ -953,16 +672,7 @@ pub struct WithdrawEscrowProposal {
 /// backwards compatibility (e.g. looking up old governance proposals).
 /// It is replaced by providing a MsgSetDenomMetadataProposalRequest in a governance proposal.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.SetDenomMetadataProposal")]
 #[deprecated]
 pub struct SetDenomMetadataProposal {
@@ -975,16 +685,7 @@ pub struct SetDenomMetadataProposal {
 }
 /// QueryParamsRequest is the request type for the Query/Params RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.QueryParamsRequest")]
 #[proto_query(
     path = "/provenance.marker.v1.Query/Params",
@@ -993,16 +694,7 @@ pub struct SetDenomMetadataProposal {
 pub struct QueryParamsRequest {}
 /// QueryParamsResponse is the response type for the Query/Params RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.QueryParamsResponse")]
 pub struct QueryParamsResponse {
     /// params defines the parameters of the module.
@@ -1011,16 +703,7 @@ pub struct QueryParamsResponse {
 }
 /// QueryAllMarkersRequest is the request type for the Query/AllMarkers method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.QueryAllMarkersRequest")]
 #[proto_query(
     path = "/provenance.marker.v1.Query/AllMarkers",
@@ -1029,10 +712,6 @@ pub struct QueryParamsResponse {
 pub struct QueryAllMarkersRequest {
     /// Optional status to filter request
     #[prost(enumeration = "MarkerStatus", tag = "1")]
-    #[serde(
-        serialize_with = "MarkerStatus::serialize",
-        deserialize_with = "MarkerStatus::deserialize"
-    )]
     pub status: i32,
     /// pagination defines an optional pagination for the request.
     #[prost(message, optional, tag = "2")]
@@ -1041,16 +720,7 @@ pub struct QueryAllMarkersRequest {
 }
 /// QueryAllMarkersResponse is the response type for the Query/AllMarkers method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.QueryAllMarkersResponse")]
 pub struct QueryAllMarkersResponse {
     #[prost(message, repeated, tag = "1")]
@@ -1062,16 +732,7 @@ pub struct QueryAllMarkersResponse {
 }
 /// QueryMarkerRequest is the request type for the Query/Marker method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.QueryMarkerRequest")]
 #[proto_query(
     path = "/provenance.marker.v1.Query/Marker",
@@ -1084,16 +745,7 @@ pub struct QueryMarkerRequest {
 }
 /// QueryMarkerResponse is the response type for the Query/Marker method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.QueryMarkerResponse")]
 pub struct QueryMarkerResponse {
     #[prost(message, optional, tag = "1")]
@@ -1101,16 +753,7 @@ pub struct QueryMarkerResponse {
 }
 /// QueryHoldingRequest is the request type for the Query/MarkerHolders method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.QueryHoldingRequest")]
 #[proto_query(
     path = "/provenance.marker.v1.Query/Holding",
@@ -1127,16 +770,7 @@ pub struct QueryHoldingRequest {
 }
 /// QueryHoldingResponse is the response type for the Query/MarkerHolders method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.QueryHoldingResponse")]
 pub struct QueryHoldingResponse {
     #[prost(message, repeated, tag = "1")]
@@ -1148,16 +782,7 @@ pub struct QueryHoldingResponse {
 }
 /// QuerySupplyRequest is the request type for the Query/MarkerSupply method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.QuerySupplyRequest")]
 #[proto_query(
     path = "/provenance.marker.v1.Query/Supply",
@@ -1170,16 +795,7 @@ pub struct QuerySupplyRequest {
 }
 /// QuerySupplyResponse is the response type for the Query/MarkerSupply method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.QuerySupplyResponse")]
 pub struct QuerySupplyResponse {
     /// amount is the supply of the marker.
@@ -1188,16 +804,7 @@ pub struct QuerySupplyResponse {
 }
 /// QueryEscrowRequest is the request type for the Query/MarkerEscrow method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.QueryEscrowRequest")]
 #[proto_query(
     path = "/provenance.marker.v1.Query/Escrow",
@@ -1210,16 +817,7 @@ pub struct QueryEscrowRequest {
 }
 /// QueryEscrowResponse is the response type for the Query/MarkerEscrow method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.QueryEscrowResponse")]
 pub struct QueryEscrowResponse {
     #[prost(message, repeated, tag = "1")]
@@ -1227,16 +825,7 @@ pub struct QueryEscrowResponse {
 }
 /// QueryAccessRequest is the request type for the Query/MarkerAccess method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.QueryAccessRequest")]
 #[proto_query(
     path = "/provenance.marker.v1.Query/Access",
@@ -1249,16 +838,7 @@ pub struct QueryAccessRequest {
 }
 /// QueryAccessResponse is the response type for the Query/MarkerAccess method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.QueryAccessResponse")]
 pub struct QueryAccessResponse {
     #[prost(message, repeated, tag = "1")]
@@ -1266,16 +846,7 @@ pub struct QueryAccessResponse {
 }
 /// QueryDenomMetadataRequest is the request type for Query/DenomMetadata
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.QueryDenomMetadataRequest")]
 #[proto_query(
     path = "/provenance.marker.v1.Query/DenomMetadata",
@@ -1287,16 +858,7 @@ pub struct QueryDenomMetadataRequest {
 }
 /// QueryDenomMetadataResponse is the response type for the Query/DenomMetadata
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.QueryDenomMetadataResponse")]
 pub struct QueryDenomMetadataResponse {
     #[prost(message, optional, tag = "1")]
@@ -1304,16 +866,7 @@ pub struct QueryDenomMetadataResponse {
 }
 /// QueryAccountDataRequest is the request type for the Query/AccountData
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.QueryAccountDataRequest")]
 #[proto_query(
     path = "/provenance.marker.v1.Query/AccountData",
@@ -1326,16 +879,7 @@ pub struct QueryAccountDataRequest {
 }
 /// QueryAccountDataResponse is the response type for the Query/AccountData
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.QueryAccountDataResponse")]
 pub struct QueryAccountDataResponse {
     /// The accountdata for the requested denom.
@@ -1344,16 +888,7 @@ pub struct QueryAccountDataResponse {
 }
 /// Balance defines an account address and balance pair used in queries for accounts holding a marker
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.Balance")]
 pub struct Balance {
     /// address is the address of the balance holder.
@@ -1365,16 +900,7 @@ pub struct Balance {
 }
 /// QueryNetAssetValuesRequest is the request type for the Query/NetAssetValues method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.QueryNetAssetValuesRequest")]
 #[proto_query(
     path = "/provenance.marker.v1.Query/NetAssetValues",
@@ -1387,16 +913,7 @@ pub struct QueryNetAssetValuesRequest {
 }
 /// QueryNetAssetValuesRequest is the response type for the Query/NetAssetValues method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.QueryNetAssetValuesResponse")]
 pub struct QueryNetAssetValuesResponse {
     /// net asset values for marker denom
@@ -1404,9 +921,19 @@ pub struct QueryNetAssetValuesResponse {
     pub net_asset_values: ::prost::alloc::vec::Vec<NetAssetValue>,
 }
 /// SIPrefix represents an International System of Units (SI) Prefix.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[derive(
+    Clone,
+    Copy,
+    Debug,
+    PartialEq,
+    Eq,
+    Hash,
+    PartialOrd,
+    Ord,
+    ::prost::Enumeration,
+    ::schemars::JsonSchema,
+)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 pub enum SiPrefix {
     /// 10^0    (none)
     None = 0,
@@ -1512,16 +1039,7 @@ impl SiPrefix {
 /// MsgGrantAllowanceRequest validates permission to create a fee grant based on marker admin access. If
 /// successful a feegrant is recorded where the marker account itself is the grantor
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.MsgGrantAllowanceRequest")]
 pub struct MsgGrantAllowanceRequest {
     #[prost(string, tag = "1")]
@@ -1537,31 +1055,13 @@ pub struct MsgGrantAllowanceRequest {
 }
 /// MsgGrantAllowanceResponse defines the Msg/GrantAllowanceResponse response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.MsgGrantAllowanceResponse")]
 pub struct MsgGrantAllowanceResponse {}
 /// MsgAddMarkerRequest defines the Msg/AddMarker request type.
 /// If being provided as a governance proposal, set the from_address to the gov module's account address.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.MsgAddMarkerRequest")]
 pub struct MsgAddMarkerRequest {
     #[prost(message, optional, tag = "1")]
@@ -1571,16 +1071,8 @@ pub struct MsgAddMarkerRequest {
     #[prost(string, tag = "4")]
     pub from_address: ::prost::alloc::string::String,
     #[prost(enumeration = "MarkerStatus", tag = "5")]
-    #[serde(
-        serialize_with = "MarkerStatus::serialize",
-        deserialize_with = "MarkerStatus::deserialize"
-    )]
     pub status: i32,
     #[prost(enumeration = "MarkerType", tag = "6")]
-    #[serde(
-        serialize_with = "MarkerType::serialize",
-        deserialize_with = "MarkerType::deserialize"
-    )]
     pub marker_type: i32,
     #[prost(message, repeated, tag = "7")]
     pub access_list: ::prost::alloc::vec::Vec<AccessGrant>,
@@ -1594,50 +1086,20 @@ pub struct MsgAddMarkerRequest {
     pub required_attributes: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
     #[deprecated]
     #[prost(uint64, tag = "12")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub usd_cents: u64,
     #[prost(uint64, tag = "13")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub volume: u64,
     #[prost(uint64, tag = "14")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub usd_mills: u64,
 }
 /// MsgAddMarkerResponse defines the Msg/AddMarker response type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.MsgAddMarkerResponse")]
 pub struct MsgAddMarkerResponse {}
 /// MsgAddAccessRequest defines the Msg/AddAccess request type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.MsgAddAccessRequest")]
 pub struct MsgAddAccessRequest {
     #[prost(string, tag = "1")]
@@ -1649,30 +1111,12 @@ pub struct MsgAddAccessRequest {
 }
 /// MsgAddAccessResponse defines the Msg/AddAccess response type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.MsgAddAccessResponse")]
 pub struct MsgAddAccessResponse {}
 /// MsgDeleteAccessRequest defines the Msg/DeleteAccess request type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.MsgDeleteAccessRequest")]
 pub struct MsgDeleteAccessRequest {
     #[prost(string, tag = "1")]
@@ -1684,30 +1128,12 @@ pub struct MsgDeleteAccessRequest {
 }
 /// MsgDeleteAccessResponse defines the Msg/DeleteAccess response type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.MsgDeleteAccessResponse")]
 pub struct MsgDeleteAccessResponse {}
 /// MsgFinalizeRequest defines the Msg/Finalize request type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.MsgFinalizeRequest")]
 pub struct MsgFinalizeRequest {
     #[prost(string, tag = "1")]
@@ -1717,30 +1143,12 @@ pub struct MsgFinalizeRequest {
 }
 /// MsgFinalizeResponse defines the Msg/Finalize response type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.MsgFinalizeResponse")]
 pub struct MsgFinalizeResponse {}
 /// MsgActivateRequest defines the Msg/Activate request type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.MsgActivateRequest")]
 pub struct MsgActivateRequest {
     #[prost(string, tag = "1")]
@@ -1750,30 +1158,12 @@ pub struct MsgActivateRequest {
 }
 /// MsgActivateResponse defines the Msg/Activate response type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.MsgActivateResponse")]
 pub struct MsgActivateResponse {}
 /// MsgCancelRequest defines the Msg/Cancel request type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.MsgCancelRequest")]
 pub struct MsgCancelRequest {
     #[prost(string, tag = "1")]
@@ -1783,30 +1173,12 @@ pub struct MsgCancelRequest {
 }
 /// MsgCancelResponse defines the Msg/Cancel response type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.MsgCancelResponse")]
 pub struct MsgCancelResponse {}
 /// MsgDeleteRequest defines the Msg/Delete request type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.MsgDeleteRequest")]
 pub struct MsgDeleteRequest {
     #[prost(string, tag = "1")]
@@ -1816,30 +1188,12 @@ pub struct MsgDeleteRequest {
 }
 /// MsgDeleteResponse defines the Msg/Delete response type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.MsgDeleteResponse")]
 pub struct MsgDeleteResponse {}
 /// MsgMintRequest defines the Msg/Mint request type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.MsgMintRequest")]
 pub struct MsgMintRequest {
     #[prost(message, optional, tag = "1")]
@@ -1849,30 +1203,12 @@ pub struct MsgMintRequest {
 }
 /// MsgMintResponse defines the Msg/Mint response type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.MsgMintResponse")]
 pub struct MsgMintResponse {}
 /// MsgBurnRequest defines the Msg/Burn request type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.MsgBurnRequest")]
 pub struct MsgBurnRequest {
     #[prost(message, optional, tag = "1")]
@@ -1882,30 +1218,12 @@ pub struct MsgBurnRequest {
 }
 /// MsgBurnResponse defines the Msg/Burn response type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.MsgBurnResponse")]
 pub struct MsgBurnResponse {}
 /// MsgWithdrawRequest defines the Msg/Withdraw request type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.MsgWithdrawRequest")]
 pub struct MsgWithdrawRequest {
     #[prost(string, tag = "1")]
@@ -1919,30 +1237,12 @@ pub struct MsgWithdrawRequest {
 }
 /// MsgWithdrawResponse defines the Msg/Withdraw response type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.MsgWithdrawResponse")]
 pub struct MsgWithdrawResponse {}
 /// MsgTransferRequest defines the Msg/Transfer request type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.MsgTransferRequest")]
 pub struct MsgTransferRequest {
     #[prost(message, optional, tag = "1")]
@@ -1956,30 +1256,12 @@ pub struct MsgTransferRequest {
 }
 /// MsgTransferResponse defines the Msg/Transfer response type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.MsgTransferResponse")]
 pub struct MsgTransferResponse {}
 /// MsgIbcTransferRequest defines the Msg/IbcTransfer request type for markers.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.MsgIbcTransferRequest")]
 pub struct MsgIbcTransferRequest {
     #[prost(message, optional, tag = "1")]
@@ -1990,30 +1272,12 @@ pub struct MsgIbcTransferRequest {
 }
 /// MsgIbcTransferResponse defines the Msg/IbcTransfer response type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.MsgIbcTransferResponse")]
 pub struct MsgIbcTransferResponse {}
 /// MsgSetDenomMetadataRequest defines the Msg/SetDenomMetadata request type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.MsgSetDenomMetadataRequest")]
 pub struct MsgSetDenomMetadataRequest {
     #[prost(message, optional, tag = "1")]
@@ -2023,30 +1287,12 @@ pub struct MsgSetDenomMetadataRequest {
 }
 /// MsgSetDenomMetadataResponse defines the Msg/SetDenomMetadata response type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.MsgSetDenomMetadataResponse")]
 pub struct MsgSetDenomMetadataResponse {}
 /// MsgAddFinalizeActivateMarkerRequest defines the Msg/AddFinalizeActivateMarker request type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.MsgAddFinalizeActivateMarkerRequest")]
 pub struct MsgAddFinalizeActivateMarkerRequest {
     #[prost(message, optional, tag = "1")]
@@ -2056,10 +1302,6 @@ pub struct MsgAddFinalizeActivateMarkerRequest {
     #[prost(string, tag = "4")]
     pub from_address: ::prost::alloc::string::String,
     #[prost(enumeration = "MarkerType", tag = "5")]
-    #[serde(
-        serialize_with = "MarkerType::serialize",
-        deserialize_with = "MarkerType::deserialize"
-    )]
     pub marker_type: i32,
     #[prost(message, repeated, tag = "6")]
     pub access_list: ::prost::alloc::vec::Vec<AccessGrant>,
@@ -2073,51 +1315,21 @@ pub struct MsgAddFinalizeActivateMarkerRequest {
     pub required_attributes: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
     #[deprecated]
     #[prost(uint64, tag = "11")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub usd_cents: u64,
     #[prost(uint64, tag = "12")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub volume: u64,
     #[prost(uint64, tag = "13")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub usd_mills: u64,
 }
 /// MsgAddFinalizeActivateMarkerResponse defines the Msg/AddFinalizeActivateMarker response type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.MsgAddFinalizeActivateMarkerResponse")]
 pub struct MsgAddFinalizeActivateMarkerResponse {}
 /// MsgSupplyIncreaseProposalRequest defines a governance proposal to administer a marker and increase total supply of
 /// the marker through minting coin and placing it within the marker or assigning it directly to an account
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.MsgSupplyIncreaseProposalRequest")]
 pub struct MsgSupplyIncreaseProposalRequest {
     #[prost(message, optional, tag = "1")]
@@ -2131,30 +1343,12 @@ pub struct MsgSupplyIncreaseProposalRequest {
 }
 /// MsgSupplyIncreaseProposalResponse defines the Msg/SupplyIncreaseProposal response type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.MsgSupplyIncreaseProposalResponse")]
 pub struct MsgSupplyIncreaseProposalResponse {}
 /// MsgSupplyDecreaseProposalRequest defines a governance proposal to decrease total supply of the marker
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.MsgSupplyDecreaseProposalRequest")]
 pub struct MsgSupplyDecreaseProposalRequest {
     #[prost(message, optional, tag = "1")]
@@ -2165,32 +1359,14 @@ pub struct MsgSupplyDecreaseProposalRequest {
 }
 /// MsgSupplyIncreaseProposalResponse defines the Msg/SupplyDecreaseProposal response type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.MsgSupplyDecreaseProposalResponse")]
 pub struct MsgSupplyDecreaseProposalResponse {}
 /// MsgUpdateRequiredAttributesRequest defines a msg to update/add/remove required attributes from a resticted marker
 /// signer must have transfer authority to change attributes, to update attribute add current to remove list and new to
 /// add list
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.MsgUpdateRequiredAttributesRequest")]
 pub struct MsgUpdateRequiredAttributesRequest {
     /// The denomination of the marker to update.
@@ -2208,31 +1384,13 @@ pub struct MsgUpdateRequiredAttributesRequest {
 }
 /// MsgUpdateRequiredAttributesResponse defines the Msg/UpdateRequiredAttributes response type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.MsgUpdateRequiredAttributesResponse")]
 pub struct MsgUpdateRequiredAttributesResponse {}
 /// MsgUpdateForcedTransferRequest defines a msg to update the allow_forced_transfer field of a marker.
 /// It is only usable via governance proposal.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.MsgUpdateForcedTransferRequest")]
 pub struct MsgUpdateForcedTransferRequest {
     /// The denomination of the marker to update.
@@ -2247,31 +1405,13 @@ pub struct MsgUpdateForcedTransferRequest {
 }
 /// MsgUpdateForcedTransferResponse defines the Msg/UpdateForcedTransfer response type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.MsgUpdateForcedTransferResponse")]
 pub struct MsgUpdateForcedTransferResponse {}
 /// MsgSetAccountDataRequest defines a msg to set/update/delete the account data for a marker.
 /// Signer must have deposit authority or be a gov proposal.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.MsgSetAccountDataRequest")]
 pub struct MsgSetAccountDataRequest {
     /// The denomination of the marker to update.
@@ -2286,31 +1426,13 @@ pub struct MsgSetAccountDataRequest {
 }
 /// MsgSetAccountDataResponse defines the Msg/SetAccountData response type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.MsgSetAccountDataResponse")]
 pub struct MsgSetAccountDataResponse {}
 /// MsgUpdateSendDenyListRequest defines a msg to add/remove addresses to send deny list for a resticted marker
 /// signer must have transfer authority
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.MsgUpdateSendDenyListRequest")]
 pub struct MsgUpdateSendDenyListRequest {
     /// The denomination of the marker to update.
@@ -2328,30 +1450,12 @@ pub struct MsgUpdateSendDenyListRequest {
 }
 /// MsgUpdateSendDenyListResponse defines the Msg/UpdateSendDenyList response type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.MsgUpdateSendDenyListResponse")]
 pub struct MsgUpdateSendDenyListResponse {}
 /// MsgAddNetAssetValuesRequest defines the Msg/AddNetAssetValues request type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.MsgAddNetAssetValuesRequest")]
 pub struct MsgAddNetAssetValuesRequest {
     #[prost(string, tag = "1")]
@@ -2363,30 +1467,12 @@ pub struct MsgAddNetAssetValuesRequest {
 }
 /// MsgAddNetAssetValuesResponse defines the Msg/AddNetAssetValue response type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.MsgAddNetAssetValuesResponse")]
 pub struct MsgAddNetAssetValuesResponse {}
 /// MsgSetAdministratorProposalRequest defines the Msg/SetAdministratorProposal request type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.MsgSetAdministratorProposalRequest")]
 pub struct MsgSetAdministratorProposalRequest {
     #[prost(string, tag = "1")]
@@ -2399,30 +1485,12 @@ pub struct MsgSetAdministratorProposalRequest {
 }
 /// MsgSetAdministratorProposalResponse defines the Msg/SetAdministratorProposal response type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.MsgSetAdministratorProposalResponse")]
 pub struct MsgSetAdministratorProposalResponse {}
 /// MsgRemoveAdministratorProposalRequest defines the Msg/RemoveAdministratorProposal request type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.MsgRemoveAdministratorProposalRequest")]
 pub struct MsgRemoveAdministratorProposalRequest {
     #[prost(string, tag = "1")]
@@ -2435,39 +1503,17 @@ pub struct MsgRemoveAdministratorProposalRequest {
 }
 /// MsgRemoveAdministratorProposalResponse defines the Msg/RemoveAdministratorProposal response type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.MsgRemoveAdministratorProposalResponse")]
 pub struct MsgRemoveAdministratorProposalResponse {}
 /// MsgChangeStatusProposalRequest defines the Msg/ChangeStatusProposal request type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.MsgChangeStatusProposalRequest")]
 pub struct MsgChangeStatusProposalRequest {
     #[prost(string, tag = "1")]
     pub denom: ::prost::alloc::string::String,
     #[prost(enumeration = "MarkerStatus", tag = "2")]
-    #[serde(
-        serialize_with = "MarkerStatus::serialize",
-        deserialize_with = "MarkerStatus::deserialize"
-    )]
     pub new_status: i32,
     /// The signer of the message.  Must have admin authority to marker or be governance module account address.
     #[prost(string, tag = "3")]
@@ -2475,30 +1521,12 @@ pub struct MsgChangeStatusProposalRequest {
 }
 /// MsgChangeStatusProposalResponse defines the Msg/ChangeStatusProposal response type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.MsgChangeStatusProposalResponse")]
 pub struct MsgChangeStatusProposalResponse {}
 /// MsgWithdrawEscrowProposalRequest defines the Msg/WithdrawEscrowProposal request type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.MsgWithdrawEscrowProposalRequest")]
 pub struct MsgWithdrawEscrowProposalRequest {
     #[prost(string, tag = "1")]
@@ -2513,30 +1541,12 @@ pub struct MsgWithdrawEscrowProposalRequest {
 }
 /// MsgWithdrawEscrowProposalResponse defines the Msg/WithdrawEscrowProposal response type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.MsgWithdrawEscrowProposalResponse")]
 pub struct MsgWithdrawEscrowProposalResponse {}
 /// MsgSetDenomMetadataProposalRequest defines the Msg/SetDenomMetadataProposal request type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.MsgSetDenomMetadataProposalRequest")]
 pub struct MsgSetDenomMetadataProposalRequest {
     #[prost(message, optional, tag = "1")]
@@ -2547,30 +1557,12 @@ pub struct MsgSetDenomMetadataProposalRequest {
 }
 /// MsgSetDenomMetadataProposalResponse defines the Msg/SetDenomMetadataProposal response type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.MsgSetDenomMetadataProposalResponse")]
 pub struct MsgSetDenomMetadataProposalResponse {}
 /// MsgUpdateParamsRequest is a request message for the UpdateParams endpoint.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.MsgUpdateParamsRequest")]
 pub struct MsgUpdateParamsRequest {
     /// authority should be the governance module account address.
@@ -2582,16 +1574,7 @@ pub struct MsgUpdateParamsRequest {
 }
 /// MsgUpdateParamsResponse is a response message for the UpdateParams endpoint.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.MsgUpdateParamsResponse")]
 pub struct MsgUpdateParamsResponse {}
 pub struct MarkerQuerier<'a, Q: cosmwasm_std::CustomQuery> {

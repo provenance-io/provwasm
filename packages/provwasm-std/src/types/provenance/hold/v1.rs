@@ -1,16 +1,7 @@
-use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
+use provwasm_proc_macro::CosmwasmExt;
 /// EventHoldAdded is an event indicating that some funds were placed on hold in an account.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.hold.v1.EventHoldAdded")]
 pub struct EventHoldAdded {
     /// address is the bech32 address string of the account with the funds.
@@ -25,16 +16,7 @@ pub struct EventHoldAdded {
 }
 /// EventHoldReleased is an event indicating that some funds were released from hold for an account.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.hold.v1.EventHoldReleased")]
 pub struct EventHoldReleased {
     /// address is the bech32 address string of the account with the funds.
@@ -46,16 +28,7 @@ pub struct EventHoldReleased {
 }
 /// AccountHold associates an address with an amount on hold for that address.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.hold.v1.AccountHold")]
 pub struct AccountHold {
     /// address is the account address that holds the funds on hold.
@@ -67,16 +40,7 @@ pub struct AccountHold {
 }
 /// GenesisState defines the attribute module's genesis state.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.hold.v1.GenesisState")]
 pub struct GenesisState {
     /// holds defines the funds on hold at genesis.
@@ -85,16 +49,7 @@ pub struct GenesisState {
 }
 /// GetHoldsRequest is the request type for the Query/GetHolds query.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.hold.v1.GetHoldsRequest")]
 #[proto_query(
     path = "/provenance.hold.v1.Query/GetHolds",
@@ -107,16 +62,7 @@ pub struct GetHoldsRequest {
 }
 /// GetHoldsResponse is the response type for the Query/GetHolds query.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.hold.v1.GetHoldsResponse")]
 pub struct GetHoldsResponse {
     /// amount is the total on hold for the requested address.
@@ -125,16 +71,7 @@ pub struct GetHoldsResponse {
 }
 /// GetAllHoldsRequest is the request type for the Query/GetAllHolds query.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.hold.v1.GetAllHoldsRequest")]
 #[proto_query(
     path = "/provenance.hold.v1.Query/GetAllHolds",
@@ -148,16 +85,7 @@ pub struct GetAllHoldsRequest {
 }
 /// GetAllHoldsResponse is the response type for the Query/GetAllHolds query.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.hold.v1.GetAllHoldsResponse")]
 pub struct GetAllHoldsResponse {
     /// holds is a list of addresses with funds on hold and the amounts being held.

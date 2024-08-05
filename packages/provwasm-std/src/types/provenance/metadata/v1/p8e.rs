@@ -1,16 +1,7 @@
-use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
+use provwasm_proc_macro::CosmwasmExt;
 /// Deprecated: Do not use.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.p8e.Contract")]
 #[deprecated]
 pub struct Contract {
@@ -34,24 +25,11 @@ pub struct Contract {
     #[prost(message, optional, tag = "9")]
     pub start_time: ::core::option::Option<Timestamp>,
     #[prost(bytes = "vec", tag = "10")]
-    #[serde(
-        serialize_with = "crate::serde::as_str_bytes::serialize",
-        deserialize_with = "crate::serde::as_str_bytes::deserialize"
-    )]
     pub context: ::prost::alloc::vec::Vec<u8>,
 }
 /// Deprecated: Do not use.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.p8e.DefinitionSpec")]
 #[deprecated]
 pub struct DefinitionSpec {
@@ -62,24 +40,11 @@ pub struct DefinitionSpec {
     #[prost(message, optional, tag = "3")]
     pub signature: ::core::option::Option<Signature>,
     #[prost(enumeration = "DefinitionSpecType", tag = "4")]
-    #[serde(
-        serialize_with = "DefinitionSpecType::serialize",
-        deserialize_with = "DefinitionSpecType::deserialize"
-    )]
     pub r#type: i32,
 }
 /// Deprecated: Do not use.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.p8e.Fact")]
 #[deprecated]
 pub struct Fact {
@@ -90,16 +55,7 @@ pub struct Fact {
 }
 /// Deprecated: Do not use.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.p8e.Condition")]
 #[deprecated]
 pub struct Condition {
@@ -110,16 +66,7 @@ pub struct Condition {
 }
 /// Deprecated: Do not use.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.p8e.Consideration")]
 #[deprecated]
 pub struct Consideration {
@@ -132,16 +79,7 @@ pub struct Consideration {
 }
 /// Deprecated: Do not use.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.p8e.ProposedFact")]
 #[deprecated]
 pub struct ProposedFact {
@@ -156,26 +94,13 @@ pub struct ProposedFact {
 }
 /// Deprecated: Do not use.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.p8e.ExecutionResult")]
 #[deprecated]
 pub struct ExecutionResult {
     #[prost(message, optional, tag = "1")]
     pub output: ::core::option::Option<ProposedFact>,
     #[prost(enumeration = "ExecutionResultType", tag = "2")]
-    #[serde(
-        serialize_with = "ExecutionResultType::serialize",
-        deserialize_with = "ExecutionResultType::deserialize"
-    )]
     pub result: i32,
     #[prost(message, optional, tag = "3")]
     pub recorded_at: ::core::option::Option<Timestamp>,
@@ -184,16 +109,7 @@ pub struct ExecutionResult {
 }
 /// Deprecated: Do not use.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.p8e.Recitals")]
 #[deprecated]
 pub struct Recitals {
@@ -202,46 +118,20 @@ pub struct Recitals {
 }
 /// Deprecated: Do not use.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.p8e.Recital")]
 #[deprecated]
 pub struct Recital {
     #[prost(enumeration = "PartyType", tag = "1")]
-    #[serde(
-        serialize_with = "PartyType::serialize",
-        deserialize_with = "PartyType::deserialize"
-    )]
     pub signer_role: i32,
     #[prost(message, optional, tag = "2")]
     pub signer: ::core::option::Option<SigningAndEncryptionPublicKeys>,
     #[prost(bytes = "vec", tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
     pub address: ::prost::alloc::vec::Vec<u8>,
 }
 /// Deprecated: Do not use.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.p8e.Location")]
 #[deprecated]
 pub struct Location {
@@ -252,16 +142,7 @@ pub struct Location {
 }
 /// Deprecated: Do not use.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.p8e.ProvenanceReference")]
 #[deprecated]
 pub struct ProvenanceReference {
@@ -276,16 +157,7 @@ pub struct ProvenanceReference {
 }
 /// Deprecated: Do not use.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.p8e.SignatureSet")]
 #[deprecated]
 pub struct SignatureSet {
@@ -294,16 +166,7 @@ pub struct SignatureSet {
 }
 /// Deprecated: Do not use.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.p8e.Signature")]
 #[deprecated]
 pub struct Signature {
@@ -318,16 +181,7 @@ pub struct Signature {
 }
 /// Deprecated: Do not use.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.p8e.SigningAndEncryptionPublicKeys")]
 #[deprecated]
 pub struct SigningAndEncryptionPublicKeys {
@@ -338,50 +192,20 @@ pub struct SigningAndEncryptionPublicKeys {
 }
 /// Deprecated: Do not use.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.p8e.PublicKey")]
 #[deprecated]
 pub struct PublicKey {
     #[prost(bytes = "vec", tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
     pub public_key_bytes: ::prost::alloc::vec::Vec<u8>,
     #[prost(enumeration = "PublicKeyType", tag = "2")]
-    #[serde(
-        serialize_with = "PublicKeyType::serialize",
-        deserialize_with = "PublicKeyType::deserialize"
-    )]
     pub r#type: i32,
     #[prost(enumeration = "PublicKeyCurve", tag = "3")]
-    #[serde(
-        serialize_with = "PublicKeyCurve::serialize",
-        deserialize_with = "PublicKeyCurve::deserialize"
-    )]
     pub curve: i32,
 }
 /// Deprecated: Do not use.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.p8e.UUID")]
 #[deprecated]
 pub struct Uuid {
@@ -390,40 +214,18 @@ pub struct Uuid {
 }
 /// Deprecated: Do not use.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.p8e.Timestamp")]
 #[deprecated]
 pub struct Timestamp {
     #[prost(int64, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub seconds: i64,
     #[prost(int32, tag = "2")]
     pub nanos: i32,
 }
 /// Deprecated: Do not use.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.p8e.ContractSpec")]
 #[deprecated]
 pub struct ContractSpec {
@@ -440,16 +242,7 @@ pub struct ContractSpec {
 }
 /// Deprecated: Do not use.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.p8e.ConditionSpec")]
 #[deprecated]
 pub struct ConditionSpec {
@@ -462,26 +255,13 @@ pub struct ConditionSpec {
 }
 /// Deprecated: Do not use.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.p8e.ConsiderationSpec")]
 #[deprecated]
 pub struct ConsiderationSpec {
     #[prost(string, tag = "1")]
     pub func_name: ::prost::alloc::string::String,
     #[prost(enumeration = "PartyType", tag = "2")]
-    #[serde(
-        serialize_with = "PartyType::serialize",
-        deserialize_with = "PartyType::deserialize"
-    )]
     pub responsible_party: i32,
     #[prost(message, repeated, tag = "3")]
     pub input_specs: ::prost::alloc::vec::Vec<DefinitionSpec>,
@@ -490,16 +270,7 @@ pub struct ConsiderationSpec {
 }
 /// Deprecated: Do not use.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.p8e.OutputSpec")]
 #[deprecated]
 pub struct OutputSpec {
@@ -507,10 +278,19 @@ pub struct OutputSpec {
     pub spec: ::core::option::Option<DefinitionSpec>,
 }
 /// Deprecated: Do not use.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[derive(
+    Clone,
+    Copy,
+    Debug,
+    PartialEq,
+    Eq,
+    Hash,
+    PartialOrd,
+    Ord,
+    ::prost::Enumeration,
+    ::schemars::JsonSchema,
+)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
-#[deprecated]
 pub enum DefinitionSpecType {
     /// Deprecated: Do not use.
     Unknown = 0,
@@ -546,10 +326,19 @@ impl DefinitionSpecType {
     }
 }
 /// Deprecated: Do not use.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[derive(
+    Clone,
+    Copy,
+    Debug,
+    PartialEq,
+    Eq,
+    Hash,
+    PartialOrd,
+    Ord,
+    ::prost::Enumeration,
+    ::schemars::JsonSchema,
+)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
-#[deprecated]
 pub enum PublicKeyCurve {
     /// Deprecated: Do not use.
     Secp256k1 = 0,
@@ -577,10 +366,19 @@ impl PublicKeyCurve {
     }
 }
 /// Deprecated: Do not use.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[derive(
+    Clone,
+    Copy,
+    Debug,
+    PartialEq,
+    Eq,
+    Hash,
+    PartialOrd,
+    Ord,
+    ::prost::Enumeration,
+    ::schemars::JsonSchema,
+)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
-#[deprecated]
 pub enum PublicKeyType {
     /// Deprecated: Do not use.
     Elliptic = 0,
@@ -604,10 +402,19 @@ impl PublicKeyType {
     }
 }
 /// Deprecated: Do not use.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[derive(
+    Clone,
+    Copy,
+    Debug,
+    PartialEq,
+    Eq,
+    Hash,
+    PartialOrd,
+    Ord,
+    ::prost::Enumeration,
+    ::schemars::JsonSchema,
+)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
-#[deprecated]
 pub enum ExecutionResultType {
     /// Deprecated: Do not use.
     ResultTypeUnknown = 0,
@@ -643,10 +450,19 @@ impl ExecutionResultType {
     }
 }
 /// Deprecated: Do not use.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[derive(
+    Clone,
+    Copy,
+    Debug,
+    PartialEq,
+    Eq,
+    Hash,
+    PartialOrd,
+    Ord,
+    ::prost::Enumeration,
+    ::schemars::JsonSchema,
+)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
-#[deprecated]
 pub enum PartyType {
     /// Deprecated: Do not use.
     Unknown = 0,
