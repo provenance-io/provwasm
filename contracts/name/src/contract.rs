@@ -6,7 +6,7 @@ use provwasm_std::types::provenance::name::v1::{
 };
 
 use crate::error::ContractError;
-use crate::msg::{ExecuteMsg, InitMsg, QueryMsg};
+use crate::msg::{ExecuteMsg, InitMsg, LookupResponse, QueryMsg, ResolveResponse};
 use crate::state::{State, CONFIG};
 
 /// Initialize the smart contract config state and bind a name to the contract address.
@@ -168,14 +168,15 @@ pub fn query(deps: Deps, _env: Env, msg: QueryMsg) -> Result<QueryResponse, StdE
 fn try_resolve(deps: Deps, name: String) -> Result<QueryResponse, StdError> {
     let querier = NameQuerier::new(&deps.querier);
     let name = querier.resolve(name)?;
-    to_json_binary(&name)
+    // let response: ResolveResponse = name.into();
+    to_json_binary(&name.address)
 }
 
 // Use a ProvenanceQuerier to resolve the address for a name.
 fn try_params(deps: Deps) -> Result<QueryResponse, StdError> {
     let querier = NameQuerier::new(&deps.querier);
     let params = querier.params()?;
-    to_json_binary(&params)
+    to_json_binary(&params.params.is_some())
 }
 
 // Use a ProvenanceQuerier to lookup all names bound to the contract address.
@@ -183,7 +184,8 @@ fn try_lookup(deps: Deps, address: String) -> Result<QueryResponse, StdError> {
     deps.api.addr_validate(&address)?;
     let querier = NameQuerier::new(&deps.querier);
     let names = querier.reverse_lookup(address, None)?;
-    to_json_binary(&names)
+    let response: LookupResponse = names.into();
+    to_json_binary(&response)
 }
 
 #[cfg(test)]
@@ -402,8 +404,8 @@ mod tests {
         .unwrap();
 
         // Ensure that we got the expected address.
-        let rep: QueryResolveResponse = from_json(bin).unwrap();
-        assert_eq!(rep.address, "tp1y0txdp3sqmxjvfdaa8hfvwcljl8ugcfv26uync")
+        let rep: String = from_json(bin).unwrap();
+        assert_eq!(rep, "tp1y0txdp3sqmxjvfdaa8hfvwcljl8ugcfv26uync")
     }
 
     #[test]
@@ -429,8 +431,8 @@ mod tests {
         .unwrap();
 
         // Ensure that we got the expected number of records.
-        let rep: QueryReverseLookupResponse = from_json(bin).unwrap();
-        assert_eq!(rep, mock_response);
+        let rep: String = from_json(bin).unwrap();
+        assert_eq!(rep, "[b.pb,a.pb]");
     }
 
     #[test]
@@ -455,7 +457,7 @@ mod tests {
         .unwrap();
 
         // Ensure that we got zero records.
-        let rep: QueryReverseLookupResponse = from_json(bin).unwrap();
-        assert_eq!(rep, mock_response);
+        let rep: String = from_json(bin).unwrap();
+        assert_eq!(rep, "[]");
     }
 }
