@@ -65,6 +65,67 @@ pub struct ClientConsensusStates {
     #[prost(message, repeated, tag = "2")]
     pub consensus_states: ::prost::alloc::vec::Vec<ConsensusStateWithHeight>,
 }
+/// ClientUpdateProposal is a governance proposal. If it passes, the substitute
+/// client's latest consensus state is copied over to the subject client. The proposal
+/// handler may fail if the subject and the substitute do not match in client and
+/// chain parameters (with exception to latest height, frozen height, and chain-id).
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(
+    Clone,
+    PartialEq,
+    Eq,
+    ::prost::Message,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
+)]
+#[proto_message(type_url = "/ibc.core.client.v1.ClientUpdateProposal")]
+pub struct ClientUpdateProposal {
+    /// the title of the update proposal
+    #[prost(string, tag = "1")]
+    pub title: ::prost::alloc::string::String,
+    /// the description of the proposal
+    #[prost(string, tag = "2")]
+    pub description: ::prost::alloc::string::String,
+    /// the client identifier for the client to be updated if the proposal passes
+    #[prost(string, tag = "3")]
+    pub subject_client_id: ::prost::alloc::string::String,
+    /// the substitute client identifier for the client standing in for the subject
+    /// client
+    #[prost(string, tag = "4")]
+    pub substitute_client_id: ::prost::alloc::string::String,
+}
+/// UpgradeProposal is a gov Content type for initiating an IBC breaking
+/// upgrade.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(
+    Clone,
+    PartialEq,
+    Eq,
+    ::prost::Message,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
+)]
+#[proto_message(type_url = "/ibc.core.client.v1.UpgradeProposal")]
+pub struct UpgradeProposal {
+    #[prost(string, tag = "1")]
+    pub title: ::prost::alloc::string::String,
+    #[prost(string, tag = "2")]
+    pub description: ::prost::alloc::string::String,
+    #[prost(message, optional, tag = "3")]
+    pub plan: ::core::option::Option<super::super::super::super::cosmos::upgrade::v1beta1::Plan>,
+    /// An UpgradedClientState must be provided to perform an IBC breaking upgrade.
+    /// This will make the chain commit to the correct upgraded (self) client state
+    /// before the upgrade occurs, so that connecting chains can verify that the
+    /// new upgraded client is valid by verifying a proof on the previous version
+    /// of the chain. This will allow IBC connections to persist smoothly across
+    /// planned chain upgrades
+    #[prost(message, optional, tag = "4")]
+    pub upgraded_client_state: ::core::option::Option<crate::shim::Any>,
+}
 /// Height is a monotonically increasing data type
 /// that can be compared against another Height for the purposes of updating and
 /// freezing clients
@@ -117,78 +178,9 @@ pub struct Height {
 )]
 #[proto_message(type_url = "/ibc.core.client.v1.Params")]
 pub struct Params {
-    /// allowed_clients defines the list of allowed client state types which can be created
-    /// and interacted with. If a client type is removed from the allowed clients list, usage
-    /// of this client will be disabled until it is added again to the list.
+    /// allowed_clients defines the list of allowed client state types.
     #[prost(string, repeated, tag = "1")]
     pub allowed_clients: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// ClientUpdateProposal is a legacy governance proposal. If it passes, the substitute
-/// client's latest consensus state is copied over to the subject client. The proposal
-/// handler may fail if the subject and the substitute do not match in client and
-/// chain parameters (with exception to latest height, frozen height, and chain-id).
-///
-/// Deprecated: Please use MsgRecoverClient in favour of this message type.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
-#[proto_message(type_url = "/ibc.core.client.v1.ClientUpdateProposal")]
-#[deprecated]
-pub struct ClientUpdateProposal {
-    /// the title of the update proposal
-    #[prost(string, tag = "1")]
-    pub title: ::prost::alloc::string::String,
-    /// the description of the proposal
-    #[prost(string, tag = "2")]
-    pub description: ::prost::alloc::string::String,
-    /// the client identifier for the client to be updated if the proposal passes
-    #[prost(string, tag = "3")]
-    pub subject_client_id: ::prost::alloc::string::String,
-    /// the substitute client identifier for the client standing in for the subject
-    /// client
-    #[prost(string, tag = "4")]
-    pub substitute_client_id: ::prost::alloc::string::String,
-}
-/// UpgradeProposal is a gov Content type for initiating an IBC breaking
-/// upgrade.
-///
-/// Deprecated: Please use MsgIBCSoftwareUpgrade in favour of this message type.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
-#[proto_message(type_url = "/ibc.core.client.v1.UpgradeProposal")]
-#[deprecated]
-pub struct UpgradeProposal {
-    #[prost(string, tag = "1")]
-    pub title: ::prost::alloc::string::String,
-    #[prost(string, tag = "2")]
-    pub description: ::prost::alloc::string::String,
-    #[prost(message, optional, tag = "3")]
-    pub plan: ::core::option::Option<super::super::super::super::cosmos::upgrade::v1beta1::Plan>,
-    /// An UpgradedClientState must be provided to perform an IBC breaking upgrade.
-    /// This will make the chain commit to the correct upgraded (self) client state
-    /// before the upgrade occurs, so that connecting chains can verify that the
-    /// new upgraded client is valid by verifying a proof on the previous version
-    /// of the chain. This will allow IBC connections to persist smoothly across
-    /// planned chain upgrades
-    #[prost(message, optional, tag = "4")]
-    pub upgraded_client_state: ::core::option::Option<crate::shim::Any>,
 }
 /// GenesisState defines the ibc client submodule's genesis state.
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -215,9 +207,7 @@ pub struct GenesisState {
     pub clients_metadata: ::prost::alloc::vec::Vec<IdentifiedGenesisMetadata>,
     #[prost(message, optional, tag = "4")]
     pub params: ::core::option::Option<Params>,
-    /// Deprecated: create_localhost has been deprecated.
-    /// The localhost client is automatically created at genesis.
-    #[deprecated]
+    /// create localhost on initialization
     #[prost(bool, tag = "5")]
     pub create_localhost: bool,
     /// the sequence for the next generated client identifier
@@ -710,80 +700,6 @@ pub struct QueryUpgradedConsensusStateResponse {
     #[prost(message, optional, tag = "1")]
     pub upgraded_consensus_state: ::core::option::Option<crate::shim::Any>,
 }
-/// QueryVerifyMembershipRequest is the request type for the Query/VerifyMembership RPC method
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
-#[proto_message(type_url = "/ibc.core.client.v1.QueryVerifyMembershipRequest")]
-#[proto_query(
-    path = "/ibc.core.client.v1.Query/VerifyMembership",
-    response_type = QueryVerifyMembershipResponse
-)]
-pub struct QueryVerifyMembershipRequest {
-    /// client unique identifier.
-    #[prost(string, tag = "1")]
-    pub client_id: ::prost::alloc::string::String,
-    /// the proof to be verified by the client.
-    #[prost(bytes = "vec", tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
-    pub proof: ::prost::alloc::vec::Vec<u8>,
-    /// the height of the commitment root at which the proof is verified.
-    #[prost(message, optional, tag = "3")]
-    pub proof_height: ::core::option::Option<Height>,
-    /// the commitment key path.
-    #[prost(message, optional, tag = "4")]
-    pub merkle_path: ::core::option::Option<super::super::commitment::v1::MerklePath>,
-    /// the value which is proven.
-    #[prost(bytes = "vec", tag = "5")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
-    pub value: ::prost::alloc::vec::Vec<u8>,
-    /// optional time delay
-    #[prost(uint64, tag = "6")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
-    pub time_delay: u64,
-    /// optional block delay
-    #[prost(uint64, tag = "7")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
-    pub block_delay: u64,
-}
-/// QueryVerifyMembershipResponse is the response type for the Query/VerifyMembership RPC method
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
-#[proto_message(type_url = "/ibc.core.client.v1.QueryVerifyMembershipResponse")]
-pub struct QueryVerifyMembershipResponse {
-    /// boolean indicating success or failure of proof verification.
-    #[prost(bool, tag = "1")]
-    pub success: bool,
-}
 /// MsgCreateClient defines a message to create an IBC client
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
@@ -824,7 +740,7 @@ pub struct MsgCreateClient {
 #[proto_message(type_url = "/ibc.core.client.v1.MsgCreateClientResponse")]
 pub struct MsgCreateClientResponse {}
 /// MsgUpdateClient defines an sdk.Msg to update a IBC client state using
-/// the given client message.
+/// the given header.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
@@ -841,9 +757,9 @@ pub struct MsgUpdateClient {
     /// client unique identifier
     #[prost(string, tag = "1")]
     pub client_id: ::prost::alloc::string::String,
-    /// client message to update the light client
+    /// header to update the light client
     #[prost(message, optional, tag = "2")]
-    pub client_message: ::core::option::Option<crate::shim::Any>,
+    pub header: ::core::option::Option<crate::shim::Any>,
     /// signer address
     #[prost(string, tag = "3")]
     pub signer: ::prost::alloc::string::String,
@@ -921,7 +837,6 @@ pub struct MsgUpgradeClient {
 pub struct MsgUpgradeClientResponse {}
 /// MsgSubmitMisbehaviour defines an sdk.Msg type that submits Evidence for
 /// light client misbehaviour.
-/// This message has been deprecated. Use MsgUpdateClient instead.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
@@ -934,7 +849,6 @@ pub struct MsgUpgradeClientResponse {}
     CosmwasmExt,
 )]
 #[proto_message(type_url = "/ibc.core.client.v1.MsgSubmitMisbehaviour")]
-#[deprecated]
 pub struct MsgSubmitMisbehaviour {
     /// client unique identifier
     #[prost(string, tag = "1")]
@@ -961,126 +875,6 @@ pub struct MsgSubmitMisbehaviour {
 )]
 #[proto_message(type_url = "/ibc.core.client.v1.MsgSubmitMisbehaviourResponse")]
 pub struct MsgSubmitMisbehaviourResponse {}
-/// MsgRecoverClient defines the message used to recover a frozen or expired client.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
-#[proto_message(type_url = "/ibc.core.client.v1.MsgRecoverClient")]
-pub struct MsgRecoverClient {
-    /// the client identifier for the client to be updated if the proposal passes
-    #[prost(string, tag = "1")]
-    pub subject_client_id: ::prost::alloc::string::String,
-    /// the substitute client identifier for the client which will replace the subject
-    /// client
-    #[prost(string, tag = "2")]
-    pub substitute_client_id: ::prost::alloc::string::String,
-    /// signer address
-    #[prost(string, tag = "3")]
-    pub signer: ::prost::alloc::string::String,
-}
-/// MsgRecoverClientResponse defines the Msg/RecoverClient response type.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
-#[proto_message(type_url = "/ibc.core.client.v1.MsgRecoverClientResponse")]
-pub struct MsgRecoverClientResponse {}
-/// MsgIBCSoftwareUpgrade defines the message used to schedule an upgrade of an IBC client using a v1 governance proposal
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
-#[proto_message(type_url = "/ibc.core.client.v1.MsgIBCSoftwareUpgrade")]
-pub struct MsgIbcSoftwareUpgrade {
-    #[prost(message, optional, tag = "1")]
-    pub plan: ::core::option::Option<super::super::super::super::cosmos::upgrade::v1beta1::Plan>,
-    /// An UpgradedClientState must be provided to perform an IBC breaking upgrade.
-    /// This will make the chain commit to the correct upgraded (self) client state
-    /// before the upgrade occurs, so that connecting chains can verify that the
-    /// new upgraded client is valid by verifying a proof on the previous version
-    /// of the chain. This will allow IBC connections to persist smoothly across
-    /// planned chain upgrades. Correspondingly, the UpgradedClientState field has been
-    /// deprecated in the Cosmos SDK to allow for this logic to exist solely in
-    /// the 02-client module.
-    #[prost(message, optional, tag = "2")]
-    pub upgraded_client_state: ::core::option::Option<crate::shim::Any>,
-    /// signer address
-    #[prost(string, tag = "3")]
-    pub signer: ::prost::alloc::string::String,
-}
-/// MsgIBCSoftwareUpgradeResponse defines the Msg/IBCSoftwareUpgrade response type.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
-#[proto_message(type_url = "/ibc.core.client.v1.MsgIBCSoftwareUpgradeResponse")]
-pub struct MsgIbcSoftwareUpgradeResponse {}
-/// MsgUpdateParams defines the sdk.Msg type to update the client parameters.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
-#[proto_message(type_url = "/ibc.core.client.v1.MsgUpdateParams")]
-pub struct MsgUpdateParams {
-    /// signer address
-    #[prost(string, tag = "1")]
-    pub signer: ::prost::alloc::string::String,
-    /// params defines the client parameters to update.
-    ///
-    /// NOTE: All parameters must be supplied.
-    #[prost(message, optional, tag = "2")]
-    pub params: ::core::option::Option<Params>,
-}
-/// MsgUpdateParamsResponse defines the MsgUpdateParams response type.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
-#[proto_message(type_url = "/ibc.core.client.v1.MsgUpdateParamsResponse")]
-pub struct MsgUpdateParamsResponse {}
 pub struct ClientQuerier<'a, Q: cosmwasm_std::CustomQuery> {
     querier: &'a cosmwasm_std::QuerierWrapper<'a, Q>,
 }
@@ -1161,26 +955,5 @@ impl<'a, Q: cosmwasm_std::CustomQuery> ClientQuerier<'a, Q> {
         &self,
     ) -> Result<QueryUpgradedConsensusStateResponse, cosmwasm_std::StdError> {
         QueryUpgradedConsensusStateRequest {}.query(self.querier)
-    }
-    pub fn verify_membership(
-        &self,
-        client_id: ::prost::alloc::string::String,
-        proof: ::prost::alloc::vec::Vec<u8>,
-        proof_height: ::core::option::Option<Height>,
-        merkle_path: ::core::option::Option<super::super::commitment::v1::MerklePath>,
-        value: ::prost::alloc::vec::Vec<u8>,
-        time_delay: u64,
-        block_delay: u64,
-    ) -> Result<QueryVerifyMembershipResponse, cosmwasm_std::StdError> {
-        QueryVerifyMembershipRequest {
-            client_id,
-            proof,
-            proof_height,
-            merkle_path,
-            value,
-            time_delay,
-            block_delay,
-        }
-        .query(self.querier)
     }
 }

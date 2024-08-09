@@ -1,8 +1,7 @@
 use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
-/// LegacyABCIResponses retains the responses
-/// of the legacy ABCI calls during block processing.
-/// Note ReponseDeliverTx is renamed to ExecTxResult but they are semantically the same
-/// Kept for backwards compatibility for versions prior to v0.38
+/// ABCIResponses retains the responses
+/// of the various ABCI calls during block processing.
+/// It is persisted to disk for each height before calling Commit.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
@@ -14,52 +13,14 @@ use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
     ::schemars::JsonSchema,
     CosmwasmExt,
 )]
-#[proto_message(type_url = "/tendermint.state.LegacyABCIResponses")]
-pub struct LegacyAbciResponses {
+#[proto_message(type_url = "/tendermint.state.ABCIResponses")]
+pub struct AbciResponses {
     #[prost(message, repeated, tag = "1")]
-    pub deliver_txs: ::prost::alloc::vec::Vec<super::abci::ExecTxResult>,
+    pub deliver_txs: ::prost::alloc::vec::Vec<super::abci::ResponseDeliverTx>,
     #[prost(message, optional, tag = "2")]
-    pub end_block: ::core::option::Option<ResponseEndBlock>,
+    pub end_block: ::core::option::Option<super::abci::ResponseEndBlock>,
     #[prost(message, optional, tag = "3")]
-    pub begin_block: ::core::option::Option<ResponseBeginBlock>,
-}
-/// ResponseBeginBlock is kept for backwards compatibility for versions prior to v0.38
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
-#[proto_message(type_url = "/tendermint.state.ResponseBeginBlock")]
-pub struct ResponseBeginBlock {
-    #[prost(message, repeated, tag = "1")]
-    pub events: ::prost::alloc::vec::Vec<super::abci::Event>,
-}
-/// ResponseEndBlock is kept for backwards compatibility for versions prior to v0.38
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
-#[proto_message(type_url = "/tendermint.state.ResponseEndBlock")]
-pub struct ResponseEndBlock {
-    #[prost(message, repeated, tag = "1")]
-    pub validator_updates: ::prost::alloc::vec::Vec<super::abci::ValidatorUpdate>,
-    #[prost(message, optional, tag = "2")]
-    pub consensus_param_updates: ::core::option::Option<super::types::ConsensusParams>,
-    #[prost(message, repeated, tag = "3")]
-    pub events: ::prost::alloc::vec::Vec<super::abci::Event>,
+    pub begin_block: ::core::option::Option<super::abci::ResponseBeginBlock>,
 }
 /// ValidatorsInfo represents the latest validator set, or the last height it changed
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -121,15 +82,13 @@ pub struct ConsensusParamsInfo {
 #[proto_message(type_url = "/tendermint.state.ABCIResponsesInfo")]
 pub struct AbciResponsesInfo {
     #[prost(message, optional, tag = "1")]
-    pub legacy_abci_responses: ::core::option::Option<LegacyAbciResponses>,
+    pub abci_responses: ::core::option::Option<AbciResponses>,
     #[prost(int64, tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
     pub height: i64,
-    #[prost(message, optional, tag = "3")]
-    pub response_finalize_block: ::core::option::Option<super::abci::ResponseFinalizeBlock>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(

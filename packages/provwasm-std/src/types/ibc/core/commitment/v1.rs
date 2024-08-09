@@ -82,6 +82,5 @@ pub struct MerklePath {
 #[proto_message(type_url = "/ibc.core.commitment.v1.MerkleProof")]
 pub struct MerkleProof {
     #[prost(message, repeated, tag = "1")]
-    pub proofs:
-        ::prost::alloc::vec::Vec<super::super::super::super::cosmos::ics23::v1::CommitmentProof>,
+    pub proofs: ::prost::alloc::vec::Vec<super::super::super::super::ics23::CommitmentProof>,
 }

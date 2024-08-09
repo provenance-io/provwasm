@@ -86,8 +86,6 @@ pub enum AuthorizationType {
     Undelegate = 2,
     /// AUTHORIZATION_TYPE_REDELEGATE defines an authorization type for Msg/BeginRedelegate
     Redelegate = 3,
-    /// AUTHORIZATION_TYPE_CANCEL_UNBONDING_DELEGATION defines an authorization type for Msg/MsgCancelUnbondingDelegation
-    CancelUnbondingDelegation = 4,
 }
 impl AuthorizationType {
     /// String value of the enum field names used in the ProtoBuf definition.
@@ -100,9 +98,6 @@ impl AuthorizationType {
             AuthorizationType::Delegate => "AUTHORIZATION_TYPE_DELEGATE",
             AuthorizationType::Undelegate => "AUTHORIZATION_TYPE_UNDELEGATE",
             AuthorizationType::Redelegate => "AUTHORIZATION_TYPE_REDELEGATE",
-            AuthorizationType::CancelUnbondingDelegation => {
-                "AUTHORIZATION_TYPE_CANCEL_UNBONDING_DELEGATION"
-            }
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.
@@ -112,9 +107,6 @@ impl AuthorizationType {
             "AUTHORIZATION_TYPE_DELEGATE" => Some(Self::Delegate),
             "AUTHORIZATION_TYPE_UNDELEGATE" => Some(Self::Undelegate),
             "AUTHORIZATION_TYPE_REDELEGATE" => Some(Self::Redelegate),
-            "AUTHORIZATION_TYPE_CANCEL_UNBONDING_DELEGATION" => {
-                Some(Self::CancelUnbondingDelegation)
-            }
             _ => None,
         }
     }
@@ -281,20 +273,6 @@ pub struct Validator {
     /// Since: cosmos-sdk 0.46
     #[prost(string, tag = "11")]
     pub min_self_delegation: ::prost::alloc::string::String,
-    /// strictly positive if this validator's unbonding has been stopped by external modules
-    #[prost(int64, tag = "12")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
-    pub unbonding_on_hold_ref_count: i64,
-    /// list of unbonding ids, each uniquely identifing an unbonding of this validator
-    #[prost(uint64, repeated, tag = "13")]
-    #[serde(
-        serialize_with = "crate::serde::as_str_vec::serialize",
-        deserialize_with = "crate::serde::as_str_vec::deserialize"
-    )]
-    pub unbonding_ids: ::prost::alloc::vec::Vec<u64>,
 }
 /// ValAddresses defines a repeated set of validator addresses.
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -408,10 +386,10 @@ pub struct DvvTriplets {
 )]
 #[proto_message(type_url = "/cosmos.staking.v1beta1.Delegation")]
 pub struct Delegation {
-    /// delegator_address is the encoded address of the delegator.
+    /// delegator_address is the bech32-encoded address of the delegator.
     #[prost(string, tag = "1")]
     pub delegator_address: ::prost::alloc::string::String,
-    /// validator_address is the encoded address of the validator.
+    /// validator_address is the bech32-encoded address of the validator.
     #[prost(string, tag = "2")]
     pub validator_address: ::prost::alloc::string::String,
     /// shares define the delegation shares received.
@@ -433,10 +411,10 @@ pub struct Delegation {
 )]
 #[proto_message(type_url = "/cosmos.staking.v1beta1.UnbondingDelegation")]
 pub struct UnbondingDelegation {
-    /// delegator_address is the encoded address of the delegator.
+    /// delegator_address is the bech32-encoded address of the delegator.
     #[prost(string, tag = "1")]
     pub delegator_address: ::prost::alloc::string::String,
-    /// validator_address is the encoded address of the validator.
+    /// validator_address is the bech32-encoded address of the validator.
     #[prost(string, tag = "2")]
     pub validator_address: ::prost::alloc::string::String,
     /// entries are the unbonding delegation entries.
@@ -475,20 +453,6 @@ pub struct UnbondingDelegationEntry {
     /// balance defines the tokens to receive at completion.
     #[prost(string, tag = "4")]
     pub balance: ::prost::alloc::string::String,
-    /// Incrementing id that uniquely identifies this entry
-    #[prost(uint64, tag = "5")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
-    pub unbonding_id: u64,
-    /// Strictly positive if this entry's unbonding has been stopped by external modules
-    #[prost(int64, tag = "6")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
-    pub unbonding_on_hold_ref_count: i64,
 }
 /// RedelegationEntry defines a redelegation object with relevant metadata.
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -520,20 +484,6 @@ pub struct RedelegationEntry {
     /// shares_dst is the amount of destination-validator shares created by redelegation.
     #[prost(string, tag = "4")]
     pub shares_dst: ::prost::alloc::string::String,
-    /// Incrementing id that uniquely identifies this entry
-    #[prost(uint64, tag = "5")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
-    pub unbonding_id: u64,
-    /// Strictly positive if this entry's unbonding has been stopped by external modules
-    #[prost(int64, tag = "6")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
-    pub unbonding_on_hold_ref_count: i64,
 }
 /// Redelegation contains the list of a particular delegator's redelegating bonds
 /// from a particular source validator to a particular destination validator.
@@ -565,7 +515,7 @@ pub struct Redelegation {
     #[prost(message, repeated, tag = "4")]
     pub entries: ::prost::alloc::vec::Vec<RedelegationEntry>,
 }
-/// Params defines the parameters for the x/staking module.
+/// Params defines the parameters for the staking module.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
@@ -680,24 +630,6 @@ pub struct Pool {
     #[prost(string, tag = "2")]
     pub bonded_tokens: ::prost::alloc::string::String,
 }
-/// ValidatorUpdates defines an array of abci.ValidatorUpdate objects.
-/// TODO: explore moving this to proto/cosmos/base to separate modules from tendermint dependence
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
-#[proto_message(type_url = "/cosmos.staking.v1beta1.ValidatorUpdates")]
-pub struct ValidatorUpdates {
-    #[prost(message, repeated, tag = "1")]
-    pub updates: ::prost::alloc::vec::Vec<super::super::super::tendermint::abci::ValidatorUpdate>,
-}
 /// BondStatus is the status of a validator.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
@@ -736,40 +668,6 @@ impl BondStatus {
         }
     }
 }
-/// Infraction indicates the infraction a validator commited.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
-pub enum Infraction {
-    /// UNSPECIFIED defines an empty infraction.
-    Unspecified = 0,
-    /// DOUBLE_SIGN defines a validator that double-signs a block.
-    DoubleSign = 1,
-    /// DOWNTIME defines a validator that missed signing too many blocks.
-    Downtime = 2,
-}
-impl Infraction {
-    /// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    pub fn as_str_name(&self) -> &'static str {
-        match self {
-            Infraction::Unspecified => "INFRACTION_UNSPECIFIED",
-            Infraction::DoubleSign => "INFRACTION_DOUBLE_SIGN",
-            Infraction::Downtime => "INFRACTION_DOWNTIME",
-        }
-    }
-    /// Creates an enum from field names used in the ProtoBuf definition.
-    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-        match value {
-            "INFRACTION_UNSPECIFIED" => Some(Self::Unspecified),
-            "INFRACTION_DOUBLE_SIGN" => Some(Self::DoubleSign),
-            "INFRACTION_DOWNTIME" => Some(Self::Downtime),
-            _ => None,
-        }
-    }
-}
 /// GenesisState defines the staking module's genesis state.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
@@ -784,7 +682,7 @@ impl Infraction {
 )]
 #[proto_message(type_url = "/cosmos.staking.v1beta1.GenesisState")]
 pub struct GenesisState {
-    /// params defines all the parameters of related to deposit.
+    /// params defines all the paramaters of related to deposit.
     #[prost(message, optional, tag = "1")]
     pub params: ::core::option::Option<Params>,
     /// last_total_power tracks the total amounts of bonded tokens recorded during
@@ -799,7 +697,7 @@ pub struct GenesisState {
     /// of the last-block's bonded validators.
     #[prost(message, repeated, tag = "3")]
     pub last_validator_powers: ::prost::alloc::vec::Vec<LastValidatorPower>,
-    /// validators defines the validator set at genesis.
+    /// delegations defines the validator set at genesis.
     #[prost(message, repeated, tag = "4")]
     pub validators: ::prost::alloc::vec::Vec<Validator>,
     /// delegations defines the delegations active at genesis.
@@ -811,7 +709,6 @@ pub struct GenesisState {
     /// redelegations defines the redelegations active at genesis.
     #[prost(message, repeated, tag = "7")]
     pub redelegations: ::prost::alloc::vec::Vec<Redelegation>,
-    /// exported defines a bool to identify whether the chain dealing with exported or initialized genesis.
     #[prost(bool, tag = "8")]
     pub exported: bool,
 }
@@ -1487,10 +1384,6 @@ pub struct MsgCreateValidator {
     pub commission: ::core::option::Option<CommissionRates>,
     #[prost(string, tag = "3")]
     pub min_self_delegation: ::prost::alloc::string::String,
-    /// Deprecated: Use of Delegator Address in MsgCreateValidator is deprecated.
-    /// The validator address bytes and delegator address bytes refer to the same account while creating validator (defer
-    /// only in bech32 notation).
-    #[deprecated]
     #[prost(string, tag = "4")]
     pub delegator_address: ::prost::alloc::string::String,
     #[prost(string, tag = "5")]
@@ -1670,11 +1563,6 @@ pub struct MsgUndelegate {
 pub struct MsgUndelegateResponse {
     #[prost(message, optional, tag = "1")]
     pub completion_time: ::core::option::Option<crate::shim::Timestamp>,
-    /// amount returns the amount of undelegated coins
-    ///
-    /// Since: cosmos-sdk 0.50
-    #[prost(message, optional, tag = "2")]
-    pub amount: ::core::option::Option<super::super::base::v1beta1::Coin>,
 }
 /// MsgCancelUnbondingDelegation defines the SDK message for performing a cancel unbonding delegation for delegator
 ///
@@ -1723,48 +1611,6 @@ pub struct MsgCancelUnbondingDelegation {
 )]
 #[proto_message(type_url = "/cosmos.staking.v1beta1.MsgCancelUnbondingDelegationResponse")]
 pub struct MsgCancelUnbondingDelegationResponse {}
-/// MsgUpdateParams is the Msg/UpdateParams request type.
-///
-/// Since: cosmos-sdk 0.47
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
-#[proto_message(type_url = "/cosmos.staking.v1beta1.MsgUpdateParams")]
-pub struct MsgUpdateParams {
-    /// authority is the address that controls the module (defaults to x/gov unless overwritten).
-    #[prost(string, tag = "1")]
-    pub authority: ::prost::alloc::string::String,
-    /// params defines the x/staking parameters to update.
-    ///
-    /// NOTE: All parameters must be supplied.
-    #[prost(message, optional, tag = "2")]
-    pub params: ::core::option::Option<Params>,
-}
-/// MsgUpdateParamsResponse defines the response structure for executing a
-/// MsgUpdateParams message.
-///
-/// Since: cosmos-sdk 0.47
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
-#[proto_message(type_url = "/cosmos.staking.v1beta1.MsgUpdateParamsResponse")]
-pub struct MsgUpdateParamsResponse {}
 pub struct StakingQuerier<'a, Q: cosmwasm_std::CustomQuery> {
     querier: &'a cosmwasm_std::QuerierWrapper<'a, Q>,
 }

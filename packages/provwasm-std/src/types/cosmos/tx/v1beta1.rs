@@ -156,8 +156,12 @@ pub struct SignDocDirectAux {
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
     pub sequence: u64,
-    /// tips have been depreacted and should not be used
-    #[deprecated]
+    /// Tip is the optional tip used for transactions fees paid in another denom.
+    /// It should be left empty if the signer is not the tipper for this
+    /// transaction.
+    ///
+    /// This field is ignored if the chain didn't enable tips, i.e. didn't add the
+    /// `TipDecorator` in its posthandler.
     #[prost(message, optional, tag = "6")]
     pub tip: ::core::option::Option<Tip>,
 }
@@ -241,7 +245,6 @@ pub struct AuthInfo {
     /// `TipDecorator` in its posthandler.
     ///
     /// Since: cosmos-sdk 0.46
-    #[deprecated]
     #[prost(message, optional, tag = "3")]
     pub tip: ::core::option::Option<Tip>,
 }
@@ -422,7 +425,6 @@ pub struct Fee {
     CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.tx.v1beta1.Tip")]
-#[deprecated]
 pub struct Tip {
     /// amount is the amount of the tip
     #[prost(message, repeated, tag = "1")]
@@ -491,9 +493,6 @@ pub struct AuxSignerData {
 #[proto_message(type_url = "/cosmos.tx.v1beta1.GetTxsEventRequest")]
 pub struct GetTxsEventRequest {
     /// events is the list of transaction event type.
-    /// Deprecated post v0.47.x: use query instead, which should contain a valid
-    /// events query.
-    #[deprecated]
     #[prost(string, repeated, tag = "1")]
     pub events: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
     /// pagination defines a pagination for the request.
@@ -507,8 +506,7 @@ pub struct GetTxsEventRequest {
         deserialize_with = "OrderBy::deserialize"
     )]
     pub order_by: i32,
-    /// page is the page number to query, starts at 1. If not provided, will
-    /// default to first page.
+    /// page is the page number to query, starts at 1. If not provided, will default to first page.
     #[prost(uint64, tag = "4")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
@@ -523,12 +521,6 @@ pub struct GetTxsEventRequest {
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
     pub limit: u64,
-    /// query defines the transaction event query that is proxied to Tendermint's
-    /// TxSearch RPC method. The query must be valid.
-    ///
-    /// Since cosmos-sdk 0.50
-    #[prost(string, tag = "6")]
-    pub query: ::prost::alloc::string::String,
 }
 /// GetTxsEventResponse is the response type for the Service.TxsByEvents
 /// RPC method.
@@ -732,8 +724,7 @@ pub struct GetBlockWithTxsRequest {
     #[prost(message, optional, tag = "2")]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageRequest>,
 }
-/// GetBlockWithTxsResponse is the response type for the Service.GetBlockWithTxs
-/// method.
+/// GetBlockWithTxsResponse is the response type for the Service.GetBlockWithTxs method.
 ///
 /// Since: cosmos-sdk 0.45.2
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -760,193 +751,12 @@ pub struct GetBlockWithTxsResponse {
     #[prost(message, optional, tag = "4")]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageResponse>,
 }
-/// TxDecodeRequest is the request type for the Service.TxDecode
-/// RPC method.
-///
-/// Since: cosmos-sdk 0.47
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
-#[proto_message(type_url = "/cosmos.tx.v1beta1.TxDecodeRequest")]
-pub struct TxDecodeRequest {
-    /// tx_bytes is the raw transaction.
-    #[prost(bytes = "vec", tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
-    pub tx_bytes: ::prost::alloc::vec::Vec<u8>,
-}
-/// TxDecodeResponse is the response type for the
-/// Service.TxDecode method.
-///
-/// Since: cosmos-sdk 0.47
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
-#[proto_message(type_url = "/cosmos.tx.v1beta1.TxDecodeResponse")]
-pub struct TxDecodeResponse {
-    /// tx is the decoded transaction.
-    #[prost(message, optional, tag = "1")]
-    pub tx: ::core::option::Option<Tx>,
-}
-/// TxEncodeRequest is the request type for the Service.TxEncode
-/// RPC method.
-///
-/// Since: cosmos-sdk 0.47
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
-#[proto_message(type_url = "/cosmos.tx.v1beta1.TxEncodeRequest")]
-pub struct TxEncodeRequest {
-    /// tx is the transaction to encode.
-    #[prost(message, optional, tag = "1")]
-    pub tx: ::core::option::Option<Tx>,
-}
-/// TxEncodeResponse is the response type for the
-/// Service.TxEncode method.
-///
-/// Since: cosmos-sdk 0.47
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
-#[proto_message(type_url = "/cosmos.tx.v1beta1.TxEncodeResponse")]
-pub struct TxEncodeResponse {
-    /// tx_bytes is the encoded transaction bytes.
-    #[prost(bytes = "vec", tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
-    pub tx_bytes: ::prost::alloc::vec::Vec<u8>,
-}
-/// TxEncodeAminoRequest is the request type for the Service.TxEncodeAmino
-/// RPC method.
-///
-/// Since: cosmos-sdk 0.47
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
-#[proto_message(type_url = "/cosmos.tx.v1beta1.TxEncodeAminoRequest")]
-pub struct TxEncodeAminoRequest {
-    #[prost(string, tag = "1")]
-    pub amino_json: ::prost::alloc::string::String,
-}
-/// TxEncodeAminoResponse is the response type for the Service.TxEncodeAmino
-/// RPC method.
-///
-/// Since: cosmos-sdk 0.47
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
-#[proto_message(type_url = "/cosmos.tx.v1beta1.TxEncodeAminoResponse")]
-pub struct TxEncodeAminoResponse {
-    #[prost(bytes = "vec", tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
-    pub amino_binary: ::prost::alloc::vec::Vec<u8>,
-}
-/// TxDecodeAminoRequest is the request type for the Service.TxDecodeAmino
-/// RPC method.
-///
-/// Since: cosmos-sdk 0.47
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
-#[proto_message(type_url = "/cosmos.tx.v1beta1.TxDecodeAminoRequest")]
-pub struct TxDecodeAminoRequest {
-    #[prost(bytes = "vec", tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
-    pub amino_binary: ::prost::alloc::vec::Vec<u8>,
-}
-/// TxDecodeAminoResponse is the response type for the Service.TxDecodeAmino
-/// RPC method.
-///
-/// Since: cosmos-sdk 0.47
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
-#[proto_message(type_url = "/cosmos.tx.v1beta1.TxDecodeAminoResponse")]
-pub struct TxDecodeAminoResponse {
-    #[prost(string, tag = "1")]
-    pub amino_json: ::prost::alloc::string::String,
-}
 /// OrderBy defines the sorting order
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
 #[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 pub enum OrderBy {
-    /// ORDER_BY_UNSPECIFIED specifies an unknown sorting order. OrderBy defaults
-    /// to ASC in this case.
+    /// ORDER_BY_UNSPECIFIED specifies an unknown sorting order. OrderBy defaults to ASC in this case.
     Unspecified = 0,
     /// ORDER_BY_ASC defines ascending order
     Asc = 1,
@@ -975,22 +785,21 @@ impl OrderBy {
         }
     }
 }
-/// BroadcastMode specifies the broadcast mode for the TxService.Broadcast RPC
-/// method.
+/// BroadcastMode specifies the broadcast mode for the TxService.Broadcast RPC method.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
 #[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 pub enum BroadcastMode {
     /// zero-value for mode ordering
     Unspecified = 0,
-    /// DEPRECATED: use BROADCAST_MODE_SYNC instead,
-    /// BROADCAST_MODE_BLOCK is not supported by the SDK from v0.47.x onwards.
+    /// BROADCAST_MODE_BLOCK defines a tx broadcasting mode where the client waits for
+    /// the tx to be committed in a block.
     Block = 1,
-    /// BROADCAST_MODE_SYNC defines a tx broadcasting mode where the client waits
-    /// for a CheckTx execution response only.
+    /// BROADCAST_MODE_SYNC defines a tx broadcasting mode where the client waits for
+    /// a CheckTx execution response only.
     Sync = 2,
-    /// BROADCAST_MODE_ASYNC defines a tx broadcasting mode where the client
-    /// returns immediately.
+    /// BROADCAST_MODE_ASYNC defines a tx broadcasting mode where the client returns
+    /// immediately.
     Async = 3,
 }
 impl BroadcastMode {

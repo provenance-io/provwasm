@@ -1,5 +1,5 @@
 pub mod abci;
-pub mod blocksync;
+pub mod blockchain;
 pub mod consensus;
 pub mod crypto;
 pub mod libs;

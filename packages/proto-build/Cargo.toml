@@ -20,6 +20,4 @@ prost-types = { workspace = true }
 quote = "1.0.26"
 regex = "1"
 syn = { version = "1.0.109", features = ["full", "parsing", "extra-traits"] }
-tonic = "0.7"
-tonic-build = "0.7"
 walkdir = "2"

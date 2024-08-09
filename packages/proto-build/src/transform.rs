@@ -17,9 +17,11 @@ use crate::transformers;
 const EXCLUDED_PROTO_PACKAGES: &[&str] = &["amino", "cosmos_proto", "gogoproto", "google"];
 
 /// These structures are excluded from the final module
+/// matched against using String::contains(...)
 const EXCLUDED_STRUCTURES: &[&str] = &[
     "provenance::msgfees::v1::CalculateTxFeesRequest",
     "provenance::msgfees::v1::CalculateTxFeesResponse",
+    "::tonic::",
 ];
 
 pub fn copy_and_transform_all(from_dir: &Path, to_dir: &Path, descriptor: &FileDescriptorSet) {
@@ -153,8 +155,10 @@ fn transform_items(
                         _ => s.ident.to_string(),
                     };
 
-                    if EXCLUDED_STRUCTURES.contains(&full_path.as_str()) {
-                        return None;
+                    for exclude in EXCLUDED_STRUCTURES {
+                        if full_path.contains(exclude) {
+                            return None;
+                        }
                     }
                     let s = transformers::add_derive_eq_struct(&s);
                     let s = transformers::append_attrs_struct(src, &s, descriptor);

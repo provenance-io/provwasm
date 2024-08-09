@@ -6,3 +6,9 @@ plugins:
       - extern_path=.google.protobuf.Timestamp=crate::shim::Timestamp
       - extern_path=.google.protobuf.Duration=crate::shim::Duration
       - extern_path=.google.protobuf.Any=crate::shim::Any
+  - plugin: buf.build/community/neoeinstein-tonic
+    out: .
+    opt:
+      - extern_path=.google.protobuf.Timestamp=crate::shim::Timestamp
+      - extern_path=.google.protobuf.Duration=crate::shim::Duration
+      - extern_path=.google.protobuf.Any=crate::shim::Any

@@ -265,7 +265,7 @@ pub struct QueryGranterGrantsResponse {
     #[prost(message, optional, tag = "2")]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageResponse>,
 }
-/// QueryGranteeGrantsRequest is the request type for the Query/GranteeGrants RPC method.
+/// QueryGranteeGrantsRequest is the request type for the Query/IssuedGrants RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
@@ -332,7 +332,7 @@ pub struct MsgGrant {
     #[prost(message, optional, tag = "3")]
     pub grant: ::core::option::Option<Grant>,
 }
-/// MsgGrantResponse defines the Msg/MsgGrant response type.
+/// MsgExecResponse defines the Msg/MsgExecResponse response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
@@ -344,8 +344,11 @@ pub struct MsgGrant {
     ::schemars::JsonSchema,
     CosmwasmExt,
 )]
-#[proto_message(type_url = "/cosmos.authz.v1beta1.MsgGrantResponse")]
-pub struct MsgGrantResponse {}
+#[proto_message(type_url = "/cosmos.authz.v1beta1.MsgExecResponse")]
+pub struct MsgExecResponse {
+    #[prost(bytes = "vec", repeated, tag = "1")]
+    pub results: ::prost::alloc::vec::Vec<::prost::alloc::vec::Vec<u8>>,
+}
 /// MsgExec attempts to execute the provided messages using
 /// authorizations granted to the grantee. Each message should have only
 /// one signer corresponding to the granter of the authorization.
@@ -364,13 +367,13 @@ pub struct MsgGrantResponse {}
 pub struct MsgExec {
     #[prost(string, tag = "1")]
     pub grantee: ::prost::alloc::string::String,
-    /// Execute Msg.
+    /// Authorization Msg requests to execute. Each msg must implement Authorization interface
     /// The x/authz will try to find a grant matching (msg.signers\[0\], grantee, MsgTypeURL(msg))
     /// triple and validate it.
     #[prost(message, repeated, tag = "2")]
     pub msgs: ::prost::alloc::vec::Vec<crate::shim::Any>,
 }
-/// MsgExecResponse defines the Msg/MsgExecResponse response type.
+/// MsgGrantResponse defines the Msg/MsgGrant response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
@@ -382,11 +385,8 @@ pub struct MsgExec {
     ::schemars::JsonSchema,
     CosmwasmExt,
 )]
-#[proto_message(type_url = "/cosmos.authz.v1beta1.MsgExecResponse")]
-pub struct MsgExecResponse {
-    #[prost(bytes = "vec", repeated, tag = "1")]
-    pub results: ::prost::alloc::vec::Vec<::prost::alloc::vec::Vec<u8>>,
-}
+#[proto_message(type_url = "/cosmos.authz.v1beta1.MsgGrantResponse")]
+pub struct MsgGrantResponse {}
 /// MsgRevoke revokes any authorization with the provided sdk.Msg type on the
 /// granter's account with that has been granted to the grantee.
 #[allow(clippy::derive_partial_eq_without_eq)]

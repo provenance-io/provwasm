@@ -1,4 +1,5 @@
 pub mod p8e;
+pub mod tonic;
 use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
 /// EventTxCompleted is an event message indicating that a TX has completed.
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -786,7 +787,7 @@ pub struct ScopeSpecification {
     #[prost(string, repeated, tag = "3")]
     pub owner_addresses: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
     /// A list of parties that must be present on a scope (and their associated roles)
-    #[prost(enumeration = "PartyType", repeated, tag = "4")]
+    #[prost(enumeration = "PartyType", repeated, packed = "false", tag = "4")]
     pub parties_involved: ::prost::alloc::vec::Vec<i32>,
     /// A list of contract specification ids allowed for a scope based on this specification.
     #[prost(bytes = "vec", repeated, tag = "5")]
@@ -824,7 +825,7 @@ pub struct ContractSpecification {
     #[prost(string, repeated, tag = "3")]
     pub owner_addresses: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
     /// a list of party roles that must be fullfilled when signing a transaction for this contract specification
-    #[prost(enumeration = "PartyType", repeated, tag = "4")]
+    #[prost(enumeration = "PartyType", repeated, packed = "false", tag = "4")]
     pub parties_involved: ::prost::alloc::vec::Vec<i32>,
     /// name of the class/type of this contract executable
     #[prost(string, tag = "7")]
@@ -896,7 +897,7 @@ pub struct RecordSpecification {
     )]
     pub result_type: i32,
     /// Type of party responsible for this record
-    #[prost(enumeration = "PartyType", repeated, tag = "6")]
+    #[prost(enumeration = "PartyType", repeated, packed = "false", tag = "6")]
     pub responsible_parties: ::prost::alloc::vec::Vec<i32>,
 }
 /// InputSpecification defines a name, type_name, and source reference (either on or off chain) to define an input
@@ -4206,6 +4207,7 @@ pub struct MsgAddNetAssetValuesRequest {
 )]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgAddNetAssetValuesResponse")]
 pub struct MsgAddNetAssetValuesResponse {}
+include!("provenance.metadata.v1.tonic.rs");
 pub struct MetadataQuerier<'a, Q: cosmwasm_std::CustomQuery> {
     querier: &'a cosmwasm_std::QuerierWrapper<'a, Q>,
 }

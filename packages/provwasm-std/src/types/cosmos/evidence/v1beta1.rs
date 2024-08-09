@@ -14,24 +14,20 @@ use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
 )]
 #[proto_message(type_url = "/cosmos.evidence.v1beta1.Equivocation")]
 pub struct Equivocation {
-    /// height is the equivocation height.
     #[prost(int64, tag = "1")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
     pub height: i64,
-    /// time is the equivocation time.
     #[prost(message, optional, tag = "2")]
     pub time: ::core::option::Option<crate::shim::Timestamp>,
-    /// power is the equivocation validator power.
     #[prost(int64, tag = "3")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
     pub power: i64,
-    /// consensus_address is the equivocation validator consensus address.
     #[prost(string, tag = "4")]
     pub consensus_address: ::prost::alloc::string::String,
 }
@@ -72,19 +68,12 @@ pub struct GenesisState {
 )]
 pub struct QueryEvidenceRequest {
     /// evidence_hash defines the hash of the requested evidence.
-    /// Deprecated: Use hash, a HEX encoded string, instead.
-    #[deprecated]
     #[prost(bytes = "vec", tag = "1")]
     #[serde(
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
     pub evidence_hash: ::prost::alloc::vec::Vec<u8>,
-    /// hash defines the evidence hash of the requested evidence.
-    ///
-    /// Since: cosmos-sdk 0.47
-    #[prost(string, tag = "2")]
-    pub hash: ::prost::alloc::string::String,
 }
 /// QueryEvidenceResponse is the response type for the Query/Evidence RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -164,10 +153,8 @@ pub struct QueryAllEvidenceResponse {
 )]
 #[proto_message(type_url = "/cosmos.evidence.v1beta1.MsgSubmitEvidence")]
 pub struct MsgSubmitEvidence {
-    /// submitter is the signer account address of evidence.
     #[prost(string, tag = "1")]
     pub submitter: ::prost::alloc::string::String,
-    /// evidence defines the evidence of misbehavior.
     #[prost(message, optional, tag = "2")]
     pub evidence: ::core::option::Option<crate::shim::Any>,
 }
@@ -203,13 +190,8 @@ impl<'a, Q: cosmwasm_std::CustomQuery> EvidenceQuerier<'a, Q> {
     pub fn evidence(
         &self,
         evidence_hash: ::prost::alloc::vec::Vec<u8>,
-        hash: ::prost::alloc::string::String,
     ) -> Result<QueryEvidenceResponse, cosmwasm_std::StdError> {
-        QueryEvidenceRequest {
-            evidence_hash,
-            hash,
-        }
-        .query(self.querier)
+        QueryEvidenceRequest { evidence_hash }.query(self.querier)
     }
     pub fn all_evidence(
         &self,

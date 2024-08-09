@@ -53,30 +53,6 @@ pub struct ModuleAccount {
     #[prost(string, repeated, tag = "3")]
     pub permissions: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
-/// ModuleCredential represents a unclaimable pubkey for base accounts controlled by modules.
-///
-/// Since: cosmos-sdk 0.47
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
-#[proto_message(type_url = "/cosmos.auth.v1beta1.ModuleCredential")]
-pub struct ModuleCredential {
-    /// module_name is the name of the module used for address derivation (passed into address.Module).
-    #[prost(string, tag = "1")]
-    pub module_name: ::prost::alloc::string::String,
-    /// derivation_keys is for deriving a module account address (passed into address.Module)
-    /// adding more keys creates sub-account addresses (passed into address.Derive)
-    #[prost(bytes = "vec", repeated, tag = "2")]
-    pub derivation_keys: ::prost::alloc::vec::Vec<::prost::alloc::vec::Vec<u8>>,
-}
 /// Params defines the parameters for the auth module.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
@@ -136,7 +112,7 @@ pub struct Params {
 )]
 #[proto_message(type_url = "/cosmos.auth.v1beta1.GenesisState")]
 pub struct GenesisState {
-    /// params defines all the parameters of the module.
+    /// params defines all the paramaters of the module.
     #[prost(message, optional, tag = "1")]
     pub params: ::core::option::Option<Params>,
     /// accounts are the accounts present at genesis.
@@ -494,27 +470,15 @@ pub struct AddressStringToBytesResponse {
     response_type = QueryAccountAddressByIdResponse
 )]
 pub struct QueryAccountAddressByIdRequest {
-    /// Deprecated, use account_id instead
-    ///
     /// id is the account number of the address to be queried. This field
     /// should have been an uint64 (like all account numbers), and will be
     /// updated to uint64 in a future version of the auth query.
-    #[deprecated]
     #[prost(int64, tag = "1")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
     pub id: i64,
-    /// account_id is the account number of the address to be queried.
-    ///
-    /// Since: cosmos-sdk 0.47
-    #[prost(uint64, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
-    pub account_id: u64,
 }
 /// QueryAccountAddressByIDResponse is the response type for AccountAddressByID rpc method
 ///
@@ -535,92 +499,6 @@ pub struct QueryAccountAddressByIdResponse {
     #[prost(string, tag = "1")]
     pub account_address: ::prost::alloc::string::String,
 }
-/// QueryAccountInfoRequest is the Query/AccountInfo request type.
-///
-/// Since: cosmos-sdk 0.47
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
-#[proto_message(type_url = "/cosmos.auth.v1beta1.QueryAccountInfoRequest")]
-#[proto_query(
-    path = "/cosmos.auth.v1beta1.Query/AccountInfo",
-    response_type = QueryAccountInfoResponse
-)]
-pub struct QueryAccountInfoRequest {
-    /// address is the account address string.
-    #[prost(string, tag = "1")]
-    pub address: ::prost::alloc::string::String,
-}
-/// QueryAccountInfoResponse is the Query/AccountInfo response type.
-///
-/// Since: cosmos-sdk 0.47
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
-#[proto_message(type_url = "/cosmos.auth.v1beta1.QueryAccountInfoResponse")]
-pub struct QueryAccountInfoResponse {
-    /// info is the account info which is represented by BaseAccount.
-    #[prost(message, optional, tag = "1")]
-    pub info: ::core::option::Option<BaseAccount>,
-}
-/// MsgUpdateParams is the Msg/UpdateParams request type.
-///
-/// Since: cosmos-sdk 0.47
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
-#[proto_message(type_url = "/cosmos.auth.v1beta1.MsgUpdateParams")]
-pub struct MsgUpdateParams {
-    /// authority is the address that controls the module (defaults to x/gov unless overwritten).
-    #[prost(string, tag = "1")]
-    pub authority: ::prost::alloc::string::String,
-    /// params defines the x/auth parameters to update.
-    ///
-    /// NOTE: All parameters must be supplied.
-    #[prost(message, optional, tag = "2")]
-    pub params: ::core::option::Option<Params>,
-}
-/// MsgUpdateParamsResponse defines the response structure for executing a
-/// MsgUpdateParams message.
-///
-/// Since: cosmos-sdk 0.47
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
-#[proto_message(type_url = "/cosmos.auth.v1beta1.MsgUpdateParamsResponse")]
-pub struct MsgUpdateParamsResponse {}
 pub struct AuthQuerier<'a, Q: cosmwasm_std::CustomQuery> {
     querier: &'a cosmwasm_std::QuerierWrapper<'a, Q>,
 }
@@ -643,9 +521,8 @@ impl<'a, Q: cosmwasm_std::CustomQuery> AuthQuerier<'a, Q> {
     pub fn account_address_by_id(
         &self,
         id: i64,
-        account_id: u64,
     ) -> Result<QueryAccountAddressByIdResponse, cosmwasm_std::StdError> {
-        QueryAccountAddressByIdRequest { id, account_id }.query(self.querier)
+        QueryAccountAddressByIdRequest { id }.query(self.querier)
     }
     pub fn params(&self) -> Result<QueryParamsResponse, cosmwasm_std::StdError> {
         QueryParamsRequest {}.query(self.querier)
@@ -673,11 +550,5 @@ impl<'a, Q: cosmwasm_std::CustomQuery> AuthQuerier<'a, Q> {
         address_string: ::prost::alloc::string::String,
     ) -> Result<AddressStringToBytesResponse, cosmwasm_std::StdError> {
         AddressStringToBytesRequest { address_string }.query(self.querier)
-    }
-    pub fn account_info(
-        &self,
-        address: ::prost::alloc::string::String,
-    ) -> Result<QueryAccountInfoResponse, cosmwasm_std::StdError> {
-        QueryAccountInfoRequest { address }.query(self.querier)
     }
 }

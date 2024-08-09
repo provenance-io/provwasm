@@ -102,7 +102,7 @@ pub struct QueryParamsResponse {
     #[prost(message, optional, tag = "1")]
     pub params: ::core::option::Option<Params>,
 }
-/// MsgRegisterInterchainAccount defines the payload for Msg/RegisterAccount
+/// MsgRegisterInterchainAccount defines the payload for Msg/MsgRegisterInterchainAccount
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
@@ -124,17 +124,8 @@ pub struct MsgRegisterInterchainAccount {
     pub connection_id: ::prost::alloc::string::String,
     #[prost(string, tag = "3")]
     pub version: ::prost::alloc::string::String,
-    #[prost(
-        enumeration = "super::super::super::super::core::channel::v1::Order",
-        tag = "4"
-    )]
-    #[serde(
-        serialize_with = "super::super::super::super::core::channel::v1::Order::serialize",
-        deserialize_with = "super::super::super::super::core::channel::v1::Order::deserialize"
-    )]
-    pub ordering: i32,
 }
-/// MsgRegisterInterchainAccountResponse defines the response for Msg/RegisterAccount
+/// MsgRegisterInterchainAccountResponse defines the response for Msg/MsgRegisterInterchainAccountResponse
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
@@ -152,8 +143,6 @@ pub struct MsgRegisterInterchainAccount {
 pub struct MsgRegisterInterchainAccountResponse {
     #[prost(string, tag = "1")]
     pub channel_id: ::prost::alloc::string::String,
-    #[prost(string, tag = "2")]
-    pub port_id: ::prost::alloc::string::String,
 }
 /// MsgSendTx defines the payload for Msg/SendTx
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -205,45 +194,6 @@ pub struct MsgSendTxResponse {
     )]
     pub sequence: u64,
 }
-/// MsgUpdateParams defines the payload for Msg/UpdateParams
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
-#[proto_message(type_url = "/ibc.applications.interchain_accounts.controller.v1.MsgUpdateParams")]
-pub struct MsgUpdateParams {
-    /// signer address
-    #[prost(string, tag = "1")]
-    pub signer: ::prost::alloc::string::String,
-    /// params defines the 27-interchain-accounts/controller parameters to update.
-    ///
-    /// NOTE: All parameters must be supplied.
-    #[prost(message, optional, tag = "2")]
-    pub params: ::core::option::Option<Params>,
-}
-/// MsgUpdateParamsResponse defines the response for Msg/UpdateParams
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
-#[proto_message(
-    type_url = "/ibc.applications.interchain_accounts.controller.v1.MsgUpdateParamsResponse"
-)]
-pub struct MsgUpdateParamsResponse {}
 pub struct ControllerQuerier<'a, Q: cosmwasm_std::CustomQuery> {
     querier: &'a cosmwasm_std::QuerierWrapper<'a, Q>,
 }

@@ -16,16 +16,16 @@ use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
 pub struct ValidatorSigningInfo {
     #[prost(string, tag = "1")]
     pub address: ::prost::alloc::string::String,
-    /// Height at which validator was first a candidate OR was un-jailed
+    /// Height at which validator was first a candidate OR was unjailed
     #[prost(int64, tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
     pub start_height: i64,
-    /// Index which is incremented every time a validator is bonded in a block and
-    /// _may_ have signed a pre-commit or not. This in conjunction with the
-    /// signed_blocks_window param determines the index in the missed block bitmap.
+    /// Index which is incremented each time the validator was a bonded
+    /// in a block and may have signed a precommit or not. This in conjunction with the
+    /// `SignedBlocksWindow` param determines the index in the `MissedBlocksBitArray`.
     #[prost(int64, tag = "3")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
@@ -35,13 +35,12 @@ pub struct ValidatorSigningInfo {
     /// Timestamp until which the validator is jailed due to liveness downtime.
     #[prost(message, optional, tag = "4")]
     pub jailed_until: ::core::option::Option<crate::shim::Timestamp>,
-    /// Whether or not a validator has been tombstoned (killed out of validator
-    /// set). It is set once the validator commits an equivocation or for any other
-    /// configured misbehavior.
+    /// Whether or not a validator has been tombstoned (killed out of validator set). It is set
+    /// once the validator commits an equivocation or for any other configured misbehiavor.
     #[prost(bool, tag = "5")]
     pub tombstoned: bool,
-    /// A counter of missed (unsigned) blocks. It is used to avoid unnecessary
-    /// reads in the missed block bitmap.
+    /// A counter kept to avoid unnecessary array reads.
+    /// Note that `Sum(MissedBlocksBitArray)` always equals `MissedBlocksCounter`.
     #[prost(int64, tag = "6")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
@@ -104,7 +103,7 @@ pub struct Params {
 )]
 #[proto_message(type_url = "/cosmos.slashing.v1beta1.GenesisState")]
 pub struct GenesisState {
-    /// params defines all the parameters of the module.
+    /// params defines all the paramaters of related to deposit.
     #[prost(message, optional, tag = "1")]
     pub params: ::core::option::Option<Params>,
     /// signing_infos represents a map between validator addresses and their
@@ -335,48 +334,6 @@ pub struct MsgUnjail {
 )]
 #[proto_message(type_url = "/cosmos.slashing.v1beta1.MsgUnjailResponse")]
 pub struct MsgUnjailResponse {}
-/// MsgUpdateParams is the Msg/UpdateParams request type.
-///
-/// Since: cosmos-sdk 0.47
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
-#[proto_message(type_url = "/cosmos.slashing.v1beta1.MsgUpdateParams")]
-pub struct MsgUpdateParams {
-    /// authority is the address that controls the module (defaults to x/gov unless overwritten).
-    #[prost(string, tag = "1")]
-    pub authority: ::prost::alloc::string::String,
-    /// params defines the x/slashing parameters to update.
-    ///
-    /// NOTE: All parameters must be supplied.
-    #[prost(message, optional, tag = "2")]
-    pub params: ::core::option::Option<Params>,
-}
-/// MsgUpdateParamsResponse defines the response structure for executing a
-/// MsgUpdateParams message.
-///
-/// Since: cosmos-sdk 0.47
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
-#[proto_message(type_url = "/cosmos.slashing.v1beta1.MsgUpdateParamsResponse")]
-pub struct MsgUpdateParamsResponse {}
 pub struct SlashingQuerier<'a, Q: cosmwasm_std::CustomQuery> {
     querier: &'a cosmwasm_std::QuerierWrapper<'a, Q>,
 }

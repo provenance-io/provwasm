@@ -29,6 +29,7 @@ pub struct Plan {
     #[prost(message, optional, tag = "2")]
     pub time: ::core::option::Option<crate::shim::Timestamp>,
     /// The height at which the upgrade must be performed.
+    /// Only used if Time is not set.
     #[prost(int64, tag = "3")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
@@ -64,13 +65,10 @@ pub struct Plan {
 #[proto_message(type_url = "/cosmos.upgrade.v1beta1.SoftwareUpgradeProposal")]
 #[deprecated]
 pub struct SoftwareUpgradeProposal {
-    /// title of the proposal
     #[prost(string, tag = "1")]
     pub title: ::prost::alloc::string::String,
-    /// description of the proposal
     #[prost(string, tag = "2")]
     pub description: ::prost::alloc::string::String,
-    /// plan of the proposal
     #[prost(message, optional, tag = "3")]
     pub plan: ::core::option::Option<Plan>,
 }
@@ -92,10 +90,8 @@ pub struct SoftwareUpgradeProposal {
 #[proto_message(type_url = "/cosmos.upgrade.v1beta1.CancelSoftwareUpgradeProposal")]
 #[deprecated]
 pub struct CancelSoftwareUpgradeProposal {
-    /// title of the proposal
     #[prost(string, tag = "1")]
     pub title: ::prost::alloc::string::String,
-    /// description of the proposal
     #[prost(string, tag = "2")]
     pub description: ::prost::alloc::string::String,
 }
@@ -366,7 +362,7 @@ pub struct QueryAuthorityResponse {
 )]
 #[proto_message(type_url = "/cosmos.upgrade.v1beta1.MsgSoftwareUpgrade")]
 pub struct MsgSoftwareUpgrade {
-    /// authority is the address that controls the module (defaults to x/gov unless overwritten).
+    /// authority is the address of the governance account.
     #[prost(string, tag = "1")]
     pub authority: ::prost::alloc::string::String,
     /// plan is the upgrade plan.
@@ -405,7 +401,7 @@ pub struct MsgSoftwareUpgradeResponse {}
 )]
 #[proto_message(type_url = "/cosmos.upgrade.v1beta1.MsgCancelUpgrade")]
 pub struct MsgCancelUpgrade {
-    /// authority is the address that controls the module (defaults to x/gov unless overwritten).
+    /// authority is the address of the governance account.
     #[prost(string, tag = "1")]
     pub authority: ::prost::alloc::string::String,
 }

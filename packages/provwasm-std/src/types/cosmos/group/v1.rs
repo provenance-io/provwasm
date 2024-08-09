@@ -55,7 +55,7 @@ pub struct MemberRequest {
 }
 /// ThresholdDecisionPolicy is a decision policy where a proposal passes when it
 /// satisfies the two following conditions:
-/// 1. The sum of all `YES` voter's weights is greater or equal than the defined
+/// 1. The sum of all `YES` voters' weights is greater or equal than the defined
 ///     `threshold`.
 /// 2. The voting and execution periods of the proposal respect the parameters
 ///     given by `windows`.
@@ -99,7 +99,7 @@ pub struct ThresholdDecisionPolicy {
 )]
 #[proto_message(type_url = "/cosmos.group.v1.PercentageDecisionPolicy")]
 pub struct PercentageDecisionPolicy {
-    /// percentage is the minimum percentage of the weighted sum of `YES` votes must
+    /// percentage is the minimum percentage the weighted sum of `YES` votes must
     /// meet for a proposal to succeed.
     #[prost(string, tag = "1")]
     pub percentage: ::prost::alloc::string::String,
@@ -164,7 +164,6 @@ pub struct GroupInfo {
     #[prost(string, tag = "2")]
     pub admin: ::prost::alloc::string::String,
     /// metadata is any arbitrary metadata to attached to the group.
-    /// the recommended format of the metadata is to be found here: <https://docs.cosmos.network/v0.47/modules/group#group-1>
     #[prost(string, tag = "3")]
     pub metadata: ::prost::alloc::string::String,
     /// version is used to track changes to a group's membership structure that
@@ -236,9 +235,7 @@ pub struct GroupPolicyInfo {
     /// admin is the account address of the group admin.
     #[prost(string, tag = "3")]
     pub admin: ::prost::alloc::string::String,
-    /// metadata is any arbitrary metadata attached to the group policy.
-    /// the recommended format of the metadata is to be found here:
-    /// <https://docs.cosmos.network/v0.47/modules/group#decision-policy-1>
+    /// metadata is any arbitrary metadata to attached to the group policy.
     #[prost(string, tag = "4")]
     pub metadata: ::prost::alloc::string::String,
     /// version is used to track changes to a group's GroupPolicyInfo structure that
@@ -283,9 +280,7 @@ pub struct Proposal {
     /// group_policy_address is the account address of group policy.
     #[prost(string, tag = "2")]
     pub group_policy_address: ::prost::alloc::string::String,
-    /// metadata is any arbitrary metadata attached to the proposal.
-    /// the recommended format of the metadata is to be found here:
-    /// <https://docs.cosmos.network/v0.47/modules/group#proposal-4>
+    /// metadata is any arbitrary metadata to attached to the proposal.
     #[prost(string, tag = "3")]
     pub metadata: ::prost::alloc::string::String,
     /// proposers are the account addresses of the proposers.
@@ -326,7 +321,7 @@ pub struct Proposal {
     #[prost(message, optional, tag = "9")]
     pub final_tally_result: ::core::option::Option<TallyResult>,
     /// voting_period_end is the timestamp before which voting must be done.
-    /// Unless a successful MsgExec is called before (to execute a proposal whose
+    /// Unless a successfull MsgExec is called before (to execute a proposal whose
     /// tally is successful before the voting period ends), tallying will be done
     /// at this point, and the `final_tally_result`and `status` fields will be
     /// accordingly updated.
@@ -342,16 +337,6 @@ pub struct Proposal {
     /// messages is a list of `sdk.Msg`s that will be executed if the proposal passes.
     #[prost(message, repeated, tag = "12")]
     pub messages: ::prost::alloc::vec::Vec<crate::shim::Any>,
-    /// title is the title of the proposal
-    ///
-    /// Since: cosmos-sdk 0.47
-    #[prost(string, tag = "13")]
-    pub title: ::prost::alloc::string::String,
-    /// summary is a short summary of the proposal
-    ///
-    /// Since: cosmos-sdk 0.47
-    #[prost(string, tag = "14")]
-    pub summary: ::prost::alloc::string::String,
 }
 /// TallyResult represents the sum of weighted votes for each vote option.
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -380,7 +365,7 @@ pub struct TallyResult {
     #[prost(string, tag = "4")]
     pub no_with_veto_count: ::prost::alloc::string::String,
 }
-/// Vote represents a vote for a proposal.string metadata
+/// Vote represents a vote for a proposal.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
@@ -411,8 +396,7 @@ pub struct Vote {
         deserialize_with = "VoteOption::deserialize"
     )]
     pub option: i32,
-    /// metadata is any arbitrary metadata attached to the vote.
-    /// the recommended format of the metadata is to be found here: <https://docs.cosmos.network/v0.47/modules/group#vote-2>
+    /// metadata is any arbitrary metadata to attached to the vote.
     #[prost(string, tag = "4")]
     pub metadata: ::prost::alloc::string::String,
     /// submit_time is the timestamp when the vote was submitted.
@@ -879,7 +863,7 @@ pub struct QueryGroupInfoRequest {
 )]
 #[proto_message(type_url = "/cosmos.group.v1.QueryGroupInfoResponse")]
 pub struct QueryGroupInfoResponse {
-    /// info is the GroupInfo of the group.
+    /// info is the GroupInfo for the group.
     #[prost(message, optional, tag = "1")]
     pub info: ::core::option::Option<GroupInfo>,
 }
@@ -919,7 +903,7 @@ pub struct QueryGroupPolicyInfoRequest {
 )]
 #[proto_message(type_url = "/cosmos.group.v1.QueryGroupPolicyInfoResponse")]
 pub struct QueryGroupPolicyInfoResponse {
-    /// info is the GroupPolicyInfo of the group policy.
+    /// info is the GroupPolicyInfo for the group policy.
     #[prost(message, optional, tag = "1")]
     pub info: ::core::option::Option<GroupPolicyInfo>,
 }
@@ -1731,20 +1715,6 @@ pub struct MsgUpdateGroupPolicyAdmin {
     #[prost(string, tag = "3")]
     pub new_admin: ::prost::alloc::string::String,
 }
-/// MsgUpdateGroupPolicyAdminResponse is the Msg/UpdateGroupPolicyAdmin response type.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
-#[proto_message(type_url = "/cosmos.group.v1.MsgUpdateGroupPolicyAdminResponse")]
-pub struct MsgUpdateGroupPolicyAdminResponse {}
 /// MsgCreateGroupWithPolicy is the Msg/CreateGroupWithPolicy request type.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
@@ -1804,6 +1774,20 @@ pub struct MsgCreateGroupWithPolicyResponse {
     #[prost(string, tag = "2")]
     pub group_policy_address: ::prost::alloc::string::String,
 }
+/// MsgUpdateGroupPolicyAdminResponse is the Msg/UpdateGroupPolicyAdmin response type.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(
+    Clone,
+    PartialEq,
+    Eq,
+    ::prost::Message,
+    ::serde::Serialize,
+    ::serde::Deserialize,
+    ::schemars::JsonSchema,
+    CosmwasmExt,
+)]
+#[proto_message(type_url = "/cosmos.group.v1.MsgUpdateGroupPolicyAdminResponse")]
+pub struct MsgUpdateGroupPolicyAdminResponse {}
 /// MsgUpdateGroupPolicyDecisionPolicy is the Msg/UpdateGroupPolicyDecisionPolicy request type.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
@@ -1862,7 +1846,7 @@ pub struct MsgUpdateGroupPolicyMetadata {
     /// group_policy_address is the account address of group policy.
     #[prost(string, tag = "2")]
     pub group_policy_address: ::prost::alloc::string::String,
-    /// metadata is the group policy metadata to be updated.
+    /// metadata is the updated group policy metadata.
     #[prost(string, tag = "3")]
     pub metadata: ::prost::alloc::string::String,
 }
@@ -1901,7 +1885,7 @@ pub struct MsgSubmitProposal {
     /// Proposers signatures will be counted as yes votes.
     #[prost(string, repeated, tag = "2")]
     pub proposers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// metadata is any arbitrary metadata attached to the proposal.
+    /// metadata is any arbitrary metadata to attached to the proposal.
     #[prost(string, tag = "3")]
     pub metadata: ::prost::alloc::string::String,
     /// messages is a list of `sdk.Msg`s that will be executed if the proposal passes.
@@ -1916,16 +1900,6 @@ pub struct MsgSubmitProposal {
         deserialize_with = "Exec::deserialize"
     )]
     pub exec: i32,
-    /// title is the title of the proposal.
-    ///
-    /// Since: cosmos-sdk 0.47
-    #[prost(string, tag = "6")]
-    pub title: ::prost::alloc::string::String,
-    /// summary is the summary of the proposal.
-    ///
-    /// Since: cosmos-sdk 0.47
-    #[prost(string, tag = "7")]
-    pub summary: ::prost::alloc::string::String,
 }
 /// MsgSubmitProposalResponse is the Msg/SubmitProposal response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -2019,7 +1993,7 @@ pub struct MsgVote {
         deserialize_with = "VoteOption::deserialize"
     )]
     pub option: i32,
-    /// metadata is any arbitrary metadata attached to the vote.
+    /// metadata is any arbitrary metadata to attached to the vote.
     #[prost(string, tag = "4")]
     pub metadata: ::prost::alloc::string::String,
     /// exec defines whether the proposal should be executed
