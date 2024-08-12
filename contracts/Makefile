@@ -33,6 +33,17 @@ trigger:
 tutorial:
 	@make -C tutorial
 
+.PHONY: optimize
+optimize:
+    @make -C attrs optimize
+    @make -C ibc optimize
+    @make -C marker optimize
+    @make -C msgfees optimize
+    @make -C name optimize
+    @make -C scope optimize
+    @make -C trigger optimize
+    @make -C tutorial optimize
+
 .PHONY: clean
 clean:
 	@make -C attrs clean
