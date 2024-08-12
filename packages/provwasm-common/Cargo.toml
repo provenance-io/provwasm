@@ -1,10 +1,10 @@
 [package]
 name = "provwasm-common"
-version = "0.1.0"
+version = "0.1.1"
 repository = { workspace = true }
 edition = { workspace = true }
 license = { workspace = true }
-authors = ["Ken Talley <ktalley@figure.com>"]
+authors = ["Ken Talley <4344285+kwtalley@users.noreply.github.com"]
 description = "Common library for ProvWasm internal"
 keywords = ["provenance", "blockchain", "smart-contracts", "defi", "finance"]
 categories = ["cryptography::cryptocurrencies", "wasm"]

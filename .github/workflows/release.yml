@@ -20,19 +20,159 @@ jobs:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
     if: "!startsWith(github.ref, 'refs/tags/') && github.ref != 'refs/heads/main'"
 
-
-  create_release:
+  test_tutorial_smart_contract:
     runs-on: ubuntu-latest
-    name: Create Release
+    name: Test Tutorial Smart Contract
     steps:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Add wasm32 target
         run: |
           rustup target add wasm32-unknown-unknown
-      - name: Build wasm binaries
+      - name: Build wasm binary
         run: |
-          make contracts
+          cd ./contracts/tutorial
+          make all
+      - name: Smart Contract Test setup
+        uses: provenance-io/provenance-testing-action@v1.3.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          provenance_version: "v1.19.0-rc5"
+          test_script: "./scripts/gh-action-test/tutorial_test.sh"
+
+  test_attrs_smart_contract:
+    runs-on: ubuntu-latest
+    name: Test Attr Smart Contract
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Add wasm32 target
+        run: |
+          rustup target add wasm32-unknown-unknown
+      - name: Build wasm binary
+        run: |
+          cd ./contracts/attrs
+          make all
+      - name: Smart Contract Test setup
+        uses: provenance-io/provenance-testing-action@v1.3.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          provenance_version: "v1.19.0-rc5"
+          smart_contract_action_version: "latest"
+          test_script: "./scripts/gh-action-test/attrs_test.sh"
+
+  test_marker_smart_contract:
+    runs-on: ubuntu-latest
+    name: Test Marker Smart Contract
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Add wasm32 target
+        run: |
+          rustup target add wasm32-unknown-unknown
+      - name: Build wasm binary
+        run: |
+          cd ./contracts/marker
+          make all
+      - name: Provenance Test
+        uses: provenance-io/provenance-testing-action@v1.3.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          provenance_version: "v1.19.0-rc5"
+          smart_contract_action_version: "latest"
+          test_script: "./scripts/gh-action-test/marker_test.sh"
+
+  test_msgfees_smart_contract:
+    runs-on: ubuntu-latest
+    name: Test MsgFees Smart Contract
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Add wasm32 target
+        run: |
+          rustup target add wasm32-unknown-unknown
+      - name: Build wasm binary
+        run: |
+          cd ./contracts/msgfees
+          make all
+      - name: Provenance Test
+        uses: provenance-io/provenance-testing-action@v1.3.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          provenance_version: "v1.19.0-rc5"
+          smart_contract_action_version: "latest"
+          test_script: "./scripts/gh-action-test/msgfees_test.sh"
+
+  test_name_smart_contract:
+    runs-on: ubuntu-latest
+    name: Test Name Smart Contract
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Add wasm32 target
+        run: |
+          rustup target add wasm32-unknown-unknown
+      - name: Build wasm binary
+        run: |
+          cd ./contracts/name
+          make all
+      - name: Smart Contract Test setup
+        uses: provenance-io/provenance-testing-action@v1.3.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          provenance_version: "v1.19.0-rc5"
+          smart_contract_action_version: "latest"
+          test_script: "./scripts/gh-action-test/name_test.sh"
+
+  test_scope_smart_contract:
+    runs-on: ubuntu-latest
+    name: Test Scope Smart Contract
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Add wasm32 target
+        run: |
+          rustup target add wasm32-unknown-unknown
+      - name: Build wasm binary
+        run: |
+          cd ./contracts/scope
+          make all
+  #      - name: Smart Contract Test setup
+  #        uses: provenance-io/provenance-testing-action@v1.3.0
+  #        with:
+  #          github_token: ${{ secrets.GITHUB_TOKEN }}
+  #          provenance_version: "v1.19.0-rc5"
+  #          smart_contract_action_version: "latest"
+  #          test_script: "./scripts/gh-action-test/scope_test.sh"
+
+  test_trigger_smart_contract:
+    runs-on: ubuntu-latest
+    name: Test Trigger Smart Contract
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Add wasm32 target
+        run: |
+          rustup target add wasm32-unknown-unknown
+      - name: Build wasm binary
+        run: |
+          cd ./contracts/trigger
+          make all
+      - name: Smart Contract Test setup
+        uses: provenance-io/provenance-testing-action@v1.3.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          provenance_version: "v1.19.0-rc5"
+          smart_contract_action_version: "latest"
+          test_script: "./scripts/gh-action-test/trigger_test.sh"
+
+  create_release:
+    needs: [ test_attrs_smart_contract, test_marker_smart_contract, test_msgfees_smart_contract, test_name_smart_contract, test_scope_smart_contract, test_trigger_smart_contract, test_tutorial_smart_contract ]
+    runs-on: ubuntu-latest
+    name: Create Release
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
       - name: Create release
         uses: softprops/action-gh-release@v1
         id: create_release
@@ -44,5 +184,5 @@ jobs:
           prerelease: false
           body_path: RELEASE_CHANGELOG.md
           token: ${{ secrets.GITHUB_TOKEN }}
-          files: |
-            **/artifacts/*.wasm
+#          files: |
+#            **/artifacts/*.wasm

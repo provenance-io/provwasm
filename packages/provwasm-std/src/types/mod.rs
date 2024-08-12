@@ -1,12 +1,6 @@
-#[cfg(feature = "capability")]
 pub mod capability;
-#[cfg(feature = "cosmos")]
 pub mod cosmos;
-#[cfg(feature = "cosmwasm")]
 pub mod cosmwasm;
-#[cfg(feature = "ibc")]
 pub mod ibc;
-#[cfg(feature = "provenance")]
 pub mod provenance;
-#[cfg(feature = "tendermint")]
 pub mod tendermint;
