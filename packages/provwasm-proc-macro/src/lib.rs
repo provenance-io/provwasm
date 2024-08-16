@@ -52,7 +52,9 @@ pub fn derive_cosmwasm_ext(input: TokenStream) -> TokenStream {
 
         let cosmwasm_query = quote! {
             pub fn query(self, querier: &cosmwasm_std::QuerierWrapper<impl cosmwasm_std::CustomQuery>) -> cosmwasm_std::StdResult<#res> {
-                #res::try_from(querier.query_grpc(#path.to_string(), self.into())?)
+                let binary_result = querier.query_grpc(#path.to_string(), self.into())?;
+                let response_query = crate::types::tendermint::abci::ResponseQuery::try_from(binary_result)?;
+                #res::try_from(response_query.value)
             }
 
             pub fn mock_response<T: provwasm_common::MockableQuerier>(querier: &mut T, response: #res) {
@@ -125,6 +127,24 @@ pub fn derive_cosmwasm_ext(input: TokenStream) -> TokenStream {
                             "Unable to decode binary: \n  - base64: {}\n  - bytes array: {:?}\n\n{:?}",
                             binary,
                             binary.to_vec(),
+                            e
+                        )
+                    )
+                })
+            }
+        }
+
+        impl TryFrom<Vec<u8>> for #ident {
+            type Error = cosmwasm_std::StdError;
+
+            fn try_from(binary: Vec<u8>) -> ::std::result::Result<Self, Self::Error> {
+                use ::prost::Message;
+                Self::decode(&binary[..]).map_err(|e| {
+                    cosmwasm_std::StdError::parse_err(
+                        stringify!(#ident),
+                        format!(
+                            "Unable to decode binary:\n  - bytes array: {:?}\n\n{:?}",
+                            binary,
                             e
                         )
                     )
