@@ -18,7 +18,7 @@ members = [
 ]
 
 [workspace.package]
-version = "2.3.0"
+version = "2.4.0"
 repository = "https://github.com/provenance-io/provwasm"
 edition = "2021"
 license = "Apache-2.0"
@@ -33,9 +33,9 @@ cw-storage-plus = { version = "2.0.0" }
 ### ProvWasm
 provwasm-proto-build = { version = "0.1.0", path = "packages/proto-build" }
 provwasm-common = { version = "0.1.0", path = "packages/provwasm-common" }
-provwasm-mocks = { version = "2.3.0", path = "packages/provwasm-mocks" }
-provwasm-proc-macro = { version = "0.1.2", path = "packages/provwasm-proc-macro" }
-provwasm-std = { version = "2.3.0", path = "packages/provwasm-std" }
+provwasm-mocks = { version = "2.4.0", path = "packages/provwasm-mocks" }
+provwasm-proc-macro = { version = "0.2.0", path = "packages/provwasm-proc-macro" }
+provwasm-std = { version = "2.4.0", path = "packages/provwasm-std" }
 
 base64 = "0.22.0"
 chrono = { version = "0.4.37", default-features = false }
