@@ -35,4 +35,4 @@ serde = { workspace = true, default-features = false, features = ["derive"] }
 thiserror = { workspace = true }
 
 [dev-dependencies]
-#provwasm-mocks = { path = "../../todo/mocks" }
+provwasm-mocks = { workspace = true }
