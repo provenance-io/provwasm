@@ -6,7 +6,7 @@ use provwasm_std::types::provenance::name::v1::{
 };
 
 use crate::error::ContractError;
-use crate::msg::{ExecuteMsg, InitMsg, LookupResponse, QueryMsg, ResolveResponse};
+use crate::msg::{ExecuteMsg, InitMsg, LookupResponse, QueryMsg};
 use crate::state::{State, CONFIG};
 
 /// Initialize the smart contract config state and bind a name to the contract address.
