@@ -12,7 +12,7 @@ fmt:
 
 .PHONY: build
 build:
-	@cargo wasm
+	@cargo build
 
 .PHONY: test
 test:
