@@ -296,7 +296,7 @@ mod tests {
                 name: "contract.pb".into(),
             },
         )
-            .unwrap();
+        .unwrap();
         // Ensure a message was created to bind the name to the contract address.
         assert_eq!(1, res.messages.len());
     }
@@ -328,7 +328,7 @@ mod tests {
             volume: 0,
             usd_mills: 0,
         }
-            .into();
+        .into();
 
         // Create marker execute message
         let msg = ExecuteMsg::Create {
@@ -379,7 +379,7 @@ mod tests {
             volume: 0,
             usd_mills: 0,
         }
-            .into();
+        .into();
 
         // Create marker execute message
         let msg = ExecuteMsg::Create {
@@ -416,7 +416,7 @@ mod tests {
             administrator: contract_address,
             access: all_access(&env.contract.address),
         }
-            .into();
+        .into();
 
         // Create an access grant execute message
         let msg = ExecuteMsg::GrantAccess {
@@ -448,7 +448,7 @@ mod tests {
             denom: "budz".to_string(),
             administrator: env.contract.address.to_string(),
         }
-            .into();
+        .into();
 
         // Create a finalize marker execute message
         let msg = ExecuteMsg::Finalize {
@@ -480,7 +480,7 @@ mod tests {
             denom: "budz".to_string(),
             administrator: env.contract.address.to_string(),
         }
-            .into();
+        .into();
 
         // Create an activate marker execute message
         let msg = ExecuteMsg::Activate {
@@ -518,7 +518,7 @@ mod tests {
                 amount: "20".to_string(),
             }],
         }
-            .into();
+        .into();
 
         // Create a withdraw execute message
         let msg = ExecuteMsg::Withdraw {
@@ -554,7 +554,7 @@ mod tests {
             }),
             administrator: env.contract.address.to_string(),
         }
-            .into();
+        .into();
 
         // Create a mint coins marker handler message
         let msg = ExecuteMsg::Mint {
@@ -590,7 +590,7 @@ mod tests {
             }),
             administrator: env.contract.address.to_string(),
         }
-            .into();
+        .into();
 
         // Create a burn coins marker handler message
         let msg = ExecuteMsg::Burn {
@@ -623,7 +623,7 @@ mod tests {
             denom: "budz".to_string(),
             administrator: env.contract.address.to_string(),
         }
-            .into();
+        .into();
 
         // Create a cancel marker handler message
         let msg = ExecuteMsg::Cancel {
@@ -655,7 +655,7 @@ mod tests {
             denom: "budz".to_string(),
             administrator: env.contract.address.to_string(),
         }
-            .into();
+        .into();
 
         // Create a destroy marker handler message
         let msg = ExecuteMsg::Destroy {
@@ -692,7 +692,7 @@ mod tests {
             from_address: env.contract.address.to_string(),
             to_address: deps.api.addr_make("toaddress").into(),
         }
-            .into();
+        .into();
 
         // Create a transfer execute message
         let msg = ExecuteMsg::Transfer {
