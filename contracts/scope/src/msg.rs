@@ -1,5 +1,8 @@
 use cosmwasm_schema::{cw_serde, QueryResponses};
-use provwasm_std::types::provenance::metadata::v1::Scope;
+use provwasm_std::types::provenance::metadata::v1::{
+    ContractSpecificationResponse, PartyType, RecordsResponse, Scope, ScopeResponse,
+    SessionsResponse,
+};
 
 #[cw_serde]
 pub struct InitMsg {
@@ -33,14 +36,41 @@ pub enum QueryMsg {
 pub struct ContractSpecData {
     pub id: Vec<u8>,
     pub class_name: String,
-    pub description: String,
     pub owner_addresses: Vec<String>,
-    pub party_type: String,
+    pub parties_involved: Vec<String>,
 }
 
 #[cw_serde]
 pub struct ContractSpecResp {
     pub contract_spec: Option<ContractSpecData>,
+}
+
+impl From<ContractSpecificationResponse> for ContractSpecResp {
+    fn from(contract: ContractSpecificationResponse) -> Self {
+        ContractSpecResp {
+            contract_spec: match contract.contract_specification {
+                None => None,
+                Some(spec) => match spec.specification {
+                    None => None,
+                    Some(spec) => Some(ContractSpecData {
+                        id: spec.to_proto_bytes(),
+                        class_name: spec.class_name,
+                        owner_addresses: spec.owner_addresses,
+                        parties_involved: spec
+                            .parties_involved
+                            .into_iter()
+                            .map(|party| {
+                                PartyType::try_from(party)
+                                    .unwrap()
+                                    .as_str_name()
+                                    .to_string()
+                            })
+                            .collect(),
+                    }),
+                },
+            },
+        }
+    }
 }
 
 #[cw_serde]
