@@ -148,17 +148,46 @@ impl From<SessionsResponse> for SessionsResp {
 }
 
 #[cw_serde]
-pub struct RecordsData {
+pub struct RecordData {
     pub name: String,
-    pub session_id: String,
-    pub process_name: Option<String>,
-    pub process_method: Option<String>,
+    pub session_id: Vec<u8>,
+    pub process: Option<(String, String)>,
+    pub inputs: Vec<String>,
+    pub outputs: Vec<String>,
+    pub specification_id: Vec<u8>,
 }
 
 #[cw_serde]
 pub struct RecordsResp {
-    pub records: Vec<RecordsData>,
-    pub inputs: Vec<String>,
-    pub output: String,
-    pub specification_id: String,
+    pub records: Vec<RecordData>,
+}
+
+impl From<RecordsResponse> for RecordsResp {
+    fn from(records_response: RecordsResponse) -> Self {
+        RecordsResp {
+            records: records_response
+                .records
+                .into_iter()
+                .filter(|wrapper| wrapper.record.is_none())
+                .map(|wrapper| {
+                    let record = wrapper.record.unwrap();
+                    RecordData {
+                        name: record.name,
+                        session_id: record.session_id,
+                        process: match record.process {
+                            None => None,
+                            Some(process) => Some((process.name, process.method)),
+                        },
+                        inputs: record.inputs.into_iter().map(|input| input.name).collect(),
+                        outputs: record
+                            .outputs
+                            .into_iter()
+                            .map(|output| output.hash)
+                            .collect(),
+                        specification_id: record.specification_id,
+                    }
+                })
+                .collect(),
+        }
+    }
 }
