@@ -111,15 +111,40 @@ impl From<ScopeResponse> for ScopeResp {
 
 #[cw_serde]
 pub struct SessionData {
-    pub session_id: String,
-    pub specification_id: String,
+    pub session_id: Vec<u8>,
+    pub specification_id: Vec<u8>,
     pub name: String,
-    pub data_access: Vec<String>,
+    pub parties: Vec<String>,
 }
 
 #[cw_serde]
 pub struct SessionsResp {
     pub session: Vec<SessionData>,
+}
+
+impl From<SessionsResponse> for SessionsResp {
+    fn from(session: SessionsResponse) -> Self {
+        SessionsResp {
+            session: session
+                .sessions
+                .into_iter()
+                .filter(|wrapper| wrapper.session.is_none())
+                .map(|wrapper| {
+                    let session = wrapper.session.unwrap();
+                    SessionData {
+                        session_id: session.session_id,
+                        specification_id: session.specification_id,
+                        name: session.name,
+                        parties: session
+                            .parties
+                            .into_iter()
+                            .map(|party| party.address)
+                            .collect(),
+                    }
+                })
+                .collect(),
+        }
+    }
 }
 
 #[cw_serde]
