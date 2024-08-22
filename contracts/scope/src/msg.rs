@@ -53,7 +53,7 @@ impl From<ContractSpecificationResponse> for ContractSpecResp {
                 Some(spec) => match spec.specification {
                     None => None,
                     Some(spec) => Some(ContractSpecData {
-                        id: spec.to_proto_bytes(),
+                        id: spec.specification_id,
                         class_name: spec.class_name,
                         owner_addresses: spec.owner_addresses,
                         parties_involved: spec
@@ -75,8 +75,8 @@ impl From<ContractSpecificationResponse> for ContractSpecResp {
 
 #[cw_serde]
 pub struct ScopeData {
-    pub scope_id: String,
-    pub specification_id: String,
+    pub scope_id: Vec<u8>,
+    pub specification_id: Vec<u8>,
     pub owners: Vec<String>,
     pub value_owner_address: String,
 }
@@ -84,6 +84,29 @@ pub struct ScopeData {
 #[cw_serde]
 pub struct ScopeResp {
     pub scope: Option<ScopeData>,
+}
+
+impl From<ScopeResponse> for ScopeResp {
+    fn from(scope_response: ScopeResponse) -> Self {
+        ScopeResp {
+            scope: match scope_response.scope {
+                None => None,
+                Some(wrapper) => match wrapper.scope {
+                    None => None,
+                    Some(scope) => Some(ScopeData {
+                        scope_id: scope.scope_id,
+                        specification_id: scope.specification_id,
+                        owners: scope
+                            .owners
+                            .into_iter()
+                            .map(|owner| owner.address)
+                            .collect(),
+                        value_owner_address: scope.value_owner_address,
+                    }),
+                },
+            },
+        }
+    }
 }
 
 #[cw_serde]
