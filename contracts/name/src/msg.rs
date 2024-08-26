@@ -40,7 +40,7 @@ impl From<QueryResolveResponse> for ResolveResponse {
 
 #[cw_serde]
 pub struct LookupResponse {
-    name: Vec<String>,
+    pub name: Vec<String>,
 }
 
 impl From<QueryReverseLookupResponse> for LookupResponse {

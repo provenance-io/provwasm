@@ -431,8 +431,13 @@ mod tests {
         .unwrap();
 
         // Ensure that we got the expected number of records.
-        let rep: String = from_json(bin).unwrap();
-        assert_eq!(rep, "[b.pb,a.pb]");
+        let rep: LookupResponse = from_json(bin).unwrap();
+        assert_eq!(
+            rep,
+            LookupResponse {
+                name: vec!["b.pb".to_string(), "a.pb".to_string()]
+            }
+        );
     }
 
     #[test]
@@ -457,7 +462,7 @@ mod tests {
         .unwrap();
 
         // Ensure that we got zero records.
-        let rep: String = from_json(bin).unwrap();
-        assert_eq!(rep, "[]");
+        let rep: LookupResponse = from_json(bin).unwrap();
+        assert_eq!(rep, LookupResponse { name: vec![] });
     }
 }
