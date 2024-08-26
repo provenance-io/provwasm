@@ -1,7 +1,6 @@
 use cosmwasm_schema::{cw_serde, QueryResponses};
 use provwasm_std::types::provenance::metadata::v1::{
-    ContractSpecificationResponse, PartyType, RecordsResponse, Scope, ScopeResponse,
-    SessionsResponse,
+    ContractSpecificationResponse, PartyType, RecordsResponse, ScopeResponse, SessionsResponse,
 };
 
 #[cw_serde]
