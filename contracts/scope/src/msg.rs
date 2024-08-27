@@ -127,7 +127,7 @@ impl From<SessionsResponse> for SessionsResp {
             session: session
                 .sessions
                 .into_iter()
-                .filter(|wrapper| wrapper.session.is_none())
+                .filter(|wrapper| wrapper.session.is_some())
                 .map(|wrapper| {
                     let session = wrapper.session.unwrap();
                     SessionData {
@@ -167,7 +167,7 @@ impl From<RecordsResponse> for RecordsResp {
             records: records_response
                 .records
                 .into_iter()
-                .filter(|wrapper| wrapper.record.is_none())
+                .filter(|wrapper| wrapper.record.is_some())
                 .map(|wrapper| {
                     let record = wrapper.record.unwrap();
                     RecordData {
