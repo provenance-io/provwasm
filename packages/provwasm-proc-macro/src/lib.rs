@@ -60,7 +60,17 @@ pub fn derive_cosmwasm_ext(input: TokenStream) -> TokenStream {
             pub fn mock_response<T: provwasm_common::MockableQuerier>(querier: &mut T, response: #res) {
                 querier.register_custom_query(#path.to_string(), Box::new(move |data| {
                     cosmwasm_std::SystemResult::Ok(cosmwasm_std::ContractResult::Ok(
-                        cosmwasm_std::Binary::new(response.to_proto_bytes())))
+                        cosmwasm_std::Binary::new(crate::types::tendermint::abci::ResponseQuery{
+                            code: 0,
+                            log: "".to_string(),
+                            info: "".to_string(),
+                            index: 0,
+                            key: vec![],
+                            value: response.to_proto_bytes(),
+                            proof_ops: None,
+                            height: 0,
+                            codespace: "".to_string(),
+                        }.to_proto_bytes())))
                 }))
             }
 
