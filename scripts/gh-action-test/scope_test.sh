@@ -1,4 +1,5 @@
 #!/bin/bash -e
+set -x
 
 # This script stores and instantiates the scope smart contract for the metadata module
 PROV_CMD="provenanced"
@@ -92,16 +93,13 @@ $PROV_CMD tx metadata write-scope \
 #"$PROV_CMD" tx wasm execute \
 #  "$contract" \
 #  '{
-#    "write_scope":{
-#      "scope":{
-#        "scope_id":"scopeid",
-#        "specification_id":"scopeid",
-#        "owners":['"$node0"'],
-#        "data_access":"access",
-#        "value_owner_address":"",
-#        "require_party_rollup":false,
+#    "write_scope": {
+#      "scope": {
+#        "scope_id": [0, 174, 30, 37, 47, 123, 130, 69, 19, 137, 241, 134, 241, 132, 253, 230, 1],
+#        "specification_id": [4, 253, 43, 198, 76, 117, 80, 69, 128, 163, 161, 189, 231, 228, 228, 151, 171],
+#        "owners": ["'"$node0"'"],
+#        "value_owner_address": "'"$node0"'"
 #      },
-#      "signers": ["one"],
 #    }
 #  }' \
 #  --from="$node0" \
