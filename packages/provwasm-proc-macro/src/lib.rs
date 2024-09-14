@@ -305,7 +305,7 @@ where
         }
 
         if let Some(TokenTree::Group(group)) = attr.tokens.clone().into_iter().next() {
-            let kv_groups = group.stream().into_iter().group_by(|t| {
+            let kv_groups = group.stream().into_iter().chunk_by(|t| {
                 if let TokenTree::Punct(punct) = t {
                     punct.as_char() != ','
                 } else {
