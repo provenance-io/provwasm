@@ -8,7 +8,7 @@ use serde::de;
 use serde::de::Visitor;
 use serde::ser::SerializeMap;
 
-#[derive(Clone, PartialEq, Eq, ::prost::Message, schemars::JsonSchema)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, schemars::JsonSchema)]
 pub struct Timestamp {
     /// Represents seconds of UTC time since Unix epoch
     /// 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to
@@ -83,7 +83,7 @@ impl From<DateTime<Utc>> for Timestamp {
         }
     }
 }
-#[derive(Clone, PartialEq, Eq, ::prost::Message, schemars::JsonSchema)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, schemars::JsonSchema)]
 pub struct Duration {
     /// Signed seconds of the span of time. Must be from -315,576,000,000
     /// to +315,576,000,000 inclusive. Note: these bounds are computed from:
