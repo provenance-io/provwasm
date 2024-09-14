@@ -55,7 +55,7 @@ pub struct GenesisState {
 }
 /// QueryOracleAddressRequest queries for the address of the oracle.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.oracle.v1.QueryOracleAddressRequest")]
 #[proto_query(
     path = "/provenance.oracle.v1.Query/OracleAddress",
@@ -110,7 +110,7 @@ pub struct MsgSendQueryOracleRequest {
 }
 /// MsgSendQueryOracleResponse contains the id of the oracle query.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.oracle.v1.MsgSendQueryOracleResponse")]
 pub struct MsgSendQueryOracleResponse {
     /// The sequence number that uniquely identifies the query.
@@ -131,7 +131,7 @@ pub struct MsgUpdateOracleRequest {
 }
 /// MsgUpdateOracleResponse is the response type for updating the oracle.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.oracle.v1.MsgUpdateOracleResponse")]
 pub struct MsgUpdateOracleResponse {}
 pub struct OracleQuerier<'a, Q: cosmwasm_std::CustomQuery> {

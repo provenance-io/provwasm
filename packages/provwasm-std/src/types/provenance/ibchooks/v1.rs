@@ -25,7 +25,7 @@ pub struct GenesisState {
 }
 /// QueryParamsRequest is the request type for the Query/Params RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.ibchooks.v1.QueryParamsRequest")]
 #[proto_query(
     path = "/provenance.ibchooks.v1.Query/Params",
@@ -77,7 +77,7 @@ pub struct MsgUpdateParamsRequest {
 }
 /// MsgUpdateParamsResponse is a response message for the UpdateParams endpoint.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.ibchooks.v1.MsgUpdateParamsResponse")]
 pub struct MsgUpdateParamsResponse {}
 pub struct IbchooksQuerier<'a, Q: cosmwasm_std::CustomQuery> {

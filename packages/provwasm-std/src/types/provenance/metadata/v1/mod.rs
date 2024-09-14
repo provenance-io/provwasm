@@ -263,7 +263,7 @@ pub struct EventSetNetAssetValue {
 }
 /// Params defines the set of params for the metadata module.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.Params")]
 pub struct Params {}
 /// ScopeIdInfo contains various info regarding a scope id.
@@ -977,7 +977,7 @@ pub struct ObjectStoreLocator {
 }
 /// Params defines the parameters for the metadata-locator module methods.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.OSLocatorParams")]
 pub struct OsLocatorParams {
     #[prost(uint32, tag = "1")]
@@ -1026,7 +1026,7 @@ pub struct MarkerNetAssetValues {
 }
 /// QueryParamsRequest is the request type for the Query/Params RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.QueryParamsRequest")]
 #[proto_query(
     path = "/provenance.metadata.v1.Query/Params",
@@ -1039,7 +1039,7 @@ pub struct QueryParamsRequest {
 }
 /// QueryParamsResponse is the response type for the Query/Params RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.QueryParamsResponse")]
 pub struct QueryParamsResponse {
     /// params defines the parameters of the module.
@@ -1792,7 +1792,7 @@ pub struct GetByAddrResponse {
 }
 /// OSLocatorParamsRequest is the request type for the Query/OSLocatorParams RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.OSLocatorParamsRequest")]
 #[proto_query(
     path = "/provenance.metadata.v1.Query/OSLocatorParams",
@@ -1805,7 +1805,7 @@ pub struct OsLocatorParamsRequest {
 }
 /// OSLocatorParamsResponse is the response type for the Query/OSLocatorParams RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.OSLocatorParamsResponse")]
 pub struct OsLocatorParamsResponse {
     /// params defines the parameters of the module.
@@ -2028,7 +2028,7 @@ pub struct MsgDeleteScopeRequest {
 }
 /// MsgDeleteScopeResponse is the response type for the Msg/DeleteScope RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgDeleteScopeResponse")]
 pub struct MsgDeleteScopeResponse {}
 /// MsgAddScopeDataAccessRequest is the request to add data access AccAddress to scope
@@ -2048,7 +2048,7 @@ pub struct MsgAddScopeDataAccessRequest {
 }
 /// MsgAddScopeDataAccessResponse is the response for adding data access AccAddress to scope
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgAddScopeDataAccessResponse")]
 pub struct MsgAddScopeDataAccessResponse {}
 /// MsgDeleteScopeDataAccessRequest is the request to remove data access AccAddress to scope
@@ -2068,7 +2068,7 @@ pub struct MsgDeleteScopeDataAccessRequest {
 }
 /// MsgDeleteScopeDataAccessResponse is the response from removing data access AccAddress to scope
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgDeleteScopeDataAccessResponse")]
 pub struct MsgDeleteScopeDataAccessResponse {}
 /// MsgAddScopeOwnerRequest is the request to add owner AccAddress to scope
@@ -2088,7 +2088,7 @@ pub struct MsgAddScopeOwnerRequest {
 }
 /// MsgAddScopeOwnerResponse is the response for adding owner AccAddresses to scope
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgAddScopeOwnerResponse")]
 pub struct MsgAddScopeOwnerResponse {}
 /// MsgDeleteScopeOwnerRequest is the request to remove owner AccAddresses to scope
@@ -2108,7 +2108,7 @@ pub struct MsgDeleteScopeOwnerRequest {
 }
 /// MsgDeleteScopeOwnerResponse is the response from removing owner AccAddress to scope
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgDeleteScopeOwnerResponse")]
 pub struct MsgDeleteScopeOwnerResponse {}
 /// MsgUpdateValueOwnersRequest is the request to update the value owner addresses in one or more scopes.
@@ -2128,7 +2128,7 @@ pub struct MsgUpdateValueOwnersRequest {
 }
 /// MsgUpdateValueOwnersResponse is the response from updating value owner addresses in one or more scopes.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgUpdateValueOwnersResponse")]
 pub struct MsgUpdateValueOwnersResponse {}
 /// MsgMigrateValueOwnerRequest is the request to migrate all scopes with one value owner to another value owner.
@@ -2148,7 +2148,7 @@ pub struct MsgMigrateValueOwnerRequest {
 }
 /// MsgMigrateValueOwnerResponse is the response from migrating a value owner address.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgMigrateValueOwnerResponse")]
 pub struct MsgMigrateValueOwnerResponse {}
 /// MsgWriteSessionRequest is the request type for the Msg/WriteSession RPC method.
@@ -2267,7 +2267,7 @@ pub struct MsgDeleteRecordRequest {
 }
 /// MsgDeleteRecordResponse is the response type for the Msg/DeleteRecord RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgDeleteRecordResponse")]
 pub struct MsgDeleteRecordResponse {}
 /// MsgWriteScopeSpecificationRequest is the request type for the Msg/WriteScopeSpecification RPC method.
@@ -2312,7 +2312,7 @@ pub struct MsgDeleteScopeSpecificationRequest {
 }
 /// MsgDeleteScopeSpecificationResponse is the response type for the Msg/DeleteScopeSpecification RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgDeleteScopeSpecificationResponse")]
 pub struct MsgDeleteScopeSpecificationResponse {}
 /// MsgWriteContractSpecificationRequest is the request type for the Msg/WriteContractSpecification RPC method.
@@ -2361,7 +2361,7 @@ pub struct MsgAddContractSpecToScopeSpecRequest {
 }
 /// MsgAddContractSpecToScopeSpecResponse is the response type for the Msg/AddContractSpecToScopeSpec RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgAddContractSpecToScopeSpecResponse")]
 pub struct MsgAddContractSpecToScopeSpecResponse {}
 /// MsgDeleteContractSpecFromScopeSpecRequest is the request type for the Msg/DeleteContractSpecFromScopeSpec RPC method.
@@ -2381,7 +2381,7 @@ pub struct MsgDeleteContractSpecFromScopeSpecRequest {
 /// MsgDeleteContractSpecFromScopeSpecResponse is the response type for the Msg/DeleteContractSpecFromScopeSpec RPC
 /// method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgDeleteContractSpecFromScopeSpecResponse")]
 pub struct MsgDeleteContractSpecFromScopeSpecResponse {}
 /// MsgDeleteContractSpecificationRequest is the request type for the Msg/DeleteContractSpecification RPC method.
@@ -2397,7 +2397,7 @@ pub struct MsgDeleteContractSpecificationRequest {
 }
 /// MsgDeleteContractSpecificationResponse is the response type for the Msg/DeleteContractSpecification RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgDeleteContractSpecificationResponse")]
 pub struct MsgDeleteContractSpecificationResponse {}
 /// MsgWriteRecordSpecificationRequest is the request type for the Msg/WriteRecordSpecification RPC method.
@@ -2443,7 +2443,7 @@ pub struct MsgDeleteRecordSpecificationRequest {
 }
 /// MsgDeleteRecordSpecificationResponse is the response type for the Msg/DeleteRecordSpecification RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgDeleteRecordSpecificationResponse")]
 pub struct MsgDeleteRecordSpecificationResponse {}
 /// MsgBindOSLocatorRequest is the request type for the Msg/BindOSLocator RPC method.
@@ -2515,7 +2515,7 @@ pub struct MsgSetAccountDataRequest {
 }
 /// MsgSetAccountDataResponse is the response from setting/updating/deleting a scope's account data.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgSetAccountDataResponse")]
 pub struct MsgSetAccountDataResponse {}
 /// MsgWriteP8eContractSpecRequest has been deprecated and is no longer usable.
@@ -2592,7 +2592,7 @@ pub struct MsgAddNetAssetValuesRequest {
 }
 /// MsgAddNetAssetValuesResponse defines the Msg/AddNetAssetValue response type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgAddNetAssetValuesResponse")]
 pub struct MsgAddNetAssetValuesResponse {}
 pub struct MetadataQuerier<'a, Q: cosmwasm_std::CustomQuery> {

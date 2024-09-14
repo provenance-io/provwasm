@@ -28,7 +28,7 @@ pub struct EventTimeoutRevertFailure {
 }
 /// EventParamsUpdated is an event emitted when the ibcratelimit module's params have been updated.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.ibcratelimit.v1.EventParamsUpdated")]
 pub struct EventParamsUpdated {}
 /// Params defines the parameters for the ibcratelimit module.
@@ -51,7 +51,7 @@ pub struct GenesisState {
 }
 /// ParamsRequest is the request type for the Query/Params RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.ibcratelimit.v1.ParamsRequest")]
 #[proto_query(
     path = "/provenance.ibcratelimit.v1.Query/Params",
@@ -84,7 +84,7 @@ pub struct MsgGovUpdateParamsRequest {
 /// MsgGovUpdateParamsResponse is a response message for the GovUpdateParams endpoint.
 /// Deprecated: Use MsgUpdateParamsResponse instead.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.ibcratelimit.v1.MsgGovUpdateParamsResponse")]
 #[deprecated]
 pub struct MsgGovUpdateParamsResponse {}
@@ -102,7 +102,7 @@ pub struct MsgUpdateParamsRequest {
 }
 /// MsgUpdateParamsResponse is a response message for the UpdateParams endpoint.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.ibcratelimit.v1.MsgUpdateParamsResponse")]
 pub struct MsgUpdateParamsResponse {}
 pub struct IbcratelimitQuerier<'a, Q: cosmwasm_std::CustomQuery> {

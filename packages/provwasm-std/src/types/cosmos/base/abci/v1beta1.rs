@@ -91,7 +91,7 @@ pub struct Attribute {
 }
 /// GasInfo defines tx execution gas context.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.base.abci.v1beta1.GasInfo")]
 pub struct GasInfo {
     /// GasWanted is the maximum units of work we allow this tx to perform.

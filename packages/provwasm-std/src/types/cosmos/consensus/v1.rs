@@ -1,7 +1,7 @@
 use provwasm_proc_macro::CosmwasmExt;
 /// QueryParamsRequest defines the request type for querying x/consensus parameters.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.consensus.v1.QueryParamsRequest")]
 #[proto_query(
     path = "/cosmos.consensus.v1.Query/Params",
@@ -45,7 +45,7 @@ pub struct MsgUpdateParams {
 /// MsgUpdateParamsResponse defines the response structure for executing a
 /// MsgUpdateParams message.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.consensus.v1.MsgUpdateParamsResponse")]
 pub struct MsgUpdateParamsResponse {}
 pub struct ConsensusQuerier<'a, Q: cosmwasm_std::CustomQuery> {

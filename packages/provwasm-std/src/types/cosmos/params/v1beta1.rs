@@ -54,7 +54,7 @@ pub struct QueryParamsResponse {
 ///
 /// Since: cosmos-sdk 0.46
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.params.v1beta1.QuerySubspacesRequest")]
 #[proto_query(
     path = "/cosmos.params.v1beta1.Query/Subspaces",

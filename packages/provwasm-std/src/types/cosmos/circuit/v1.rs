@@ -138,7 +138,7 @@ pub struct AccountsResponse {
 }
 /// QueryDisableListRequest is the request type for the Query/DisabledList RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.circuit.v1.QueryDisabledListRequest")]
 #[proto_query(
     path = "/cosmos.circuit.v1.Query/DisabledList",
@@ -173,7 +173,7 @@ pub struct MsgAuthorizeCircuitBreaker {
 }
 /// MsgAuthorizeCircuitBreakerResponse defines the Msg/AuthorizeCircuitBreaker response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.circuit.v1.MsgAuthorizeCircuitBreakerResponse")]
 pub struct MsgAuthorizeCircuitBreakerResponse {
     #[prost(bool, tag = "1")]
@@ -197,7 +197,7 @@ pub struct MsgTripCircuitBreaker {
 }
 /// MsgTripCircuitBreakerResponse defines the Msg/TripCircuitBreaker response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.circuit.v1.MsgTripCircuitBreakerResponse")]
 pub struct MsgTripCircuitBreakerResponse {
     #[prost(bool, tag = "1")]
@@ -219,7 +219,7 @@ pub struct MsgResetCircuitBreaker {
 }
 /// MsgResetCircuitBreakerResponse defines the Msg/ResetCircuitBreaker response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.circuit.v1.MsgResetCircuitBreakerResponse")]
 pub struct MsgResetCircuitBreakerResponse {
     #[prost(bool, tag = "1")]

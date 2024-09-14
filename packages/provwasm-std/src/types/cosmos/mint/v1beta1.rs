@@ -49,7 +49,7 @@ pub struct GenesisState {
 }
 /// QueryParamsRequest is the request type for the Query/Params RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.mint.v1beta1.QueryParamsRequest")]
 #[proto_query(
     path = "/cosmos.mint.v1beta1.Query/Params",
@@ -67,7 +67,7 @@ pub struct QueryParamsResponse {
 }
 /// QueryInflationRequest is the request type for the Query/Inflation RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.mint.v1beta1.QueryInflationRequest")]
 #[proto_query(
     path = "/cosmos.mint.v1beta1.Query/Inflation",
@@ -87,7 +87,7 @@ pub struct QueryInflationResponse {
 /// QueryAnnualProvisionsRequest is the request type for the
 /// Query/AnnualProvisions RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.mint.v1beta1.QueryAnnualProvisionsRequest")]
 #[proto_query(
     path = "/cosmos.mint.v1beta1.Query/AnnualProvisions",
@@ -125,7 +125,7 @@ pub struct MsgUpdateParams {
 ///
 /// Since: cosmos-sdk 0.47
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.mint.v1beta1.MsgUpdateParamsResponse")]
 pub struct MsgUpdateParamsResponse {}
 pub struct MintQuerier<'a, Q: cosmwasm_std::CustomQuery> {

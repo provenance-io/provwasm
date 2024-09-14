@@ -49,7 +49,7 @@ pub struct ClientConsensusStates {
 /// height continues to be monitonically increasing even as the RevisionHeight
 /// gets reset
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.client.v1.Height")]
 pub struct Height {
     /// the revision that the client is currently on
@@ -365,7 +365,7 @@ pub struct QueryClientStatusResponse {
 /// QueryClientParamsRequest is the request type for the Query/ClientParams RPC
 /// method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.client.v1.QueryClientParamsRequest")]
 #[proto_query(
     path = "/ibc.core.client.v1.Query/ClientParams",
@@ -385,7 +385,7 @@ pub struct QueryClientParamsResponse {
 /// QueryUpgradedClientStateRequest is the request type for the
 /// Query/UpgradedClientState RPC method
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.client.v1.QueryUpgradedClientStateRequest")]
 #[proto_query(
     path = "/ibc.core.client.v1.Query/UpgradedClientState",
@@ -405,7 +405,7 @@ pub struct QueryUpgradedClientStateResponse {
 /// QueryUpgradedConsensusStateRequest is the request type for the
 /// Query/UpgradedConsensusState RPC method
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.client.v1.QueryUpgradedConsensusStateRequest")]
 #[proto_query(
     path = "/ibc.core.client.v1.Query/UpgradedConsensusState",
@@ -455,7 +455,7 @@ pub struct QueryVerifyMembershipRequest {
 }
 /// QueryVerifyMembershipResponse is the response type for the Query/VerifyMembership RPC method
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.client.v1.QueryVerifyMembershipResponse")]
 pub struct QueryVerifyMembershipResponse {
     /// boolean indicating success or failure of proof verification.
@@ -480,7 +480,7 @@ pub struct MsgCreateClient {
 }
 /// MsgCreateClientResponse defines the Msg/CreateClient response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.client.v1.MsgCreateClientResponse")]
 pub struct MsgCreateClientResponse {}
 /// MsgUpdateClient defines an sdk.Msg to update a IBC client state using
@@ -501,7 +501,7 @@ pub struct MsgUpdateClient {
 }
 /// MsgUpdateClientResponse defines the Msg/UpdateClient response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.client.v1.MsgUpdateClientResponse")]
 pub struct MsgUpdateClientResponse {}
 /// MsgUpgradeClient defines an sdk.Msg to upgrade an IBC client to a new client
@@ -532,7 +532,7 @@ pub struct MsgUpgradeClient {
 }
 /// MsgUpgradeClientResponse defines the Msg/UpgradeClient response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.client.v1.MsgUpgradeClientResponse")]
 pub struct MsgUpgradeClientResponse {}
 /// MsgSubmitMisbehaviour defines an sdk.Msg type that submits Evidence for
@@ -556,7 +556,7 @@ pub struct MsgSubmitMisbehaviour {
 /// MsgSubmitMisbehaviourResponse defines the Msg/SubmitMisbehaviour response
 /// type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.client.v1.MsgSubmitMisbehaviourResponse")]
 pub struct MsgSubmitMisbehaviourResponse {}
 /// MsgRecoverClient defines the message used to recover a frozen or expired client.
@@ -577,7 +577,7 @@ pub struct MsgRecoverClient {
 }
 /// MsgRecoverClientResponse defines the Msg/RecoverClient response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.client.v1.MsgRecoverClientResponse")]
 pub struct MsgRecoverClientResponse {}
 /// MsgIBCSoftwareUpgrade defines the message used to schedule an upgrade of an IBC client using a v1 governance proposal
@@ -603,7 +603,7 @@ pub struct MsgIbcSoftwareUpgrade {
 }
 /// MsgIBCSoftwareUpgradeResponse defines the Msg/IBCSoftwareUpgrade response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.client.v1.MsgIBCSoftwareUpgradeResponse")]
 pub struct MsgIbcSoftwareUpgradeResponse {}
 /// MsgUpdateParams defines the sdk.Msg type to update the client parameters.
@@ -622,7 +622,7 @@ pub struct MsgUpdateParams {
 }
 /// MsgUpdateParamsResponse defines the MsgUpdateParams response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.client.v1.MsgUpdateParamsResponse")]
 pub struct MsgUpdateParamsResponse {}
 pub struct ClientQuerier<'a, Q: cosmwasm_std::CustomQuery> {

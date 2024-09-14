@@ -196,7 +196,7 @@ pub struct UpdateConversionFeeDenomProposal {
 }
 /// QueryParamsRequest is the request type for the Query/Params RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.msgfees.v1.QueryParamsRequest")]
 #[proto_query(
     path = "/provenance.msgfees.v1.Query/Params",
@@ -261,7 +261,7 @@ pub struct MsgAssessCustomMsgFeeRequest {
 }
 /// MsgAssessCustomMsgFeeResponse defines the Msg/AssessCustomMsgFeee response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.msgfees.v1.MsgAssessCustomMsgFeeResponse")]
 pub struct MsgAssessCustomMsgFeeResponse {}
 /// AddMsgFeeProposal defines a governance proposal to add additional msg based fee
@@ -287,7 +287,7 @@ pub struct MsgAddMsgFeeProposalRequest {
 }
 /// MsgAddMsgFeeProposalResponse defines the Msg/AddMsgFeeProposal response type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.msgfees.v1.MsgAddMsgFeeProposalResponse")]
 pub struct MsgAddMsgFeeProposalResponse {}
 /// UpdateMsgFeeProposal defines a governance proposal to update a current msg based fee
@@ -313,7 +313,7 @@ pub struct MsgUpdateMsgFeeProposalRequest {
 }
 /// MsgUpdateMsgFeeProposalResponse defines the Msg/RemoveMsgFeeProposal response type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.msgfees.v1.MsgUpdateMsgFeeProposalResponse")]
 pub struct MsgUpdateMsgFeeProposalResponse {}
 /// RemoveMsgFeeProposal defines a governance proposal to delete a current msg based fee
@@ -332,7 +332,7 @@ pub struct MsgRemoveMsgFeeProposalRequest {
 }
 /// MsgRemoveMsgFeeProposalResponse defines the Msg/RemoveMsgFeeProposal response type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.msgfees.v1.MsgRemoveMsgFeeProposalResponse")]
 pub struct MsgRemoveMsgFeeProposalResponse {}
 /// UpdateNhashPerUsdMilProposal defines a governance proposal to update the nhash per usd mil param
@@ -351,7 +351,7 @@ pub struct MsgUpdateNhashPerUsdMilProposalRequest {
 }
 /// MsgUpdateNhashPerUsdMilProposalResponse defines the Msg/UpdateNhashPerUsdMilProposal response type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.msgfees.v1.MsgUpdateNhashPerUsdMilProposalResponse")]
 pub struct MsgUpdateNhashPerUsdMilProposalResponse {}
 /// UpdateConversionFeeDenomProposal defines a governance proposal to update the msg fee conversion denom
@@ -370,7 +370,7 @@ pub struct MsgUpdateConversionFeeDenomProposalRequest {
 }
 /// MsgUpdateConversionFeeDenomProposalResponse defines the Msg/UpdateConversionFeeDenomProposal response type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.msgfees.v1.MsgUpdateConversionFeeDenomProposalResponse")]
 pub struct MsgUpdateConversionFeeDenomProposalResponse {}
 pub struct MsgfeesQuerier<'a, Q: cosmwasm_std::CustomQuery> {

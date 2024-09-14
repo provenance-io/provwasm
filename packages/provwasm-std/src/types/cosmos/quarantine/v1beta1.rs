@@ -183,7 +183,7 @@ pub struct QueryIsQuarantinedRequest {
 }
 /// QueryIsQuarantinedResponse defines the RPC response of an IsQuarantined query.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.quarantine.v1beta1.QueryIsQuarantinedResponse")]
 pub struct QueryIsQuarantinedResponse {
     /// is_quarantined is true if the to_address has opted into quarantine.
@@ -262,7 +262,7 @@ pub struct MsgOptIn {
 }
 /// MsgOptInResponse defines the Msg/OptIn response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.quarantine.v1beta1.MsgOptInResponse")]
 pub struct MsgOptInResponse {}
 /// MsgOptOut represents a message for opting in to account quarantine.
@@ -275,7 +275,7 @@ pub struct MsgOptOut {
 }
 /// MsgOptOutResponse defines the Msg/OptOut response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.quarantine.v1beta1.MsgOptOutResponse")]
 pub struct MsgOptOutResponse {}
 /// MsgAccept represents a message for accepting quarantined funds.
@@ -325,7 +325,7 @@ pub struct MsgDecline {
 }
 /// MsgDeclineResponse defines the Msg/Decline response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.quarantine.v1beta1.MsgDeclineResponse")]
 pub struct MsgDeclineResponse {}
 /// MsgUpdateAutoResponses represents a message for updating quarantine auto-responses for a receiving address.
@@ -342,7 +342,7 @@ pub struct MsgUpdateAutoResponses {
 }
 /// MsgUpdateAutoResponsesResponse defines the Msg/UpdateAutoResponse response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.quarantine.v1beta1.MsgUpdateAutoResponsesResponse")]
 pub struct MsgUpdateAutoResponsesResponse {}
 pub struct QuarantineQuerier<'a, Q: cosmwasm_std::CustomQuery> {

@@ -108,7 +108,7 @@ pub struct Header {
 /// Fraction defines the protobuf message type for tmmath.Fraction that only
 /// supports positive values.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.lightclients.tendermint.v1.Fraction")]
 pub struct Fraction {
     #[prost(uint64, tag = "1")]

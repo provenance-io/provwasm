@@ -193,7 +193,7 @@ pub mod mode_info {
     /// to allow for additional fields such as locale for SIGN_MODE_TEXTUAL in the
     /// future
     #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+    #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
     #[proto_message(type_url = "/cosmos.tx.v1beta1.ModeInfo.Single")]
     pub struct Single {
         /// mode is the signing mode of the single signer

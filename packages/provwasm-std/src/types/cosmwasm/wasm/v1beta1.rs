@@ -1,7 +1,7 @@
 use provwasm_proc_macro::CosmwasmExt;
 /// AccessTypeParam
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmwasm.wasm.v1beta1.AccessTypeParam")]
 pub struct AccessTypeParam {
     #[prost(enumeration = "AccessType", tag = "1")]
@@ -99,7 +99,7 @@ pub struct ContractCodeHistoryEntry {
 /// AbsoluteTxPosition is a unique transaction position that allows for global
 /// ordering of transactions.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmwasm.wasm.v1beta1.AbsoluteTxPosition")]
 pub struct AbsoluteTxPosition {
     /// BlockHeight is the block the contract was created at
@@ -249,7 +249,7 @@ pub struct MsgStoreCode {
 }
 /// MsgStoreCodeResponse returns store result data.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmwasm.wasm.v1beta1.MsgStoreCodeResponse")]
 pub struct MsgStoreCodeResponse {
     /// CodeID is the reference to the stored WASM code
@@ -365,7 +365,7 @@ pub struct MsgUpdateAdmin {
 }
 /// MsgUpdateAdminResponse returns empty data
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmwasm.wasm.v1beta1.MsgUpdateAdminResponse")]
 pub struct MsgUpdateAdminResponse {}
 /// MsgClearAdmin removes any admin stored for a smart contract
@@ -382,7 +382,7 @@ pub struct MsgClearAdmin {
 }
 /// MsgClearAdminResponse returns empty data
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmwasm.wasm.v1beta1.MsgClearAdminResponse")]
 pub struct MsgClearAdminResponse {}
 /// GenesisState - genesis state of x/wasm
@@ -819,7 +819,7 @@ pub struct QuerySmartContractStateResponse {
 }
 /// QueryCodeRequest is the request type for the Query/Code RPC method
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmwasm.wasm.v1beta1.QueryCodeRequest")]
 #[proto_query(
     path = "/cosmwasm.wasm.v1beta1.Query/Code",

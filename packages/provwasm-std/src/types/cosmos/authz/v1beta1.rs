@@ -199,7 +199,7 @@ pub struct MsgGrant {
 }
 /// MsgGrantResponse defines the Msg/MsgGrant response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.authz.v1beta1.MsgGrantResponse")]
 pub struct MsgGrantResponse {}
 /// MsgExec attempts to execute the provided messages using
@@ -240,7 +240,7 @@ pub struct MsgRevoke {
 }
 /// MsgRevokeResponse defines the Msg/MsgRevokeResponse response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.authz.v1beta1.MsgRevokeResponse")]
 pub struct MsgRevokeResponse {}
 pub struct AuthzQuerier<'a, Q: cosmwasm_std::CustomQuery> {

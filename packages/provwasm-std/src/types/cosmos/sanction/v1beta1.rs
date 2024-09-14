@@ -33,7 +33,7 @@ pub struct EventTempAddressUnsanctioned {
 }
 /// EventParamsUpdated is an event emitted when the sanction module params are updated.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.sanction.v1beta1.EventParamsUpdated")]
 pub struct EventParamsUpdated {}
 /// Params defines the configurable parameters of the sanction module.
@@ -143,7 +143,7 @@ pub struct QueryIsSanctionedRequest {
 }
 /// QueryIsSanctionedResponse defines the RPC response of an IsSanctioned query.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.sanction.v1beta1.QueryIsSanctionedResponse")]
 pub struct QueryIsSanctionedResponse {
     /// is_sanctioned is true if the address is sanctioned.
@@ -204,7 +204,7 @@ pub struct QueryTemporaryEntriesResponse {
 }
 /// QueryParamsRequest defines the RPC request for getting the sanction module params.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.sanction.v1beta1.QueryParamsRequest")]
 #[proto_query(
     path = "/cosmos.sanction.v1beta1.Query/Params",
@@ -235,7 +235,7 @@ pub struct MsgSanction {
 }
 /// MsgOptInResponse defines the Msg/Sanction response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.sanction.v1beta1.MsgSanctionResponse")]
 pub struct MsgSanctionResponse {}
 /// MsgSanction represents a message for the governance operation of unsanctioning addresses.
@@ -253,7 +253,7 @@ pub struct MsgUnsanction {
 }
 /// MsgOptInResponse defines the Msg/Unsanction response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.sanction.v1beta1.MsgUnsanctionResponse")]
 pub struct MsgUnsanctionResponse {}
 /// MsgUpdateParams represents a message for the governance operation of updating the sanction module params.
@@ -271,7 +271,7 @@ pub struct MsgUpdateParams {
 }
 /// MsgUpdateParamsResponse defined the Msg/UpdateParams response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.sanction.v1beta1.MsgUpdateParamsResponse")]
 pub struct MsgUpdateParamsResponse {}
 pub struct SanctionQuerier<'a, Q: cosmwasm_std::CustomQuery> {

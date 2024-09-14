@@ -13,7 +13,7 @@ pub struct ListenFinalizeBlockRequest {
 }
 /// ListenEndBlockResponse is the response type for the ListenEndBlock RPC method
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.store.streaming.abci.ListenFinalizeBlockResponse")]
 pub struct ListenFinalizeBlockResponse {}
 /// ListenCommitRequest is the request type for the ListenCommit RPC method
@@ -31,6 +31,6 @@ pub struct ListenCommitRequest {
 }
 /// ListenCommitResponse is the response type for the ListenCommit RPC method
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.store.streaming.abci.ListenCommitResponse")]
 pub struct ListenCommitResponse {}

@@ -417,7 +417,7 @@ pub struct QueryFeeEnabledChannelRequest {
 }
 /// QueryFeeEnabledChannelResponse defines the response type for the FeeEnabledChannel rpc
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.fee.v1.QueryFeeEnabledChannelResponse")]
 pub struct QueryFeeEnabledChannelResponse {
     /// boolean flag representing the fee enabled channel status
@@ -444,7 +444,7 @@ pub struct MsgRegisterPayee {
 }
 /// MsgRegisterPayeeResponse defines the response type for the RegisterPayee rpc
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.fee.v1.MsgRegisterPayeeResponse")]
 pub struct MsgRegisterPayeeResponse {}
 /// MsgRegisterCounterpartyPayee defines the request type for the RegisterCounterpartyPayee rpc
@@ -467,7 +467,7 @@ pub struct MsgRegisterCounterpartyPayee {
 }
 /// MsgRegisterCounterpartyPayeeResponse defines the response type for the RegisterCounterpartyPayee rpc
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.fee.v1.MsgRegisterCounterpartyPayeeResponse")]
 pub struct MsgRegisterCounterpartyPayeeResponse {}
 /// MsgPayPacketFee defines the request type for the PayPacketFee rpc
@@ -495,7 +495,7 @@ pub struct MsgPayPacketFee {
 }
 /// MsgPayPacketFeeResponse defines the response type for the PayPacketFee rpc
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.fee.v1.MsgPayPacketFeeResponse")]
 pub struct MsgPayPacketFeeResponse {}
 /// MsgPayPacketFeeAsync defines the request type for the PayPacketFeeAsync rpc
@@ -513,7 +513,7 @@ pub struct MsgPayPacketFeeAsync {
 }
 /// MsgPayPacketFeeAsyncResponse defines the response type for the PayPacketFeeAsync rpc
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.fee.v1.MsgPayPacketFeeAsyncResponse")]
 pub struct MsgPayPacketFeeAsyncResponse {}
 pub struct FeeQuerier<'a, Q: cosmwasm_std::CustomQuery> {

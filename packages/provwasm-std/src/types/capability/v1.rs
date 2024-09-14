@@ -2,7 +2,7 @@ use provwasm_proc_macro::CosmwasmExt;
 /// Capability defines an implementation of an object capability. The index
 /// provided to a Capability must be globally unique.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/capability.v1.Capability")]
 pub struct Capability {
     #[prost(uint64, tag = "1")]

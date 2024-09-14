@@ -76,7 +76,7 @@ pub struct QueuedTrigger {
 }
 /// BlockHeightEvent
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.trigger.v1.BlockHeightEvent")]
 pub struct BlockHeightEvent {
     /// The height that the trigger should fire at.
@@ -85,7 +85,7 @@ pub struct BlockHeightEvent {
 }
 /// BlockTimeEvent
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.trigger.v1.BlockTimeEvent")]
 pub struct BlockTimeEvent {
     /// The time the trigger should fire at.
@@ -139,7 +139,7 @@ pub struct GenesisState {
 }
 /// GasLimit defines the trigger module's grouping of a trigger and a gas limit
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.trigger.v1.GasLimit")]
 pub struct GasLimit {
     /// The identifier of the trigger this GasLimit belongs to.
@@ -151,7 +151,7 @@ pub struct GasLimit {
 }
 /// QueryTriggerByIDRequest queries for the Trigger with an identifier of id.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.trigger.v1.QueryTriggerByIDRequest")]
 #[proto_query(
     path = "/provenance.trigger.v1.Query/TriggerByID",
@@ -215,7 +215,7 @@ pub struct MsgCreateTriggerRequest {
 }
 /// MsgCreateTriggerResponse is the response type for creating a trigger RPC
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.trigger.v1.MsgCreateTriggerResponse")]
 pub struct MsgCreateTriggerResponse {
     /// trigger id that is generated on creation.
@@ -236,7 +236,7 @@ pub struct MsgDestroyTriggerRequest {
 }
 /// MsgDestroyTriggerResponse is the response type for creating a trigger RPC
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.trigger.v1.MsgDestroyTriggerResponse")]
 pub struct MsgDestroyTriggerResponse {}
 pub struct TriggerQuerier<'a, Q: cosmwasm_std::CustomQuery> {

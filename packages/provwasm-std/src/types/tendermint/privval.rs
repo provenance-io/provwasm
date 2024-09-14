@@ -68,12 +68,12 @@ pub struct SignedProposalResponse {
 }
 /// PingRequest is a request to confirm that the connection is alive.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.privval.PingRequest")]
 pub struct PingRequest {}
 /// PingResponse is a response to confirm that the connection is alive.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.privval.PingResponse")]
 pub struct PingResponse {}
 #[allow(clippy::derive_partial_eq_without_eq)]

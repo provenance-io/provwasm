@@ -1,7 +1,7 @@
 use provwasm_proc_macro::CosmwasmExt;
 /// Params defines the set of params for the name module.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.name.v1.Params")]
 pub struct Params {
     /// maximum length of name segment to allow
@@ -122,7 +122,7 @@ pub struct GenesisState {
 }
 /// QueryParamsRequest is the request type for the Query/Params RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.name.v1.QueryParamsRequest")]
 #[proto_query(
     path = "/provenance.name.v1.Query/Params",
@@ -131,7 +131,7 @@ pub struct GenesisState {
 pub struct QueryParamsRequest {}
 /// QueryParamsResponse is the response type for the Query/Params RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.name.v1.QueryParamsResponse")]
 pub struct QueryParamsResponse {
     /// params defines the parameters of the module.
@@ -209,7 +209,7 @@ pub struct MsgBindNameRequest {
 }
 /// MsgBindNameResponse defines the Msg/BindName response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.name.v1.MsgBindNameResponse")]
 pub struct MsgBindNameResponse {}
 /// MsgDeleteNameRequest defines an sdk.Msg type that is used to remove an existing address/name binding.  The binding
@@ -225,7 +225,7 @@ pub struct MsgDeleteNameRequest {
 }
 /// MsgDeleteNameResponse defines the Msg/DeleteName response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.name.v1.MsgDeleteNameResponse")]
 pub struct MsgDeleteNameResponse {}
 /// MsgCreateRootNameRequest defines an sdk.Msg type to create a new root name
@@ -244,7 +244,7 @@ pub struct MsgCreateRootNameRequest {
 }
 /// MsgCreateRootNameResponse defines Msg/CreateRootName response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.name.v1.MsgCreateRootNameResponse")]
 pub struct MsgCreateRootNameResponse {}
 /// MsgModifyNameRequest defines a governance method that is used to update an existing address/name binding.
@@ -261,7 +261,7 @@ pub struct MsgModifyNameRequest {
 }
 /// MsgModifyNameResponse defines the Msg/ModifyName response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.name.v1.MsgModifyNameResponse")]
 pub struct MsgModifyNameResponse {}
 /// MsgUpdateParamsRequest is a request message for the UpdateParams endpoint.
@@ -278,7 +278,7 @@ pub struct MsgUpdateParamsRequest {
 }
 /// MsgUpdateParamsResponse is a response message for the UpdateParams endpoint.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.name.v1.MsgUpdateParamsResponse")]
 pub struct MsgUpdateParamsResponse {}
 pub struct NameQuerier<'a, Q: cosmwasm_std::CustomQuery> {

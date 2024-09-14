@@ -23,7 +23,7 @@ pub mod message {
     }
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.statesync.SnapshotsRequest")]
 pub struct SnapshotsRequest {}
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -42,7 +42,7 @@ pub struct SnapshotsResponse {
     pub metadata: ::prost::alloc::vec::Vec<u8>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.statesync.ChunkRequest")]
 pub struct ChunkRequest {
     #[prost(uint64, tag = "1")]

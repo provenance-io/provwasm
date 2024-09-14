@@ -95,7 +95,7 @@ pub struct MsgCreateVestingAccount {
 }
 /// MsgCreateVestingAccountResponse defines the Msg/CreateVestingAccount response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.vesting.v1beta1.MsgCreateVestingAccountResponse")]
 pub struct MsgCreateVestingAccountResponse {}
 /// MsgCreatePermanentLockedAccount defines a message that enables creating a permanent
@@ -117,7 +117,7 @@ pub struct MsgCreatePermanentLockedAccount {
 ///
 /// Since: cosmos-sdk 0.46
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.vesting.v1beta1.MsgCreatePermanentLockedAccountResponse")]
 pub struct MsgCreatePermanentLockedAccountResponse {}
 /// MsgCreateVestingAccount defines a message that enables creating a vesting
@@ -143,6 +143,6 @@ pub struct MsgCreatePeriodicVestingAccount {
 ///
 /// Since: cosmos-sdk 0.46
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.vesting.v1beta1.MsgCreatePeriodicVestingAccountResponse")]
 pub struct MsgCreatePeriodicVestingAccountResponse {}

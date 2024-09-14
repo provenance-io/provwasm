@@ -18,7 +18,7 @@ pub struct ConsensusParams {
 }
 /// BlockParams contains limits on the block size.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.types.BlockParams")]
 pub struct BlockParams {
     /// Max block size, in bytes.
@@ -32,7 +32,7 @@ pub struct BlockParams {
 }
 /// EvidenceParams determine how we handle evidence of malfeasance.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.types.EvidenceParams")]
 pub struct EvidenceParams {
     /// Max age of evidence, in blocks.
@@ -65,7 +65,7 @@ pub struct ValidatorParams {
 }
 /// VersionParams contains the ABCI application version.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.types.VersionParams")]
 pub struct VersionParams {
     #[prost(uint64, tag = "1")]
@@ -75,7 +75,7 @@ pub struct VersionParams {
 ///
 /// It is hashed into the Header.ConsensusHash.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.types.HashedParams")]
 pub struct HashedParams {
     #[prost(int64, tag = "1")]
@@ -85,7 +85,7 @@ pub struct HashedParams {
 }
 /// ABCIParams configure functionality specific to the Application Blockchain Interface.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.types.ABCIParams")]
 pub struct AbciParams {
     /// vote_extensions_enable_height configures the first height during which

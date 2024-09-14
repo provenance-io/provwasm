@@ -2,7 +2,7 @@ use provwasm_proc_macro::CosmwasmExt;
 /// NewRoundStep is sent for every step taken in the ConsensusState.
 /// For every height/round/step transition
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.consensus.NewRoundStep")]
 pub struct NewRoundStep {
     #[prost(int64, tag = "1")]
@@ -76,7 +76,7 @@ pub struct Vote {
 }
 /// HasVote is sent to indicate that a particular vote has been received.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.consensus.HasVote")]
 pub struct HasVote {
     #[prost(int64, tag = "1")]
@@ -163,7 +163,7 @@ pub struct MsgInfo {
 }
 /// TimeoutInfo internally generated messages which may update the state
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.consensus.TimeoutInfo")]
 pub struct TimeoutInfo {
     #[prost(message, optional, tag = "1")]
@@ -178,7 +178,7 @@ pub struct TimeoutInfo {
 /// EndHeight marks the end of the given height inside WAL.
 /// @internal used by scripts/wal2json util.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.consensus.EndHeight")]
 pub struct EndHeight {
     #[prost(int64, tag = "1")]

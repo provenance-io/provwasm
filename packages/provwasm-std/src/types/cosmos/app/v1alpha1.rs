@@ -143,7 +143,7 @@ pub struct GolangBinding {
 }
 /// QueryConfigRequest is the Query/Config request type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.app.v1alpha1.QueryConfigRequest")]
 #[proto_query(
     path = "/cosmos.app.v1alpha1.Query/Config",

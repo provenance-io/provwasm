@@ -89,7 +89,7 @@ pub struct SecondaryIndexDescriptor {
 }
 /// TableDescriptor describes an ORM singleton table which has at most one instance.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.orm.v1.SingletonDescriptor")]
 pub struct SingletonDescriptor {
     /// id is a non-zero integer ID that must be unique within the

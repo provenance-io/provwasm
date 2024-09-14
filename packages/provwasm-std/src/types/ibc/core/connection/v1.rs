@@ -105,7 +105,7 @@ pub struct Version {
 }
 /// Params defines the set of Connection parameters.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.connection.v1.Params")]
 pub struct Params {
     /// maximum expected time per block (in nanoseconds), used to enforce block delay. This parameter should reflect the
@@ -343,7 +343,7 @@ pub struct QueryConnectionConsensusStateResponse {
 }
 /// QueryConnectionParamsRequest is the request type for the Query/ConnectionParams RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.connection.v1.QueryConnectionParamsRequest")]
 #[proto_query(
     path = "/ibc.core.connection.v1.Query/ConnectionParams",
@@ -352,7 +352,7 @@ pub struct QueryConnectionConsensusStateResponse {
 pub struct QueryConnectionParamsRequest {}
 /// QueryConnectionParamsResponse is the response type for the Query/ConnectionParams RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.connection.v1.QueryConnectionParamsResponse")]
 pub struct QueryConnectionParamsResponse {
     /// params defines the parameters of the module.
@@ -379,7 +379,7 @@ pub struct MsgConnectionOpenInit {
 /// MsgConnectionOpenInitResponse defines the Msg/ConnectionOpenInit response
 /// type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.connection.v1.MsgConnectionOpenInitResponse")]
 pub struct MsgConnectionOpenInitResponse {}
 /// MsgConnectionOpenTry defines a msg sent by a Relayer to try to open a
@@ -424,7 +424,7 @@ pub struct MsgConnectionOpenTry {
 }
 /// MsgConnectionOpenTryResponse defines the Msg/ConnectionOpenTry response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.connection.v1.MsgConnectionOpenTryResponse")]
 pub struct MsgConnectionOpenTryResponse {}
 /// MsgConnectionOpenAck defines a msg sent by a Relayer to Chain A to
@@ -463,7 +463,7 @@ pub struct MsgConnectionOpenAck {
 }
 /// MsgConnectionOpenAckResponse defines the Msg/ConnectionOpenAck response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.connection.v1.MsgConnectionOpenAckResponse")]
 pub struct MsgConnectionOpenAckResponse {}
 /// MsgConnectionOpenConfirm defines a msg sent by a Relayer to Chain B to
@@ -485,7 +485,7 @@ pub struct MsgConnectionOpenConfirm {
 /// MsgConnectionOpenConfirmResponse defines the Msg/ConnectionOpenConfirm
 /// response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.connection.v1.MsgConnectionOpenConfirmResponse")]
 pub struct MsgConnectionOpenConfirmResponse {}
 /// MsgUpdateParams defines the sdk.Msg type to update the connection parameters.
@@ -504,7 +504,7 @@ pub struct MsgUpdateParams {
 }
 /// MsgUpdateParamsResponse defines the MsgUpdateParams response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.connection.v1.MsgUpdateParamsResponse")]
 pub struct MsgUpdateParamsResponse {}
 pub struct ConnectionQuerier<'a, Q: cosmwasm_std::CustomQuery> {

@@ -102,7 +102,7 @@ pub struct MsgRemoveChecksum {
 }
 /// MsgStoreChecksumResponse defines the response type for the StoreCode rpc
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.lightclients.wasm.v1.MsgRemoveChecksumResponse")]
 pub struct MsgRemoveChecksumResponse {}
 /// MsgMigrateContract defines the request type for the MigrateContract rpc.
@@ -125,7 +125,7 @@ pub struct MsgMigrateContract {
 }
 /// MsgMigrateContractResponse defines the response type for the MigrateContract rpc
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.lightclients.wasm.v1.MsgMigrateContractResponse")]
 pub struct MsgMigrateContractResponse {}
 /// Wasm light client's Client state

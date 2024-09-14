@@ -214,7 +214,7 @@ pub struct Uuid {
 }
 /// Deprecated: Do not use.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.p8e.Timestamp")]
 #[deprecated]
 pub struct Timestamp {

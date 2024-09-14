@@ -137,7 +137,7 @@ pub struct QueryBalanceRequest {
 }
 /// QueryBalanceResponse is the response type for the Query/Balance RPC method
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.nft.v1beta1.QueryBalanceResponse")]
 pub struct QueryBalanceResponse {
     /// amount is the number of all NFTs of a given class owned by the owner
@@ -184,7 +184,7 @@ pub struct QuerySupplyRequest {
 }
 /// QuerySupplyResponse is the response type for the Query/Supply RPC method
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.nft.v1beta1.QuerySupplyResponse")]
 pub struct QuerySupplyResponse {
     /// amount is the number of all NFTs from the given class
@@ -311,7 +311,7 @@ pub struct MsgSend {
 }
 /// MsgSendResponse defines the Msg/Send response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.nft.v1beta1.MsgSendResponse")]
 pub struct MsgSendResponse {}
 pub struct NftQuerier<'a, Q: cosmwasm_std::CustomQuery> {

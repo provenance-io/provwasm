@@ -15,7 +15,7 @@ pub struct App {
 /// including all blockchain data structures and the rules of the application's
 /// state transition machine.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.version.Consensus")]
 pub struct Consensus {
     #[prost(uint64, tag = "1")]

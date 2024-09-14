@@ -2,7 +2,7 @@ use provwasm_proc_macro::CosmwasmExt;
 /// Params defines the set of on-chain interchain accounts parameters.
 /// The following parameters may be used to disable the controller submodule.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.interchain_accounts.controller.v1.Params")]
 pub struct Params {
     /// controller_enabled enables or disables the controller submodule.
@@ -37,7 +37,7 @@ pub struct QueryInterchainAccountResponse {
 }
 /// QueryParamsRequest is the request type for the Query/Params RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(
     type_url = "/ibc.applications.interchain_accounts.controller.v1.QueryParamsRequest"
 )]
@@ -48,7 +48,7 @@ pub struct QueryInterchainAccountResponse {
 pub struct QueryParamsRequest {}
 /// QueryParamsResponse is the response type for the Query/Params RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(
     type_url = "/ibc.applications.interchain_accounts.controller.v1.QueryParamsResponse"
 )]
@@ -106,7 +106,7 @@ pub struct MsgSendTx {
 }
 /// MsgSendTxResponse defines the response for MsgSendTx
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.interchain_accounts.controller.v1.MsgSendTxResponse")]
 pub struct MsgSendTxResponse {
     #[prost(uint64, tag = "1")]
@@ -128,7 +128,7 @@ pub struct MsgUpdateParams {
 }
 /// MsgUpdateParamsResponse defines the response for Msg/UpdateParams
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(
     type_url = "/ibc.applications.interchain_accounts.controller.v1.MsgUpdateParamsResponse"
 )]

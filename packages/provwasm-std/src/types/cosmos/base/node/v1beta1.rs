@@ -1,7 +1,7 @@
 use provwasm_proc_macro::CosmwasmExt;
 /// ConfigRequest defines the request structure for the Config gRPC query.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.base.node.v1beta1.ConfigRequest")]
 pub struct ConfigRequest {}
 /// ConfigResponse defines the response structure for the Config gRPC query.
@@ -20,7 +20,7 @@ pub struct ConfigResponse {
 }
 /// StateRequest defines the request structure for the status of a node.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.base.node.v1beta1.StatusRequest")]
 pub struct StatusRequest {}
 /// StateResponse defines the response structure for the status of a node.

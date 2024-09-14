@@ -133,7 +133,7 @@ pub struct Validator {
 }
 /// GetBlockByHeightRequest is the request type for the Query/GetBlockByHeight RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.base.tendermint.v1beta1.GetBlockByHeightRequest")]
 pub struct GetBlockByHeightRequest {
     #[prost(int64, tag = "1")]
@@ -155,7 +155,7 @@ pub struct GetBlockByHeightResponse {
 }
 /// GetLatestBlockRequest is the request type for the Query/GetLatestBlock RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.base.tendermint.v1beta1.GetLatestBlockRequest")]
 pub struct GetLatestBlockRequest {}
 /// GetLatestBlockResponse is the response type for the Query/GetLatestBlock RPC method.
@@ -174,12 +174,12 @@ pub struct GetLatestBlockResponse {
 }
 /// GetSyncingRequest is the request type for the Query/GetSyncing RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.base.tendermint.v1beta1.GetSyncingRequest")]
 pub struct GetSyncingRequest {}
 /// GetSyncingResponse is the response type for the Query/GetSyncing RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.base.tendermint.v1beta1.GetSyncingResponse")]
 pub struct GetSyncingResponse {
     #[prost(bool, tag = "1")]
@@ -187,7 +187,7 @@ pub struct GetSyncingResponse {
 }
 /// GetNodeInfoRequest is the request type for the Query/GetNodeInfo RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.base.tendermint.v1beta1.GetNodeInfoRequest")]
 pub struct GetNodeInfoRequest {}
 /// GetNodeInfoResponse is the response type for the Query/GetNodeInfo RPC method.

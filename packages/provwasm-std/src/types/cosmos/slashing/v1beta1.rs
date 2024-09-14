@@ -88,7 +88,7 @@ pub struct ValidatorMissedBlocks {
 }
 /// MissedBlock contains height and missed status as boolean.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.slashing.v1beta1.MissedBlock")]
 pub struct MissedBlock {
     /// index is the height at which the block was missed.
@@ -100,7 +100,7 @@ pub struct MissedBlock {
 }
 /// QueryParamsRequest is the request type for the Query/Params RPC method
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.slashing.v1beta1.QueryParamsRequest")]
 #[proto_query(
     path = "/cosmos.slashing.v1beta1.Query/Params",
@@ -174,7 +174,7 @@ pub struct MsgUnjail {
 }
 /// MsgUnjailResponse defines the Msg/Unjail response type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.slashing.v1beta1.MsgUnjailResponse")]
 pub struct MsgUnjailResponse {}
 /// MsgUpdateParams is the Msg/UpdateParams request type.
@@ -198,7 +198,7 @@ pub struct MsgUpdateParams {
 ///
 /// Since: cosmos-sdk 0.47
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.slashing.v1beta1.MsgUpdateParamsResponse")]
 pub struct MsgUpdateParamsResponse {}
 pub struct SlashingQuerier<'a, Q: cosmwasm_std::CustomQuery> {

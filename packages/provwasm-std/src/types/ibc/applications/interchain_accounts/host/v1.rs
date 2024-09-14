@@ -29,7 +29,7 @@ pub struct QueryRequest {
 }
 /// QueryParamsRequest is the request type for the Query/Params RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.interchain_accounts.host.v1.QueryParamsRequest")]
 #[proto_query(
     path = "/ibc.applications.interchain_accounts.host.v1.Query/Params",
@@ -61,7 +61,7 @@ pub struct MsgUpdateParams {
 }
 /// MsgUpdateParamsResponse defines the response for Msg/UpdateParams
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.interchain_accounts.host.v1.MsgUpdateParamsResponse")]
 pub struct MsgUpdateParamsResponse {}
 /// MsgModuleQuerySafe defines the payload for Msg/ModuleQuerySafe
