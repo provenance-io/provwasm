@@ -5,9 +5,13 @@ all: provwasm-std contracts
 provwasm-std:
 	@make -C packages/provwasm-std
 
-.PHONY: contracts
-contracts:
-	@make -C contracts
+.PHONY: build-contracts
+build-contracts:
+	@make -C contracts build
+
+.PHONY: optimize-contracts
+optimize-contracts:
+	@make -C contracts optimize
 
 .PHONY: clean
 clean:

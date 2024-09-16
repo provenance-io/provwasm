@@ -1,16 +1,7 @@
-use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
+use provwasm_proc_macro::CosmwasmExt;
 /// Params defines the set of params for the msgfees module.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.msgfees.v1.Params")]
 pub struct Params {
     /// floor_gas_price is the constant used to calculate fees when gas fees shares denom with msg fee.
@@ -26,10 +17,6 @@ pub struct Params {
     pub floor_gas_price: ::core::option::Option<super::super::super::cosmos::base::v1beta1::Coin>,
     /// nhash_per_usd_mil is the total nhash per usd mil for converting usd to nhash.
     #[prost(uint64, tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub nhash_per_usd_mil: u64,
     /// conversion_fee_denom is the denom usd is converted to.
     #[prost(string, tag = "4")]
@@ -37,16 +24,7 @@ pub struct Params {
 }
 /// MsgFee is the core of what gets stored on the blockchain to define a msg-based fee.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.msgfees.v1.MsgFee")]
 pub struct MsgFee {
     /// msg_type_url is the type-url of the message with the added fee, e.g. "/cosmos.bank.v1beta1.MsgSend".
@@ -71,16 +49,7 @@ pub struct MsgFee {
 }
 /// EventMsgFee final event property for msg fee on type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.msgfees.v1.EventMsgFee")]
 pub struct EventMsgFee {
     #[prost(string, tag = "1")]
@@ -94,16 +63,7 @@ pub struct EventMsgFee {
 }
 /// EventMsgFees event emitted with summary of msg fees
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.msgfees.v1.EventMsgFees")]
 pub struct EventMsgFees {
     #[prost(message, repeated, tag = "1")]
@@ -111,16 +71,7 @@ pub struct EventMsgFees {
 }
 /// GenesisState contains a set of msg fees, persisted from the store
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.msgfees.v1.GenesisState")]
 pub struct GenesisState {
     /// params defines all the parameters of the module.
@@ -135,16 +86,7 @@ pub struct GenesisState {
 /// backwards compatibility (e.g. looking up old governance proposals).
 /// It is replaced by providing a MsgAddMsgFeeProposalRequest in a governance proposal.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.msgfees.v1.AddMsgFeeProposal")]
 #[deprecated]
 pub struct AddMsgFeeProposal {
@@ -172,16 +114,7 @@ pub struct AddMsgFeeProposal {
 /// backwards compatibility (e.g. looking up old governance proposals).
 /// It is replaced by providing a MsgUpdateMsgFeeProposalRequest in a governance proposal.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.msgfees.v1.UpdateMsgFeeProposal")]
 #[deprecated]
 pub struct UpdateMsgFeeProposal {
@@ -209,16 +142,7 @@ pub struct UpdateMsgFeeProposal {
 /// backwards compatibility (e.g. looking up old governance proposals).
 /// It is replaced by providing a MsgRemoveMsgFeeProposalRequest in a governance proposal.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.msgfees.v1.RemoveMsgFeeProposal")]
 #[deprecated]
 pub struct RemoveMsgFeeProposal {
@@ -237,16 +161,7 @@ pub struct RemoveMsgFeeProposal {
 /// backwards compatibility (e.g. looking up old governance proposals).
 /// It is replaced by providing a MsgUpdateNhashPerUsdMilProposalRequest in a governance proposal.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.msgfees.v1.UpdateNhashPerUsdMilProposal")]
 #[deprecated]
 pub struct UpdateNhashPerUsdMilProposal {
@@ -258,10 +173,6 @@ pub struct UpdateNhashPerUsdMilProposal {
     pub description: ::prost::alloc::string::String,
     /// nhash_per_usd_mil is number of nhash per usd mil
     #[prost(uint64, tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub nhash_per_usd_mil: u64,
 }
 /// UpdateConversionFeeDenomProposal defines a governance proposal to update the msg fee conversion denom
@@ -269,16 +180,7 @@ pub struct UpdateNhashPerUsdMilProposal {
 /// backwards compatibility (e.g. looking up old governance proposals).
 /// It is replaced by providing a MsgUpdateConversionFeeDenomProposalRequest in a governance proposal.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.msgfees.v1.UpdateConversionFeeDenomProposal")]
 #[deprecated]
 pub struct UpdateConversionFeeDenomProposal {
@@ -294,16 +196,7 @@ pub struct UpdateConversionFeeDenomProposal {
 }
 /// QueryParamsRequest is the request type for the Query/Params RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.msgfees.v1.QueryParamsRequest")]
 #[proto_query(
     path = "/provenance.msgfees.v1.Query/Params",
@@ -312,16 +205,7 @@ pub struct UpdateConversionFeeDenomProposal {
 pub struct QueryParamsRequest {}
 /// QueryParamsResponse is the response type for the Query/Params RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.msgfees.v1.QueryParamsResponse")]
 pub struct QueryParamsResponse {
     /// params defines the parameters of the module.
@@ -330,16 +214,7 @@ pub struct QueryParamsResponse {
 }
 /// QueryAllMsgFeesRequest queries all Msg which have fees associated with them.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.msgfees.v1.QueryAllMsgFeesRequest")]
 #[proto_query(
     path = "/provenance.msgfees.v1.Query/QueryAllMsgFees",
@@ -353,16 +228,7 @@ pub struct QueryAllMsgFeesRequest {
 }
 /// response for querying all msg's with fees associated with them
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.msgfees.v1.QueryAllMsgFeesResponse")]
 pub struct QueryAllMsgFeesResponse {
     #[prost(message, repeated, tag = "1")]
@@ -374,16 +240,7 @@ pub struct QueryAllMsgFeesResponse {
 }
 /// MsgAssessCustomMsgFeeRequest defines an sdk.Msg type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.msgfees.v1.MsgAssessCustomMsgFeeRequest")]
 pub struct MsgAssessCustomMsgFeeRequest {
     /// optional short name for custom msg fee, this will be emitted as a property of the event
@@ -404,30 +261,12 @@ pub struct MsgAssessCustomMsgFeeRequest {
 }
 /// MsgAssessCustomMsgFeeResponse defines the Msg/AssessCustomMsgFeee response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.msgfees.v1.MsgAssessCustomMsgFeeResponse")]
 pub struct MsgAssessCustomMsgFeeResponse {}
 /// AddMsgFeeProposal defines a governance proposal to add additional msg based fee
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.msgfees.v1.MsgAddMsgFeeProposalRequest")]
 pub struct MsgAddMsgFeeProposalRequest {
     /// type url of msg to add fee
@@ -448,30 +287,12 @@ pub struct MsgAddMsgFeeProposalRequest {
 }
 /// MsgAddMsgFeeProposalResponse defines the Msg/AddMsgFeeProposal response type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.msgfees.v1.MsgAddMsgFeeProposalResponse")]
 pub struct MsgAddMsgFeeProposalResponse {}
 /// UpdateMsgFeeProposal defines a governance proposal to update a current msg based fee
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.msgfees.v1.MsgUpdateMsgFeeProposalRequest")]
 pub struct MsgUpdateMsgFeeProposalRequest {
     /// type url of msg to update fee
@@ -492,30 +313,12 @@ pub struct MsgUpdateMsgFeeProposalRequest {
 }
 /// MsgUpdateMsgFeeProposalResponse defines the Msg/RemoveMsgFeeProposal response type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.msgfees.v1.MsgUpdateMsgFeeProposalResponse")]
 pub struct MsgUpdateMsgFeeProposalResponse {}
 /// RemoveMsgFeeProposal defines a governance proposal to delete a current msg based fee
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.msgfees.v1.MsgRemoveMsgFeeProposalRequest")]
 pub struct MsgRemoveMsgFeeProposalRequest {
     /// type url of msg fee to remove
@@ -529,38 +332,16 @@ pub struct MsgRemoveMsgFeeProposalRequest {
 }
 /// MsgRemoveMsgFeeProposalResponse defines the Msg/RemoveMsgFeeProposal response type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.msgfees.v1.MsgRemoveMsgFeeProposalResponse")]
 pub struct MsgRemoveMsgFeeProposalResponse {}
 /// UpdateNhashPerUsdMilProposal defines a governance proposal to update the nhash per usd mil param
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.msgfees.v1.MsgUpdateNhashPerUsdMilProposalRequest")]
 pub struct MsgUpdateNhashPerUsdMilProposalRequest {
     /// nhash_per_usd_mil is number of nhash per usd mil
     #[prost(uint64, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub nhash_per_usd_mil: u64,
     /// the signing authority for the proposal
     ///
@@ -570,30 +351,12 @@ pub struct MsgUpdateNhashPerUsdMilProposalRequest {
 }
 /// MsgUpdateNhashPerUsdMilProposalResponse defines the Msg/UpdateNhashPerUsdMilProposal response type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.msgfees.v1.MsgUpdateNhashPerUsdMilProposalResponse")]
 pub struct MsgUpdateNhashPerUsdMilProposalResponse {}
 /// UpdateConversionFeeDenomProposal defines a governance proposal to update the msg fee conversion denom
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.msgfees.v1.MsgUpdateConversionFeeDenomProposalRequest")]
 pub struct MsgUpdateConversionFeeDenomProposalRequest {
     /// conversion_fee_denom is the denom that usd will be converted to
@@ -607,16 +370,7 @@ pub struct MsgUpdateConversionFeeDenomProposalRequest {
 }
 /// MsgUpdateConversionFeeDenomProposalResponse defines the Msg/UpdateConversionFeeDenomProposal response type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.msgfees.v1.MsgUpdateConversionFeeDenomProposalResponse")]
 pub struct MsgUpdateConversionFeeDenomProposalResponse {}
 pub struct MsgfeesQuerier<'a, Q: cosmwasm_std::CustomQuery> {

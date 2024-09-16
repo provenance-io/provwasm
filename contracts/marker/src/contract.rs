@@ -770,9 +770,9 @@ mod tests {
         let bin = query(deps.as_ref(), mock_env(), req).unwrap();
 
         let marker: Marker = from_json(bin).unwrap();
-        assert_eq!(marker.marker_account, expected_marker);
+        assert_eq!(marker.marker_account, expected_marker.into());
         assert_eq!(
-            marker.marker_account.base_account.unwrap().address,
+            marker.marker_account.base_account.unwrap(),
             "tp18vmzryrvwaeykmdtu6cfrz5sau3dhc5c73ms0u"
         )
     }

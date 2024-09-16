@@ -1,17 +1,8 @@
-use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
+use provwasm_proc_macro::CosmwasmExt;
 /// Member represents a group member with an account address,
 /// non-zero weight, metadata and added_at timestamp.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.Member")]
 pub struct Member {
     /// address is the member's account address.
@@ -31,16 +22,7 @@ pub struct Member {
 /// Contrary to `Member`, it doesn't have any `added_at` field
 /// since this field cannot be set as part of requests.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.MemberRequest")]
 pub struct MemberRequest {
     /// address is the member's account address.
@@ -60,16 +42,7 @@ pub struct MemberRequest {
 /// 2. The voting and execution periods of the proposal respect the parameters
 ///     given by `windows`.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.ThresholdDecisionPolicy")]
 pub struct ThresholdDecisionPolicy {
     /// threshold is the minimum weighted sum of `YES` votes that must be met or
@@ -87,16 +60,7 @@ pub struct ThresholdDecisionPolicy {
 /// 2. The voting and execution periods of the proposal respect the parameters
 ///     given by `windows`.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.PercentageDecisionPolicy")]
 pub struct PercentageDecisionPolicy {
     /// percentage is the minimum percentage of the weighted sum of `YES` votes must
@@ -109,16 +73,7 @@ pub struct PercentageDecisionPolicy {
 }
 /// DecisionPolicyWindows defines the different windows for voting and execution.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.DecisionPolicyWindows")]
 pub struct DecisionPolicyWindows {
     /// voting_period is the duration from submission of a proposal to the end of voting period
@@ -141,24 +96,11 @@ pub struct DecisionPolicyWindows {
 }
 /// GroupInfo represents the high-level on-chain information for a group.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.GroupInfo")]
 pub struct GroupInfo {
     /// id is the unique ID of the group.
     #[prost(uint64, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub id: u64,
     /// admin is the account address of the group's admin.
     #[prost(string, tag = "2")]
@@ -172,10 +114,6 @@ pub struct GroupInfo {
     /// or any member is added or removed this version is incremented and will
     /// cause proposals based on older versions of this group to fail
     #[prost(uint64, tag = "4")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub version: u64,
     /// total_weight is the sum of the group members' weights.
     #[prost(string, tag = "5")]
@@ -186,24 +124,11 @@ pub struct GroupInfo {
 }
 /// GroupMember represents the relationship between a group and a member.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.GroupMember")]
 pub struct GroupMember {
     /// group_id is the unique ID of the group.
     #[prost(uint64, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub group_id: u64,
     /// member is the member data.
     #[prost(message, optional, tag = "2")]
@@ -211,16 +136,7 @@ pub struct GroupMember {
 }
 /// GroupPolicyInfo represents the high-level on-chain information for a group policy.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.GroupPolicyInfo")]
 pub struct GroupPolicyInfo {
     /// address is the account address of group policy.
@@ -228,10 +144,6 @@ pub struct GroupPolicyInfo {
     pub address: ::prost::alloc::string::String,
     /// group_id is the unique ID of the group.
     #[prost(uint64, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub group_id: u64,
     /// admin is the account address of the group admin.
     #[prost(string, tag = "3")]
@@ -244,10 +156,6 @@ pub struct GroupPolicyInfo {
     /// version is used to track changes to a group's GroupPolicyInfo structure that
     /// would create a different result on a running proposal.
     #[prost(uint64, tag = "5")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub version: u64,
     /// decision_policy specifies the group policy's decision policy.
     #[prost(message, optional, tag = "6")]
@@ -261,24 +169,11 @@ pub struct GroupPolicyInfo {
 /// A proposal consists of a set of `sdk.Msg`s that will be executed if the proposal
 /// passes as well as some optional metadata associated with the proposal.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.Proposal")]
 pub struct Proposal {
     /// id is the unique id of the proposal.
     #[prost(uint64, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub id: u64,
     /// group_policy_address is the account address of group policy.
     #[prost(string, tag = "2")]
@@ -297,27 +192,15 @@ pub struct Proposal {
     /// group_version tracks the version of the group at proposal submission.
     /// This field is here for informational purposes only.
     #[prost(uint64, tag = "6")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub group_version: u64,
     /// group_policy_version tracks the version of the group policy at proposal submission.
     /// When a decision policy is changed, existing proposals from previous policy
     /// versions will become invalid with the `ABORTED` status.
     /// This field is here for informational purposes only.
     #[prost(uint64, tag = "7")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub group_policy_version: u64,
     /// status represents the high level position in the life cycle of the proposal. Initial value is Submitted.
     #[prost(enumeration = "ProposalStatus", tag = "8")]
-    #[serde(
-        serialize_with = "ProposalStatus::serialize",
-        deserialize_with = "ProposalStatus::deserialize"
-    )]
     pub status: i32,
     /// final_tally_result contains the sums of all weighted votes for this
     /// proposal for each vote option. It is empty at submission, and only
@@ -334,10 +217,6 @@ pub struct Proposal {
     pub voting_period_end: ::core::option::Option<crate::shim::Timestamp>,
     /// executor_result is the final result of the proposal execution. Initial value is NotRun.
     #[prost(enumeration = "ProposalExecutorResult", tag = "11")]
-    #[serde(
-        serialize_with = "ProposalExecutorResult::serialize",
-        deserialize_with = "ProposalExecutorResult::deserialize"
-    )]
     pub executor_result: i32,
     /// messages is a list of `sdk.Msg`s that will be executed if the proposal passes.
     #[prost(message, repeated, tag = "12")]
@@ -355,16 +234,7 @@ pub struct Proposal {
 }
 /// TallyResult represents the sum of weighted votes for each vote option.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.TallyResult")]
 pub struct TallyResult {
     /// yes_count is the weighted sum of yes votes.
@@ -382,34 +252,17 @@ pub struct TallyResult {
 }
 /// Vote represents a vote for a proposal.string metadata
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.Vote")]
 pub struct Vote {
     /// proposal is the unique ID of the proposal.
     #[prost(uint64, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub proposal_id: u64,
     /// voter is the account address of the voter.
     #[prost(string, tag = "2")]
     pub voter: ::prost::alloc::string::String,
     /// option is the voter's choice on the proposal.
     #[prost(enumeration = "VoteOption", tag = "3")]
-    #[serde(
-        serialize_with = "VoteOption::serialize",
-        deserialize_with = "VoteOption::deserialize"
-    )]
     pub option: i32,
     /// metadata is any arbitrary metadata attached to the vote.
     /// the recommended format of the metadata is to be found here: <https://docs.cosmos.network/v0.47/modules/group#vote-2>
@@ -420,9 +273,19 @@ pub struct Vote {
     pub submit_time: ::core::option::Option<crate::shim::Timestamp>,
 }
 /// VoteOption enumerates the valid vote options for a given proposal.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[derive(
+    Clone,
+    Copy,
+    Debug,
+    PartialEq,
+    Eq,
+    Hash,
+    PartialOrd,
+    Ord,
+    ::prost::Enumeration,
+    ::schemars::JsonSchema,
+)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 pub enum VoteOption {
     /// VOTE_OPTION_UNSPECIFIED defines an unspecified vote option which will
     /// return an error.
@@ -463,9 +326,19 @@ impl VoteOption {
     }
 }
 /// ProposalStatus defines proposal statuses.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[derive(
+    Clone,
+    Copy,
+    Debug,
+    PartialEq,
+    Eq,
+    Hash,
+    PartialOrd,
+    Ord,
+    ::prost::Enumeration,
+    ::schemars::JsonSchema,
+)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 pub enum ProposalStatus {
     /// An empty value is invalid and not allowed.
     Unspecified = 0,
@@ -513,9 +386,19 @@ impl ProposalStatus {
     }
 }
 /// ProposalExecutorResult defines types of proposal executor results.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[derive(
+    Clone,
+    Copy,
+    Debug,
+    PartialEq,
+    Eq,
+    Hash,
+    PartialOrd,
+    Ord,
+    ::prost::Enumeration,
+    ::schemars::JsonSchema,
+)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 pub enum ProposalExecutorResult {
     /// An empty value is not allowed.
     Unspecified = 0,
@@ -552,60 +435,25 @@ impl ProposalExecutorResult {
 }
 /// EventCreateGroup is an event emitted when a group is created.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.EventCreateGroup")]
 pub struct EventCreateGroup {
     /// group_id is the unique ID of the group.
     #[prost(uint64, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub group_id: u64,
 }
 /// EventUpdateGroup is an event emitted when a group is updated.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.EventUpdateGroup")]
 pub struct EventUpdateGroup {
     /// group_id is the unique ID of the group.
     #[prost(uint64, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub group_id: u64,
 }
 /// EventCreateGroupPolicy is an event emitted when a group policy is created.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.EventCreateGroupPolicy")]
 pub struct EventCreateGroupPolicy {
     /// address is the account address of the group policy.
@@ -614,16 +462,7 @@ pub struct EventCreateGroupPolicy {
 }
 /// EventUpdateGroupPolicy is an event emitted when a group policy is updated.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.EventUpdateGroupPolicy")]
 pub struct EventUpdateGroupPolicy {
     /// address is the account address of the group policy.
@@ -632,97 +471,41 @@ pub struct EventUpdateGroupPolicy {
 }
 /// EventSubmitProposal is an event emitted when a proposal is created.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.EventSubmitProposal")]
 pub struct EventSubmitProposal {
     /// proposal_id is the unique ID of the proposal.
     #[prost(uint64, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub proposal_id: u64,
 }
 /// EventWithdrawProposal is an event emitted when a proposal is withdrawn.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.EventWithdrawProposal")]
 pub struct EventWithdrawProposal {
     /// proposal_id is the unique ID of the proposal.
     #[prost(uint64, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub proposal_id: u64,
 }
 /// EventVote is an event emitted when a voter votes on a proposal.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.EventVote")]
 pub struct EventVote {
     /// proposal_id is the unique ID of the proposal.
     #[prost(uint64, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub proposal_id: u64,
 }
 /// EventExec is an event emitted when a proposal is executed.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.EventExec")]
 pub struct EventExec {
     /// proposal_id is the unique ID of the proposal.
     #[prost(uint64, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub proposal_id: u64,
     /// result is the proposal execution result.
     #[prost(enumeration = "ProposalExecutorResult", tag = "2")]
-    #[serde(
-        serialize_with = "ProposalExecutorResult::serialize",
-        deserialize_with = "ProposalExecutorResult::deserialize"
-    )]
     pub result: i32,
     /// logs contains error logs in case the execution result is FAILURE.
     #[prost(string, tag = "3")]
@@ -730,24 +513,11 @@ pub struct EventExec {
 }
 /// EventLeaveGroup is an event emitted when group member leaves the group.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.EventLeaveGroup")]
 pub struct EventLeaveGroup {
     /// group_id is the unique ID of the group.
     #[prost(uint64, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub group_id: u64,
     /// address is the account address of the group member.
     #[prost(string, tag = "2")]
@@ -755,31 +525,14 @@ pub struct EventLeaveGroup {
 }
 /// EventProposalPruned is an event emitted when a proposal is pruned.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.EventProposalPruned")]
 pub struct EventProposalPruned {
     /// proposal_id is the unique ID of the proposal.
     #[prost(uint64, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub proposal_id: u64,
     /// status is the proposal status (UNSPECIFIED, SUBMITTED, ACCEPTED, REJECTED, ABORTED, WITHDRAWN).
     #[prost(enumeration = "ProposalStatus", tag = "2")]
-    #[serde(
-        serialize_with = "ProposalStatus::serialize",
-        deserialize_with = "ProposalStatus::deserialize"
-    )]
     pub status: i32,
     /// tally_result is the proposal tally result (when applicable).
     #[prost(message, optional, tag = "3")]
@@ -787,25 +540,12 @@ pub struct EventProposalPruned {
 }
 /// GenesisState defines the group module's genesis state.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.GenesisState")]
 pub struct GenesisState {
     /// group_seq is the group table orm.Sequence,
     /// it is used to get the next group ID.
     #[prost(uint64, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub group_seq: u64,
     /// groups is the list of groups info.
     #[prost(message, repeated, tag = "2")]
@@ -816,10 +556,6 @@ pub struct GenesisState {
     /// group_policy_seq is the group policy table orm.Sequence,
     /// it is used to generate the next group policy account address.
     #[prost(uint64, tag = "4")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub group_policy_seq: u64,
     /// group_policies is the list of group policies info.
     #[prost(message, repeated, tag = "5")]
@@ -827,10 +563,6 @@ pub struct GenesisState {
     /// proposal_seq is the proposal table orm.Sequence,
     /// it is used to get the next proposal ID.
     #[prost(uint64, tag = "6")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub proposal_seq: u64,
     /// proposals is the list of proposals.
     #[prost(message, repeated, tag = "7")]
@@ -841,16 +573,7 @@ pub struct GenesisState {
 }
 /// QueryGroupInfoRequest is the Query/GroupInfo request type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.QueryGroupInfoRequest")]
 #[proto_query(
     path = "/cosmos.group.v1.Query/GroupInfo",
@@ -859,24 +582,11 @@ pub struct GenesisState {
 pub struct QueryGroupInfoRequest {
     /// group_id is the unique ID of the group.
     #[prost(uint64, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub group_id: u64,
 }
 /// QueryGroupInfoResponse is the Query/GroupInfo response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.QueryGroupInfoResponse")]
 pub struct QueryGroupInfoResponse {
     /// info is the GroupInfo of the group.
@@ -885,16 +595,7 @@ pub struct QueryGroupInfoResponse {
 }
 /// QueryGroupPolicyInfoRequest is the Query/GroupPolicyInfo request type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.QueryGroupPolicyInfoRequest")]
 #[proto_query(
     path = "/cosmos.group.v1.Query/GroupPolicyInfo",
@@ -907,16 +608,7 @@ pub struct QueryGroupPolicyInfoRequest {
 }
 /// QueryGroupPolicyInfoResponse is the Query/GroupPolicyInfo response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.QueryGroupPolicyInfoResponse")]
 pub struct QueryGroupPolicyInfoResponse {
     /// info is the GroupPolicyInfo of the group policy.
@@ -925,16 +617,7 @@ pub struct QueryGroupPolicyInfoResponse {
 }
 /// QueryGroupMembersRequest is the Query/GroupMembers request type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.QueryGroupMembersRequest")]
 #[proto_query(
     path = "/cosmos.group.v1.Query/GroupMembers",
@@ -943,10 +626,6 @@ pub struct QueryGroupPolicyInfoResponse {
 pub struct QueryGroupMembersRequest {
     /// group_id is the unique ID of the group.
     #[prost(uint64, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub group_id: u64,
     /// pagination defines an optional pagination for the request.
     #[prost(message, optional, tag = "2")]
@@ -954,16 +633,7 @@ pub struct QueryGroupMembersRequest {
 }
 /// QueryGroupMembersResponse is the Query/GroupMembersResponse response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.QueryGroupMembersResponse")]
 pub struct QueryGroupMembersResponse {
     /// members are the members of the group with given group_id.
@@ -975,16 +645,7 @@ pub struct QueryGroupMembersResponse {
 }
 /// QueryGroupsByAdminRequest is the Query/GroupsByAdmin request type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.QueryGroupsByAdminRequest")]
 #[proto_query(
     path = "/cosmos.group.v1.Query/GroupsByAdmin",
@@ -1000,16 +661,7 @@ pub struct QueryGroupsByAdminRequest {
 }
 /// QueryGroupsByAdminResponse is the Query/GroupsByAdminResponse response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.QueryGroupsByAdminResponse")]
 pub struct QueryGroupsByAdminResponse {
     /// groups are the groups info with the provided admin.
@@ -1021,16 +673,7 @@ pub struct QueryGroupsByAdminResponse {
 }
 /// QueryGroupPoliciesByGroupRequest is the Query/GroupPoliciesByGroup request type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.QueryGroupPoliciesByGroupRequest")]
 #[proto_query(
     path = "/cosmos.group.v1.Query/GroupPoliciesByGroup",
@@ -1039,10 +682,6 @@ pub struct QueryGroupsByAdminResponse {
 pub struct QueryGroupPoliciesByGroupRequest {
     /// group_id is the unique ID of the group policy's group.
     #[prost(uint64, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub group_id: u64,
     /// pagination defines an optional pagination for the request.
     #[prost(message, optional, tag = "2")]
@@ -1050,16 +689,7 @@ pub struct QueryGroupPoliciesByGroupRequest {
 }
 /// QueryGroupPoliciesByGroupResponse is the Query/GroupPoliciesByGroup response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.QueryGroupPoliciesByGroupResponse")]
 pub struct QueryGroupPoliciesByGroupResponse {
     /// group_policies are the group policies info associated with the provided group.
@@ -1071,16 +701,7 @@ pub struct QueryGroupPoliciesByGroupResponse {
 }
 /// QueryGroupPoliciesByAdminRequest is the Query/GroupPoliciesByAdmin request type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.QueryGroupPoliciesByAdminRequest")]
 #[proto_query(
     path = "/cosmos.group.v1.Query/GroupPoliciesByAdmin",
@@ -1096,16 +717,7 @@ pub struct QueryGroupPoliciesByAdminRequest {
 }
 /// QueryGroupPoliciesByAdminResponse is the Query/GroupPoliciesByAdmin response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.QueryGroupPoliciesByAdminResponse")]
 pub struct QueryGroupPoliciesByAdminResponse {
     /// group_policies are the group policies info with provided admin.
@@ -1117,16 +729,7 @@ pub struct QueryGroupPoliciesByAdminResponse {
 }
 /// QueryProposalRequest is the Query/Proposal request type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.QueryProposalRequest")]
 #[proto_query(
     path = "/cosmos.group.v1.Query/Proposal",
@@ -1135,24 +738,11 @@ pub struct QueryGroupPoliciesByAdminResponse {
 pub struct QueryProposalRequest {
     /// proposal_id is the unique ID of a proposal.
     #[prost(uint64, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub proposal_id: u64,
 }
 /// QueryProposalResponse is the Query/Proposal response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.QueryProposalResponse")]
 pub struct QueryProposalResponse {
     /// proposal is the proposal info.
@@ -1161,16 +751,7 @@ pub struct QueryProposalResponse {
 }
 /// QueryProposalsByGroupPolicyRequest is the Query/ProposalByGroupPolicy request type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.QueryProposalsByGroupPolicyRequest")]
 #[proto_query(
     path = "/cosmos.group.v1.Query/ProposalsByGroupPolicy",
@@ -1186,16 +767,7 @@ pub struct QueryProposalsByGroupPolicyRequest {
 }
 /// QueryProposalsByGroupPolicyResponse is the Query/ProposalByGroupPolicy response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.QueryProposalsByGroupPolicyResponse")]
 pub struct QueryProposalsByGroupPolicyResponse {
     /// proposals are the proposals with given group policy.
@@ -1207,16 +779,7 @@ pub struct QueryProposalsByGroupPolicyResponse {
 }
 /// QueryVoteByProposalVoterRequest is the Query/VoteByProposalVoter request type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.QueryVoteByProposalVoterRequest")]
 #[proto_query(
     path = "/cosmos.group.v1.Query/VoteByProposalVoter",
@@ -1225,10 +788,6 @@ pub struct QueryProposalsByGroupPolicyResponse {
 pub struct QueryVoteByProposalVoterRequest {
     /// proposal_id is the unique ID of a proposal.
     #[prost(uint64, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub proposal_id: u64,
     /// voter is a proposal voter account address.
     #[prost(string, tag = "2")]
@@ -1236,16 +795,7 @@ pub struct QueryVoteByProposalVoterRequest {
 }
 /// QueryVoteByProposalVoterResponse is the Query/VoteByProposalVoter response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.QueryVoteByProposalVoterResponse")]
 pub struct QueryVoteByProposalVoterResponse {
     /// vote is the vote with given proposal_id and voter.
@@ -1254,16 +804,7 @@ pub struct QueryVoteByProposalVoterResponse {
 }
 /// QueryVotesByProposalRequest is the Query/VotesByProposal request type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.QueryVotesByProposalRequest")]
 #[proto_query(
     path = "/cosmos.group.v1.Query/VotesByProposal",
@@ -1272,10 +813,6 @@ pub struct QueryVoteByProposalVoterResponse {
 pub struct QueryVotesByProposalRequest {
     /// proposal_id is the unique ID of a proposal.
     #[prost(uint64, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub proposal_id: u64,
     /// pagination defines an optional pagination for the request.
     #[prost(message, optional, tag = "2")]
@@ -1283,16 +820,7 @@ pub struct QueryVotesByProposalRequest {
 }
 /// QueryVotesByProposalResponse is the Query/VotesByProposal response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.QueryVotesByProposalResponse")]
 pub struct QueryVotesByProposalResponse {
     /// votes are the list of votes for given proposal_id.
@@ -1304,16 +832,7 @@ pub struct QueryVotesByProposalResponse {
 }
 /// QueryVotesByVoterRequest is the Query/VotesByVoter request type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.QueryVotesByVoterRequest")]
 #[proto_query(
     path = "/cosmos.group.v1.Query/VotesByVoter",
@@ -1329,16 +848,7 @@ pub struct QueryVotesByVoterRequest {
 }
 /// QueryVotesByVoterResponse is the Query/VotesByVoter response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.QueryVotesByVoterResponse")]
 pub struct QueryVotesByVoterResponse {
     /// votes are the list of votes by given voter.
@@ -1350,16 +860,7 @@ pub struct QueryVotesByVoterResponse {
 }
 /// QueryGroupsByMemberRequest is the Query/GroupsByMember request type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.QueryGroupsByMemberRequest")]
 #[proto_query(
     path = "/cosmos.group.v1.Query/GroupsByMember",
@@ -1375,16 +876,7 @@ pub struct QueryGroupsByMemberRequest {
 }
 /// QueryGroupsByMemberResponse is the Query/GroupsByMember response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.QueryGroupsByMemberResponse")]
 pub struct QueryGroupsByMemberResponse {
     /// groups are the groups info with the provided group member.
@@ -1396,16 +888,7 @@ pub struct QueryGroupsByMemberResponse {
 }
 /// QueryTallyResultRequest is the Query/TallyResult request type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.QueryTallyResultRequest")]
 #[proto_query(
     path = "/cosmos.group.v1.Query/TallyResult",
@@ -1414,24 +897,11 @@ pub struct QueryGroupsByMemberResponse {
 pub struct QueryTallyResultRequest {
     /// proposal_id is the unique id of a proposal.
     #[prost(uint64, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub proposal_id: u64,
 }
 /// QueryTallyResultResponse is the Query/TallyResult response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.QueryTallyResultResponse")]
 pub struct QueryTallyResultResponse {
     /// tally defines the requested tally.
@@ -1442,16 +912,7 @@ pub struct QueryTallyResultResponse {
 ///
 /// Since: cosmos-sdk 0.47.1
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.QueryGroupsRequest")]
 #[proto_query(
     path = "/cosmos.group.v1.Query/Groups",
@@ -1466,16 +927,7 @@ pub struct QueryGroupsRequest {
 ///
 /// Since: cosmos-sdk 0.47.1
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.QueryGroupsResponse")]
 pub struct QueryGroupsResponse {
     /// `groups` is all the groups present in state.
@@ -1487,16 +939,7 @@ pub struct QueryGroupsResponse {
 }
 /// MsgCreateGroup is the Msg/CreateGroup request type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.MsgCreateGroup")]
 pub struct MsgCreateGroup {
     /// admin is the account address of the group admin.
@@ -1511,38 +954,16 @@ pub struct MsgCreateGroup {
 }
 /// MsgCreateGroupResponse is the Msg/CreateGroup response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.MsgCreateGroupResponse")]
 pub struct MsgCreateGroupResponse {
     /// group_id is the unique ID of the newly created group.
     #[prost(uint64, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub group_id: u64,
 }
 /// MsgUpdateGroupMembers is the Msg/UpdateGroupMembers request type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.MsgUpdateGroupMembers")]
 pub struct MsgUpdateGroupMembers {
     /// admin is the account address of the group admin.
@@ -1550,10 +971,6 @@ pub struct MsgUpdateGroupMembers {
     pub admin: ::prost::alloc::string::String,
     /// group_id is the unique ID of the group.
     #[prost(uint64, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub group_id: u64,
     /// member_updates is the list of members to update,
     /// set weight to 0 to remove a member.
@@ -1562,30 +979,12 @@ pub struct MsgUpdateGroupMembers {
 }
 /// MsgUpdateGroupMembersResponse is the Msg/UpdateGroupMembers response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.MsgUpdateGroupMembersResponse")]
 pub struct MsgUpdateGroupMembersResponse {}
 /// MsgUpdateGroupAdmin is the Msg/UpdateGroupAdmin request type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.MsgUpdateGroupAdmin")]
 pub struct MsgUpdateGroupAdmin {
     /// admin is the current account address of the group admin.
@@ -1593,10 +992,6 @@ pub struct MsgUpdateGroupAdmin {
     pub admin: ::prost::alloc::string::String,
     /// group_id is the unique ID of the group.
     #[prost(uint64, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub group_id: u64,
     /// new_admin is the group new admin account address.
     #[prost(string, tag = "3")]
@@ -1604,30 +999,12 @@ pub struct MsgUpdateGroupAdmin {
 }
 /// MsgUpdateGroupAdminResponse is the Msg/UpdateGroupAdmin response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.MsgUpdateGroupAdminResponse")]
 pub struct MsgUpdateGroupAdminResponse {}
 /// MsgUpdateGroupMetadata is the Msg/UpdateGroupMetadata request type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.MsgUpdateGroupMetadata")]
 pub struct MsgUpdateGroupMetadata {
     /// admin is the account address of the group admin.
@@ -1635,10 +1012,6 @@ pub struct MsgUpdateGroupMetadata {
     pub admin: ::prost::alloc::string::String,
     /// group_id is the unique ID of the group.
     #[prost(uint64, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub group_id: u64,
     /// metadata is the updated group's metadata.
     #[prost(string, tag = "3")]
@@ -1646,30 +1019,12 @@ pub struct MsgUpdateGroupMetadata {
 }
 /// MsgUpdateGroupMetadataResponse is the Msg/UpdateGroupMetadata response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.MsgUpdateGroupMetadataResponse")]
 pub struct MsgUpdateGroupMetadataResponse {}
 /// MsgCreateGroupPolicy is the Msg/CreateGroupPolicy request type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.MsgCreateGroupPolicy")]
 pub struct MsgCreateGroupPolicy {
     /// admin is the account address of the group admin.
@@ -1677,10 +1032,6 @@ pub struct MsgCreateGroupPolicy {
     pub admin: ::prost::alloc::string::String,
     /// group_id is the unique ID of the group.
     #[prost(uint64, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub group_id: u64,
     /// metadata is any arbitrary metadata attached to the group policy.
     #[prost(string, tag = "3")]
@@ -1691,16 +1042,7 @@ pub struct MsgCreateGroupPolicy {
 }
 /// MsgCreateGroupPolicyResponse is the Msg/CreateGroupPolicy response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.MsgCreateGroupPolicyResponse")]
 pub struct MsgCreateGroupPolicyResponse {
     /// address is the account address of the newly created group policy.
@@ -1709,16 +1051,7 @@ pub struct MsgCreateGroupPolicyResponse {
 }
 /// MsgUpdateGroupPolicyAdmin is the Msg/UpdateGroupPolicyAdmin request type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.MsgUpdateGroupPolicyAdmin")]
 pub struct MsgUpdateGroupPolicyAdmin {
     /// admin is the account address of the group admin.
@@ -1733,30 +1066,12 @@ pub struct MsgUpdateGroupPolicyAdmin {
 }
 /// MsgUpdateGroupPolicyAdminResponse is the Msg/UpdateGroupPolicyAdmin response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.MsgUpdateGroupPolicyAdminResponse")]
 pub struct MsgUpdateGroupPolicyAdminResponse {}
 /// MsgCreateGroupWithPolicy is the Msg/CreateGroupWithPolicy request type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.MsgCreateGroupWithPolicy")]
 pub struct MsgCreateGroupWithPolicy {
     /// admin is the account address of the group and group policy admin.
@@ -1781,24 +1096,11 @@ pub struct MsgCreateGroupWithPolicy {
 }
 /// MsgCreateGroupWithPolicyResponse is the Msg/CreateGroupWithPolicy response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.MsgCreateGroupWithPolicyResponse")]
 pub struct MsgCreateGroupWithPolicyResponse {
     /// group_id is the unique ID of the newly created group with policy.
     #[prost(uint64, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub group_id: u64,
     /// group_policy_address is the account address of the newly created group policy.
     #[prost(string, tag = "2")]
@@ -1806,16 +1108,7 @@ pub struct MsgCreateGroupWithPolicyResponse {
 }
 /// MsgUpdateGroupPolicyDecisionPolicy is the Msg/UpdateGroupPolicyDecisionPolicy request type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.MsgUpdateGroupPolicyDecisionPolicy")]
 pub struct MsgUpdateGroupPolicyDecisionPolicy {
     /// admin is the account address of the group admin.
@@ -1830,30 +1123,12 @@ pub struct MsgUpdateGroupPolicyDecisionPolicy {
 }
 /// MsgUpdateGroupPolicyDecisionPolicyResponse is the Msg/UpdateGroupPolicyDecisionPolicy response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.MsgUpdateGroupPolicyDecisionPolicyResponse")]
 pub struct MsgUpdateGroupPolicyDecisionPolicyResponse {}
 /// MsgUpdateGroupPolicyMetadata is the Msg/UpdateGroupPolicyMetadata request type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.MsgUpdateGroupPolicyMetadata")]
 pub struct MsgUpdateGroupPolicyMetadata {
     /// admin is the account address of the group admin.
@@ -1868,30 +1143,12 @@ pub struct MsgUpdateGroupPolicyMetadata {
 }
 /// MsgUpdateGroupPolicyMetadataResponse is the Msg/UpdateGroupPolicyMetadata response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.MsgUpdateGroupPolicyMetadataResponse")]
 pub struct MsgUpdateGroupPolicyMetadataResponse {}
 /// MsgSubmitProposal is the Msg/SubmitProposal request type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.MsgSubmitProposal")]
 pub struct MsgSubmitProposal {
     /// group_policy_address is the account address of group policy.
@@ -1911,10 +1168,6 @@ pub struct MsgSubmitProposal {
     /// whether it should be executed immediately on creation or not.
     /// If so, proposers signatures are considered as Yes votes.
     #[prost(enumeration = "Exec", tag = "5")]
-    #[serde(
-        serialize_with = "Exec::serialize",
-        deserialize_with = "Exec::deserialize"
-    )]
     pub exec: i32,
     /// title is the title of the proposal.
     ///
@@ -1929,46 +1182,20 @@ pub struct MsgSubmitProposal {
 }
 /// MsgSubmitProposalResponse is the Msg/SubmitProposal response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.MsgSubmitProposalResponse")]
 pub struct MsgSubmitProposalResponse {
     /// proposal is the unique ID of the proposal.
     #[prost(uint64, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub proposal_id: u64,
 }
 /// MsgWithdrawProposal is the Msg/WithdrawProposal request type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.MsgWithdrawProposal")]
 pub struct MsgWithdrawProposal {
     /// proposal is the unique ID of the proposal.
     #[prost(uint64, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub proposal_id: u64,
     /// address is the admin of the group policy or one of the proposer of the proposal.
     #[prost(string, tag = "2")]
@@ -1976,48 +1203,22 @@ pub struct MsgWithdrawProposal {
 }
 /// MsgWithdrawProposalResponse is the Msg/WithdrawProposal response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.MsgWithdrawProposalResponse")]
 pub struct MsgWithdrawProposalResponse {}
 /// MsgVote is the Msg/Vote request type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.MsgVote")]
 pub struct MsgVote {
     /// proposal is the unique ID of the proposal.
     #[prost(uint64, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub proposal_id: u64,
     /// voter is the voter account address.
     #[prost(string, tag = "2")]
     pub voter: ::prost::alloc::string::String,
     /// option is the voter's choice on the proposal.
     #[prost(enumeration = "VoteOption", tag = "3")]
-    #[serde(
-        serialize_with = "VoteOption::serialize",
-        deserialize_with = "VoteOption::deserialize"
-    )]
     pub option: i32,
     /// metadata is any arbitrary metadata attached to the vote.
     #[prost(string, tag = "4")]
@@ -2025,46 +1226,20 @@ pub struct MsgVote {
     /// exec defines whether the proposal should be executed
     /// immediately after voting or not.
     #[prost(enumeration = "Exec", tag = "5")]
-    #[serde(
-        serialize_with = "Exec::serialize",
-        deserialize_with = "Exec::deserialize"
-    )]
     pub exec: i32,
 }
 /// MsgVoteResponse is the Msg/Vote response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.MsgVoteResponse")]
 pub struct MsgVoteResponse {}
 /// MsgExec is the Msg/Exec request type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.MsgExec")]
 pub struct MsgExec {
     /// proposal is the unique ID of the proposal.
     #[prost(uint64, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub proposal_id: u64,
     /// executor is the account address used to execute the proposal.
     #[prost(string, tag = "2")]
@@ -2072,38 +1247,16 @@ pub struct MsgExec {
 }
 /// MsgExecResponse is the Msg/Exec request type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.MsgExecResponse")]
 pub struct MsgExecResponse {
     /// result is the final result of the proposal execution.
     #[prost(enumeration = "ProposalExecutorResult", tag = "2")]
-    #[serde(
-        serialize_with = "ProposalExecutorResult::serialize",
-        deserialize_with = "ProposalExecutorResult::deserialize"
-    )]
     pub result: i32,
 }
 /// MsgLeaveGroup is the Msg/LeaveGroup request type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.MsgLeaveGroup")]
 pub struct MsgLeaveGroup {
     /// address is the account address of the group member.
@@ -2111,30 +1264,27 @@ pub struct MsgLeaveGroup {
     pub address: ::prost::alloc::string::String,
     /// group_id is the unique ID of the group.
     #[prost(uint64, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub group_id: u64,
 }
 /// MsgLeaveGroupResponse is the Msg/LeaveGroup response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.group.v1.MsgLeaveGroupResponse")]
 pub struct MsgLeaveGroupResponse {}
 /// Exec defines modes of execution of a proposal on creation or on new vote.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[derive(
+    Clone,
+    Copy,
+    Debug,
+    PartialEq,
+    Eq,
+    Hash,
+    PartialOrd,
+    Ord,
+    ::prost::Enumeration,
+    ::schemars::JsonSchema,
+)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 pub enum Exec {
     /// An empty value means that there should be a separate
     /// MsgExec request for the proposal to execute.

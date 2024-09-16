@@ -37,6 +37,14 @@ impl MockProvenanceQuerier {
                 }
                 SystemResult::Err(SystemError::UnsupportedRequest { kind: path.into() })
             }
+            QueryRequest::Grpc(grpc_query) => {
+                if let Some(response_fn) = self.registered_custom_queries.get(&grpc_query.path) {
+                    return response_fn(&grpc_query.data);
+                }
+                SystemResult::Err(SystemError::UnsupportedRequest {
+                    kind: grpc_query.path.to_string(),
+                })
+            }
             _ => self.mock_querier.handle_query(request),
         }
     }

@@ -10,7 +10,7 @@ use provwasm_std::types::provenance::trigger::v1::{
 };
 
 use crate::error::ContractError;
-use crate::msg::{Event, ExecuteMsg, InitMsg, QueryMsg};
+use crate::msg::{Event, ExecuteMsg, InitMsg, QueryMsg, TriggersByIdResp, TriggersResp};
 
 /// Initialize the smart contract
 #[entry_point]
@@ -110,8 +110,12 @@ pub fn get_trigger(deps: Deps, id: Option<Uint64>) -> Result<QueryResponse, Cont
     let trigger_querier = TriggerQuerier::new(&deps.querier);
 
     match id {
-        Some(id) => Ok(to_json_binary(&trigger_querier.trigger_by_id(id.u64())?)?),
-        None => Ok(to_json_binary(&trigger_querier.triggers(None)?)?),
+        Some(id) => Ok(to_json_binary(&TriggersByIdResp::from(
+            trigger_querier.trigger_by_id(id.u64())?,
+        ))?),
+        None => Ok(to_json_binary(&TriggersResp::from(
+            trigger_querier.triggers(None)?,
+        ))?),
     }
 }
 

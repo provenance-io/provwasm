@@ -1,6 +1,6 @@
-version: v1
+version: v2
 plugins:
-  - plugin: buf.build/community/neoeinstein-prost
+  - remote: buf.build/community/neoeinstein-prost
     out: .
     opt:
       - extern_path=.google.protobuf.Timestamp=crate::shim::Timestamp

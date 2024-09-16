@@ -15,7 +15,6 @@ pub struct CosmosProject {
     pub name: String,
     pub version: String,
     pub project_dir: String,
-    pub buf_gen_template: String,
     /// determines which modules to exclude from the project
     pub exclude_mods: Vec<String>,
 }
@@ -116,7 +115,7 @@ impl CodeGenerator {
         let mut all_related_projects = self.deps.clone();
         all_related_projects.push(self.project.clone());
 
-        // let buf_gen_template = self.root.join("buf.gen.yaml");
+        let buf_gen_template = self.root.join("buf.gen.yaml");
 
         info!(
             "🧪 [{}] Compiling types from protobuf definitions...",
@@ -135,7 +134,7 @@ impl CodeGenerator {
                     .find(|e| {
                         e.file_name()
                             .to_str()
-                            .map(|s| s == "buf.yaml" || s == "buf.yml")
+                            .map(|s| s == "buf.gen.yaml" || s == "buf.yml")
                             .unwrap_or(false)
                     })
                     .map(|e| e.path().parent().unwrap().to_path_buf())
@@ -149,9 +148,8 @@ impl CodeGenerator {
                 .arg(buf_root.to_string_lossy().to_string())
                 .arg("--template")
                 .arg(
-                    &self
-                        .root
-                        .join(&project.buf_gen_template)
+                    self.root
+                        .join(&buf_gen_template)
                         .to_string_lossy()
                         .to_string(),
                 )

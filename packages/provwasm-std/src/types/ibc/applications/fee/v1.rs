@@ -1,24 +1,11 @@
-use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
+use provwasm_proc_macro::CosmwasmExt;
 /// IncentivizedAcknowledgement is the acknowledgement format to be used by applications wrapped in the fee middleware
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.fee.v1.IncentivizedAcknowledgement")]
 pub struct IncentivizedAcknowledgement {
     /// the underlying app acknowledgement bytes
     #[prost(bytes = "vec", tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
     pub app_acknowledgement: ::prost::alloc::vec::Vec<u8>,
     /// the relayer address which submits the recv packet message
     #[prost(string, tag = "2")]
@@ -29,16 +16,7 @@ pub struct IncentivizedAcknowledgement {
 }
 /// Fee defines the ICS29 receive, acknowledgement and timeout fees
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.fee.v1.Fee")]
 pub struct Fee {
     /// the packet receive fee
@@ -54,16 +32,7 @@ pub struct Fee {
 }
 /// PacketFee contains ICS29 relayer fees, refund address and optional list of permitted relayers
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.fee.v1.PacketFee")]
 pub struct PacketFee {
     /// fee encapsulates the recv, ack and timeout fees associated with an IBC packet
@@ -78,16 +47,7 @@ pub struct PacketFee {
 }
 /// PacketFees contains a list of type PacketFee
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.fee.v1.PacketFees")]
 pub struct PacketFees {
     /// list of packet fees
@@ -96,16 +56,7 @@ pub struct PacketFees {
 }
 /// IdentifiedPacketFees contains a list of type PacketFee and associated PacketId
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.fee.v1.IdentifiedPacketFees")]
 pub struct IdentifiedPacketFees {
     /// unique packet identifier comprised of the channel ID, port ID and sequence
@@ -117,16 +68,7 @@ pub struct IdentifiedPacketFees {
 }
 /// GenesisState defines the ICS29 fee middleware genesis state
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.fee.v1.GenesisState")]
 pub struct GenesisState {
     /// list of identified packet fees
@@ -147,16 +89,7 @@ pub struct GenesisState {
 }
 /// FeeEnabledChannel contains the PortID & ChannelID for a fee enabled channel
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.fee.v1.FeeEnabledChannel")]
 pub struct FeeEnabledChannel {
     /// unique port identifier
@@ -168,16 +101,7 @@ pub struct FeeEnabledChannel {
 }
 /// RegisteredPayee contains the relayer address and payee address for a specific channel
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.fee.v1.RegisteredPayee")]
 pub struct RegisteredPayee {
     /// unique channel identifier
@@ -193,16 +117,7 @@ pub struct RegisteredPayee {
 /// RegisteredCounterpartyPayee contains the relayer address and counterparty payee address for a specific channel (used
 /// for recv fee distribution)
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.fee.v1.RegisteredCounterpartyPayee")]
 pub struct RegisteredCounterpartyPayee {
     /// unique channel identifier
@@ -217,16 +132,7 @@ pub struct RegisteredCounterpartyPayee {
 }
 /// ForwardRelayerAddress contains the forward relayer address and PacketId used for async acknowledgements
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.fee.v1.ForwardRelayerAddress")]
 pub struct ForwardRelayerAddress {
     /// the forward relayer address
@@ -239,16 +145,7 @@ pub struct ForwardRelayerAddress {
 /// Metadata defines the ICS29 channel specific metadata encoded into the channel version bytestring
 /// See ICS004: <https://github.com/cosmos/ibc/tree/master/spec/core/ics-004-channel-and-packet-semantics#Versioning>
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.fee.v1.Metadata")]
 pub struct Metadata {
     /// fee_version defines the ICS29 fee version
@@ -260,16 +157,7 @@ pub struct Metadata {
 }
 /// QueryIncentivizedPacketsRequest defines the request type for the IncentivizedPackets rpc
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.fee.v1.QueryIncentivizedPacketsRequest")]
 #[proto_query(
     path = "/ibc.applications.fee.v1.Query/IncentivizedPackets",
@@ -283,24 +171,11 @@ pub struct QueryIncentivizedPacketsRequest {
     >,
     /// block height at which to query
     #[prost(uint64, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub query_height: u64,
 }
 /// QueryIncentivizedPacketsResponse defines the response type for the IncentivizedPackets rpc
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.fee.v1.QueryIncentivizedPacketsResponse")]
 pub struct QueryIncentivizedPacketsResponse {
     /// list of identified fees for incentivized packets
@@ -314,16 +189,7 @@ pub struct QueryIncentivizedPacketsResponse {
 }
 /// QueryIncentivizedPacketRequest defines the request type for the IncentivizedPacket rpc
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.fee.v1.QueryIncentivizedPacketRequest")]
 #[proto_query(
     path = "/ibc.applications.fee.v1.Query/IncentivizedPacket",
@@ -335,24 +201,11 @@ pub struct QueryIncentivizedPacketRequest {
     pub packet_id: ::core::option::Option<super::super::super::core::channel::v1::PacketId>,
     /// block height at which to query
     #[prost(uint64, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub query_height: u64,
 }
 /// QueryIncentivizedPacketsResponse defines the response type for the IncentivizedPacket rpc
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.fee.v1.QueryIncentivizedPacketResponse")]
 pub struct QueryIncentivizedPacketResponse {
     /// the identified fees for the incentivized packet
@@ -362,16 +215,7 @@ pub struct QueryIncentivizedPacketResponse {
 /// QueryIncentivizedPacketsForChannelRequest defines the request type for querying for all incentivized packets
 /// for a specific channel
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.fee.v1.QueryIncentivizedPacketsForChannelRequest")]
 #[proto_query(
     path = "/ibc.applications.fee.v1.Query/IncentivizedPacketsForChannel",
@@ -389,24 +233,11 @@ pub struct QueryIncentivizedPacketsForChannelRequest {
     pub channel_id: ::prost::alloc::string::String,
     /// Height to query at
     #[prost(uint64, tag = "4")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub query_height: u64,
 }
 /// QueryIncentivizedPacketsResponse defines the response type for the incentivized packets RPC
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.fee.v1.QueryIncentivizedPacketsForChannelResponse")]
 pub struct QueryIncentivizedPacketsForChannelResponse {
     /// Map of all incentivized_packets
@@ -420,16 +251,7 @@ pub struct QueryIncentivizedPacketsForChannelResponse {
 }
 /// QueryTotalRecvFeesRequest defines the request type for the TotalRecvFees rpc
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.fee.v1.QueryTotalRecvFeesRequest")]
 #[proto_query(
     path = "/ibc.applications.fee.v1.Query/TotalRecvFees",
@@ -442,16 +264,7 @@ pub struct QueryTotalRecvFeesRequest {
 }
 /// QueryTotalRecvFeesResponse defines the response type for the TotalRecvFees rpc
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.fee.v1.QueryTotalRecvFeesResponse")]
 pub struct QueryTotalRecvFeesResponse {
     /// the total packet receive fees
@@ -461,16 +274,7 @@ pub struct QueryTotalRecvFeesResponse {
 }
 /// QueryTotalAckFeesRequest defines the request type for the TotalAckFees rpc
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.fee.v1.QueryTotalAckFeesRequest")]
 #[proto_query(
     path = "/ibc.applications.fee.v1.Query/TotalAckFees",
@@ -483,16 +287,7 @@ pub struct QueryTotalAckFeesRequest {
 }
 /// QueryTotalAckFeesResponse defines the response type for the TotalAckFees rpc
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.fee.v1.QueryTotalAckFeesResponse")]
 pub struct QueryTotalAckFeesResponse {
     /// the total packet acknowledgement fees
@@ -501,16 +296,7 @@ pub struct QueryTotalAckFeesResponse {
 }
 /// QueryTotalTimeoutFeesRequest defines the request type for the TotalTimeoutFees rpc
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.fee.v1.QueryTotalTimeoutFeesRequest")]
 #[proto_query(
     path = "/ibc.applications.fee.v1.Query/TotalTimeoutFees",
@@ -523,16 +309,7 @@ pub struct QueryTotalTimeoutFeesRequest {
 }
 /// QueryTotalTimeoutFeesResponse defines the response type for the TotalTimeoutFees rpc
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.fee.v1.QueryTotalTimeoutFeesResponse")]
 pub struct QueryTotalTimeoutFeesResponse {
     /// the total packet timeout fees
@@ -542,16 +319,7 @@ pub struct QueryTotalTimeoutFeesResponse {
 }
 /// QueryPayeeRequest defines the request type for the Payee rpc
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.fee.v1.QueryPayeeRequest")]
 #[proto_query(
     path = "/ibc.applications.fee.v1.Query/Payee",
@@ -567,16 +335,7 @@ pub struct QueryPayeeRequest {
 }
 /// QueryPayeeResponse defines the response type for the Payee rpc
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.fee.v1.QueryPayeeResponse")]
 pub struct QueryPayeeResponse {
     /// the payee address to which packet fees are paid out
@@ -585,16 +344,7 @@ pub struct QueryPayeeResponse {
 }
 /// QueryCounterpartyPayeeRequest defines the request type for the CounterpartyPayee rpc
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.fee.v1.QueryCounterpartyPayeeRequest")]
 #[proto_query(
     path = "/ibc.applications.fee.v1.Query/CounterpartyPayee",
@@ -610,16 +360,7 @@ pub struct QueryCounterpartyPayeeRequest {
 }
 /// QueryCounterpartyPayeeResponse defines the response type for the CounterpartyPayee rpc
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.fee.v1.QueryCounterpartyPayeeResponse")]
 pub struct QueryCounterpartyPayeeResponse {
     /// the counterparty payee address used to compensate forward relaying
@@ -628,16 +369,7 @@ pub struct QueryCounterpartyPayeeResponse {
 }
 /// QueryFeeEnabledChannelsRequest defines the request type for the FeeEnabledChannels rpc
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.fee.v1.QueryFeeEnabledChannelsRequest")]
 #[proto_query(
     path = "/ibc.applications.fee.v1.Query/FeeEnabledChannels",
@@ -651,24 +383,11 @@ pub struct QueryFeeEnabledChannelsRequest {
     >,
     /// block height at which to query
     #[prost(uint64, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub query_height: u64,
 }
 /// QueryFeeEnabledChannelsResponse defines the response type for the FeeEnabledChannels rpc
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.fee.v1.QueryFeeEnabledChannelsResponse")]
 pub struct QueryFeeEnabledChannelsResponse {
     /// list of fee enabled channels
@@ -682,16 +401,7 @@ pub struct QueryFeeEnabledChannelsResponse {
 }
 /// QueryFeeEnabledChannelRequest defines the request type for the FeeEnabledChannel rpc
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.fee.v1.QueryFeeEnabledChannelRequest")]
 #[proto_query(
     path = "/ibc.applications.fee.v1.Query/FeeEnabledChannel",
@@ -707,16 +417,7 @@ pub struct QueryFeeEnabledChannelRequest {
 }
 /// QueryFeeEnabledChannelResponse defines the response type for the FeeEnabledChannel rpc
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.fee.v1.QueryFeeEnabledChannelResponse")]
 pub struct QueryFeeEnabledChannelResponse {
     /// boolean flag representing the fee enabled channel status
@@ -725,16 +426,7 @@ pub struct QueryFeeEnabledChannelResponse {
 }
 /// MsgRegisterPayee defines the request type for the RegisterPayee rpc
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.fee.v1.MsgRegisterPayee")]
 pub struct MsgRegisterPayee {
     /// unique port identifier
@@ -752,30 +444,12 @@ pub struct MsgRegisterPayee {
 }
 /// MsgRegisterPayeeResponse defines the response type for the RegisterPayee rpc
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.fee.v1.MsgRegisterPayeeResponse")]
 pub struct MsgRegisterPayeeResponse {}
 /// MsgRegisterCounterpartyPayee defines the request type for the RegisterCounterpartyPayee rpc
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.fee.v1.MsgRegisterCounterpartyPayee")]
 pub struct MsgRegisterCounterpartyPayee {
     /// unique port identifier
@@ -793,32 +467,14 @@ pub struct MsgRegisterCounterpartyPayee {
 }
 /// MsgRegisterCounterpartyPayeeResponse defines the response type for the RegisterCounterpartyPayee rpc
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.fee.v1.MsgRegisterCounterpartyPayeeResponse")]
 pub struct MsgRegisterCounterpartyPayeeResponse {}
 /// MsgPayPacketFee defines the request type for the PayPacketFee rpc
 /// This Msg can be used to pay for a packet at the next sequence send & should be combined with the Msg that will be
 /// paid for
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.fee.v1.MsgPayPacketFee")]
 pub struct MsgPayPacketFee {
     /// fee encapsulates the recv, ack and timeout fees associated with an IBC packet
@@ -839,31 +495,13 @@ pub struct MsgPayPacketFee {
 }
 /// MsgPayPacketFeeResponse defines the response type for the PayPacketFee rpc
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.fee.v1.MsgPayPacketFeeResponse")]
 pub struct MsgPayPacketFeeResponse {}
 /// MsgPayPacketFeeAsync defines the request type for the PayPacketFeeAsync rpc
 /// This Msg can be used to pay for a packet at a specified sequence (instead of the next sequence send)
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.fee.v1.MsgPayPacketFeeAsync")]
 pub struct MsgPayPacketFeeAsync {
     /// unique packet identifier comprised of the channel ID, port ID and sequence
@@ -875,16 +513,7 @@ pub struct MsgPayPacketFeeAsync {
 }
 /// MsgPayPacketFeeAsyncResponse defines the response type for the PayPacketFeeAsync rpc
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.fee.v1.MsgPayPacketFeeAsyncResponse")]
 pub struct MsgPayPacketFeeAsyncResponse {}
 pub struct FeeQuerier<'a, Q: cosmwasm_std::CustomQuery> {

@@ -2,6 +2,8 @@
 
 ## Unreleased changes
 
+* migrate to GRPC queries ([#157](https://github.com/provenance-io/provwasm/issues/157))
+
 ## Releases
 
 ### [v2.3.0](https://github.com/provenance-io/provwasm/tree/v2.3.0)

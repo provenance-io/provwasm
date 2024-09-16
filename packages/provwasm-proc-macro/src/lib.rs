@@ -42,24 +42,35 @@ pub fn derive_cosmwasm_ext(input: TokenStream) -> TokenStream {
         let query_request_conversion = quote! {
             impl <Q: cosmwasm_std::CustomQuery> From<#ident> for cosmwasm_std::QueryRequest<Q> {
                 fn from(msg: #ident) -> Self {
-                    cosmwasm_std::QueryRequest::<Q>::Stargate {
+                    cosmwasm_std::QueryRequest::<Q>::Grpc(cosmwasm_std::GrpcQuery{
                         path: #path.to_string(),
                         data: msg.into(),
-                    }
+                    })
                 }
             }
         };
 
         let cosmwasm_query = quote! {
             pub fn query(self, querier: &cosmwasm_std::QuerierWrapper<impl cosmwasm_std::CustomQuery>) -> cosmwasm_std::StdResult<#res> {
-                querier.query::<#res>(&self.into())
+                let binary_result = querier.query_grpc(#path.to_string(), self.into())?;
+                let response_query = crate::types::tendermint::abci::ResponseQuery::try_from(binary_result)?;
+                #res::try_from(response_query.value)
             }
 
             pub fn mock_response<T: provwasm_common::MockableQuerier>(querier: &mut T, response: #res) {
                 querier.register_custom_query(#path.to_string(), Box::new(move |data| {
                     cosmwasm_std::SystemResult::Ok(cosmwasm_std::ContractResult::Ok(
-                        cosmwasm_std::to_binary(&response)
-                            .unwrap()))
+                        cosmwasm_std::Binary::new(crate::types::tendermint::abci::ResponseQuery{
+                            code: 0,
+                            log: "".to_string(),
+                            info: "".to_string(),
+                            index: 0,
+                            key: vec![],
+                            value: response.to_proto_bytes(),
+                            proof_ops: None,
+                            height: 0,
+                            codespace: "".to_string(),
+                        }.to_proto_bytes())))
                 }))
             }
 
@@ -126,6 +137,24 @@ pub fn derive_cosmwasm_ext(input: TokenStream) -> TokenStream {
                             "Unable to decode binary: \n  - base64: {}\n  - bytes array: {:?}\n\n{:?}",
                             binary,
                             binary.to_vec(),
+                            e
+                        )
+                    )
+                })
+            }
+        }
+
+        impl TryFrom<Vec<u8>> for #ident {
+            type Error = cosmwasm_std::StdError;
+
+            fn try_from(binary: Vec<u8>) -> ::std::result::Result<Self, Self::Error> {
+                use ::prost::Message;
+                Self::decode(&binary[..]).map_err(|e| {
+                    cosmwasm_std::StdError::parse_err(
+                        stringify!(#ident),
+                        format!(
+                            "Unable to decode binary:\n  - bytes array: {:?}\n\n{:?}",
+                            binary,
                             e
                         )
                     )
@@ -239,7 +268,7 @@ pub fn derive_serde_enum_as_int(input: TokenStream) -> TokenStream {
             }
         }
     })
-    .into()
+        .into()
 }
 
 fn get_type_url(attrs: &[syn::Attribute]) -> proc_macro2::TokenStream {
@@ -276,7 +305,7 @@ where
         }
 
         if let Some(TokenTree::Group(group)) = attr.tokens.clone().into_iter().next() {
-            let kv_groups = group.stream().into_iter().group_by(|t| {
+            let kv_groups = group.stream().into_iter().chunk_by(|t| {
                 if let TokenTree::Punct(punct) = t {
                     punct.as_char() != ','
                 } else {

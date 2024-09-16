@@ -1,17 +1,8 @@
 pub mod p8e;
-use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
+use provwasm_proc_macro::CosmwasmExt;
 /// EventTxCompleted is an event message indicating that a TX has completed.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.EventTxCompleted")]
 pub struct EventTxCompleted {
     /// module is the module the TX belongs to.
@@ -26,16 +17,7 @@ pub struct EventTxCompleted {
 }
 /// EventScopeCreated is an event message indicating a scope has been created.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.EventScopeCreated")]
 pub struct EventScopeCreated {
     /// scope_addr is the bech32 address string of the scope id that was created.
@@ -44,16 +26,7 @@ pub struct EventScopeCreated {
 }
 /// EventScopeUpdated is an event message indicating a scope has been updated.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.EventScopeUpdated")]
 pub struct EventScopeUpdated {
     /// scope_addr is the bech32 address string of the scope id that was updated.
@@ -62,16 +35,7 @@ pub struct EventScopeUpdated {
 }
 /// EventScopeDeleted is an event message indicating a scope has been deleted.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.EventScopeDeleted")]
 pub struct EventScopeDeleted {
     /// scope_addr is the bech32 address string of the scope id that was deleted.
@@ -80,16 +44,7 @@ pub struct EventScopeDeleted {
 }
 /// EventSessionCreated is an event message indicating a session has been created.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.EventSessionCreated")]
 pub struct EventSessionCreated {
     /// session_addr is the bech32 address string of the session id that was created.
@@ -101,16 +56,7 @@ pub struct EventSessionCreated {
 }
 /// EventSessionUpdated is an event message indicating a session has been updated.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.EventSessionUpdated")]
 pub struct EventSessionUpdated {
     /// session_addr is the bech32 address string of the session id that was updated.
@@ -122,16 +68,7 @@ pub struct EventSessionUpdated {
 }
 /// EventSessionDeleted is an event message indicating a session has been deleted.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.EventSessionDeleted")]
 pub struct EventSessionDeleted {
     /// session_addr is the bech32 address string of the session id that was deleted.
@@ -143,16 +80,7 @@ pub struct EventSessionDeleted {
 }
 /// EventRecordCreated is an event message indicating a record has been created.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.EventRecordCreated")]
 pub struct EventRecordCreated {
     /// record_addr is the bech32 address string of the record id that was created.
@@ -167,16 +95,7 @@ pub struct EventRecordCreated {
 }
 /// EventRecordUpdated is an event message indicating a record has been updated.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.EventRecordUpdated")]
 pub struct EventRecordUpdated {
     /// record_addr is the bech32 address string of the record id that was updated.
@@ -191,16 +110,7 @@ pub struct EventRecordUpdated {
 }
 /// EventRecordDeleted is an event message indicating a record has been deleted.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.EventRecordDeleted")]
 pub struct EventRecordDeleted {
     /// record is the bech32 address string of the record id that was deleted.
@@ -212,16 +122,7 @@ pub struct EventRecordDeleted {
 }
 /// EventScopeSpecificationCreated is an event message indicating a scope specification has been created.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.EventScopeSpecificationCreated")]
 pub struct EventScopeSpecificationCreated {
     /// scope_specification_addr is the bech32 address string of the specification id of the scope specification that was
@@ -231,16 +132,7 @@ pub struct EventScopeSpecificationCreated {
 }
 /// EventScopeSpecificationUpdated is an event message indicating a scope specification has been updated.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.EventScopeSpecificationUpdated")]
 pub struct EventScopeSpecificationUpdated {
     /// scope_specification_addr is the bech32 address string of the specification id of the scope specification that was
@@ -250,16 +142,7 @@ pub struct EventScopeSpecificationUpdated {
 }
 /// EventScopeSpecificationDeleted is an event message indicating a scope specification has been deleted.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.EventScopeSpecificationDeleted")]
 pub struct EventScopeSpecificationDeleted {
     /// scope_specification_addr is the bech32 address string of the specification id of the scope specification that was
@@ -269,16 +152,7 @@ pub struct EventScopeSpecificationDeleted {
 }
 /// EventContractSpecificationCreated is an event message indicating a contract specification has been created.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.EventContractSpecificationCreated")]
 pub struct EventContractSpecificationCreated {
     /// contract_specification_addr is the bech32 address string of the specification id of the contract specification that
@@ -288,16 +162,7 @@ pub struct EventContractSpecificationCreated {
 }
 /// EventContractSpecificationUpdated is an event message indicating a contract specification has been updated.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.EventContractSpecificationUpdated")]
 pub struct EventContractSpecificationUpdated {
     /// contract_specification_addr is the bech32 address string of the specification id of the contract specification that
@@ -307,16 +172,7 @@ pub struct EventContractSpecificationUpdated {
 }
 /// EventContractSpecificationDeleted is an event message indicating a contract specification has been deleted.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.EventContractSpecificationDeleted")]
 pub struct EventContractSpecificationDeleted {
     /// contract_specification_addr is the bech32 address string of the specification id of the contract specification that
@@ -326,16 +182,7 @@ pub struct EventContractSpecificationDeleted {
 }
 /// EventRecordSpecificationCreated is an event message indicating a record specification has been created.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.EventRecordSpecificationCreated")]
 pub struct EventRecordSpecificationCreated {
     /// record_specification_addr is the bech32 address string of the specification id of the record specification that was
@@ -349,16 +196,7 @@ pub struct EventRecordSpecificationCreated {
 }
 /// EventRecordSpecificationUpdated is an event message indicating a record specification has been updated.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.EventRecordSpecificationUpdated")]
 pub struct EventRecordSpecificationUpdated {
     /// record_specification_addr is the bech32 address string of the specification id of the record specification that was
@@ -372,16 +210,7 @@ pub struct EventRecordSpecificationUpdated {
 }
 /// EventRecordSpecificationDeleted is an event message indicating a record specification has been deleted.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.EventRecordSpecificationDeleted")]
 pub struct EventRecordSpecificationDeleted {
     /// record_specification_addr is the bech32 address string of the specification id of the record specification that was
@@ -395,16 +224,7 @@ pub struct EventRecordSpecificationDeleted {
 }
 /// EventOSLocatorCreated is an event message indicating an object store locator has been created.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.EventOSLocatorCreated")]
 pub struct EventOsLocatorCreated {
     /// owner is the owner in the object store locator that was created.
@@ -413,16 +233,7 @@ pub struct EventOsLocatorCreated {
 }
 /// EventOSLocatorUpdated is an event message indicating an object store locator has been updated.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.EventOSLocatorUpdated")]
 pub struct EventOsLocatorUpdated {
     /// owner is the owner in the object store locator that was updated.
@@ -431,16 +242,7 @@ pub struct EventOsLocatorUpdated {
 }
 /// EventOSLocatorDeleted is an event message indicating an object store locator has been deleted.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.EventOSLocatorDeleted")]
 pub struct EventOsLocatorDeleted {
     /// owner is the owner in the object store locator that was deleted.
@@ -449,16 +251,7 @@ pub struct EventOsLocatorDeleted {
 }
 /// EventSetNetAssetValue event emitted when Net Asset Value for a scope is update or added
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.EventSetNetAssetValue")]
 pub struct EventSetNetAssetValue {
     #[prost(string, tag = "1")]
@@ -470,52 +263,22 @@ pub struct EventSetNetAssetValue {
 }
 /// Params defines the set of params for the metadata module.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.Params")]
 pub struct Params {}
 /// ScopeIdInfo contains various info regarding a scope id.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.ScopeIdInfo")]
 pub struct ScopeIdInfo {
     /// scope_id is the raw bytes of the scope address.
     #[prost(bytes = "vec", tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str_bytes::serialize",
-        deserialize_with = "crate::serde::as_str_bytes::deserialize"
-    )]
     pub scope_id: ::prost::alloc::vec::Vec<u8>,
     /// scope_id_prefix is the prefix portion of the scope_id.
     #[prost(bytes = "vec", tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str_bytes::serialize",
-        deserialize_with = "crate::serde::as_str_bytes::deserialize"
-    )]
     pub scope_id_prefix: ::prost::alloc::vec::Vec<u8>,
     /// scope_id_scope_uuid is the scope_uuid portion of the scope_id.
     #[prost(bytes = "vec", tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_str_bytes::serialize",
-        deserialize_with = "crate::serde::as_str_bytes::deserialize"
-    )]
     pub scope_id_scope_uuid: ::prost::alloc::vec::Vec<u8>,
     /// scope_addr is the bech32 string version of the scope_id.
     #[prost(string, tag = "4")]
@@ -526,45 +289,20 @@ pub struct ScopeIdInfo {
 }
 /// SessionIdInfo contains various info regarding a session id.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.SessionIdInfo")]
 pub struct SessionIdInfo {
     /// session_id is the raw bytes of the session address.
     #[prost(bytes = "vec", tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str_bytes::serialize",
-        deserialize_with = "crate::serde::as_str_bytes::deserialize"
-    )]
     pub session_id: ::prost::alloc::vec::Vec<u8>,
     /// session_id_prefix is the prefix portion of the session_id.
     #[prost(bytes = "vec", tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str_bytes::serialize",
-        deserialize_with = "crate::serde::as_str_bytes::deserialize"
-    )]
     pub session_id_prefix: ::prost::alloc::vec::Vec<u8>,
     /// session_id_scope_uuid is the scope_uuid portion of the session_id.
     #[prost(bytes = "vec", tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_str_bytes::serialize",
-        deserialize_with = "crate::serde::as_str_bytes::deserialize"
-    )]
     pub session_id_scope_uuid: ::prost::alloc::vec::Vec<u8>,
     /// session_id_session_uuid is the session_uuid portion of the session_id.
     #[prost(bytes = "vec", tag = "4")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
     pub session_id_session_uuid: ::prost::alloc::vec::Vec<u8>,
     /// session_addr is the bech32 string version of the session_id.
     #[prost(string, tag = "5")]
@@ -578,45 +316,20 @@ pub struct SessionIdInfo {
 }
 /// RecordIdInfo contains various info regarding a record id.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.RecordIdInfo")]
 pub struct RecordIdInfo {
     /// record_id is the raw bytes of the record address.
     #[prost(bytes = "vec", tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str_bytes::serialize",
-        deserialize_with = "crate::serde::as_str_bytes::deserialize"
-    )]
     pub record_id: ::prost::alloc::vec::Vec<u8>,
     /// record_id_prefix is the prefix portion of the record_id.
     #[prost(bytes = "vec", tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str_bytes::serialize",
-        deserialize_with = "crate::serde::as_str_bytes::deserialize"
-    )]
     pub record_id_prefix: ::prost::alloc::vec::Vec<u8>,
     /// record_id_scope_uuid is the scope_uuid portion of the record_id.
     #[prost(bytes = "vec", tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_str_bytes::serialize",
-        deserialize_with = "crate::serde::as_str_bytes::deserialize"
-    )]
     pub record_id_scope_uuid: ::prost::alloc::vec::Vec<u8>,
     /// record_id_hashed_name is the hashed name portion of the record_id.
     #[prost(bytes = "vec", tag = "4")]
-    #[serde(
-        serialize_with = "crate::serde::as_str_bytes::serialize",
-        deserialize_with = "crate::serde::as_str_bytes::deserialize"
-    )]
     pub record_id_hashed_name: ::prost::alloc::vec::Vec<u8>,
     /// record_addr is the bech32 string version of the record_id.
     #[prost(string, tag = "5")]
@@ -627,38 +340,17 @@ pub struct RecordIdInfo {
 }
 /// ScopeSpecIdInfo contains various info regarding a scope specification id.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.ScopeSpecIdInfo")]
 pub struct ScopeSpecIdInfo {
     /// scope_spec_id is the raw bytes of the scope specification address.
     #[prost(bytes = "vec", tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str_bytes::serialize",
-        deserialize_with = "crate::serde::as_str_bytes::deserialize"
-    )]
     pub scope_spec_id: ::prost::alloc::vec::Vec<u8>,
     /// scope_spec_id_prefix is the prefix portion of the scope_spec_id.
     #[prost(bytes = "vec", tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str_bytes::serialize",
-        deserialize_with = "crate::serde::as_str_bytes::deserialize"
-    )]
     pub scope_spec_id_prefix: ::prost::alloc::vec::Vec<u8>,
     /// scope_spec_id_scope_spec_uuid is the scope_spec_uuid portion of the scope_spec_id.
     #[prost(bytes = "vec", tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_str_bytes::serialize",
-        deserialize_with = "crate::serde::as_str_bytes::deserialize"
-    )]
     pub scope_spec_id_scope_spec_uuid: ::prost::alloc::vec::Vec<u8>,
     /// scope_spec_addr is the bech32 string version of the scope_spec_id.
     #[prost(string, tag = "4")]
@@ -669,38 +361,17 @@ pub struct ScopeSpecIdInfo {
 }
 /// ContractSpecIdInfo contains various info regarding a contract specification id.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.ContractSpecIdInfo")]
 pub struct ContractSpecIdInfo {
     /// contract_spec_id is the raw bytes of the contract specification address.
     #[prost(bytes = "vec", tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str_bytes::serialize",
-        deserialize_with = "crate::serde::as_str_bytes::deserialize"
-    )]
     pub contract_spec_id: ::prost::alloc::vec::Vec<u8>,
     /// contract_spec_id_prefix is the prefix portion of the contract_spec_id.
     #[prost(bytes = "vec", tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str_bytes::serialize",
-        deserialize_with = "crate::serde::as_str_bytes::deserialize"
-    )]
     pub contract_spec_id_prefix: ::prost::alloc::vec::Vec<u8>,
     /// contract_spec_id_contract_spec_uuid is the contract_spec_uuid portion of the contract_spec_id.
     #[prost(bytes = "vec", tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_str_bytes::serialize",
-        deserialize_with = "crate::serde::as_str_bytes::deserialize"
-    )]
     pub contract_spec_id_contract_spec_uuid: ::prost::alloc::vec::Vec<u8>,
     /// contract_spec_addr is the bech32 string version of the contract_spec_id.
     #[prost(string, tag = "4")]
@@ -711,45 +382,20 @@ pub struct ContractSpecIdInfo {
 }
 /// RecordSpecIdInfo contains various info regarding a record specification id.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.RecordSpecIdInfo")]
 pub struct RecordSpecIdInfo {
     /// record_spec_id is the raw bytes of the record specification address.
     #[prost(bytes = "vec", tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str_bytes::serialize",
-        deserialize_with = "crate::serde::as_str_bytes::deserialize"
-    )]
     pub record_spec_id: ::prost::alloc::vec::Vec<u8>,
     /// record_spec_id_prefix is the prefix portion of the record_spec_id.
     #[prost(bytes = "vec", tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str_bytes::serialize",
-        deserialize_with = "crate::serde::as_str_bytes::deserialize"
-    )]
     pub record_spec_id_prefix: ::prost::alloc::vec::Vec<u8>,
     /// record_spec_id_contract_spec_uuid is the contract_spec_uuid portion of the record_spec_id.
     #[prost(bytes = "vec", tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_str_bytes::serialize",
-        deserialize_with = "crate::serde::as_str_bytes::deserialize"
-    )]
     pub record_spec_id_contract_spec_uuid: ::prost::alloc::vec::Vec<u8>,
     /// record_spec_id_hashed_name is the hashed name portion of the record_spec_id.
     #[prost(bytes = "vec", tag = "4")]
-    #[serde(
-        serialize_with = "crate::serde::as_str_bytes::serialize",
-        deserialize_with = "crate::serde::as_str_bytes::deserialize"
-    )]
     pub record_spec_id_hashed_name: ::prost::alloc::vec::Vec<u8>,
     /// record_spec_addr is the bech32 string version of the record_spec_id.
     #[prost(string, tag = "5")]
@@ -760,24 +406,11 @@ pub struct RecordSpecIdInfo {
 }
 /// ScopeSpecification defines the required parties, resources, conditions, and consideration outputs for a contract
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.ScopeSpecification")]
 pub struct ScopeSpecification {
     /// unique identifier for this specification on chain
     #[prost(bytes = "vec", tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str_bytes::serialize",
-        deserialize_with = "crate::serde::as_str_bytes::deserialize"
-    )]
     pub specification_id: ::prost::alloc::vec::Vec<u8>,
     /// General information about this scope specification.
     #[prost(message, optional, tag = "2")]
@@ -790,32 +423,15 @@ pub struct ScopeSpecification {
     pub parties_involved: ::prost::alloc::vec::Vec<i32>,
     /// A list of contract specification ids allowed for a scope based on this specification.
     #[prost(bytes = "vec", repeated, tag = "5")]
-    #[serde(
-        serialize_with = "crate::serde::as_str_bytes_vec::serialize",
-        deserialize_with = "crate::serde::as_str_bytes_vec::deserialize"
-    )]
     pub contract_spec_ids: ::prost::alloc::vec::Vec<::prost::alloc::vec::Vec<u8>>,
 }
 /// ContractSpecification defines the required parties, resources, conditions, and consideration outputs for a contract
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.ContractSpecification")]
 pub struct ContractSpecification {
     /// unique identifier for this specification on chain
     #[prost(bytes = "vec", tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str_bytes::serialize",
-        deserialize_with = "crate::serde::as_str_bytes::deserialize"
-    )]
     pub specification_id: ::prost::alloc::vec::Vec<u8>,
     /// Description information for this contract specification
     #[prost(message, optional, tag = "2")]
@@ -836,19 +452,11 @@ pub struct ContractSpecification {
 }
 /// Nested message and enum types in `ContractSpecification`.
 pub mod contract_specification {
-    use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
+    use provwasm_proc_macro::CosmwasmExt;
     /// Reference to a metadata record with a hash and type information for the instance of code that will process this
     /// contract
     #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(
-        Clone,
-        PartialEq,
-        Eq,
-        ::prost::Oneof,
-        ::serde::Serialize,
-        ::serde::Deserialize,
-        ::schemars::JsonSchema,
-    )]
+    #[derive(Clone, PartialEq, Eq, ::prost::Oneof, ::schemars::JsonSchema)]
     pub enum Source {
         /// the address of a record on chain that represents this contract
         #[prost(bytes, tag = "5")]
@@ -860,24 +468,11 @@ pub mod contract_specification {
 }
 /// RecordSpecification defines the specification for a Record including allowed/required inputs/outputs
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.RecordSpecification")]
 pub struct RecordSpecification {
     /// unique identifier for this specification on chain
     #[prost(bytes = "vec", tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str_bytes::serialize",
-        deserialize_with = "crate::serde::as_str_bytes::deserialize"
-    )]
     pub specification_id: ::prost::alloc::vec::Vec<u8>,
     /// Name of Record that will be created when this specification is used
     #[prost(string, tag = "2")]
@@ -890,10 +485,6 @@ pub struct RecordSpecification {
     pub type_name: ::prost::alloc::string::String,
     /// Type of result for this record specification (must be RECORD or RECORD_LIST)
     #[prost(enumeration = "DefinitionType", tag = "5")]
-    #[serde(
-        serialize_with = "DefinitionType::serialize",
-        deserialize_with = "DefinitionType::deserialize"
-    )]
     pub result_type: i32,
     /// Type of party responsible for this record
     #[prost(enumeration = "PartyType", repeated, tag = "6")]
@@ -902,16 +493,7 @@ pub struct RecordSpecification {
 /// InputSpecification defines a name, type_name, and source reference (either on or off chain) to define an input
 /// parameter
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.InputSpecification")]
 pub struct InputSpecification {
     /// name for this input
@@ -926,18 +508,10 @@ pub struct InputSpecification {
 }
 /// Nested message and enum types in `InputSpecification`.
 pub mod input_specification {
-    use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
+    use provwasm_proc_macro::CosmwasmExt;
     /// source is either on chain (record_id) or off-chain (hash)
     #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(
-        Clone,
-        PartialEq,
-        Eq,
-        ::prost::Oneof,
-        ::serde::Serialize,
-        ::serde::Deserialize,
-        ::schemars::JsonSchema,
-    )]
+    #[derive(Clone, PartialEq, Eq, ::prost::Oneof, ::schemars::JsonSchema)]
     pub enum Source {
         /// the address of a record on chain (For Established Records)
         #[prost(bytes, tag = "3")]
@@ -949,16 +523,7 @@ pub mod input_specification {
 }
 /// Description holds general information that is handy to associate with a structure.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.Description")]
 pub struct Description {
     /// A Name for this thing.
@@ -975,9 +540,19 @@ pub struct Description {
     pub icon_url: ::prost::alloc::string::String,
 }
 /// DefinitionType indicates the required definition type for this value
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[derive(
+    Clone,
+    Copy,
+    Debug,
+    PartialEq,
+    Eq,
+    Hash,
+    PartialOrd,
+    Ord,
+    ::prost::Enumeration,
+    ::schemars::JsonSchema,
+)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 pub enum DefinitionType {
     /// DEFINITION_TYPE_UNSPECIFIED indicates an unknown/invalid value
     Unspecified = 0,
@@ -1014,9 +589,19 @@ impl DefinitionType {
     }
 }
 /// PartyType are the different roles parties on a contract may use
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[derive(
+    Clone,
+    Copy,
+    Debug,
+    PartialEq,
+    Eq,
+    Hash,
+    PartialOrd,
+    Ord,
+    ::prost::Enumeration,
+    ::schemars::JsonSchema,
+)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 pub enum PartyType {
     /// PARTY_TYPE_UNSPECIFIED is an error condition
     Unspecified = 0,
@@ -1081,31 +666,14 @@ impl PartyType {
 }
 /// Scope defines a root reference for a collection of records owned by one or more parties.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.Scope")]
 pub struct Scope {
     /// Unique ID for this scope.  Implements sdk.Address interface for use where addresses are required in Cosmos
     #[prost(bytes = "vec", tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str_bytes::serialize",
-        deserialize_with = "crate::serde::as_str_bytes::deserialize"
-    )]
     pub scope_id: ::prost::alloc::vec::Vec<u8>,
     /// the scope specification that contains the specifications for data elements allowed within this scope
     #[prost(bytes = "vec", tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str_bytes::serialize",
-        deserialize_with = "crate::serde::as_str_bytes::deserialize"
-    )]
     pub specification_id: ::prost::alloc::vec::Vec<u8>,
     /// These parties represent top level owners of the records within.  These parties must sign any requests that modify
     /// the data within the scope.  These addresses are in union with parties listed on the sessions.
@@ -1128,30 +696,13 @@ pub struct Scope {
 ///
 /// NOTE: When there are no more Records within a Scope that reference a Session, the Session is removed.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.Session")]
 pub struct Session {
     #[prost(bytes = "vec", tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str_bytes::serialize",
-        deserialize_with = "crate::serde::as_str_bytes::deserialize"
-    )]
     pub session_id: ::prost::alloc::vec::Vec<u8>,
     /// unique id of the contract specification that was used to create this session.
     #[prost(bytes = "vec", tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str_bytes::serialize",
-        deserialize_with = "crate::serde::as_str_bytes::deserialize"
-    )]
     pub specification_id: ::prost::alloc::vec::Vec<u8>,
     /// parties is the set of identities that signed this contract
     #[prost(message, repeated, tag = "3")]
@@ -1161,10 +712,6 @@ pub struct Session {
     pub name: ::prost::alloc::string::String,
     /// context is a field for storing client specific data associated with a session.
     #[prost(bytes = "vec", tag = "5")]
-    #[serde(
-        serialize_with = "crate::serde::as_str_bytes::serialize",
-        deserialize_with = "crate::serde::as_str_bytes::deserialize"
-    )]
     pub context: ::prost::alloc::vec::Vec<u8>,
     /// Created by, updated by, timestamps, version number, and related info.
     #[prost(message, optional, tag = "99")]
@@ -1172,16 +719,7 @@ pub struct Session {
 }
 /// A record (of fact) is attached to a session or each consideration output from a contract
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.Record")]
 pub struct Record {
     /// name/identifier for this record.  Value must be unique within the scope.  Also known as a Fact name
@@ -1189,10 +727,6 @@ pub struct Record {
     pub name: ::prost::alloc::string::String,
     /// id of the session context that was used to create this record (use with filtered kvprefix iterator)
     #[prost(bytes = "vec", tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str_bytes::serialize",
-        deserialize_with = "crate::serde::as_str_bytes::deserialize"
-    )]
     pub session_id: ::prost::alloc::vec::Vec<u8>,
     /// process contain information used to uniquely identify an execution on or off chain that generated this record
     #[prost(message, optional, tag = "3")]
@@ -1205,24 +739,11 @@ pub struct Record {
     pub outputs: ::prost::alloc::vec::Vec<RecordOutput>,
     /// specification_id is the id of the record specification that was used to create this record.
     #[prost(bytes = "vec", tag = "6")]
-    #[serde(
-        serialize_with = "crate::serde::as_str_bytes::serialize",
-        deserialize_with = "crate::serde::as_str_bytes::deserialize"
-    )]
     pub specification_id: ::prost::alloc::vec::Vec<u8>,
 }
 /// Process contains information used to uniquely identify what was used to generate this record
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.Process")]
 pub struct Process {
     /// a name associated with the process (type_name, classname or smart contract common name)
@@ -1237,18 +758,10 @@ pub struct Process {
 }
 /// Nested message and enum types in `Process`.
 pub mod process {
-    use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
+    use provwasm_proc_macro::CosmwasmExt;
     /// unique identifier for this process
     #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(
-        Clone,
-        PartialEq,
-        Eq,
-        ::prost::Oneof,
-        ::serde::Serialize,
-        ::serde::Deserialize,
-        ::schemars::JsonSchema,
-    )]
+    #[derive(Clone, PartialEq, Eq, ::prost::Oneof, ::schemars::JsonSchema)]
     pub enum ProcessId {
         /// the address of a smart contract used for this process
         #[prost(string, tag = "1")]
@@ -1260,16 +773,7 @@ pub mod process {
 }
 /// Tracks the inputs used to establish this record
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.RecordInput")]
 pub struct RecordInput {
     /// Name value included to link back to the definition spec.
@@ -1280,10 +784,6 @@ pub struct RecordInput {
     pub type_name: ::prost::alloc::string::String,
     /// Indicates if this input was a recorded fact on chain or just a given hashed input
     #[prost(enumeration = "RecordInputStatus", tag = "5")]
-    #[serde(
-        serialize_with = "RecordInputStatus::serialize",
-        deserialize_with = "RecordInputStatus::deserialize"
-    )]
     pub status: i32,
     /// data source
     #[prost(oneof = "record_input::Source", tags = "2, 3")]
@@ -1291,18 +791,10 @@ pub struct RecordInput {
 }
 /// Nested message and enum types in `RecordInput`.
 pub mod record_input {
-    use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
+    use provwasm_proc_macro::CosmwasmExt;
     /// data source
     #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(
-        Clone,
-        PartialEq,
-        Eq,
-        ::prost::Oneof,
-        ::serde::Serialize,
-        ::serde::Deserialize,
-        ::schemars::JsonSchema,
-    )]
+    #[derive(Clone, PartialEq, Eq, ::prost::Oneof, ::schemars::JsonSchema)]
     pub enum Source {
         /// the address of a record on chain (For Established Records)
         #[prost(bytes, tag = "2")]
@@ -1314,16 +806,7 @@ pub mod record_input {
 }
 /// RecordOutput encapsulates the output of a process recorded on chain
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.RecordOutput")]
 pub struct RecordOutput {
     /// Hash of the data output that was output/generated for this record
@@ -1331,24 +814,11 @@ pub struct RecordOutput {
     pub hash: ::prost::alloc::string::String,
     /// Status of the process execution associated with this output indicating success,failure, or pending
     #[prost(enumeration = "ResultStatus", tag = "2")]
-    #[serde(
-        serialize_with = "ResultStatus::serialize",
-        deserialize_with = "ResultStatus::deserialize"
-    )]
     pub status: i32,
 }
 /// A Party is an address with/in a given role associated with a contract
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.Party")]
 pub struct Party {
     /// address of the account (on chain)
@@ -1356,10 +826,6 @@ pub struct Party {
     pub address: ::prost::alloc::string::String,
     /// a role for this account within the context of the processes used
     #[prost(enumeration = "PartyType", tag = "2")]
-    #[serde(
-        serialize_with = "PartyType::serialize",
-        deserialize_with = "PartyType::deserialize"
-    )]
     pub role: i32,
     /// whether this party's signature is optional
     #[prost(bool, tag = "3")]
@@ -1367,16 +833,7 @@ pub struct Party {
 }
 /// AuditFields capture information about the last account to make modifications and when they were made
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.AuditFields")]
 pub struct AuditFields {
     /// the date/time when this entry was created
@@ -1400,16 +857,7 @@ pub struct AuditFields {
 }
 /// NetAssetValue defines a scope's net asset value
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.NetAssetValue")]
 pub struct NetAssetValue {
     /// price is the complete value of the asset's volume
@@ -1417,16 +865,22 @@ pub struct NetAssetValue {
     pub price: ::core::option::Option<super::super::super::cosmos::base::v1beta1::Coin>,
     /// updated_block_height is the block height of last update
     #[prost(uint64, tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub updated_block_height: u64,
 }
 /// A set of types for inputs on a record (of fact)
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[derive(
+    Clone,
+    Copy,
+    Debug,
+    PartialEq,
+    Eq,
+    Hash,
+    PartialOrd,
+    Ord,
+    ::prost::Enumeration,
+    ::schemars::JsonSchema,
+)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 pub enum RecordInputStatus {
     /// RECORD_INPUT_STATUS_UNSPECIFIED indicates an invalid/unknown input type
     Unspecified = 0,
@@ -1458,9 +912,19 @@ impl RecordInputStatus {
     }
 }
 /// ResultStatus indicates the various states of execution of a record
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[derive(
+    Clone,
+    Copy,
+    Debug,
+    PartialEq,
+    Eq,
+    Hash,
+    PartialOrd,
+    Ord,
+    ::prost::Enumeration,
+    ::schemars::JsonSchema,
+)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 pub enum ResultStatus {
     /// RESULT_STATUS_UNSPECIFIED indicates an unset condition
     Unspecified = 0,
@@ -1498,16 +962,7 @@ impl ResultStatus {
 /// Defines an Locator object stored on chain, which represents a owner( blockchain address) associated with a endpoint
 /// uri for it's associated object store.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.ObjectStoreLocator")]
 pub struct ObjectStoreLocator {
     /// account address the endpoint is owned by
@@ -1522,16 +977,7 @@ pub struct ObjectStoreLocator {
 }
 /// Params defines the parameters for the metadata-locator module methods.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.OSLocatorParams")]
 pub struct OsLocatorParams {
     #[prost(uint32, tag = "1")]
@@ -1539,16 +985,7 @@ pub struct OsLocatorParams {
 }
 /// GenesisState defines the account module's genesis state.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.GenesisState")]
 pub struct GenesisState {
     /// params defines all the parameters of the module.
@@ -1577,16 +1014,7 @@ pub struct GenesisState {
 }
 /// MarkerNetAssetValues defines the net asset values for a scope
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MarkerNetAssetValues")]
 pub struct MarkerNetAssetValues {
     /// address defines the scope address
@@ -1598,16 +1026,7 @@ pub struct MarkerNetAssetValues {
 }
 /// QueryParamsRequest is the request type for the Query/Params RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.QueryParamsRequest")]
 #[proto_query(
     path = "/provenance.metadata.v1.Query/Params",
@@ -1620,16 +1039,7 @@ pub struct QueryParamsRequest {
 }
 /// QueryParamsResponse is the response type for the Query/Params RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.QueryParamsResponse")]
 pub struct QueryParamsResponse {
     /// params defines the parameters of the module.
@@ -1641,16 +1051,7 @@ pub struct QueryParamsResponse {
 }
 /// ScopeRequest is the request type for the Query/Scope RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.ScopeRequest")]
 #[proto_query(
     path = "/provenance.metadata.v1.Query/Scope",
@@ -1683,16 +1084,7 @@ pub struct ScopeRequest {
 }
 /// ScopeResponse is the response type for the Query/Scope RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.ScopeResponse")]
 pub struct ScopeResponse {
     /// scope is the wrapped scope result.
@@ -1710,16 +1102,7 @@ pub struct ScopeResponse {
 }
 /// SessionWrapper contains a single scope and its uuid.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.ScopeWrapper")]
 pub struct ScopeWrapper {
     /// scope is the on-chain scope message.
@@ -1734,16 +1117,7 @@ pub struct ScopeWrapper {
 }
 /// ScopesAllRequest is the request type for the Query/ScopesAll RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.ScopesAllRequest")]
 #[proto_query(
     path = "/provenance.metadata.v1.Query/ScopesAll",
@@ -1763,16 +1137,7 @@ pub struct ScopesAllRequest {
 }
 /// ScopesAllResponse is the response type for the Query/ScopesAll RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.ScopesAllResponse")]
 pub struct ScopesAllResponse {
     /// scopes are the wrapped scopes.
@@ -1788,16 +1153,7 @@ pub struct ScopesAllResponse {
 }
 /// SessionsRequest is the request type for the Query/Sessions RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.SessionsRequest")]
 #[proto_query(
     path = "/provenance.metadata.v1.Query/Sessions",
@@ -1834,16 +1190,7 @@ pub struct SessionsRequest {
 }
 /// SessionsResponse is the response type for the Query/Sessions RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.SessionsResponse")]
 pub struct SessionsResponse {
     /// scope is the wrapped scope that holds these sessions (if requested).
@@ -1861,16 +1208,7 @@ pub struct SessionsResponse {
 }
 /// SessionWrapper contains a single session and some extra identifiers for it.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.SessionWrapper")]
 pub struct SessionWrapper {
     /// session is the on-chain session message.
@@ -1885,16 +1223,7 @@ pub struct SessionWrapper {
 }
 /// SessionsAllRequest is the request type for the Query/SessionsAll RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.SessionsAllRequest")]
 #[proto_query(
     path = "/provenance.metadata.v1.Query/SessionsAll",
@@ -1914,16 +1243,7 @@ pub struct SessionsAllRequest {
 }
 /// SessionsAllResponse is the response type for the Query/SessionsAll RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.SessionsAllResponse")]
 pub struct SessionsAllResponse {
     /// sessions are the wrapped sessions.
@@ -1939,16 +1259,7 @@ pub struct SessionsAllResponse {
 }
 /// RecordsRequest is the request type for the Query/Records RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.RecordsRequest")]
 #[proto_query(
     path = "/provenance.metadata.v1.Query/Records",
@@ -1985,16 +1296,7 @@ pub struct RecordsRequest {
 }
 /// RecordsResponse is the response type for the Query/Records RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.RecordsResponse")]
 pub struct RecordsResponse {
     /// scope is the wrapped scope that holds these records (if requested).
@@ -2012,16 +1314,7 @@ pub struct RecordsResponse {
 }
 /// RecordWrapper contains a single record and some extra identifiers for it.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.RecordWrapper")]
 pub struct RecordWrapper {
     /// record is the on-chain record message.
@@ -2036,16 +1329,7 @@ pub struct RecordWrapper {
 }
 /// RecordsAllRequest is the request type for the Query/RecordsAll RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.RecordsAllRequest")]
 #[proto_query(
     path = "/provenance.metadata.v1.Query/RecordsAll",
@@ -2065,16 +1349,7 @@ pub struct RecordsAllRequest {
 }
 /// RecordsAllResponse is the response type for the Query/RecordsAll RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.RecordsAllResponse")]
 pub struct RecordsAllResponse {
     /// records are the wrapped records.
@@ -2090,16 +1365,7 @@ pub struct RecordsAllResponse {
 }
 /// OwnershipRequest is the request type for the Query/Ownership RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.OwnershipRequest")]
 #[proto_query(
     path = "/provenance.metadata.v1.Query/Ownership",
@@ -2118,16 +1384,7 @@ pub struct OwnershipRequest {
 }
 /// OwnershipResponse is the response type for the Query/Ownership RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.OwnershipResponse")]
 pub struct OwnershipResponse {
     /// A list of scope ids (uuid) associated with the given address.
@@ -2143,16 +1400,7 @@ pub struct OwnershipResponse {
 }
 /// ValueOwnershipRequest is the request type for the Query/ValueOwnership RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.ValueOwnershipRequest")]
 #[proto_query(
     path = "/provenance.metadata.v1.Query/ValueOwnership",
@@ -2171,16 +1419,7 @@ pub struct ValueOwnershipRequest {
 }
 /// ValueOwnershipResponse is the response type for the Query/ValueOwnership RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.ValueOwnershipResponse")]
 pub struct ValueOwnershipResponse {
     /// A list of scope ids (uuid) associated with the given address.
@@ -2196,16 +1435,7 @@ pub struct ValueOwnershipResponse {
 }
 /// ScopeSpecificationRequest is the request type for the Query/ScopeSpecification RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.ScopeSpecificationRequest")]
 #[proto_query(
     path = "/provenance.metadata.v1.Query/ScopeSpecification",
@@ -2233,16 +1463,7 @@ pub struct ScopeSpecificationRequest {
 }
 /// ScopeSpecificationResponse is the response type for the Query/ScopeSpecification RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.ScopeSpecificationResponse")]
 pub struct ScopeSpecificationResponse {
     /// scope_specification is the wrapped scope specification.
@@ -2260,16 +1481,7 @@ pub struct ScopeSpecificationResponse {
 }
 /// ScopeSpecificationWrapper contains a single scope specification and some extra identifiers for it.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.ScopeSpecificationWrapper")]
 pub struct ScopeSpecificationWrapper {
     /// specification is the on-chain scope specification message.
@@ -2281,16 +1493,7 @@ pub struct ScopeSpecificationWrapper {
 }
 /// ScopeSpecificationsAllRequest is the request type for the Query/ScopeSpecificationsAll RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.ScopeSpecificationsAllRequest")]
 #[proto_query(
     path = "/provenance.metadata.v1.Query/ScopeSpecificationsAll",
@@ -2310,16 +1513,7 @@ pub struct ScopeSpecificationsAllRequest {
 }
 /// ScopeSpecificationsAllResponse is the response type for the Query/ScopeSpecificationsAll RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.ScopeSpecificationsAllResponse")]
 pub struct ScopeSpecificationsAllResponse {
     /// scope_specifications are the wrapped scope specifications.
@@ -2335,16 +1529,7 @@ pub struct ScopeSpecificationsAllResponse {
 }
 /// ContractSpecificationRequest is the request type for the Query/ContractSpecification RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.ContractSpecificationRequest")]
 #[proto_query(
     path = "/provenance.metadata.v1.Query/ContractSpecification",
@@ -2370,16 +1555,7 @@ pub struct ContractSpecificationRequest {
 }
 /// ContractSpecificationResponse is the response type for the Query/ContractSpecification RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.ContractSpecificationResponse")]
 pub struct ContractSpecificationResponse {
     /// contract_specification is the wrapped contract specification.
@@ -2395,16 +1571,7 @@ pub struct ContractSpecificationResponse {
 }
 /// ContractSpecificationWrapper contains a single contract specification and some extra identifiers for it.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.ContractSpecificationWrapper")]
 pub struct ContractSpecificationWrapper {
     /// specification is the on-chain contract specification message.
@@ -2416,16 +1583,7 @@ pub struct ContractSpecificationWrapper {
 }
 /// ContractSpecificationsAllRequest is the request type for the Query/ContractSpecificationsAll RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.ContractSpecificationsAllRequest")]
 #[proto_query(
     path = "/provenance.metadata.v1.Query/ContractSpecificationsAll",
@@ -2445,16 +1603,7 @@ pub struct ContractSpecificationsAllRequest {
 }
 /// ContractSpecificationsAllResponse is the response type for the Query/ContractSpecificationsAll RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.ContractSpecificationsAllResponse")]
 pub struct ContractSpecificationsAllResponse {
     /// contract_specifications are the wrapped contract specifications.
@@ -2471,16 +1620,7 @@ pub struct ContractSpecificationsAllResponse {
 /// RecordSpecificationsForContractSpecificationRequest is the request type for the
 /// Query/RecordSpecificationsForContractSpecification RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(
     type_url = "/provenance.metadata.v1.RecordSpecificationsForContractSpecificationRequest"
 )]
@@ -2505,16 +1645,7 @@ pub struct RecordSpecificationsForContractSpecificationRequest {
 /// RecordSpecificationsForContractSpecificationResponse is the response type for the
 /// Query/RecordSpecificationsForContractSpecification RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(
     type_url = "/provenance.metadata.v1.RecordSpecificationsForContractSpecificationResponse"
 )]
@@ -2534,16 +1665,7 @@ pub struct RecordSpecificationsForContractSpecificationResponse {
 }
 /// RecordSpecificationRequest is the request type for the Query/RecordSpecification RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.RecordSpecificationRequest")]
 #[proto_query(
     path = "/provenance.metadata.v1.Query/RecordSpecification",
@@ -2570,16 +1692,7 @@ pub struct RecordSpecificationRequest {
 }
 /// RecordSpecificationResponse is the response type for the Query/RecordSpecification RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.RecordSpecificationResponse")]
 pub struct RecordSpecificationResponse {
     /// record_specification is the wrapped record specification.
@@ -2591,16 +1704,7 @@ pub struct RecordSpecificationResponse {
 }
 /// RecordSpecificationWrapper contains a single record specification and some extra identifiers for it.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.RecordSpecificationWrapper")]
 pub struct RecordSpecificationWrapper {
     /// specification is the on-chain record specification message.
@@ -2612,16 +1716,7 @@ pub struct RecordSpecificationWrapper {
 }
 /// RecordSpecificationsAllRequest is the request type for the Query/RecordSpecificationsAll RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.RecordSpecificationsAllRequest")]
 #[proto_query(
     path = "/provenance.metadata.v1.Query/RecordSpecificationsAll",
@@ -2641,16 +1736,7 @@ pub struct RecordSpecificationsAllRequest {
 }
 /// RecordSpecificationsAllResponse is the response type for the Query/RecordSpecificationsAll RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.RecordSpecificationsAllResponse")]
 pub struct RecordSpecificationsAllResponse {
     /// record_specifications are the wrapped record specifications.
@@ -2666,16 +1752,7 @@ pub struct RecordSpecificationsAllResponse {
 }
 /// GetByAddrRequest is the request type for the Query/GetByAddr RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.GetByAddrRequest")]
 #[proto_query(
     path = "/provenance.metadata.v1.Query/GetByAddr",
@@ -2688,16 +1765,7 @@ pub struct GetByAddrRequest {
 }
 /// GetByAddrResponse is the response type for the Query/GetByAddr RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.GetByAddrResponse")]
 pub struct GetByAddrResponse {
     /// scopes contains any scopes that were requested and found.
@@ -2724,16 +1792,7 @@ pub struct GetByAddrResponse {
 }
 /// OSLocatorParamsRequest is the request type for the Query/OSLocatorParams RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.OSLocatorParamsRequest")]
 #[proto_query(
     path = "/provenance.metadata.v1.Query/OSLocatorParams",
@@ -2746,16 +1805,7 @@ pub struct OsLocatorParamsRequest {
 }
 /// OSLocatorParamsResponse is the response type for the Query/OSLocatorParams RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.OSLocatorParamsResponse")]
 pub struct OsLocatorParamsResponse {
     /// params defines the parameters of the module.
@@ -2767,16 +1817,7 @@ pub struct OsLocatorParamsResponse {
 }
 /// OSLocatorRequest is the request type for the Query/OSLocator RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.OSLocatorRequest")]
 #[proto_query(
     path = "/provenance.metadata.v1.Query/OSLocator",
@@ -2791,16 +1832,7 @@ pub struct OsLocatorRequest {
 }
 /// OSLocatorResponse is the response type for the Query/OSLocator RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.OSLocatorResponse")]
 pub struct OsLocatorResponse {
     #[prost(message, optional, tag = "1")]
@@ -2811,16 +1843,7 @@ pub struct OsLocatorResponse {
 }
 /// OSLocatorsByURIRequest is the request type for the Query/OSLocatorsByURI RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.OSLocatorsByURIRequest")]
 #[proto_query(
     path = "/provenance.metadata.v1.Query/OSLocatorsByURI",
@@ -2839,16 +1862,7 @@ pub struct OsLocatorsByUriRequest {
 }
 /// OSLocatorsByURIResponse is the response type for the Query/OSLocatorsByURI RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.OSLocatorsByURIResponse")]
 pub struct OsLocatorsByUriResponse {
     #[prost(message, repeated, tag = "1")]
@@ -2863,16 +1877,7 @@ pub struct OsLocatorsByUriResponse {
 }
 /// OSLocatorsByScopeRequest is the request type for the Query/OSLocatorsByScope RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.OSLocatorsByScopeRequest")]
 #[proto_query(
     path = "/provenance.metadata.v1.Query/OSLocatorsByScope",
@@ -2887,16 +1892,7 @@ pub struct OsLocatorsByScopeRequest {
 }
 /// OSLocatorsByScopeResponse is the response type for the Query/OSLocatorsByScope RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.OSLocatorsByScopeResponse")]
 pub struct OsLocatorsByScopeResponse {
     #[prost(message, repeated, tag = "1")]
@@ -2907,16 +1903,7 @@ pub struct OsLocatorsByScopeResponse {
 }
 /// OSAllLocatorsRequest is the request type for the Query/OSAllLocators RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.OSAllLocatorsRequest")]
 #[proto_query(
     path = "/provenance.metadata.v1.Query/OSAllLocators",
@@ -2933,16 +1920,7 @@ pub struct OsAllLocatorsRequest {
 }
 /// OSAllLocatorsResponse is the response type for the Query/OSAllLocators RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.OSAllLocatorsResponse")]
 pub struct OsAllLocatorsResponse {
     #[prost(message, repeated, tag = "1")]
@@ -2957,16 +1935,7 @@ pub struct OsAllLocatorsResponse {
 }
 /// AccountDataRequest is the request type for the Query/AccountData RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.AccountDataRequest")]
 #[proto_query(
     path = "/provenance.metadata.v1.Query/AccountData",
@@ -2976,24 +1945,11 @@ pub struct AccountDataRequest {
     /// The metadata address to look up.
     /// Currently, only scope ids are supported.
     #[prost(bytes = "vec", tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
     pub metadata_addr: ::prost::alloc::vec::Vec<u8>,
 }
 /// AccountDataResponse is the response type for the Query/AccountData RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.AccountDataResponse")]
 pub struct AccountDataResponse {
     /// The accountdata for the requested metadata address.
@@ -3002,16 +1958,7 @@ pub struct AccountDataResponse {
 }
 /// QueryNetAssetValuesRequest is the request type for the Query/NetAssetValues method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.QueryScopeNetAssetValuesRequest")]
 #[proto_query(
     path = "/provenance.metadata.v1.Query/ScopeNetAssetValues",
@@ -3024,16 +1971,7 @@ pub struct QueryScopeNetAssetValuesRequest {
 }
 /// QueryNetAssetValuesRequest is the response type for the Query/NetAssetValues method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.QueryScopeNetAssetValuesResponse")]
 pub struct QueryScopeNetAssetValuesResponse {
     /// net asset values for scope
@@ -3042,16 +1980,7 @@ pub struct QueryScopeNetAssetValuesResponse {
 }
 /// MsgWriteScopeRequest is the request type for the Msg/WriteScope RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgWriteScopeRequest")]
 pub struct MsgWriteScopeRequest {
     /// scope is the Scope you want added or updated.
@@ -3075,24 +2004,11 @@ pub struct MsgWriteScopeRequest {
     pub spec_uuid: ::prost::alloc::string::String,
     /// usd_mills value of scope in usd mills (1234 = $1.234) used for net asset value
     #[prost(uint64, tag = "5")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
     pub usd_mills: u64,
 }
 /// MsgWriteScopeResponse is the response type for the Msg/WriteScope RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgWriteScopeResponse")]
 pub struct MsgWriteScopeResponse {
     /// scope_id_info contains information about the id/address of the scope that was added or updated.
@@ -3101,62 +2017,27 @@ pub struct MsgWriteScopeResponse {
 }
 /// MsgDeleteScopeRequest is the request type for the Msg/DeleteScope RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgDeleteScopeRequest")]
 pub struct MsgDeleteScopeRequest {
     /// Unique ID for the scope to delete
     #[prost(bytes = "vec", tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str_bytes::serialize",
-        deserialize_with = "crate::serde::as_str_bytes::deserialize"
-    )]
     pub scope_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, repeated, tag = "2")]
     pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// MsgDeleteScopeResponse is the response type for the Msg/DeleteScope RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgDeleteScopeResponse")]
 pub struct MsgDeleteScopeResponse {}
 /// MsgAddScopeDataAccessRequest is the request to add data access AccAddress to scope
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgAddScopeDataAccessRequest")]
 pub struct MsgAddScopeDataAccessRequest {
     /// scope MetadataAddress for updating data access
     #[prost(bytes = "vec", tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str_bytes::serialize",
-        deserialize_with = "crate::serde::as_str_bytes::deserialize"
-    )]
     pub scope_id: ::prost::alloc::vec::Vec<u8>,
     /// AccAddress addresses to be added to scope
     #[prost(string, repeated, tag = "2")]
@@ -3167,38 +2048,16 @@ pub struct MsgAddScopeDataAccessRequest {
 }
 /// MsgAddScopeDataAccessResponse is the response for adding data access AccAddress to scope
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgAddScopeDataAccessResponse")]
 pub struct MsgAddScopeDataAccessResponse {}
 /// MsgDeleteScopeDataAccessRequest is the request to remove data access AccAddress to scope
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgDeleteScopeDataAccessRequest")]
 pub struct MsgDeleteScopeDataAccessRequest {
     /// scope MetadataAddress for removing data access
     #[prost(bytes = "vec", tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str_bytes::serialize",
-        deserialize_with = "crate::serde::as_str_bytes::deserialize"
-    )]
     pub scope_id: ::prost::alloc::vec::Vec<u8>,
     /// AccAddress address to be removed from scope
     #[prost(string, repeated, tag = "2")]
@@ -3209,38 +2068,16 @@ pub struct MsgDeleteScopeDataAccessRequest {
 }
 /// MsgDeleteScopeDataAccessResponse is the response from removing data access AccAddress to scope
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgDeleteScopeDataAccessResponse")]
 pub struct MsgDeleteScopeDataAccessResponse {}
 /// MsgAddScopeOwnerRequest is the request to add owner AccAddress to scope
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgAddScopeOwnerRequest")]
 pub struct MsgAddScopeOwnerRequest {
     /// scope MetadataAddress for updating data access
     #[prost(bytes = "vec", tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str_bytes::serialize",
-        deserialize_with = "crate::serde::as_str_bytes::deserialize"
-    )]
     pub scope_id: ::prost::alloc::vec::Vec<u8>,
     /// owner parties to add to the scope
     #[prost(message, repeated, tag = "2")]
@@ -3251,38 +2088,16 @@ pub struct MsgAddScopeOwnerRequest {
 }
 /// MsgAddScopeOwnerResponse is the response for adding owner AccAddresses to scope
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgAddScopeOwnerResponse")]
 pub struct MsgAddScopeOwnerResponse {}
 /// MsgDeleteScopeOwnerRequest is the request to remove owner AccAddresses to scope
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgDeleteScopeOwnerRequest")]
 pub struct MsgDeleteScopeOwnerRequest {
     /// scope MetadataAddress for removing data access
     #[prost(bytes = "vec", tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str_bytes::serialize",
-        deserialize_with = "crate::serde::as_str_bytes::deserialize"
-    )]
     pub scope_id: ::prost::alloc::vec::Vec<u8>,
     /// AccAddress owner addresses to be removed from scope
     #[prost(string, repeated, tag = "2")]
@@ -3293,38 +2108,16 @@ pub struct MsgDeleteScopeOwnerRequest {
 }
 /// MsgDeleteScopeOwnerResponse is the response from removing owner AccAddress to scope
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgDeleteScopeOwnerResponse")]
 pub struct MsgDeleteScopeOwnerResponse {}
 /// MsgUpdateValueOwnersRequest is the request to update the value owner addresses in one or more scopes.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgUpdateValueOwnersRequest")]
 pub struct MsgUpdateValueOwnersRequest {
     /// scope_ids are the scope metadata addresses of all scopes to be updated.
     #[prost(bytes = "vec", repeated, tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str_bytes_vec::serialize",
-        deserialize_with = "crate::serde::as_str_bytes_vec::deserialize"
-    )]
     pub scope_ids: ::prost::alloc::vec::Vec<::prost::alloc::vec::Vec<u8>>,
     /// value_owner_address is the address of the new value owner for the provided scopes.
     #[prost(string, tag = "2")]
@@ -3335,30 +2128,12 @@ pub struct MsgUpdateValueOwnersRequest {
 }
 /// MsgUpdateValueOwnersResponse is the response from updating value owner addresses in one or more scopes.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgUpdateValueOwnersResponse")]
 pub struct MsgUpdateValueOwnersResponse {}
 /// MsgMigrateValueOwnerRequest is the request to migrate all scopes with one value owner to another value owner.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgMigrateValueOwnerRequest")]
 pub struct MsgMigrateValueOwnerRequest {
     /// existing is the value owner address that is being migrated.
@@ -3373,30 +2148,12 @@ pub struct MsgMigrateValueOwnerRequest {
 }
 /// MsgMigrateValueOwnerResponse is the response from migrating a value owner address.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgMigrateValueOwnerResponse")]
 pub struct MsgMigrateValueOwnerResponse {}
 /// MsgWriteSessionRequest is the request type for the Msg/WriteSession RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgWriteSessionRequest")]
 pub struct MsgWriteSessionRequest {
     /// session is the Session you want added or updated.
@@ -3423,16 +2180,7 @@ pub struct MsgWriteSessionRequest {
 }
 /// SessionIDComponents contains fields for the components that make up a session id.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.SessionIdComponents")]
 pub struct SessionIdComponents {
     /// session_uuid is a uuid string for identifying this session, e.g. "5803f8bc-6067-4eb5-951f-2121671c2ec0"
@@ -3444,18 +2192,10 @@ pub struct SessionIdComponents {
 }
 /// Nested message and enum types in `SessionIdComponents`.
 pub mod session_id_components {
-    use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
+    use provwasm_proc_macro::CosmwasmExt;
     /// scope is used to define the scope this session belongs to.
     #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(
-        Clone,
-        PartialEq,
-        Eq,
-        ::prost::Oneof,
-        ::serde::Serialize,
-        ::serde::Deserialize,
-        ::schemars::JsonSchema,
-    )]
+    #[derive(Clone, PartialEq, Eq, ::prost::Oneof, ::schemars::JsonSchema)]
     pub enum ScopeIdentifier {
         /// scope_uuid is the uuid string for the scope, e.g. "91978ba2-5f35-459a-86a7-feca1b0512e0"
         #[prost(string, tag = "1")]
@@ -3467,16 +2207,7 @@ pub mod session_id_components {
 }
 /// MsgWriteSessionResponse is the response type for the Msg/WriteSession RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgWriteSessionResponse")]
 pub struct MsgWriteSessionResponse {
     /// session_id_info contains information about the id/address of the session that was added or updated.
@@ -3485,16 +2216,7 @@ pub struct MsgWriteSessionResponse {
 }
 /// MsgWriteRecordRequest is the request type for the Msg/WriteRecord RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgWriteRecordRequest")]
 pub struct MsgWriteRecordRequest {
     /// record is the Record you want added or updated.
@@ -3526,16 +2248,7 @@ pub struct MsgWriteRecordRequest {
 }
 /// MsgWriteRecordResponse is the response type for the Msg/WriteRecord RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgWriteRecordResponse")]
 pub struct MsgWriteRecordResponse {
     /// record_id_info contains information about the id/address of the record that was added or updated.
@@ -3544,53 +2257,22 @@ pub struct MsgWriteRecordResponse {
 }
 /// MsgDeleteRecordRequest is the request type for the Msg/DeleteRecord RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgDeleteRecordRequest")]
 pub struct MsgDeleteRecordRequest {
     #[prost(bytes = "vec", tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str_bytes::serialize",
-        deserialize_with = "crate::serde::as_str_bytes::deserialize"
-    )]
     pub record_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, repeated, tag = "2")]
     pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// MsgDeleteRecordResponse is the response type for the Msg/DeleteRecord RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgDeleteRecordResponse")]
 pub struct MsgDeleteRecordResponse {}
 /// MsgWriteScopeSpecificationRequest is the request type for the Msg/WriteScopeSpecification RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgWriteScopeSpecificationRequest")]
 pub struct MsgWriteScopeSpecificationRequest {
     /// specification is the ScopeSpecification you want added or updated.
@@ -3610,16 +2292,7 @@ pub struct MsgWriteScopeSpecificationRequest {
 }
 /// MsgWriteScopeSpecificationResponse is the response type for the Msg/WriteScopeSpecification RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgWriteScopeSpecificationResponse")]
 pub struct MsgWriteScopeSpecificationResponse {
     /// scope_spec_id_info contains information about the id/address of the scope specification that was added or updated.
@@ -3628,54 +2301,23 @@ pub struct MsgWriteScopeSpecificationResponse {
 }
 /// MsgDeleteScopeSpecificationRequest is the request type for the Msg/DeleteScopeSpecification RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgDeleteScopeSpecificationRequest")]
 pub struct MsgDeleteScopeSpecificationRequest {
     /// MetadataAddress for the scope specification to delete.
     #[prost(bytes = "vec", tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str_bytes::serialize",
-        deserialize_with = "crate::serde::as_str_bytes::deserialize"
-    )]
     pub specification_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, repeated, tag = "2")]
     pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// MsgDeleteScopeSpecificationResponse is the response type for the Msg/DeleteScopeSpecification RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgDeleteScopeSpecificationResponse")]
 pub struct MsgDeleteScopeSpecificationResponse {}
 /// MsgWriteContractSpecificationRequest is the request type for the Msg/WriteContractSpecification RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgWriteContractSpecificationRequest")]
 pub struct MsgWriteContractSpecificationRequest {
     /// specification is the ContractSpecification you want added or updated.
@@ -3695,16 +2337,7 @@ pub struct MsgWriteContractSpecificationRequest {
 }
 /// MsgWriteContractSpecificationResponse is the response type for the Msg/WriteContractSpecification RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgWriteContractSpecificationResponse")]
 pub struct MsgWriteContractSpecificationResponse {
     /// contract_spec_id_info contains information about the id/address of the contract specification that was added or
@@ -3714,76 +2347,33 @@ pub struct MsgWriteContractSpecificationResponse {
 }
 /// MsgAddContractSpecToScopeSpecRequest is the request type for the Msg/AddContractSpecToScopeSpec RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgAddContractSpecToScopeSpecRequest")]
 pub struct MsgAddContractSpecToScopeSpecRequest {
     /// MetadataAddress for the contract specification to add.
     #[prost(bytes = "vec", tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str_bytes::serialize",
-        deserialize_with = "crate::serde::as_str_bytes::deserialize"
-    )]
     pub contract_specification_id: ::prost::alloc::vec::Vec<u8>,
     /// MetadataAddress for the scope specification to add contract specification to.
     #[prost(bytes = "vec", tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str_bytes::serialize",
-        deserialize_with = "crate::serde::as_str_bytes::deserialize"
-    )]
     pub scope_specification_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, repeated, tag = "3")]
     pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// MsgAddContractSpecToScopeSpecResponse is the response type for the Msg/AddContractSpecToScopeSpec RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgAddContractSpecToScopeSpecResponse")]
 pub struct MsgAddContractSpecToScopeSpecResponse {}
 /// MsgDeleteContractSpecFromScopeSpecRequest is the request type for the Msg/DeleteContractSpecFromScopeSpec RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgDeleteContractSpecFromScopeSpecRequest")]
 pub struct MsgDeleteContractSpecFromScopeSpecRequest {
     /// MetadataAddress for the contract specification to add.
     #[prost(bytes = "vec", tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str_bytes::serialize",
-        deserialize_with = "crate::serde::as_str_bytes::deserialize"
-    )]
     pub contract_specification_id: ::prost::alloc::vec::Vec<u8>,
     /// MetadataAddress for the scope specification to add contract specification to.
     #[prost(bytes = "vec", tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str_bytes::serialize",
-        deserialize_with = "crate::serde::as_str_bytes::deserialize"
-    )]
     pub scope_specification_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, repeated, tag = "3")]
     pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
@@ -3791,68 +2381,28 @@ pub struct MsgDeleteContractSpecFromScopeSpecRequest {
 /// MsgDeleteContractSpecFromScopeSpecResponse is the response type for the Msg/DeleteContractSpecFromScopeSpec RPC
 /// method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgDeleteContractSpecFromScopeSpecResponse")]
 pub struct MsgDeleteContractSpecFromScopeSpecResponse {}
 /// MsgDeleteContractSpecificationRequest is the request type for the Msg/DeleteContractSpecification RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgDeleteContractSpecificationRequest")]
 pub struct MsgDeleteContractSpecificationRequest {
     /// MetadataAddress for the contract specification to delete.
     #[prost(bytes = "vec", tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str_bytes::serialize",
-        deserialize_with = "crate::serde::as_str_bytes::deserialize"
-    )]
     pub specification_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, repeated, tag = "2")]
     pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// MsgDeleteContractSpecificationResponse is the response type for the Msg/DeleteContractSpecification RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgDeleteContractSpecificationResponse")]
 pub struct MsgDeleteContractSpecificationResponse {}
 /// MsgWriteRecordSpecificationRequest is the request type for the Msg/WriteRecordSpecification RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgWriteRecordSpecificationRequest")]
 pub struct MsgWriteRecordSpecificationRequest {
     /// specification is the RecordSpecification you want added or updated.
@@ -3872,16 +2422,7 @@ pub struct MsgWriteRecordSpecificationRequest {
 }
 /// MsgWriteRecordSpecificationResponse is the response type for the Msg/WriteRecordSpecification RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgWriteRecordSpecificationResponse")]
 pub struct MsgWriteRecordSpecificationResponse {
     /// record_spec_id_info contains information about the id/address of the record specification that was added or
@@ -3891,54 +2432,23 @@ pub struct MsgWriteRecordSpecificationResponse {
 }
 /// MsgDeleteRecordSpecificationRequest is the request type for the Msg/DeleteRecordSpecification RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgDeleteRecordSpecificationRequest")]
 pub struct MsgDeleteRecordSpecificationRequest {
     /// MetadataAddress for the record specification to delete.
     #[prost(bytes = "vec", tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str_bytes::serialize",
-        deserialize_with = "crate::serde::as_str_bytes::deserialize"
-    )]
     pub specification_id: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, repeated, tag = "2")]
     pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// MsgDeleteRecordSpecificationResponse is the response type for the Msg/DeleteRecordSpecification RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgDeleteRecordSpecificationResponse")]
 pub struct MsgDeleteRecordSpecificationResponse {}
 /// MsgBindOSLocatorRequest is the request type for the Msg/BindOSLocator RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgBindOSLocatorRequest")]
 pub struct MsgBindOsLocatorRequest {
     /// The object locator to bind the address to bind to the URI.
@@ -3947,16 +2457,7 @@ pub struct MsgBindOsLocatorRequest {
 }
 /// MsgBindOSLocatorResponse is the response type for the Msg/BindOSLocator RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgBindOSLocatorResponse")]
 pub struct MsgBindOsLocatorResponse {
     #[prost(message, optional, tag = "1")]
@@ -3964,16 +2465,7 @@ pub struct MsgBindOsLocatorResponse {
 }
 /// MsgDeleteOSLocatorRequest is the request type for the Msg/DeleteOSLocator RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgDeleteOSLocatorRequest")]
 pub struct MsgDeleteOsLocatorRequest {
     /// The record being removed
@@ -3982,16 +2474,7 @@ pub struct MsgDeleteOsLocatorRequest {
 }
 /// MsgDeleteOSLocatorResponse is the response type for the Msg/DeleteOSLocator RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgDeleteOSLocatorResponse")]
 pub struct MsgDeleteOsLocatorResponse {
     #[prost(message, optional, tag = "1")]
@@ -3999,16 +2482,7 @@ pub struct MsgDeleteOsLocatorResponse {
 }
 /// MsgModifyOSLocatorRequest is the request type for the Msg/ModifyOSLocator RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgModifyOSLocatorRequest")]
 pub struct MsgModifyOsLocatorRequest {
     /// The object locator to bind the address to bind to the URI.
@@ -4017,16 +2491,7 @@ pub struct MsgModifyOsLocatorRequest {
 }
 /// MsgModifyOSLocatorResponse is the response type for the Msg/ModifyOSLocator RPC method.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgModifyOSLocatorResponse")]
 pub struct MsgModifyOsLocatorResponse {
     #[prost(message, optional, tag = "1")]
@@ -4034,25 +2499,12 @@ pub struct MsgModifyOsLocatorResponse {
 }
 /// MsgSetAccountDataRequest is the request to set/update/delete a scope's account data.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgSetAccountDataRequest")]
 pub struct MsgSetAccountDataRequest {
     /// The identifier to associate the data with.
     /// Currently, only scope ids are supported.
     #[prost(bytes = "vec", tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
     pub metadata_addr: ::prost::alloc::vec::Vec<u8>,
     /// The desired accountdata value.
     #[prost(string, tag = "2")]
@@ -4063,31 +2515,13 @@ pub struct MsgSetAccountDataRequest {
 }
 /// MsgSetAccountDataResponse is the response from setting/updating/deleting a scope's account data.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgSetAccountDataResponse")]
 pub struct MsgSetAccountDataResponse {}
 /// MsgWriteP8eContractSpecRequest has been deprecated and is no longer usable.
 /// Deprecated: This message is no longer part of any endpoint and cannot be used for anything.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgWriteP8eContractSpecRequest")]
 #[deprecated]
 pub struct MsgWriteP8eContractSpecRequest {
@@ -4099,16 +2533,7 @@ pub struct MsgWriteP8eContractSpecRequest {
 /// MsgWriteP8eContractSpecResponse  has been deprecated and is no longer usable.
 /// Deprecated: This message is no longer part of any endpoint and cannot be used for anything.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgWriteP8eContractSpecResponse")]
 #[deprecated]
 pub struct MsgWriteP8eContractSpecResponse {
@@ -4120,16 +2545,7 @@ pub struct MsgWriteP8eContractSpecResponse {
 /// MsgP8eMemorializeContractRequest  has been deprecated and is no longer usable.
 /// Deprecated: This message is no longer part of any endpoint and cannot be used for anything.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgP8eMemorializeContractRequest")]
 #[deprecated]
 pub struct MsgP8eMemorializeContractRequest {
@@ -4151,16 +2567,7 @@ pub struct MsgP8eMemorializeContractRequest {
 /// MsgP8eMemorializeContractResponse  has been deprecated and is no longer usable.
 /// Deprecated: This message is no longer part of any endpoint and cannot be used for anything.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgP8eMemorializeContractResponse")]
 #[deprecated]
 pub struct MsgP8eMemorializeContractResponse {
@@ -4173,16 +2580,7 @@ pub struct MsgP8eMemorializeContractResponse {
 }
 /// MsgAddNetAssetValuesRequest defines the Msg/AddNetAssetValues request type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgAddNetAssetValuesRequest")]
 pub struct MsgAddNetAssetValuesRequest {
     #[prost(string, tag = "1")]
@@ -4194,16 +2592,7 @@ pub struct MsgAddNetAssetValuesRequest {
 }
 /// MsgAddNetAssetValuesResponse defines the Msg/AddNetAssetValue response type
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.MsgAddNetAssetValuesResponse")]
 pub struct MsgAddNetAssetValuesResponse {}
 pub struct MetadataQuerier<'a, Q: cosmwasm_std::CustomQuery> {

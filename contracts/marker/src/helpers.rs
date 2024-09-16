@@ -1,6 +1,7 @@
 use std::convert::TryFrom;
 
 use cosmwasm_std::{Addr, CosmosMsg, Empty, StdError, StdResult};
+use provwasm_std::try_proto_to_cosmwasm_coins;
 use provwasm_std::types::{
     cosmos::base::v1beta1::Coin,
     provenance::{
@@ -221,14 +222,17 @@ pub fn get_marker(id: String, querier: &MarkerQuerier<Empty>) -> StdResult<Marke
         return if let Ok(account) = MarkerAccount::try_from(marker) {
             let escrow = querier.escrow(account.clone().base_account.unwrap().address)?;
             Ok(Marker {
-                marker_account: account,
-                coins: escrow.escrow,
+                marker_account: account.into(),
+                coins: try_proto_to_cosmwasm_coins(escrow.escrow)?,
             })
         } else {
             Err(StdError::generic_err("unable to type-cast marker account"))
         };
     }
-    Err(StdError::generic_err("no marker found for id"))
+    Err(StdError::generic_err(format!(
+        "no marker found for id: response: {:?}",
+        response
+    )))
 }
 
 pub fn all_access(address: &Addr) -> Vec<AccessGrant> {

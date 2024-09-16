@@ -1,16 +1,7 @@
-use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
+use provwasm_proc_macro::CosmwasmExt;
 /// ModuleDescriptor describes an app module.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.app.v1alpha1.ModuleDescriptor")]
 pub struct ModuleDescriptor {
     /// go_import names the package that should be imported by an app to load the
@@ -36,16 +27,7 @@ pub struct ModuleDescriptor {
 }
 /// PackageReference is a reference to a protobuf package used by a module.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.app.v1alpha1.PackageReference")]
 pub struct PackageReference {
     /// name is the fully-qualified name of the package.
@@ -92,16 +74,7 @@ pub struct PackageReference {
 /// MigrateFromInfo is information on a module version that a newer module
 /// can migrate from.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.app.v1alpha1.MigrateFromInfo")]
 pub struct MigrateFromInfo {
     /// module is the fully-qualified protobuf name of the module config object
@@ -117,16 +90,7 @@ pub struct MigrateFromInfo {
 /// that strive for the maximum ease of maintainability should be able to describe
 /// their state machine with a config object alone.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.app.v1alpha1.Config")]
 pub struct Config {
     /// modules are the module configurations for the app.
@@ -140,16 +104,7 @@ pub struct Config {
 }
 /// ModuleConfig is a module configuration for an app.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.app.v1alpha1.ModuleConfig")]
 pub struct ModuleConfig {
     /// name is the unique name of the module within the app. It should be a name
@@ -176,16 +131,7 @@ pub struct ModuleConfig {
 }
 /// GolangBinding is an explicit interface type to implementing type binding for dependency injection.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.app.v1alpha1.GolangBinding")]
 pub struct GolangBinding {
     /// interface_type is the interface type which will be bound to a specific implementation type
@@ -197,16 +143,7 @@ pub struct GolangBinding {
 }
 /// QueryConfigRequest is the Query/Config request type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.app.v1alpha1.QueryConfigRequest")]
 #[proto_query(
     path = "/cosmos.app.v1alpha1.Query/Config",
@@ -215,16 +152,7 @@ pub struct GolangBinding {
 pub struct QueryConfigRequest {}
 /// QueryConfigRequest is the Query/Config response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.app.v1alpha1.QueryConfigResponse")]
 pub struct QueryConfigResponse {
     /// config is the current app config.

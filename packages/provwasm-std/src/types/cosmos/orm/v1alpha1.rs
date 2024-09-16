@@ -1,16 +1,7 @@
-use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
+use provwasm_proc_macro::CosmwasmExt;
 /// ModuleSchemaDescriptor describe's a module's ORM schema.
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.orm.v1alpha1.ModuleSchemaDescriptor")]
 pub struct ModuleSchemaDescriptor {
     #[prost(message, repeated, tag = "1")]
@@ -18,27 +9,14 @@ pub struct ModuleSchemaDescriptor {
     /// prefix is an optional prefix that precedes all keys in this module's
     /// store.
     #[prost(bytes = "vec", tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
     pub prefix: ::prost::alloc::vec::Vec<u8>,
 }
 /// Nested message and enum types in `ModuleSchemaDescriptor`.
 pub mod module_schema_descriptor {
-    use provwasm_proc_macro::{CosmwasmExt, SerdeEnumAsInt};
+    use provwasm_proc_macro::CosmwasmExt;
     /// FileEntry describes an ORM file used in a module.
     #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(
-        Clone,
-        PartialEq,
-        Eq,
-        ::prost::Message,
-        ::serde::Serialize,
-        ::serde::Deserialize,
-        ::schemars::JsonSchema,
-        CosmwasmExt,
-    )]
+    #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
     #[proto_message(type_url = "/cosmos.orm.v1alpha1.ModuleSchemaDescriptor.FileEntry")]
     pub struct FileEntry {
         /// id is a prefix that will be varint encoded and prepended to all the
@@ -54,17 +32,23 @@ pub mod module_schema_descriptor {
         /// tables should used. If it is left unspecified, the default KV-storage
         /// of the app will be used.
         #[prost(enumeration = "super::StorageType", tag = "3")]
-        #[serde(
-            serialize_with = "super::StorageType::serialize",
-            deserialize_with = "super::StorageType::deserialize"
-        )]
         pub storage_type: i32,
     }
 }
 /// StorageType
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[derive(
+    Clone,
+    Copy,
+    Debug,
+    PartialEq,
+    Eq,
+    Hash,
+    PartialOrd,
+    Ord,
+    ::prost::Enumeration,
+    ::schemars::JsonSchema,
+)]
 #[repr(i32)]
-#[derive(::serde::Serialize, ::serde::Deserialize, ::schemars::JsonSchema, SerdeEnumAsInt)]
 pub enum StorageType {
     /// STORAGE_TYPE_DEFAULT_UNSPECIFIED indicates the persistent storage where all
     /// data is stored in the regular Merkle-tree backed KV-store.

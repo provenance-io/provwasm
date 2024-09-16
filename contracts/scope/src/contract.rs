@@ -2,11 +2,16 @@ use cosmwasm_std::{
     entry_point, to_json_binary, Deps, DepsMut, Env, MessageInfo, QueryResponse, Response, StdError,
 };
 
-use provwasm_std::types::provenance::metadata::v1::{MetadataQuerier, MsgWriteScopeRequest, Scope};
+use provwasm_std::types::provenance::metadata::v1::{
+    MetadataQuerier, MsgWriteScopeRequest, Party, PartyType, Scope,
+};
 use provwasm_std::types::provenance::name::v1::{MsgBindNameRequest, NameRecord};
 
 use crate::error::ContractError;
-use crate::msg::{ExecuteMsg, InitMsg, QueryMsg};
+use crate::msg::{
+    ContractSpecResp, ExecuteMsg, InitMsg, QueryMsg, RecordsResp, ScopeData, ScopeResp,
+    SessionsResp,
+};
 use crate::state::{State, CONFIG};
 
 /// Initialize config state and bind a name to the contract address.
@@ -76,11 +81,27 @@ pub fn execute(
 /// Create and dispatch a provenance message that will write scope data
 pub fn try_write_scope(
     _deps: DepsMut,
-    scope: Scope,
+    scope: ScopeData,
     signers: Vec<String>,
 ) -> Result<Response, StdError> {
     Ok(Response::new().add_message(MsgWriteScopeRequest {
-        scope: Some(scope),
+        scope: Some(Scope {
+            scope_id: scope.scope_id,
+            specification_id: scope.specification_id,
+            owners: scope
+                .owners
+                .clone()
+                .into_iter()
+                .map(|owner| Party {
+                    address: owner,
+                    role: PartyType::Owner as i32,
+                    optional: false,
+                })
+                .collect(),
+            data_access: scope.owners,
+            value_owner_address: scope.value_owner_address,
+            require_party_rollup: false,
+        }),
         signers,
         scope_uuid: "".to_string(),
         spec_uuid: "".to_string(),
@@ -105,54 +126,62 @@ pub fn query(deps: Deps, _env: Env, msg: QueryMsg) -> Result<QueryResponse, StdE
 // Use a ProvenanceQuerier to get a scope by ID.
 fn try_get_contract_spec(deps: Deps, id: String) -> Result<QueryResponse, StdError> {
     let querier = MetadataQuerier::new(&deps.querier);
-    let contract_spec_response = querier.contract_specification(id, true, false, false)?;
+    let contract_spec_response: ContractSpecResp = querier
+        .contract_specification(id, true, false, false)?
+        .into();
     to_json_binary(&contract_spec_response)
 }
 
 // Use a ProvenanceQuerier to get a scope by ID.
 fn try_get_scope(deps: Deps, id: String) -> Result<QueryResponse, StdError> {
     let querier = MetadataQuerier::new(&deps.querier);
-    let scope_response = querier.scope(
-        id,
-        "".to_string(),
-        "".to_string(),
-        false,
-        false,
-        false,
-        false,
-    )?;
+    let scope_response: ScopeResp = querier
+        .scope(
+            id,
+            "".to_string(),
+            "".to_string(),
+            false,
+            false,
+            false,
+            false,
+        )?
+        .into();
     to_json_binary(&scope_response)
 }
 
 // Use a ProvenanceQuerier to get sessions for a scope.
 fn try_get_sessions(deps: Deps, scope_id: String) -> Result<QueryResponse, StdError> {
     let querier = MetadataQuerier::new(&deps.querier);
-    let sessions_response = querier.sessions(
-        scope_id,
-        "".to_string(),
-        "".to_string(),
-        "".to_string(),
-        false,
-        false,
-        false,
-        false,
-    )?;
+    let sessions_response: SessionsResp = querier
+        .sessions(
+            scope_id,
+            "".to_string(),
+            "".to_string(),
+            "".to_string(),
+            false,
+            false,
+            false,
+            false,
+        )?
+        .into();
     to_json_binary(&sessions_response)
 }
 
 // Use a ProvenanceQuerier to get records for a scope.
 fn try_get_records(deps: Deps, scope_id: String) -> Result<QueryResponse, StdError> {
     let querier = MetadataQuerier::new(&deps.querier);
-    let records_response = querier.records(
-        "".to_string(),
-        scope_id,
-        "".to_string(),
-        "".to_string(),
-        false,
-        false,
-        false,
-        false,
-    )?;
+    let records_response: RecordsResp = querier
+        .records(
+            "".to_string(),
+            scope_id,
+            "".to_string(),
+            "".to_string(),
+            false,
+            false,
+            false,
+            false,
+        )?
+        .into();
     to_json_binary(&records_response)
 }
 
@@ -163,16 +192,18 @@ fn try_get_records_by_name(
     name: String,
 ) -> Result<QueryResponse, StdError> {
     let querier = MetadataQuerier::new(&deps.querier);
-    let records_response = querier.records(
-        "".to_string(),
-        scope_id,
-        "".to_string(),
-        name,
-        false,
-        false,
-        false,
-        false,
-    )?;
+    let records_response: RecordsResp = querier
+        .records(
+            "".to_string(),
+            scope_id,
+            "".to_string(),
+            name,
+            false,
+            false,
+            false,
+            false,
+        )?
+        .into();
     to_json_binary(&records_response)
 }
 
@@ -181,6 +212,8 @@ mod tests {
     use cosmwasm_std::testing::{message_info, mock_env};
     use cosmwasm_std::{from_json, Addr};
 
+    use super::*;
+    use crate::msg::{RecordData, ScopeData, SessionData};
     use provwasm_mocks::mock_provenance_dependencies;
     use provwasm_std::types::provenance::metadata::v1::process::ProcessId;
     use provwasm_std::types::provenance::metadata::v1::record_input::Source;
@@ -189,8 +222,6 @@ mod tests {
         RecordWrapper, RecordsRequest, RecordsResponse, ResultStatus, ScopeRequest, ScopeResponse,
         ScopeWrapper, Session, SessionWrapper, SessionsRequest, SessionsResponse,
     };
-
-    use super::*;
 
     #[test]
     fn valid_init() {
@@ -256,8 +287,22 @@ mod tests {
         .unwrap();
 
         // Ensure we got the expected scope.
-        let scope: ScopeResponse = from_json(bin).unwrap();
-        assert_eq!(scope, expected)
+        let scope: ScopeResp = from_json(bin).unwrap();
+        assert_eq!(
+            scope,
+            ScopeResp {
+                scope: Some(ScopeData {
+                    scope_id: "scope1qqqqq2wf3c4yt4u447m8pw65qcdqrre82d"
+                        .as_bytes()
+                        .to_vec(),
+                    specification_id: "scopespec1qj5hx4l3vgryhp5g3ks68wh53jkq3net7n"
+                        .as_bytes()
+                        .to_vec(),
+                    owners: vec!["tp1rr4d0eu62pgt4edw38d2ev27798pfhdhp5ttha".to_string()],
+                    value_owner_address: "tp1r7dd2w80x939u5f3l5y04rruusyr5dxx7wuvdm".to_string(),
+                }),
+            }
+        )
     }
 
     #[test]
@@ -307,8 +352,24 @@ mod tests {
         .unwrap();
 
         // Ensure we got the expected sessions.
-        let sessions: SessionsResponse = from_json(bin).unwrap();
-        assert_eq!(sessions, expected)
+        let sessions: SessionsResp = from_json(bin).unwrap();
+        assert_eq!(
+            sessions,
+            SessionsResp {
+                session: vec![SessionData {
+                    session_id:
+                        "session1qyqqq2wf3c4yt4u447m8pw65qcdxx9k7nswc7sec43qcmpp9267xw6r8xv4"
+                            .as_bytes()
+                            .to_vec(),
+                    specification_id: "contractspec1qd5xsyufyuyh7a5ejg7n2d336x2ql87dl2"
+                        .as_bytes()
+                        .to_vec(),
+                    name: "io.p8e.contracts.origination.RecordPropertyLoanETLContract".to_string(),
+
+                    parties: vec!["tp1rr4d0eu62pgt4edw38d2ev27798pfhdhp5ttha".to_string()],
+                }],
+            }
+        )
     }
 
     #[test]
@@ -404,10 +465,30 @@ mod tests {
         .unwrap();
 
         // Ensure we got the expected records
-        let records: RecordsResponse = from_json(bin).unwrap();
-        assert_eq!(records, expected)
+        let records: RecordsResp = from_json(bin).unwrap();
+        assert_eq!(records, RecordsResp{
+            records: vec![
+                RecordData{
+                    name: "tri_merge_reports".to_string(),
+                    session_id: "session1qyqqq2wf3c4yt4u447m8pw65qcdxx9k7nswc7sec43qcmpp9267xw6r8xv4".as_bytes().to_vec(),
+                    process: Some(("io.provenance.proto.loan.LoanProtos$TriMergeReportsList".to_string(),
+                                  "tri_merge_reports".to_string())),
+                    inputs: vec!["perform_input_checks".to_string(), "tri_merge_reports".to_string()],
+                    outputs: vec!["T/SPBHyZ7fZ3YhPra7e/ObJdHG/QC3xUSjbxl261b9eAGTt6ETrtSgJRQmzJbK4N57iQKpsf3PtDV2jo8rWBKw==".to_string()],
+                    specification_id: "recspec1q45xsyufyuyh7a5ejg7n2d336x2qd6lrzs702zd4yh02s5p4tcwmgwxxy3q".as_bytes().to_vec(),
+                },
+                RecordData{
+                    name: "blockchain_custody".to_string(),
+                    session_id: "session1qyqqq2wf3c4yt4u447m8pw65qcdxx9k7nswc7sec43qcmpp9267xw6r8xv4".as_bytes().to_vec(),
+                    process: Some(("io.provenance.proto.loan.LoanProtos$BlockchainCustody".to_string(),
+                                  "blockchain_custody".to_string())),
+                    inputs: vec!["perform_input_checks".to_string(), "blockchain_custody".to_string()],
+                    outputs: vec!["y5X8TGgn+Vg7I5fUL63OQVRjMSZPI+b59KlbsftAUQ8a01a3QjfiZ66+i346HsxhyrhvH61Ro1Gra+0f1CiNVg==".to_string()],
+                    specification_id: "recspec1q45xsyufyuyh7a5ejg7n2d336x2qd6lrzs702zd4yh02s5p4tcwmgwxxy3q".as_bytes().to_vec(),
+                },
+            ],
+        });
     }
-
     #[test]
     fn query_record_by_name() {
         let expected = RecordsResponse{
@@ -468,7 +549,19 @@ mod tests {
         .unwrap();
 
         // Ensure we got the expected record.
-        let record: RecordsResponse = from_json(bin).unwrap();
-        assert_eq!(record, expected);
+        let record: RecordsResp = from_json(bin).unwrap();
+        assert_eq!(record, RecordsResp{
+            records: vec![
+                RecordData{
+                    name: "loan".to_string(),
+                    session_id: "session1qyqqq2wf3c4yt4u447m8pw65qcdxx9k7nswc7sec43qcmpp9267xw6r8xv4".as_bytes().to_vec(),
+                    process: Some(("io.provenance.proto.loan.LoanProtos$Loan".to_string(),
+                                   "loan".to_string())),
+                    inputs: vec!["perform_input_checks".to_string(), "loan".to_string()],
+                    outputs: vec!["poYoiYr8gi22vyBlo09YkSSnGHRY0jQW9DZAvaTPT5slTbt2SV8KgGSKoK72PYVL/yLrCgnrEDaRn08byB/JHQ==".to_string()],
+                    specification_id: "recspec1q45xsyufyuyh7a5ejg7n2d336x2yw2alzjfrutnualv99xp9csq7sdqwhln".as_bytes().to_vec(),
+                },
+            ],
+        });
     }
 }
