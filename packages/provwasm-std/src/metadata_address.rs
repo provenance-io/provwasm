@@ -29,6 +29,7 @@ impl KeyType {
     }
 }
 
+/// Represents a Provenance `MetadataAddress` type
 #[derive(Clone, Debug, PartialEq)]
 pub struct MetadataAddress {
     pub bech32: String,
@@ -37,6 +38,9 @@ pub struct MetadataAddress {
 }
 
 impl MetadataAddress {
+    /// Create a Contract Specification Metadata Address from a `Uuid`
+    ///
+    /// e.g. `contractspec1qw07zlu62ms5zk9g4azsdq9vnesqy4dtgm`
     pub fn contract_specification(
         contract_specification_uuid: Uuid,
     ) -> Result<MetadataAddress, StdError> {
@@ -56,6 +60,9 @@ impl MetadataAddress {
         })
     }
 
+    /// Create a Scope Specification Metadata Address from a `Uuid`
+    ///
+    /// e.g. `scopespec1qj07zlu62ms5zk9g4azsdq9vnesqxcv7hd`
     pub fn scope_specification(
         scope_specification_uuid: Uuid,
     ) -> Result<MetadataAddress, StdError> {
@@ -75,6 +82,9 @@ impl MetadataAddress {
         })
     }
 
+    /// Create a Scope Metadata Address from a `Uuid`
+    ///
+    /// e.g. `scope1qz07zlu62ms5zk9g4azsdq9vnesqg74ssc`
     pub fn scope(scope_uuid: Uuid) -> Result<MetadataAddress, StdError> {
         let key_type_byte = Scope as u8;
         let bytes = [key_type_byte]
@@ -92,6 +102,9 @@ impl MetadataAddress {
         })
     }
 
+    /// Create a Record Metadata Address from a `Uuid` and Record name
+    ///
+    /// e.g. `record1q207zlu62ms5zk9g4azsdq9vneswsu3m8wtqu0zfqu9edf8r7l4jugz3hcl`
     pub fn record(scope_uuid: Uuid, record_name: String) -> Result<MetadataAddress, StdError> {
         let key_type_byte = Record as u8;
         let bytes = [key_type_byte]
@@ -110,6 +123,9 @@ impl MetadataAddress {
         })
     }
 
+    /// Create a Record Specification Metadata Address from a Contract Specification `Uuid` and Record Specification name
+    ///
+    /// e.g. `recspec1qk07zlu62ms5zk9g4azsdq9vneswsu3m8wtqu0zfqu9edf8r7l4juadl3c0`
     pub fn record_specification(
         contract_specification_uuid: Uuid,
         record_specification_name: String,
@@ -131,6 +147,9 @@ impl MetadataAddress {
         })
     }
 
+    /// Create a Session Metadata Address from Scope and Session `Uuid`
+    ///
+    /// e.g. `session1qx07zlu62ms5zk9g4azsdq9vnesflctlnftwzs2c4zh52p5q4j0xqrysdme`
     pub fn session(scope_uuid: Uuid, session_uuid: Uuid) -> Result<MetadataAddress, StdError> {
         let key_type_byte = Session as u8;
         let bytes = [key_type_byte]
@@ -200,38 +219,23 @@ pub mod test {
     }
 
     #[test]
-    pub fn new_scope_spec() {
-        let meta_addr = MetadataAddress::scope_specification(
+    pub fn new_record() {
+        let meta_addr = MetadataAddress::record(
             Uuid::from_str("9fe17f9a-56e1-4158-a8af-450680ac9e60").unwrap(),
+            "nft_record_spec_name".to_string(),
         )
         .unwrap();
 
         assert_eq!(
             meta_addr,
             MetadataAddress {
-                bech32: "scopespec1qj07zlu62ms5zk9g4azsdq9vnesqxcv7hd".to_string(),
+                bech32: "record1q207zlu62ms5zk9g4azsdq9vneswsu3m8wtqu0zfqu9edf8r7l4jugz3hcl"
+                    .to_string(),
                 bytes: vec![
-                    4, 159, 225, 127, 154, 86, 225, 65, 88, 168, 175, 69, 6, 128, 172, 158, 96
+                    2, 159, 225, 127, 154, 86, 225, 65, 88, 168, 175, 69, 6, 128, 172, 158, 96,
+                    232, 114, 59, 59, 150, 14, 60, 73, 7, 11, 150, 164, 227, 247, 235, 46
                 ],
-                key_type: KeyType::ScopeSpecification,
-            }
-        );
-    }
-
-    #[test]
-    pub fn new_scope() {
-        let meta_addr =
-            MetadataAddress::scope(Uuid::from_str("9fe17f9a-56e1-4158-a8af-450680ac9e60").unwrap())
-                .unwrap();
-
-        assert_eq!(
-            meta_addr,
-            MetadataAddress {
-                bech32: "scope1qz07zlu62ms5zk9g4azsdq9vnesqg74ssc".to_string(),
-                bytes: vec![
-                    0, 159, 225, 127, 154, 86, 225, 65, 88, 168, 175, 69, 6, 128, 172, 158, 96
-                ],
-                key_type: KeyType::Scope,
+                key_type: KeyType::Record,
             }
         );
     }
@@ -259,23 +263,60 @@ pub mod test {
     }
 
     #[test]
-    pub fn new_record() {
-        let meta_addr = MetadataAddress::record(
+    pub fn new_scope() {
+        let meta_addr =
+            MetadataAddress::scope(Uuid::from_str("9fe17f9a-56e1-4158-a8af-450680ac9e60").unwrap())
+                .unwrap();
+
+        assert_eq!(
+            meta_addr,
+            MetadataAddress {
+                bech32: "scope1qz07zlu62ms5zk9g4azsdq9vnesqg74ssc".to_string(),
+                bytes: vec![
+                    0, 159, 225, 127, 154, 86, 225, 65, 88, 168, 175, 69, 6, 128, 172, 158, 96
+                ],
+                key_type: KeyType::Scope,
+            }
+        );
+    }
+
+    #[test]
+    pub fn new_scope_spec() {
+        let meta_addr = MetadataAddress::scope_specification(
             Uuid::from_str("9fe17f9a-56e1-4158-a8af-450680ac9e60").unwrap(),
-            "nft_record_spec_name".to_string(),
         )
         .unwrap();
 
         assert_eq!(
             meta_addr,
             MetadataAddress {
-                bech32: "record1q207zlu62ms5zk9g4azsdq9vneswsu3m8wtqu0zfqu9edf8r7l4jugz3hcl"
+                bech32: "scopespec1qj07zlu62ms5zk9g4azsdq9vnesqxcv7hd".to_string(),
+                bytes: vec![
+                    4, 159, 225, 127, 154, 86, 225, 65, 88, 168, 175, 69, 6, 128, 172, 158, 96
+                ],
+                key_type: KeyType::ScopeSpecification,
+            }
+        );
+    }
+
+    #[test]
+    pub fn new_session() {
+        let meta_addr = MetadataAddress::session(
+            Uuid::from_str("9fe17f9a-56e1-4158-a8af-450680ac9e60").unwrap(),
+            Uuid::from_str("9fe17f9a-56e1-4158-a8af-450680ac9e60").unwrap(),
+        )
+        .unwrap();
+
+        assert_eq!(
+            meta_addr,
+            MetadataAddress {
+                bech32: "session1qx07zlu62ms5zk9g4azsdq9vnesflctlnftwzs2c4zh52p5q4j0xqrysdme"
                     .to_string(),
                 bytes: vec![
-                    2, 159, 225, 127, 154, 86, 225, 65, 88, 168, 175, 69, 6, 128, 172, 158, 96,
-                    232, 114, 59, 59, 150, 14, 60, 73, 7, 11, 150, 164, 227, 247, 235, 46
+                    1, 159, 225, 127, 154, 86, 225, 65, 88, 168, 175, 69, 6, 128, 172, 158, 96,
+                    159, 225, 127, 154, 86, 225, 65, 88, 168, 175, 69, 6, 128, 172, 158, 96
                 ],
-                key_type: KeyType::Record,
+                key_type: KeyType::Session,
             }
         );
     }
