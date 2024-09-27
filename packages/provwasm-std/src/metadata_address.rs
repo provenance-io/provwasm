@@ -1,11 +1,9 @@
 use crate::metadata_address::KeyType::{
     ContractSpecification, Record, RecordSpecification, Scope, ScopeSpecification, Session,
 };
-use bech32::primitives::hrp;
 use bech32::{Bech32, Hrp};
 use cosmwasm_std::StdError;
 use sha2::{Digest, Sha256};
-use thiserror::Error;
 use uuid::Uuid;
 
 #[derive(Clone, Copy, Debug, PartialEq)]
@@ -31,15 +29,6 @@ impl KeyType {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, Error)]
-pub enum MetadataAddressError {
-    #[error("Failed to parse HRP: {0}")]
-    ParseError(#[from] hrp::Error),
-
-    #[error("Failed to encode Bech32: {0}")]
-    EncodeError(#[from] bech32::EncodeError),
-}
-
 #[derive(Clone, Debug, PartialEq)]
 pub struct MetadataAddress {
     pub bech32: String,
@@ -58,7 +47,7 @@ impl MetadataAddress {
             .chain(Self::hex_encode_uuid(contract_specification_uuid))
             .collect::<Vec<u8>>();
 
-        let addr = Self::encode_bech32(ContractSpecification, &bytes).unwrap();
+        let addr = Self::encode_bech32(ContractSpecification, &bytes)?;
 
         Ok(MetadataAddress {
             bech32: addr,
@@ -77,7 +66,7 @@ impl MetadataAddress {
             .chain(Self::hex_encode_uuid(scope_specification_uuid))
             .collect::<Vec<u8>>();
 
-        let addr = Self::encode_bech32(ScopeSpecification, &bytes).unwrap();
+        let addr = Self::encode_bech32(ScopeSpecification, &bytes)?;
 
         Ok(MetadataAddress {
             bech32: addr,
@@ -94,7 +83,7 @@ impl MetadataAddress {
             .chain(Self::hex_encode_uuid(scope_uuid))
             .collect::<Vec<u8>>();
 
-        let addr = Self::encode_bech32(Scope, &bytes).unwrap();
+        let addr = Self::encode_bech32(Scope, &bytes)?;
 
         Ok(MetadataAddress {
             bech32: addr,
@@ -112,7 +101,7 @@ impl MetadataAddress {
             .chain(Self::hash_bytes(record_name))
             .collect::<Vec<u8>>();
 
-        let addr = Self::encode_bech32(Record, &bytes).unwrap();
+        let addr = Self::encode_bech32(Record, &bytes)?;
 
         Ok(MetadataAddress {
             bech32: addr,
@@ -133,7 +122,7 @@ impl MetadataAddress {
             .chain(Self::hash_bytes(record_specification_name))
             .collect::<Vec<u8>>();
 
-        let addr = Self::encode_bech32(RecordSpecification, &bytes).unwrap();
+        let addr = Self::encode_bech32(RecordSpecification, &bytes)?;
 
         Ok(MetadataAddress {
             bech32: addr,
@@ -151,7 +140,7 @@ impl MetadataAddress {
             .chain(Self::hex_encode_uuid(session_uuid))
             .collect::<Vec<u8>>();
 
-        let addr = Self::encode_bech32(Session, &bytes).unwrap();
+        let addr = Self::encode_bech32(Session, &bytes)?;
 
         Ok(MetadataAddress {
             bech32: addr,
@@ -168,10 +157,12 @@ impl MetadataAddress {
         hex::decode(uuid.simple().encode_lower(&mut Uuid::encode_buffer())).unwrap()
     }
 
-    fn encode_bech32(key_type: KeyType, bytes: &[u8]) -> Result<String, MetadataAddressError> {
-        let hrp = Hrp::parse(key_type.to_str()).map_err(MetadataAddressError::ParseError)?;
-        let encoded =
-            bech32::encode::<Bech32>(hrp, bytes).map_err(MetadataAddressError::EncodeError)?;
+    fn encode_bech32(key_type: KeyType, bytes: &[u8]) -> Result<String, StdError> {
+        let hrp =
+            Hrp::parse(key_type.to_str()).map_err(|e| StdError::parse_err("Hrp", e.to_string()))?;
+        let encoded = bech32::encode::<Bech32>(hrp, bytes)
+            .map_err(|e| StdError::generic_err(e.to_string()))?;
+
         Ok(encoded)
     }
 
