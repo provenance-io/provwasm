@@ -4,6 +4,50 @@ This guide provides information to assist in migrating contracts over major rele
 
 ___There are also example [contracts](./contracts) that provide concrete examples using the current release.___
 
+## v2.3.0 -> 2.4.0
+
+Cosmwasm is upgraded to v2.1.3 and Provenance to v1.19.1
+
+- The encoding of messages to Provenance are now Grpc encoded rather than using the previous Stargate json encoding.
+  This change also removes all serde macros from the generated types and decreases the final wasm size. This upgrade
+  shouldn't require much to migrate contracts other than some minor Cosmwasm API changes and if you are using any of the
+  generated types as `inputs` to or `outputs` from the contract (i.e. the contract uses any type from
+  `provwasm-std::types` in the msg to or from any of the entrypoints). If this is the case, creating a new type that
+  holds all required inputs/outputs is the simplest remedy.
+
+  e.g.
+  ```rust
+  #[derive(QueryResponses)]
+  pub enum QueryMsg {
+      #[returns(provwasm_std::types::provenance::metadata::v1::ContractSpecificationResponse)]
+      GetContractSpec { id: String },
+  }
+  ```
+
+  becomes
+
+  ```rust
+  #[derive(QueryResponses)]
+  pub enum QueryMsg {
+      #[returns(ContractSpecResp)]
+      GetContractSpec { id: String },
+  }
+  
+  #[cw_serde]
+  pub struct ContractSpecData {
+  pub id: Vec<u8>,
+  pub class_name: String,
+  pub description: String,
+  pub owner_addresses: Vec<String>,
+  pub party_type: String,
+  }
+  
+  #[cw_serde]
+  pub struct ContractSpecResp {
+  pub contract_spec: Option<ContractSpecData>,
+  }
+  ```
+
 ## v2.1.0/v2.2.0 -> 2.3.0
 
 Cosmwasm is upgraded to 2.0.4 and Provenance to 1.19.0. These major upgrades are mostly handled within the library:
