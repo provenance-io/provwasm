@@ -11,7 +11,7 @@ pub struct Marker {
 pub struct MarkAccount {
     pub base_account: Option<String>,
     pub manager: String,
-    pub demon: String,
+    pub denom: String,
     pub supply: String,
 }
 
@@ -20,7 +20,7 @@ impl From<MarkerAccount> for MarkAccount {
         MarkAccount {
             base_account: value.base_account.unwrap().address.into(),
             manager: value.manager,
-            demon: value.denom.to_string(),
+            denom: value.denom.to_string(),
             supply: value.supply.to_string(),
         }
     }

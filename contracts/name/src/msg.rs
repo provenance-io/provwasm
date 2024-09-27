@@ -1,5 +1,5 @@
 use cosmwasm_schema::{cw_serde, QueryResponses};
-use provwasm_std::types::provenance::name::v1::{QueryResolveResponse, QueryReverseLookupResponse};
+use provwasm_std::types::provenance::name::v1::QueryReverseLookupResponse;
 
 #[cw_serde]
 pub struct InitMsg {
@@ -21,21 +21,6 @@ pub enum QueryMsg {
     Lookup { address: String },
     #[returns(String)]
     Params {},
-}
-
-#[cw_serde]
-pub struct ResolveResponse {
-    address: String,
-    restricted: bool,
-}
-
-impl From<QueryResolveResponse> for ResolveResponse {
-    fn from(value: QueryResolveResponse) -> Self {
-        ResolveResponse {
-            address: value.address,
-            restricted: value.restricted,
-        }
-    }
 }
 
 #[cw_serde]
