@@ -31,10 +31,10 @@ cosmwasm-std = { version = "2.1.3", default-features = false, features = ["cosmw
 cw-storage-plus = { version = "2.0.0" }
 
 ### ProvWasm
-provwasm-proto-build = { version = "0.1.0", path = "packages/proto-build" }
-provwasm-common = { version = "0.1.0", path = "packages/provwasm-common" }
+provwasm-common = { version = "0.1.1", path = "packages/provwasm-common" }
 provwasm-mocks = { version = "2.4.0", path = "packages/provwasm-mocks" }
 provwasm-proc-macro = { version = "0.2.0", path = "packages/provwasm-proc-macro" }
+provwasm-proto-build = { version = "0.1.0", path = "packages/proto-build" }
 provwasm-std = { version = "2.4.0", path = "packages/provwasm-std" }
 
 base64 = "0.22.0"
