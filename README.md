@@ -14,6 +14,7 @@ The following table shows provwasm version compatibility for smart contract deve
 
 | provwasm | wasmd   | cosmos  | provenance        | module support                                                      |
 |----------|---------|---------|-------------------|---------------------------------------------------------------------|
+| v2.4.0   | v0.51.X | v0.50.X | v1.19.X           | all Provenance and third-party                                      |
 | v2.3.0   | v0.51.X | v0.50.X | v1.19.X           | all Provenance and most built-in third-party                        |
 | v2.2.0   | v0.30.X | v0.46.X | v1.18.X           | attribute,exchange,hold,marker,metadata,msgfees,name,reward,trigger |
 | v2.1.0   | v0.30.X | v0.46.X | v1.17.X           | attribute,exchange,hold,marker,metadata,msgfees,name,reward,trigger |
@@ -45,15 +46,6 @@ Since migrating to Stargate queries, only a subset of queries are responded to.
 The [list](https://github.com/provenance-io/provenance/blob/7d6c507cab780bb6f0bdeef1e895c870cf4c7465/internal/provwasm/stargate_whitelist.go#L56)
 is maintained
 in [Provenance](https://github.com/provenance-io/provenance/).
-
-__The following are known to have deserialization issues and will be `None` until upstream is fixed__ (
-see [this issue](https://github.com/provenance-io/provwasm/issues/132)):
-
-- `ContractSpecification.source`
-- `InputSpecification.source`
-- `Process.process_id`
-- `SessionIdComponents.scope_identifier`
-- `QualifyingAction.type`
 
 ### Message Encoding
 
