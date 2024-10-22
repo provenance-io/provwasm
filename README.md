@@ -14,6 +14,7 @@ The following table shows provwasm version compatibility for smart contract deve
 
 | provwasm | wasmd   | cosmos  | provenance        | module support                                                      |
 |----------|---------|---------|-------------------|---------------------------------------------------------------------|
+| v2.4.1   | v0.52.X | v0.50.X | v1.20.X           | all Provenance and third-party                                      |
 | v2.4.0   | v0.51.X | v0.50.X | v1.19.X           | all Provenance and third-party                                      |
 | v2.3.0   | v0.51.X | v0.50.X | v1.19.X           | all Provenance and most built-in third-party                        |
 | v2.2.0   | v0.30.X | v0.46.X | v1.18.X           | attribute,exchange,hold,marker,metadata,msgfees,name,reward,trigger |
