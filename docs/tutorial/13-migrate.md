@@ -39,11 +39,7 @@ File: `src/contract.rs`
 
 ```rust
 /// Called when migrating a contract instance to a new code ID.
-pub fn migrate(
-    deps: DepsMut<ProvenanceQuery>,
-    env: Env,
-    msg: MigrateMsg,
-) -> Result<Response, ContractError> {
+pub fn migrate(_deps: DepsMut, _env: Env, _msg: MigrateMsg) -> Result<Response, ContractError> {
     // 1) Ensure the new fee percent is within the updated range.
     // 2) Get mutable ref to the contract state
     // 3) Set new fee percent in the state
@@ -71,7 +67,7 @@ File: `examples/schema.rs`
 
 ```rust
 use cosmwasm_schema::write_api;
-use tutorial::msg::{ExecuteMsg, InitMsg, MigrateMsg, QueryMsg};
+use name::msg::{ExecuteMsg, InitMsg, QueryMsg};
 
 fn main() {
     write_api! {
@@ -81,6 +77,7 @@ fn main() {
         query: QueryMsg,
     }
 }
+
 ```
 
 When complete, use the CLI commands below to migrate the smart contract instance to a new code ID.

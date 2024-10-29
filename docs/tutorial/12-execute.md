@@ -19,7 +19,6 @@ provenanced tx wasm execute \
     --gas auto \
     --gas-prices="1905nhash" \
 	--gas-adjustment=1.5 \
-    --broadcast-mode block \
     --yes \
     --testnet \
 	--output json | jq
