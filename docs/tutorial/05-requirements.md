@@ -28,9 +28,9 @@ The tutorial contract requires the following handler functions and messages.
 ## Instantiate
 
 ```rust
-#[cfg_attr(not(feature = "library"), entry_point)]
+#[entry_point]
 pub fn instantiate(
-    deps: DepsMut<ProvenanceQuery>,
+    deps: DepsMut,
     env: Env,
     info: MessageInfo,
     msg: InitMsg,
@@ -62,9 +62,9 @@ The following validations must be performed during initialization.
 ## Execute
 
 ```rust
-#[cfg_attr(not(feature = "library"), entry_point)]
+#[entry_point]
 pub fn execute(
-    deps: DepsMut<ProvenanceQuery>,
+    deps: DepsMut,
     env: Env,
     info: MessageInfo,
     msg: ExecuteMsg,
@@ -97,10 +97,10 @@ action when a purchase has been completed.
 ## Query
 
 ```rust
-#[cfg_attr(not(feature = "library"), entry_point)]
+#[entry_point]
 pub fn query(
-    deps: Deps<ProvenanceQuery>,
-    env: Env,
+    deps: Deps,
+    _env: Env, // NOTE: A '_' prefix indicates a variable is unused (suppress linter warnings)
     msg: QueryMsg,
 ) -> ...
 ```

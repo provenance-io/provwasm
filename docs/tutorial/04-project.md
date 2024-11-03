@@ -21,19 +21,17 @@ Edit Cargo.toml to have the following contract dependencies
 
 ```toml
 [dependencies]
-cosmwasm-schema = "1.1.9"
-cosmwasm-std = "1.1.9"
-cosmwasm-storage = "1.1.9"
-cw-storage-plus = "1.0.1"
+cosmwasm-schema = "2.1.4"
+cosmwasm-std = "2.1.4"
+cw-storage-plus = "2.0.0"
 cw2 = "1.0.1"
-provwasm-std = "1.1.2"
-schemars = "0.8.10"
-serde = { version = "1.0.145", default-features = false, features = ["derive"] }
-thiserror = { version = "1.0.31" }
+provwasm-std = "2.5.0"
+schemars = "0.8.16"
+serde = { version = "1.0.197", default-features = false, features = ["derive"] }
+thiserror = { version = "1.0.58" }
 
 [dev-dependencies]
-cw-multi-test = "0.16.2"
-provwasm-mocks = "1.1.2"
+provwasm-mocks = "2.5.0"
 ```
 
 Reset the README and clear out the current JSON schema artifacts.

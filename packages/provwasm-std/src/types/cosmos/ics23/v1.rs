@@ -154,6 +154,7 @@ pub struct ProofSpec {
     #[prost(message, optional, tag = "2")]
     pub inner_spec: ::core::option::Option<InnerSpec>,
     /// max_depth (if > 0) is the maximum number of InnerOps allowed (mainly for fixed-depth tries)
+    /// the max_depth is interpreted as 128 if set to 0
     #[prost(int32, tag = "3")]
     pub max_depth: i32,
     /// min_depth (if > 0) is the minimum number of InnerOps allowed (mainly for fixed-depth tries)
@@ -298,11 +299,14 @@ pub enum HashOp {
     NoHash = 0,
     Sha256 = 1,
     Sha512 = 2,
-    Keccak = 3,
+    Keccak256 = 3,
     Ripemd160 = 4,
     /// ripemd160(sha256(x))
     Bitcoin = 5,
     Sha512256 = 6,
+    Blake2b512 = 7,
+    Blake2s256 = 8,
+    Blake3 = 9,
 }
 impl HashOp {
     /// String value of the enum field names used in the ProtoBuf definition.
@@ -314,10 +318,13 @@ impl HashOp {
             HashOp::NoHash => "NO_HASH",
             HashOp::Sha256 => "SHA256",
             HashOp::Sha512 => "SHA512",
-            HashOp::Keccak => "KECCAK",
+            HashOp::Keccak256 => "KECCAK256",
             HashOp::Ripemd160 => "RIPEMD160",
             HashOp::Bitcoin => "BITCOIN",
             HashOp::Sha512256 => "SHA512_256",
+            HashOp::Blake2b512 => "BLAKE2B_512",
+            HashOp::Blake2s256 => "BLAKE2S_256",
+            HashOp::Blake3 => "BLAKE3",
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.
@@ -326,10 +333,13 @@ impl HashOp {
             "NO_HASH" => Some(Self::NoHash),
             "SHA256" => Some(Self::Sha256),
             "SHA512" => Some(Self::Sha512),
-            "KECCAK" => Some(Self::Keccak),
+            "KECCAK256" => Some(Self::Keccak256),
             "RIPEMD160" => Some(Self::Ripemd160),
             "BITCOIN" => Some(Self::Bitcoin),
             "SHA512_256" => Some(Self::Sha512256),
+            "BLAKE2B_512" => Some(Self::Blake2b512),
+            "BLAKE2S_256" => Some(Self::Blake2s256),
+            "BLAKE3" => Some(Self::Blake3),
             _ => None,
         }
     }

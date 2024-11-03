@@ -26,7 +26,6 @@ provenanced tx wasm store tutorial.wasm \
     --gas auto \
     --gas-prices="1905nhash" \
 	--gas-adjustment=1.5 \
-    --broadcast-mode block \
     --yes \
     --testnet \
 	--output json | jq
@@ -63,7 +62,8 @@ Should produce output that resembles (field values may differ) the following.
 }
 ```
 
-The `--instantiate-anyof-addresses` flag is important when it is necessary to limit instance creation to specified accounts.
+The `--instantiate-anyof-addresses` flag is important when it is necessary to limit instance creation to specified
+accounts.
 
 Copy the value of the `id` field. It is required to instantiate the contract in the next section.
 

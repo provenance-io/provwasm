@@ -260,6 +260,8 @@ pub struct EventSetNetAssetValue {
     pub price: ::prost::alloc::string::String,
     #[prost(string, tag = "3")]
     pub source: ::prost::alloc::string::String,
+    #[prost(string, tag = "4")]
+    pub volume: ::prost::alloc::string::String,
 }
 /// Params defines the set of params for the metadata module.
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -682,8 +684,20 @@ pub struct Scope {
     /// Addresses in this list are authorized to receive off-chain data associated with this scope.
     #[prost(string, repeated, tag = "4")]
     pub data_access: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// An address that controls the value associated with this scope.  Standard blockchain accounts and marker accounts
-    /// are supported for this value.  This attribute may only be changed by the entity indicated once it is set.
+    /// The address that controls the value associated with this scope.
+    ///
+    /// The value owner is actually tracked by the bank module using a coin with the denom "nft/<scope_id>".
+    /// The value owner can be changed using WriteScope or anything that transfers funds, e.g. MsgSend.
+    ///
+    /// During WriteScope:
+    ///   - If this field is empty, it indicates that there should not be a change to the value owner.
+    ///     I.e. Once a scope has a value owner, it will always have one (until it's deleted).
+    ///   - If this field has a value, the existing value owner will be looked up, and
+    ///     - If there's already an existing value owner, they must be a signer,
+    ///       and the coin will be transferred to the new value owner.
+    ///     - If there isn't yet a value owner, the coin will be minted and sent to the new value owner.
+    ///       If the scope already exists, the owners must be signers (just like changing other fields).
+    ///       If it's a new scope, there's no special signer limitations related to the value owner.
     #[prost(string, tag = "5")]
     pub value_owner_address: ::prost::alloc::string::String,
     /// Whether all parties in this scope and its sessions must be present in this scope's owners field.
@@ -866,6 +880,11 @@ pub struct NetAssetValue {
     /// updated_block_height is the block height of last update
     #[prost(uint64, tag = "2")]
     pub updated_block_height: u64,
+    /// volume is the number of scope instances that were purchased for the price
+    /// Typically this will be null (equivalent to one) or one.  The only reason this would be more than
+    /// one is for cases where the precision of the price denom is insufficient to represent the actual price
+    #[prost(uint64, tag = "3")]
+    pub volume: u64,
 }
 /// A set of types for inputs on a record (of fact)
 #[derive(

@@ -56,6 +56,7 @@ provenanced keys add consumer --home build/run/provenanced --keyring-backend tes
 ```
 
 Create alias for the keys
+
 ```bash
 export validator=$(provenanced keys show -a validator --home build/run/provenanced --keyring-backend test -t)
 export merchant=$(provenanced keys show -a merchant --home build/run/provenanced --keyring-backend test -t)
@@ -77,7 +78,6 @@ provenanced tx bank send \
 	--gas=auto \
 	--gas-prices="1905nhash" \
 	--gas-adjustment=1.5 \
-	--broadcast-mode=block \
 	--yes \
 	--testnet \
 	--output json | jq
@@ -97,7 +97,6 @@ provenanced tx bank send \
 	--gas=auto \
 	--gas-prices="1905nhash" \
 	--gas-adjustment=1.5 \
-	--broadcast-mode=block \
 	--yes \
 	--testnet \
 	--output json | jq
@@ -117,7 +116,6 @@ provenanced tx bank send \
     --gas auto \
     --gas-prices="1905nhash" \
 	--gas-adjustment=1.5 \
-    --broadcast-mode block \
     --yes \
     --testnet \
 	--output json | jq
@@ -140,7 +138,6 @@ provenanced tx name bind \
     --chain-id testing \
     --gas-prices="100000nhash" \
 	--gas-adjustment=1.5 \
-    --broadcast-mode block \
     --yes \
     --testnet \
 	--output json | jq
@@ -160,7 +157,6 @@ provenanced tx marker new 1000000000purchasecoin \
     --gas auto \
     --gas-prices="1000000nhash" \
 	--gas-adjustment=1.5 \
-    --broadcast-mode block \
     --yes \
     --testnet \
 	--output json | jq
@@ -180,7 +176,6 @@ provenanced tx marker grant \
     --gas auto \
     --gas-prices="1905nhash" \
 	--gas-adjustment=1.5 \
-    --broadcast-mode block \
     --yes \
     --testnet \
 	--output json | jq
@@ -197,7 +192,6 @@ provenanced tx marker finalize purchasecoin \
     --gas auto \
     --gas-prices="1905nhash" \
 	--gas-adjustment=1.5 \
-    --broadcast-mode block \
     --yes \
     --testnet \
 	--output json | jq
@@ -214,7 +208,6 @@ provenanced tx marker activate purchasecoin \
     --gas auto \
     --gas-prices="1905nhash" \
 	--gas-adjustment=1.5 \
-    --broadcast-mode block \
     --yes \
     --testnet \
 	--output json | jq
@@ -235,7 +228,6 @@ provenanced tx marker withdraw purchasecoin \
     --gas auto \
     --gas-prices="1905nhash" \
 	--gas-adjustment=1.5 \
-    --broadcast-mode block \
     --yes \
     --testnet \
 	--output json | jq
