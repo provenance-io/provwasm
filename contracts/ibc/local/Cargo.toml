@@ -21,10 +21,5 @@ backtraces = []
 cosmwasm-schema = { workspace = true }
 cosmwasm-std = { workspace = true }
 cw-storage-plus = { workspace = true }
-provwasm-std = { workspace = true }
 schemars = { workspace = true }
 serde = { workspace = true }
-
-[dev-dependencies]
-#provwasm-mocks = { path = "../../../todo/mocks" }
-

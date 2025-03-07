@@ -15,13 +15,5 @@ proc-macro = true
 [dependencies]
 itertools = "0.13.0"
 proc-macro2 = "1.0.58"
-prost-types = { workspace = true, default-features = false }
-provwasm-common = { workspace = true }
 quote = "1.0.27"
 syn = "1.0.109"
-
-[dev-dependencies]
-cosmwasm-std = { workspace = true }
-prost = { workspace = true }
-serde = { workspace = true }
-trybuild = { version = "1.0.80", features = ["diff"] }
