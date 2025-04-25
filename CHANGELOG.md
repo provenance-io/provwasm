@@ -2,10 +2,14 @@
 
 ## Unreleased changes
 
-* Update to Provenance 1.20.0 ([#163](https://github.com/provenance-io/provwasm/issues/163))
-* Update to cosmwasm 2.1.4 ([#163](https://github.com/provenance-io/provwasm/issues/163))
+* Update to Provenance v1.22.0 and CosmWasm v2.2.0 ([#166](https://github.com/provenance-io/provwasm/pull/166))
 
 ## Releases
+
+### [v2.5.0](https://github.com/provenance-io/provwasm/tree/v2.5.0)
+
+* Update to Provenance 1.20.0 ([#163](https://github.com/provenance-io/provwasm/issues/163))
+* Update to cosmwasm 2.1.4 ([#163](https://github.com/provenance-io/provwasm/issues/163))
 
 ### [v2.4.0](https://github.com/provenance-io/provwasm/tree/v2.4.0)
 
