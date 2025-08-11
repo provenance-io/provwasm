@@ -20,6 +20,8 @@ const EXCLUDED_PROTO_PACKAGES: &[&str] = &["amino", "cosmos_proto", "gogoproto",
 const EXCLUDED_STRUCTURES: &[&str] = &[
     "provenance::msgfees::v1::CalculateTxFeesRequest",
     "provenance::msgfees::v1::CalculateTxFeesResponse",
+    "provenance::flatfees::v1::QueryCalculateTxFeesRequest",
+    "provenance::flatfees::v1::QueryCalculateTxFeesResponse",
 ];
 
 pub fn copy_and_transform_all(from_dir: &Path, to_dir: &Path, descriptor: &FileDescriptorSet) {

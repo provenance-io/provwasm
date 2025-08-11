@@ -1,11 +1,15 @@
+pub mod asset;
 pub mod attribute;
 pub mod exchange;
+pub mod flatfees;
 pub mod hold;
 pub mod ibchooks;
 pub mod ibcratelimit;
+pub mod ledger;
 pub mod marker;
 pub mod metadata;
 pub mod msgfees;
 pub mod name;
 pub mod oracle;
+pub mod registry;
 pub mod trigger;
