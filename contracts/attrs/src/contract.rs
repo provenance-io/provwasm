@@ -381,6 +381,7 @@ mod tests {
                     account: MOCK_CONTRACT_ADDR.to_string(),
                     owner: MOCK_CONTRACT_ADDR.to_string(),
                     expiration_date: None,
+                    concrete_type: Default::default(),
                 }
                 .into();
 
@@ -552,6 +553,7 @@ mod tests {
                     account: MOCK_CONTRACT_ADDR.to_string(),
                     owner: MOCK_CONTRACT_ADDR.to_string(),
                     name: "label.contract.pb".to_string(),
+                    concrete_type: Default::default(),
                 }
                 .into();
 
@@ -613,6 +615,7 @@ mod tests {
                     attribute_type: AttributeType::Json.into(),
                     address: "".to_string(),
                     expiration_date: None,
+                    concrete_type: Default::default(),
                 }],
                 pagination: None,
             },

@@ -134,7 +134,9 @@ impl CodeGenerator {
                     .find(|e| {
                         e.file_name()
                             .to_str()
-                            .map(|s| s == "buf.gen.yaml" || s == "buf.yml")
+                            .map(|s| {
+                                s == "buf.gen.yaml" || s == "buf.yml" || s == "buf.gen.pulsar.yaml"
+                            })
                             .unwrap_or(false)
                     })
                     .map(|e| e.path().parent().unwrap().to_path_buf())

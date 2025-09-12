@@ -140,6 +140,7 @@ pub fn mint_marker_supply<S: Into<String>>(
     Ok(MsgMintRequest {
         amount: Some(coin),
         administrator: validate_address(contract_address)?.to_string(),
+        recipient: Default::default(),
     }
     .into())
 }

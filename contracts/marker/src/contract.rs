@@ -553,6 +553,7 @@ mod tests {
                 amount: "20".to_string(),
             }),
             administrator: env.contract.address.to_string(),
+            recipient: Default::default(),
         }
         .into();
 

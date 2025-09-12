@@ -1158,6 +1158,36 @@ pub struct MsgMarketReleaseCommitmentsRequest {
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgMarketReleaseCommitmentsResponse")]
 pub struct MsgMarketReleaseCommitmentsResponse {}
+/// MsgMarketTransferCommitmentRequest is a request message for the MarketTransferCommitment endpoint.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provenance.exchange.v1.MsgMarketTransferCommitmentRequest")]
+pub struct MsgMarketTransferCommitmentRequest {
+    /// admin is the account with "cancel" permission requesting this transfer.
+    #[prost(string, tag = "1")]
+    pub admin: ::prost::alloc::string::String,
+    /// account is the Bech32 address string of the account receiving the transferred funds.
+    #[prost(string, tag = "2")]
+    pub account: ::prost::alloc::string::String,
+    /// amount to transfer.
+    #[prost(message, repeated, tag = "3")]
+    pub amount: ::prost::alloc::vec::Vec<super::super::super::cosmos::base::v1beta1::Coin>,
+    /// current_market_id is the numerical identifier of the market where the funds are currently committed and are being
+    /// released from.
+    #[prost(uint32, tag = "4")]
+    pub current_market_id: u32,
+    /// new_market_id is the numerical identifier of the market that is receiving the funds as part of the settlement.
+    #[prost(uint32, tag = "5")]
+    pub new_market_id: u32,
+    /// event_tag is a string that is included in the funds-released events. Max length is 100 characters.
+    #[prost(string, tag = "6")]
+    pub event_tag: ::prost::alloc::string::String,
+}
+/// MsgMarketTransferCommitmentResponse is a response message for the MarketTransferCommitment endpoint.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provenance.exchange.v1.MsgMarketTransferCommitmentResponse")]
+pub struct MsgMarketTransferCommitmentResponse {}
 /// MsgMarketSetOrderExternalIDRequest is a request message for the MarketSetOrderExternalID endpoint.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
@@ -1924,6 +1954,9 @@ pub struct QueryGetAccountCommitmentsRequest {
     /// account is the bech32 address string of the account with the commitments.
     #[prost(string, tag = "1")]
     pub account: ::prost::alloc::string::String,
+    /// denom is an optional denom that, if provided, limits the results to just that denom.
+    #[prost(string, tag = "2")]
+    pub denom: ::prost::alloc::string::String,
 }
 /// QueryGetAccountCommitmentsResponse is a response message for the GetAccountCommitments query.
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -2423,8 +2456,9 @@ impl<'a, Q: cosmwasm_std::CustomQuery> ExchangeQuerier<'a, Q> {
     pub fn get_account_commitments(
         &self,
         account: ::prost::alloc::string::String,
+        denom: ::prost::alloc::string::String,
     ) -> Result<QueryGetAccountCommitmentsResponse, cosmwasm_std::StdError> {
-        QueryGetAccountCommitmentsRequest { account }.query(self.querier)
+        QueryGetAccountCommitmentsRequest { account, denom }.query(self.querier)
     }
     pub fn get_market_commitments(
         &self,

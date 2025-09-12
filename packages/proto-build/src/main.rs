@@ -10,7 +10,9 @@ use proto_build::{
 };
 
 /// The provenance commit or tag to be cloned and used to build the proto files
-const PROVENANCE_REV: &str = "v1.22.0";
+const PROVENANCE_REV: &str = "v1.25.0";
+/// The provlabs vault module commit or tag to be cloned and used to build the proto files
+const PROVLABS_VAULT_REV: &str = "milestone-2";
 
 // All paths must end with a / and either be absolute or include a ./ to reference the current
 // working directory.
@@ -20,6 +22,8 @@ const OUT_DIR: &str = "../provwasm-std/src/types/";
 /// Directory where the provenance submodule is located
 const PROVENANCE_DIR: &str = "../../dependencies/provenance/";
 const THIRD_PARTY_DIR: &str = "../../dependencies/provenance/third_party/";
+/// Directory where the provlabs vault submodule is located
+const PROVLABS_VAULT_DIR: &str = "../../dependencies/provlabs_vault/";
 
 /// A temporary directory for proto building
 const TMP_BUILD_DIR: &str = "/tmp/provwasm-std/proto-build";
@@ -28,6 +32,7 @@ pub fn generate() {
     let args: Vec<String> = env::args().collect();
     if args.iter().any(|arg| arg == "--update-deps") {
         git::update_submodule(PROVENANCE_DIR, PROVENANCE_REV);
+        git::update_submodule(PROVLABS_VAULT_DIR, PROVLABS_VAULT_REV);
     }
 
     let tmp_build_dir: PathBuf = TMP_BUILD_DIR.parse().unwrap();
@@ -37,6 +42,13 @@ pub fn generate() {
         name: "provenance".to_string(),
         version: PROVENANCE_REV.to_string(),
         project_dir: PROVENANCE_DIR.to_string(),
+        exclude_mods: vec![],
+    };
+
+    let provlabs_vault_project = CosmosProject {
+        name: "provlabs_vault".to_string(),
+        version: PROVLABS_VAULT_REV.to_string(),
+        project_dir: PROVLABS_VAULT_DIR.to_string(),
         exclude_mods: vec![],
     };
 
@@ -59,10 +71,18 @@ pub fn generate() {
         tmp_build_dir,
         provenance_project,
         // vec![],
-        vec![third_party_project],
+        vec![third_party_project, provlabs_vault_project],
     );
-
     provenance_code_generator.generate();
+
+    // let provlabs_vault_code_generator = CodeGenerator::new(
+    //     out_dir,
+    //     tmp_build_dir,
+    //     provlabs_vault_project,
+    //     // vec![],
+    //     vec![third_party_project],
+    // );
+    // provlabs_vault_code_generator.generate();
 }
 
 fn main() {

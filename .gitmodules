@@ -1,3 +1,6 @@
 [submodule "dependencies/provenance"]
 	path = dependencies/provenance
 	url = https://github.com/provenance-io/provenance.git
+[submodule "dependencies/provlabs_vault"]
+	path = dependencies/provlabs_vault
+	url = https://github.com/ProvLabs/vault.git

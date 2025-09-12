@@ -4,3 +4,4 @@ pub mod cosmwasm;
 pub mod ibc;
 pub mod provenance;
 pub mod tendermint;
+pub mod vault;
