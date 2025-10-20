@@ -10,7 +10,7 @@ use proto_build::{
 };
 
 /// The provenance commit or tag to be cloned and used to build the proto files
-const PROVENANCE_REV: &str = "mconroy/ledger-prerelease";
+const PROVENANCE_REV: &str = "dwedul/asseet-ledger-registry";
 
 // All paths must end with a / and either be absolute or include a ./ to reference the current
 // working directory.
