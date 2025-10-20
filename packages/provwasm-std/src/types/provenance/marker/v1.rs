@@ -1479,6 +1479,8 @@ pub struct MsgAddNetAssetValuesRequest {
     pub denom: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
     pub administrator: ::prost::alloc::string::String,
+    /// Net asset values to set. The "usd" denomination represents whole-dollar amounts,
+    /// where 1usd = $1.00.
     #[prost(message, repeated, tag = "3")]
     pub net_asset_values: ::prost::alloc::vec::Vec<NetAssetValue>,
 }

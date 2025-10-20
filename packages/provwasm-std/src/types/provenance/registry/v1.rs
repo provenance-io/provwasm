@@ -1,17 +1,77 @@
 use provwasm_proc_macro::CosmwasmExt;
+/// EventNFTRegistered is the event emitted when a registry is created for an NFT.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provenance.registry.v1.EventNFTRegistered")]
+pub struct EventNftRegistered {
+    #[prost(string, tag = "1")]
+    pub nft_id: ::prost::alloc::string::String,
+    #[prost(string, tag = "2")]
+    pub asset_class_id: ::prost::alloc::string::String,
+}
+/// EventRoleGranted is the event emitted when an address is granted a role in a registry.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provenance.registry.v1.EventRoleGranted")]
+pub struct EventRoleGranted {
+    #[prost(string, tag = "1")]
+    pub nft_id: ::prost::alloc::string::String,
+    #[prost(string, tag = "2")]
+    pub asset_class_id: ::prost::alloc::string::String,
+    #[prost(string, tag = "3")]
+    pub role: ::prost::alloc::string::String,
+    #[prost(string, repeated, tag = "4")]
+    pub addresses: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// EventRoleRevoked is the event emitted when an address has a role revoked in a registry.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provenance.registry.v1.EventRoleRevoked")]
+pub struct EventRoleRevoked {
+    #[prost(string, tag = "1")]
+    pub nft_id: ::prost::alloc::string::String,
+    #[prost(string, tag = "2")]
+    pub asset_class_id: ::prost::alloc::string::String,
+    #[prost(string, tag = "3")]
+    pub role: ::prost::alloc::string::String,
+    #[prost(string, repeated, tag = "4")]
+    pub addresses: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// EventNFTUnregistered is the event emitted when a registry is deleted from an NFT.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provenance.registry.v1.EventNFTUnregistered")]
+pub struct EventNftUnregistered {
+    #[prost(string, tag = "1")]
+    pub nft_id: ::prost::alloc::string::String,
+    #[prost(string, tag = "2")]
+    pub asset_class_id: ::prost::alloc::string::String,
+}
+/// EventRegistryBulkUpdated is the event emitted to indicate that a registry has been updated as part of a bulk process.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provenance.registry.v1.EventRegistryBulkUpdated")]
+pub struct EventRegistryBulkUpdated {
+    #[prost(string, tag = "1")]
+    pub nft_id: ::prost::alloc::string::String,
+    #[prost(string, tag = "2")]
+    pub asset_class_id: ::prost::alloc::string::String,
+}
 /// RegistryKey represents a unique identifier for registry entries.
 /// It links registry entries to specific NFT assets and their associated asset classes.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.registry.v1.RegistryKey")]
 pub struct RegistryKey {
-    /// nft_id is the identifier for the NFT that this ledger is linked to.
+    /// Identifier for the nft that this ledger is linked to.
     /// This could be a `x/metadata` scope id or an `x/nft` nft id.
     /// In order to create a ledger for an NFT, the NFT class must be registered in the ledger module as a LedgerClass.
     #[prost(string, tag = "1")]
     pub nft_id: ::prost::alloc::string::String,
     /// asset_class_id is the Scope Specification ID or NFT Class ID.
     /// This identifies the class or specification that the NFT belongs to.
+    /// If it is a Scope Specification, the address is used, e.g."scopespec1qnwg86nsatx5pl56muw0v9ytlz3qu3jx6m".
+    /// Otherwise, it is the NFT Class ID, e.g. "heloc-loan-class".
     #[prost(string, tag = "2")]
     pub asset_class_id: ::prost::alloc::string::String,
 }
@@ -43,41 +103,6 @@ pub struct RolesEntry {
     /// These addresses have the permissions associated with the specified role.
     #[prost(string, repeated, tag = "2")]
     pub addresses: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// GenesisState defines the registry module's genesis state.
-/// This contains all the registry entries that exist when the blockchain is first initialized.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
-#[proto_message(type_url = "/provenance.registry.v1.GenesisState")]
-pub struct GenesisState {
-    /// entries is the list of registry entries.
-    /// These entries define the initial state of the registry module.
-    #[prost(message, repeated, tag = "1")]
-    pub entries: ::prost::alloc::vec::Vec<RegistryEntry>,
-}
-/// RegistryBulkUpdate represents a bulk update operation for multiple registry entries.
-/// This allows for efficient batch processing of registry modifications.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
-#[proto_message(type_url = "/provenance.registry.v1.RegistryBulkUpdate")]
-pub struct RegistryBulkUpdate {
-    /// entries is the list of bulk update entries to be processed.
-    /// Each entry contains the key and the registry entries to be updated.
-    #[prost(message, repeated, tag = "1")]
-    pub entries: ::prost::alloc::vec::Vec<RegistryBulkUpdateEntry>,
-}
-/// RegistryBulkUpdateEntry represents a single entry in a bulk update operation.
-/// It contains the key and the registry entries to be updated for that key.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
-#[proto_message(type_url = "/provenance.registry.v1.RegistryBulkUpdateEntry")]
-pub struct RegistryBulkUpdateEntry {
-    /// key is the registry key for which the update applies.
-    #[prost(message, optional, tag = "1")]
-    pub key: ::core::option::Option<RegistryKey>,
-    /// entries is the list of registry entries to be updated for the specified key.
-    #[prost(message, repeated, tag = "2")]
-    pub entries: ::prost::alloc::vec::Vec<RegistryEntry>,
 }
 /// RegistryRole defines the different types of roles that can be assigned to addresses.
 /// These roles determine the permissions and capabilities that an address has within the registry system.
@@ -147,6 +172,17 @@ impl RegistryRole {
         }
     }
 }
+/// GenesisState defines the registry module's genesis state.
+/// This contains all the registry entries that exist when the blockchain is first initialized.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provenance.registry.v1.GenesisState")]
+pub struct GenesisState {
+    /// entries is the list of registry entries.
+    /// These entries define the initial state of the registry module.
+    #[prost(message, repeated, tag = "1")]
+    pub entries: ::prost::alloc::vec::Vec<RegistryEntry>,
+}
 /// QueryGetRegistryRequest is the request type for the Query/GetRegistry RPC method.
 /// It contains the key information needed to retrieve a specific registry entry.
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -172,6 +208,39 @@ pub struct QueryGetRegistryResponse {
     /// This includes all roles and addresses associated with the specified NFT and asset class.
     #[prost(message, optional, tag = "1")]
     pub registry: ::core::option::Option<RegistryEntry>,
+}
+/// QueryGetRegistriesRequest is the paginated request type for the Query/GetRegistries RPC method.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provenance.registry.v1.QueryGetRegistriesRequest")]
+#[proto_query(
+    path = "/provenance.registry.v1.Query/GetRegistries",
+    response_type = QueryGetRegistriesResponse
+)]
+pub struct QueryGetRegistriesRequest {
+    /// asset_class_id is the Scope Specification ID or NFT Class ID.
+    /// This identifies the class or specification that the NFTs belong to.
+    #[prost(string, tag = "1")]
+    pub asset_class_id: ::prost::alloc::string::String,
+    /// pagination defines an optional pagination for the request.
+    #[prost(message, optional, tag = "99")]
+    pub pagination:
+        ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageRequest>,
+}
+/// QueryGetRegistriesResponse is the paginated response type for the Query/GetRegistries RPC method.
+/// It contains the complete registry entry for the requested key.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provenance.registry.v1.QueryGetRegistriesResponse")]
+pub struct QueryGetRegistriesResponse {
+    /// registries is the collection of registry entries.
+    /// This includes all roles and addresses associated with the specified NFT and asset class.
+    #[prost(message, repeated, tag = "1")]
+    pub registries: ::prost::alloc::vec::Vec<RegistryEntry>,
+    /// pagination is the pagination details for this response.
+    #[prost(message, optional, tag = "99")]
+    pub pagination:
+        ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageResponse>,
 }
 /// QueryHasRoleRequest is the request type for the Query/HasRole RPC method.
 /// It contains the information needed to verify if an address has a specific role.
@@ -213,10 +282,10 @@ pub struct QueryHasRoleResponse {
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.registry.v1.MsgRegisterNFT")]
 pub struct MsgRegisterNft {
-    /// authority is the address that is authorized to register NFTs.
+    /// signer is the address that is authorized to register NFTs.
     /// This address must have the appropriate permissions to create registry entries.
     #[prost(string, tag = "1")]
-    pub authority: ::prost::alloc::string::String,
+    pub signer: ::prost::alloc::string::String,
     /// key is the registry key to register.
     /// This contains the NFT ID and asset class ID that uniquely identify the registry entry.
     #[prost(message, optional, tag = "2")]
@@ -238,10 +307,10 @@ pub struct MsgRegisterNftResponse {}
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.registry.v1.MsgGrantRole")]
 pub struct MsgGrantRole {
-    /// authority is the address that is authorized to grant the role.
+    /// signer is the address that is authorized to grant the role.
     /// This address must have the appropriate permissions to modify role assignments.
     #[prost(string, tag = "1")]
-    pub authority: ::prost::alloc::string::String,
+    pub signer: ::prost::alloc::string::String,
     /// key is the registry key to grant the role to.
     /// This identifies the specific registry entry to modify.
     #[prost(message, optional, tag = "2")]
@@ -267,10 +336,10 @@ pub struct MsgGrantRoleResponse {}
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.registry.v1.MsgRevokeRole")]
 pub struct MsgRevokeRole {
-    /// authority is the address that is authorized to revoke the role.
+    /// signer is the address that is authorized to revoke the role.
     /// This address must have the appropriate permissions to modify role assignments.
     #[prost(string, tag = "1")]
-    pub authority: ::prost::alloc::string::String,
+    pub signer: ::prost::alloc::string::String,
     /// key is the registry key to revoke the role from.
     /// This identifies the specific registry entry to modify.
     #[prost(message, optional, tag = "2")]
@@ -296,10 +365,10 @@ pub struct MsgRevokeRoleResponse {}
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.registry.v1.MsgUnregisterNFT")]
 pub struct MsgUnregisterNft {
-    /// authority is the address that is authorized to unregister NFTs.
+    /// signer is the address that is authorized to unregister NFTs.
     /// This address must have the appropriate permissions to remove registry entries.
     #[prost(string, tag = "1")]
-    pub authority: ::prost::alloc::string::String,
+    pub signer: ::prost::alloc::string::String,
     /// key is the registry key to remove.
     /// This identifies the specific registry entry to delete.
     #[prost(message, optional, tag = "2")]
@@ -311,6 +380,27 @@ pub struct MsgUnregisterNft {
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.registry.v1.MsgUnregisterNFTResponse")]
 pub struct MsgUnregisterNftResponse {}
+/// MsgRegistryBulkUpdate represents a bulk update operation for multiple registry entries.
+/// This allows for efficient batch processing of registry modifications.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provenance.registry.v1.MsgRegistryBulkUpdate")]
+pub struct MsgRegistryBulkUpdate {
+    /// signer is the address that is authorized to register NFTs.
+    /// This address must have the appropriate permissions to create registry entries.
+    #[prost(string, tag = "1")]
+    pub signer: ::prost::alloc::string::String,
+    /// entries is the list of bulk update entries to be processed.
+    /// Each entry contains the registry entry to be updated.
+    #[prost(message, repeated, tag = "2")]
+    pub entries: ::prost::alloc::vec::Vec<RegistryEntry>,
+}
+/// MsgRegistryBulkUpdateResponse defines the response for RegistryBulkUpdate.
+/// This is an empty response indicating successful bulk update.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provenance.registry.v1.MsgRegistryBulkUpdateResponse")]
+pub struct MsgRegistryBulkUpdateResponse {}
 pub struct RegistryQuerier<'a, Q: cosmwasm_std::CustomQuery> {
     querier: &'a cosmwasm_std::QuerierWrapper<'a, Q>,
 }
@@ -323,6 +413,19 @@ impl<'a, Q: cosmwasm_std::CustomQuery> RegistryQuerier<'a, Q> {
         key: ::core::option::Option<RegistryKey>,
     ) -> Result<QueryGetRegistryResponse, cosmwasm_std::StdError> {
         QueryGetRegistryRequest { key }.query(self.querier)
+    }
+    pub fn get_registries(
+        &self,
+        asset_class_id: ::prost::alloc::string::String,
+        pagination: ::core::option::Option<
+            super::super::super::cosmos::base::query::v1beta1::PageRequest,
+        >,
+    ) -> Result<QueryGetRegistriesResponse, cosmwasm_std::StdError> {
+        QueryGetRegistriesRequest {
+            asset_class_id,
+            pagination,
+        }
+        .query(self.querier)
     }
     pub fn has_role(
         &self,

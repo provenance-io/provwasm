@@ -1,4 +1,139 @@
 use provwasm_proc_macro::CosmwasmExt;
+/// EventLedgerCreated is emitted when a new ledger is created for an asset.
+/// This event is triggered by the MsgCreateLedger message handler when a
+/// ledger is successfully created for a specific NFT or scope.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provenance.ledger.v1.EventLedgerCreated")]
+pub struct EventLedgerCreated {
+    /// asset class of the ledger.
+    #[prost(string, tag = "1")]
+    pub asset_class_id: ::prost::alloc::string::String,
+    /// nft id of the ledger (scope id or nft id).
+    #[prost(string, tag = "2")]
+    pub nft_id: ::prost::alloc::string::String,
+}
+/// EventLedgerUpdated is emitted when a ledger's configuration is updated.
+/// This event is triggered by various update message handlers such as
+/// MsgUpdateLedgerStatus, MsgUpdateLedgerInterestRate, MsgUpdateLedgerPayment,
+/// and MsgUpdateLedgerMaturityDate when a ledger's configuration is
+/// successfully modified.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provenance.ledger.v1.EventLedgerUpdated")]
+pub struct EventLedgerUpdated {
+    /// asset class of the ledger.
+    #[prost(string, tag = "1")]
+    pub asset_class_id: ::prost::alloc::string::String,
+    /// nft id of the ledger (scope id or nft id).
+    #[prost(string, tag = "2")]
+    pub nft_id: ::prost::alloc::string::String,
+    /// What type of data update caused this event to be emitted.
+    #[prost(enumeration = "UpdateType", tag = "3")]
+    pub update_type: i32,
+}
+/// EventLedgerEntryAdded is emitted when a new entry is added to a ledger.
+/// This event is triggered by the MsgAppendLedgerEntry message handler when
+/// one or more ledger entries are successfully added to an existing ledger.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provenance.ledger.v1.EventLedgerEntryAdded")]
+pub struct EventLedgerEntryAdded {
+    /// asset class of the ledger.
+    #[prost(string, tag = "1")]
+    pub asset_class_id: ::prost::alloc::string::String,
+    /// nft id of the ledger (scope id or nft id).
+    #[prost(string, tag = "2")]
+    pub nft_id: ::prost::alloc::string::String,
+    /// correlation id of the ledger entry.
+    #[prost(string, tag = "3")]
+    pub correlation_id: ::prost::alloc::string::String,
+}
+/// EventFundTransferWithSettlement is emitted when funds are transferred with
+/// settlement instructions. This event is triggered by the
+/// MsgTransferFundsWithSettlement message handler when a fund transfer with
+/// settlement instructions is successfully processed.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provenance.ledger.v1.EventFundTransferWithSettlement")]
+pub struct EventFundTransferWithSettlement {
+    /// asset class of the ledger.
+    #[prost(string, tag = "1")]
+    pub asset_class_id: ::prost::alloc::string::String,
+    /// nft id of the ledger (scope id or nft id).
+    #[prost(string, tag = "2")]
+    pub nft_id: ::prost::alloc::string::String,
+    /// correlation id of the ledger entry.
+    #[prost(string, tag = "3")]
+    pub correlation_id: ::prost::alloc::string::String,
+}
+/// EventLedgerDestroyed is emitted when a ledger is destroyed.
+/// This event is triggered by the MsgDestroyLedger message handler when
+/// a ledger and all its associated data are successfully removed.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provenance.ledger.v1.EventLedgerDestroyed")]
+pub struct EventLedgerDestroyed {
+    /// asset class of the ledger.
+    #[prost(string, tag = "1")]
+    pub asset_class_id: ::prost::alloc::string::String,
+    /// nft id of the ledger (scope id or nft id).
+    #[prost(string, tag = "2")]
+    pub nft_id: ::prost::alloc::string::String,
+}
+/// UpdateType is the type of data update that caused the EventLedgerUpdated event to be emitted.
+/// This is used to identify the specific update that caused the event to be emitted.
+#[derive(
+    Clone,
+    Copy,
+    Debug,
+    PartialEq,
+    Eq,
+    Hash,
+    PartialOrd,
+    Ord,
+    ::prost::Enumeration,
+    ::schemars::JsonSchema,
+)]
+#[repr(i32)]
+pub enum UpdateType {
+    /// The update type is unspecified.
+    Unspecified = 0,
+    /// The status of the ledger was updated.
+    Status = 1,
+    /// The interest rate of the ledger was updated.
+    InterestRate = 2,
+    /// The payment of the ledger was updated.
+    Payment = 3,
+    /// The maturity date of the ledger was updated.
+    MaturityDate = 4,
+}
+impl UpdateType {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            UpdateType::Unspecified => "UPDATE_TYPE_UNSPECIFIED",
+            UpdateType::Status => "UPDATE_TYPE_STATUS",
+            UpdateType::InterestRate => "UPDATE_TYPE_INTEREST_RATE",
+            UpdateType::Payment => "UPDATE_TYPE_PAYMENT",
+            UpdateType::MaturityDate => "UPDATE_TYPE_MATURITY_DATE",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "UPDATE_TYPE_UNSPECIFIED" => Some(Self::Unspecified),
+            "UPDATE_TYPE_STATUS" => Some(Self::Status),
+            "UPDATE_TYPE_INTEREST_RATE" => Some(Self::InterestRate),
+            "UPDATE_TYPE_PAYMENT" => Some(Self::Payment),
+            "UPDATE_TYPE_MATURITY_DATE" => Some(Self::MaturityDate),
+            _ => None,
+        }
+    }
+}
 /// LedgerClass contains the configuration for a ledger related to a particular class of asset. The asset class
 /// is defined by the either a scope spec `x/metadata`, or nft class `x/nft`. Ultimately, the configuration will
 /// assist in verifying the types that are associated with particular ledger entries.
@@ -6,17 +141,17 @@ use provwasm_proc_macro::CosmwasmExt;
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.ledger.v1.LedgerClass")]
 pub struct LedgerClass {
-    /// Unique ID for the ledger class (eg. 1, 2, 3, etc.)
+    /// Unique ID for the ledger class (eg. 1, 2, 3, etc.).
     /// This is necessary since the nft class does not have an owner.
     #[prost(string, tag = "1")]
     pub ledger_class_id: ::prost::alloc::string::String,
-    /// Scope Specification ID or NFT Class ID
+    /// Scope Specification ID or NFT Class ID.
     #[prost(string, tag = "2")]
     pub asset_class_id: ::prost::alloc::string::String,
-    /// Denom that this class of asset will be ledgered in
+    /// Denom that this class of asset will be ledgered in.
     #[prost(string, tag = "3")]
     pub denom: ::prost::alloc::string::String,
-    /// Address of the maintainer for the ledger class
+    /// Address of the maintainer for the ledger class.
     #[prost(string, tag = "4")]
     pub maintainer_address: ::prost::alloc::string::String,
 }
@@ -26,18 +161,18 @@ pub struct LedgerClass {
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.ledger.v1.LedgerClassEntryType")]
 pub struct LedgerClassEntryType {
-    /// Unique ID for the entry type (eg. 1, 2, 3, etc.)
+    /// Unique ID for the entry type (eg. 1, 2, 3, etc.).
     #[prost(int32, tag = "1")]
     pub id: i32,
-    /// Code for the entry type (eg. "DISBURSEMENT", "PAYMENT", "ADJUSTMENT", "INTEREST", "FEE", "OTHER")
+    /// Code for the entry type (eg. "DISBURSEMENT", "PAYMENT", "ADJUSTMENT", "INTEREST", "FEE", "OTHER").
     #[prost(string, tag = "2")]
     pub code: ::prost::alloc::string::String,
-    /// Description of the entry type (eg. "Disbursement", "Payment", "Adjustment", "Interest", "Fee", "Other")
+    /// Description of the entry type (eg. "Disbursement", "Payment", "Adjustment", "Interest", "Fee", "Other").
     #[prost(string, tag = "3")]
     pub description: ::prost::alloc::string::String,
 }
-/// LedgerClassStatusType defines the types of possible status values for a given asset class. These type codes allow
-/// for minimal data storage while providing a human readable description of the status type.
+/// LedgerClassStatusType defines the status types for a ledger class.
+/// These status types are used to track the status of underlying loan throughout the loan life cycle.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.ledger.v1.LedgerClassStatusType")]
@@ -54,7 +189,7 @@ pub struct LedgerClassStatusType {
     #[prost(string, tag = "3")]
     pub description: ::prost::alloc::string::String,
 }
-/// LedgerKey represents a unique key to identify an NFT/Asset for ledger transactions.
+/// LedgerKey is used as the unique key for an asset's ledger in the keeper.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.ledger.v1.LedgerKey")]
@@ -64,11 +199,11 @@ pub struct LedgerKey {
     /// In order to create a ledger for an nft, the nft class must be registered in the ledger module as a LedgerClass.
     #[prost(string, tag = "1")]
     pub nft_id: ::prost::alloc::string::String,
-    /// Scope Specification ID or NFT Class ID
+    /// Scope Specification ID or NFT Class ID.
     #[prost(string, tag = "2")]
     pub asset_class_id: ::prost::alloc::string::String,
 }
-/// Ledger represents a ledger for tracking financial transactions and balances for a specific NFT.
+/// Ledger defines an servicing ledger for an asset.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.ledger.v1.Ledger")]
@@ -86,40 +221,41 @@ pub struct Ledger {
     #[prost(int32, tag = "4")]
     pub next_pmt_date: i32,
     /// The next payment amount.
-    #[prost(int64, tag = "5")]
-    pub next_pmt_amt: i64,
-    /// The interest rate (10000000 = 10.000000%) - 6 decimal places.
+    /// The units of this field are defined by the denom field in this ledger's class.
+    #[prost(string, tag = "5")]
+    pub next_pmt_amt: ::prost::alloc::string::String,
+    /// The interest rate. Min = 0, Max = 100,000,000 = 100%, e.g. 4,321,987 = 4.321987%.
     #[prost(int32, tag = "6")]
     pub interest_rate: i32,
     /// The maturity date (days since epoch).
     #[prost(int32, tag = "7")]
     pub maturity_date: i32,
     /// The day count convention for interest calculations.
-    #[prost(enumeration = "DayCount", tag = "8")]
-    pub interest_day_count: i32,
+    #[prost(enumeration = "DayCountConvention", tag = "8")]
+    pub interest_day_count_convention: i32,
     /// The interest accrual method for interest calculations.
-    #[prost(enumeration = "InterestAccrual", tag = "9")]
-    pub interest_accrual: i32,
+    #[prost(enumeration = "InterestAccrualMethod", tag = "9")]
+    pub interest_accrual_method: i32,
     /// The payment frequency.
     #[prost(enumeration = "PaymentFrequency", tag = "10")]
     pub payment_frequency: i32,
 }
-/// LedgerClassBucketType represents a bucket type for a ledger class
+/// LedgerClassBucketType represents a bucket type for a ledger class.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.ledger.v1.LedgerClassBucketType")]
 pub struct LedgerClassBucketType {
-    /// Unique ID for the bucket type (eg. 1, 2, 3, etc.)
+    /// Unique ID for the bucket type (eg. 1, 2, 3, etc.).
     #[prost(int32, tag = "1")]
     pub id: i32,
-    /// Code for the bucket type (eg. "PRINCIPAL", "INTEREST", "FEE", "OTHER")
+    /// Code for the bucket type (eg. "PRINCIPAL", "INTEREST", "FEE", "OTHER").
     #[prost(string, tag = "2")]
     pub code: ::prost::alloc::string::String,
-    /// Description of the bucket type (eg. "Principal", "Interest", "Fee", "Other")
+    /// Description of the bucket type (eg. "Principal", "Interest", "Fee", "Other").
     #[prost(string, tag = "3")]
     pub description: ::prost::alloc::string::String,
 }
-/// LedgerEntry represents a single entry in a ledger for tracking financial transactions.
+/// LedgerEntry is an single entry in the ledger. An entry would be a payment, disbursement, adjustment, etc...
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.ledger.v1.LedgerEntry")]
@@ -133,31 +269,33 @@ pub struct LedgerEntry {
     /// If true, this entry is a void and should not be included in the ledger balance calculations.
     #[prost(bool, tag = "3")]
     pub is_void: bool,
-    /// The sequence number of the ledger entry (less than 100).
-    /// This field is used to maintain the correct order of entries when multiple entries
-    /// share the same effective date. Entries are sorted first by effective date, then by sequence.
+    /// Sequence number of the ledger entry (less than 100). This field is used to maintain the correct
+    /// order of entries when multiple entries share the same effective date. Entries are sorted first
+    /// by effective date, then by sequence.
     #[prost(uint32, tag = "4")]
     pub sequence: u32,
     /// The type of ledger entry specified by the LedgerClassEntryType.id.
     #[prost(int32, tag = "5")]
     pub entry_type_id: i32,
     /// The posted date (days since epoch).
-    #[prost(int32, tag = "7")]
+    #[prost(int32, tag = "6")]
     pub posted_date: i32,
     /// The effective date (days since epoch).
-    #[prost(int32, tag = "8")]
+    #[prost(int32, tag = "7")]
     pub effective_date: i32,
     /// The total amount of the ledger entry.
-    #[prost(string, tag = "9")]
+    /// The units of this field are defined by the denom field in this ledger's class.
+    #[prost(string, tag = "8")]
     pub total_amt: ::prost::alloc::string::String,
-    /// The applied amounts for each bucket.
-    #[prost(message, repeated, tag = "10")]
+    /// Applied amounts represent how the entry affects different buckets.
+    #[prost(message, repeated, tag = "9")]
     pub applied_amounts: ::prost::alloc::vec::Vec<LedgerBucketAmount>,
-    /// The balances for each bucket.
-    #[prost(message, repeated, tag = "11")]
+    /// Bucket balances represent the current state of funds in each bucket.
+    #[prost(message, repeated, tag = "10")]
     pub balance_amounts: ::prost::alloc::vec::Vec<BucketBalance>,
 }
-/// LedgerBucketAmount represents the amount applied to a specific bucket in a ledger entry.
+/// LedgerBucketAmount is the amount applied to a bucket. Applications to a bucket increase or
+/// decrease the balance of the bucket.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.ledger.v1.LedgerBucketAmount")]
@@ -166,19 +304,11 @@ pub struct LedgerBucketAmount {
     #[prost(int32, tag = "1")]
     pub bucket_type_id: i32,
     /// The amount applied to the bucket.
+    /// The units of this field are defined by the denom field in this ledger's class.
     #[prost(string, tag = "2")]
     pub applied_amt: ::prost::alloc::string::String,
 }
-/// Balances represents the current balances for principal, interest, and other amounts.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
-#[proto_message(type_url = "/provenance.ledger.v1.Balances")]
-pub struct Balances {
-    /// The bucket balances.
-    #[prost(message, repeated, tag = "1")]
-    pub bucket_balances: ::prost::alloc::vec::Vec<BucketBalance>,
-}
-/// BucketBalance represents the balance for a specific bucket.
+/// BucketBalance represents the balance for a specific bucket type.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.ledger.v1.BucketBalance")]
@@ -187,23 +317,15 @@ pub struct BucketBalance {
     #[prost(int32, tag = "1")]
     pub bucket_type_id: i32,
     /// The balance of the bucket.
+    /// The units of this field are defined by the denom field in this ledger's class.
     #[prost(string, tag = "2")]
     pub balance_amt: ::prost::alloc::string::String,
 }
-/// Ledgers represents a collection of ledgers with their entries, used for conversion and bulk operations.
+/// LedgerAndEntries represents a ledger with its associated entries.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
-#[proto_message(type_url = "/provenance.ledger.v1.Ledgers")]
-pub struct Ledgers {
-    /// The ledgers with their entries.
-    #[prost(message, repeated, tag = "1")]
-    pub ledger_to_entries: ::prost::alloc::vec::Vec<LedgerToEntries>,
-}
-/// LedgerToEntries represents a ledger with its associated entries.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
-#[proto_message(type_url = "/provenance.ledger.v1.LedgerToEntries")]
-pub struct LedgerToEntries {
+#[proto_message(type_url = "/provenance.ledger.v1.LedgerAndEntries")]
+pub struct LedgerAndEntries {
     /// The ledger key identifying the ledger.
     #[prost(message, optional, tag = "1")]
     pub ledger_key: ::core::option::Option<LedgerKey>,
@@ -214,7 +336,7 @@ pub struct LedgerToEntries {
     #[prost(message, repeated, tag = "3")]
     pub entries: ::prost::alloc::vec::Vec<LedgerEntry>,
 }
-/// Day Count Conventions used in interest calculations
+/// Day Count Conventions used in interest calculations.
 #[derive(
     Clone,
     Copy,
@@ -228,7 +350,7 @@ pub struct LedgerToEntries {
     ::schemars::JsonSchema,
 )]
 #[repr(i32)]
-pub enum DayCount {
+pub enum DayCountConvention {
     /// Unspecified day count convention.
     Unspecified = 0,
     /// Actual/365: Uses the actual number of days in the period with a fixed denominator of 365
@@ -246,37 +368,37 @@ pub enum DayCount {
     /// 360/360: Always uses 360 days in both the numerator and denominator.
     Days360 = 6,
 }
-impl DayCount {
+impl DayCountConvention {
     /// String value of the enum field names used in the ProtoBuf definition.
     ///
     /// The values are not transformed in any way and thus are considered stable
     /// (if the ProtoBuf definition does not change) and safe for programmatic use.
     pub fn as_str_name(&self) -> &'static str {
         match self {
-            DayCount::Unspecified => "DAY_COUNT_UNSPECIFIED",
-            DayCount::Actual365 => "DAY_COUNT_ACTUAL_365",
-            DayCount::Actual360 => "DAY_COUNT_ACTUAL_360",
-            DayCount::Thirty360 => "DAY_COUNT_THIRTY_360",
-            DayCount::ActualActual => "DAY_COUNT_ACTUAL_ACTUAL",
-            DayCount::Days365 => "DAY_COUNT_DAYS_365",
-            DayCount::Days360 => "DAY_COUNT_DAYS_360",
+            DayCountConvention::Unspecified => "DAY_COUNT_CONVENTION_UNSPECIFIED",
+            DayCountConvention::Actual365 => "DAY_COUNT_CONVENTION_ACTUAL_365",
+            DayCountConvention::Actual360 => "DAY_COUNT_CONVENTION_ACTUAL_360",
+            DayCountConvention::Thirty360 => "DAY_COUNT_CONVENTION_THIRTY_360",
+            DayCountConvention::ActualActual => "DAY_COUNT_CONVENTION_ACTUAL_ACTUAL",
+            DayCountConvention::Days365 => "DAY_COUNT_CONVENTION_DAYS_365",
+            DayCountConvention::Days360 => "DAY_COUNT_CONVENTION_DAYS_360",
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.
     pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
         match value {
-            "DAY_COUNT_UNSPECIFIED" => Some(Self::Unspecified),
-            "DAY_COUNT_ACTUAL_365" => Some(Self::Actual365),
-            "DAY_COUNT_ACTUAL_360" => Some(Self::Actual360),
-            "DAY_COUNT_THIRTY_360" => Some(Self::Thirty360),
-            "DAY_COUNT_ACTUAL_ACTUAL" => Some(Self::ActualActual),
-            "DAY_COUNT_DAYS_365" => Some(Self::Days365),
-            "DAY_COUNT_DAYS_360" => Some(Self::Days360),
+            "DAY_COUNT_CONVENTION_UNSPECIFIED" => Some(Self::Unspecified),
+            "DAY_COUNT_CONVENTION_ACTUAL_365" => Some(Self::Actual365),
+            "DAY_COUNT_CONVENTION_ACTUAL_360" => Some(Self::Actual360),
+            "DAY_COUNT_CONVENTION_THIRTY_360" => Some(Self::Thirty360),
+            "DAY_COUNT_CONVENTION_ACTUAL_ACTUAL" => Some(Self::ActualActual),
+            "DAY_COUNT_CONVENTION_DAYS_365" => Some(Self::Days365),
+            "DAY_COUNT_CONVENTION_DAYS_360" => Some(Self::Days360),
             _ => None,
         }
     }
 }
-/// Interest Accrual Methods describing how interest is calculated over time
+/// Interest Accrual Methods describing how interest is calculated over time.
 #[derive(
     Clone,
     Copy,
@@ -290,7 +412,7 @@ impl DayCount {
     ::schemars::JsonSchema,
 )]
 #[repr(i32)]
-pub enum InterestAccrual {
+pub enum InterestAccrualMethod {
     /// Unspecified interest accrual method.
     Unspecified = 0,
     /// Simple Interest: Calculated only on the principal amount.
@@ -308,39 +430,47 @@ pub enum InterestAccrual {
     /// Continuous Compounding: The theoretical limit of compounding frequency where interest is compounded continuously.
     ContinuousCompounding = 7,
 }
-impl InterestAccrual {
+impl InterestAccrualMethod {
     /// String value of the enum field names used in the ProtoBuf definition.
     ///
     /// The values are not transformed in any way and thus are considered stable
     /// (if the ProtoBuf definition does not change) and safe for programmatic use.
     pub fn as_str_name(&self) -> &'static str {
         match self {
-            InterestAccrual::Unspecified => "INTEREST_ACCRUAL_UNSPECIFIED",
-            InterestAccrual::SimpleInterest => "INTEREST_ACCRUAL_SIMPLE_INTEREST",
-            InterestAccrual::CompoundInterest => "INTEREST_ACCRUAL_COMPOUND_INTEREST",
-            InterestAccrual::DailyCompounding => "INTEREST_ACCRUAL_DAILY_COMPOUNDING",
-            InterestAccrual::MonthlyCompounding => "INTEREST_ACCRUAL_MONTHLY_COMPOUNDING",
-            InterestAccrual::QuarterlyCompounding => "INTEREST_ACCRUAL_QUARTERLY_COMPOUNDING",
-            InterestAccrual::AnnualCompounding => "INTEREST_ACCRUAL_ANNUAL_COMPOUNDING",
-            InterestAccrual::ContinuousCompounding => "INTEREST_ACCRUAL_CONTINUOUS_COMPOUNDING",
+            InterestAccrualMethod::Unspecified => "INTEREST_ACCRUAL_METHOD_UNSPECIFIED",
+            InterestAccrualMethod::SimpleInterest => "INTEREST_ACCRUAL_METHOD_SIMPLE_INTEREST",
+            InterestAccrualMethod::CompoundInterest => "INTEREST_ACCRUAL_METHOD_COMPOUND_INTEREST",
+            InterestAccrualMethod::DailyCompounding => "INTEREST_ACCRUAL_METHOD_DAILY_COMPOUNDING",
+            InterestAccrualMethod::MonthlyCompounding => {
+                "INTEREST_ACCRUAL_METHOD_MONTHLY_COMPOUNDING"
+            }
+            InterestAccrualMethod::QuarterlyCompounding => {
+                "INTEREST_ACCRUAL_METHOD_QUARTERLY_COMPOUNDING"
+            }
+            InterestAccrualMethod::AnnualCompounding => {
+                "INTEREST_ACCRUAL_METHOD_ANNUAL_COMPOUNDING"
+            }
+            InterestAccrualMethod::ContinuousCompounding => {
+                "INTEREST_ACCRUAL_METHOD_CONTINUOUS_COMPOUNDING"
+            }
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.
     pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
         match value {
-            "INTEREST_ACCRUAL_UNSPECIFIED" => Some(Self::Unspecified),
-            "INTEREST_ACCRUAL_SIMPLE_INTEREST" => Some(Self::SimpleInterest),
-            "INTEREST_ACCRUAL_COMPOUND_INTEREST" => Some(Self::CompoundInterest),
-            "INTEREST_ACCRUAL_DAILY_COMPOUNDING" => Some(Self::DailyCompounding),
-            "INTEREST_ACCRUAL_MONTHLY_COMPOUNDING" => Some(Self::MonthlyCompounding),
-            "INTEREST_ACCRUAL_QUARTERLY_COMPOUNDING" => Some(Self::QuarterlyCompounding),
-            "INTEREST_ACCRUAL_ANNUAL_COMPOUNDING" => Some(Self::AnnualCompounding),
-            "INTEREST_ACCRUAL_CONTINUOUS_COMPOUNDING" => Some(Self::ContinuousCompounding),
+            "INTEREST_ACCRUAL_METHOD_UNSPECIFIED" => Some(Self::Unspecified),
+            "INTEREST_ACCRUAL_METHOD_SIMPLE_INTEREST" => Some(Self::SimpleInterest),
+            "INTEREST_ACCRUAL_METHOD_COMPOUND_INTEREST" => Some(Self::CompoundInterest),
+            "INTEREST_ACCRUAL_METHOD_DAILY_COMPOUNDING" => Some(Self::DailyCompounding),
+            "INTEREST_ACCRUAL_METHOD_MONTHLY_COMPOUNDING" => Some(Self::MonthlyCompounding),
+            "INTEREST_ACCRUAL_METHOD_QUARTERLY_COMPOUNDING" => Some(Self::QuarterlyCompounding),
+            "INTEREST_ACCRUAL_METHOD_ANNUAL_COMPOUNDING" => Some(Self::AnnualCompounding),
+            "INTEREST_ACCRUAL_METHOD_CONTINUOUS_COMPOUNDING" => Some(Self::ContinuousCompounding),
             _ => None,
         }
     }
 }
-/// Payment frequencies for loan repayments
+/// Payment frequencies for loan repayments.
 #[derive(
     Clone,
     Copy,
@@ -396,102 +526,6 @@ impl PaymentFrequency {
         }
     }
 }
-/// GenesisState represents the initial state of the ledger store.
-/// This structure matches the test.json format for bulk import.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
-#[proto_message(type_url = "/provenance.ledger.v1.GenesisState")]
-pub struct GenesisState {
-    /// Ledgers with their entries - matches the test.json structure.
-    #[prost(message, repeated, tag = "1")]
-    pub ledger_to_entries: ::prost::alloc::vec::Vec<LedgerToEntries>,
-}
-/// LedgerPlainText represents a ledger in plain text format for human-readable display.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
-#[proto_message(type_url = "/provenance.ledger.v1.LedgerPlainText")]
-pub struct LedgerPlainText {
-    /// The ledger key identifying the ledger.
-    #[prost(message, optional, tag = "1")]
-    pub key: ::core::option::Option<LedgerKey>,
-    /// The status of the ledger as a human-readable string.
-    #[prost(string, tag = "2")]
-    pub status: ::prost::alloc::string::String,
-    /// The next payment date as a human-readable string.
-    #[prost(string, tag = "3")]
-    pub next_pmt_date: ::prost::alloc::string::String,
-    /// The next payment amount as a human-readable string.
-    #[prost(string, tag = "4")]
-    pub next_pmt_amt: ::prost::alloc::string::String,
-    /// The interest rate as a human-readable string.
-    #[prost(string, tag = "5")]
-    pub interest_rate: ::prost::alloc::string::String,
-    /// The maturity date as a human-readable string.
-    #[prost(string, tag = "6")]
-    pub maturity_date: ::prost::alloc::string::String,
-    /// The day count convention for interest calculations.
-    #[prost(enumeration = "DayCount", tag = "7")]
-    pub interest_day_count: i32,
-    /// The interest accrual method for interest calculations.
-    #[prost(enumeration = "InterestAccrual", tag = "8")]
-    pub interest_accrual: i32,
-    /// The payment frequency.
-    #[prost(enumeration = "PaymentFrequency", tag = "9")]
-    pub payment_frequency: i32,
-}
-/// LedgerEntryPlainText represents a ledger entry in plain text format for human-readable display.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
-#[proto_message(type_url = "/provenance.ledger.v1.LedgerEntryPlainText")]
-pub struct LedgerEntryPlainText {
-    /// The correlation ID for tracking ledger entries with external systems (max 50 characters).
-    #[prost(string, tag = "1")]
-    pub correlation_id: ::prost::alloc::string::String,
-    /// The sequence number of the ledger entry (less than 100).
-    /// This field is used to maintain the correct order of entries when multiple entries
-    /// share the same effective date. Entries are sorted first by effective date, then by sequence.
-    #[prost(uint32, tag = "2")]
-    pub sequence: u32,
-    /// The type of ledger entry.
-    #[prost(message, optional, tag = "3")]
-    pub r#type: ::core::option::Option<LedgerClassEntryType>,
-    /// The posted date as a human-readable string.
-    #[prost(string, tag = "5")]
-    pub posted_date: ::prost::alloc::string::String,
-    /// The effective date as a human-readable string.
-    #[prost(string, tag = "6")]
-    pub effective_date: ::prost::alloc::string::String,
-    /// The total amount of the ledger entry as a human-readable string.
-    #[prost(string, tag = "7")]
-    pub total_amt: ::prost::alloc::string::String,
-    /// The amounts applied to each bucket in plain text format.
-    #[prost(message, repeated, tag = "8")]
-    pub applied_amounts: ::prost::alloc::vec::Vec<LedgerBucketAmountPlainText>,
-}
-/// LedgerBucketAmountPlainText represents a bucket amount in plain text format for human-readable display.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
-#[proto_message(type_url = "/provenance.ledger.v1.LedgerBucketAmountPlainText")]
-pub struct LedgerBucketAmountPlainText {
-    /// The bucket type for this amount.
-    #[prost(message, optional, tag = "1")]
-    pub bucket: ::core::option::Option<LedgerClassBucketType>,
-    /// The amount applied to this bucket as a human-readable string.
-    #[prost(string, tag = "2")]
-    pub applied_amt: ::prost::alloc::string::String,
-    /// The balance amount for this bucket as a human-readable string.
-    #[prost(string, tag = "3")]
-    pub balance_amt: ::prost::alloc::string::String,
-}
-/// QueryLedgerEntryResponsePlainText represents a response containing ledger entries in plain text format.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
-#[proto_message(type_url = "/provenance.ledger.v1.QueryLedgerEntryResponsePlainText")]
-pub struct QueryLedgerEntryResponsePlainText {
-    /// The ledger entries in plain text format.
-    #[prost(message, repeated, tag = "1")]
-    pub entries: ::prost::alloc::vec::Vec<LedgerEntryPlainText>,
-}
 /// FundTransferWithSettlement represents a fund transfer with settlement instructions.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
@@ -503,7 +537,6 @@ pub struct FundTransferWithSettlement {
     /// The correlation ID of the ledger entry associated with this transfer.
     #[prost(string, tag = "2")]
     pub ledger_entry_correlation_id: ::prost::alloc::string::String,
-    /// The settlement instructions for this transfer.
     #[prost(message, repeated, tag = "3")]
     pub settlement_instructions: ::prost::alloc::vec::Vec<SettlementInstruction>,
 }
@@ -524,16 +557,13 @@ pub struct SettlementInstruction {
     /// An optional memo or note for the transaction.
     #[prost(string, tag = "4")]
     pub memo: ::prost::alloc::string::String,
-    /// The minimum block height or timestamp for settlement.
-    #[prost(int64, tag = "5")]
-    pub settlement_block: i64,
 }
-/// StoredSettlementInstructions represents the stored version of settlement instructions against a ledger key and entry correlation ID.
+/// StoredSettlementInstructions is used as the stored version of settlement instructions against a ledger key and entry
+/// correlation id.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.ledger.v1.StoredSettlementInstructions")]
 pub struct StoredSettlementInstructions {
-    /// The settlement instructions.
     #[prost(message, repeated, tag = "1")]
     pub settlement_instructions: ::prost::alloc::vec::Vec<SettlementInstruction>,
 }
@@ -554,13 +584,13 @@ pub struct StoredSettlementInstructions {
 pub enum FundingTransferStatus {
     /// Unspecified funding transfer status.
     Unspecified = 0,
-    /// The funding transfer is pending.
+    /// Pending funding transfer status.
     Pending = 1,
-    /// The funding transfer is being processed.
+    /// Processing funding transfer status.
     Processing = 2,
-    /// The funding transfer has been completed.
+    /// Completed funding transfer status.
     Completed = 3,
-    /// The funding transfer has failed.
+    /// Failed funding transfer status.
     Failed = 4,
 }
 impl FundingTransferStatus {
@@ -589,7 +619,216 @@ impl FundingTransferStatus {
         }
     }
 }
-/// QueryLedgerRequest represents a request to query a ledger.
+/// GenesisState represents the initial state of the ledger store.
+/// This structure matches the test.json format for bulk import.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provenance.ledger.v1.GenesisState")]
+pub struct GenesisState {
+    /// Ledger classes configuration.
+    #[prost(message, repeated, tag = "1")]
+    pub ledger_classes: ::prost::alloc::vec::Vec<LedgerClass>,
+    /// Ledger class entry types configuration.
+    #[prost(message, repeated, tag = "2")]
+    pub ledger_class_entry_types: ::prost::alloc::vec::Vec<GenesisLedgerClassEntryType>,
+    /// Ledger class status types configuration.
+    #[prost(message, repeated, tag = "3")]
+    pub ledger_class_status_types: ::prost::alloc::vec::Vec<GenesisLedgerClassStatusType>,
+    /// Ledger class bucket types configuration.
+    #[prost(message, repeated, tag = "4")]
+    pub ledger_class_bucket_types: ::prost::alloc::vec::Vec<GenesisLedgerClassBucketType>,
+    /// Ledgers.
+    #[prost(message, repeated, tag = "5")]
+    pub ledgers: ::prost::alloc::vec::Vec<GenesisLedger>,
+    /// Ledger entries.
+    #[prost(message, repeated, tag = "6")]
+    pub ledger_entries: ::prost::alloc::vec::Vec<GenesisLedgerEntry>,
+    /// Settlement instructions for fund transfers.
+    #[prost(message, repeated, tag = "7")]
+    pub settlement_instructions: ::prost::alloc::vec::Vec<GenesisStoredSettlementInstructions>,
+}
+/// GenesisLedgerClassEntryType is a single ledger class entry type with its key. This is used for the genesis state
+/// import/export so that we can avoid non-deterministic maps in the genesis functions.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provenance.ledger.v1.GenesisLedgerClassEntryType")]
+pub struct GenesisLedgerClassEntryType {
+    #[prost(message, optional, tag = "1")]
+    pub key: ::core::option::Option<GenesisPair>,
+    #[prost(message, optional, tag = "2")]
+    pub entry_type: ::core::option::Option<LedgerClassEntryType>,
+}
+/// GenesisLedgerClassStatusType is a single ledger class status type with its key. This is used for the genesis state
+/// import/export so that we can avoid non-deterministic maps in the genesis functions.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provenance.ledger.v1.GenesisLedgerClassStatusType")]
+pub struct GenesisLedgerClassStatusType {
+    #[prost(message, optional, tag = "1")]
+    pub key: ::core::option::Option<GenesisPair>,
+    #[prost(message, optional, tag = "2")]
+    pub status_type: ::core::option::Option<LedgerClassStatusType>,
+}
+/// GenesisLedgerClassBucketType is a single ledger class bucket type with its key. This is used for the genesis state
+/// import/export so that we can avoid non-deterministic maps in the genesis functions.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provenance.ledger.v1.GenesisLedgerClassBucketType")]
+pub struct GenesisLedgerClassBucketType {
+    #[prost(message, optional, tag = "1")]
+    pub key: ::core::option::Option<GenesisPair>,
+    #[prost(message, optional, tag = "2")]
+    pub bucket_type: ::core::option::Option<LedgerClassBucketType>,
+}
+/// GenesisLedger is a single ledger type with its key. This is used for the genesis state import/export so that we
+/// can avoid non-deterministic maps in the genesis functions.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provenance.ledger.v1.GenesisLedger")]
+pub struct GenesisLedger {
+    #[prost(message, optional, tag = "2")]
+    pub ledger: ::core::option::Option<Ledger>,
+}
+/// GenesisLedgerEntry is a single ledger entry with its key. This is used for the genesis state import/export so that we
+/// can avoid non-deterministic maps in the genesis functions.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provenance.ledger.v1.GenesisLedgerEntry")]
+pub struct GenesisLedgerEntry {
+    #[prost(message, optional, tag = "1")]
+    pub key: ::core::option::Option<LedgerKey>,
+    #[prost(message, optional, tag = "2")]
+    pub entry: ::core::option::Option<LedgerEntry>,
+}
+/// GenesisStoredSettlementInstructions is a single settlement instruction with its key. This is used for the genesis
+/// state import/export so that we can avoid non-deterministic maps in the genesis functions.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provenance.ledger.v1.GenesisStoredSettlementInstructions")]
+pub struct GenesisStoredSettlementInstructions {
+    #[prost(message, optional, tag = "1")]
+    pub key: ::core::option::Option<GenesisPair>,
+    #[prost(message, optional, tag = "2")]
+    pub settlement_instructions: ::core::option::Option<StoredSettlementInstructions>,
+}
+/// GenesisPair represents a simple pair of strings that can be used as the key for a collections export.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provenance.ledger.v1.GenesisPair")]
+pub struct GenesisPair {
+    #[prost(string, tag = "1")]
+    pub p1: ::prost::alloc::string::String,
+    #[prost(string, tag = "2")]
+    pub p2: ::prost::alloc::string::String,
+}
+/// QueryLedgerClassRequest
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provenance.ledger.v1.QueryLedgerClassRequest")]
+#[proto_query(
+    path = "/provenance.ledger.v1.Query/LedgerClass",
+    response_type = QueryLedgerClassResponse
+)]
+pub struct QueryLedgerClassRequest {
+    #[prost(string, tag = "1")]
+    pub ledger_class_id: ::prost::alloc::string::String,
+}
+/// QueryLedgerClassResponse
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provenance.ledger.v1.QueryLedgerClassResponse")]
+pub struct QueryLedgerClassResponse {
+    #[prost(message, optional, tag = "1")]
+    pub ledger_class: ::core::option::Option<LedgerClass>,
+}
+/// QueryLedgerClassesRequest
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provenance.ledger.v1.QueryLedgerClassesRequest")]
+#[proto_query(
+    path = "/provenance.ledger.v1.Query/LedgerClasses",
+    response_type = QueryLedgerClassesResponse
+)]
+pub struct QueryLedgerClassesRequest {
+    /// pagination is an optional pagination for the request.
+    #[prost(message, optional, tag = "99")]
+    pub pagination:
+        ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageRequest>,
+}
+/// QueryLedgerClassesResponse
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provenance.ledger.v1.QueryLedgerClassesResponse")]
+pub struct QueryLedgerClassesResponse {
+    /// List of ledger classes.
+    #[prost(message, repeated, tag = "1")]
+    pub ledger_classes: ::prost::alloc::vec::Vec<LedgerClass>,
+    /// pagination is the pagination details for this response.
+    #[prost(message, optional, tag = "99")]
+    pub pagination:
+        ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageResponse>,
+}
+/// QueryLedgerClassEntryTypesRequest
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provenance.ledger.v1.QueryLedgerClassEntryTypesRequest")]
+#[proto_query(
+    path = "/provenance.ledger.v1.Query/LedgerClassEntryTypes",
+    response_type = QueryLedgerClassEntryTypesResponse
+)]
+pub struct QueryLedgerClassEntryTypesRequest {
+    #[prost(string, tag = "1")]
+    pub ledger_class_id: ::prost::alloc::string::String,
+}
+/// QueryLedgerClassEntryTypesResponse
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provenance.ledger.v1.QueryLedgerClassEntryTypesResponse")]
+pub struct QueryLedgerClassEntryTypesResponse {
+    #[prost(message, repeated, tag = "1")]
+    pub entry_types: ::prost::alloc::vec::Vec<LedgerClassEntryType>,
+}
+/// QueryLedgerClassStatusTypesRequest
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provenance.ledger.v1.QueryLedgerClassStatusTypesRequest")]
+#[proto_query(
+    path = "/provenance.ledger.v1.Query/LedgerClassStatusTypes",
+    response_type = QueryLedgerClassStatusTypesResponse
+)]
+pub struct QueryLedgerClassStatusTypesRequest {
+    #[prost(string, tag = "1")]
+    pub ledger_class_id: ::prost::alloc::string::String,
+}
+/// QueryLedgerClassStatusTypesResponse
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provenance.ledger.v1.QueryLedgerClassStatusTypesResponse")]
+pub struct QueryLedgerClassStatusTypesResponse {
+    #[prost(message, repeated, tag = "1")]
+    pub status_types: ::prost::alloc::vec::Vec<LedgerClassStatusType>,
+}
+/// QueryLedgerClassBucketTypesRequest
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provenance.ledger.v1.QueryLedgerClassBucketTypesRequest")]
+#[proto_query(
+    path = "/provenance.ledger.v1.Query/LedgerClassBucketTypes",
+    response_type = QueryLedgerClassBucketTypesResponse
+)]
+pub struct QueryLedgerClassBucketTypesRequest {
+    #[prost(string, tag = "1")]
+    pub ledger_class_id: ::prost::alloc::string::String,
+}
+/// QueryLedgerClassBucketTypesResponse
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provenance.ledger.v1.QueryLedgerClassBucketTypesResponse")]
+pub struct QueryLedgerClassBucketTypesResponse {
+    #[prost(message, repeated, tag = "1")]
+    pub bucket_types: ::prost::alloc::vec::Vec<LedgerClassBucketType>,
+}
+/// QueryLedgerRequest
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.ledger.v1.QueryLedgerRequest")]
@@ -602,7 +841,7 @@ pub struct QueryLedgerRequest {
     #[prost(message, optional, tag = "1")]
     pub key: ::core::option::Option<LedgerKey>,
 }
-/// QueryLedgerResponse represents the response from querying a ledger.
+/// QueryLedgerResponse
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.ledger.v1.QueryLedgerResponse")]
@@ -611,7 +850,34 @@ pub struct QueryLedgerResponse {
     #[prost(message, optional, tag = "1")]
     pub ledger: ::core::option::Option<Ledger>,
 }
-/// QueryLedgerEntriesRequest represents a request to query ledger entries.
+/// QueryLedgersRequest
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provenance.ledger.v1.QueryLedgersRequest")]
+#[proto_query(
+    path = "/provenance.ledger.v1.Query/Ledgers",
+    response_type = QueryLedgersResponse
+)]
+pub struct QueryLedgersRequest {
+    /// pagination is an  pagination for the request.
+    #[prost(message, optional, tag = "99")]
+    pub pagination:
+        ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageRequest>,
+}
+/// QueryLedgersResponse
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provenance.ledger.v1.QueryLedgersResponse")]
+pub struct QueryLedgersResponse {
+    /// List of ledgers.
+    #[prost(message, repeated, tag = "1")]
+    pub ledgers: ::prost::alloc::vec::Vec<Ledger>,
+    /// pagination is the pagination details for this response.
+    #[prost(message, optional, tag = "99")]
+    pub pagination:
+        ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageResponse>,
+}
+/// QueryLedgerEntriesRequest
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.ledger.v1.QueryLedgerEntriesRequest")]
@@ -624,7 +890,7 @@ pub struct QueryLedgerEntriesRequest {
     #[prost(message, optional, tag = "1")]
     pub key: ::core::option::Option<LedgerKey>,
 }
-/// QueryLedgerEntriesResponse represents the response from querying ledger entries.
+/// QueryLedgerEntriesResponse
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.ledger.v1.QueryLedgerEntriesResponse")]
@@ -633,7 +899,7 @@ pub struct QueryLedgerEntriesResponse {
     #[prost(message, repeated, tag = "1")]
     pub entries: ::prost::alloc::vec::Vec<LedgerEntry>,
 }
-/// QueryLedgerEntryRequest represents a request to query a specific ledger entry.
+/// QueryLedgerEntryRequest
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.ledger.v1.QueryLedgerEntryRequest")]
@@ -649,7 +915,7 @@ pub struct QueryLedgerEntryRequest {
     #[prost(string, tag = "2")]
     pub correlation_id: ::prost::alloc::string::String,
 }
-/// QueryLedgerEntryResponse represents the response from querying a specific ledger entry.
+/// QueryLedgerEntryResponse
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.ledger.v1.QueryLedgerEntryResponse")]
@@ -658,195 +924,102 @@ pub struct QueryLedgerEntryResponse {
     #[prost(message, optional, tag = "1")]
     pub entry: ::core::option::Option<LedgerEntry>,
 }
-/// QueryBalancesAsOfRequest represents a request to query balances as of a specific date.
+/// QueryLedgerBalancesAsOfRequest
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
-#[proto_message(type_url = "/provenance.ledger.v1.QueryBalancesAsOfRequest")]
+#[proto_message(type_url = "/provenance.ledger.v1.QueryLedgerBalancesAsOfRequest")]
 #[proto_query(
-    path = "/provenance.ledger.v1.Query/BalancesAsOf",
-    response_type = QueryBalancesAsOfResponse
+    path = "/provenance.ledger.v1.Query/LedgerBalancesAsOf",
+    response_type = QueryLedgerBalancesAsOfResponse
 )]
-pub struct QueryBalancesAsOfRequest {
-    /// The ledger key identifying the ledger.
+pub struct QueryLedgerBalancesAsOfRequest {
     #[prost(message, optional, tag = "1")]
     pub key: ::core::option::Option<LedgerKey>,
     /// The date to query balances as of (format: YYYY-MM-DD).
     #[prost(string, tag = "2")]
     pub as_of_date: ::prost::alloc::string::String,
 }
-/// QueryBalancesAsOfResponse represents the response from querying balances as of a specific date.
+/// QueryLedgerBalancesAsOfResponse
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
-#[proto_message(type_url = "/provenance.ledger.v1.QueryBalancesAsOfResponse")]
-pub struct QueryBalancesAsOfResponse {
-    /// The balances as of the specified date.
-    #[prost(message, optional, tag = "1")]
-    pub balances: ::core::option::Option<Balances>,
-}
-/// QueryLedgerClassEntryTypesRequest represents a request to query entry types for a ledger class.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
-#[proto_message(type_url = "/provenance.ledger.v1.QueryLedgerClassEntryTypesRequest")]
-#[proto_query(
-    path = "/provenance.ledger.v1.Query/LedgerClassEntryTypes",
-    response_type = QueryLedgerClassEntryTypesResponse
-)]
-pub struct QueryLedgerClassEntryTypesRequest {
-    /// The ledger class ID to query entry types for.
-    #[prost(string, tag = "1")]
-    pub ledger_class_id: ::prost::alloc::string::String,
-}
-/// QueryLedgerClassEntryTypesResponse represents the response from querying entry types for a ledger class.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
-#[proto_message(type_url = "/provenance.ledger.v1.QueryLedgerClassEntryTypesResponse")]
-pub struct QueryLedgerClassEntryTypesResponse {
-    /// The entry types for the ledger class.
+#[proto_message(type_url = "/provenance.ledger.v1.QueryLedgerBalancesAsOfResponse")]
+pub struct QueryLedgerBalancesAsOfResponse {
+    /// BucketBalances represents the current balances for principal, interest, and other amounts.
     #[prost(message, repeated, tag = "1")]
-    pub entry_types: ::prost::alloc::vec::Vec<LedgerClassEntryType>,
+    pub bucket_balances: ::prost::alloc::vec::Vec<BucketBalance>,
 }
-/// QueryLedgerClassStatusTypesRequest represents a request to query status types for a ledger class.
+/// QueryLedgerSettlementsRequest
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
-#[proto_message(type_url = "/provenance.ledger.v1.QueryLedgerClassStatusTypesRequest")]
+#[proto_message(type_url = "/provenance.ledger.v1.QueryLedgerSettlementsRequest")]
 #[proto_query(
-    path = "/provenance.ledger.v1.Query/LedgerClassStatusTypes",
-    response_type = QueryLedgerClassStatusTypesResponse
+    path = "/provenance.ledger.v1.Query/LedgerSettlements",
+    response_type = QueryLedgerSettlementsResponse
 )]
-pub struct QueryLedgerClassStatusTypesRequest {
-    /// The ledger class ID to query status types for.
-    #[prost(string, tag = "1")]
-    pub ledger_class_id: ::prost::alloc::string::String,
-}
-/// QueryLedgerClassStatusTypesResponse represents the response from querying status types for a ledger class.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
-#[proto_message(type_url = "/provenance.ledger.v1.QueryLedgerClassStatusTypesResponse")]
-pub struct QueryLedgerClassStatusTypesResponse {
-    /// The status types for the ledger class.
-    #[prost(message, repeated, tag = "1")]
-    pub status_types: ::prost::alloc::vec::Vec<LedgerClassStatusType>,
-}
-/// QueryLedgerClassBucketTypesRequest represents a request to query bucket types for a ledger class.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
-#[proto_message(type_url = "/provenance.ledger.v1.QueryLedgerClassBucketTypesRequest")]
-#[proto_query(
-    path = "/provenance.ledger.v1.Query/LedgerClassBucketTypes",
-    response_type = QueryLedgerClassBucketTypesResponse
-)]
-pub struct QueryLedgerClassBucketTypesRequest {
-    /// The ledger class ID to query bucket types for.
-    #[prost(string, tag = "1")]
-    pub ledger_class_id: ::prost::alloc::string::String,
-}
-/// QueryLedgerClassBucketTypesResponse represents the response from querying bucket types for a ledger class.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
-#[proto_message(type_url = "/provenance.ledger.v1.QueryLedgerClassBucketTypesResponse")]
-pub struct QueryLedgerClassBucketTypesResponse {
-    /// The bucket types for the ledger class.
-    #[prost(message, repeated, tag = "1")]
-    pub bucket_types: ::prost::alloc::vec::Vec<LedgerClassBucketType>,
-}
-/// QueryLedgerClassRequest represents a request to query a ledger class.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
-#[proto_message(type_url = "/provenance.ledger.v1.QueryLedgerClassRequest")]
-#[proto_query(
-    path = "/provenance.ledger.v1.Query/LedgerClass",
-    response_type = QueryLedgerClassResponse
-)]
-pub struct QueryLedgerClassRequest {
-    /// The ledger class ID to query.
-    #[prost(string, tag = "1")]
-    pub ledger_class_id: ::prost::alloc::string::String,
-}
-/// QueryLedgerClassResponse represents the response from querying a ledger class.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
-#[proto_message(type_url = "/provenance.ledger.v1.QueryLedgerClassResponse")]
-pub struct QueryLedgerClassResponse {
-    /// The ledger class data.
-    #[prost(message, optional, tag = "1")]
-    pub ledger_class: ::core::option::Option<LedgerClass>,
-}
-/// QuerySettlementsRequest represents a request to query settlements for a ledger.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
-#[proto_message(type_url = "/provenance.ledger.v1.QuerySettlementsRequest")]
-#[proto_query(
-    path = "/provenance.ledger.v1.Query/Settlements",
-    response_type = QuerySettlementsResponse
-)]
-pub struct QuerySettlementsRequest {
-    /// The ledger key identifying the ledger to query settlements for.
+pub struct QueryLedgerSettlementsRequest {
     #[prost(message, optional, tag = "1")]
     pub key: ::core::option::Option<LedgerKey>,
 }
-/// QuerySettlementsResponse represents the response from querying settlements for a ledger.
+/// QueryLedgerSettlementsResponse
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
-#[proto_message(type_url = "/provenance.ledger.v1.QuerySettlementsResponse")]
-pub struct QuerySettlementsResponse {
-    /// The settlements for the ledger.
+#[proto_message(type_url = "/provenance.ledger.v1.QueryLedgerSettlementsResponse")]
+pub struct QueryLedgerSettlementsResponse {
     #[prost(message, repeated, tag = "1")]
-    pub settlements: ::prost::alloc::vec::Vec<StoredSettlementInstructions>,
+    pub settlements: ::prost::alloc::vec::Vec<SettlementInstruction>,
 }
-/// QuerySettlementsByCorrelationIdRequest represents a request to query settlements by correlation ID.
+/// QueryLedgerSettlementsByCorrelationIDRequest
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
-#[proto_message(type_url = "/provenance.ledger.v1.QuerySettlementsByCorrelationIdRequest")]
+#[proto_message(type_url = "/provenance.ledger.v1.QueryLedgerSettlementsByCorrelationIDRequest")]
 #[proto_query(
-    path = "/provenance.ledger.v1.Query/SettlementsByCorrelationId",
-    response_type = QuerySettlementsByCorrelationIdResponse
+    path = "/provenance.ledger.v1.Query/LedgerSettlementsByCorrelationID",
+    response_type = QueryLedgerSettlementsByCorrelationIdResponse
 )]
-pub struct QuerySettlementsByCorrelationIdRequest {
-    /// The ledger key identifying the ledger.
+pub struct QueryLedgerSettlementsByCorrelationIdRequest {
     #[prost(message, optional, tag = "1")]
     pub key: ::core::option::Option<LedgerKey>,
     /// The correlation ID to query settlements for.
     #[prost(string, tag = "2")]
     pub correlation_id: ::prost::alloc::string::String,
 }
-/// QuerySettlementsByCorrelationIdResponse represents the response from querying settlements by correlation ID.
+/// QueryLedgerSettlementsByCorrelationIDResponse
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
-#[proto_message(type_url = "/provenance.ledger.v1.QuerySettlementsByCorrelationIdResponse")]
-pub struct QuerySettlementsByCorrelationIdResponse {
-    /// The settlement instructions for the correlation ID.
-    #[prost(message, optional, tag = "1")]
-    pub settlement: ::core::option::Option<StoredSettlementInstructions>,
+#[proto_message(type_url = "/provenance.ledger.v1.QueryLedgerSettlementsByCorrelationIDResponse")]
+pub struct QueryLedgerSettlementsByCorrelationIdResponse {
+    #[prost(message, repeated, tag = "1")]
+    pub settlements: ::prost::alloc::vec::Vec<SettlementInstruction>,
 }
-/// MsgCreateRequest represents a request to create a new ledger.
+/// MsgCreateLedgerRequest represents a request to create a new ledger.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
-#[proto_message(type_url = "/provenance.ledger.v1.MsgCreateRequest")]
-pub struct MsgCreateRequest {
+#[proto_message(type_url = "/provenance.ledger.v1.MsgCreateLedgerRequest")]
+pub struct MsgCreateLedgerRequest {
     /// The ledger to create.
     #[prost(message, optional, tag = "1")]
     pub ledger: ::core::option::Option<Ledger>,
-    /// The authority address that can create ledgers.
+    /// The signer address that can create ledgers.
     #[prost(string, tag = "2")]
-    pub authority: ::prost::alloc::string::String,
+    pub signer: ::prost::alloc::string::String,
 }
-/// MsgCreateResponse represents the response from creating a ledger.
+/// MsgCreateLedgerResponse represents the response from creating a ledger.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
-#[proto_message(type_url = "/provenance.ledger.v1.MsgCreateResponse")]
-pub struct MsgCreateResponse {}
+#[proto_message(type_url = "/provenance.ledger.v1.MsgCreateLedgerResponse")]
+pub struct MsgCreateLedgerResponse {}
 /// MsgUpdateStatusRequest represents a request to update the status of a ledger.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.ledger.v1.MsgUpdateStatusRequest")]
 pub struct MsgUpdateStatusRequest {
-    /// The ledger key identifying the ledger to update.
+    /// Ledger key of the ledger whose status is being updated.
     #[prost(message, optional, tag = "1")]
     pub key: ::core::option::Option<LedgerKey>,
-    /// The authority address that can update ledgers.
+    /// The signer that is updating the status.
     #[prost(string, tag = "2")]
-    pub authority: ::prost::alloc::string::String,
-    /// The new status type ID for the ledger.
+    pub signer: ::prost::alloc::string::String,
+    /// The new status type id of the ledger.
     #[prost(int32, tag = "3")]
     pub status_type_id: i32,
 }
@@ -860,21 +1033,21 @@ pub struct MsgUpdateStatusResponse {}
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.ledger.v1.MsgUpdateInterestRateRequest")]
 pub struct MsgUpdateInterestRateRequest {
-    /// The ledger key identifying the ledger to update.
+    /// Ledger key of the ledger whose interest rate is being updated.
     #[prost(message, optional, tag = "1")]
     pub key: ::core::option::Option<LedgerKey>,
-    /// The authority address that can update ledgers.
+    /// The signer that is updating the interest rate.
     #[prost(string, tag = "2")]
-    pub authority: ::prost::alloc::string::String,
-    /// The new interest rate (10000000 = 10.000000%) - 6 decimal places.
+    pub signer: ::prost::alloc::string::String,
+    /// The new interest rate of the ledger.
     #[prost(int32, tag = "3")]
     pub interest_rate: i32,
-    /// The day count convention for interest calculations.
-    #[prost(enumeration = "DayCount", tag = "4")]
-    pub interest_day_count: i32,
-    /// The interest accrual method.
-    #[prost(enumeration = "InterestAccrual", tag = "5")]
-    pub interest_accrual: i32,
+    /// The new interest day count convention of the ledger.
+    #[prost(enumeration = "DayCountConvention", tag = "4")]
+    pub interest_day_count_convention: i32,
+    /// The new interest accrual method of the ledger.
+    #[prost(enumeration = "InterestAccrualMethod", tag = "5")]
+    pub interest_accrual_method: i32,
 }
 /// MsgUpdateInterestRateResponse represents the response from updating a ledger interest rate.
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -886,19 +1059,20 @@ pub struct MsgUpdateInterestRateResponse {}
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.ledger.v1.MsgUpdatePaymentRequest")]
 pub struct MsgUpdatePaymentRequest {
-    /// The ledger key identifying the ledger to update.
+    /// Ledger key of the ledger whose payment is being updated.
     #[prost(message, optional, tag = "1")]
     pub key: ::core::option::Option<LedgerKey>,
-    /// The authority address that can update ledgers.
+    /// The signer that is updating the payment.
     #[prost(string, tag = "2")]
-    pub authority: ::prost::alloc::string::String,
-    /// The next payment amount.
-    #[prost(int64, tag = "3")]
-    pub next_pmt_amt: i64,
-    /// The next payment date (days since epoch).
+    pub signer: ::prost::alloc::string::String,
+    /// The new next payment amount of the ledger.
+    /// The units of this field are defined by the denom field in this ledger's class.
+    #[prost(string, tag = "3")]
+    pub next_pmt_amt: ::prost::alloc::string::String,
+    /// The new next payment date in days since epoch.
     #[prost(int32, tag = "4")]
     pub next_pmt_date: i32,
-    /// The payment frequency.
+    /// The new payment frequency of the ledger.
     #[prost(enumeration = "PaymentFrequency", tag = "5")]
     pub payment_frequency: i32,
 }
@@ -912,13 +1086,13 @@ pub struct MsgUpdatePaymentResponse {}
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.ledger.v1.MsgUpdateMaturityDateRequest")]
 pub struct MsgUpdateMaturityDateRequest {
-    /// The ledger key identifying the ledger to update.
+    /// Ledger key of the ledger whose maturity date is being updated.
     #[prost(message, optional, tag = "1")]
     pub key: ::core::option::Option<LedgerKey>,
-    /// The authority address that can update ledgers.
+    /// The signer that is updating the maturity date.
     #[prost(string, tag = "2")]
-    pub authority: ::prost::alloc::string::String,
-    /// The new maturity date (days since epoch).
+    pub signer: ::prost::alloc::string::String,
+    /// The new maturity date in days since epoch.
     #[prost(int32, tag = "3")]
     pub maturity_date: i32,
 }
@@ -932,15 +1106,15 @@ pub struct MsgUpdateMaturityDateResponse {}
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.ledger.v1.MsgAppendRequest")]
 pub struct MsgAppendRequest {
-    /// The ledger key identifying the ledger to append to.
+    /// Ledger key of the ledger whose entries are being appended.
     #[prost(message, optional, tag = "1")]
     pub key: ::core::option::Option<LedgerKey>,
-    /// The ledger entries to append.
+    /// The entries to append to the ledger.
     #[prost(message, repeated, tag = "2")]
     pub entries: ::prost::alloc::vec::Vec<LedgerEntry>,
-    /// The authority address that can append to ledgers.
+    /// The signer that is appending the entries.
     #[prost(string, tag = "3")]
-    pub authority: ::prost::alloc::string::String,
+    pub signer: ::prost::alloc::string::String,
 }
 /// MsgAppendResponse represents the response from appending entries to a ledger.
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -952,20 +1126,24 @@ pub struct MsgAppendResponse {}
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.ledger.v1.MsgUpdateBalancesRequest")]
 pub struct MsgUpdateBalancesRequest {
-    /// The ledger key identifying the ledger to update.
+    /// Ledger key of the ledger whose balances are being updated.
     #[prost(message, optional, tag = "1")]
     pub key: ::core::option::Option<LedgerKey>,
-    /// The authority address that can update balances.
+    /// The signer that is updating the balances.
     #[prost(string, tag = "2")]
-    pub authority: ::prost::alloc::string::String,
-    /// The correlation ID of the entry to update.
+    pub signer: ::prost::alloc::string::String,
+    /// The correlation id of the ledger entry.
     #[prost(string, tag = "3")]
     pub correlation_id: ::prost::alloc::string::String,
-    /// The applied amounts to be updated.
-    #[prost(message, repeated, tag = "4")]
-    pub applied_amounts: ::prost::alloc::vec::Vec<LedgerBucketAmount>,
-    /// The bucket balances to update.
+    /// The total amount of the ledger entry.
+    /// The units of this field are defined by the denom field in this ledger's class.
+    #[prost(string, tag = "4")]
+    pub total_amt: ::prost::alloc::string::String,
+    /// Applied amounts represent how the entry affects different buckets.
     #[prost(message, repeated, tag = "5")]
+    pub applied_amounts: ::prost::alloc::vec::Vec<LedgerBucketAmount>,
+    /// Bucket balances represent the current state of funds in each bucket.
+    #[prost(message, repeated, tag = "6")]
     pub balance_amounts: ::prost::alloc::vec::Vec<BucketBalance>,
 }
 /// MsgUpdateBalancesResponse represents the response from updating ledger balances.
@@ -978,10 +1156,10 @@ pub struct MsgUpdateBalancesResponse {}
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.ledger.v1.MsgTransferFundsWithSettlementRequest")]
 pub struct MsgTransferFundsWithSettlementRequest {
-    /// The authority address that can transfer funds.
+    /// The signer that is transferring the funds.
     #[prost(string, tag = "1")]
-    pub authority: ::prost::alloc::string::String,
-    /// The fund transfers with settlement instructions.
+    pub signer: ::prost::alloc::string::String,
+    /// The transfers to be made.
     #[prost(message, repeated, tag = "2")]
     pub transfers: ::prost::alloc::vec::Vec<FundTransferWithSettlement>,
 }
@@ -995,112 +1173,112 @@ pub struct MsgTransferFundsWithSettlementResponse {}
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.ledger.v1.MsgDestroyRequest")]
 pub struct MsgDestroyRequest {
-    /// The ledger key identifying the ledger to destroy.
+    /// Ledger key of the ledger to destroy.
     #[prost(message, optional, tag = "1")]
     pub key: ::core::option::Option<LedgerKey>,
-    /// The authority address that can destroy ledgers.
+    /// The signer that is destroying the ledger.
     #[prost(string, tag = "2")]
-    pub authority: ::prost::alloc::string::String,
+    pub signer: ::prost::alloc::string::String,
 }
 /// MsgDestroyResponse represents the response from destroying a ledger.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.ledger.v1.MsgDestroyResponse")]
 pub struct MsgDestroyResponse {}
-/// MsgCreateClassRequest represents a request to create a new ledger class.
+/// MsgCreateLedgerClassRequest represents a request to create a new ledger class.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
-#[proto_message(type_url = "/provenance.ledger.v1.MsgCreateClassRequest")]
-pub struct MsgCreateClassRequest {
+#[proto_message(type_url = "/provenance.ledger.v1.MsgCreateLedgerClassRequest")]
+pub struct MsgCreateLedgerClassRequest {
     /// The ledger class to create.
     #[prost(message, optional, tag = "1")]
     pub ledger_class: ::core::option::Option<LedgerClass>,
-    /// The authority address that can create ledger classes.
+    /// The signer that is creating the ledger class.
     #[prost(string, tag = "2")]
-    pub authority: ::prost::alloc::string::String,
+    pub signer: ::prost::alloc::string::String,
 }
-/// MsgCreateClassResponse represents the response from creating a ledger class.
+/// MsgCreateLedgerClassResponse represents the response from creating a ledger class.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
-#[proto_message(type_url = "/provenance.ledger.v1.MsgCreateClassResponse")]
-pub struct MsgCreateClassResponse {}
-/// MsgAddClassStatusTypeRequest represents a request to add a status type to a ledger class.
+#[proto_message(type_url = "/provenance.ledger.v1.MsgCreateLedgerClassResponse")]
+pub struct MsgCreateLedgerClassResponse {}
+/// MsgAddLedgerClassStatusTypeRequest represents a request to add a status type to a ledger class.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
-#[proto_message(type_url = "/provenance.ledger.v1.MsgAddClassStatusTypeRequest")]
-pub struct MsgAddClassStatusTypeRequest {
-    /// The ledger class ID to add the status type to.
+#[proto_message(type_url = "/provenance.ledger.v1.MsgAddLedgerClassStatusTypeRequest")]
+pub struct MsgAddLedgerClassStatusTypeRequest {
+    /// Ledger class id to add the status type to.
     #[prost(string, tag = "1")]
     pub ledger_class_id: ::prost::alloc::string::String,
-    /// The status type to add.
+    /// The status type to add to the ledger class.
     #[prost(message, optional, tag = "2")]
     pub status_type: ::core::option::Option<LedgerClassStatusType>,
-    /// The authority address that can add status types.
+    /// The signer that is adding the status type.
     #[prost(string, tag = "3")]
-    pub authority: ::prost::alloc::string::String,
+    pub signer: ::prost::alloc::string::String,
 }
-/// MsgAddClassStatusTypeResponse represents the response from adding a status type.
+/// MsgAddLedgerClassStatusTypeResponse represents the response from adding a status type.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
-#[proto_message(type_url = "/provenance.ledger.v1.MsgAddClassStatusTypeResponse")]
-pub struct MsgAddClassStatusTypeResponse {}
-/// MsgAddClassEntryTypeRequest represents a request to add an entry type to a ledger class.
+#[proto_message(type_url = "/provenance.ledger.v1.MsgAddLedgerClassStatusTypeResponse")]
+pub struct MsgAddLedgerClassStatusTypeResponse {}
+/// MsgAddLedgerClassEntryTypeRequest represents a request to add an entry type to a ledger class.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
-#[proto_message(type_url = "/provenance.ledger.v1.MsgAddClassEntryTypeRequest")]
-pub struct MsgAddClassEntryTypeRequest {
-    /// The ledger class ID to add the entry type to.
+#[proto_message(type_url = "/provenance.ledger.v1.MsgAddLedgerClassEntryTypeRequest")]
+pub struct MsgAddLedgerClassEntryTypeRequest {
+    /// Ledger class id to add the entry type to.
     #[prost(string, tag = "1")]
     pub ledger_class_id: ::prost::alloc::string::String,
-    /// The entry type to add.
+    /// The entry type to add to the ledger class.
     #[prost(message, optional, tag = "2")]
     pub entry_type: ::core::option::Option<LedgerClassEntryType>,
-    /// The authority address that can add entry types.
+    /// The signer that is adding the entry type.
     #[prost(string, tag = "3")]
-    pub authority: ::prost::alloc::string::String,
+    pub signer: ::prost::alloc::string::String,
 }
-/// MsgAddClassEntryTypeResponse represents the response from adding an entry type.
+/// MsgAddLedgerClassEntryTypeResponse represents the response from adding an entry type.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
-#[proto_message(type_url = "/provenance.ledger.v1.MsgAddClassEntryTypeResponse")]
-pub struct MsgAddClassEntryTypeResponse {}
-/// MsgAddClassBucketTypeRequest represents a request to add a bucket type to a ledger class.
+#[proto_message(type_url = "/provenance.ledger.v1.MsgAddLedgerClassEntryTypeResponse")]
+pub struct MsgAddLedgerClassEntryTypeResponse {}
+/// MsgAddLedgerClassBucketTypeRequest represents a request to add a bucket type to a ledger class.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
-#[proto_message(type_url = "/provenance.ledger.v1.MsgAddClassBucketTypeRequest")]
-pub struct MsgAddClassBucketTypeRequest {
-    /// The ledger class ID to add the bucket type to.
+#[proto_message(type_url = "/provenance.ledger.v1.MsgAddLedgerClassBucketTypeRequest")]
+pub struct MsgAddLedgerClassBucketTypeRequest {
+    /// Ledger class id to add the bucket type to.
     #[prost(string, tag = "1")]
     pub ledger_class_id: ::prost::alloc::string::String,
-    /// The bucket type to add.
+    /// The bucket type to add to the ledger class.
     #[prost(message, optional, tag = "2")]
     pub bucket_type: ::core::option::Option<LedgerClassBucketType>,
-    /// The authority address that can add bucket types.
+    /// The signer that is adding the bucket type.
     #[prost(string, tag = "3")]
-    pub authority: ::prost::alloc::string::String,
+    pub signer: ::prost::alloc::string::String,
 }
-/// MsgAddClassBucketTypeResponse represents the response from adding a bucket type.
+/// MsgAddLedgerClassBucketTypeResponse represents the response from adding a bucket type.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
-#[proto_message(type_url = "/provenance.ledger.v1.MsgAddClassBucketTypeResponse")]
-pub struct MsgAddClassBucketTypeResponse {}
-/// MsgBulkImportRequest represents a request to bulk import ledger data from genesis state.
+#[proto_message(type_url = "/provenance.ledger.v1.MsgAddLedgerClassBucketTypeResponse")]
+pub struct MsgAddLedgerClassBucketTypeResponse {}
+/// MsgBulkCreateRequest represents a request to bulk create ledgers and entries.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
-#[proto_message(type_url = "/provenance.ledger.v1.MsgBulkImportRequest")]
-pub struct MsgBulkImportRequest {
-    /// The authority address that can perform bulk imports.
+#[proto_message(type_url = "/provenance.ledger.v1.MsgBulkCreateRequest")]
+pub struct MsgBulkCreateRequest {
+    /// The signer that is bulk importing the ledger data.
     #[prost(string, tag = "1")]
-    pub authority: ::prost::alloc::string::String,
-    /// The genesis state containing the ledger data to import.
-    #[prost(message, optional, tag = "2")]
-    pub genesis_state: ::core::option::Option<GenesisState>,
+    pub signer: ::prost::alloc::string::String,
+    /// The genesis state to bulk import.
+    #[prost(message, repeated, tag = "2")]
+    pub ledger_and_entries: ::prost::alloc::vec::Vec<LedgerAndEntries>,
 }
-/// MsgBulkImportResponse represents the response from bulk importing ledger data from genesis state.
+/// MsgBulkCreateResponse represents the response from bulk creating ledgers and entries.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
-#[proto_message(type_url = "/provenance.ledger.v1.MsgBulkImportResponse")]
-pub struct MsgBulkImportResponse {}
+#[proto_message(type_url = "/provenance.ledger.v1.MsgBulkCreateResponse")]
+pub struct MsgBulkCreateResponse {}
 pub struct LedgerQuerier<'a, Q: cosmwasm_std::CustomQuery> {
     querier: &'a cosmwasm_std::QuerierWrapper<'a, Q>,
 }
@@ -1113,6 +1291,14 @@ impl<'a, Q: cosmwasm_std::CustomQuery> LedgerQuerier<'a, Q> {
         ledger_class_id: ::prost::alloc::string::String,
     ) -> Result<QueryLedgerClassResponse, cosmwasm_std::StdError> {
         QueryLedgerClassRequest { ledger_class_id }.query(self.querier)
+    }
+    pub fn ledger_classes(
+        &self,
+        pagination: ::core::option::Option<
+            super::super::super::cosmos::base::query::v1beta1::PageRequest,
+        >,
+    ) -> Result<QueryLedgerClassesResponse, cosmwasm_std::StdError> {
+        QueryLedgerClassesRequest { pagination }.query(self.querier)
     }
     pub fn ledger_class_entry_types(
         &self,
@@ -1138,6 +1324,14 @@ impl<'a, Q: cosmwasm_std::CustomQuery> LedgerQuerier<'a, Q> {
     ) -> Result<QueryLedgerResponse, cosmwasm_std::StdError> {
         QueryLedgerRequest { key }.query(self.querier)
     }
+    pub fn ledgers(
+        &self,
+        pagination: ::core::option::Option<
+            super::super::super::cosmos::base::query::v1beta1::PageRequest,
+        >,
+    ) -> Result<QueryLedgersResponse, cosmwasm_std::StdError> {
+        QueryLedgersRequest { pagination }.query(self.querier)
+    }
     pub fn ledger_entries(
         &self,
         key: ::core::option::Option<LedgerKey>,
@@ -1155,25 +1349,25 @@ impl<'a, Q: cosmwasm_std::CustomQuery> LedgerQuerier<'a, Q> {
         }
         .query(self.querier)
     }
-    pub fn balances_as_of(
+    pub fn ledger_balances_as_of(
         &self,
         key: ::core::option::Option<LedgerKey>,
         as_of_date: ::prost::alloc::string::String,
-    ) -> Result<QueryBalancesAsOfResponse, cosmwasm_std::StdError> {
-        QueryBalancesAsOfRequest { key, as_of_date }.query(self.querier)
+    ) -> Result<QueryLedgerBalancesAsOfResponse, cosmwasm_std::StdError> {
+        QueryLedgerBalancesAsOfRequest { key, as_of_date }.query(self.querier)
     }
-    pub fn settlements(
+    pub fn ledger_settlements(
         &self,
         key: ::core::option::Option<LedgerKey>,
-    ) -> Result<QuerySettlementsResponse, cosmwasm_std::StdError> {
-        QuerySettlementsRequest { key }.query(self.querier)
+    ) -> Result<QueryLedgerSettlementsResponse, cosmwasm_std::StdError> {
+        QueryLedgerSettlementsRequest { key }.query(self.querier)
     }
-    pub fn settlements_by_correlation_id(
+    pub fn ledger_settlements_by_correlation_id(
         &self,
         key: ::core::option::Option<LedgerKey>,
         correlation_id: ::prost::alloc::string::String,
-    ) -> Result<QuerySettlementsByCorrelationIdResponse, cosmwasm_std::StdError> {
-        QuerySettlementsByCorrelationIdRequest {
+    ) -> Result<QueryLedgerSettlementsByCorrelationIdResponse, cosmwasm_std::StdError> {
+        QueryLedgerSettlementsByCorrelationIdRequest {
             key,
             correlation_id,
         }
