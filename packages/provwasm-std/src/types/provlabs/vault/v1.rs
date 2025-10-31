@@ -145,9 +145,9 @@ pub struct EventInterestDeposit {
     /// vault_address is the bech32 address of the vault.
     #[prost(string, tag = "1")]
     pub vault_address: ::prost::alloc::string::String,
-    /// admin is the address of the account that deposited the funds.
+    /// authority is the address (admin or asset manager) that deposited the funds.
     #[prost(string, tag = "2")]
-    pub admin: ::prost::alloc::string::String,
+    pub authority: ::prost::alloc::string::String,
     /// amount is the amount of funds deposited.
     #[prost(string, tag = "3")]
     pub amount: ::prost::alloc::string::String,
@@ -160,9 +160,9 @@ pub struct EventInterestWithdrawal {
     /// vault_address is the bech32 address of the vault.
     #[prost(string, tag = "1")]
     pub vault_address: ::prost::alloc::string::String,
-    /// admin is the address of the account that withdrew the funds.
+    /// authority is the address (admin or asset manager) that withdrew the funds.
     #[prost(string, tag = "2")]
-    pub admin: ::prost::alloc::string::String,
+    pub authority: ::prost::alloc::string::String,
     /// amount is the amount of funds withdrawn.
     #[prost(string, tag = "3")]
     pub amount: ::prost::alloc::string::String,
@@ -197,7 +197,7 @@ pub struct EventToggleSwapOut {
     #[prost(bool, tag = "3")]
     pub enabled: bool,
 }
-/// EventDepositPrincipalFunds is an event emitted when principal funds are deposited by the admin.
+/// EventDepositPrincipalFunds is an event emitted when principal funds are deposited by the authority.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provlabs.vault.v1.EventDepositPrincipalFunds")]
@@ -205,14 +205,14 @@ pub struct EventDepositPrincipalFunds {
     /// vault_address is the bech32 address of the vault.
     #[prost(string, tag = "1")]
     pub vault_address: ::prost::alloc::string::String,
-    /// admin is the address of the account that deposited the funds.
+    /// authority is the address (admin or asset manager) that deposited the funds.
     #[prost(string, tag = "2")]
-    pub admin: ::prost::alloc::string::String,
+    pub authority: ::prost::alloc::string::String,
     /// amount is the amount of funds deposited.
     #[prost(string, tag = "3")]
     pub amount: ::prost::alloc::string::String,
 }
-/// EventWithdrawPrincipalFunds is an event emitted when principal funds are withdrawn by the admin.
+/// EventWithdrawPrincipalFunds is an event emitted when principal funds are withdrawn by the authority.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provlabs.vault.v1.EventWithdrawPrincipalFunds")]
@@ -220,9 +220,9 @@ pub struct EventWithdrawPrincipalFunds {
     /// vault_address is the bech32 address of the vault.
     #[prost(string, tag = "1")]
     pub vault_address: ::prost::alloc::string::String,
-    /// admin is the address of the account that withdrew the funds.
+    /// authority is the address (admin or asset manager) that withdrew the funds.
     #[prost(string, tag = "2")]
-    pub admin: ::prost::alloc::string::String,
+    pub authority: ::prost::alloc::string::String,
     /// amount is the amount of funds withdrawn.
     #[prost(string, tag = "3")]
     pub amount: ::prost::alloc::string::String,
@@ -320,7 +320,7 @@ pub struct EventSwapOutRefunded {
     #[prost(string, tag = "5")]
     pub reason: ::prost::alloc::string::String,
 }
-/// EventPendingSwapOutExpedited is an event emitted when a pending swap-out is expedited by the admin.
+/// EventPendingSwapOutExpedited is an event emitted when a pending swap-out is expedited by the authority.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provlabs.vault.v1.EventPendingSwapOutExpedited")]
@@ -331,9 +331,9 @@ pub struct EventPendingSwapOutExpedited {
     /// vault is the bech32 address of the vault.
     #[prost(string, tag = "2")]
     pub vault: ::prost::alloc::string::String,
-    /// admin is the address of the account that expedited the swap-out.
+    /// authority is the address (admin or asset manager) that expedited the swap-out.
     #[prost(string, tag = "3")]
-    pub admin: ::prost::alloc::string::String,
+    pub authority: ::prost::alloc::string::String,
 }
 /// EventVaultPaused is emitted when a vault is paused.
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -343,9 +343,9 @@ pub struct EventVaultPaused {
     /// vault_address is the bech32 address of the vault.
     #[prost(string, tag = "1")]
     pub vault_address: ::prost::alloc::string::String,
-    /// admin is the address of the account that paused the vault.
+    /// authority is the address (admin or asset manager) that paused the vault.
     #[prost(string, tag = "2")]
-    pub admin: ::prost::alloc::string::String,
+    pub authority: ::prost::alloc::string::String,
     /// reason is the reason for pausing the vault.
     #[prost(string, tag = "3")]
     pub reason: ::prost::alloc::string::String,
@@ -361,9 +361,9 @@ pub struct EventVaultUnpaused {
     /// vault_address is the bech32 address of the vault.
     #[prost(string, tag = "1")]
     pub vault_address: ::prost::alloc::string::String,
-    /// admin is the address of the account that unpaused the vault.
+    /// authority is the address (admin or asset manager) that unpaused the vault.
     #[prost(string, tag = "2")]
-    pub admin: ::prost::alloc::string::String,
+    pub authority: ::prost::alloc::string::String,
     /// total_vault_value is the new total value of the vault's assets at the time of unpausing.
     #[prost(string, tag = "3")]
     pub total_vault_value: ::prost::alloc::string::String,
@@ -427,6 +427,21 @@ pub struct EventBridgeBurnShares {
     /// shares is the amount of shares burned.
     #[prost(string, tag = "3")]
     pub shares: ::prost::alloc::string::String,
+}
+/// EventAssetManagerSet is emitted when a vault's asset manager is set or cleared.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provlabs.vault.v1.EventAssetManagerSet")]
+pub struct EventAssetManagerSet {
+    /// vault_address is the address of the vault whose asset manager was updated.
+    #[prost(string, tag = "1")]
+    pub vault_address: ::prost::alloc::string::String,
+    /// admin is the address of the admin who performed the update.
+    #[prost(string, tag = "2")]
+    pub admin: ::prost::alloc::string::String,
+    /// asset_manager is the new asset manager address. If empty, it indicates the asset manager was cleared.
+    #[prost(string, tag = "3")]
+    pub asset_manager: ::prost::alloc::string::String,
 }
 /// VaultAccount represents a central holding place for assets, governed by a set of rules.
 /// It is based on the ERC-4626 standard and builds upon the Provenance Marker module.
@@ -513,6 +528,11 @@ pub struct VaultAccount {
     /// bridge_address has no effect and cannot mint or burn.
     #[prost(bool, tag = "19")]
     pub bridge_enabled: bool,
+    /// asset_manager is an optional address that, when set, is authorized to manage certain
+    /// collateral operations alongside the admin (e.g., pausing/unpausing, depositing/withdrawing
+    /// principal or interest funds). If unset (empty string), only the admin may perform those actions.
+    #[prost(string, tag = "20")]
+    pub asset_manager: ::prost::alloc::string::String,
 }
 /// AccountBalance represents the coin balance of a single account.
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -600,6 +620,36 @@ pub struct GenesisState {
     /// pending_swap_out_queue contains entries for pending swap outs.
     #[prost(message, optional, tag = "3")]
     pub pending_swap_out_queue: ::core::option::Option<PendingSwapOutQueue>,
+}
+/// QueryVaultPendingSwapOutsRequest is the request message for the Query/VaultPendingSwapOuts endpoint.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provlabs.vault.v1.QueryVaultPendingSwapOutsRequest")]
+#[proto_query(
+    path = "/provlabs.vault.v1.Query/VaultPendingSwapOuts",
+    response_type = QueryVaultPendingSwapOutsResponse
+)]
+pub struct QueryVaultPendingSwapOutsRequest {
+    /// id is the bech32 address of the vault or the vault's share denom to query.
+    #[prost(string, tag = "1")]
+    pub id: ::prost::alloc::string::String,
+    /// pagination defines an optional pagination for the request.
+    #[prost(message, optional, tag = "2")]
+    pub pagination:
+        ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageRequest>,
+}
+/// QueryVaultPendingSwapOutsResponse is the response message for the Query/VaultPendingSwapOuts endpoint.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provlabs.vault.v1.QueryVaultPendingSwapOutsResponse")]
+pub struct QueryVaultPendingSwapOutsResponse {
+    /// pending_swap_outs is a list of all pending swap outs.
+    #[prost(message, repeated, tag = "1")]
+    pub pending_swap_outs: ::prost::alloc::vec::Vec<PendingSwapOutWithTimeout>,
+    /// pagination defines the pagination in the response.
+    #[prost(message, optional, tag = "2")]
+    pub pagination:
+        ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageResponse>,
 }
 /// QueryPendingSwapOutsRequest is the request message for the Query/PendingSwapOuts endpoint.
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -697,6 +747,12 @@ pub struct QueryVaultResponse {
     /// reserves is the total amount of reserves held in the vault account for interest payments.
     #[prost(message, optional, tag = "3")]
     pub reserves: ::core::option::Option<AccountBalance>,
+    /// total_vault_value is the estimated total value of the vault in its
+    /// underlying asset. It includes current principal and estimated unpaid
+    /// interest (at query block height), but excludes reserves. The value is approximate and may differ
+    /// from the reconciled amount.
+    #[prost(message, optional, tag = "4")]
+    pub total_vault_value: ::core::option::Option<super::super::super::cosmos::base::v1beta1::Coin>,
 }
 /// QueryEstimateSwapInRequest is the request message for the Query/EstimateSwapIn endpoint.
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -894,9 +950,9 @@ pub struct MsgUpdateMaxInterestRateResponse {}
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provlabs.vault.v1.MsgUpdateInterestRateRequest")]
 pub struct MsgUpdateInterestRateRequest {
-    /// admin is the address of the vault administrator.
+    /// authority is the address of the vault administrator or asset manager.
     #[prost(string, tag = "1")]
-    pub admin: ::prost::alloc::string::String,
+    pub authority: ::prost::alloc::string::String,
     /// vault_address is the bech32 address of the vault.
     #[prost(string, tag = "2")]
     pub vault_address: ::prost::alloc::string::String,
@@ -954,9 +1010,10 @@ pub struct MsgToggleSwapOutResponse {}
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provlabs.vault.v1.MsgDepositInterestFundsRequest")]
 pub struct MsgDepositInterestFundsRequest {
-    /// admin is the address of the account depositing the funds.
+    /// authority is the address of the account depositing the funds.
+    /// Must match either the vault admin or the configured asset manager.
     #[prost(string, tag = "1")]
-    pub admin: ::prost::alloc::string::String,
+    pub authority: ::prost::alloc::string::String,
     /// vault_address is the bech32 address of the vault to which funds are being deposited.
     #[prost(string, tag = "2")]
     pub vault_address: ::prost::alloc::string::String,
@@ -974,9 +1031,9 @@ pub struct MsgDepositInterestFundsResponse {}
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provlabs.vault.v1.MsgWithdrawInterestFundsRequest")]
 pub struct MsgWithdrawInterestFundsRequest {
-    /// admin is the address of the vault administrator initiating the withdrawal.
+    /// authority is the address of the vault administrator or asset manager initiating the withdrawal.
     #[prost(string, tag = "1")]
-    pub admin: ::prost::alloc::string::String,
+    pub authority: ::prost::alloc::string::String,
     /// vault_address is the bech32 address of the vault from which funds are being withdrawn.
     #[prost(string, tag = "2")]
     pub vault_address: ::prost::alloc::string::String,
@@ -994,9 +1051,10 @@ pub struct MsgWithdrawInterestFundsResponse {}
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provlabs.vault.v1.MsgDepositPrincipalFundsRequest")]
 pub struct MsgDepositPrincipalFundsRequest {
-    /// admin is the address of the account depositing the funds.
+    /// authority is the address of the account depositing the funds.
+    /// Must match either the vault admin or the configured asset manager.
     #[prost(string, tag = "1")]
-    pub admin: ::prost::alloc::string::String,
+    pub authority: ::prost::alloc::string::String,
     /// vault_address is the bech32 address of the vault to which funds are being deposited.
     #[prost(string, tag = "2")]
     pub vault_address: ::prost::alloc::string::String,
@@ -1014,9 +1072,9 @@ pub struct MsgDepositPrincipalFundsResponse {}
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provlabs.vault.v1.MsgWithdrawPrincipalFundsRequest")]
 pub struct MsgWithdrawPrincipalFundsRequest {
-    /// admin is the address of the vault administrator initiating the withdrawal.
+    /// authority is the address of the vault administrator or asset manager initiating the withdrawal.
     #[prost(string, tag = "1")]
-    pub admin: ::prost::alloc::string::String,
+    pub authority: ::prost::alloc::string::String,
     /// vault_address is the bech32 address of the vault from which funds are being withdrawn.
     #[prost(string, tag = "2")]
     pub vault_address: ::prost::alloc::string::String,
@@ -1034,9 +1092,9 @@ pub struct MsgWithdrawPrincipalFundsResponse {}
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provlabs.vault.v1.MsgExpeditePendingSwapOutRequest")]
 pub struct MsgExpeditePendingSwapOutRequest {
-    /// admin is the address of the vault administrator initiating the swap out.
+    /// authority is the address of the vault admin or asset manager initiating the expedite.
     #[prost(string, tag = "1")]
-    pub admin: ::prost::alloc::string::String,
+    pub authority: ::prost::alloc::string::String,
     /// request_id is the id of the pending swap out to expedite.
     #[prost(uint64, tag = "2")]
     pub request_id: u64,
@@ -1052,9 +1110,9 @@ pub struct MsgExpeditePendingSwapOutResponse {}
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provlabs.vault.v1.MsgPauseVaultRequest")]
 pub struct MsgPauseVaultRequest {
-    /// admin is the address of the vault administrator initiating the pause.
+    /// authority is the address of the vault administrator or asset manager initiating the pause.
     #[prost(string, tag = "1")]
-    pub admin: ::prost::alloc::string::String,
+    pub authority: ::prost::alloc::string::String,
     /// vault_address is the bech32 address of the vault to pause.
     #[prost(string, tag = "2")]
     pub vault_address: ::prost::alloc::string::String,
@@ -1074,9 +1132,9 @@ pub struct MsgPauseVaultResponse {}
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provlabs.vault.v1.MsgUnpauseVaultRequest")]
 pub struct MsgUnpauseVaultRequest {
-    /// admin is the address of the vault administrator initiating the unpause.
+    /// authority is the address of the vault administrator or asset manager initiating the unpause.
     #[prost(string, tag = "1")]
-    pub admin: ::prost::alloc::string::String,
+    pub authority: ::prost::alloc::string::String,
     /// vault_address is the bech32 address of the vault to unpause.
     #[prost(string, tag = "2")]
     pub vault_address: ::prost::alloc::string::String,
@@ -1166,6 +1224,27 @@ pub struct MsgBridgeBurnSharesRequest {
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provlabs.vault.v1.MsgBridgeBurnSharesResponse")]
 pub struct MsgBridgeBurnSharesResponse {}
+/// MsgSetAssetManagerRequest sets or clears the optional asset manager address for a vault.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provlabs.vault.v1.MsgSetAssetManagerRequest")]
+pub struct MsgSetAssetManagerRequest {
+    /// admin is the address of the vault administrator.
+    #[prost(string, tag = "1")]
+    pub admin: ::prost::alloc::string::String,
+    /// vault_address is the bech32 address of the vault to update.
+    #[prost(string, tag = "2")]
+    pub vault_address: ::prost::alloc::string::String,
+    /// asset_manager is the address that will be allowed to manage certain vault operations alongside the admin.
+    /// Passing an empty string clears any configured asset manager.
+    #[prost(string, tag = "3")]
+    pub asset_manager: ::prost::alloc::string::String,
+}
+/// MsgSetAssetManagerResponse is the response message for the SetAssetManager endpoint.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provlabs.vault.v1.MsgSetAssetManagerResponse")]
+pub struct MsgSetAssetManagerResponse {}
 pub struct VaultQuerier<'a, Q: cosmwasm_std::CustomQuery> {
     querier: &'a cosmwasm_std::QuerierWrapper<'a, Q>,
 }
@@ -1218,5 +1297,14 @@ impl<'a, Q: cosmwasm_std::CustomQuery> VaultQuerier<'a, Q> {
         >,
     ) -> Result<QueryPendingSwapOutsResponse, cosmwasm_std::StdError> {
         QueryPendingSwapOutsRequest { pagination }.query(self.querier)
+    }
+    pub fn vault_pending_swap_outs(
+        &self,
+        id: ::prost::alloc::string::String,
+        pagination: ::core::option::Option<
+            super::super::super::cosmos::base::query::v1beta1::PageRequest,
+        >,
+    ) -> Result<QueryVaultPendingSwapOutsResponse, cosmwasm_std::StdError> {
+        QueryVaultPendingSwapOutsRequest { id, pagination }.query(self.querier)
     }
 }

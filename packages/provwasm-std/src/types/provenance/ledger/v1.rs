@@ -269,7 +269,7 @@ pub struct LedgerEntry {
     /// If true, this entry is a void and should not be included in the ledger balance calculations.
     #[prost(bool, tag = "3")]
     pub is_void: bool,
-    /// Sequence number of the ledger entry (less than 100). This field is used to maintain the correct
+    /// Sequence number of the ledger entry (less than 300). This field is used to maintain the correct
     /// order of entries when multiple entries share the same effective date. Entries are sorted first
     /// by effective date, then by sequence.
     #[prost(uint32, tag = "4")]
