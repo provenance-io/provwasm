@@ -1,7 +1,6 @@
-use heck::ToUpperCamelCase;
+use convert_case::{Case, Casing};
 use log::debug;
 use prost_types::FileDescriptorSet;
-
 use regex::Regex;
 use std::ffi::OsStr;
 use std::fs::{create_dir_all, remove_dir_all};
@@ -201,7 +200,7 @@ fn transform_nested_mod(
 ) -> Item {
     match i.clone() {
         Item::Mod(m) => {
-            let parent = &m.ident.to_string().to_upper_camel_case();
+            let parent = &m.ident.to_string().to_case(Case::UpperCamel);
             let content = m.content.map(|(brace, items)| {
                 (
                     brace,
