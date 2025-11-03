@@ -271,11 +271,3 @@ pub struct MsgUpdateConversionFeeDenomProposalRequest {
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.msgfees.v1.MsgUpdateConversionFeeDenomProposalResponse")]
 pub struct MsgUpdateConversionFeeDenomProposalResponse {}
-pub struct MsgfeesQuerier<'a, Q: cosmwasm_std::CustomQuery> {
-    querier: &'a cosmwasm_std::QuerierWrapper<'a, Q>,
-}
-impl<'a, Q: cosmwasm_std::CustomQuery> MsgfeesQuerier<'a, Q> {
-    pub fn new(querier: &'a cosmwasm_std::QuerierWrapper<'a, Q>) -> Self {
-        Self { querier }
-    }
-}

@@ -159,10 +159,10 @@ pub struct QueryConfigResponse {
     #[prost(message, optional, tag = "1")]
     pub config: ::core::option::Option<Config>,
 }
-pub struct V1alpha1Querier<'a, Q: cosmwasm_std::CustomQuery> {
+pub struct V1Alpha1Querier<'a, Q: cosmwasm_std::CustomQuery> {
     querier: &'a cosmwasm_std::QuerierWrapper<'a, Q>,
 }
-impl<'a, Q: cosmwasm_std::CustomQuery> V1alpha1Querier<'a, Q> {
+impl<'a, Q: cosmwasm_std::CustomQuery> V1Alpha1Querier<'a, Q> {
     pub fn new(querier: &'a cosmwasm_std::QuerierWrapper<'a, Q>) -> Self {
         Self { querier }
     }
