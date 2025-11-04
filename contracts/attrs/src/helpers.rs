@@ -56,6 +56,7 @@ pub fn add_attribute<H: Into<Addr>, S: Into<String>, B: Into<Binary>>(
         account: validate_address(address)?.to_string(),
         owner: validate_address(contract_address)?.to_string(),
         expiration_date: None,
+        concrete_type: "BINARY".to_string(),
     }
     .into())
 }
@@ -132,6 +133,7 @@ pub fn update_attribute<H: Into<Addr>, S: Into<String>, B: Into<Binary>>(
         account: validate_address(address)?.to_string(),
         owner: validate_address(contract_address)?.to_string(),
         name: validate_string(name, "name")?,
+        concrete_type: "BINARY".to_string(),
     }
     .into())
 }
