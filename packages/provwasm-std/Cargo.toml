@@ -24,4 +24,7 @@ schemars = { workspace = true }
 serde = { workspace = true, default-features = false, features = ["derive"] }
 serde-cw-value = "0.7.0"
 sha2 = { version = "0.10.8", default-features = false }
+ed25519-zebra = { version = "4.1.0", default-features = false, features = [
+    "alloc",
+] }
 uuid = { version = "1.10.0", default-features = false }
