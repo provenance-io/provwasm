@@ -27,7 +27,11 @@ license = "Apache-2.0"
 ### CosmWasm
 
 cosmwasm-schema = { version = "2.2.2" }
-cosmwasm-std = { version = "2.2.2", default-features = false, features = ["cosmwasm_2_1", "stargate", "std"] }
+cosmwasm-std = { version = "2.2.2", default-features = false, features = [
+    "cosmwasm_2_1",
+    "stargate",
+    "std",
+] }
 cw-storage-plus = { version = "2.0.0" }
 
 ### ProvWasm
@@ -35,7 +39,7 @@ provwasm-common = { version = "0.3.0", path = "packages/provwasm-common" }
 provwasm-mocks = { version = "2.7.0", path = "packages/provwasm-mocks" }
 provwasm-proc-macro = { version = "0.3.0", path = "packages/provwasm-proc-macro" }
 provwasm-proto-build = { version = "0.1.0", path = "packages/proto-build" }
-provwasm-std = { version = "2.7.0", path = "packages/provwasm-std", default-features = false }
+provwasm-std = { version = "2.7.0", path = "packages/provwasm-std" }
 
 chrono = { version = "0.4.37", default-features = false }
 prost = { version = "0.13.2", default-features = false, features = [
