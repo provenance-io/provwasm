@@ -24,7 +24,7 @@ provenanced tx wasm store tutorial.wasm \
     --home build/run/provenanced \
     --chain-id testing \
     --gas auto \
-    --gas-prices="1905nhash" \
+    --gas-prices="1nhash" \
 	--gas-adjustment=1.5 \
     --yes \
     --testnet \

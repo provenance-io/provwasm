@@ -114,7 +114,7 @@ provenanced tx bank send \
     --home build/run/provenanced \
     --chain-id testing \
     --gas auto \
-    --gas-prices="1905nhash" \
+    --gas-prices="1nhash" \
 	--gas-adjustment=1.5 \
     --yes \
     --testnet \
@@ -174,7 +174,7 @@ provenanced tx marker grant \
     --home build/run/provenanced \
     --chain-id testing \
     --gas auto \
-    --gas-prices="1905nhash" \
+    --gas-prices="1nhash" \
 	--gas-adjustment=1.5 \
     --yes \
     --testnet \
@@ -190,7 +190,7 @@ provenanced tx marker finalize purchasecoin \
     --home build/run/provenanced \
     --chain-id testing \
     --gas auto \
-    --gas-prices="1905nhash" \
+    --gas-prices="1nhash" \
 	--gas-adjustment=1.5 \
     --yes \
     --testnet \
@@ -206,7 +206,7 @@ provenanced tx marker activate purchasecoin \
     --home build/run/provenanced \
     --chain-id testing \
     --gas auto \
-    --gas-prices="1905nhash" \
+    --gas-prices="1nhash" \
 	--gas-adjustment=1.5 \
     --yes \
     --testnet \
@@ -226,7 +226,7 @@ provenanced tx marker withdraw purchasecoin \
     --home build/run/provenanced \
     --chain-id testing \
     --gas auto \
-    --gas-prices="1905nhash" \
+    --gas-prices="1nhash" \
 	--gas-adjustment=1.5 \
     --yes \
     --testnet \

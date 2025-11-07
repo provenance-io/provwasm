@@ -25,7 +25,7 @@ echo "Sending coins to different keys"
   --keyring-backend=test \
   --chain-id="testing" \
   --gas=auto \
-  --gas-prices="1905nhash" \
+  --gas-prices="1nhash" \
   --gas-adjustment=1.5 \
   --yes \
   --testnet | "$PROV_CMD" q wait-tx
@@ -40,7 +40,7 @@ echo "Binding name"
   --from="$node0" \
   --keyring-backend test \
   --chain-id="testing" \
-  --gas-prices="1905nhash" \
+  --gas-prices="1nhash" \
   --gas-adjustment=1.5 \
   --yes \
   --testnet | "$PROV_CMD" q wait-tx
@@ -53,7 +53,7 @@ echo "Storing wasm"
   --keyring-backend="test" \
   --chain-id="testing" \
   --gas=auto \
-  --gas-prices="1905nhash" \
+  --gas-prices="1nhash" \
   --gas-adjustment=1.5 \
   --yes \
   -t | "$PROV_CMD" q wait-tx
@@ -66,7 +66,7 @@ echo "Instantiating contract"
   --keyring-backend="test" \
   --chain-id="testing" \
   --gas=auto \
-  --gas-prices="1905nhash" \
+  --gas-prices="1nhash" \
   --gas-adjustment=1.5 \
   --yes \
   --testnet | "$PROV_CMD" q wait-tx
@@ -83,7 +83,7 @@ echo "Executing contract"
   --keyring-backend test \
   --chain-id testing \
   --gas auto \
-  --gas-prices="1906nhash" \
+  --gas-prices="1nhash" \
   --gas-adjustment=1.5 \
   --yes \
   --testnet | "$PROV_CMD" q wait-tx
