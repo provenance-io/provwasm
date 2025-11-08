@@ -97,7 +97,7 @@ jobs:
         uses: provenance-io/provenance-testing-action@v1.3.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          provenance_version: "v1.22.0"
+          provenance_version: "v1.26.0-rc1"
           smart_contract_action_version: "latest"
           test_script: "./scripts/gh-action-test/msgfees_test.sh"
 
