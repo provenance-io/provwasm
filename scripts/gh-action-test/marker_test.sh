@@ -155,7 +155,7 @@ fi
 
 "$PROV_CMD" tx wasm execute \
   "$contract" \
-  '{"burn":{"amount":"200","denom":"faustiancoin"}}' \
+  '{"burn":{"amount":"100","denom":"faustiancoin"}}' \
   --from="$node0" \
   --keyring-backend test \
   --chain-id="testing" \
