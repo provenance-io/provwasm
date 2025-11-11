@@ -1,17 +1,19 @@
 use std::collections::HashMap;
 use std::path::Path;
 
-use heck::ToSnakeCase;
-use heck::ToUpperCamelCase;
-use proc_macro2::{Group, TokenStream as TokenStream2, TokenTree};
+use convert_case::{Case, Casing};
+use proc_macro2::{TokenStream as TokenStream2, TokenTree};
 use prost_types::{
     DescriptorProto, EnumDescriptorProto, FileDescriptorSet, ServiceDescriptorProto,
 };
 use quote::{format_ident, quote};
 use regex::Regex;
-use syn::{parse_quote, Attribute, Fields, Ident, Item, ItemStruct, NestedMeta, Type};
-use syn::{ItemEnum, Lit};
-use syn::{ItemMod, Meta};
+use syn::parse::Parser;
+use syn::punctuated::Punctuated;
+use syn::token::Comma;
+use syn::ItemMod;
+use syn::{parse_quote, Attribute, Expr, ExprLit, Fields, Ident, Item, ItemStruct, Lit, Type};
+use syn::{ItemEnum, Meta};
 
 /// Regex substitutions to apply to the prost-generated output
 pub const REPLACEMENTS: &[(&str, &str)] = &[
@@ -33,54 +35,40 @@ pub const REPLACEMENTS: &[(&str, &str)] = &[
 
 pub fn add_derive_eq(mut attr: Attribute) -> Attribute {
     // find derive attribute
-    if attr.path.is_ident("derive") {
-        attr.tokens = attr
-            .tokens
-            .into_iter()
-            .map(|token_tree| {
-                match token_tree {
-                    // with group token stream, which is `#[derive( ... )]`
-                    TokenTree::Group(group) => {
-                        let has_ident = |ident_str: &str| {
-                            group.stream().into_iter().any(|token| match token {
-                                TokenTree::Ident(ident) => ident == format_ident!("{}", ident_str),
-                                _ => false,
-                            })
-                        };
+    if attr.path().is_ident("derive") {
+        let tokens = match &attr.meta {
+            Meta::List(list) => list.tokens.clone(),
+            _ => return attr,
+        };
 
-                        // if does not have both PartialEq and Eq
-                        let stream = if !(has_ident("PartialEq") && has_ident("Eq")) {
-                            // construct new token stream
-                            group
-                                .stream()
-                                .into_iter()
-                                .flat_map(|token| {
-                                    match token {
-                                        // if there exist `PartialEq` in derive attr
-                                        TokenTree::Ident(ident) => {
-                                            if ident == format_ident!("PartialEq") {
-                                                // expand token stream in group with `#[derive( ..., PartialEq, ... )]` to ``#[derive( ..., PartialEq, Eq, ... )]``
-                                                let expanded_token_stream: TokenStream2 =
-                                                    syn::parse_quote!(PartialEq, Eq);
-                                                expanded_token_stream.into_iter().collect()
-                                            } else {
-                                                vec![TokenTree::Ident(ident)]
-                                            }
-                                        }
-                                        tt => vec![tt],
-                                    }
-                                })
-                                .collect()
-                        } else {
-                            group.stream()
-                        };
-
-                        TokenTree::Group(Group::new(group.delimiter(), stream))
-                    }
-                    _ => token_tree,
-                }
+        let has_ident = |ident_str: &str| {
+            tokens.clone().into_iter().any(|token| match token {
+                TokenTree::Ident(ref ident) => *ident == format_ident!("{}", ident_str),
+                _ => false,
             })
-            .collect();
+        };
+
+        // if does not have both PartialEq and Eq
+        if !(has_ident("PartialEq") && has_ident("Eq")) {
+            // construct new token stream
+            let new_tokens: TokenStream2 = tokens
+                .into_iter()
+                .flat_map(|token| {
+                    match token {
+                        // if there exist `PartialEq` in derive attr
+                        TokenTree::Ident(ref ident) if *ident == format_ident!("PartialEq") => {
+                            // expand token stream with `#[derive( ..., PartialEq, ... )]` to `#[derive( ..., PartialEq, Eq, ... )]`
+                            let expanded_token_stream: TokenStream2 =
+                                syn::parse_quote!(PartialEq, Eq);
+                            expanded_token_stream.into_iter().collect()
+                        }
+                        tt => vec![tt],
+                    }
+                })
+                .collect();
+
+            attr.meta = parse_quote! { derive(#new_tokens) };
+        }
         attr
     } else {
         attr
@@ -88,24 +76,22 @@ pub fn add_derive_eq(mut attr: Attribute) -> Attribute {
 }
 
 pub fn add_derive_json(mut attr: Attribute) -> Attribute {
-    if attr.path.is_ident("derive") {
-        if let Ok(Meta::List(mut meta_list)) = attr.parse_meta() {
+    if attr.path().is_ident("derive") {
+        if let Meta::List(meta_list) = &attr.meta {
+            let tokens = &meta_list.tokens;
             // Check if ::schemars::JsonSchema is already present
-            let already_present = meta_list.nested.iter().any(|nested_meta| {
-                if let NestedMeta::Meta(Meta::Path(path)) = nested_meta {
-                    return path.is_ident("::schemars::JsonSchema");
+            let already_present = tokens.clone().into_iter().any(|token| {
+                if let TokenTree::Ident(ident) = token {
+                    return ident == "JsonSchema";
                 }
                 false
             });
 
             if !already_present {
-                meta_list.nested.push(parse_quote!(::schemars::JsonSchema));
+                // Add ::schemars::JsonSchema to the derive list
+                let new_tokens = quote! { #tokens, ::schemars::JsonSchema };
+                attr.meta = parse_quote! { derive(#new_tokens) };
             }
-
-            let nested = meta_list.nested;
-
-            // Reconstruct the attribute tokens
-            attr.tokens = quote! {(#nested)};
         }
     }
     attr
@@ -164,15 +150,17 @@ pub fn append_attrs_enum(src: &Path, e: &ItemEnum, descriptor: &FileDescriptorSe
     let mut e = e.clone();
     let deprecated = get_deprecation(src, &e.ident, descriptor);
     let is_repr_i32 = e.attrs.iter().any(|attr| {
-        attr.path.is_ident("repr") && attr.parse_meta().ok().map_or(false, |meta| {
-            if let syn::Meta::List(meta_list) = meta {
-                meta_list.nested.iter().any(|nested_meta| {
-                    matches!(nested_meta, syn::NestedMeta::Meta(syn::Meta::Path(path)) if path.is_ident("i32"))
-                })
+        attr.path().is_ident("repr") && {
+            if let Meta::List(meta_list) = &attr.meta {
+                meta_list
+                    .tokens
+                    .clone()
+                    .into_iter()
+                    .any(|token| matches!(token, TokenTree::Ident(ref ident) if ident == "i32"))
             } else {
                 false
             }
-        })
+        }
     });
 
     if is_repr_i32 {
@@ -384,7 +372,7 @@ pub fn make_next_key_optional(mut s: ItemStruct) -> ItemStruct {
                         field.ty =
                             parse_quote!(::core::option::Option<::prost::alloc::vec::Vec<u8>>);
                         for attr in field.attrs.iter_mut() {
-                            if attr.path.is_ident("prost") {
+                            if attr.path().is_ident("prost") {
                                 *attr = parse_quote! {
                                     #[prost(bytes = "vec", optional, tag = "1")]
                                 };
@@ -457,20 +445,26 @@ pub fn allow_serde_i32_or_vec_i32(s: syn::ItemStruct) -> syn::ItemStruct {
             {
                 {
                     let prost_enum_literal_value = field.attrs.iter().find_map(|attr| {
-                        if attr.path.is_ident("prost") {
-                            if let Ok(syn::Meta::List(meta_list)) = attr.parse_meta() {
-                                return meta_list.nested.iter().find_map(|nested_meta| {
-                                    if let syn::NestedMeta::Meta(syn::Meta::NameValue(name_value)) =
-                                        nested_meta
-                                    {
-                                        if name_value.path.is_ident("enumeration") {
-                                            if let Lit::Str(literal) = &name_value.lit {
-                                                return Some(literal.value());
+                        if attr.path().is_ident("prost") {
+                            if let Meta::List(ref meta_list) = attr.meta {
+                                // Parse the attribute arguments
+                                let parser = Punctuated::<Meta, Comma>::parse_terminated;
+                                if let Ok(nested_metas) = parser.parse2(meta_list.tokens.clone()) {
+                                    return nested_metas.iter().find_map(|meta| {
+                                        if let Meta::NameValue(name_value) = meta {
+                                            if name_value.path.is_ident("enumeration") {
+                                                if let Expr::Lit(ExprLit {
+                                                    lit: Lit::Str(ref literal),
+                                                    ..
+                                                }) = name_value.value
+                                                {
+                                                    return Some(literal.value());
+                                                }
                                             }
                                         }
-                                    }
-                                    None
-                                });
+                                        None
+                                    });
+                                }
                             }
                         }
                         None
@@ -534,13 +528,14 @@ fn get_query_attr(
     let method = service?.method.iter().find(|m| {
         let input_type = m.input_type.clone().unwrap();
         let input_type = input_type.split('.').last().unwrap();
-        *ident == input_type.to_upper_camel_case()
+        // Use prost's standard conversion to match the struct name before our renaming
+        *ident == input_type.to_case(Case::UpperCamel)
     });
 
     let method_name = method?.name.clone().unwrap();
     let response_type = method?.output_type.clone().unwrap();
     let response_type = response_type.split('.').last().unwrap();
-    let response_type = format_ident!("{}", response_type.to_upper_camel_case());
+    let response_type = format_ident!("{}", response_type.to_case(Case::UpperCamel));
 
     let path = format!("/{}.Query/{}", package, method_name);
     Some(syn::parse_quote! { #[proto_query(path = #path, response_type = #response_type)] })
@@ -597,7 +592,8 @@ fn extract_deprecation_from_descriptor(
     message_type.iter().find_map(|descriptor| {
         let message_name = descriptor.name.to_owned().unwrap();
 
-        if message_name.to_upper_camel_case() == target {
+        // Use prost's standard conversion to match what prost generates
+        if message_name.to_case(Case::UpperCamel) == target {
             descriptor.clone().options?.deprecated
         } else if let Some(deprecated) =
             extract_deprecation_from_descriptor(target, &descriptor.nested_type)
@@ -612,7 +608,8 @@ fn extract_deprecation_from_descriptor(
 fn extract_deprecation_from_enum(target: &str, enum_type: &[EnumDescriptorProto]) -> Option<bool> {
     enum_type
         .iter()
-        .find(|e| e.name.to_owned().unwrap().to_upper_camel_case() == target)
+        // Use prost's standard conversion to match what prost generates
+        .find(|e| e.name.to_owned().unwrap().to_case(Case::UpperCamel) == target)
         .and_then(|e| e.clone().options?.deprecated)
 }
 
@@ -624,7 +621,8 @@ fn extract_type_path_from_descriptor(
     message_type.iter().find_map(|descriptor| {
         let message_name = descriptor.name.to_owned().unwrap();
 
-        if message_name.to_upper_camel_case() == target {
+        // Use prost's standard conversion to match what prost generates
+        if message_name.to_case(Case::UpperCamel) == target {
             Some(append_type_path(path, &message_name))
         } else if let Some(message_name) = extract_type_path_from_descriptor(
             target,
@@ -649,7 +647,8 @@ fn extract_type_path_from_enum(
 ) -> Option<String> {
     enum_type
         .iter()
-        .find(|e| e.name.to_owned().unwrap().to_upper_camel_case() == target)
+        // Use prost's standard conversion to match what prost generates
+        .find(|e| e.name.to_owned().unwrap().to_case(Case::UpperCamel) == target)
         .map(|e| append_type_path(path, &e.name.to_owned().unwrap()))
 }
 
@@ -697,7 +696,7 @@ pub fn append_querier(
 
     let package_stem = re.captures(package).unwrap().get(1).unwrap().as_str();
 
-    let querier_wrapper_ident = format_ident!("{}Querier", &package_stem.to_upper_camel_case());
+    let querier_wrapper_ident = format_ident!("{}Querier", &package_stem.to_case(Case::UpperCamel));
 
     let query_services = extract_query_services(descriptor);
     let query_fns = query_services.get(package).map(|service| service.method.iter().map(|method_desc| {
@@ -714,9 +713,9 @@ pub fn append_querier(
 
         let method_desc = method_desc.clone();
 
-        let name = format_ident!("{}", method_desc.name.unwrap().as_str().to_snake_case());
-        let req_type = format_ident!("{}", method_desc.input_type.unwrap().split('.').last().unwrap().to_string().to_upper_camel_case());
-        let res_type = format_ident!("{}", method_desc.output_type.unwrap().split('.').last().unwrap().to_string().to_upper_camel_case());
+        let name = format_ident!("{}", method_desc.name.unwrap().as_str().to_case(Case::Snake));
+        let req_type = format_ident!("{}", method_desc.input_type.unwrap().split('.').last().unwrap().to_string().to_case(Case::UpperCamel));
+        let res_type = format_ident!("{}", method_desc.output_type.unwrap().split('.').last().unwrap().to_string().to_case(Case::UpperCamel));
 
         let req_args = items.clone().into_iter()
             .find_map(|item| match item {
@@ -751,7 +750,9 @@ pub fn append_querier(
     }).collect::<Vec<TokenStream2>>());
 
     let querier = if let Some(query_fns) = query_fns {
-        if !nested_mod {
+        // Only generate the querier if there are actual query functions (non-empty token streams)
+        let has_query_fns = query_fns.iter().any(|ts| !ts.is_empty());
+        if !nested_mod && has_query_fns {
             vec![
                 parse_quote! {
                   pub struct #querier_wrapper_ident<'a, Q: cosmwasm_std::CustomQuery> {

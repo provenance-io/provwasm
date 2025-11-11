@@ -26,6 +26,14 @@ pub struct EventHoldReleased {
     #[prost(string, tag = "2")]
     pub amount: ::prost::alloc::string::String,
 }
+/// EventUnlockVestingAccounts is an event indicating that a vesting account has been unlocked.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provenance.hold.v1.EventVestingAccountUnlocked")]
+pub struct EventVestingAccountUnlocked {
+    #[prost(string, tag = "1")]
+    pub address: ::prost::alloc::string::String,
+}
 /// AccountHold associates an address with an amount on hold for that address.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
@@ -96,6 +104,23 @@ pub struct GetAllHoldsResponse {
     pub pagination:
         ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageResponse>,
 }
+/// MsgUnlockVestingAccountsRequest defines the request for unlocking vesting accounts
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provenance.hold.v1.MsgUnlockVestingAccountsRequest")]
+pub struct MsgUnlockVestingAccountsRequest {
+    /// authority is the address that can execute this message (governance module account)
+    #[prost(string, tag = "1")]
+    pub authority: ::prost::alloc::string::String,
+    /// addresses is the list of vesting account addresses to convert back to base accounts
+    #[prost(string, repeated, tag = "2")]
+    pub addresses: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// MsgUnlockVestingAccountsResponse defines the response for unlocking vesting accounts
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provenance.hold.v1.MsgUnlockVestingAccountsResponse")]
+pub struct MsgUnlockVestingAccountsResponse {}
 pub struct HoldQuerier<'a, Q: cosmwasm_std::CustomQuery> {
     querier: &'a cosmwasm_std::QuerierWrapper<'a, Q>,
 }

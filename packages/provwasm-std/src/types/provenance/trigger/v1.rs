@@ -131,6 +131,7 @@ pub struct GenesisState {
     #[prost(message, repeated, tag = "3")]
     pub triggers: ::prost::alloc::vec::Vec<Trigger>,
     /// Maximum amount of gas that the triggers can use.
+    /// Deprecated: We no longer need to keep track of gas limits since we use flat fees.
     #[prost(message, repeated, tag = "4")]
     pub gas_limits: ::prost::alloc::vec::Vec<GasLimit>,
     /// Triggers to initially start with in the queue.
@@ -138,14 +139,17 @@ pub struct GenesisState {
     pub queued_triggers: ::prost::alloc::vec::Vec<QueuedTrigger>,
 }
 /// GasLimit defines the trigger module's grouping of a trigger and a gas limit
+/// Deprecated: The GasLimit type is no longer used since we use flat fees.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.trigger.v1.GasLimit")]
 pub struct GasLimit {
     /// The identifier of the trigger this GasLimit belongs to.
+    /// Deprecated: The GasLimit type is no longer used since we use flat fees.
     #[prost(uint64, tag = "1")]
     pub trigger_id: u64,
     /// The maximum amount of gas that the trigger can use.
+    /// Deprecated: The GasLimit type is no longer used since we use flat fees.
     #[prost(uint64, tag = "2")]
     pub amount: u64,
 }

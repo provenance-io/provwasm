@@ -627,6 +627,18 @@ pub enum PartyType {
     Controller = 10,
     /// PARTY_TYPE_VALIDATOR is an entity which validates given assets on chain
     Validator = 11,
+    /// PARTY_TYPE_GENERIC_1 are placeholder types for the user-defined role.
+    Generic1 = 12,
+    /// PARTY_TYPE_GENERIC_2 are placeholder types for the user-defined role.
+    Generic2 = 13,
+    /// PARTY_TYPE_GENERIC_3 are placeholder types for the user-defined role.
+    Generic3 = 14,
+    /// PARTY_TYPE_GENERIC_4 are placeholder types for the user-defined role.
+    Generic4 = 15,
+    /// PARTY_TYPE_GENERIC_5 are placeholder types for the user-defined role.
+    Generic5 = 16,
+    /// PARTY_TYPE_GENERIC_6 are placeholder types for the user-defined role.
+    Generic6 = 17,
 }
 impl PartyType {
     /// String value of the enum field names used in the ProtoBuf definition.
@@ -646,6 +658,12 @@ impl PartyType {
             PartyType::Provenance => "PARTY_TYPE_PROVENANCE",
             PartyType::Controller => "PARTY_TYPE_CONTROLLER",
             PartyType::Validator => "PARTY_TYPE_VALIDATOR",
+            PartyType::Generic1 => "PARTY_TYPE_GENERIC_1",
+            PartyType::Generic2 => "PARTY_TYPE_GENERIC_2",
+            PartyType::Generic3 => "PARTY_TYPE_GENERIC_3",
+            PartyType::Generic4 => "PARTY_TYPE_GENERIC_4",
+            PartyType::Generic5 => "PARTY_TYPE_GENERIC_5",
+            PartyType::Generic6 => "PARTY_TYPE_GENERIC_6",
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.
@@ -662,6 +680,12 @@ impl PartyType {
             "PARTY_TYPE_PROVENANCE" => Some(Self::Provenance),
             "PARTY_TYPE_CONTROLLER" => Some(Self::Controller),
             "PARTY_TYPE_VALIDATOR" => Some(Self::Validator),
+            "PARTY_TYPE_GENERIC_1" => Some(Self::Generic1),
+            "PARTY_TYPE_GENERIC_2" => Some(Self::Generic2),
+            "PARTY_TYPE_GENERIC_3" => Some(Self::Generic3),
+            "PARTY_TYPE_GENERIC_4" => Some(Self::Generic4),
+            "PARTY_TYPE_GENERIC_5" => Some(Self::Generic5),
+            "PARTY_TYPE_GENERIC_6" => Some(Self::Generic6),
             _ => None,
         }
     }
@@ -2606,6 +2630,8 @@ pub struct MsgAddNetAssetValuesRequest {
     pub scope_id: ::prost::alloc::string::String,
     #[prost(string, repeated, tag = "2")]
     pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Net asset values to set. The "usd" denomination represents whole-dollar amounts,
+    /// where 1usd = $1.00.
     #[prost(message, repeated, tag = "3")]
     pub net_asset_values: ::prost::alloc::vec::Vec<NetAssetValue>,
 }

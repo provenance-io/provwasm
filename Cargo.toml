@@ -10,7 +10,6 @@ members = [
     "contracts/ibc/local",
     "contracts/ibc/remote",
     "contracts/marker",
-    "contracts/msgfees",
     "contracts/name",
     "contracts/scope",
     "contracts/trigger",
@@ -18,7 +17,7 @@ members = [
 ]
 
 [workspace.package]
-version = "2.6.0"
+version = "2.7.0"
 repository = "https://github.com/provenance-io/provwasm"
 edition = "2021"
 license = "Apache-2.0"
@@ -27,15 +26,19 @@ license = "Apache-2.0"
 ### CosmWasm
 
 cosmwasm-schema = { version = "2.2.2" }
-cosmwasm-std = { version = "2.2.2", default-features = false, features = ["cosmwasm_2_1", "stargate", "std"] }
+cosmwasm-std = { version = "2.2.2", default-features = false, features = [
+    "cosmwasm_2_1",
+    "stargate",
+    "std",
+] }
 cw-storage-plus = { version = "2.0.0" }
 
 ### ProvWasm
 provwasm-common = { version = "0.3.0", path = "packages/provwasm-common" }
-provwasm-mocks = { version = "2.6.0", path = "packages/provwasm-mocks" }
-provwasm-proc-macro = { version = "0.2.0", path = "packages/provwasm-proc-macro" }
+provwasm-mocks = { version = "2.7.0", path = "packages/provwasm-mocks" }
+provwasm-proc-macro = { version = "0.3.0", path = "packages/provwasm-proc-macro" }
 provwasm-proto-build = { version = "0.1.0", path = "packages/proto-build" }
-provwasm-std = { version = "2.6.0", path = "packages/provwasm-std" }
+provwasm-std = { version = "2.7.0", path = "packages/provwasm-std" }
 
 chrono = { version = "0.4.37", default-features = false }
 prost = { version = "0.13.2", default-features = false, features = [
@@ -43,9 +46,7 @@ prost = { version = "0.13.2", default-features = false, features = [
 ] }
 prost-types = { version = "0.13.2", default-features = false }
 schemars = "0.8.16"
-serde = { version = "1.0.197", default-features = false, features = [
-    "derive",
-] }
+serde = { version = "1.0.197", default-features = false, features = ["derive"] }
 serde_json = { version = "1.0.115", features = ["std"] }
 thiserror = { version = "1.0.58" }
 

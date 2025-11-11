@@ -135,8 +135,7 @@ pub fn add_root_features(root: &PathBuf) {
                 pound_token: syn::token::Pound::default(),
                 style: syn::AttrStyle::Outer,
                 bracket_token: syn::token::Bracket::default(),
-                path: syn::Path::from(syn::Ident::new("cfg", module.ident.span())),
-                tokens: quote::quote!( ( #feature_meta ) ).into(),
+                meta: syn::parse_quote! { cfg( #feature_meta ) },
             };
 
             // Add the feature attribute to the module's attributes

@@ -37,7 +37,7 @@ jobs:
         uses: provenance-io/provenance-testing-action@v1.3.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          provenance_version: "v1.22.0"
+          provenance_version: "v1.26.0-rc1"
           test_script: "./scripts/gh-action-test/tutorial_test.sh"
 
   test_attrs_smart_contract:
@@ -57,7 +57,7 @@ jobs:
         uses: provenance-io/provenance-testing-action@v1.3.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          provenance_version: "v1.22.0"
+          provenance_version: "v1.26.0-rc1"
           smart_contract_action_version: "latest"
           test_script: "./scripts/gh-action-test/attrs_test.sh"
 
@@ -78,30 +78,9 @@ jobs:
         uses: provenance-io/provenance-testing-action@v1.3.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          provenance_version: "v1.22.0"
+          provenance_version: "v1.26.0-rc1"
           smart_contract_action_version: "latest"
           test_script: "./scripts/gh-action-test/marker_test.sh"
-
-  test_msgfees_smart_contract:
-    runs-on: ubuntu-latest
-    name: Test MsgFees Smart Contract
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Add wasm32 target
-        run: |
-          rustup target add wasm32-unknown-unknown
-      - name: Build wasm binary
-        run: |
-          cd ./contracts/msgfees
-          make all
-      - name: Provenance Test
-        uses: provenance-io/provenance-testing-action@v1.3.0
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          provenance_version: "v1.22.0"
-          smart_contract_action_version: "latest"
-          test_script: "./scripts/gh-action-test/msgfees_test.sh"
 
   test_name_smart_contract:
     runs-on: ubuntu-latest
@@ -120,7 +99,7 @@ jobs:
         uses: provenance-io/provenance-testing-action@v1.3.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          provenance_version: "v1.22.0"
+          provenance_version: "v1.26.0-rc1"
           smart_contract_action_version: "latest"
           test_script: "./scripts/gh-action-test/name_test.sh"
 
@@ -141,7 +120,7 @@ jobs:
   #        uses: provenance-io/provenance-testing-action@v1.3.0
   #        with:
   #          github_token: ${{ secrets.GITHUB_TOKEN }}
-  #          provenance_version: "v1.22.0"
+  #          provenance_version: "v1.26.0-rc1"
   #          smart_contract_action_version: "latest"
   #          test_script: "./scripts/gh-action-test/scope_test.sh"
 
@@ -162,12 +141,12 @@ jobs:
         uses: provenance-io/provenance-testing-action@v1.3.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          provenance_version: "v1.22.0"
+          provenance_version: "v1.26.0-rc1"
           smart_contract_action_version: "latest"
           test_script: "./scripts/gh-action-test/trigger_test.sh"
 
   create_release:
-    needs: [ test_attrs_smart_contract, test_marker_smart_contract, test_msgfees_smart_contract, test_name_smart_contract, test_scope_smart_contract, test_trigger_smart_contract, test_tutorial_smart_contract ]
+    needs: [ test_attrs_smart_contract, test_marker_smart_contract, test_name_smart_contract, test_scope_smart_contract, test_trigger_smart_contract, test_tutorial_smart_contract ]
     runs-on: ubuntu-latest
     name: Create Release
     steps:

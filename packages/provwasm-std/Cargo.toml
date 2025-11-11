@@ -13,8 +13,13 @@ categories = ["api-bindings", "cryptography::cryptocurrencies", "wasm"]
 bech32 = { version = "0.11.0", default-features = false, features = ["alloc"] }
 chrono = { version = "0.4.24", default-features = false }
 cosmwasm-std = { workspace = true }
+ed25519-zebra = { version = "4.1.0", default-features = false, features = [
+    "alloc",
+] }
 hex = { version = "0.4.3", default-features = false }
-prost = { workspace = true, default-features = false, features = ["prost-derive"] }
+prost = { workspace = true, default-features = false, features = [
+    "prost-derive",
+] }
 prost-types = { workspace = true, default-features = false }
 provwasm-common = { workspace = true }
 provwasm-proc-macro = { workspace = true }

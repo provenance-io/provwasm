@@ -28,6 +28,10 @@ pub struct Attribute {
     /// Time that an attribute will expire.
     #[prost(message, optional, tag = "5")]
     pub expiration_date: ::core::option::Option<crate::shim::Timestamp>,
+    /// concrete_type defines the specific type of data for PROTO or JSON attribute.
+    /// Optional. Max 200 characters.
+    #[prost(string, tag = "6")]
+    pub concrete_type: ::prost::alloc::string::String,
 }
 /// EventAttributeAdd event emitted when attribute is added
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -424,6 +428,10 @@ pub struct MsgAddAttributeRequest {
     /// Time that an attribute will expire.
     #[prost(message, optional, tag = "6")]
     pub expiration_date: ::core::option::Option<crate::shim::Timestamp>,
+    /// concrete_type defines the specific type of data for PROTO or JSON attribute.
+    /// Optional. Max 200 characters.
+    #[prost(string, tag = "7")]
+    pub concrete_type: ::prost::alloc::string::String,
 }
 /// MsgAddAttributeResponse defines the Msg/AddAttribute response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -457,6 +465,10 @@ pub struct MsgUpdateAttributeRequest {
     /// The address that the name must resolve to.
     #[prost(string, tag = "7")]
     pub owner: ::prost::alloc::string::String,
+    /// concrete_type defines the specific type of data for PROTO or JSON attribute.
+    /// Optional. Max 200 characters.
+    #[prost(string, tag = "8")]
+    pub concrete_type: ::prost::alloc::string::String,
 }
 /// MsgUpdateAttributeResponse defines the Msg/UpdateAttribute response type.
 #[allow(clippy::derive_partial_eq_without_eq)]

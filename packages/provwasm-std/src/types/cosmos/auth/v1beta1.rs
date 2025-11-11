@@ -372,7 +372,7 @@ impl<'a, Q: cosmwasm_std::CustomQuery> AuthQuerier<'a, Q> {
     ) -> Result<QueryModuleAccountByNameResponse, cosmwasm_std::StdError> {
         QueryModuleAccountByNameRequest { name }.query(self.querier)
     }
-    pub fn bech32_prefix(&self) -> Result<Bech32PrefixResponse, cosmwasm_std::StdError> {
+    pub fn bech_32_prefix(&self) -> Result<Bech32PrefixResponse, cosmwasm_std::StdError> {
         Bech32PrefixRequest {}.query(self.querier)
     }
     pub fn address_bytes_to_string(

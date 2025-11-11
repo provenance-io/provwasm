@@ -31,8 +31,8 @@ echo "sending coins to different keys"
   --keyring-backend=test \
   --chain-id="testing" \
   --gas=auto \
-  --gas-prices="1905nhash" \
-  --gas-adjustment=1.5 \
+  --gas-prices="1nhash" \
+  --gas-adjustment=1 \
   --yes \
   --testnet | "$PROV_CMD" q wait-tx
 
@@ -46,8 +46,8 @@ echo "binding name"
   --from="$node0" \
   --keyring-backend test \
   --chain-id="testing" \
-  --gas-prices="1905nhash" \
-  --gas-adjustment=1.5 \
+  --gas-prices="1nhash" \
+  --gas-adjustment=1 \
   --yes \
   --testnet | "$PROV_CMD" q wait-tx
 
@@ -59,8 +59,8 @@ echo "storing wasm"
   --keyring-backend="test" \
   --chain-id="testing" \
   --gas=auto \
-  --gas-prices="1905nhash" \
-  --gas-adjustment=1.5 \
+  --gas-prices="1nhash" \
+  --gas-adjustment=1 \
   --yes \
   -t | "$PROV_CMD" q wait-tx
 
@@ -72,8 +72,8 @@ echo "instantiating contract"
   --keyring-backend="test" \
   --chain-id="testing" \
   --gas=auto \
-  --gas-prices="1905nhash" \
-  --gas-adjustment=1.5 \
+  --gas-prices="1nhash" \
+  --gas-adjustment=1 \
   --yes \
   --testnet | "$PROV_CMD" q wait-tx
 
@@ -112,8 +112,8 @@ echo "target block height: $target_height"
   --keyring-backend test \
   --chain-id testing \
   --gas auto \
-  --gas-prices="1906nhash" \
-  --gas-adjustment=1.5 \
+  --gas-prices="1nhash" \
+  --gas-adjustment=1 \
   --yes \
   --testnet | "$PROV_CMD" q wait-tx
 
@@ -170,8 +170,8 @@ echo "target time = $target_time"
   --keyring-backend test \
   --chain-id testing \
   --gas auto \
-  --gas-prices="1906nhash" \
-  --gas-adjustment=1.5 \
+  --gas-prices="1nhash" \
+  --gas-adjustment=1 \
   --yes \
   --testnet | "$PROV_CMD" q wait-tx
 
@@ -225,8 +225,8 @@ current_height=$PROV_CMD q block | jq .block.header.height
   --keyring-backend test \
   --chain-id testing \
   --gas auto \
-  --gas-prices="1906nhash" \
-  --gas-adjustment=1.5 \
+  --gas-prices="1nhash" \
+  --gas-adjustment=1 \
   --yes \
   --testnet | "$PROV_CMD" q wait-tx
 
@@ -250,8 +250,8 @@ echo "deleting trigger"
   --keyring-backend test \
   --chain-id testing \
   --gas auto \
-  --gas-prices="1906nhash" \
-  --gas-adjustment=1.5 \
+  --gas-prices="1nhash" \
+  --gas-adjustment=1 \
   --yes \
   --testnet | "$PROV_CMD" q wait-tx
 

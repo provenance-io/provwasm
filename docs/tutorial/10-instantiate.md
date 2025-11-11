@@ -41,8 +41,8 @@ provenanced tx wasm instantiate 1 \
     --home build/run/provenanced \
     --chain-id testing \
     --gas auto \
-    --gas-prices="100000nhash" \
-	--gas-adjustment=1.5 \
+    --gas-prices="1nhash" \
+	--gas-adjustment=1 \
     --yes \
     --testnet \
 	--output json | jq

@@ -76,8 +76,8 @@ provenanced tx bank send \
 	--home=build/run/provenanced \
 	--chain-id=testing \
 	--gas=auto \
-	--gas-prices="1905nhash" \
-	--gas-adjustment=1.5 \
+	--gas-prices="1nhash" \
+	--gas-adjustment=1 \
 	--yes \
 	--testnet \
 	--output json | jq
@@ -95,8 +95,8 @@ provenanced tx bank send \
 	--home=build/run/provenanced \
 	--chain-id=testing \
 	--gas=auto \
-	--gas-prices="1905nhash" \
-	--gas-adjustment=1.5 \
+	--gas-prices="1nhash" \
+	--gas-adjustment=1 \
 	--yes \
 	--testnet \
 	--output json | jq
@@ -114,8 +114,8 @@ provenanced tx bank send \
     --home build/run/provenanced \
     --chain-id testing \
     --gas auto \
-    --gas-prices="1905nhash" \
-	--gas-adjustment=1.5 \
+    --gas-prices="1nhash" \
+	--gas-adjustment=1 \
     --yes \
     --testnet \
 	--output json | jq
@@ -136,8 +136,9 @@ provenanced tx name bind \
     --keyring-backend test \
     --home build/run/provenanced \
     --chain-id testing \
-    --gas-prices="100000nhash" \
-	--gas-adjustment=1.5 \
+    --gas-auto \
+    --gas-prices="1nhash" \
+	--gas-adjustment=1 \
     --yes \
     --testnet \
 	--output json | jq
@@ -155,8 +156,8 @@ provenanced tx marker new 1000000000purchasecoin \
     --home build/run/provenanced \
     --chain-id testing \
     --gas auto \
-    --gas-prices="1000000nhash" \
-	--gas-adjustment=1.5 \
+    --gas-prices="1nhash" \
+	--gas-adjustment=1 \
     --yes \
     --testnet \
 	--output json | jq
@@ -174,8 +175,8 @@ provenanced tx marker grant \
     --home build/run/provenanced \
     --chain-id testing \
     --gas auto \
-    --gas-prices="1905nhash" \
-	--gas-adjustment=1.5 \
+    --gas-prices="1nhash" \
+	--gas-adjustment=1 \
     --yes \
     --testnet \
 	--output json | jq
@@ -190,8 +191,8 @@ provenanced tx marker finalize purchasecoin \
     --home build/run/provenanced \
     --chain-id testing \
     --gas auto \
-    --gas-prices="1905nhash" \
-	--gas-adjustment=1.5 \
+    --gas-prices="1nhash" \
+	--gas-adjustment=1 \
     --yes \
     --testnet \
 	--output json | jq
@@ -206,8 +207,8 @@ provenanced tx marker activate purchasecoin \
     --home build/run/provenanced \
     --chain-id testing \
     --gas auto \
-    --gas-prices="1905nhash" \
-	--gas-adjustment=1.5 \
+    --gas-prices="1nhash" \
+	--gas-adjustment=1 \
     --yes \
     --testnet \
 	--output json | jq
@@ -226,8 +227,8 @@ provenanced tx marker withdraw purchasecoin \
     --home build/run/provenanced \
     --chain-id testing \
     --gas auto \
-    --gas-prices="1905nhash" \
-	--gas-adjustment=1.5 \
+    --gas-prices="1nhash" \
+	--gas-adjustment=1 \
     --yes \
     --testnet \
 	--output json | jq

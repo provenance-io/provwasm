@@ -101,6 +101,20 @@ pub struct MarkerTransferAuthorization {
     #[prost(string, repeated, tag = "2")]
     pub allow_list: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
+/// MultiAuthorization lets you combine several authorizations.
+/// All sub-authorizations must accept the message for it to be allowed.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provenance.marker.v1.MultiAuthorization")]
+pub struct MultiAuthorization {
+    /// The message type this authorization is for.
+    #[prost(string, tag = "1")]
+    pub msg_type_url: ::prost::alloc::string::String,
+    /// A list of sub-authorizations that must all accept the message.
+    /// sub_authorizations: a list of authorizations (minimum 2, maximum 10).
+    #[prost(message, repeated, tag = "2")]
+    pub sub_authorizations: ::prost::alloc::vec::Vec<crate::shim::Any>,
+}
 /// Params defines the set of params for the account module.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
@@ -1200,6 +1214,9 @@ pub struct MsgMintRequest {
     pub amount: ::core::option::Option<super::super::super::cosmos::base::v1beta1::Coin>,
     #[prost(string, tag = "2")]
     pub administrator: ::prost::alloc::string::String,
+    /// recipient is the optional address to receive the newly minted funds.
+    #[prost(string, tag = "3")]
+    pub recipient: ::prost::alloc::string::String,
 }
 /// MsgMintResponse defines the Msg/Mint response type
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -1462,6 +1479,8 @@ pub struct MsgAddNetAssetValuesRequest {
     pub denom: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
     pub administrator: ::prost::alloc::string::String,
+    /// Net asset values to set. The "usd" denomination represents whole-dollar amounts,
+    /// where 1usd = $1.00.
     #[prost(message, repeated, tag = "3")]
     pub net_asset_values: ::prost::alloc::vec::Vec<NetAssetValue>,
 }
@@ -1577,6 +1596,24 @@ pub struct MsgUpdateParamsRequest {
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.MsgUpdateParamsResponse")]
 pub struct MsgUpdateParamsResponse {}
+/// MsgRevokeGrantAllowanceRequest is a request message for the RevokeFeeGrantAllowance endpoint.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provenance.marker.v1.MsgRevokeGrantAllowanceRequest")]
+pub struct MsgRevokeGrantAllowanceRequest {
+    #[prost(string, tag = "1")]
+    pub denom: ::prost::alloc::string::String,
+    #[prost(string, tag = "2")]
+    pub administrator: ::prost::alloc::string::String,
+    /// address of the grantee whose allowance is being revoked.
+    #[prost(string, tag = "3")]
+    pub grantee: ::prost::alloc::string::String,
+}
+/// MsgRevokeGrantResponse is a response message for the RevokeFeeGrantAllowance endpoint.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provenance.marker.v1.MsgRevokeGrantAllowanceResponse")]
+pub struct MsgRevokeGrantAllowanceResponse {}
 pub struct MarkerQuerier<'a, Q: cosmwasm_std::CustomQuery> {
     querier: &'a cosmwasm_std::QuerierWrapper<'a, Q>,
 }

@@ -1,7 +1,6 @@
-use heck::ToUpperCamelCase;
+use convert_case::{Case, Casing};
 use log::debug;
 use prost_types::FileDescriptorSet;
-
 use regex::Regex;
 use std::ffi::OsStr;
 use std::fs::{create_dir_all, remove_dir_all};
@@ -20,6 +19,8 @@ const EXCLUDED_PROTO_PACKAGES: &[&str] = &["amino", "cosmos_proto", "gogoproto",
 const EXCLUDED_STRUCTURES: &[&str] = &[
     "provenance::msgfees::v1::CalculateTxFeesRequest",
     "provenance::msgfees::v1::CalculateTxFeesResponse",
+    "provenance::flatfees::v1::QueryCalculateTxFeesRequest",
+    "provenance::flatfees::v1::QueryCalculateTxFeesResponse",
 ];
 
 pub fn copy_and_transform_all(from_dir: &Path, to_dir: &Path, descriptor: &FileDescriptorSet) {
@@ -199,7 +200,7 @@ fn transform_nested_mod(
 ) -> Item {
     match i.clone() {
         Item::Mod(m) => {
-            let parent = &m.ident.to_string().to_upper_camel_case();
+            let parent = &m.ident.to_string().to_case(Case::UpperCamel);
             let content = m.content.map(|(brace, items)| {
                 (
                     brace,

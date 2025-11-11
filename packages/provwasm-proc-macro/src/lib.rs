@@ -2,7 +2,7 @@ use itertools::Itertools;
 use proc_macro::TokenStream;
 use proc_macro2::TokenTree;
 use quote::quote;
-use syn::{parse_macro_input, DeriveInput};
+use syn::{parse_macro_input, DeriveInput, Expr, ExprLit, Lit, Meta};
 
 macro_rules! match_kv_attr {
     ($key:expr, $value_type:tt) => {
@@ -272,24 +272,42 @@ pub fn derive_serde_enum_as_int(input: TokenStream) -> TokenStream {
 }
 
 fn get_type_url(attrs: &[syn::Attribute]) -> proc_macro2::TokenStream {
-    let proto_message = get_attr("proto_message", attrs).and_then(|a| a.parse_meta().ok());
+    let proto_message_attr = get_attr("proto_message", attrs);
 
-    if let Some(syn::Meta::List(meta)) = proto_message.clone() {
-        match meta.nested[0].clone() {
-            syn::NestedMeta::Meta(syn::Meta::NameValue(meta)) => {
-                if meta.path.is_ident("type_url") {
-                    match meta.lit {
-                        syn::Lit::Str(s) => quote!(#s),
-                        _ => proto_message_attr_error(meta.lit),
+    if let Some(attr) = proto_message_attr {
+        let meta = &attr.meta;
+
+        if let Meta::List(meta_list) = meta {
+            // Parse the nested meta items
+            let nested = meta_list.parse_args_with(
+                syn::punctuated::Punctuated::<Meta, syn::Token![,]>::parse_terminated,
+            );
+
+            if let Ok(nested_metas) = nested {
+                if let Some(first) = nested_metas.first() {
+                    if let Meta::NameValue(name_value) = first {
+                        if name_value.path.is_ident("type_url") {
+                            if let Expr::Lit(ExprLit {
+                                lit: Lit::Str(s), ..
+                            }) = &name_value.value
+                            {
+                                return quote!(#s);
+                            } else {
+                                return proto_message_attr_error(&name_value.value);
+                            }
+                        } else {
+                            return proto_message_attr_error(&name_value.path);
+                        }
+                    } else {
+                        return proto_message_attr_error(first);
                     }
-                } else {
-                    proto_message_attr_error(meta.path)
                 }
             }
-            t => proto_message_attr_error(t),
         }
+
+        proto_message_attr_error(attr)
     } else {
-        proto_message_attr_error(proto_message)
+        proto_message_attr_error("proto_message attribute not found")
     }
 }
 
@@ -297,15 +315,21 @@ fn get_query_attrs<F>(attrs: &[syn::Attribute], f: F) -> proc_macro2::TokenStrea
 where
     F: FnMut(&Vec<TokenTree>) -> Option<proc_macro2::TokenStream>,
 {
-    let proto_query = get_attr("proto_query", attrs);
+    let proto_query_attr = get_attr("proto_query", attrs);
 
-    if let Some(attr) = proto_query {
-        if attr.tokens.clone().into_iter().count() != 1 {
-            return proto_query_attr_error(proto_query);
-        }
+    if let Some(attr) = proto_query_attr {
+        let meta = &attr.meta;
 
-        if let Some(TokenTree::Group(group)) = attr.tokens.clone().into_iter().next() {
-            let kv_groups = group.stream().into_iter().chunk_by(|t| {
+        if let Meta::List(meta_list) = meta {
+            let tokens = meta_list.tokens.clone();
+
+            if tokens.clone().into_iter().count() < 1 {
+                return proto_query_attr_error(attr);
+            }
+
+            // The tokens in a MetaList are the contents inside the parentheses
+            // Parse them as a group
+            let kv_groups = tokens.into_iter().chunk_by(|t| {
                 if let TokenTree::Punct(punct) = t {
                     punct.as_char() != ','
                 } else {
@@ -323,19 +347,19 @@ where
             return key_values
                 .iter()
                 .find_map(f)
-                .unwrap_or_else(|| proto_query_attr_error(proto_query));
+                .unwrap_or_else(|| proto_query_attr_error(attr));
         }
 
-        proto_query_attr_error(proto_query)
+        proto_query_attr_error(attr)
     } else {
-        proto_query_attr_error(proto_query)
+        proto_query_attr_error("proto_query attribute not found")
     }
 }
 
 fn get_attr<'a>(attr_ident: &str, attrs: &'a [syn::Attribute]) -> Option<&'a syn::Attribute> {
-    attrs
-        .iter()
-        .find(|&attr| attr.path.segments.len() == 1 && attr.path.segments[0].ident == attr_ident)
+    attrs.iter().find(|&attr| {
+        attr.path().segments.len() == 1 && attr.path().segments[0].ident == attr_ident
+    })
 }
 
 fn proto_message_attr_error<T: quote::ToTokens>(tokens: T) -> proc_macro2::TokenStream {

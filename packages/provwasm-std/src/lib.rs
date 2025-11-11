@@ -7,7 +7,9 @@ pub mod shim;
     deprecated,
     unused_imports,
     clippy::large_enum_variant,
-    clippy::too_many_arguments
+    clippy::too_many_arguments,
+    clippy::doc_overindented_list_items,
+    clippy::doc_lazy_continuation
 )]
 pub mod types;
 
