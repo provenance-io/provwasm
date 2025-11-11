@@ -51,7 +51,7 @@ provenanced tx bank send \
   --chain-id="testing" \
   --gas=auto \
   --gas-prices="1nhash" \
-  --gas-adjustment=1.5 \
+  --gas-adjustment=1 \
   --broadcast-mode=block \
   --yes \
   --testnet \
@@ -70,7 +70,7 @@ provenanced tx name bind \
   --keyring-backend test \
   --chain-id="testing" \
   --gas-prices="1nhash" \
-  --gas-adjustment=1.5 \
+  --gas-adjustment=1 \
   --broadcast-mode block \
   --yes \
   --testnet \
@@ -87,7 +87,7 @@ provenanced tx wasm store "$WASM" \
   --chain-id="testing" \
   --gas=auto \
   --gas-prices="1nhash" \
-  --gas-adjustment=1.5 \
+  --gas-adjustment=1 \
   --broadcast-mode=block \
   --yes \
   -t
@@ -104,7 +104,7 @@ provenanced tx wasm instantiate 1 '{}' \
   --chain-id="testing" \
   --gas=auto \
   --gas-prices="1nhash" \
-  --gas-adjustment=1.5 \
+  --gas-adjustment=1 \
   --broadcast-mode block \
   --yes \
   --testnet
@@ -140,7 +140,7 @@ provenanced tx wasm execute \
   --chain-id testing \
   --gas auto \
   --gas-prices="1nhash" \
-  --gas-adjustment=1.5 \
+  --gas-adjustment=1 \
   --broadcast-mode block \
   --yes \
   --testnet \

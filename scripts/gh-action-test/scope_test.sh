@@ -17,7 +17,7 @@ export node0=$("$PROV_CMD" keys show -a validator --keyring-backend test --testn
   --chain-id="testing" \
   --gas=auto \
   --gas-prices="1nhash" \
-  --gas-adjustment=1.5 \
+  --gas-adjustment=1 \
   --yes \
   --testnet | "$PROV_CMD" q wait-tx
 
@@ -28,7 +28,7 @@ export node0=$("$PROV_CMD" keys show -a validator --keyring-backend test --testn
   --chain-id="testing" \
   --gas=auto \
   --gas-prices="1nhash" \
-  --gas-adjustment=1.5 \
+  --gas-adjustment=1 \
   --yes \
   --testnet | "$PROV_CMD" q wait-tx
 
@@ -40,7 +40,7 @@ export node0=$("$PROV_CMD" keys show -a validator --keyring-backend test --testn
   --chain-id="testing" \
   --gas=auto \
   --gas-prices="1nhash" \
-  --gas-adjustment=1.5 \
+  --gas-adjustment=1 \
   --yes \
   --testnet | "$PROV_CMD" q wait-tx
 
@@ -57,7 +57,7 @@ $PROV_CMD tx metadata write-contract-specification \
   --chain-id="testing" \
   --gas=auto \
   --gas-prices="1nhash" \
-  --gas-adjustment=1.5 \
+  --gas-adjustment=1 \
   --yes \
   --testnet | "$PROV_CMD" q wait-tx
 
@@ -71,7 +71,7 @@ $PROV_CMD tx metadata write-scope-specification \
   --chain-id="testing" \
   --gas=auto \
   --gas-prices="1nhash" \
-  --gas-adjustment=1.5 \
+  --gas-adjustment=1 \
   --yes \
   --testnet | "$PROV_CMD" q wait-tx
 
@@ -86,7 +86,7 @@ $PROV_CMD tx metadata write-scope \
   --chain-id="testing" \
   --gas=auto \
   --gas-prices="1nhash" \
-  --gas-adjustment=1.5 \
+  --gas-adjustment=1 \
   --yes \
   --testnet | "$PROV_CMD" q wait-tx
 
@@ -107,7 +107,7 @@ $PROV_CMD tx metadata write-scope \
 #  --chain-id="testing" \
 #  --gas=auto \
 #  --gas-prices="1nhash" \
-#  --gas-adjustment=1.5 \
+#  --gas-adjustment=1 \
 #  --yes \
 #  --testnet
 

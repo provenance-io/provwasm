@@ -32,7 +32,7 @@ echo "sending coins to different keys"
   --chain-id="testing" \
   --gas=auto \
   --gas-prices="1nhash" \
-  --gas-adjustment=1.5 \
+  --gas-adjustment=1 \
   --yes \
   --testnet | "$PROV_CMD" q wait-tx
 
@@ -47,7 +47,7 @@ echo "binding name"
   --keyring-backend test \
   --chain-id="testing" \
   --gas-prices="1nhash" \
-  --gas-adjustment=1.5 \
+  --gas-adjustment=1 \
   --yes \
   --testnet | "$PROV_CMD" q wait-tx
 
@@ -60,7 +60,7 @@ echo "storing wasm"
   --chain-id="testing" \
   --gas=auto \
   --gas-prices="1nhash" \
-  --gas-adjustment=1.5 \
+  --gas-adjustment=1 \
   --yes \
   -t | "$PROV_CMD" q wait-tx
 
@@ -73,7 +73,7 @@ echo "instantiating contract"
   --chain-id="testing" \
   --gas=auto \
   --gas-prices="1nhash" \
-  --gas-adjustment=1.5 \
+  --gas-adjustment=1 \
   --yes \
   --testnet | "$PROV_CMD" q wait-tx
 
@@ -113,7 +113,7 @@ echo "target block height: $target_height"
   --chain-id testing \
   --gas auto \
   --gas-prices="1nhash" \
-  --gas-adjustment=1.5 \
+  --gas-adjustment=1 \
   --yes \
   --testnet | "$PROV_CMD" q wait-tx
 
@@ -171,7 +171,7 @@ echo "target time = $target_time"
   --chain-id testing \
   --gas auto \
   --gas-prices="1nhash" \
-  --gas-adjustment=1.5 \
+  --gas-adjustment=1 \
   --yes \
   --testnet | "$PROV_CMD" q wait-tx
 
@@ -226,7 +226,7 @@ current_height=$PROV_CMD q block | jq .block.header.height
   --chain-id testing \
   --gas auto \
   --gas-prices="1nhash" \
-  --gas-adjustment=1.5 \
+  --gas-adjustment=1 \
   --yes \
   --testnet | "$PROV_CMD" q wait-tx
 
@@ -251,7 +251,7 @@ echo "deleting trigger"
   --chain-id testing \
   --gas auto \
   --gas-prices="1nhash" \
-  --gas-adjustment=1.5 \
+  --gas-adjustment=1 \
   --yes \
   --testnet | "$PROV_CMD" q wait-tx
 

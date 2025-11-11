@@ -26,7 +26,7 @@ echo "Sending coins to different keys"
   --chain-id="testing" \
   --gas=auto \
   --gas-prices="1nhash" \
-  --gas-adjustment=1.5 \
+  --gas-adjustment=1 \
   --yes \
   --testnet | "$PROV_CMD" q wait-tx
 
@@ -39,7 +39,7 @@ echo "Sending coins to different keys"
   --chain-id="testing" \
   --gas=auto \
   --gas-prices="1nhash" \
-  --gas-adjustment=1.5 \
+  --gas-adjustment=1 \
   --yes \
   --testnet | "$PROV_CMD" q wait-tx
 
@@ -52,7 +52,7 @@ echo "Sending coins to different keys"
   --chain-id="testing" \
   --gas=auto \
   --gas-prices="1nhash" \
-  --gas-adjustment=1.5 \
+  --gas-adjustment=1 \
   --yes \
   --testnet | "$PROV_CMD" q wait-tx
 
@@ -66,7 +66,7 @@ echo "Sending coins to different keys"
   --keyring-backend test \
   --chain-id="testing" \
   --gas-prices="1nhash" \
-  --gas-adjustment=1.5 \
+  --gas-adjustment=1 \
   --yes \
   --testnet | "$PROV_CMD" q wait-tx
 
@@ -77,7 +77,7 @@ echo "Sending coins to different keys"
   --chain-id="testing" \
   --gas auto \
   --gas-prices="1nhash" \
-  --gas-adjustment=1.5 \
+  --gas-adjustment=1 \
   --yes \
   --testnet | "$PROV_CMD" q wait-tx
 
@@ -90,7 +90,7 @@ echo "Sending coins to different keys"
   --chain-id="testing" \
   --gas auto \
   --gas-prices="1nhash" \
-  --gas-adjustment=1.5 \
+  --gas-adjustment=1 \
   --yes \
   --testnet | "$PROV_CMD" q wait-tx
 
@@ -100,7 +100,7 @@ echo "Sending coins to different keys"
   --chain-id="testing" \
   --gas auto \
   --gas-prices="1nhash" \
-  --gas-adjustment=1.5 \
+  --gas-adjustment=1 \
   --yes \
   --testnet | "$PROV_CMD" q wait-tx
 
@@ -110,7 +110,7 @@ echo "Sending coins to different keys"
   --chain-id="testing" \
   --gas auto \
   --gas-prices="1nhash" \
-  --gas-adjustment=1.5 \
+  --gas-adjustment=1 \
   --yes \
   --testnet | "$PROV_CMD" q wait-tx
 
@@ -122,7 +122,7 @@ echo "Sending coins to different keys"
   --chain-id="testing" \
   --gas auto \
   --gas-prices="1nhash" \
-  --gas-adjustment=1.5 \
+  --gas-adjustment=1 \
   --yes \
   --testnet | "$PROV_CMD" q wait-tx
 
@@ -134,7 +134,7 @@ echo "Sending coins to different keys"
   --chain-id="testing" \
   --gas=auto \
   --gas-prices="1nhash" \
-  --gas-adjustment=1.5 \
+  --gas-adjustment=1 \
   --yes \
   --testnet | "$PROV_CMD" q wait-tx
 
@@ -149,7 +149,7 @@ export json="{ \"contract_name\": \"tutorial.sc.pb\", \"purchase_denom\": \"purc
   --chain-id="testing" \
   --gas=auto \
   --gas-prices="1nhash" \
-  --gas-adjustment=1.5 \
+  --gas-adjustment=1 \
   --yes \
   --testnet | "$PROV_CMD" q wait-tx
 
@@ -165,7 +165,7 @@ export contract=$("$PROV_CMD" query wasm list-contract-by-code 1 --testnet --out
   --chain-id testing \
   --gas auto \
   --gas-prices="1nhash" \
-  --gas-adjustment=1.5 \
+  --gas-adjustment=1 \
   --yes \
   --testnet | "$PROV_CMD" q wait-tx
 

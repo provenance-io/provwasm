@@ -25,7 +25,7 @@ provenanced tx wasm store tutorial.wasm \
     --chain-id testing \
     --gas auto \
     --gas-prices="1nhash" \
-	--gas-adjustment=1.5 \
+	--gas-adjustment=1 \
     --yes \
     --testnet \
 	--output json | jq
