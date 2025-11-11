@@ -139,7 +139,7 @@ provenanced tx wasm execute \
   --keyring-backend test \
   --chain-id testing \
   --gas auto \
-  --gas-prices="1906nhash" \
+  --gas-prices="1nhash" \
   --gas-adjustment=1.5 \
   --broadcast-mode block \
   --yes \

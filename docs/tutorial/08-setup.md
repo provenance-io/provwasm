@@ -76,7 +76,7 @@ provenanced tx bank send \
 	--home=build/run/provenanced \
 	--chain-id=testing \
 	--gas=auto \
-	--gas-prices="1905nhash" \
+	--gas-prices="1nhash" \
 	--gas-adjustment=1.5 \
 	--yes \
 	--testnet \
@@ -95,7 +95,7 @@ provenanced tx bank send \
 	--home=build/run/provenanced \
 	--chain-id=testing \
 	--gas=auto \
-	--gas-prices="1905nhash" \
+	--gas-prices="1nhash" \
 	--gas-adjustment=1.5 \
 	--yes \
 	--testnet \
@@ -136,7 +136,8 @@ provenanced tx name bind \
     --keyring-backend test \
     --home build/run/provenanced \
     --chain-id testing \
-    --gas-prices="100000nhash" \
+    --gas-auto \
+    --gas-prices="1nhash" \
 	--gas-adjustment=1.5 \
     --yes \
     --testnet \
@@ -155,7 +156,7 @@ provenanced tx marker new 1000000000purchasecoin \
     --home build/run/provenanced \
     --chain-id testing \
     --gas auto \
-    --gas-prices="1000000nhash" \
+    --gas-prices="1nhash" \
 	--gas-adjustment=1.5 \
     --yes \
     --testnet \
