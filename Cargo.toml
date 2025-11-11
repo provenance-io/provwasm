@@ -10,7 +10,6 @@ members = [
     "contracts/ibc/local",
     "contracts/ibc/remote",
     "contracts/marker",
-    "contracts/msgfees",
     "contracts/name",
     "contracts/scope",
     "contracts/trigger",
