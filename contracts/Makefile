@@ -13,10 +13,6 @@ ibc:
 marker:
 	@make -C marker
 
-.PHONY: msgfees
-msgfees:
-	@make -C msgfees
-
 .PHONY: name
 name:
 	@make -C name

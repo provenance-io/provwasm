@@ -80,27 +80,6 @@ jobs:
           smart_contract_action_version: "latest"
           test_script: "./scripts/gh-action-test/marker_test.sh"
 
-  test_msgfees_smart_contract:
-    runs-on: ubuntu-latest
-    name: Test MsgFees Smart Contract
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Add wasm32 target
-        run: |
-          rustup target add wasm32-unknown-unknown
-      - name: Build wasm binary
-        run: |
-          cd ./contracts/msgfees
-          make all
-      - name: Provenance Test
-        uses: provenance-io/provenance-testing-action@v1.3.0
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          provenance_version: "v1.26.0-rc1"
-          smart_contract_action_version: "latest"
-          test_script: "./scripts/gh-action-test/msgfees_test.sh"
-
   test_name_smart_contract:
     runs-on: ubuntu-latest
     name: Test Name Smart Contract
