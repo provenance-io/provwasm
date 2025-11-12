@@ -2565,8 +2565,7 @@ pub struct MsgSetAccountDataResponse {}
 /// Deprecated: This message is no longer part of any endpoint and cannot be used for anything.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
-#[proto_message(type_url = "/provenance.metadata.v1.MsgWriteP8eContractSpecRequest")]
-#[deprecated]
+#[proto_message(type_url = "/provenance.metadata.v1.")]
 pub struct MsgWriteP8eContractSpecRequest {
     #[prost(message, optional, tag = "1")]
     pub contractspec: ::core::option::Option<p8e::ContractSpec>,
@@ -2577,8 +2576,7 @@ pub struct MsgWriteP8eContractSpecRequest {
 /// Deprecated: This message is no longer part of any endpoint and cannot be used for anything.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
-#[proto_message(type_url = "/provenance.metadata.v1.MsgWriteP8eContractSpecResponse")]
-#[deprecated]
+#[proto_message(type_url = "/provenance.metadata.v1.")]
 pub struct MsgWriteP8eContractSpecResponse {
     #[prost(message, optional, tag = "1")]
     pub contract_spec_id_info: ::core::option::Option<ContractSpecIdInfo>,
@@ -2589,8 +2587,7 @@ pub struct MsgWriteP8eContractSpecResponse {
 /// Deprecated: This message is no longer part of any endpoint and cannot be used for anything.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
-#[proto_message(type_url = "/provenance.metadata.v1.MsgP8eMemorializeContractRequest")]
-#[deprecated]
+#[proto_message(type_url = "/provenance.metadata.v1.")]
 pub struct MsgP8eMemorializeContractRequest {
     #[prost(string, tag = "1")]
     pub scope_id: ::prost::alloc::string::String,
@@ -2611,8 +2608,7 @@ pub struct MsgP8eMemorializeContractRequest {
 /// Deprecated: This message is no longer part of any endpoint and cannot be used for anything.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
-#[proto_message(type_url = "/provenance.metadata.v1.MsgP8eMemorializeContractResponse")]
-#[deprecated]
+#[proto_message(type_url = "/provenance.metadata.v1.")]
 pub struct MsgP8eMemorializeContractResponse {
     #[prost(message, optional, tag = "1")]
     pub scope_id_info: ::core::option::Option<ScopeIdInfo>,
