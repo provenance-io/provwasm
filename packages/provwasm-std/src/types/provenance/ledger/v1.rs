@@ -49,6 +49,23 @@ pub struct EventLedgerEntryAdded {
     #[prost(string, tag = "3")]
     pub correlation_id: ::prost::alloc::string::String,
 }
+/// EventLedgerEntryUpdated is emitted when an existing ledger entry is updated.
+/// This event is triggered by the UpdateBalances message handler when a ledger
+/// entry is successfully updated.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provenance.ledger.v1.EventLedgerEntryUpdated")]
+pub struct EventLedgerEntryUpdated {
+    /// asset class of the ledger.
+    #[prost(string, tag = "1")]
+    pub asset_class_id: ::prost::alloc::string::String,
+    /// nft id of the ledger (scope id or nft id).
+    #[prost(string, tag = "2")]
+    pub nft_id: ::prost::alloc::string::String,
+    /// correlation id of the ledger entry.
+    #[prost(string, tag = "3")]
+    pub correlation_id: ::prost::alloc::string::String,
+}
 /// EventFundTransferWithSettlement is emitted when funds are transferred with
 /// settlement instructions. This event is triggered by the
 /// MsgTransferFundsWithSettlement message handler when a fund transfer with
@@ -80,6 +97,43 @@ pub struct EventLedgerDestroyed {
     /// nft id of the ledger (scope id or nft id).
     #[prost(string, tag = "2")]
     pub nft_id: ::prost::alloc::string::String,
+}
+/// EventLedgerClassCreated is emitted when a ledger class is created.
+/// This event is triggered by the MsgCreateLedgerClassRequest message handler
+/// when a new ledger class is created.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provenance.ledger.v1.EventLedgerClassCreated")]
+pub struct EventLedgerClassCreated {
+    /// The id of the ledger class that was created.
+    #[prost(string, tag = "1")]
+    pub ledger_class_id: ::prost::alloc::string::String,
+    /// The id of the asset class that the ledger class was created for.
+    #[prost(string, tag = "2")]
+    pub asset_class_id: ::prost::alloc::string::String,
+    /// The denom that this ledger class uses.
+    #[prost(string, tag = "3")]
+    pub denom: ::prost::alloc::string::String,
+}
+/// EventLedgerClassTypeCreated is emitted when any type for a ledger class is created.
+/// This event is triggered by the MsgAddLedgerClassStatusTypeRequest, MsgAddLedgerClassEntryTypeRequest,
+/// and MsgAddLedgerClassBucketTypeRequest message handlers when they create their respective types.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provenance.ledger.v1.EventLedgerClassTypeCreated")]
+pub struct EventLedgerClassTypeCreated {
+    /// The id of the ledger class that the type was created.
+    #[prost(string, tag = "1")]
+    pub ledger_class_id: ::prost::alloc::string::String,
+    /// The specific type of thing that was created.
+    #[prost(enumeration = "ClassTypeCreated", tag = "2")]
+    pub type_created: i32,
+    /// The id of the created type.
+    #[prost(string, tag = "3")]
+    pub id: ::prost::alloc::string::String,
+    /// The code of the created type.
+    #[prost(string, tag = "4")]
+    pub code: ::prost::alloc::string::String,
 }
 /// UpdateType is the type of data update that caused the EventLedgerUpdated event to be emitted.
 /// This is used to identify the specific update that caused the event to be emitted.
@@ -130,6 +184,55 @@ impl UpdateType {
             "UPDATE_TYPE_INTEREST_RATE" => Some(Self::InterestRate),
             "UPDATE_TYPE_PAYMENT" => Some(Self::Payment),
             "UPDATE_TYPE_MATURITY_DATE" => Some(Self::MaturityDate),
+            _ => None,
+        }
+    }
+}
+/// ClassTypeCreated is the type of data that caused the EventLedgerClassTypeCreated event to be emitted.
+/// This is used to identify the specific type that was just created.
+#[derive(
+    Clone,
+    Copy,
+    Debug,
+    PartialEq,
+    Eq,
+    Hash,
+    PartialOrd,
+    Ord,
+    ::prost::Enumeration,
+    ::schemars::JsonSchema,
+)]
+#[repr(i32)]
+pub enum ClassTypeCreated {
+    /// CLASS_TYPE_CREATED_UNSPECIFIED indicates that the class type is unspecified.
+    Unspecified = 0,
+    /// CLASS_TYPE_CREATED_STATUS is for when a LedgerClassStatusType is created.
+    Status = 1,
+    /// CLASS_TYPE_CREATED_ENTRY is for when a LedgerClassEntryType is created.
+    Entry = 2,
+    /// CLASS_TYPE_CREATED_BUCKET is for when a LedgerClassBucketType is created.
+    Bucket = 3,
+}
+impl ClassTypeCreated {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            ClassTypeCreated::Unspecified => "CLASS_TYPE_CREATED_UNSPECIFIED",
+            ClassTypeCreated::Status => "CLASS_TYPE_CREATED_STATUS",
+            ClassTypeCreated::Entry => "CLASS_TYPE_CREATED_ENTRY",
+            ClassTypeCreated::Bucket => "CLASS_TYPE_CREATED_BUCKET",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "CLASS_TYPE_CREATED_UNSPECIFIED" => Some(Self::Unspecified),
+            "CLASS_TYPE_CREATED_STATUS" => Some(Self::Status),
+            "CLASS_TYPE_CREATED_ENTRY" => Some(Self::Entry),
+            "CLASS_TYPE_CREATED_BUCKET" => Some(Self::Bucket),
             _ => None,
         }
     }
@@ -352,6 +455,13 @@ pub struct LedgerAndEntries {
 #[repr(i32)]
 pub enum DayCountConvention {
     /// Unspecified day count convention.
+    ///
+    /// This value is never a field's actual value, it just indicates that, for a given request, the day count convention
+    /// is not being provided. E.g. if this value is provided in a MsgUpdateInterestRateRequest, it indicates that the day
+    /// count convention is not being provided, and so should not be updated.
+    ///
+    /// DAY_COUNT_CONVENTION_UNSPECIFIED indicates that the day count convention is not being provided.
+    /// DAY_COUNT_CONVENTION_NOT_DEFINED indicates that the day count convention of the entry does not have a value.
     Unspecified = 0,
     /// Actual/365: Uses the actual number of days in the period with a fixed denominator of 365
     /// (or sometimes 365.25 to adjust for leap years).
@@ -367,6 +477,16 @@ pub enum DayCountConvention {
     Days365 = 5,
     /// 360/360: Always uses 360 days in both the numerator and denominator.
     Days360 = 6,
+    /// Not Defined: The day count convention is not defined.
+    ///
+    /// This value indicates that the day count convention should be on record as not having a value. It could mean that
+    /// the day count convention is not one of the other values in this enum, or it could mean that it doesn't make sense
+    /// for the entry to have a day count convention. It could also just mean that the day count convention has not yet
+    /// been defined for the entry.
+    ///
+    /// DAY_COUNT_CONVENTION_UNSPECIFIED indicates that the day count convention is not being provided.
+    /// DAY_COUNT_CONVENTION_NOT_DEFINED indicates that the day count convention of the entry does not have a value.
+    NotDefined = 7,
 }
 impl DayCountConvention {
     /// String value of the enum field names used in the ProtoBuf definition.
@@ -382,6 +502,7 @@ impl DayCountConvention {
             DayCountConvention::ActualActual => "DAY_COUNT_CONVENTION_ACTUAL_ACTUAL",
             DayCountConvention::Days365 => "DAY_COUNT_CONVENTION_DAYS_365",
             DayCountConvention::Days360 => "DAY_COUNT_CONVENTION_DAYS_360",
+            DayCountConvention::NotDefined => "DAY_COUNT_CONVENTION_NOT_DEFINED",
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.
@@ -394,6 +515,7 @@ impl DayCountConvention {
             "DAY_COUNT_CONVENTION_ACTUAL_ACTUAL" => Some(Self::ActualActual),
             "DAY_COUNT_CONVENTION_DAYS_365" => Some(Self::Days365),
             "DAY_COUNT_CONVENTION_DAYS_360" => Some(Self::Days360),
+            "DAY_COUNT_CONVENTION_NOT_DEFINED" => Some(Self::NotDefined),
             _ => None,
         }
     }
@@ -414,6 +536,13 @@ impl DayCountConvention {
 #[repr(i32)]
 pub enum InterestAccrualMethod {
     /// Unspecified interest accrual method.
+    ///
+    /// This value is never a field's actual value, it just indicates that, for a given request, the interest accrual
+    /// method is not being provided. E.g. if this value is provided in a MsgUpdateInterestRateRequest, it indicates that
+    /// the interest accrual method is not being provided, and so should not be updated.
+    ///
+    /// INTEREST_ACCRUAL_METHOD_UNSPECIFIED indicates that the interest accrual method is not being provided.
+    /// INTEREST_ACCRUAL_METHOD_NOT_DEFINED indicates that the interest accrual method of the entry does not have a value.
     Unspecified = 0,
     /// Simple Interest: Calculated only on the principal amount.
     SimpleInterest = 1,
@@ -429,6 +558,16 @@ pub enum InterestAccrualMethod {
     AnnualCompounding = 6,
     /// Continuous Compounding: The theoretical limit of compounding frequency where interest is compounded continuously.
     ContinuousCompounding = 7,
+    /// Not Defined: The interest accrual method is not defined.
+    ///
+    /// This value indicates that the interest accrual method should be on record as not having a value. It could mean that
+    /// the interest accrual method is not one of the other values in this enum, or it could mean that it doesn't make
+    /// sense for the entry to have an interest accrual method. It could also just mean that the interest accrual method
+    /// has not yet been defined for the entry.
+    ///
+    /// INTEREST_ACCRUAL_METHOD_UNSPECIFIED indicates that the interest accrual method is not being provided.
+    /// INTEREST_ACCRUAL_METHOD_NOT_DEFINED indicates that the interest accrual method of the entry does not have a value.
+    NotDefined = 8,
 }
 impl InterestAccrualMethod {
     /// String value of the enum field names used in the ProtoBuf definition.
@@ -453,6 +592,7 @@ impl InterestAccrualMethod {
             InterestAccrualMethod::ContinuousCompounding => {
                 "INTEREST_ACCRUAL_METHOD_CONTINUOUS_COMPOUNDING"
             }
+            InterestAccrualMethod::NotDefined => "INTEREST_ACCRUAL_METHOD_NOT_DEFINED",
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.
@@ -466,6 +606,7 @@ impl InterestAccrualMethod {
             "INTEREST_ACCRUAL_METHOD_QUARTERLY_COMPOUNDING" => Some(Self::QuarterlyCompounding),
             "INTEREST_ACCRUAL_METHOD_ANNUAL_COMPOUNDING" => Some(Self::AnnualCompounding),
             "INTEREST_ACCRUAL_METHOD_CONTINUOUS_COMPOUNDING" => Some(Self::ContinuousCompounding),
+            "INTEREST_ACCRUAL_METHOD_NOT_DEFINED" => Some(Self::NotDefined),
             _ => None,
         }
     }
@@ -486,6 +627,13 @@ impl InterestAccrualMethod {
 #[repr(i32)]
 pub enum PaymentFrequency {
     /// Unspecified payment frequency.
+    ///
+    /// This value is never a field's actual value, it just indicates that, for a given request, the payment frequency is
+    /// not being provided. E.g. if this value is provided in a MsgUpdatePaymentRequest, it indicates that the payment
+    /// frequency is not being provided, and so should not be updated.
+    ///
+    /// PAYMENT_FREQUENCY_UNSPECIFIED indicates that the payment frequency is not being provided.
+    /// PAYMENT_FREQUENCY_NOT_DEFINED indicates that the payment frequency of the entry does not have a value.
     Unspecified = 0,
     /// Daily payments.
     Daily = 1,
@@ -497,6 +645,16 @@ pub enum PaymentFrequency {
     Quarterly = 4,
     /// Annual payments.
     Annually = 5,
+    /// Not Defined: The payment frequency is not defined.
+    ///
+    /// This value indicates that the payment frequency should be on record as not having a value. It could mean that the
+    /// payment frequency is not one of the other values in this enum, or it could mean that it doesn't make sense for the
+    /// entry to have a payment frequency. It could also just mean that the payment frequency has not yet been defined for
+    /// the entry.
+    ///
+    /// PAYMENT_FREQUENCY_UNSPECIFIED indicates that the payment frequency is not being provided.
+    /// PAYMENT_FREQUENCY_NOT_DEFINED indicates that the payment frequency of the entry does not have a value.
+    NotDefined = 6,
 }
 impl PaymentFrequency {
     /// String value of the enum field names used in the ProtoBuf definition.
@@ -511,6 +669,7 @@ impl PaymentFrequency {
             PaymentFrequency::Monthly => "PAYMENT_FREQUENCY_MONTHLY",
             PaymentFrequency::Quarterly => "PAYMENT_FREQUENCY_QUARTERLY",
             PaymentFrequency::Annually => "PAYMENT_FREQUENCY_ANNUALLY",
+            PaymentFrequency::NotDefined => "PAYMENT_FREQUENCY_NOT_DEFINED",
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.
@@ -522,6 +681,7 @@ impl PaymentFrequency {
             "PAYMENT_FREQUENCY_MONTHLY" => Some(Self::Monthly),
             "PAYMENT_FREQUENCY_QUARTERLY" => Some(Self::Quarterly),
             "PAYMENT_FREQUENCY_ANNUALLY" => Some(Self::Annually),
+            "PAYMENT_FREQUENCY_NOT_DEFINED" => Some(Self::NotDefined),
             _ => None,
         }
     }
@@ -1040,12 +1200,18 @@ pub struct MsgUpdateInterestRateRequest {
     #[prost(string, tag = "2")]
     pub signer: ::prost::alloc::string::String,
     /// The new interest rate of the ledger.
+    /// This field is NOT optional. If not provided (or provided as zero),
+    /// then the ledger's interest_rate field will be updated to be zero.
     #[prost(int32, tag = "3")]
     pub interest_rate: i32,
     /// The new interest day count convention of the ledger.
+    /// This field is optional. If not provided (or set to unspecified),
+    /// the interest day count convention will not be updated.
     #[prost(enumeration = "DayCountConvention", tag = "4")]
     pub interest_day_count_convention: i32,
     /// The new interest accrual method of the ledger.
+    /// This field is optional. If not provided (or set to unspecified),
+    /// the interest accrual method will not be updated.
     #[prost(enumeration = "InterestAccrualMethod", tag = "5")]
     pub interest_accrual_method: i32,
 }
@@ -1067,12 +1233,16 @@ pub struct MsgUpdatePaymentRequest {
     pub signer: ::prost::alloc::string::String,
     /// The new next payment amount of the ledger.
     /// The units of this field are defined by the denom field in this ledger's class.
+    /// This field is NOT optional. If you don't provide a value (or provide it as zero),
+    /// then the ledger's next_pmt_amt field will be updated to be zero.
     #[prost(string, tag = "3")]
     pub next_pmt_amt: ::prost::alloc::string::String,
     /// The new next payment date in days since epoch.
+    /// This field is not optional and cannot be zero.
     #[prost(int32, tag = "4")]
     pub next_pmt_date: i32,
     /// The new payment frequency of the ledger.
+    /// This field is optional. If set to unspecified, it will be ignored and the payment_frequency will not be changed.
     #[prost(enumeration = "PaymentFrequency", tag = "5")]
     pub payment_frequency: i32,
 }

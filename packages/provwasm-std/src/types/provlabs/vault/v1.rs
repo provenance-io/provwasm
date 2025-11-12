@@ -62,6 +62,54 @@ pub struct EventVaultCreated {
     #[prost(string, tag = "4")]
     pub underlying_asset: ::prost::alloc::string::String,
 }
+/// EventDenomUnit describes a single denom unit entry that is included in the
+/// share denom metadata emitted with EventSetShareDenomMetadata.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provlabs.vault.v1.EventDenomUnit")]
+pub struct EventDenomUnit {
+    /// denom is the unit name (e.g., "nushare", "ushare").
+    #[prost(string, tag = "1")]
+    pub denom: ::prost::alloc::string::String,
+    /// exponent is the base-10 exponent for this unit relative to the base denom.
+    /// For example, exponent=6 means 1 display unit = 10^6 base units.
+    #[prost(string, tag = "2")]
+    pub exponent: ::prost::alloc::string::String,
+    /// aliases lists optional alternative names for this unit. May be empty.
+    #[prost(string, repeated, tag = "3")]
+    pub aliases: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// EventSetShareDenomMetadata is emitted when denom metadata is set for a vault’s
+/// share denom (via MsgSetShareDenomMetadata).
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provlabs.vault.v1.EventSetShareDenomMetadata")]
+pub struct EventSetShareDenomMetadata {
+    /// vault_address is the bech32 address of the vault.
+    #[prost(string, tag = "1")]
+    pub vault_address: ::prost::alloc::string::String,
+    /// metadata_base is the base denomination (e.g., "nushare").
+    #[prost(string, tag = "2")]
+    pub metadata_base: ::prost::alloc::string::String,
+    /// metadata_description is a human-readable description of the share denom.
+    #[prost(string, tag = "3")]
+    pub metadata_description: ::prost::alloc::string::String,
+    /// metadata_display is the display denomination (e.g., "ushare" or "SHARE").
+    #[prost(string, tag = "4")]
+    pub metadata_display: ::prost::alloc::string::String,
+    /// metadata_denom_units lists all denom units and their exponents.
+    #[prost(message, repeated, tag = "5")]
+    pub metadata_denom_units: ::prost::alloc::vec::Vec<EventDenomUnit>,
+    /// administrator is the bech32 address of the signer that set the metadata.
+    #[prost(string, tag = "6")]
+    pub administrator: ::prost::alloc::string::String,
+    /// metadata_name is the descriptive name for the share denom.
+    #[prost(string, tag = "7")]
+    pub metadata_name: ::prost::alloc::string::String,
+    /// metadata_symbol is the short ticker-style symbol (optional).
+    #[prost(string, tag = "8")]
+    pub metadata_symbol: ::prost::alloc::string::String,
+}
 /// EventSwapIn is an event emitted when assets are swapped in for vault shares.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
@@ -850,6 +898,27 @@ pub struct MsgCreateVaultResponse {
     #[prost(string, tag = "1")]
     pub vault_address: ::prost::alloc::string::String,
 }
+/// MsgSetShareDenomMetadataRequest defines the request to set bank denom metadata for a vault's share denom.
+/// The target denom is derived from the vault identified by vault_address.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provlabs.vault.v1.MsgSetShareDenomMetadataRequest")]
+pub struct MsgSetShareDenomMetadataRequest {
+    /// metadata is the bank module Metadata to assign to the vault's share denom.
+    #[prost(message, optional, tag = "1")]
+    pub metadata: ::core::option::Option<super::super::super::cosmos::bank::v1beta1::Metadata>,
+    /// admin is the address of the vault administrator authorizing this update.
+    #[prost(string, tag = "2")]
+    pub admin: ::prost::alloc::string::String,
+    /// vault_address is the bech32 address of the vault whose share denom metadata is being set.
+    #[prost(string, tag = "3")]
+    pub vault_address: ::prost::alloc::string::String,
+}
+/// MsgSetShareDenomMetadataResponse defines the response for setting a vault's share denom metadata.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provlabs.vault.v1.MsgSetShareDenomMetadataResponse")]
+pub struct MsgSetShareDenomMetadataResponse {}
 /// MsgSwapInRequest is the request message for depositing underlying assets into a vault in exchange for shares.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
