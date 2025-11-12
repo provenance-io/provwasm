@@ -42,7 +42,7 @@ provenanced tx wasm instantiate 1 \
     --chain-id testing \
     --gas auto \
     --gas-prices="1nhash" \
-	--gas-adjustment=1 \
+	  --gas-adjustment=1 \
     --yes \
     --testnet \
 	--output json | jq
