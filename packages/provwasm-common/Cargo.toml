@@ -13,3 +13,6 @@ categories = ["cryptography::cryptocurrencies", "wasm"]
 
 [dependencies]
 cosmwasm-std = { workspace = true }
+ed25519-zebra = { version = "4.1.0", default-features = false, features = [
+    "alloc",
+] }
