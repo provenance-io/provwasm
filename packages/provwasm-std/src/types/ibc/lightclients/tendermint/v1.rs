@@ -1,7 +1,6 @@
 use provwasm_proc_macro::CosmwasmExt;
 /// ClientState from Tendermint tracks the current validator set, latest height,
 /// and a possible frozen height.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.lightclients.tendermint.v1.ClientState")]
 pub struct ClientState {
@@ -48,7 +47,6 @@ pub struct ClientState {
     pub allow_update_after_misbehaviour: bool,
 }
 /// ConsensusState defines the consensus state from Tendermint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.lightclients.tendermint.v1.ConsensusState")]
 pub struct ConsensusState {
@@ -64,7 +62,6 @@ pub struct ConsensusState {
 }
 /// Misbehaviour is a wrapper over two conflicting Headers
 /// that implements Misbehaviour interface expected by ICS-02
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.lightclients.tendermint.v1.Misbehaviour")]
 pub struct Misbehaviour {
@@ -89,7 +86,6 @@ pub struct Misbehaviour {
 /// current time in order to correctly verify, and the TrustedValidators must
 /// hash to TrustedConsensusState.NextValidatorsHash since that is the last
 /// trusted validator set at the TrustedHeight.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.lightclients.tendermint.v1.Header")]
 pub struct Header {
@@ -107,7 +103,6 @@ pub struct Header {
 }
 /// Fraction defines the protobuf message type for tmmath.Fraction that only
 /// supports positive values.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.lightclients.tendermint.v1.Fraction")]
 pub struct Fraction {

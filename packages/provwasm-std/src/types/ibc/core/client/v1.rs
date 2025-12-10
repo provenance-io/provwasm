@@ -1,7 +1,6 @@
 use provwasm_proc_macro::CosmwasmExt;
 /// IdentifiedClientState defines a client state with an additional client
 /// identifier field.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.client.v1.IdentifiedClientState")]
 pub struct IdentifiedClientState {
@@ -14,7 +13,6 @@ pub struct IdentifiedClientState {
 }
 /// ConsensusStateWithHeight defines a consensus state with an additional height
 /// field.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.client.v1.ConsensusStateWithHeight")]
 pub struct ConsensusStateWithHeight {
@@ -27,7 +25,6 @@ pub struct ConsensusStateWithHeight {
 }
 /// ClientConsensusStates defines all the stored consensus states for a given
 /// client.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.client.v1.ClientConsensusStates")]
 pub struct ClientConsensusStates {
@@ -48,7 +45,6 @@ pub struct ClientConsensusStates {
 /// breaking changes In these cases, the RevisionNumber is incremented so that
 /// height continues to be monitonically increasing even as the RevisionHeight
 /// gets reset
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.client.v1.Height")]
 pub struct Height {
@@ -60,7 +56,6 @@ pub struct Height {
     pub revision_height: u64,
 }
 /// Params defines the set of IBC light client parameters.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.client.v1.Params")]
 pub struct Params {
@@ -76,7 +71,6 @@ pub struct Params {
 /// chain parameters (with exception to latest height, frozen height, and chain-id).
 ///
 /// Deprecated: Please use MsgRecoverClient in favour of this message type.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.client.v1.ClientUpdateProposal")]
 #[deprecated]
@@ -99,7 +93,6 @@ pub struct ClientUpdateProposal {
 /// upgrade.
 ///
 /// Deprecated: Please use MsgIBCSoftwareUpgrade in favour of this message type.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.client.v1.UpgradeProposal")]
 #[deprecated]
@@ -120,7 +113,6 @@ pub struct UpgradeProposal {
     pub upgraded_client_state: ::core::option::Option<crate::shim::Any>,
 }
 /// GenesisState defines the ibc client submodule's genesis state.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.client.v1.GenesisState")]
 pub struct GenesisState {
@@ -146,7 +138,6 @@ pub struct GenesisState {
 }
 /// GenesisMetadata defines the genesis type for metadata that clients may return
 /// with ExportMetadata
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.client.v1.GenesisMetadata")]
 pub struct GenesisMetadata {
@@ -159,7 +150,6 @@ pub struct GenesisMetadata {
 }
 /// IdentifiedGenesisMetadata has the client metadata with the corresponding
 /// client id.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.client.v1.IdentifiedGenesisMetadata")]
 pub struct IdentifiedGenesisMetadata {
@@ -170,7 +160,6 @@ pub struct IdentifiedGenesisMetadata {
 }
 /// QueryClientStateRequest is the request type for the Query/ClientState RPC
 /// method
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.client.v1.QueryClientStateRequest")]
 #[proto_query(
@@ -185,7 +174,6 @@ pub struct QueryClientStateRequest {
 /// QueryClientStateResponse is the response type for the Query/ClientState RPC
 /// method. Besides the client state, it includes a proof and the height from
 /// which the proof was retrieved.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.client.v1.QueryClientStateResponse")]
 pub struct QueryClientStateResponse {
@@ -201,7 +189,6 @@ pub struct QueryClientStateResponse {
 }
 /// QueryClientStatesRequest is the request type for the Query/ClientStates RPC
 /// method
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.client.v1.QueryClientStatesRequest")]
 #[proto_query(
@@ -217,7 +204,6 @@ pub struct QueryClientStatesRequest {
 }
 /// QueryClientStatesResponse is the response type for the Query/ClientStates RPC
 /// method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.client.v1.QueryClientStatesResponse")]
 pub struct QueryClientStatesResponse {
@@ -233,7 +219,6 @@ pub struct QueryClientStatesResponse {
 /// QueryConsensusStateRequest is the request type for the Query/ConsensusState
 /// RPC method. Besides the consensus state, it includes a proof and the height
 /// from which the proof was retrieved.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.client.v1.QueryConsensusStateRequest")]
 #[proto_query(
@@ -257,7 +242,6 @@ pub struct QueryConsensusStateRequest {
 }
 /// QueryConsensusStateResponse is the response type for the Query/ConsensusState
 /// RPC method
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.client.v1.QueryConsensusStateResponse")]
 pub struct QueryConsensusStateResponse {
@@ -273,7 +257,6 @@ pub struct QueryConsensusStateResponse {
 }
 /// QueryConsensusStatesRequest is the request type for the Query/ConsensusStates
 /// RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.client.v1.QueryConsensusStatesRequest")]
 #[proto_query(
@@ -292,7 +275,6 @@ pub struct QueryConsensusStatesRequest {
 }
 /// QueryConsensusStatesResponse is the response type for the
 /// Query/ConsensusStates RPC method
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.client.v1.QueryConsensusStatesResponse")]
 pub struct QueryConsensusStatesResponse {
@@ -307,7 +289,6 @@ pub struct QueryConsensusStatesResponse {
 }
 /// QueryConsensusStateHeightsRequest is the request type for Query/ConsensusStateHeights
 /// RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.client.v1.QueryConsensusStateHeightsRequest")]
 #[proto_query(
@@ -326,7 +307,6 @@ pub struct QueryConsensusStateHeightsRequest {
 }
 /// QueryConsensusStateHeightsResponse is the response type for the
 /// Query/ConsensusStateHeights RPC method
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.client.v1.QueryConsensusStateHeightsResponse")]
 pub struct QueryConsensusStateHeightsResponse {
@@ -341,7 +321,6 @@ pub struct QueryConsensusStateHeightsResponse {
 }
 /// QueryClientStatusRequest is the request type for the Query/ClientStatus RPC
 /// method
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.client.v1.QueryClientStatusRequest")]
 #[proto_query(
@@ -355,7 +334,6 @@ pub struct QueryClientStatusRequest {
 }
 /// QueryClientStatusResponse is the response type for the Query/ClientStatus RPC
 /// method. It returns the current status of the IBC client.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.client.v1.QueryClientStatusResponse")]
 pub struct QueryClientStatusResponse {
@@ -364,7 +342,6 @@ pub struct QueryClientStatusResponse {
 }
 /// QueryClientParamsRequest is the request type for the Query/ClientParams RPC
 /// method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.client.v1.QueryClientParamsRequest")]
 #[proto_query(
@@ -374,7 +351,6 @@ pub struct QueryClientStatusResponse {
 pub struct QueryClientParamsRequest {}
 /// QueryClientParamsResponse is the response type for the Query/ClientParams RPC
 /// method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.client.v1.QueryClientParamsResponse")]
 pub struct QueryClientParamsResponse {
@@ -384,7 +360,6 @@ pub struct QueryClientParamsResponse {
 }
 /// QueryUpgradedClientStateRequest is the request type for the
 /// Query/UpgradedClientState RPC method
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.client.v1.QueryUpgradedClientStateRequest")]
 #[proto_query(
@@ -394,7 +369,6 @@ pub struct QueryClientParamsResponse {
 pub struct QueryUpgradedClientStateRequest {}
 /// QueryUpgradedClientStateResponse is the response type for the
 /// Query/UpgradedClientState RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.client.v1.QueryUpgradedClientStateResponse")]
 pub struct QueryUpgradedClientStateResponse {
@@ -404,7 +378,6 @@ pub struct QueryUpgradedClientStateResponse {
 }
 /// QueryUpgradedConsensusStateRequest is the request type for the
 /// Query/UpgradedConsensusState RPC method
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.client.v1.QueryUpgradedConsensusStateRequest")]
 #[proto_query(
@@ -414,7 +387,6 @@ pub struct QueryUpgradedClientStateResponse {
 pub struct QueryUpgradedConsensusStateRequest {}
 /// QueryUpgradedConsensusStateResponse is the response type for the
 /// Query/UpgradedConsensusState RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.client.v1.QueryUpgradedConsensusStateResponse")]
 pub struct QueryUpgradedConsensusStateResponse {
@@ -423,7 +395,6 @@ pub struct QueryUpgradedConsensusStateResponse {
     pub upgraded_consensus_state: ::core::option::Option<crate::shim::Any>,
 }
 /// QueryVerifyMembershipRequest is the request type for the Query/VerifyMembership RPC method
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.client.v1.QueryVerifyMembershipRequest")]
 #[proto_query(
@@ -454,7 +425,6 @@ pub struct QueryVerifyMembershipRequest {
     pub block_delay: u64,
 }
 /// QueryVerifyMembershipResponse is the response type for the Query/VerifyMembership RPC method
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.client.v1.QueryVerifyMembershipResponse")]
 pub struct QueryVerifyMembershipResponse {
@@ -463,7 +433,6 @@ pub struct QueryVerifyMembershipResponse {
     pub success: bool,
 }
 /// MsgCreateClient defines a message to create an IBC client
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.client.v1.MsgCreateClient")]
 pub struct MsgCreateClient {
@@ -479,13 +448,11 @@ pub struct MsgCreateClient {
     pub signer: ::prost::alloc::string::String,
 }
 /// MsgCreateClientResponse defines the Msg/CreateClient response type.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.client.v1.MsgCreateClientResponse")]
 pub struct MsgCreateClientResponse {}
 /// MsgUpdateClient defines an sdk.Msg to update a IBC client state using
 /// the given client message.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.client.v1.MsgUpdateClient")]
 pub struct MsgUpdateClient {
@@ -500,13 +467,11 @@ pub struct MsgUpdateClient {
     pub signer: ::prost::alloc::string::String,
 }
 /// MsgUpdateClientResponse defines the Msg/UpdateClient response type.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.client.v1.MsgUpdateClientResponse")]
 pub struct MsgUpdateClientResponse {}
 /// MsgUpgradeClient defines an sdk.Msg to upgrade an IBC client to a new client
 /// state
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.client.v1.MsgUpgradeClient")]
 pub struct MsgUpgradeClient {
@@ -531,14 +496,12 @@ pub struct MsgUpgradeClient {
     pub signer: ::prost::alloc::string::String,
 }
 /// MsgUpgradeClientResponse defines the Msg/UpgradeClient response type.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.client.v1.MsgUpgradeClientResponse")]
 pub struct MsgUpgradeClientResponse {}
 /// MsgSubmitMisbehaviour defines an sdk.Msg type that submits Evidence for
 /// light client misbehaviour.
 /// This message has been deprecated. Use MsgUpdateClient instead.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.client.v1.MsgSubmitMisbehaviour")]
 #[deprecated]
@@ -555,12 +518,10 @@ pub struct MsgSubmitMisbehaviour {
 }
 /// MsgSubmitMisbehaviourResponse defines the Msg/SubmitMisbehaviour response
 /// type.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.client.v1.MsgSubmitMisbehaviourResponse")]
 pub struct MsgSubmitMisbehaviourResponse {}
 /// MsgRecoverClient defines the message used to recover a frozen or expired client.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.client.v1.MsgRecoverClient")]
 pub struct MsgRecoverClient {
@@ -576,12 +537,10 @@ pub struct MsgRecoverClient {
     pub signer: ::prost::alloc::string::String,
 }
 /// MsgRecoverClientResponse defines the Msg/RecoverClient response type.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.client.v1.MsgRecoverClientResponse")]
 pub struct MsgRecoverClientResponse {}
 /// MsgIBCSoftwareUpgrade defines the message used to schedule an upgrade of an IBC client using a v1 governance proposal
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.client.v1.MsgIBCSoftwareUpgrade")]
 pub struct MsgIbcSoftwareUpgrade {
@@ -602,12 +561,10 @@ pub struct MsgIbcSoftwareUpgrade {
     pub signer: ::prost::alloc::string::String,
 }
 /// MsgIBCSoftwareUpgradeResponse defines the Msg/IBCSoftwareUpgrade response type.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.client.v1.MsgIBCSoftwareUpgradeResponse")]
 pub struct MsgIbcSoftwareUpgradeResponse {}
 /// MsgUpdateParams defines the sdk.Msg type to update the client parameters.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.client.v1.MsgUpdateParams")]
 pub struct MsgUpdateParams {
@@ -621,7 +578,6 @@ pub struct MsgUpdateParams {
     pub params: ::core::option::Option<Params>,
 }
 /// MsgUpdateParamsResponse defines the MsgUpdateParams response type.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.client.v1.MsgUpdateParamsResponse")]
 pub struct MsgUpdateParamsResponse {}

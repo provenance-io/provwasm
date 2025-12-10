@@ -1,6 +1,5 @@
 use provwasm_proc_macro::CosmwasmExt;
 /// Snapshot contains Tendermint state sync snapshot info.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.store.snapshots.v1.Snapshot")]
 pub struct Snapshot {
@@ -16,7 +15,6 @@ pub struct Snapshot {
     pub metadata: ::core::option::Option<Metadata>,
 }
 /// Metadata contains SDK-specific snapshot metadata.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.store.snapshots.v1.Metadata")]
 pub struct Metadata {
@@ -27,7 +25,6 @@ pub struct Metadata {
 /// SnapshotItem is an item contained in a rootmulti.Store snapshot.
 ///
 /// Since: cosmos-sdk 0.46
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.store.snapshots.v1.SnapshotItem")]
 pub struct SnapshotItem {
@@ -39,7 +36,6 @@ pub struct SnapshotItem {
 pub mod snapshot_item {
     use provwasm_proc_macro::CosmwasmExt;
     /// item is the specific type of snapshot item.
-    #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, Eq, ::prost::Oneof, ::schemars::JsonSchema)]
     pub enum Item {
         #[prost(message, tag = "1")]
@@ -55,7 +51,6 @@ pub mod snapshot_item {
 /// SnapshotStoreItem contains metadata about a snapshotted store.
 ///
 /// Since: cosmos-sdk 0.46
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.store.snapshots.v1.SnapshotStoreItem")]
 pub struct SnapshotStoreItem {
@@ -65,7 +60,6 @@ pub struct SnapshotStoreItem {
 /// SnapshotIAVLItem is an exported IAVL node.
 ///
 /// Since: cosmos-sdk 0.46
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.store.snapshots.v1.SnapshotIAVLItem")]
 pub struct SnapshotIavlItem {
@@ -83,7 +77,6 @@ pub struct SnapshotIavlItem {
 /// SnapshotExtensionMeta contains metadata about an external snapshotter.
 ///
 /// Since: cosmos-sdk 0.46
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.store.snapshots.v1.SnapshotExtensionMeta")]
 pub struct SnapshotExtensionMeta {
@@ -95,7 +88,6 @@ pub struct SnapshotExtensionMeta {
 /// SnapshotExtensionPayload contains payloads of an external snapshotter.
 ///
 /// Since: cosmos-sdk 0.46
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.store.snapshots.v1.SnapshotExtensionPayload")]
 pub struct SnapshotExtensionPayload {

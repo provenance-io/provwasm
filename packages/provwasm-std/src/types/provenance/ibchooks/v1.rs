@@ -1,6 +1,5 @@
 use provwasm_proc_macro::CosmwasmExt;
 /// EventIBCHooksParamsUpdated defines the event emitted after updating ibchooks parameters.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.ibchooks.v1.EventIBCHooksParamsUpdated")]
 pub struct EventIbcHooksParamsUpdated {
@@ -8,7 +7,6 @@ pub struct EventIbcHooksParamsUpdated {
     pub allowed_async_ack_contracts: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// Params defines the allowed async ack contracts
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.ibchooks.v1.Params")]
 pub struct Params {
@@ -16,7 +14,6 @@ pub struct Params {
     pub allowed_async_ack_contracts: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// GenesisState is the IBC Hooks genesis state (params)
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.ibchooks.v1.GenesisState")]
 pub struct GenesisState {
@@ -24,7 +21,6 @@ pub struct GenesisState {
     pub params: ::core::option::Option<Params>,
 }
 /// QueryParamsRequest is the request type for the Query/Params RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.ibchooks.v1.QueryParamsRequest")]
 #[proto_query(
@@ -33,7 +29,6 @@ pub struct GenesisState {
 )]
 pub struct QueryParamsRequest {}
 /// QueryParamsResponse is the response type for the Query/Params RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.ibchooks.v1.QueryParamsResponse")]
 pub struct QueryParamsResponse {
@@ -42,7 +37,6 @@ pub struct QueryParamsResponse {
     pub params: ::core::option::Option<Params>,
 }
 /// MsgEmitIBCAck is the IBC Acknowledgement
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.ibchooks.v1.MsgEmitIBCAck")]
 pub struct MsgEmitIbcAck {
@@ -54,7 +48,6 @@ pub struct MsgEmitIbcAck {
     pub channel: ::prost::alloc::string::String,
 }
 /// MsgEmitIBCAckResponse is the IBC Acknowledgement response
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.ibchooks.v1.MsgEmitIBCAckResponse")]
 pub struct MsgEmitIbcAckResponse {
@@ -64,7 +57,6 @@ pub struct MsgEmitIbcAckResponse {
     pub ibc_ack: ::prost::alloc::string::String,
 }
 /// MsgUpdateParamsRequest is a request message for the UpdateParams endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.ibchooks.v1.MsgUpdateParamsRequest")]
 pub struct MsgUpdateParamsRequest {
@@ -76,7 +68,6 @@ pub struct MsgUpdateParamsRequest {
     pub params: ::core::option::Option<Params>,
 }
 /// MsgUpdateParamsResponse is a response message for the UpdateParams endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.ibchooks.v1.MsgUpdateParamsResponse")]
 pub struct MsgUpdateParamsResponse {}

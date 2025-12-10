@@ -1,6 +1,5 @@
 use provwasm_proc_macro::CosmwasmExt;
 /// Plan specifies information about a planned upgrade and when it should occur.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.upgrade.v1beta1.Plan")]
 pub struct Plan {
@@ -37,7 +36,6 @@ pub struct Plan {
 /// upgrade.
 /// Deprecated: This legacy proposal is deprecated in favor of Msg-based gov
 /// proposals, see MsgSoftwareUpgrade.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.upgrade.v1beta1.SoftwareUpgradeProposal")]
 #[deprecated]
@@ -56,7 +54,6 @@ pub struct SoftwareUpgradeProposal {
 /// upgrade.
 /// Deprecated: This legacy proposal is deprecated in favor of Msg-based gov
 /// proposals, see MsgCancelUpgrade.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.upgrade.v1beta1.CancelSoftwareUpgradeProposal")]
 #[deprecated]
@@ -71,7 +68,6 @@ pub struct CancelSoftwareUpgradeProposal {
 /// ModuleVersion specifies a module and its consensus version.
 ///
 /// Since: cosmos-sdk 0.43
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.upgrade.v1beta1.ModuleVersion")]
 pub struct ModuleVersion {
@@ -84,7 +80,6 @@ pub struct ModuleVersion {
 }
 /// QueryCurrentPlanRequest is the request type for the Query/CurrentPlan RPC
 /// method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.upgrade.v1beta1.QueryCurrentPlanRequest")]
 #[proto_query(
@@ -94,7 +89,6 @@ pub struct ModuleVersion {
 pub struct QueryCurrentPlanRequest {}
 /// QueryCurrentPlanResponse is the response type for the Query/CurrentPlan RPC
 /// method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.upgrade.v1beta1.QueryCurrentPlanResponse")]
 pub struct QueryCurrentPlanResponse {
@@ -104,7 +98,6 @@ pub struct QueryCurrentPlanResponse {
 }
 /// QueryCurrentPlanRequest is the request type for the Query/AppliedPlan RPC
 /// method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.upgrade.v1beta1.QueryAppliedPlanRequest")]
 #[proto_query(
@@ -118,7 +111,6 @@ pub struct QueryAppliedPlanRequest {
 }
 /// QueryAppliedPlanResponse is the response type for the Query/AppliedPlan RPC
 /// method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.upgrade.v1beta1.QueryAppliedPlanResponse")]
 pub struct QueryAppliedPlanResponse {
@@ -128,7 +120,6 @@ pub struct QueryAppliedPlanResponse {
 }
 /// QueryUpgradedConsensusStateRequest is the request type for the Query/UpgradedConsensusState
 /// RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.upgrade.v1beta1.QueryUpgradedConsensusStateRequest")]
 #[proto_query(
@@ -144,7 +135,6 @@ pub struct QueryUpgradedConsensusStateRequest {
 }
 /// QueryUpgradedConsensusStateResponse is the response type for the Query/UpgradedConsensusState
 /// RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.upgrade.v1beta1.QueryUpgradedConsensusStateResponse")]
 #[deprecated]
@@ -157,7 +147,6 @@ pub struct QueryUpgradedConsensusStateResponse {
 /// RPC method.
 ///
 /// Since: cosmos-sdk 0.43
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.upgrade.v1beta1.QueryModuleVersionsRequest")]
 #[proto_query(
@@ -175,7 +164,6 @@ pub struct QueryModuleVersionsRequest {
 /// RPC method.
 ///
 /// Since: cosmos-sdk 0.43
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.upgrade.v1beta1.QueryModuleVersionsResponse")]
 pub struct QueryModuleVersionsResponse {
@@ -186,7 +174,6 @@ pub struct QueryModuleVersionsResponse {
 /// QueryAuthorityRequest is the request type for Query/Authority
 ///
 /// Since: cosmos-sdk 0.46
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.upgrade.v1beta1.QueryAuthorityRequest")]
 #[proto_query(
@@ -197,7 +184,6 @@ pub struct QueryAuthorityRequest {}
 /// QueryAuthorityResponse is the response type for Query/Authority
 ///
 /// Since: cosmos-sdk 0.46
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.upgrade.v1beta1.QueryAuthorityResponse")]
 pub struct QueryAuthorityResponse {
@@ -207,7 +193,6 @@ pub struct QueryAuthorityResponse {
 /// MsgSoftwareUpgrade is the Msg/SoftwareUpgrade request type.
 ///
 /// Since: cosmos-sdk 0.46
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.upgrade.v1beta1.MsgSoftwareUpgrade")]
 pub struct MsgSoftwareUpgrade {
@@ -221,14 +206,12 @@ pub struct MsgSoftwareUpgrade {
 /// MsgSoftwareUpgradeResponse is the Msg/SoftwareUpgrade response type.
 ///
 /// Since: cosmos-sdk 0.46
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.upgrade.v1beta1.MsgSoftwareUpgradeResponse")]
 pub struct MsgSoftwareUpgradeResponse {}
 /// MsgCancelUpgrade is the Msg/CancelUpgrade request type.
 ///
 /// Since: cosmos-sdk 0.46
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.upgrade.v1beta1.MsgCancelUpgrade")]
 pub struct MsgCancelUpgrade {
@@ -239,7 +222,6 @@ pub struct MsgCancelUpgrade {
 /// MsgCancelUpgradeResponse is the Msg/CancelUpgrade response type.
 ///
 /// Since: cosmos-sdk 0.46
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.upgrade.v1beta1.MsgCancelUpgradeResponse")]
 pub struct MsgCancelUpgradeResponse {}

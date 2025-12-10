@@ -1,6 +1,5 @@
 use provwasm_proc_macro::CosmwasmExt;
 /// AssetClass defines the class type data for an Asset. Similar to NftClass.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.asset.v1.AssetClass")]
 pub struct AssetClass {
@@ -27,7 +26,6 @@ pub struct AssetClass {
     pub data: ::prost::alloc::string::String,
 }
 /// Asset defines the asset. Similar to Nft.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.asset.v1.Asset")]
 pub struct Asset {
@@ -48,7 +46,6 @@ pub struct Asset {
     pub data: ::prost::alloc::string::String,
 }
 /// AssetKey defines the lookup key for an Asset.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.asset.v1.AssetKey")]
 pub struct AssetKey {
@@ -60,7 +57,6 @@ pub struct AssetKey {
     pub id: ::prost::alloc::string::String,
 }
 /// AssetData defines the data type for Assets and Asset Classes.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.asset.v1.AssetData")]
 pub struct AssetData {
@@ -71,7 +67,6 @@ pub struct AssetData {
 /// EventAssetBurned is emitted when an asset is burned.
 /// This event is triggered by the MsgBurnAsset message handler when an
 /// asset is successfully burned and removed from circulation.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.asset.v1.EventAssetBurned")]
 pub struct EventAssetBurned {
@@ -88,7 +83,6 @@ pub struct EventAssetBurned {
 /// EventAssetClassCreated is emitted when a new asset class is created.
 /// This event is triggered by the MsgCreateAssetClass message handler when
 /// an asset class is successfully created.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.asset.v1.EventAssetClassCreated")]
 pub struct EventAssetClassCreated {
@@ -105,7 +99,6 @@ pub struct EventAssetClassCreated {
 /// EventAssetCreated is emitted when a new asset is created.
 /// This event is triggered by the MsgCreateAsset message handler when
 /// an asset is successfully created and minted.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.asset.v1.EventAssetCreated")]
 pub struct EventAssetCreated {
@@ -122,7 +115,6 @@ pub struct EventAssetCreated {
 /// EventPoolCreated is emitted when a new pool is created.
 /// This event is triggered by the MsgCreatePool message handler when
 /// a pool is successfully created with assets.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.asset.v1.EventPoolCreated")]
 pub struct EventPoolCreated {
@@ -139,7 +131,6 @@ pub struct EventPoolCreated {
 /// EventTokenizationCreated is emitted when a tokenization marker is created.
 /// This event is triggered by the MsgCreateTokenization message handler when
 /// a tokenization is successfully created for an asset.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.asset.v1.EventTokenizationCreated")]
 pub struct EventTokenizationCreated {
@@ -159,7 +150,6 @@ pub struct EventTokenizationCreated {
 /// EventSecuritizationCreated is emitted when a securitization is created.
 /// This event is triggered by the MsgCreateSecuritization message handler when
 /// a securitization is successfully created with tranches and pools.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.asset.v1.EventSecuritizationCreated")]
 pub struct EventSecuritizationCreated {
@@ -177,7 +167,6 @@ pub struct EventSecuritizationCreated {
     pub owner: ::prost::alloc::string::String,
 }
 /// QueryAssetRequest is the request type for the Query/Asset RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.asset.v1.QueryAssetRequest")]
 #[proto_query(
@@ -193,7 +182,6 @@ pub struct QueryAssetRequest {
     pub id: ::prost::alloc::string::String,
 }
 /// QueryAssetResponse is the response type for the Query/Asset RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.asset.v1.QueryAssetResponse")]
 pub struct QueryAssetResponse {
@@ -202,7 +190,6 @@ pub struct QueryAssetResponse {
     pub asset: ::core::option::Option<Asset>,
 }
 /// QueryAssetsRequest is the request type for the Query/Assets RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.asset.v1.QueryAssetsRequest")]
 #[proto_query(
@@ -222,7 +209,6 @@ pub struct QueryAssetsRequest {
         ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageRequest>,
 }
 /// QueryAssetsResponse is the response type for the Query/Assets RPC methods.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.asset.v1.QueryAssetsResponse")]
 pub struct QueryAssetsResponse {
@@ -235,7 +221,6 @@ pub struct QueryAssetsResponse {
         ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageResponse>,
 }
 /// QueryAssetClassRequest is the request type for the Query/Class RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.asset.v1.QueryAssetClassRequest")]
 #[proto_query(
@@ -248,7 +233,6 @@ pub struct QueryAssetClassRequest {
     pub id: ::prost::alloc::string::String,
 }
 /// QueryAssetClassResponse is the response type for the Query/Class RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.asset.v1.QueryAssetClassResponse")]
 pub struct QueryAssetClassResponse {
@@ -257,7 +241,6 @@ pub struct QueryAssetClassResponse {
     pub asset_class: ::core::option::Option<AssetClass>,
 }
 /// QueryAssetClassesRequest is the request type for the Query/Classes RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.asset.v1.QueryAssetClassesRequest")]
 #[proto_query(
@@ -271,7 +254,6 @@ pub struct QueryAssetClassesRequest {
         ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageRequest>,
 }
 /// QueryAssetClassesResponse is the response type for the Query/Classes RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.asset.v1.QueryAssetClassesResponse")]
 pub struct QueryAssetClassesResponse {
@@ -284,7 +266,6 @@ pub struct QueryAssetClassesResponse {
         ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageResponse>,
 }
 /// MsgBurnAsset is the message type for burning an existing asset.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.asset.v1.MsgBurnAsset")]
 pub struct MsgBurnAsset {
@@ -296,12 +277,10 @@ pub struct MsgBurnAsset {
     pub signer: ::prost::alloc::string::String,
 }
 /// MsgBurnAssetResponse is the response type for the BurnAsset RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.asset.v1.MsgBurnAssetResponse")]
 pub struct MsgBurnAssetResponse {}
 /// MsgCreateAsset is the message type for creating a new asset.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.asset.v1.MsgCreateAsset")]
 pub struct MsgCreateAsset {
@@ -317,12 +296,10 @@ pub struct MsgCreateAsset {
     pub signer: ::prost::alloc::string::String,
 }
 /// MsgCreateAssetResponse is the response type for the CreateAsset RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.asset.v1.MsgCreateAssetResponse")]
 pub struct MsgCreateAssetResponse {}
 /// MsgCreateAssetClass is the message type for creating a new asset class.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.asset.v1.MsgCreateAssetClass")]
 pub struct MsgCreateAssetClass {
@@ -334,12 +311,10 @@ pub struct MsgCreateAssetClass {
     pub signer: ::prost::alloc::string::String,
 }
 /// MsgCreateAssetClassResponse is the response type for the CreateAssetClass RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.asset.v1.MsgCreateAssetClassResponse")]
 pub struct MsgCreateAssetClassResponse {}
 /// MsgCreatePool is the message type for creating a new pool.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.asset.v1.MsgCreatePool")]
 pub struct MsgCreatePool {
@@ -354,12 +329,10 @@ pub struct MsgCreatePool {
     pub signer: ::prost::alloc::string::String,
 }
 /// MsgCreatePoolResponse is the response type for the CreatePool RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.asset.v1.MsgCreatePoolResponse")]
 pub struct MsgCreatePoolResponse {}
 /// MsgCreateTokenization is the message type for creating a new tokenization.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.asset.v1.MsgCreateTokenization")]
 pub struct MsgCreateTokenization {
@@ -374,12 +347,10 @@ pub struct MsgCreateTokenization {
     pub signer: ::prost::alloc::string::String,
 }
 /// MsgCreateTokenizationResponse is the response type for the CreateTokenization RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.asset.v1.MsgCreateTokenizationResponse")]
 pub struct MsgCreateTokenizationResponse {}
 /// MsgCreateSecuritization is the message type for creating a new securitization.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.asset.v1.MsgCreateSecuritization")]
 pub struct MsgCreateSecuritization {
@@ -397,7 +368,6 @@ pub struct MsgCreateSecuritization {
     pub signer: ::prost::alloc::string::String,
 }
 /// MsgCreateSecuritizationResponse is the response type for the CreateSecuritization RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.asset.v1.MsgCreateSecuritizationResponse")]
 pub struct MsgCreateSecuritizationResponse {}

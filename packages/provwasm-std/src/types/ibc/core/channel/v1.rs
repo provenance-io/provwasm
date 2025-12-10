@@ -2,7 +2,6 @@ use provwasm_proc_macro::CosmwasmExt;
 /// Channel defines pipeline for exactly-once packet delivery between specific
 /// modules on separate blockchains, which has at least one end capable of
 /// sending packets and one end capable of receiving packets.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.Channel")]
 pub struct Channel {
@@ -29,7 +28,6 @@ pub struct Channel {
 }
 /// IdentifiedChannel defines a channel with additional port and channel
 /// identifier fields.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.IdentifiedChannel")]
 pub struct IdentifiedChannel {
@@ -61,7 +59,6 @@ pub struct IdentifiedChannel {
     pub upgrade_sequence: u64,
 }
 /// Counterparty defines a channel end counterparty
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.Counterparty")]
 pub struct Counterparty {
@@ -73,7 +70,6 @@ pub struct Counterparty {
     pub channel_id: ::prost::alloc::string::String,
 }
 /// Packet defines a type that carries data across different chains through IBC
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.Packet")]
 pub struct Packet {
@@ -108,7 +104,6 @@ pub struct Packet {
 /// packet commitments, acknowledgements, and receipts.
 /// Caller is responsible for knowing the context necessary to interpret this
 /// state as a commitment, acknowledgement, or a receipt.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.PacketState")]
 pub struct PacketState {
@@ -128,7 +123,6 @@ pub struct PacketState {
 /// PacketId is an identifer for a unique Packet
 /// Source chains refer to packets by source port/channel
 /// Destination chains refer to packets by destination port/channel
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.PacketId")]
 pub struct PacketId {
@@ -149,7 +143,6 @@ pub struct PacketId {
 /// The first byte of any message with this format will be the non-ASCII values
 /// `0xaa` (result) or `0xb2` (error). Implemented as defined by ICS:
 /// <https://github.com/cosmos/ibc/tree/master/spec/core/ics-004-channel-and-packet-semantics#acknowledgement-envelope>
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.Acknowledgement")]
 pub struct Acknowledgement {
@@ -161,7 +154,6 @@ pub struct Acknowledgement {
 pub mod acknowledgement {
     use provwasm_proc_macro::CosmwasmExt;
     /// response contains either a result or an error and must be non-empty
-    #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, Eq, ::prost::Oneof, ::schemars::JsonSchema)]
     pub enum Response {
         #[prost(bytes, tag = "21")]
@@ -173,7 +165,6 @@ pub mod acknowledgement {
 /// Timeout defines an execution deadline structure for 04-channel handlers.
 /// This includes packet lifecycle handlers as well as the upgrade handshake handlers.
 /// A valid Timeout contains either one or both of a timestamp and block height (sequence).
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.Timeout")]
 pub struct Timeout {
@@ -185,7 +176,6 @@ pub struct Timeout {
     pub timestamp: u64,
 }
 /// Params defines the set of IBC channel parameters.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.Params")]
 pub struct Params {
@@ -196,16 +186,7 @@ pub struct Params {
 /// State defines if a channel is in one of the following states:
 /// CLOSED, INIT, TRYOPEN, OPEN, FLUSHING, FLUSHCOMPLETE or UNINITIALIZED.
 #[derive(
-    Clone,
-    Copy,
-    Debug,
-    PartialEq,
-    Eq,
-    Hash,
-    PartialOrd,
-    Ord,
-    ::prost::Enumeration,
-    ::schemars::JsonSchema,
+    Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, ::prost::Enumeration, ::schemars::JsonSchema,
 )]
 #[repr(i32)]
 pub enum State {
@@ -233,13 +214,13 @@ impl State {
     /// (if the ProtoBuf definition does not change) and safe for programmatic use.
     pub fn as_str_name(&self) -> &'static str {
         match self {
-            State::UninitializedUnspecified => "STATE_UNINITIALIZED_UNSPECIFIED",
-            State::Init => "STATE_INIT",
-            State::Tryopen => "STATE_TRYOPEN",
-            State::Open => "STATE_OPEN",
-            State::Closed => "STATE_CLOSED",
-            State::Flushing => "STATE_FLUSHING",
-            State::Flushcomplete => "STATE_FLUSHCOMPLETE",
+            Self::UninitializedUnspecified => "STATE_UNINITIALIZED_UNSPECIFIED",
+            Self::Init => "STATE_INIT",
+            Self::Tryopen => "STATE_TRYOPEN",
+            Self::Open => "STATE_OPEN",
+            Self::Closed => "STATE_CLOSED",
+            Self::Flushing => "STATE_FLUSHING",
+            Self::Flushcomplete => "STATE_FLUSHCOMPLETE",
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.
@@ -258,16 +239,7 @@ impl State {
 }
 /// Order defines if a channel is ORDERED or UNORDERED
 #[derive(
-    Clone,
-    Copy,
-    Debug,
-    PartialEq,
-    Eq,
-    Hash,
-    PartialOrd,
-    Ord,
-    ::prost::Enumeration,
-    ::schemars::JsonSchema,
+    Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, ::prost::Enumeration, ::schemars::JsonSchema,
 )]
 #[repr(i32)]
 pub enum Order {
@@ -286,9 +258,9 @@ impl Order {
     /// (if the ProtoBuf definition does not change) and safe for programmatic use.
     pub fn as_str_name(&self) -> &'static str {
         match self {
-            Order::NoneUnspecified => "ORDER_NONE_UNSPECIFIED",
-            Order::Unordered => "ORDER_UNORDERED",
-            Order::Ordered => "ORDER_ORDERED",
+            Self::NoneUnspecified => "ORDER_NONE_UNSPECIFIED",
+            Self::Unordered => "ORDER_UNORDERED",
+            Self::Ordered => "ORDER_ORDERED",
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.
@@ -302,7 +274,6 @@ impl Order {
     }
 }
 /// GenesisState defines the ibc channel submodule's genesis state.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.GenesisState")]
 pub struct GenesisState {
@@ -328,7 +299,6 @@ pub struct GenesisState {
 }
 /// PacketSequence defines the genesis type necessary to retrieve and store
 /// next send and receive sequences.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.PacketSequence")]
 pub struct PacketSequence {
@@ -344,7 +314,6 @@ pub struct PacketSequence {
 /// end, the timeout for this upgrade attempt and the next packet sequence
 /// which allows the counterparty to efficiently know the highest sequence it has received.
 /// The next sequence send is used for pruning and upgrading from unordered to ordered channels.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.Upgrade")]
 pub struct Upgrade {
@@ -357,7 +326,6 @@ pub struct Upgrade {
 }
 /// UpgradeFields are the fields in a channel end which may be changed
 /// during a channel upgrade.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.UpgradeFields")]
 pub struct UpgradeFields {
@@ -371,7 +339,6 @@ pub struct UpgradeFields {
 /// ErrorReceipt defines a type which encapsulates the upgrade sequence and error associated with the
 /// upgrade handshake failure. When a channel upgrade handshake is aborted both chains are expected to increment to the
 /// next sequence.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.ErrorReceipt")]
 pub struct ErrorReceipt {
@@ -383,7 +350,6 @@ pub struct ErrorReceipt {
     pub message: ::prost::alloc::string::String,
 }
 /// QueryChannelRequest is the request type for the Query/Channel RPC method
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryChannelRequest")]
 #[proto_query(
@@ -401,7 +367,6 @@ pub struct QueryChannelRequest {
 /// QueryChannelResponse is the response type for the Query/Channel RPC method.
 /// Besides the Channel end, it includes a proof and the height from which the
 /// proof was retrieved.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryChannelResponse")]
 pub struct QueryChannelResponse {
@@ -416,7 +381,6 @@ pub struct QueryChannelResponse {
     pub proof_height: ::core::option::Option<super::super::client::v1::Height>,
 }
 /// QueryChannelsRequest is the request type for the Query/Channels RPC method
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryChannelsRequest")]
 #[proto_query(
@@ -431,7 +395,6 @@ pub struct QueryChannelsRequest {
     >,
 }
 /// QueryChannelsResponse is the response type for the Query/Channels RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryChannelsResponse")]
 pub struct QueryChannelsResponse {
@@ -449,7 +412,6 @@ pub struct QueryChannelsResponse {
 }
 /// QueryConnectionChannelsRequest is the request type for the
 /// Query/QueryConnectionChannels RPC method
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryConnectionChannelsRequest")]
 #[proto_query(
@@ -468,7 +430,6 @@ pub struct QueryConnectionChannelsRequest {
 }
 /// QueryConnectionChannelsResponse is the Response type for the
 /// Query/QueryConnectionChannels RPC method
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryConnectionChannelsResponse")]
 pub struct QueryConnectionChannelsResponse {
@@ -486,7 +447,6 @@ pub struct QueryConnectionChannelsResponse {
 }
 /// QueryChannelClientStateRequest is the request type for the Query/ClientState
 /// RPC method
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryChannelClientStateRequest")]
 #[proto_query(
@@ -503,7 +463,6 @@ pub struct QueryChannelClientStateRequest {
 }
 /// QueryChannelClientStateResponse is the Response type for the
 /// Query/QueryChannelClientState RPC method
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryChannelClientStateResponse")]
 pub struct QueryChannelClientStateResponse {
@@ -520,7 +479,6 @@ pub struct QueryChannelClientStateResponse {
 }
 /// QueryChannelConsensusStateRequest is the request type for the
 /// Query/ConsensusState RPC method
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryChannelConsensusStateRequest")]
 #[proto_query(
@@ -543,7 +501,6 @@ pub struct QueryChannelConsensusStateRequest {
 }
 /// QueryChannelClientStateResponse is the Response type for the
 /// Query/QueryChannelClientState RPC method
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryChannelConsensusStateResponse")]
 pub struct QueryChannelConsensusStateResponse {
@@ -562,7 +519,6 @@ pub struct QueryChannelConsensusStateResponse {
 }
 /// QueryPacketCommitmentRequest is the request type for the
 /// Query/PacketCommitment RPC method
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryPacketCommitmentRequest")]
 #[proto_query(
@@ -583,7 +539,6 @@ pub struct QueryPacketCommitmentRequest {
 /// QueryPacketCommitmentResponse defines the client query response for a packet
 /// which also includes a proof and the height from which the proof was
 /// retrieved
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryPacketCommitmentResponse")]
 pub struct QueryPacketCommitmentResponse {
@@ -599,7 +554,6 @@ pub struct QueryPacketCommitmentResponse {
 }
 /// QueryPacketCommitmentsRequest is the request type for the
 /// Query/QueryPacketCommitments RPC method
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryPacketCommitmentsRequest")]
 #[proto_query(
@@ -621,7 +575,6 @@ pub struct QueryPacketCommitmentsRequest {
 }
 /// QueryPacketCommitmentsResponse is the request type for the
 /// Query/QueryPacketCommitments RPC method
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryPacketCommitmentsResponse")]
 pub struct QueryPacketCommitmentsResponse {
@@ -638,7 +591,6 @@ pub struct QueryPacketCommitmentsResponse {
 }
 /// QueryPacketReceiptRequest is the request type for the
 /// Query/PacketReceipt RPC method
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryPacketReceiptRequest")]
 #[proto_query(
@@ -659,7 +611,6 @@ pub struct QueryPacketReceiptRequest {
 /// QueryPacketReceiptResponse defines the client query response for a packet
 /// receipt which also includes a proof, and the height from which the proof was
 /// retrieved
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryPacketReceiptResponse")]
 pub struct QueryPacketReceiptResponse {
@@ -675,7 +626,6 @@ pub struct QueryPacketReceiptResponse {
 }
 /// QueryPacketAcknowledgementRequest is the request type for the
 /// Query/PacketAcknowledgement RPC method
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryPacketAcknowledgementRequest")]
 #[proto_query(
@@ -696,7 +646,6 @@ pub struct QueryPacketAcknowledgementRequest {
 /// QueryPacketAcknowledgementResponse defines the client query response for a
 /// packet which also includes a proof and the height from which the
 /// proof was retrieved
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryPacketAcknowledgementResponse")]
 pub struct QueryPacketAcknowledgementResponse {
@@ -712,7 +661,6 @@ pub struct QueryPacketAcknowledgementResponse {
 }
 /// QueryPacketAcknowledgementsRequest is the request type for the
 /// Query/QueryPacketCommitments RPC method
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryPacketAcknowledgementsRequest")]
 #[proto_query(
@@ -737,7 +685,6 @@ pub struct QueryPacketAcknowledgementsRequest {
 }
 /// QueryPacketAcknowledgemetsResponse is the request type for the
 /// Query/QueryPacketAcknowledgements RPC method
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryPacketAcknowledgementsResponse")]
 pub struct QueryPacketAcknowledgementsResponse {
@@ -754,7 +701,6 @@ pub struct QueryPacketAcknowledgementsResponse {
 }
 /// QueryUnreceivedPacketsRequest is the request type for the
 /// Query/UnreceivedPackets RPC method
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryUnreceivedPacketsRequest")]
 #[proto_query(
@@ -774,7 +720,6 @@ pub struct QueryUnreceivedPacketsRequest {
 }
 /// QueryUnreceivedPacketsResponse is the response type for the
 /// Query/UnreceivedPacketCommitments RPC method
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryUnreceivedPacketsResponse")]
 pub struct QueryUnreceivedPacketsResponse {
@@ -787,7 +732,6 @@ pub struct QueryUnreceivedPacketsResponse {
 }
 /// QueryUnreceivedAcks is the request type for the
 /// Query/UnreceivedAcks RPC method
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryUnreceivedAcksRequest")]
 #[proto_query(
@@ -807,7 +751,6 @@ pub struct QueryUnreceivedAcksRequest {
 }
 /// QueryUnreceivedAcksResponse is the response type for the
 /// Query/UnreceivedAcks RPC method
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryUnreceivedAcksResponse")]
 pub struct QueryUnreceivedAcksResponse {
@@ -820,7 +763,6 @@ pub struct QueryUnreceivedAcksResponse {
 }
 /// QueryNextSequenceReceiveRequest is the request type for the
 /// Query/QueryNextSequenceReceiveRequest RPC method
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryNextSequenceReceiveRequest")]
 #[proto_query(
@@ -837,7 +779,6 @@ pub struct QueryNextSequenceReceiveRequest {
 }
 /// QuerySequenceResponse is the response type for the
 /// Query/QueryNextSequenceReceiveResponse RPC method
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryNextSequenceReceiveResponse")]
 pub struct QueryNextSequenceReceiveResponse {
@@ -853,7 +794,6 @@ pub struct QueryNextSequenceReceiveResponse {
 }
 /// QueryNextSequenceSendRequest is the request type for the
 /// Query/QueryNextSequenceSend RPC method
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryNextSequenceSendRequest")]
 #[proto_query(
@@ -870,7 +810,6 @@ pub struct QueryNextSequenceSendRequest {
 }
 /// QueryNextSequenceSendResponse is the request type for the
 /// Query/QueryNextSequenceSend RPC method
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryNextSequenceSendResponse")]
 pub struct QueryNextSequenceSendResponse {
@@ -885,7 +824,6 @@ pub struct QueryNextSequenceSendResponse {
     pub proof_height: ::core::option::Option<super::super::client::v1::Height>,
 }
 /// QueryUpgradeErrorRequest is the request type for the Query/QueryUpgradeError RPC method
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryUpgradeErrorRequest")]
 #[proto_query(
@@ -899,7 +837,6 @@ pub struct QueryUpgradeErrorRequest {
     pub channel_id: ::prost::alloc::string::String,
 }
 /// QueryUpgradeErrorResponse is the response type for the Query/QueryUpgradeError RPC method
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryUpgradeErrorResponse")]
 pub struct QueryUpgradeErrorResponse {
@@ -913,7 +850,6 @@ pub struct QueryUpgradeErrorResponse {
     pub proof_height: ::core::option::Option<super::super::client::v1::Height>,
 }
 /// QueryUpgradeRequest is the request type for the QueryUpgradeRequest RPC method
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryUpgradeRequest")]
 #[proto_query(
@@ -927,7 +863,6 @@ pub struct QueryUpgradeRequest {
     pub channel_id: ::prost::alloc::string::String,
 }
 /// QueryUpgradeResponse is the response type for the QueryUpgradeResponse RPC method
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryUpgradeResponse")]
 pub struct QueryUpgradeResponse {
@@ -941,7 +876,6 @@ pub struct QueryUpgradeResponse {
     pub proof_height: ::core::option::Option<super::super::client::v1::Height>,
 }
 /// QueryChannelParamsRequest is the request type for the Query/ChannelParams RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryChannelParamsRequest")]
 #[proto_query(
@@ -950,7 +884,6 @@ pub struct QueryUpgradeResponse {
 )]
 pub struct QueryChannelParamsRequest {}
 /// QueryChannelParamsResponse is the response type for the Query/ChannelParams RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryChannelParamsResponse")]
 pub struct QueryChannelParamsResponse {
@@ -960,7 +893,6 @@ pub struct QueryChannelParamsResponse {
 }
 /// MsgChannelOpenInit defines an sdk.Msg to initialize a channel handshake. It
 /// is called by a relayer on Chain A.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgChannelOpenInit")]
 pub struct MsgChannelOpenInit {
@@ -972,7 +904,6 @@ pub struct MsgChannelOpenInit {
     pub signer: ::prost::alloc::string::String,
 }
 /// MsgChannelOpenInitResponse defines the Msg/ChannelOpenInit response type.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgChannelOpenInitResponse")]
 pub struct MsgChannelOpenInitResponse {
@@ -984,7 +915,6 @@ pub struct MsgChannelOpenInitResponse {
 /// MsgChannelOpenInit defines a msg sent by a Relayer to try to open a channel
 /// on Chain B. The version field within the Channel field has been deprecated. Its
 /// value will be ignored by core IBC.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgChannelOpenTry")]
 pub struct MsgChannelOpenTry {
@@ -1007,7 +937,6 @@ pub struct MsgChannelOpenTry {
     pub signer: ::prost::alloc::string::String,
 }
 /// MsgChannelOpenTryResponse defines the Msg/ChannelOpenTry response type.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgChannelOpenTryResponse")]
 pub struct MsgChannelOpenTryResponse {
@@ -1021,7 +950,6 @@ pub struct MsgChannelOpenTryResponse {
 /// WARNING: a channel upgrade MUST NOT initialize an upgrade for this channel
 /// in the same block as executing this message otherwise the counterparty will
 /// be incapable of opening.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgChannelOpenAck")]
 pub struct MsgChannelOpenAck {
@@ -1041,13 +969,11 @@ pub struct MsgChannelOpenAck {
     pub signer: ::prost::alloc::string::String,
 }
 /// MsgChannelOpenAckResponse defines the Msg/ChannelOpenAck response type.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgChannelOpenAckResponse")]
 pub struct MsgChannelOpenAckResponse {}
 /// MsgChannelOpenConfirm defines a msg sent by a Relayer to Chain B to
 /// acknowledge the change of channel state to OPEN on Chain A.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgChannelOpenConfirm")]
 pub struct MsgChannelOpenConfirm {
@@ -1064,13 +990,11 @@ pub struct MsgChannelOpenConfirm {
 }
 /// MsgChannelOpenConfirmResponse defines the Msg/ChannelOpenConfirm response
 /// type.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgChannelOpenConfirmResponse")]
 pub struct MsgChannelOpenConfirmResponse {}
 /// MsgChannelCloseInit defines a msg sent by a Relayer to Chain A
 /// to close a channel with Chain B.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgChannelCloseInit")]
 pub struct MsgChannelCloseInit {
@@ -1082,13 +1006,11 @@ pub struct MsgChannelCloseInit {
     pub signer: ::prost::alloc::string::String,
 }
 /// MsgChannelCloseInitResponse defines the Msg/ChannelCloseInit response type.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgChannelCloseInitResponse")]
 pub struct MsgChannelCloseInitResponse {}
 /// MsgChannelCloseConfirm defines a msg sent by a Relayer to Chain B
 /// to acknowledge the change of channel state to CLOSED on Chain A.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgChannelCloseConfirm")]
 pub struct MsgChannelCloseConfirm {
@@ -1107,12 +1029,10 @@ pub struct MsgChannelCloseConfirm {
 }
 /// MsgChannelCloseConfirmResponse defines the Msg/ChannelCloseConfirm response
 /// type.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgChannelCloseConfirmResponse")]
 pub struct MsgChannelCloseConfirmResponse {}
 /// MsgRecvPacket receives incoming IBC packet
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgRecvPacket")]
 pub struct MsgRecvPacket {
@@ -1126,7 +1046,6 @@ pub struct MsgRecvPacket {
     pub signer: ::prost::alloc::string::String,
 }
 /// MsgRecvPacketResponse defines the Msg/RecvPacket response type.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgRecvPacketResponse")]
 pub struct MsgRecvPacketResponse {
@@ -1134,7 +1053,6 @@ pub struct MsgRecvPacketResponse {
     pub result: i32,
 }
 /// MsgTimeout receives timed-out packet
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgTimeout")]
 pub struct MsgTimeout {
@@ -1150,7 +1068,6 @@ pub struct MsgTimeout {
     pub signer: ::prost::alloc::string::String,
 }
 /// MsgTimeoutResponse defines the Msg/Timeout response type.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgTimeoutResponse")]
 pub struct MsgTimeoutResponse {
@@ -1158,7 +1075,6 @@ pub struct MsgTimeoutResponse {
     pub result: i32,
 }
 /// MsgTimeoutOnClose timed-out packet upon counterparty channel closure.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgTimeoutOnClose")]
 pub struct MsgTimeoutOnClose {
@@ -1178,7 +1094,6 @@ pub struct MsgTimeoutOnClose {
     pub counterparty_upgrade_sequence: u64,
 }
 /// MsgTimeoutOnCloseResponse defines the Msg/TimeoutOnClose response type.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgTimeoutOnCloseResponse")]
 pub struct MsgTimeoutOnCloseResponse {
@@ -1186,7 +1101,6 @@ pub struct MsgTimeoutOnCloseResponse {
     pub result: i32,
 }
 /// MsgAcknowledgement receives incoming IBC acknowledgement
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgAcknowledgement")]
 pub struct MsgAcknowledgement {
@@ -1202,7 +1116,6 @@ pub struct MsgAcknowledgement {
     pub signer: ::prost::alloc::string::String,
 }
 /// MsgAcknowledgementResponse defines the Msg/Acknowledgement response type.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgAcknowledgementResponse")]
 pub struct MsgAcknowledgementResponse {
@@ -1212,7 +1125,6 @@ pub struct MsgAcknowledgementResponse {
 /// MsgChannelUpgradeInit defines the request type for the ChannelUpgradeInit rpc
 /// WARNING: Initializing a channel upgrade in the same block as opening the channel
 /// may result in the counterparty being incapable of opening.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgChannelUpgradeInit")]
 pub struct MsgChannelUpgradeInit {
@@ -1226,7 +1138,6 @@ pub struct MsgChannelUpgradeInit {
     pub signer: ::prost::alloc::string::String,
 }
 /// MsgChannelUpgradeInitResponse defines the MsgChannelUpgradeInit response type
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgChannelUpgradeInitResponse")]
 pub struct MsgChannelUpgradeInitResponse {
@@ -1236,7 +1147,6 @@ pub struct MsgChannelUpgradeInitResponse {
     pub upgrade_sequence: u64,
 }
 /// MsgChannelUpgradeTry defines the request type for the ChannelUpgradeTry rpc
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgChannelUpgradeTry")]
 pub struct MsgChannelUpgradeTry {
@@ -1260,7 +1170,6 @@ pub struct MsgChannelUpgradeTry {
     pub signer: ::prost::alloc::string::String,
 }
 /// MsgChannelUpgradeTryResponse defines the MsgChannelUpgradeTry response type
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgChannelUpgradeTryResponse")]
 pub struct MsgChannelUpgradeTryResponse {
@@ -1272,7 +1181,6 @@ pub struct MsgChannelUpgradeTryResponse {
     pub result: i32,
 }
 /// MsgChannelUpgradeAck defines the request type for the ChannelUpgradeAck rpc
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgChannelUpgradeAck")]
 pub struct MsgChannelUpgradeAck {
@@ -1292,7 +1200,6 @@ pub struct MsgChannelUpgradeAck {
     pub signer: ::prost::alloc::string::String,
 }
 /// MsgChannelUpgradeAckResponse defines MsgChannelUpgradeAck response type
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgChannelUpgradeAckResponse")]
 pub struct MsgChannelUpgradeAckResponse {
@@ -1300,7 +1207,6 @@ pub struct MsgChannelUpgradeAckResponse {
     pub result: i32,
 }
 /// MsgChannelUpgradeConfirm defines the request type for the ChannelUpgradeConfirm rpc
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgChannelUpgradeConfirm")]
 pub struct MsgChannelUpgradeConfirm {
@@ -1322,7 +1228,6 @@ pub struct MsgChannelUpgradeConfirm {
     pub signer: ::prost::alloc::string::String,
 }
 /// MsgChannelUpgradeConfirmResponse defines MsgChannelUpgradeConfirm response type
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgChannelUpgradeConfirmResponse")]
 pub struct MsgChannelUpgradeConfirmResponse {
@@ -1330,7 +1235,6 @@ pub struct MsgChannelUpgradeConfirmResponse {
     pub result: i32,
 }
 /// MsgChannelUpgradeOpen defines the request type for the ChannelUpgradeOpen rpc
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgChannelUpgradeOpen")]
 pub struct MsgChannelUpgradeOpen {
@@ -1350,12 +1254,10 @@ pub struct MsgChannelUpgradeOpen {
     pub signer: ::prost::alloc::string::String,
 }
 /// MsgChannelUpgradeOpenResponse defines the MsgChannelUpgradeOpen response type
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgChannelUpgradeOpenResponse")]
 pub struct MsgChannelUpgradeOpenResponse {}
 /// MsgChannelUpgradeTimeout defines the request type for the ChannelUpgradeTimeout rpc
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgChannelUpgradeTimeout")]
 pub struct MsgChannelUpgradeTimeout {
@@ -1373,12 +1275,10 @@ pub struct MsgChannelUpgradeTimeout {
     pub signer: ::prost::alloc::string::String,
 }
 /// MsgChannelUpgradeTimeoutRepsonse defines the MsgChannelUpgradeTimeout response type
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgChannelUpgradeTimeoutResponse")]
 pub struct MsgChannelUpgradeTimeoutResponse {}
 /// MsgChannelUpgradeCancel defines the request type for the ChannelUpgradeCancel rpc
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgChannelUpgradeCancel")]
 pub struct MsgChannelUpgradeCancel {
@@ -1396,12 +1296,10 @@ pub struct MsgChannelUpgradeCancel {
     pub signer: ::prost::alloc::string::String,
 }
 /// MsgChannelUpgradeCancelResponse defines the MsgChannelUpgradeCancel response type
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgChannelUpgradeCancelResponse")]
 pub struct MsgChannelUpgradeCancelResponse {}
 /// MsgUpdateParams is the MsgUpdateParams request type.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgUpdateParams")]
 pub struct MsgUpdateParams {
@@ -1415,12 +1313,10 @@ pub struct MsgUpdateParams {
     pub params: ::core::option::Option<Params>,
 }
 /// MsgUpdateParamsResponse defines the MsgUpdateParams response type.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgUpdateParamsResponse")]
 pub struct MsgUpdateParamsResponse {}
 /// MsgPruneAcknowledgements defines the request type for the PruneAcknowledgements rpc.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgPruneAcknowledgements")]
 pub struct MsgPruneAcknowledgements {
@@ -1434,7 +1330,6 @@ pub struct MsgPruneAcknowledgements {
     pub signer: ::prost::alloc::string::String,
 }
 /// MsgPruneAcknowledgementsResponse defines the response type for the PruneAcknowledgements rpc.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgPruneAcknowledgementsResponse")]
 pub struct MsgPruneAcknowledgementsResponse {
@@ -1447,16 +1342,7 @@ pub struct MsgPruneAcknowledgementsResponse {
 }
 /// ResponseResultType defines the possible outcomes of the execution of a message
 #[derive(
-    Clone,
-    Copy,
-    Debug,
-    PartialEq,
-    Eq,
-    Hash,
-    PartialOrd,
-    Ord,
-    ::prost::Enumeration,
-    ::schemars::JsonSchema,
+    Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, ::prost::Enumeration, ::schemars::JsonSchema,
 )]
 #[repr(i32)]
 pub enum ResponseResultType {
@@ -1476,10 +1362,10 @@ impl ResponseResultType {
     /// (if the ProtoBuf definition does not change) and safe for programmatic use.
     pub fn as_str_name(&self) -> &'static str {
         match self {
-            ResponseResultType::Unspecified => "RESPONSE_RESULT_TYPE_UNSPECIFIED",
-            ResponseResultType::Noop => "RESPONSE_RESULT_TYPE_NOOP",
-            ResponseResultType::Success => "RESPONSE_RESULT_TYPE_SUCCESS",
-            ResponseResultType::Failure => "RESPONSE_RESULT_TYPE_FAILURE",
+            Self::Unspecified => "RESPONSE_RESULT_TYPE_UNSPECIFIED",
+            Self::Noop => "RESPONSE_RESULT_TYPE_NOOP",
+            Self::Success => "RESPONSE_RESULT_TYPE_SUCCESS",
+            Self::Failure => "RESPONSE_RESULT_TYPE_FAILURE",
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.

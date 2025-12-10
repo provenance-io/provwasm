@@ -1,6 +1,5 @@
 use provwasm_proc_macro::CosmwasmExt;
 /// InterchainAccountPacketData is comprised of a raw transaction, type of transaction and optional memo field.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.interchain_accounts.v1.InterchainAccountPacketData")]
 pub struct InterchainAccountPacketData {
@@ -12,7 +11,6 @@ pub struct InterchainAccountPacketData {
     pub memo: ::prost::alloc::string::String,
 }
 /// CosmosTx contains a list of sdk.Msg's. It should be used when sending transactions to an SDK host chain.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.interchain_accounts.v1.CosmosTx")]
 pub struct CosmosTx {
@@ -22,16 +20,7 @@ pub struct CosmosTx {
 /// Type defines a classification of message issued from a controller chain to its associated interchain accounts
 /// host
 #[derive(
-    Clone,
-    Copy,
-    Debug,
-    PartialEq,
-    Eq,
-    Hash,
-    PartialOrd,
-    Ord,
-    ::prost::Enumeration,
-    ::schemars::JsonSchema,
+    Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, ::prost::Enumeration, ::schemars::JsonSchema,
 )]
 #[repr(i32)]
 pub enum Type {
@@ -47,8 +36,8 @@ impl Type {
     /// (if the ProtoBuf definition does not change) and safe for programmatic use.
     pub fn as_str_name(&self) -> &'static str {
         match self {
-            Type::Unspecified => "TYPE_UNSPECIFIED",
-            Type::ExecuteTx => "TYPE_EXECUTE_TX",
+            Self::Unspecified => "TYPE_UNSPECIFIED",
+            Self::ExecuteTx => "TYPE_EXECUTE_TX",
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.
@@ -61,7 +50,6 @@ impl Type {
     }
 }
 /// An InterchainAccount is defined as a BaseAccount & the address of the account owner on the controller chain
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.interchain_accounts.v1.InterchainAccount")]
 pub struct InterchainAccount {
@@ -73,7 +61,6 @@ pub struct InterchainAccount {
 }
 /// Metadata defines a set of protocol specific data encoded into the ICS27 channel version bytestring
 /// See ICS004: <https://github.com/cosmos/ibc/tree/master/spec/core/ics-004-channel-and-packet-semantics#Versioning>
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.interchain_accounts.v1.Metadata")]
 pub struct Metadata {

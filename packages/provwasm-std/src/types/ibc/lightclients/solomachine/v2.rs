@@ -1,7 +1,6 @@
 use provwasm_proc_macro::CosmwasmExt;
 /// ClientState defines a solo machine client that tracks the current consensus
 /// state and if the client is frozen.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.lightclients.solomachine.v2.ClientState")]
 pub struct ClientState {
@@ -21,7 +20,6 @@ pub struct ClientState {
 /// ConsensusState defines a solo machine consensus state. The sequence of a
 /// consensus state is contained in the "height" key used in storing the
 /// consensus state.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.lightclients.solomachine.v2.ConsensusState")]
 pub struct ConsensusState {
@@ -37,7 +35,6 @@ pub struct ConsensusState {
     pub timestamp: u64,
 }
 /// Header defines a solo machine consensus header
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.lightclients.solomachine.v2.Header")]
 pub struct Header {
@@ -55,7 +52,6 @@ pub struct Header {
 }
 /// Misbehaviour defines misbehaviour for a solo machine which consists
 /// of a sequence and two signatures over different messages at that sequence.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.lightclients.solomachine.v2.Misbehaviour")]
 pub struct Misbehaviour {
@@ -70,7 +66,6 @@ pub struct Misbehaviour {
 }
 /// SignatureAndData contains a signature and the data signed over to create that
 /// signature.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.lightclients.solomachine.v2.SignatureAndData")]
 pub struct SignatureAndData {
@@ -85,7 +80,6 @@ pub struct SignatureAndData {
 }
 /// TimestampedSignatureData contains the signature data and the timestamp of the
 /// signature.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.lightclients.solomachine.v2.TimestampedSignatureData")]
 pub struct TimestampedSignatureData {
@@ -95,7 +89,6 @@ pub struct TimestampedSignatureData {
     pub timestamp: u64,
 }
 /// SignBytes defines the signed bytes used for signature verification.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.lightclients.solomachine.v2.SignBytes")]
 pub struct SignBytes {
@@ -113,7 +106,6 @@ pub struct SignBytes {
     pub data: ::prost::alloc::vec::Vec<u8>,
 }
 /// HeaderData returns the SignBytes data for update verification.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.lightclients.solomachine.v2.HeaderData")]
 pub struct HeaderData {
@@ -125,7 +117,6 @@ pub struct HeaderData {
     pub new_diversifier: ::prost::alloc::string::String,
 }
 /// ClientStateData returns the SignBytes data for client state verification.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.lightclients.solomachine.v2.ClientStateData")]
 pub struct ClientStateData {
@@ -136,7 +127,6 @@ pub struct ClientStateData {
 }
 /// ConsensusStateData returns the SignBytes data for consensus state
 /// verification.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.lightclients.solomachine.v2.ConsensusStateData")]
 pub struct ConsensusStateData {
@@ -147,7 +137,6 @@ pub struct ConsensusStateData {
 }
 /// ConnectionStateData returns the SignBytes data for connection state
 /// verification.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.lightclients.solomachine.v2.ConnectionStateData")]
 pub struct ConnectionStateData {
@@ -159,7 +148,6 @@ pub struct ConnectionStateData {
 }
 /// ChannelStateData returns the SignBytes data for channel state
 /// verification.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.lightclients.solomachine.v2.ChannelStateData")]
 pub struct ChannelStateData {
@@ -170,7 +158,6 @@ pub struct ChannelStateData {
 }
 /// PacketCommitmentData returns the SignBytes data for packet commitment
 /// verification.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.lightclients.solomachine.v2.PacketCommitmentData")]
 pub struct PacketCommitmentData {
@@ -181,7 +168,6 @@ pub struct PacketCommitmentData {
 }
 /// PacketAcknowledgementData returns the SignBytes data for acknowledgement
 /// verification.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.lightclients.solomachine.v2.PacketAcknowledgementData")]
 pub struct PacketAcknowledgementData {
@@ -192,7 +178,6 @@ pub struct PacketAcknowledgementData {
 }
 /// PacketReceiptAbsenceData returns the SignBytes data for
 /// packet receipt absence verification.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.lightclients.solomachine.v2.PacketReceiptAbsenceData")]
 pub struct PacketReceiptAbsenceData {
@@ -201,7 +186,6 @@ pub struct PacketReceiptAbsenceData {
 }
 /// NextSequenceRecvData returns the SignBytes data for verification of the next
 /// sequence to be received.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.lightclients.solomachine.v2.NextSequenceRecvData")]
 pub struct NextSequenceRecvData {
@@ -213,16 +197,7 @@ pub struct NextSequenceRecvData {
 /// DataType defines the type of solo machine proof being created. This is done
 /// to preserve uniqueness of different data sign byte encodings.
 #[derive(
-    Clone,
-    Copy,
-    Debug,
-    PartialEq,
-    Eq,
-    Hash,
-    PartialOrd,
-    Ord,
-    ::prost::Enumeration,
-    ::schemars::JsonSchema,
+    Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, ::prost::Enumeration, ::schemars::JsonSchema,
 )]
 #[repr(i32)]
 pub enum DataType {
@@ -254,16 +229,16 @@ impl DataType {
     /// (if the ProtoBuf definition does not change) and safe for programmatic use.
     pub fn as_str_name(&self) -> &'static str {
         match self {
-            DataType::UninitializedUnspecified => "DATA_TYPE_UNINITIALIZED_UNSPECIFIED",
-            DataType::ClientState => "DATA_TYPE_CLIENT_STATE",
-            DataType::ConsensusState => "DATA_TYPE_CONSENSUS_STATE",
-            DataType::ConnectionState => "DATA_TYPE_CONNECTION_STATE",
-            DataType::ChannelState => "DATA_TYPE_CHANNEL_STATE",
-            DataType::PacketCommitment => "DATA_TYPE_PACKET_COMMITMENT",
-            DataType::PacketAcknowledgement => "DATA_TYPE_PACKET_ACKNOWLEDGEMENT",
-            DataType::PacketReceiptAbsence => "DATA_TYPE_PACKET_RECEIPT_ABSENCE",
-            DataType::NextSequenceRecv => "DATA_TYPE_NEXT_SEQUENCE_RECV",
-            DataType::Header => "DATA_TYPE_HEADER",
+            Self::UninitializedUnspecified => "DATA_TYPE_UNINITIALIZED_UNSPECIFIED",
+            Self::ClientState => "DATA_TYPE_CLIENT_STATE",
+            Self::ConsensusState => "DATA_TYPE_CONSENSUS_STATE",
+            Self::ConnectionState => "DATA_TYPE_CONNECTION_STATE",
+            Self::ChannelState => "DATA_TYPE_CHANNEL_STATE",
+            Self::PacketCommitment => "DATA_TYPE_PACKET_COMMITMENT",
+            Self::PacketAcknowledgement => "DATA_TYPE_PACKET_ACKNOWLEDGEMENT",
+            Self::PacketReceiptAbsence => "DATA_TYPE_PACKET_RECEIPT_ABSENCE",
+            Self::NextSequenceRecv => "DATA_TYPE_NEXT_SEQUENCE_RECV",
+            Self::Header => "DATA_TYPE_HEADER",
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.

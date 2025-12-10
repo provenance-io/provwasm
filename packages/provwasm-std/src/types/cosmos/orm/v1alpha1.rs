@@ -1,6 +1,5 @@
 use provwasm_proc_macro::CosmwasmExt;
 /// ModuleSchemaDescriptor describe's a module's ORM schema.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.orm.v1alpha1.ModuleSchemaDescriptor")]
 pub struct ModuleSchemaDescriptor {
@@ -15,7 +14,6 @@ pub struct ModuleSchemaDescriptor {
 pub mod module_schema_descriptor {
     use provwasm_proc_macro::CosmwasmExt;
     /// FileEntry describes an ORM file used in a module.
-    #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
     #[proto_message(type_url = "/cosmos.orm.v1alpha1.ModuleSchemaDescriptor.FileEntry")]
     pub struct FileEntry {
@@ -37,16 +35,7 @@ pub mod module_schema_descriptor {
 }
 /// StorageType
 #[derive(
-    Clone,
-    Copy,
-    Debug,
-    PartialEq,
-    Eq,
-    Hash,
-    PartialOrd,
-    Ord,
-    ::prost::Enumeration,
-    ::schemars::JsonSchema,
+    Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, ::prost::Enumeration, ::schemars::JsonSchema,
 )]
 #[repr(i32)]
 pub enum StorageType {
@@ -71,9 +60,9 @@ impl StorageType {
     /// (if the ProtoBuf definition does not change) and safe for programmatic use.
     pub fn as_str_name(&self) -> &'static str {
         match self {
-            StorageType::DefaultUnspecified => "STORAGE_TYPE_DEFAULT_UNSPECIFIED",
-            StorageType::Memory => "STORAGE_TYPE_MEMORY",
-            StorageType::Transient => "STORAGE_TYPE_TRANSIENT",
+            Self::DefaultUnspecified => "STORAGE_TYPE_DEFAULT_UNSPECIFIED",
+            Self::Memory => "STORAGE_TYPE_MEMORY",
+            Self::Transient => "STORAGE_TYPE_TRANSIENT",
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.

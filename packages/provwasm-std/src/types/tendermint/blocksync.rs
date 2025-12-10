@@ -1,6 +1,5 @@
 use provwasm_proc_macro::CosmwasmExt;
 /// BlockRequest requests a block for a specific height
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.blocksync.BlockRequest")]
 pub struct BlockRequest {
@@ -8,7 +7,6 @@ pub struct BlockRequest {
     pub height: i64,
 }
 /// NoBlockResponse informs the node that the peer does not have block at the requested height
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.blocksync.NoBlockResponse")]
 pub struct NoBlockResponse {
@@ -16,7 +14,6 @@ pub struct NoBlockResponse {
     pub height: i64,
 }
 /// BlockResponse returns block to the requested
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.blocksync.BlockResponse")]
 pub struct BlockResponse {
@@ -26,12 +23,10 @@ pub struct BlockResponse {
     pub ext_commit: ::core::option::Option<super::types::ExtendedCommit>,
 }
 /// StatusRequest requests the status of a peer.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.blocksync.StatusRequest")]
 pub struct StatusRequest {}
 /// StatusResponse is a peer response to inform their status.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.blocksync.StatusResponse")]
 pub struct StatusResponse {
@@ -40,7 +35,6 @@ pub struct StatusResponse {
     #[prost(int64, tag = "2")]
     pub base: i64,
 }
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.blocksync.Message")]
 pub struct Message {
@@ -50,7 +44,6 @@ pub struct Message {
 /// Nested message and enum types in `Message`.
 pub mod message {
     use provwasm_proc_macro::CosmwasmExt;
-    #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, Eq, ::prost::Oneof, ::schemars::JsonSchema)]
     pub enum Sum {
         #[prost(message, tag = "1")]

@@ -1,7 +1,6 @@
 use provwasm_proc_macro::CosmwasmExt;
 /// Params defines the set of on-chain interchain accounts parameters.
 /// The following parameters may be used to disable the host submodule.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.interchain_accounts.host.v1.Params")]
 pub struct Params {
@@ -14,7 +13,6 @@ pub struct Params {
 }
 /// QueryRequest defines the parameters for a particular query request
 /// by an interchain account.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.interchain_accounts.host.v1.QueryRequest")]
 pub struct QueryRequest {
@@ -28,7 +26,6 @@ pub struct QueryRequest {
     pub data: ::prost::alloc::vec::Vec<u8>,
 }
 /// QueryParamsRequest is the request type for the Query/Params RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.interchain_accounts.host.v1.QueryParamsRequest")]
 #[proto_query(
@@ -37,7 +34,6 @@ pub struct QueryRequest {
 )]
 pub struct QueryParamsRequest {}
 /// QueryParamsResponse is the response type for the Query/Params RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.interchain_accounts.host.v1.QueryParamsResponse")]
 pub struct QueryParamsResponse {
@@ -46,7 +42,6 @@ pub struct QueryParamsResponse {
     pub params: ::core::option::Option<Params>,
 }
 /// MsgUpdateParams defines the payload for Msg/UpdateParams
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.interchain_accounts.host.v1.MsgUpdateParams")]
 pub struct MsgUpdateParams {
@@ -60,12 +55,10 @@ pub struct MsgUpdateParams {
     pub params: ::core::option::Option<Params>,
 }
 /// MsgUpdateParamsResponse defines the response for Msg/UpdateParams
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.interchain_accounts.host.v1.MsgUpdateParamsResponse")]
 pub struct MsgUpdateParamsResponse {}
 /// MsgModuleQuerySafe defines the payload for Msg/ModuleQuerySafe
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.interchain_accounts.host.v1.MsgModuleQuerySafe")]
 pub struct MsgModuleQuerySafe {
@@ -77,7 +70,6 @@ pub struct MsgModuleQuerySafe {
     pub requests: ::prost::alloc::vec::Vec<QueryRequest>,
 }
 /// MsgModuleQuerySafeResponse defines the response for Msg/ModuleQuerySafe
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(
     type_url = "/ibc.applications.interchain_accounts.host.v1.MsgModuleQuerySafeResponse"

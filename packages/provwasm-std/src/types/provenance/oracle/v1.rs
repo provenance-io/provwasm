@@ -1,6 +1,5 @@
 use provwasm_proc_macro::CosmwasmExt;
 /// EventOracleQuerySuccess is an event for when the chain receives a successful response from an oracle query
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.oracle.v1.EventOracleQuerySuccess")]
 pub struct EventOracleQuerySuccess {
@@ -15,7 +14,6 @@ pub struct EventOracleQuerySuccess {
     pub result: ::prost::alloc::string::String,
 }
 /// EventOracleQueryError is an event for when the chain receives an error response from an oracle query
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.oracle.v1.EventOracleQueryError")]
 pub struct EventOracleQueryError {
@@ -30,7 +28,6 @@ pub struct EventOracleQueryError {
     pub error: ::prost::alloc::string::String,
 }
 /// EventOracleQueryTimeout is an event for when the chain receives a timeout from an oracle query
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.oracle.v1.EventOracleQueryTimeout")]
 pub struct EventOracleQueryTimeout {
@@ -42,7 +39,6 @@ pub struct EventOracleQueryTimeout {
     pub sequence_id: ::prost::alloc::string::String,
 }
 /// GenesisState defines the oracle module's genesis state.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.oracle.v1.GenesisState")]
 pub struct GenesisState {
@@ -54,7 +50,6 @@ pub struct GenesisState {
     pub oracle: ::prost::alloc::string::String,
 }
 /// QueryOracleAddressRequest queries for the address of the oracle.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.oracle.v1.QueryOracleAddressRequest")]
 #[proto_query(
@@ -63,7 +58,6 @@ pub struct GenesisState {
 )]
 pub struct QueryOracleAddressRequest {}
 /// QueryOracleAddressResponse contains the address of the oracle.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.oracle.v1.QueryOracleAddressResponse")]
 pub struct QueryOracleAddressResponse {
@@ -72,7 +66,6 @@ pub struct QueryOracleAddressResponse {
     pub address: ::prost::alloc::string::String,
 }
 /// QueryOracleRequest queries the module's oracle.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.oracle.v1.QueryOracleRequest")]
 #[proto_query(
@@ -85,7 +78,6 @@ pub struct QueryOracleRequest {
     pub query: ::prost::alloc::vec::Vec<u8>,
 }
 /// QueryOracleResponse contains the result of the query sent to the oracle.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.oracle.v1.QueryOracleResponse")]
 pub struct QueryOracleResponse {
@@ -94,7 +86,6 @@ pub struct QueryOracleResponse {
     pub data: ::prost::alloc::vec::Vec<u8>,
 }
 /// MsgSendQueryOracleRequest queries an oracle on another chain
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.oracle.v1.MsgSendQueryOracleRequest")]
 pub struct MsgSendQueryOracleRequest {
@@ -109,7 +100,6 @@ pub struct MsgSendQueryOracleRequest {
     pub authority: ::prost::alloc::string::String,
 }
 /// MsgSendQueryOracleResponse contains the id of the oracle query.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.oracle.v1.MsgSendQueryOracleResponse")]
 pub struct MsgSendQueryOracleResponse {
@@ -118,7 +108,6 @@ pub struct MsgSendQueryOracleResponse {
     pub sequence: u64,
 }
 /// MsgUpdateOracleRequest is the request type for updating an oracle's contract address
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.oracle.v1.MsgUpdateOracleRequest")]
 pub struct MsgUpdateOracleRequest {
@@ -130,7 +119,6 @@ pub struct MsgUpdateOracleRequest {
     pub authority: ::prost::alloc::string::String,
 }
 /// MsgUpdateOracleResponse is the response type for updating the oracle.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.oracle.v1.MsgUpdateOracleResponse")]
 pub struct MsgUpdateOracleResponse {}

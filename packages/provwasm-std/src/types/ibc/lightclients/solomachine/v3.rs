@@ -1,7 +1,6 @@
 use provwasm_proc_macro::CosmwasmExt;
 /// ClientState defines a solo machine client that tracks the current consensus
 /// state and if the client is frozen.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.lightclients.solomachine.v3.ClientState")]
 pub struct ClientState {
@@ -17,7 +16,6 @@ pub struct ClientState {
 /// ConsensusState defines a solo machine consensus state. The sequence of a
 /// consensus state is contained in the "height" key used in storing the
 /// consensus state.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.lightclients.solomachine.v3.ConsensusState")]
 pub struct ConsensusState {
@@ -33,7 +31,6 @@ pub struct ConsensusState {
     pub timestamp: u64,
 }
 /// Header defines a solo machine consensus header
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.lightclients.solomachine.v3.Header")]
 pub struct Header {
@@ -48,7 +45,6 @@ pub struct Header {
 }
 /// Misbehaviour defines misbehaviour for a solo machine which consists
 /// of a sequence and two signatures over different messages at that sequence.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.lightclients.solomachine.v3.Misbehaviour")]
 pub struct Misbehaviour {
@@ -61,7 +57,6 @@ pub struct Misbehaviour {
 }
 /// SignatureAndData contains a signature and the data signed over to create that
 /// signature.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.lightclients.solomachine.v3.SignatureAndData")]
 pub struct SignatureAndData {
@@ -76,7 +71,6 @@ pub struct SignatureAndData {
 }
 /// TimestampedSignatureData contains the signature data and the timestamp of the
 /// signature.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.lightclients.solomachine.v3.TimestampedSignatureData")]
 pub struct TimestampedSignatureData {
@@ -86,7 +80,6 @@ pub struct TimestampedSignatureData {
     pub timestamp: u64,
 }
 /// SignBytes defines the signed bytes used for signature verification.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.lightclients.solomachine.v3.SignBytes")]
 pub struct SignBytes {
@@ -107,7 +100,6 @@ pub struct SignBytes {
     pub data: ::prost::alloc::vec::Vec<u8>,
 }
 /// HeaderData returns the SignBytes data for update verification.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.lightclients.solomachine.v3.HeaderData")]
 pub struct HeaderData {

@@ -1,6 +1,5 @@
 use provwasm_proc_macro::CosmwasmExt;
 /// EventNFTRegistered is the event emitted when a registry is created for an NFT.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.registry.v1.EventNFTRegistered")]
 pub struct EventNftRegistered {
@@ -10,7 +9,6 @@ pub struct EventNftRegistered {
     pub asset_class_id: ::prost::alloc::string::String,
 }
 /// EventRoleGranted is the event emitted when an address is granted a role in a registry.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.registry.v1.EventRoleGranted")]
 pub struct EventRoleGranted {
@@ -24,7 +22,6 @@ pub struct EventRoleGranted {
     pub addresses: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// EventRoleRevoked is the event emitted when an address has a role revoked in a registry.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.registry.v1.EventRoleRevoked")]
 pub struct EventRoleRevoked {
@@ -38,7 +35,6 @@ pub struct EventRoleRevoked {
     pub addresses: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// EventNFTUnregistered is the event emitted when a registry is deleted from an NFT.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.registry.v1.EventNFTUnregistered")]
 pub struct EventNftUnregistered {
@@ -48,7 +44,6 @@ pub struct EventNftUnregistered {
     pub asset_class_id: ::prost::alloc::string::String,
 }
 /// EventRegistryBulkUpdated is the event emitted to indicate that a registry has been updated as part of a bulk process.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.registry.v1.EventRegistryBulkUpdated")]
 pub struct EventRegistryBulkUpdated {
@@ -59,7 +54,6 @@ pub struct EventRegistryBulkUpdated {
 }
 /// RegistryKey represents a unique identifier for registry entries.
 /// It links registry entries to specific NFT assets and their associated asset classes.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.registry.v1.RegistryKey")]
 pub struct RegistryKey {
@@ -77,7 +71,6 @@ pub struct RegistryKey {
 }
 /// RegistryEntry represents a single entry in the registry, mapping a blockchain address to its roles.
 /// Each entry contains the key information and the roles assigned to various addresses.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.registry.v1.RegistryEntry")]
 pub struct RegistryEntry {
@@ -92,7 +85,6 @@ pub struct RegistryEntry {
 }
 /// RolesEntry represents a mapping between a role and the addresses that can perform that role.
 /// This allows multiple addresses to be assigned the same role for a given registry entry.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.registry.v1.RolesEntry")]
 pub struct RolesEntry {
@@ -107,16 +99,7 @@ pub struct RolesEntry {
 /// RegistryRole defines the different types of roles that can be assigned to addresses.
 /// These roles determine the permissions and capabilities that an address has within the registry system.
 #[derive(
-    Clone,
-    Copy,
-    Debug,
-    PartialEq,
-    Eq,
-    Hash,
-    PartialOrd,
-    Ord,
-    ::prost::Enumeration,
-    ::schemars::JsonSchema,
+    Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, ::prost::Enumeration, ::schemars::JsonSchema,
 )]
 #[repr(i32)]
 pub enum RegistryRole {
@@ -149,13 +132,13 @@ impl RegistryRole {
     /// (if the ProtoBuf definition does not change) and safe for programmatic use.
     pub fn as_str_name(&self) -> &'static str {
         match self {
-            RegistryRole::Unspecified => "REGISTRY_ROLE_UNSPECIFIED",
-            RegistryRole::Servicer => "REGISTRY_ROLE_SERVICER",
-            RegistryRole::Subservicer => "REGISTRY_ROLE_SUBSERVICER",
-            RegistryRole::Controller => "REGISTRY_ROLE_CONTROLLER",
-            RegistryRole::Custodian => "REGISTRY_ROLE_CUSTODIAN",
-            RegistryRole::Borrower => "REGISTRY_ROLE_BORROWER",
-            RegistryRole::Originator => "REGISTRY_ROLE_ORIGINATOR",
+            Self::Unspecified => "REGISTRY_ROLE_UNSPECIFIED",
+            Self::Servicer => "REGISTRY_ROLE_SERVICER",
+            Self::Subservicer => "REGISTRY_ROLE_SUBSERVICER",
+            Self::Controller => "REGISTRY_ROLE_CONTROLLER",
+            Self::Custodian => "REGISTRY_ROLE_CUSTODIAN",
+            Self::Borrower => "REGISTRY_ROLE_BORROWER",
+            Self::Originator => "REGISTRY_ROLE_ORIGINATOR",
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.
@@ -174,7 +157,6 @@ impl RegistryRole {
 }
 /// GenesisState defines the registry module's genesis state.
 /// This contains all the registry entries that exist when the blockchain is first initialized.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.registry.v1.GenesisState")]
 pub struct GenesisState {
@@ -185,7 +167,6 @@ pub struct GenesisState {
 }
 /// QueryGetRegistryRequest is the request type for the Query/GetRegistry RPC method.
 /// It contains the key information needed to retrieve a specific registry entry.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.registry.v1.QueryGetRegistryRequest")]
 #[proto_query(
@@ -200,7 +181,6 @@ pub struct QueryGetRegistryRequest {
 }
 /// QueryGetRegistryResponse is the response type for the Query/GetRegistry RPC method.
 /// It contains the complete registry entry for the requested key.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.registry.v1.QueryGetRegistryResponse")]
 pub struct QueryGetRegistryResponse {
@@ -210,7 +190,6 @@ pub struct QueryGetRegistryResponse {
     pub registry: ::core::option::Option<RegistryEntry>,
 }
 /// QueryGetRegistriesRequest is the paginated request type for the Query/GetRegistries RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.registry.v1.QueryGetRegistriesRequest")]
 #[proto_query(
@@ -229,7 +208,6 @@ pub struct QueryGetRegistriesRequest {
 }
 /// QueryGetRegistriesResponse is the paginated response type for the Query/GetRegistries RPC method.
 /// It contains the complete registry entry for the requested key.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.registry.v1.QueryGetRegistriesResponse")]
 pub struct QueryGetRegistriesResponse {
@@ -244,7 +222,6 @@ pub struct QueryGetRegistriesResponse {
 }
 /// QueryHasRoleRequest is the request type for the Query/HasRole RPC method.
 /// It contains the information needed to verify if an address has a specific role.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.registry.v1.QueryHasRoleRequest")]
 #[proto_query(
@@ -267,7 +244,6 @@ pub struct QueryHasRoleRequest {
 }
 /// QueryHasRoleResponse is the response type for the Query/HasRole RPC method.
 /// It provides a boolean result indicating whether the address has the specified role.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.registry.v1.QueryHasRoleResponse")]
 pub struct QueryHasRoleResponse {
@@ -278,7 +254,6 @@ pub struct QueryHasRoleResponse {
 }
 /// MsgRegisterNFT represents a message to register a new NFT in the registry.
 /// This message creates a new registry entry with the specified roles and addresses.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.registry.v1.MsgRegisterNFT")]
 pub struct MsgRegisterNft {
@@ -297,13 +272,11 @@ pub struct MsgRegisterNft {
 }
 /// MsgRegisterNFTResponse defines the response for RegisterNFT.
 /// This is an empty response indicating successful registration.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.registry.v1.MsgRegisterNFTResponse")]
 pub struct MsgRegisterNftResponse {}
 /// MsgGrantRole represents a message to grant a role to one or more addresses.
 /// This message adds the specified addresses to an existing role for the given registry key.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.registry.v1.MsgGrantRole")]
 pub struct MsgGrantRole {
@@ -326,13 +299,11 @@ pub struct MsgGrantRole {
 }
 /// MsgGrantRoleResponse defines the response for GrantRole.
 /// This is an empty response indicating successful role grant.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.registry.v1.MsgGrantRoleResponse")]
 pub struct MsgGrantRoleResponse {}
 /// MsgRevokeRole represents a message to revoke a role from one or more addresses.
 /// This message removes the specified addresses from an existing role for the given registry key.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.registry.v1.MsgRevokeRole")]
 pub struct MsgRevokeRole {
@@ -355,13 +326,11 @@ pub struct MsgRevokeRole {
 }
 /// MsgRevokeRoleResponse defines the response for RevokeRole.
 /// This is an empty response indicating successful role revocation.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.registry.v1.MsgRevokeRoleResponse")]
 pub struct MsgRevokeRoleResponse {}
 /// MsgUnregisterNFT represents a message to unregister an NFT from the registry.
 /// This message removes the entire registry entry for the specified key.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.registry.v1.MsgUnregisterNFT")]
 pub struct MsgUnregisterNft {
@@ -376,13 +345,11 @@ pub struct MsgUnregisterNft {
 }
 /// MsgUnregisterNFTResponse defines the response for UnregisterNFT.
 /// This is an empty response indicating successful unregistration.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.registry.v1.MsgUnregisterNFTResponse")]
 pub struct MsgUnregisterNftResponse {}
 /// MsgRegistryBulkUpdate represents a bulk update operation for multiple registry entries.
 /// This allows for efficient batch processing of registry modifications.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.registry.v1.MsgRegistryBulkUpdate")]
 pub struct MsgRegistryBulkUpdate {
@@ -397,7 +364,6 @@ pub struct MsgRegistryBulkUpdate {
 }
 /// MsgRegistryBulkUpdateResponse defines the response for RegistryBulkUpdate.
 /// This is an empty response indicating successful bulk update.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.registry.v1.MsgRegistryBulkUpdateResponse")]
 pub struct MsgRegistryBulkUpdateResponse {}

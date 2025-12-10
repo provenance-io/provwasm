@@ -1,6 +1,5 @@
 use provwasm_proc_macro::CosmwasmExt;
 /// Params defines the set of params for the name module.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.name.v1.Params")]
 pub struct Params {
@@ -18,7 +17,6 @@ pub struct Params {
     pub allow_unrestricted_names: bool,
 }
 /// NameRecord is a structure used to bind ownership of a name hierarchy to a collection of addresses
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.name.v1.NameRecord")]
 pub struct NameRecord {
@@ -37,7 +35,6 @@ pub struct NameRecord {
 /// for the sole creation of sub names.
 /// Deprecated: This legacy proposal is deprecated in favor of Msg-based gov
 /// proposals, see MsgCreateRootNameRequest.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.name.v1.CreateRootNameProposal")]
 #[deprecated]
@@ -59,7 +56,6 @@ pub struct CreateRootNameProposal {
     pub restricted: bool,
 }
 /// Event emitted when name is bound.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.name.v1.EventNameBound")]
 pub struct EventNameBound {
@@ -71,7 +67,6 @@ pub struct EventNameBound {
     pub restricted: bool,
 }
 /// Event emitted when name is unbound.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.name.v1.EventNameUnbound")]
 pub struct EventNameUnbound {
@@ -83,7 +78,6 @@ pub struct EventNameUnbound {
     pub restricted: bool,
 }
 /// Event emitted when name is updated.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.name.v1.EventNameUpdate")]
 pub struct EventNameUpdate {
@@ -95,7 +89,6 @@ pub struct EventNameUpdate {
     pub restricted: bool,
 }
 /// EventNameParamsUpdated event emitted when name params are updated.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.name.v1.EventNameParamsUpdated")]
 pub struct EventNameParamsUpdated {
@@ -109,7 +102,6 @@ pub struct EventNameParamsUpdated {
     pub max_segment_length: ::prost::alloc::string::String,
 }
 /// GenesisState defines the name module's genesis state.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.name.v1.GenesisState")]
 pub struct GenesisState {
@@ -121,7 +113,6 @@ pub struct GenesisState {
     pub bindings: ::prost::alloc::vec::Vec<NameRecord>,
 }
 /// QueryParamsRequest is the request type for the Query/Params RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.name.v1.QueryParamsRequest")]
 #[proto_query(
@@ -130,7 +121,6 @@ pub struct GenesisState {
 )]
 pub struct QueryParamsRequest {}
 /// QueryParamsResponse is the response type for the Query/Params RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.name.v1.QueryParamsResponse")]
 pub struct QueryParamsResponse {
@@ -139,7 +129,6 @@ pub struct QueryParamsResponse {
     pub params: ::core::option::Option<Params>,
 }
 /// QueryResolveRequest is the request type for the Query/Resolve method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.name.v1.QueryResolveRequest")]
 #[proto_query(
@@ -152,7 +141,6 @@ pub struct QueryResolveRequest {
     pub name: ::prost::alloc::string::String,
 }
 /// QueryResolveResponse is the response type for the Query/Resolve method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.name.v1.QueryResolveResponse")]
 pub struct QueryResolveResponse {
@@ -164,7 +152,6 @@ pub struct QueryResolveResponse {
     pub restricted: bool,
 }
 /// QueryReverseLookupRequest is the request type for the Query/ReverseLookup method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.name.v1.QueryReverseLookupRequest")]
 #[proto_query(
@@ -181,7 +168,6 @@ pub struct QueryReverseLookupRequest {
         ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageRequest>,
 }
 /// QueryReverseLookupResponse is the response type for the Query/Resolve method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.name.v1.QueryReverseLookupResponse")]
 pub struct QueryReverseLookupResponse {
@@ -196,7 +182,6 @@ pub struct QueryReverseLookupResponse {
 /// MsgBindNameRequest defines an sdk.Msg type that is used to add an address/name binding under an optional parent name.
 /// The record may optionally be restricted to prevent additional names from being added under this one without the
 /// owner signing the request.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.name.v1.MsgBindNameRequest")]
 pub struct MsgBindNameRequest {
@@ -208,14 +193,12 @@ pub struct MsgBindNameRequest {
     pub record: ::core::option::Option<NameRecord>,
 }
 /// MsgBindNameResponse defines the Msg/BindName response type.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.name.v1.MsgBindNameResponse")]
 pub struct MsgBindNameResponse {}
 /// MsgDeleteNameRequest defines an sdk.Msg type that is used to remove an existing address/name binding.  The binding
 /// may not have any child names currently bound for this request to be successful. All associated attributes on account
 /// addresses will be deleted.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.name.v1.MsgDeleteNameRequest")]
 pub struct MsgDeleteNameRequest {
@@ -224,14 +207,12 @@ pub struct MsgDeleteNameRequest {
     pub record: ::core::option::Option<NameRecord>,
 }
 /// MsgDeleteNameResponse defines the Msg/DeleteName response type.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.name.v1.MsgDeleteNameResponse")]
 pub struct MsgDeleteNameResponse {}
 /// MsgCreateRootNameRequest defines an sdk.Msg type to create a new root name
 /// that is controlled by a given owner and optionally restricted to the owner
 /// for the sole creation of sub names.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.name.v1.MsgCreateRootNameRequest")]
 pub struct MsgCreateRootNameRequest {
@@ -243,12 +224,10 @@ pub struct MsgCreateRootNameRequest {
     pub record: ::core::option::Option<NameRecord>,
 }
 /// MsgCreateRootNameResponse defines Msg/CreateRootName response type.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.name.v1.MsgCreateRootNameResponse")]
 pub struct MsgCreateRootNameResponse {}
 /// MsgModifyNameRequest defines a governance method that is used to update an existing address/name binding.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.name.v1.MsgModifyNameRequest")]
 pub struct MsgModifyNameRequest {
@@ -260,12 +239,10 @@ pub struct MsgModifyNameRequest {
     pub record: ::core::option::Option<NameRecord>,
 }
 /// MsgModifyNameResponse defines the Msg/ModifyName response type.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.name.v1.MsgModifyNameResponse")]
 pub struct MsgModifyNameResponse {}
 /// MsgUpdateParamsRequest is a request message for the UpdateParams endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.name.v1.MsgUpdateParamsRequest")]
 pub struct MsgUpdateParamsRequest {
@@ -277,7 +254,6 @@ pub struct MsgUpdateParamsRequest {
     pub params: ::core::option::Option<Params>,
 }
 /// MsgUpdateParamsResponse is a response message for the UpdateParams endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.name.v1.MsgUpdateParamsResponse")]
 pub struct MsgUpdateParamsResponse {}

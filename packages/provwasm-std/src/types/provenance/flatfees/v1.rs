@@ -1,6 +1,5 @@
 use provwasm_proc_macro::CosmwasmExt;
 /// Params defines the set of params for the flatfees module.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.flatfees.v1.Params")]
 pub struct Params {
@@ -18,7 +17,6 @@ pub struct Params {
 /// ConversionFactor equates the values of two coins in different denominations.
 /// It is used to determine how much of the fee denomination is due.
 /// actual cost = defined cost * converted_amount / definition_amount (truncated to an integer).
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.flatfees.v1.ConversionFactor")]
 pub struct ConversionFactor {
@@ -36,7 +34,6 @@ pub struct ConversionFactor {
     pub converted_amount: ::core::option::Option<super::super::super::cosmos::base::v1beta1::Coin>,
 }
 /// MsgFee defines the cost to use a specific message type.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.flatfees.v1.MsgFee")]
 pub struct MsgFee {
@@ -50,7 +47,6 @@ pub struct MsgFee {
     pub cost: ::prost::alloc::vec::Vec<super::super::super::cosmos::base::v1beta1::Coin>,
 }
 /// GenesisState contains a set of the flat fees module data, persisted from the store.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.flatfees.v1.GenesisState")]
 pub struct GenesisState {
@@ -62,7 +58,6 @@ pub struct GenesisState {
     pub msg_fees: ::prost::alloc::vec::Vec<MsgFee>,
 }
 /// QueryParamsRequest is the request type for the Params query.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.flatfees.v1.QueryParamsRequest")]
 #[proto_query(
@@ -71,7 +66,6 @@ pub struct GenesisState {
 )]
 pub struct QueryParamsRequest {}
 /// QueryParamsResponse is the response type for the Params query.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.flatfees.v1.QueryParamsResponse")]
 pub struct QueryParamsResponse {
@@ -80,7 +74,6 @@ pub struct QueryParamsResponse {
     pub params: ::core::option::Option<Params>,
 }
 /// QueryAllMsgFeesRequest is the request type for the AllMsgFees query.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.flatfees.v1.QueryAllMsgFeesRequest")]
 #[proto_query(
@@ -97,7 +90,6 @@ pub struct QueryAllMsgFeesRequest {
         ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageRequest>,
 }
 /// QueryAllMsgFeesResponse is the response type for the AllMsgFees query.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.flatfees.v1.QueryAllMsgFeesResponse")]
 pub struct QueryAllMsgFeesResponse {
@@ -113,7 +105,6 @@ pub struct QueryAllMsgFeesResponse {
         ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageResponse>,
 }
 /// QueryMsgFeeRequest is the request type for the MsgFee query.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.flatfees.v1.QueryMsgFeeRequest")]
 #[proto_query(
@@ -129,7 +120,6 @@ pub struct QueryMsgFeeRequest {
     pub do_not_convert: bool,
 }
 /// QueryMsgFeeResponse is the response type for the MsgFee query.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.flatfees.v1.QueryMsgFeeResponse")]
 pub struct QueryMsgFeeResponse {
@@ -138,7 +128,6 @@ pub struct QueryMsgFeeResponse {
     pub msg_fee: ::core::option::Option<MsgFee>,
 }
 /// MsgUpdateParamsRequest is the request for the UpdateParams governance endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.flatfees.v1.MsgUpdateParamsRequest")]
 pub struct MsgUpdateParamsRequest {
@@ -150,12 +139,10 @@ pub struct MsgUpdateParamsRequest {
     pub params: ::core::option::Option<Params>,
 }
 /// MsgUpdateParamsResponse is the response for the UpdateParams governance endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.flatfees.v1.MsgUpdateParamsResponse")]
 pub struct MsgUpdateParamsResponse {}
 /// MsgUpdateConversionFactorRequest is the request for the UpdateConversionFactor governance endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.flatfees.v1.MsgUpdateConversionFactorRequest")]
 pub struct MsgUpdateConversionFactorRequest {
@@ -167,12 +154,10 @@ pub struct MsgUpdateConversionFactorRequest {
     pub conversion_factor: ::core::option::Option<ConversionFactor>,
 }
 /// MsgUpdateConversionFactorResponse is the response for the UpdateConversionFactor governance endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.flatfees.v1.MsgUpdateConversionFactorResponse")]
 pub struct MsgUpdateConversionFactorResponse {}
 /// MsgUpdateMsgFeesRequest is the request for the UpdateMsgFees governance endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.flatfees.v1.MsgUpdateMsgFeesRequest")]
 pub struct MsgUpdateMsgFeesRequest {
@@ -188,7 +173,6 @@ pub struct MsgUpdateMsgFeesRequest {
     pub to_unset: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// MsgUpdateMsgFeesResponse is the response for the UpdateMsgFees governance endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.flatfees.v1.MsgUpdateMsgFeesResponse")]
 pub struct MsgUpdateMsgFeesResponse {}

@@ -1,5 +1,4 @@
 use provwasm_proc_macro::CosmwasmExt;
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.statesync.Message")]
 pub struct Message {
@@ -9,7 +8,6 @@ pub struct Message {
 /// Nested message and enum types in `Message`.
 pub mod message {
     use provwasm_proc_macro::CosmwasmExt;
-    #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, Eq, ::prost::Oneof, ::schemars::JsonSchema)]
     pub enum Sum {
         #[prost(message, tag = "1")]
@@ -22,11 +20,9 @@ pub mod message {
         ChunkResponse(super::ChunkResponse),
     }
 }
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.statesync.SnapshotsRequest")]
 pub struct SnapshotsRequest {}
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.statesync.SnapshotsResponse")]
 pub struct SnapshotsResponse {
@@ -41,7 +37,6 @@ pub struct SnapshotsResponse {
     #[prost(bytes = "vec", tag = "5")]
     pub metadata: ::prost::alloc::vec::Vec<u8>,
 }
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.statesync.ChunkRequest")]
 pub struct ChunkRequest {
@@ -52,7 +47,6 @@ pub struct ChunkRequest {
     #[prost(uint32, tag = "3")]
     pub index: u32,
 }
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.statesync.ChunkResponse")]
 pub struct ChunkResponse {

@@ -1,6 +1,5 @@
 use provwasm_proc_macro::CosmwasmExt;
 /// Minter represents the minting state.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.mint.v1beta1.Minter")]
 pub struct Minter {
@@ -12,7 +11,6 @@ pub struct Minter {
     pub annual_provisions: ::prost::alloc::string::String,
 }
 /// Params defines the parameters for the x/mint module.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.mint.v1beta1.Params")]
 pub struct Params {
@@ -36,7 +34,6 @@ pub struct Params {
     pub blocks_per_year: u64,
 }
 /// GenesisState defines the mint module's genesis state.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.mint.v1beta1.GenesisState")]
 pub struct GenesisState {
@@ -48,7 +45,6 @@ pub struct GenesisState {
     pub params: ::core::option::Option<Params>,
 }
 /// QueryParamsRequest is the request type for the Query/Params RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.mint.v1beta1.QueryParamsRequest")]
 #[proto_query(
@@ -57,7 +53,6 @@ pub struct GenesisState {
 )]
 pub struct QueryParamsRequest {}
 /// QueryParamsResponse is the response type for the Query/Params RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.mint.v1beta1.QueryParamsResponse")]
 pub struct QueryParamsResponse {
@@ -66,7 +61,6 @@ pub struct QueryParamsResponse {
     pub params: ::core::option::Option<Params>,
 }
 /// QueryInflationRequest is the request type for the Query/Inflation RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.mint.v1beta1.QueryInflationRequest")]
 #[proto_query(
@@ -76,7 +70,6 @@ pub struct QueryParamsResponse {
 pub struct QueryInflationRequest {}
 /// QueryInflationResponse is the response type for the Query/Inflation RPC
 /// method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.mint.v1beta1.QueryInflationResponse")]
 pub struct QueryInflationResponse {
@@ -86,7 +79,6 @@ pub struct QueryInflationResponse {
 }
 /// QueryAnnualProvisionsRequest is the request type for the
 /// Query/AnnualProvisions RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.mint.v1beta1.QueryAnnualProvisionsRequest")]
 #[proto_query(
@@ -96,7 +88,6 @@ pub struct QueryInflationResponse {
 pub struct QueryAnnualProvisionsRequest {}
 /// QueryAnnualProvisionsResponse is the response type for the
 /// Query/AnnualProvisions RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.mint.v1beta1.QueryAnnualProvisionsResponse")]
 pub struct QueryAnnualProvisionsResponse {
@@ -107,7 +98,6 @@ pub struct QueryAnnualProvisionsResponse {
 /// MsgUpdateParams is the Msg/UpdateParams request type.
 ///
 /// Since: cosmos-sdk 0.47
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.mint.v1beta1.MsgUpdateParams")]
 pub struct MsgUpdateParams {
@@ -124,7 +114,6 @@ pub struct MsgUpdateParams {
 /// MsgUpdateParams message.
 ///
 /// Since: cosmos-sdk 0.47
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.mint.v1beta1.MsgUpdateParamsResponse")]
 pub struct MsgUpdateParamsResponse {}

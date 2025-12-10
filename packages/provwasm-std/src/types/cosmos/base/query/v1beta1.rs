@@ -6,7 +6,6 @@ use provwasm_proc_macro::CosmwasmExt;
 ///           Foo some_parameter = 1;
 ///           PageRequest pagination = 2;
 ///   }
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.base.query.v1beta1.PageRequest")]
 pub struct PageRequest {
@@ -43,7 +42,6 @@ pub struct PageRequest {
 ///           repeated Bar results = 1;
 ///           PageResponse page = 2;
 ///   }
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.base.query.v1beta1.PageResponse")]
 pub struct PageResponse {

@@ -1,5 +1,4 @@
 use provwasm_proc_macro::CosmwasmExt;
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.p2p.NetAddress")]
 pub struct NetAddress {
@@ -10,7 +9,6 @@ pub struct NetAddress {
     #[prost(uint32, tag = "3")]
     pub port: u32,
 }
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.p2p.ProtocolVersion")]
 pub struct ProtocolVersion {
@@ -21,7 +19,6 @@ pub struct ProtocolVersion {
     #[prost(uint64, tag = "3")]
     pub app: u64,
 }
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.p2p.DefaultNodeInfo")]
 pub struct DefaultNodeInfo {
@@ -42,7 +39,6 @@ pub struct DefaultNodeInfo {
     #[prost(message, optional, tag = "8")]
     pub other: ::core::option::Option<DefaultNodeInfoOther>,
 }
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.p2p.DefaultNodeInfoOther")]
 pub struct DefaultNodeInfoOther {
@@ -51,15 +47,12 @@ pub struct DefaultNodeInfoOther {
     #[prost(string, tag = "2")]
     pub rpc_address: ::prost::alloc::string::String,
 }
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.p2p.PacketPing")]
 pub struct PacketPing {}
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.p2p.PacketPong")]
 pub struct PacketPong {}
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.p2p.PacketMsg")]
 pub struct PacketMsg {
@@ -70,7 +63,6 @@ pub struct PacketMsg {
     #[prost(bytes = "vec", tag = "3")]
     pub data: ::prost::alloc::vec::Vec<u8>,
 }
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.p2p.Packet")]
 pub struct Packet {
@@ -80,7 +72,6 @@ pub struct Packet {
 /// Nested message and enum types in `Packet`.
 pub mod packet {
     use provwasm_proc_macro::CosmwasmExt;
-    #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, Eq, ::prost::Oneof, ::schemars::JsonSchema)]
     pub enum Sum {
         #[prost(message, tag = "1")]
@@ -91,7 +82,6 @@ pub mod packet {
         PacketMsg(super::PacketMsg),
     }
 }
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.p2p.AuthSigMessage")]
 pub struct AuthSigMessage {
@@ -100,18 +90,15 @@ pub struct AuthSigMessage {
     #[prost(bytes = "vec", tag = "2")]
     pub sig: ::prost::alloc::vec::Vec<u8>,
 }
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.p2p.PexRequest")]
 pub struct PexRequest {}
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.p2p.PexAddrs")]
 pub struct PexAddrs {
     #[prost(message, repeated, tag = "1")]
     pub addrs: ::prost::alloc::vec::Vec<NetAddress>,
 }
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.p2p.Message")]
 pub struct Message {
@@ -121,7 +108,6 @@ pub struct Message {
 /// Nested message and enum types in `Message`.
 pub mod message {
     use provwasm_proc_macro::CosmwasmExt;
-    #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, Eq, ::prost::Oneof, ::schemars::JsonSchema)]
     pub enum Sum {
         #[prost(message, tag = "1")]

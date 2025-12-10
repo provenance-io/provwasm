@@ -1,6 +1,5 @@
 use provwasm_proc_macro::CosmwasmExt;
 /// Deprecated: Do not use.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.p8e.Contract")]
 #[deprecated]
@@ -28,7 +27,6 @@ pub struct Contract {
     pub context: ::prost::alloc::vec::Vec<u8>,
 }
 /// Deprecated: Do not use.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.p8e.DefinitionSpec")]
 #[deprecated]
@@ -43,7 +41,6 @@ pub struct DefinitionSpec {
     pub r#type: i32,
 }
 /// Deprecated: Do not use.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.p8e.Fact")]
 #[deprecated]
@@ -54,7 +51,6 @@ pub struct Fact {
     pub data_location: ::core::option::Option<Location>,
 }
 /// Deprecated: Do not use.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.p8e.Condition")]
 #[deprecated]
@@ -65,7 +61,6 @@ pub struct Condition {
     pub result: ::core::option::Option<ExecutionResult>,
 }
 /// Deprecated: Do not use.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.p8e.Consideration")]
 #[deprecated]
@@ -78,7 +73,6 @@ pub struct Consideration {
     pub result: ::core::option::Option<ExecutionResult>,
 }
 /// Deprecated: Do not use.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.p8e.ProposedFact")]
 #[deprecated]
@@ -93,7 +87,6 @@ pub struct ProposedFact {
     pub ancestor: ::core::option::Option<ProvenanceReference>,
 }
 /// Deprecated: Do not use.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.p8e.ExecutionResult")]
 #[deprecated]
@@ -108,7 +101,6 @@ pub struct ExecutionResult {
     pub error_message: ::prost::alloc::string::String,
 }
 /// Deprecated: Do not use.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.p8e.Recitals")]
 #[deprecated]
@@ -117,7 +109,6 @@ pub struct Recitals {
     pub parties: ::prost::alloc::vec::Vec<Recital>,
 }
 /// Deprecated: Do not use.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.p8e.Recital")]
 #[deprecated]
@@ -130,7 +121,6 @@ pub struct Recital {
     pub address: ::prost::alloc::vec::Vec<u8>,
 }
 /// Deprecated: Do not use.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.p8e.Location")]
 #[deprecated]
@@ -141,7 +131,6 @@ pub struct Location {
     pub classname: ::prost::alloc::string::String,
 }
 /// Deprecated: Do not use.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.p8e.ProvenanceReference")]
 #[deprecated]
@@ -156,7 +145,6 @@ pub struct ProvenanceReference {
     pub name: ::prost::alloc::string::String,
 }
 /// Deprecated: Do not use.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.p8e.SignatureSet")]
 #[deprecated]
@@ -165,7 +153,6 @@ pub struct SignatureSet {
     pub signatures: ::prost::alloc::vec::Vec<Signature>,
 }
 /// Deprecated: Do not use.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.p8e.Signature")]
 #[deprecated]
@@ -180,7 +167,6 @@ pub struct Signature {
     pub signer: ::core::option::Option<SigningAndEncryptionPublicKeys>,
 }
 /// Deprecated: Do not use.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.p8e.SigningAndEncryptionPublicKeys")]
 #[deprecated]
@@ -191,7 +177,6 @@ pub struct SigningAndEncryptionPublicKeys {
     pub encryption_public_key: ::core::option::Option<PublicKey>,
 }
 /// Deprecated: Do not use.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.p8e.PublicKey")]
 #[deprecated]
@@ -204,7 +189,6 @@ pub struct PublicKey {
     pub curve: i32,
 }
 /// Deprecated: Do not use.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.p8e.UUID")]
 #[deprecated]
@@ -213,7 +197,6 @@ pub struct Uuid {
     pub value: ::prost::alloc::string::String,
 }
 /// Deprecated: Do not use.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.p8e.Timestamp")]
 #[deprecated]
@@ -224,7 +207,6 @@ pub struct Timestamp {
     pub nanos: i32,
 }
 /// Deprecated: Do not use.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.p8e.ContractSpec")]
 #[deprecated]
@@ -241,7 +223,6 @@ pub struct ContractSpec {
     pub consideration_specs: ::prost::alloc::vec::Vec<ConsiderationSpec>,
 }
 /// Deprecated: Do not use.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.p8e.ConditionSpec")]
 #[deprecated]
@@ -254,7 +235,6 @@ pub struct ConditionSpec {
     pub output_spec: ::core::option::Option<OutputSpec>,
 }
 /// Deprecated: Do not use.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.p8e.ConsiderationSpec")]
 #[deprecated]
@@ -269,7 +249,6 @@ pub struct ConsiderationSpec {
     pub output_spec: ::core::option::Option<OutputSpec>,
 }
 /// Deprecated: Do not use.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.metadata.v1.p8e.OutputSpec")]
 #[deprecated]
@@ -279,16 +258,7 @@ pub struct OutputSpec {
 }
 /// Deprecated: Do not use.
 #[derive(
-    Clone,
-    Copy,
-    Debug,
-    PartialEq,
-    Eq,
-    Hash,
-    PartialOrd,
-    Ord,
-    ::prost::Enumeration,
-    ::schemars::JsonSchema,
+    Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, ::prost::Enumeration, ::schemars::JsonSchema,
 )]
 #[repr(i32)]
 pub enum DefinitionSpecType {
@@ -308,10 +278,10 @@ impl DefinitionSpecType {
     /// (if the ProtoBuf definition does not change) and safe for programmatic use.
     pub fn as_str_name(&self) -> &'static str {
         match self {
-            DefinitionSpecType::Unknown => "DEFINITION_SPEC_TYPE_UNKNOWN",
-            DefinitionSpecType::Proposed => "DEFINITION_SPEC_TYPE_PROPOSED",
-            DefinitionSpecType::Fact => "DEFINITION_SPEC_TYPE_FACT",
-            DefinitionSpecType::FactList => "DEFINITION_SPEC_TYPE_FACT_LIST",
+            Self::Unknown => "DEFINITION_SPEC_TYPE_UNKNOWN",
+            Self::Proposed => "DEFINITION_SPEC_TYPE_PROPOSED",
+            Self::Fact => "DEFINITION_SPEC_TYPE_FACT",
+            Self::FactList => "DEFINITION_SPEC_TYPE_FACT_LIST",
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.
@@ -327,16 +297,7 @@ impl DefinitionSpecType {
 }
 /// Deprecated: Do not use.
 #[derive(
-    Clone,
-    Copy,
-    Debug,
-    PartialEq,
-    Eq,
-    Hash,
-    PartialOrd,
-    Ord,
-    ::prost::Enumeration,
-    ::schemars::JsonSchema,
+    Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, ::prost::Enumeration, ::schemars::JsonSchema,
 )]
 #[repr(i32)]
 pub enum PublicKeyCurve {
@@ -352,8 +313,8 @@ impl PublicKeyCurve {
     /// (if the ProtoBuf definition does not change) and safe for programmatic use.
     pub fn as_str_name(&self) -> &'static str {
         match self {
-            PublicKeyCurve::Secp256k1 => "SECP256K1",
-            PublicKeyCurve::P256 => "P256",
+            Self::Secp256k1 => "SECP256K1",
+            Self::P256 => "P256",
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.
@@ -367,16 +328,7 @@ impl PublicKeyCurve {
 }
 /// Deprecated: Do not use.
 #[derive(
-    Clone,
-    Copy,
-    Debug,
-    PartialEq,
-    Eq,
-    Hash,
-    PartialOrd,
-    Ord,
-    ::prost::Enumeration,
-    ::schemars::JsonSchema,
+    Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, ::prost::Enumeration, ::schemars::JsonSchema,
 )]
 #[repr(i32)]
 pub enum PublicKeyType {
@@ -390,7 +342,7 @@ impl PublicKeyType {
     /// (if the ProtoBuf definition does not change) and safe for programmatic use.
     pub fn as_str_name(&self) -> &'static str {
         match self {
-            PublicKeyType::Elliptic => "ELLIPTIC",
+            Self::Elliptic => "ELLIPTIC",
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.
@@ -403,16 +355,7 @@ impl PublicKeyType {
 }
 /// Deprecated: Do not use.
 #[derive(
-    Clone,
-    Copy,
-    Debug,
-    PartialEq,
-    Eq,
-    Hash,
-    PartialOrd,
-    Ord,
-    ::prost::Enumeration,
-    ::schemars::JsonSchema,
+    Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, ::prost::Enumeration, ::schemars::JsonSchema,
 )]
 #[repr(i32)]
 pub enum ExecutionResultType {
@@ -432,10 +375,10 @@ impl ExecutionResultType {
     /// (if the ProtoBuf definition does not change) and safe for programmatic use.
     pub fn as_str_name(&self) -> &'static str {
         match self {
-            ExecutionResultType::ResultTypeUnknown => "RESULT_TYPE_UNKNOWN",
-            ExecutionResultType::ResultTypePass => "RESULT_TYPE_PASS",
-            ExecutionResultType::ResultTypeSkip => "RESULT_TYPE_SKIP",
-            ExecutionResultType::ResultTypeFail => "RESULT_TYPE_FAIL",
+            Self::ResultTypeUnknown => "RESULT_TYPE_UNKNOWN",
+            Self::ResultTypePass => "RESULT_TYPE_PASS",
+            Self::ResultTypeSkip => "RESULT_TYPE_SKIP",
+            Self::ResultTypeFail => "RESULT_TYPE_FAIL",
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.
@@ -451,16 +394,7 @@ impl ExecutionResultType {
 }
 /// Deprecated: Do not use.
 #[derive(
-    Clone,
-    Copy,
-    Debug,
-    PartialEq,
-    Eq,
-    Hash,
-    PartialOrd,
-    Ord,
-    ::prost::Enumeration,
-    ::schemars::JsonSchema,
+    Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, ::prost::Enumeration, ::schemars::JsonSchema,
 )]
 #[repr(i32)]
 pub enum PartyType {
@@ -496,18 +430,18 @@ impl PartyType {
     /// (if the ProtoBuf definition does not change) and safe for programmatic use.
     pub fn as_str_name(&self) -> &'static str {
         match self {
-            PartyType::Unknown => "PARTY_TYPE_UNKNOWN",
-            PartyType::Originator => "PARTY_TYPE_ORIGINATOR",
-            PartyType::Servicer => "PARTY_TYPE_SERVICER",
-            PartyType::Investor => "PARTY_TYPE_INVESTOR",
-            PartyType::Custodian => "PARTY_TYPE_CUSTODIAN",
-            PartyType::Owner => "PARTY_TYPE_OWNER",
-            PartyType::Affiliate => "PARTY_TYPE_AFFILIATE",
-            PartyType::Omnibus => "PARTY_TYPE_OMNIBUS",
-            PartyType::Provenance => "PARTY_TYPE_PROVENANCE",
-            PartyType::Marker => "PARTY_TYPE_MARKER",
-            PartyType::Controller => "PARTY_TYPE_CONTROLLER",
-            PartyType::Validator => "PARTY_TYPE_VALIDATOR",
+            Self::Unknown => "PARTY_TYPE_UNKNOWN",
+            Self::Originator => "PARTY_TYPE_ORIGINATOR",
+            Self::Servicer => "PARTY_TYPE_SERVICER",
+            Self::Investor => "PARTY_TYPE_INVESTOR",
+            Self::Custodian => "PARTY_TYPE_CUSTODIAN",
+            Self::Owner => "PARTY_TYPE_OWNER",
+            Self::Affiliate => "PARTY_TYPE_AFFILIATE",
+            Self::Omnibus => "PARTY_TYPE_OMNIBUS",
+            Self::Provenance => "PARTY_TYPE_PROVENANCE",
+            Self::Marker => "PARTY_TYPE_MARKER",
+            Self::Controller => "PARTY_TYPE_CONTROLLER",
+            Self::Validator => "PARTY_TYPE_VALIDATOR",
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.

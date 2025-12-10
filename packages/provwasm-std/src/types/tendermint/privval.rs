@@ -1,5 +1,4 @@
 use provwasm_proc_macro::CosmwasmExt;
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.privval.RemoteSignerError")]
 pub struct RemoteSignerError {
@@ -9,7 +8,6 @@ pub struct RemoteSignerError {
     pub description: ::prost::alloc::string::String,
 }
 /// PubKeyRequest requests the consensus public key from the remote signer.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.privval.PubKeyRequest")]
 pub struct PubKeyRequest {
@@ -17,7 +15,6 @@ pub struct PubKeyRequest {
     pub chain_id: ::prost::alloc::string::String,
 }
 /// PubKeyResponse is a response message containing the public key.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.privval.PubKeyResponse")]
 pub struct PubKeyResponse {
@@ -27,7 +24,6 @@ pub struct PubKeyResponse {
     pub error: ::core::option::Option<RemoteSignerError>,
 }
 /// SignVoteRequest is a request to sign a vote
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.privval.SignVoteRequest")]
 pub struct SignVoteRequest {
@@ -37,7 +33,6 @@ pub struct SignVoteRequest {
     pub chain_id: ::prost::alloc::string::String,
 }
 /// SignedVoteResponse is a response containing a signed vote or an error
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.privval.SignedVoteResponse")]
 pub struct SignedVoteResponse {
@@ -47,7 +42,6 @@ pub struct SignedVoteResponse {
     pub error: ::core::option::Option<RemoteSignerError>,
 }
 /// SignProposalRequest is a request to sign a proposal
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.privval.SignProposalRequest")]
 pub struct SignProposalRequest {
@@ -57,7 +51,6 @@ pub struct SignProposalRequest {
     pub chain_id: ::prost::alloc::string::String,
 }
 /// SignedProposalResponse is response containing a signed proposal or an error
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.privval.SignedProposalResponse")]
 pub struct SignedProposalResponse {
@@ -67,16 +60,13 @@ pub struct SignedProposalResponse {
     pub error: ::core::option::Option<RemoteSignerError>,
 }
 /// PingRequest is a request to confirm that the connection is alive.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.privval.PingRequest")]
 pub struct PingRequest {}
 /// PingResponse is a response to confirm that the connection is alive.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.privval.PingResponse")]
 pub struct PingResponse {}
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.privval.Message")]
 pub struct Message {
@@ -86,7 +76,6 @@ pub struct Message {
 /// Nested message and enum types in `Message`.
 pub mod message {
     use provwasm_proc_macro::CosmwasmExt;
-    #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, Eq, ::prost::Oneof, ::schemars::JsonSchema)]
     pub enum Sum {
         #[prost(message, tag = "1")]
@@ -108,16 +97,7 @@ pub mod message {
     }
 }
 #[derive(
-    Clone,
-    Copy,
-    Debug,
-    PartialEq,
-    Eq,
-    Hash,
-    PartialOrd,
-    Ord,
-    ::prost::Enumeration,
-    ::schemars::JsonSchema,
+    Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, ::prost::Enumeration, ::schemars::JsonSchema,
 )]
 #[repr(i32)]
 pub enum Errors {
@@ -135,12 +115,12 @@ impl Errors {
     /// (if the ProtoBuf definition does not change) and safe for programmatic use.
     pub fn as_str_name(&self) -> &'static str {
         match self {
-            Errors::Unknown => "ERRORS_UNKNOWN",
-            Errors::UnexpectedResponse => "ERRORS_UNEXPECTED_RESPONSE",
-            Errors::NoConnection => "ERRORS_NO_CONNECTION",
-            Errors::ConnectionTimeout => "ERRORS_CONNECTION_TIMEOUT",
-            Errors::ReadTimeout => "ERRORS_READ_TIMEOUT",
-            Errors::WriteTimeout => "ERRORS_WRITE_TIMEOUT",
+            Self::Unknown => "ERRORS_UNKNOWN",
+            Self::UnexpectedResponse => "ERRORS_UNEXPECTED_RESPONSE",
+            Self::NoConnection => "ERRORS_NO_CONNECTION",
+            Self::ConnectionTimeout => "ERRORS_CONNECTION_TIMEOUT",
+            Self::ReadTimeout => "ERRORS_READ_TIMEOUT",
+            Self::WriteTimeout => "ERRORS_WRITE_TIMEOUT",
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.

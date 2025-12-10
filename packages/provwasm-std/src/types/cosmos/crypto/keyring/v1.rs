@@ -1,6 +1,5 @@
 use provwasm_proc_macro::CosmwasmExt;
 /// Record is used for representing a key in the keyring.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.crypto.keyring.v1.Record")]
 pub struct Record {
@@ -19,7 +18,6 @@ pub mod record {
     use provwasm_proc_macro::CosmwasmExt;
     /// Item is a keyring item stored in a keyring backend.
     /// Local item
-    #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
     #[proto_message(type_url = "/cosmos.crypto.keyring.v1.Record.Local")]
     pub struct Local {
@@ -27,7 +25,6 @@ pub mod record {
         pub priv_key: ::core::option::Option<crate::shim::Any>,
     }
     /// Ledger item
-    #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
     #[proto_message(type_url = "/cosmos.crypto.keyring.v1.Record.Ledger")]
     pub struct Ledger {
@@ -35,17 +32,14 @@ pub mod record {
         pub path: ::core::option::Option<super::super::super::hd::v1::Bip44Params>,
     }
     /// Multi item
-    #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
     #[proto_message(type_url = "/cosmos.crypto.keyring.v1.Record.Multi")]
     pub struct Multi {}
     /// Offline item
-    #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
     #[proto_message(type_url = "/cosmos.crypto.keyring.v1.Record.Offline")]
     pub struct Offline {}
     /// Record contains one of the following items
-    #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, Eq, ::prost::Oneof, ::schemars::JsonSchema)]
     pub enum Item {
         /// local stores the private key locally.

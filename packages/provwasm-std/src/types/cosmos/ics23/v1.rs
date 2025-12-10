@@ -19,7 +19,6 @@ use provwasm_proc_macro::CosmwasmExt;
 /// With LengthOp this is tricker but not impossible. Which is why the "leafPrefixEqual" field
 /// in the ProofSpec is valuable to prevent this mutability. And why all trees should
 /// length-prefix the data before hashing it.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.ics23.v1.ExistenceProof")]
 pub struct ExistenceProof {
@@ -36,7 +35,6 @@ pub struct ExistenceProof {
 /// NonExistenceProof takes a proof of two neighbors, one left of the desired key,
 /// one right of the desired key. If both proofs are valid AND they are neighbors,
 /// then there is no valid proof for the given key.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.ics23.v1.NonExistenceProof")]
 pub struct NonExistenceProof {
@@ -50,7 +48,6 @@ pub struct NonExistenceProof {
 }
 ///
 /// CommitmentProof is either an ExistenceProof or a NonExistenceProof, or a Batch of such messages
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.ics23.v1.CommitmentProof")]
 pub struct CommitmentProof {
@@ -60,7 +57,6 @@ pub struct CommitmentProof {
 /// Nested message and enum types in `CommitmentProof`.
 pub mod commitment_proof {
     use provwasm_proc_macro::CosmwasmExt;
-    #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, Eq, ::prost::Oneof, ::schemars::JsonSchema)]
     pub enum Proof {
         #[prost(message, tag = "1")]
@@ -88,7 +84,6 @@ pub mod commitment_proof {
 ///
 /// Then combine the bytes, and hash it
 /// output = hash(prefix || length(hkey) || hkey || length(hvalue) || hvalue)
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.ics23.v1.LeafOp")]
 pub struct LeafOp {
@@ -121,7 +116,6 @@ pub struct LeafOp {
 /// Any special data, like prepending child with the length, or prepending the entire operation with
 /// some value to differentiate from leaf nodes, should be included in prefix and suffix.
 /// If either of prefix or suffix is empty, we just treat it as an empty string
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.ics23.v1.InnerOp")]
 pub struct InnerOp {
@@ -143,7 +137,6 @@ pub struct InnerOp {
 /// generate a given hash (by interpretting the preimage differently).
 /// We need this for proper security, requires client knows a priori what
 /// tree format server uses. But not in code, rather a configuration object.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.ics23.v1.ProofSpec")]
 pub struct ProofSpec {
@@ -175,7 +168,6 @@ pub struct ProofSpec {
 /// isLeftMost(spec: InnerSpec, op: InnerOp)
 /// isRightMost(spec: InnerSpec, op: InnerOp)
 /// isLeftNeighbor(spec: InnerSpec, left: InnerOp, right: InnerOp)
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.ics23.v1.InnerSpec")]
 pub struct InnerSpec {
@@ -199,7 +191,6 @@ pub struct InnerSpec {
 }
 ///
 /// BatchProof is a group of multiple proof types than can be compressed
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.ics23.v1.BatchProof")]
 pub struct BatchProof {
@@ -207,7 +198,6 @@ pub struct BatchProof {
     pub entries: ::prost::alloc::vec::Vec<BatchEntry>,
 }
 /// Use BatchEntry not CommitmentProof, to avoid recursion
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.ics23.v1.BatchEntry")]
 pub struct BatchEntry {
@@ -217,7 +207,6 @@ pub struct BatchEntry {
 /// Nested message and enum types in `BatchEntry`.
 pub mod batch_entry {
     use provwasm_proc_macro::CosmwasmExt;
-    #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, Eq, ::prost::Oneof, ::schemars::JsonSchema)]
     pub enum Proof {
         #[prost(message, tag = "1")]
@@ -226,7 +215,6 @@ pub mod batch_entry {
         Nonexist(super::NonExistenceProof),
     }
 }
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.ics23.v1.CompressedBatchProof")]
 pub struct CompressedBatchProof {
@@ -236,7 +224,6 @@ pub struct CompressedBatchProof {
     pub lookup_inners: ::prost::alloc::vec::Vec<InnerOp>,
 }
 /// Use BatchEntry not CommitmentProof, to avoid recursion
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.ics23.v1.CompressedBatchEntry")]
 pub struct CompressedBatchEntry {
@@ -246,7 +233,6 @@ pub struct CompressedBatchEntry {
 /// Nested message and enum types in `CompressedBatchEntry`.
 pub mod compressed_batch_entry {
     use provwasm_proc_macro::CosmwasmExt;
-    #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, Eq, ::prost::Oneof, ::schemars::JsonSchema)]
     pub enum Proof {
         #[prost(message, tag = "1")]
@@ -255,7 +241,6 @@ pub mod compressed_batch_entry {
         Nonexist(super::CompressedNonExistenceProof),
     }
 }
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.ics23.v1.CompressedExistenceProof")]
 pub struct CompressedExistenceProof {
@@ -269,7 +254,6 @@ pub struct CompressedExistenceProof {
     #[prost(int32, repeated, tag = "4")]
     pub path: ::prost::alloc::vec::Vec<i32>,
 }
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.ics23.v1.CompressedNonExistenceProof")]
 pub struct CompressedNonExistenceProof {
@@ -282,16 +266,7 @@ pub struct CompressedNonExistenceProof {
     pub right: ::core::option::Option<CompressedExistenceProof>,
 }
 #[derive(
-    Clone,
-    Copy,
-    Debug,
-    PartialEq,
-    Eq,
-    Hash,
-    PartialOrd,
-    Ord,
-    ::prost::Enumeration,
-    ::schemars::JsonSchema,
+    Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, ::prost::Enumeration, ::schemars::JsonSchema,
 )]
 #[repr(i32)]
 pub enum HashOp {
@@ -315,16 +290,16 @@ impl HashOp {
     /// (if the ProtoBuf definition does not change) and safe for programmatic use.
     pub fn as_str_name(&self) -> &'static str {
         match self {
-            HashOp::NoHash => "NO_HASH",
-            HashOp::Sha256 => "SHA256",
-            HashOp::Sha512 => "SHA512",
-            HashOp::Keccak256 => "KECCAK256",
-            HashOp::Ripemd160 => "RIPEMD160",
-            HashOp::Bitcoin => "BITCOIN",
-            HashOp::Sha512256 => "SHA512_256",
-            HashOp::Blake2b512 => "BLAKE2B_512",
-            HashOp::Blake2s256 => "BLAKE2S_256",
-            HashOp::Blake3 => "BLAKE3",
+            Self::NoHash => "NO_HASH",
+            Self::Sha256 => "SHA256",
+            Self::Sha512 => "SHA512",
+            Self::Keccak256 => "KECCAK256",
+            Self::Ripemd160 => "RIPEMD160",
+            Self::Bitcoin => "BITCOIN",
+            Self::Sha512256 => "SHA512_256",
+            Self::Blake2b512 => "BLAKE2B_512",
+            Self::Blake2s256 => "BLAKE2S_256",
+            Self::Blake3 => "BLAKE3",
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.
@@ -350,16 +325,7 @@ impl HashOp {
 /// algorithm, the length will be prepended to the key and value bytes.
 /// (Each one with it's own encoded length)
 #[derive(
-    Clone,
-    Copy,
-    Debug,
-    PartialEq,
-    Eq,
-    Hash,
-    PartialOrd,
-    Ord,
-    ::prost::Enumeration,
-    ::schemars::JsonSchema,
+    Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, ::prost::Enumeration, ::schemars::JsonSchema,
 )]
 #[repr(i32)]
 pub enum LengthOp {
@@ -389,15 +355,15 @@ impl LengthOp {
     /// (if the ProtoBuf definition does not change) and safe for programmatic use.
     pub fn as_str_name(&self) -> &'static str {
         match self {
-            LengthOp::NoPrefix => "NO_PREFIX",
-            LengthOp::VarProto => "VAR_PROTO",
-            LengthOp::VarRlp => "VAR_RLP",
-            LengthOp::Fixed32Big => "FIXED32_BIG",
-            LengthOp::Fixed32Little => "FIXED32_LITTLE",
-            LengthOp::Fixed64Big => "FIXED64_BIG",
-            LengthOp::Fixed64Little => "FIXED64_LITTLE",
-            LengthOp::Require32Bytes => "REQUIRE_32_BYTES",
-            LengthOp::Require64Bytes => "REQUIRE_64_BYTES",
+            Self::NoPrefix => "NO_PREFIX",
+            Self::VarProto => "VAR_PROTO",
+            Self::VarRlp => "VAR_RLP",
+            Self::Fixed32Big => "FIXED32_BIG",
+            Self::Fixed32Little => "FIXED32_LITTLE",
+            Self::Fixed64Big => "FIXED64_BIG",
+            Self::Fixed64Little => "FIXED64_LITTLE",
+            Self::Require32Bytes => "REQUIRE_32_BYTES",
+            Self::Require64Bytes => "REQUIRE_64_BYTES",
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.

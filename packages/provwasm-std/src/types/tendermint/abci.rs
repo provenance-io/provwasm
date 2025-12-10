@@ -1,5 +1,4 @@
 use provwasm_proc_macro::CosmwasmExt;
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.abci.Request")]
 pub struct Request {
@@ -12,7 +11,6 @@ pub struct Request {
 /// Nested message and enum types in `Request`.
 pub mod request {
     use provwasm_proc_macro::CosmwasmExt;
-    #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, Eq, ::prost::Oneof, ::schemars::JsonSchema)]
     pub enum Value {
         #[prost(message, tag = "1")]
@@ -49,18 +47,15 @@ pub mod request {
         FinalizeBlock(super::RequestFinalizeBlock),
     }
 }
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.abci.RequestEcho")]
 pub struct RequestEcho {
     #[prost(string, tag = "1")]
     pub message: ::prost::alloc::string::String,
 }
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.abci.RequestFlush")]
 pub struct RequestFlush {}
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.abci.RequestInfo")]
 pub struct RequestInfo {
@@ -73,7 +68,6 @@ pub struct RequestInfo {
     #[prost(string, tag = "4")]
     pub abci_version: ::prost::alloc::string::String,
 }
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.abci.RequestInitChain")]
 pub struct RequestInitChain {
@@ -90,7 +84,6 @@ pub struct RequestInitChain {
     #[prost(int64, tag = "6")]
     pub initial_height: i64,
 }
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.abci.RequestQuery")]
 pub struct RequestQuery {
@@ -103,7 +96,6 @@ pub struct RequestQuery {
     #[prost(bool, tag = "4")]
     pub prove: bool,
 }
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.abci.RequestCheckTx")]
 pub struct RequestCheckTx {
@@ -112,17 +104,14 @@ pub struct RequestCheckTx {
     #[prost(enumeration = "CheckTxType", tag = "2")]
     pub r#type: i32,
 }
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.abci.RequestCommit")]
 pub struct RequestCommit {}
 /// lists available snapshots
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.abci.RequestListSnapshots")]
 pub struct RequestListSnapshots {}
 /// offers a snapshot to the application
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.abci.RequestOfferSnapshot")]
 pub struct RequestOfferSnapshot {
@@ -134,7 +123,6 @@ pub struct RequestOfferSnapshot {
     pub app_hash: ::prost::alloc::vec::Vec<u8>,
 }
 /// loads a snapshot chunk
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.abci.RequestLoadSnapshotChunk")]
 pub struct RequestLoadSnapshotChunk {
@@ -146,7 +134,6 @@ pub struct RequestLoadSnapshotChunk {
     pub chunk: u32,
 }
 /// Applies a snapshot chunk
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.abci.RequestApplySnapshotChunk")]
 pub struct RequestApplySnapshotChunk {
@@ -157,7 +144,6 @@ pub struct RequestApplySnapshotChunk {
     #[prost(string, tag = "3")]
     pub sender: ::prost::alloc::string::String,
 }
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.abci.RequestPrepareProposal")]
 pub struct RequestPrepareProposal {
@@ -182,7 +168,6 @@ pub struct RequestPrepareProposal {
     #[prost(bytes = "vec", tag = "8")]
     pub proposer_address: ::prost::alloc::vec::Vec<u8>,
 }
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.abci.RequestProcessProposal")]
 pub struct RequestProcessProposal {
@@ -206,7 +191,6 @@ pub struct RequestProcessProposal {
     pub proposer_address: ::prost::alloc::vec::Vec<u8>,
 }
 /// Extends a vote with application-injected data
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.abci.RequestExtendVote")]
 pub struct RequestExtendVote {
@@ -232,7 +216,6 @@ pub struct RequestExtendVote {
     pub proposer_address: ::prost::alloc::vec::Vec<u8>,
 }
 /// Verify the vote extension
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.abci.RequestVerifyVoteExtension")]
 pub struct RequestVerifyVoteExtension {
@@ -247,7 +230,6 @@ pub struct RequestVerifyVoteExtension {
     #[prost(bytes = "vec", tag = "4")]
     pub vote_extension: ::prost::alloc::vec::Vec<u8>,
 }
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.abci.RequestFinalizeBlock")]
 pub struct RequestFinalizeBlock {
@@ -270,7 +252,6 @@ pub struct RequestFinalizeBlock {
     #[prost(bytes = "vec", tag = "8")]
     pub proposer_address: ::prost::alloc::vec::Vec<u8>,
 }
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.abci.Response")]
 pub struct Response {
@@ -283,7 +264,6 @@ pub struct Response {
 /// Nested message and enum types in `Response`.
 pub mod response {
     use provwasm_proc_macro::CosmwasmExt;
-    #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, Eq, ::prost::Oneof, ::schemars::JsonSchema)]
     pub enum Value {
         #[prost(message, tag = "1")]
@@ -323,25 +303,21 @@ pub mod response {
     }
 }
 /// nondeterministic
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.abci.ResponseException")]
 pub struct ResponseException {
     #[prost(string, tag = "1")]
     pub error: ::prost::alloc::string::String,
 }
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.abci.ResponseEcho")]
 pub struct ResponseEcho {
     #[prost(string, tag = "1")]
     pub message: ::prost::alloc::string::String,
 }
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.abci.ResponseFlush")]
 pub struct ResponseFlush {}
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.abci.ResponseInfo")]
 pub struct ResponseInfo {
@@ -356,7 +332,6 @@ pub struct ResponseInfo {
     #[prost(bytes = "vec", tag = "5")]
     pub last_block_app_hash: ::prost::alloc::vec::Vec<u8>,
 }
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.abci.ResponseInitChain")]
 pub struct ResponseInitChain {
@@ -367,7 +342,6 @@ pub struct ResponseInitChain {
     #[prost(bytes = "vec", tag = "3")]
     pub app_hash: ::prost::alloc::vec::Vec<u8>,
 }
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.abci.ResponseQuery")]
 pub struct ResponseQuery {
@@ -394,7 +368,6 @@ pub struct ResponseQuery {
     #[prost(string, tag = "10")]
     pub codespace: ::prost::alloc::string::String,
 }
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.abci.ResponseCheckTx")]
 pub struct ResponseCheckTx {
@@ -417,21 +390,18 @@ pub struct ResponseCheckTx {
     #[prost(string, tag = "8")]
     pub codespace: ::prost::alloc::string::String,
 }
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.abci.ResponseCommit")]
 pub struct ResponseCommit {
     #[prost(int64, tag = "3")]
     pub retain_height: i64,
 }
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.abci.ResponseListSnapshots")]
 pub struct ResponseListSnapshots {
     #[prost(message, repeated, tag = "1")]
     pub snapshots: ::prost::alloc::vec::Vec<Snapshot>,
 }
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.abci.ResponseOfferSnapshot")]
 pub struct ResponseOfferSnapshot {
@@ -447,7 +417,6 @@ pub mod response_offer_snapshot {
         Debug,
         PartialEq,
         Eq,
-        Hash,
         PartialOrd,
         Ord,
         ::prost::Enumeration,
@@ -475,12 +444,12 @@ pub mod response_offer_snapshot {
         /// (if the ProtoBuf definition does not change) and safe for programmatic use.
         pub fn as_str_name(&self) -> &'static str {
             match self {
-                Result::Unknown => "UNKNOWN",
-                Result::Accept => "ACCEPT",
-                Result::Abort => "ABORT",
-                Result::Reject => "REJECT",
-                Result::RejectFormat => "REJECT_FORMAT",
-                Result::RejectSender => "REJECT_SENDER",
+                Self::Unknown => "UNKNOWN",
+                Self::Accept => "ACCEPT",
+                Self::Abort => "ABORT",
+                Self::Reject => "REJECT",
+                Self::RejectFormat => "REJECT_FORMAT",
+                Self::RejectSender => "REJECT_SENDER",
             }
         }
         /// Creates an enum from field names used in the ProtoBuf definition.
@@ -497,14 +466,12 @@ pub mod response_offer_snapshot {
         }
     }
 }
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.abci.ResponseLoadSnapshotChunk")]
 pub struct ResponseLoadSnapshotChunk {
     #[prost(bytes = "vec", tag = "1")]
     pub chunk: ::prost::alloc::vec::Vec<u8>,
 }
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.abci.ResponseApplySnapshotChunk")]
 pub struct ResponseApplySnapshotChunk {
@@ -526,7 +493,6 @@ pub mod response_apply_snapshot_chunk {
         Debug,
         PartialEq,
         Eq,
-        Hash,
         PartialOrd,
         Ord,
         ::prost::Enumeration,
@@ -554,12 +520,12 @@ pub mod response_apply_snapshot_chunk {
         /// (if the ProtoBuf definition does not change) and safe for programmatic use.
         pub fn as_str_name(&self) -> &'static str {
             match self {
-                Result::Unknown => "UNKNOWN",
-                Result::Accept => "ACCEPT",
-                Result::Abort => "ABORT",
-                Result::Retry => "RETRY",
-                Result::RetrySnapshot => "RETRY_SNAPSHOT",
-                Result::RejectSnapshot => "REJECT_SNAPSHOT",
+                Self::Unknown => "UNKNOWN",
+                Self::Accept => "ACCEPT",
+                Self::Abort => "ABORT",
+                Self::Retry => "RETRY",
+                Self::RetrySnapshot => "RETRY_SNAPSHOT",
+                Self::RejectSnapshot => "REJECT_SNAPSHOT",
             }
         }
         /// Creates an enum from field names used in the ProtoBuf definition.
@@ -576,14 +542,12 @@ pub mod response_apply_snapshot_chunk {
         }
     }
 }
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.abci.ResponsePrepareProposal")]
 pub struct ResponsePrepareProposal {
     #[prost(bytes = "vec", repeated, tag = "1")]
     pub txs: ::prost::alloc::vec::Vec<::prost::alloc::vec::Vec<u8>>,
 }
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.abci.ResponseProcessProposal")]
 pub struct ResponseProcessProposal {
@@ -599,7 +563,6 @@ pub mod response_process_proposal {
         Debug,
         PartialEq,
         Eq,
-        Hash,
         PartialOrd,
         Ord,
         ::prost::Enumeration,
@@ -618,9 +581,9 @@ pub mod response_process_proposal {
         /// (if the ProtoBuf definition does not change) and safe for programmatic use.
         pub fn as_str_name(&self) -> &'static str {
             match self {
-                ProposalStatus::Unknown => "UNKNOWN",
-                ProposalStatus::Accept => "ACCEPT",
-                ProposalStatus::Reject => "REJECT",
+                Self::Unknown => "UNKNOWN",
+                Self::Accept => "ACCEPT",
+                Self::Reject => "REJECT",
             }
         }
         /// Creates an enum from field names used in the ProtoBuf definition.
@@ -634,14 +597,12 @@ pub mod response_process_proposal {
         }
     }
 }
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.abci.ResponseExtendVote")]
 pub struct ResponseExtendVote {
     #[prost(bytes = "vec", tag = "1")]
     pub vote_extension: ::prost::alloc::vec::Vec<u8>,
 }
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.abci.ResponseVerifyVoteExtension")]
 pub struct ResponseVerifyVoteExtension {
@@ -660,7 +621,6 @@ pub mod response_verify_vote_extension {
         Debug,
         PartialEq,
         Eq,
-        Hash,
         PartialOrd,
         Ord,
         ::prost::Enumeration,
@@ -683,9 +643,9 @@ pub mod response_verify_vote_extension {
         /// (if the ProtoBuf definition does not change) and safe for programmatic use.
         pub fn as_str_name(&self) -> &'static str {
             match self {
-                VerifyStatus::Unknown => "UNKNOWN",
-                VerifyStatus::Accept => "ACCEPT",
-                VerifyStatus::Reject => "REJECT",
+                Self::Unknown => "UNKNOWN",
+                Self::Accept => "ACCEPT",
+                Self::Reject => "REJECT",
             }
         }
         /// Creates an enum from field names used in the ProtoBuf definition.
@@ -699,7 +659,6 @@ pub mod response_verify_vote_extension {
         }
     }
 }
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.abci.ResponseFinalizeBlock")]
 pub struct ResponseFinalizeBlock {
@@ -721,7 +680,6 @@ pub struct ResponseFinalizeBlock {
     #[prost(bytes = "vec", tag = "5")]
     pub app_hash: ::prost::alloc::vec::Vec<u8>,
 }
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.abci.CommitInfo")]
 pub struct CommitInfo {
@@ -733,7 +691,6 @@ pub struct CommitInfo {
 /// ExtendedCommitInfo is similar to CommitInfo except that it is only used in
 /// the PrepareProposal request such that CometBFT can provide vote extensions
 /// to the application.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.abci.ExtendedCommitInfo")]
 pub struct ExtendedCommitInfo {
@@ -748,7 +705,6 @@ pub struct ExtendedCommitInfo {
 /// Event allows application developers to attach additional information to
 /// ResponseFinalizeBlock and ResponseCheckTx.
 /// Later, transactions may be queried using these events.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.abci.Event")]
 pub struct Event {
@@ -758,7 +714,6 @@ pub struct Event {
     pub attributes: ::prost::alloc::vec::Vec<EventAttribute>,
 }
 /// EventAttribute is a single key-value pair, associated with an event.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.abci.EventAttribute")]
 pub struct EventAttribute {
@@ -773,7 +728,6 @@ pub struct EventAttribute {
 /// ExecTxResult contains results of executing one individual transaction.
 ///
 /// * Its structure is equivalent to #ResponseDeliverTx which will be deprecated/deleted
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.abci.ExecTxResult")]
 pub struct ExecTxResult {
@@ -800,7 +754,6 @@ pub struct ExecTxResult {
 /// TxResult contains results of executing the transaction.
 ///
 /// One usage is indexing transaction results.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.abci.TxResult")]
 pub struct TxResult {
@@ -813,7 +766,6 @@ pub struct TxResult {
     #[prost(message, optional, tag = "4")]
     pub result: ::core::option::Option<ExecTxResult>,
 }
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.abci.Validator")]
 pub struct Validator {
@@ -826,7 +778,6 @@ pub struct Validator {
     #[prost(int64, tag = "3")]
     pub power: i64,
 }
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.abci.ValidatorUpdate")]
 pub struct ValidatorUpdate {
@@ -835,7 +786,6 @@ pub struct ValidatorUpdate {
     #[prost(int64, tag = "2")]
     pub power: i64,
 }
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.abci.VoteInfo")]
 pub struct VoteInfo {
@@ -844,7 +794,6 @@ pub struct VoteInfo {
     #[prost(enumeration = "super::types::BlockIdFlag", tag = "3")]
     pub block_id_flag: i32,
 }
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.abci.ExtendedVoteInfo")]
 pub struct ExtendedVoteInfo {
@@ -861,7 +810,6 @@ pub struct ExtendedVoteInfo {
     #[prost(enumeration = "super::types::BlockIdFlag", tag = "5")]
     pub block_id_flag: i32,
 }
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.abci.Misbehavior")]
 pub struct Misbehavior {
@@ -882,7 +830,6 @@ pub struct Misbehavior {
     #[prost(int64, tag = "5")]
     pub total_voting_power: i64,
 }
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.abci.Snapshot")]
 pub struct Snapshot {
@@ -903,16 +850,7 @@ pub struct Snapshot {
     pub metadata: ::prost::alloc::vec::Vec<u8>,
 }
 #[derive(
-    Clone,
-    Copy,
-    Debug,
-    PartialEq,
-    Eq,
-    Hash,
-    PartialOrd,
-    Ord,
-    ::prost::Enumeration,
-    ::schemars::JsonSchema,
+    Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, ::prost::Enumeration, ::schemars::JsonSchema,
 )]
 #[repr(i32)]
 pub enum CheckTxType {
@@ -926,8 +864,8 @@ impl CheckTxType {
     /// (if the ProtoBuf definition does not change) and safe for programmatic use.
     pub fn as_str_name(&self) -> &'static str {
         match self {
-            CheckTxType::New => "NEW",
-            CheckTxType::Recheck => "RECHECK",
+            Self::New => "NEW",
+            Self::Recheck => "RECHECK",
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.
@@ -940,16 +878,7 @@ impl CheckTxType {
     }
 }
 #[derive(
-    Clone,
-    Copy,
-    Debug,
-    PartialEq,
-    Eq,
-    Hash,
-    PartialOrd,
-    Ord,
-    ::prost::Enumeration,
-    ::schemars::JsonSchema,
+    Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, ::prost::Enumeration, ::schemars::JsonSchema,
 )]
 #[repr(i32)]
 pub enum MisbehaviorType {
@@ -964,9 +893,9 @@ impl MisbehaviorType {
     /// (if the ProtoBuf definition does not change) and safe for programmatic use.
     pub fn as_str_name(&self) -> &'static str {
         match self {
-            MisbehaviorType::Unknown => "UNKNOWN",
-            MisbehaviorType::DuplicateVote => "DUPLICATE_VOTE",
-            MisbehaviorType::LightClientAttack => "LIGHT_CLIENT_ATTACK",
+            Self::Unknown => "UNKNOWN",
+            Self::DuplicateVote => "DUPLICATE_VOTE",
+            Self::LightClientAttack => "LIGHT_CLIENT_ATTACK",
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.

@@ -1,6 +1,5 @@
 use provwasm_proc_macro::CosmwasmExt;
 /// ListenEndBlockRequest is the request type for the ListenEndBlock RPC method
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.store.streaming.abci.ListenFinalizeBlockRequest")]
 pub struct ListenFinalizeBlockRequest {
@@ -12,12 +11,10 @@ pub struct ListenFinalizeBlockRequest {
         ::core::option::Option<super::super::super::super::tendermint::abci::ResponseFinalizeBlock>,
 }
 /// ListenEndBlockResponse is the response type for the ListenEndBlock RPC method
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.store.streaming.abci.ListenFinalizeBlockResponse")]
 pub struct ListenFinalizeBlockResponse {}
 /// ListenCommitRequest is the request type for the ListenCommit RPC method
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.store.streaming.abci.ListenCommitRequest")]
 pub struct ListenCommitRequest {
@@ -30,7 +27,6 @@ pub struct ListenCommitRequest {
     pub change_set: ::prost::alloc::vec::Vec<super::super::v1beta1::StoreKvPair>,
 }
 /// ListenCommitResponse is the response type for the ListenCommit RPC method
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.store.streaming.abci.ListenCommitResponse")]
 pub struct ListenCommitResponse {}

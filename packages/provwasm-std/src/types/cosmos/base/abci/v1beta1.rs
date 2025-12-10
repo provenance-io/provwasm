@@ -1,7 +1,6 @@
 use provwasm_proc_macro::CosmwasmExt;
 /// TxResponse defines a structure containing relevant tx data and metadata. The
 /// tags are stringified and the log is JSON decoded.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.base.abci.v1beta1.TxResponse")]
 pub struct TxResponse {
@@ -54,7 +53,6 @@ pub struct TxResponse {
     pub events: ::prost::alloc::vec::Vec<super::super::super::super::tendermint::abci::Event>,
 }
 /// ABCIMessageLog defines a structure containing an indexed tx ABCI message log.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.base.abci.v1beta1.ABCIMessageLog")]
 pub struct AbciMessageLog {
@@ -69,7 +67,6 @@ pub struct AbciMessageLog {
 }
 /// StringEvent defines en Event object wrapper where all the attributes
 /// contain key/value pairs that are strings instead of raw bytes.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.base.abci.v1beta1.StringEvent")]
 pub struct StringEvent {
@@ -80,7 +77,6 @@ pub struct StringEvent {
 }
 /// Attribute defines an attribute wrapper where the key and value are
 /// strings instead of raw bytes.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.base.abci.v1beta1.Attribute")]
 pub struct Attribute {
@@ -90,7 +86,6 @@ pub struct Attribute {
     pub value: ::prost::alloc::string::String,
 }
 /// GasInfo defines tx execution gas context.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.base.abci.v1beta1.GasInfo")]
 pub struct GasInfo {
@@ -102,7 +97,6 @@ pub struct GasInfo {
     pub gas_used: u64,
 }
 /// Result is the union of ResponseFormat and ResponseCheckTx.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.base.abci.v1beta1.Result")]
 pub struct Result {
@@ -128,7 +122,6 @@ pub struct Result {
 }
 /// SimulationResponse defines the response generated when a transaction is
 /// successfully simulated.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.base.abci.v1beta1.SimulationResponse")]
 pub struct SimulationResponse {
@@ -139,7 +132,6 @@ pub struct SimulationResponse {
 }
 /// MsgData defines the data returned in a Result object during message
 /// execution.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.base.abci.v1beta1.MsgData")]
 #[deprecated]
@@ -151,7 +143,6 @@ pub struct MsgData {
 }
 /// TxMsgData defines a list of MsgData. A transaction will have a MsgData object
 /// for each message.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.base.abci.v1beta1.TxMsgData")]
 pub struct TxMsgData {
@@ -166,7 +157,6 @@ pub struct TxMsgData {
     pub msg_responses: ::prost::alloc::vec::Vec<crate::shim::Any>,
 }
 /// SearchTxsResult defines a structure for querying txs pageable
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.base.abci.v1beta1.SearchTxsResult")]
 pub struct SearchTxsResult {
@@ -190,7 +180,6 @@ pub struct SearchTxsResult {
     pub txs: ::prost::alloc::vec::Vec<TxResponse>,
 }
 /// SearchBlocksResult defines a structure for querying blocks pageable
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.base.abci.v1beta1.SearchBlocksResult")]
 pub struct SearchBlocksResult {

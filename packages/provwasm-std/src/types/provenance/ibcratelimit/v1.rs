@@ -1,6 +1,5 @@
 use provwasm_proc_macro::CosmwasmExt;
 /// EventAckRevertFailure is emitted when an Ack revert fails
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.ibcratelimit.v1.EventAckRevertFailure")]
 pub struct EventAckRevertFailure {
@@ -15,7 +14,6 @@ pub struct EventAckRevertFailure {
     pub ack: ::prost::alloc::string::String,
 }
 /// EventTimeoutRevertFailure is emitted when a Timeout revert fails
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.ibcratelimit.v1.EventTimeoutRevertFailure")]
 pub struct EventTimeoutRevertFailure {
@@ -27,12 +25,10 @@ pub struct EventTimeoutRevertFailure {
     pub packet: ::prost::alloc::string::String,
 }
 /// EventParamsUpdated is an event emitted when the ibcratelimit module's params have been updated.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.ibcratelimit.v1.EventParamsUpdated")]
 pub struct EventParamsUpdated {}
 /// Params defines the parameters for the ibcratelimit module.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.ibcratelimit.v1.Params")]
 pub struct Params {
@@ -41,7 +37,6 @@ pub struct Params {
     pub contract_address: ::prost::alloc::string::String,
 }
 /// GenesisState defines the ibcratelimit module's genesis state.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.ibcratelimit.v1.GenesisState")]
 pub struct GenesisState {
@@ -50,7 +45,6 @@ pub struct GenesisState {
     pub params: ::core::option::Option<Params>,
 }
 /// ParamsRequest is the request type for the Query/Params RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.ibcratelimit.v1.ParamsRequest")]
 #[proto_query(
@@ -59,7 +53,6 @@ pub struct GenesisState {
 )]
 pub struct ParamsRequest {}
 /// ParamsResponse is the response type for the Query/Params RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.ibcratelimit.v1.ParamsResponse")]
 pub struct ParamsResponse {
@@ -69,7 +62,6 @@ pub struct ParamsResponse {
 }
 /// MsgGovUpdateParamsRequest is a request message for the GovUpdateParams endpoint.
 /// Deprecated: Use MsgUpdateParamsRequest instead.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.ibcratelimit.v1.MsgGovUpdateParamsRequest")]
 #[deprecated]
@@ -83,13 +75,11 @@ pub struct MsgGovUpdateParamsRequest {
 }
 /// MsgGovUpdateParamsResponse is a response message for the GovUpdateParams endpoint.
 /// Deprecated: Use MsgUpdateParamsResponse instead.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.ibcratelimit.v1.MsgGovUpdateParamsResponse")]
 #[deprecated]
 pub struct MsgGovUpdateParamsResponse {}
 /// MsgUpdateParamsRequest is a request message for the UpdateParams endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.ibcratelimit.v1.MsgUpdateParamsRequest")]
 pub struct MsgUpdateParamsRequest {
@@ -101,7 +91,6 @@ pub struct MsgUpdateParamsRequest {
     pub params: ::core::option::Option<Params>,
 }
 /// MsgUpdateParamsResponse is a response message for the UpdateParams endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.ibcratelimit.v1.MsgUpdateParamsResponse")]
 pub struct MsgUpdateParamsResponse {}
