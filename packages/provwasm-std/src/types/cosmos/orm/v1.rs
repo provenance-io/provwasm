@@ -1,6 +1,5 @@
 use provwasm_proc_macro::CosmwasmExt;
 /// TableDescriptor describes an ORM table.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.orm.v1.TableDescriptor")]
 pub struct TableDescriptor {
@@ -17,7 +16,6 @@ pub struct TableDescriptor {
     pub id: u32,
 }
 /// PrimaryKeyDescriptor describes a table primary key.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.orm.v1.PrimaryKeyDescriptor")]
 pub struct PrimaryKeyDescriptor {
@@ -63,7 +61,6 @@ pub struct PrimaryKeyDescriptor {
     pub auto_increment: bool,
 }
 /// PrimaryKeyDescriptor describes a table secondary index.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.orm.v1.SecondaryIndexDescriptor")]
 pub struct SecondaryIndexDescriptor {
@@ -88,7 +85,6 @@ pub struct SecondaryIndexDescriptor {
     pub unique: bool,
 }
 /// TableDescriptor describes an ORM singleton table which has at most one instance.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.orm.v1.SingletonDescriptor")]
 pub struct SingletonDescriptor {

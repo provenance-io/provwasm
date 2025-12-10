@@ -1,7 +1,6 @@
 use provwasm_proc_macro::CosmwasmExt;
 /// Params defines the set of on-chain interchain accounts parameters.
 /// The following parameters may be used to disable the controller submodule.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.interchain_accounts.controller.v1.Params")]
 pub struct Params {
@@ -10,7 +9,6 @@ pub struct Params {
     pub controller_enabled: bool,
 }
 /// QueryInterchainAccountRequest is the request type for the Query/InterchainAccount RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(
     type_url = "/ibc.applications.interchain_accounts.controller.v1.QueryInterchainAccountRequest"
@@ -26,7 +24,6 @@ pub struct QueryInterchainAccountRequest {
     pub connection_id: ::prost::alloc::string::String,
 }
 /// QueryInterchainAccountResponse the response type for the Query/InterchainAccount RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(
     type_url = "/ibc.applications.interchain_accounts.controller.v1.QueryInterchainAccountResponse"
@@ -36,7 +33,6 @@ pub struct QueryInterchainAccountResponse {
     pub address: ::prost::alloc::string::String,
 }
 /// QueryParamsRequest is the request type for the Query/Params RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(
     type_url = "/ibc.applications.interchain_accounts.controller.v1.QueryParamsRequest"
@@ -47,7 +43,6 @@ pub struct QueryInterchainAccountResponse {
 )]
 pub struct QueryParamsRequest {}
 /// QueryParamsResponse is the response type for the Query/Params RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(
     type_url = "/ibc.applications.interchain_accounts.controller.v1.QueryParamsResponse"
@@ -58,7 +53,6 @@ pub struct QueryParamsResponse {
     pub params: ::core::option::Option<Params>,
 }
 /// MsgRegisterInterchainAccount defines the payload for Msg/RegisterAccount
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(
     type_url = "/ibc.applications.interchain_accounts.controller.v1.MsgRegisterInterchainAccount"
@@ -77,7 +71,6 @@ pub struct MsgRegisterInterchainAccount {
     pub ordering: i32,
 }
 /// MsgRegisterInterchainAccountResponse defines the response for Msg/RegisterAccount
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(
     type_url = "/ibc.applications.interchain_accounts.controller.v1.MsgRegisterInterchainAccountResponse"
@@ -89,7 +82,6 @@ pub struct MsgRegisterInterchainAccountResponse {
     pub port_id: ::prost::alloc::string::String,
 }
 /// MsgSendTx defines the payload for Msg/SendTx
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.interchain_accounts.controller.v1.MsgSendTx")]
 pub struct MsgSendTx {
@@ -105,7 +97,6 @@ pub struct MsgSendTx {
     pub relative_timeout: u64,
 }
 /// MsgSendTxResponse defines the response for MsgSendTx
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.interchain_accounts.controller.v1.MsgSendTxResponse")]
 pub struct MsgSendTxResponse {
@@ -113,7 +104,6 @@ pub struct MsgSendTxResponse {
     pub sequence: u64,
 }
 /// MsgUpdateParams defines the payload for Msg/UpdateParams
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.interchain_accounts.controller.v1.MsgUpdateParams")]
 pub struct MsgUpdateParams {
@@ -127,7 +117,6 @@ pub struct MsgUpdateParams {
     pub params: ::core::option::Option<Params>,
 }
 /// MsgUpdateParamsResponse defines the response for Msg/UpdateParams
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(
     type_url = "/ibc.applications.interchain_accounts.controller.v1.MsgUpdateParamsResponse"

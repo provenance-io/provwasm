@@ -1,6 +1,5 @@
 use provwasm_proc_macro::CosmwasmExt;
 /// Pairs defines a repeated slice of Pair objects.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.store.internal.kv.v1beta1.Pairs")]
 pub struct Pairs {
@@ -8,7 +7,6 @@ pub struct Pairs {
     pub pairs: ::prost::alloc::vec::Vec<Pair>,
 }
 /// Pair defines a key/value bytes tuple.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.store.internal.kv.v1beta1.Pair")]
 pub struct Pair {

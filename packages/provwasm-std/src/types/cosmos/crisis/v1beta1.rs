@@ -1,6 +1,5 @@
 use provwasm_proc_macro::CosmwasmExt;
 /// GenesisState defines the crisis module's genesis state.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.crisis.v1beta1.GenesisState")]
 pub struct GenesisState {
@@ -10,7 +9,6 @@ pub struct GenesisState {
     pub constant_fee: ::core::option::Option<super::super::base::v1beta1::Coin>,
 }
 /// MsgVerifyInvariant represents a message to verify a particular invariance.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.crisis.v1beta1.MsgVerifyInvariant")]
 pub struct MsgVerifyInvariant {
@@ -25,14 +23,12 @@ pub struct MsgVerifyInvariant {
     pub invariant_route: ::prost::alloc::string::String,
 }
 /// MsgVerifyInvariantResponse defines the Msg/VerifyInvariant response type.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.crisis.v1beta1.MsgVerifyInvariantResponse")]
 pub struct MsgVerifyInvariantResponse {}
 /// MsgUpdateParams is the Msg/UpdateParams request type.
 ///
 /// Since: cosmos-sdk 0.47
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.crisis.v1beta1.MsgUpdateParams")]
 pub struct MsgUpdateParams {
@@ -47,7 +43,6 @@ pub struct MsgUpdateParams {
 /// MsgUpdateParams message.
 ///
 /// Since: cosmos-sdk 0.47
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.crisis.v1beta1.MsgUpdateParamsResponse")]
 pub struct MsgUpdateParamsResponse {}

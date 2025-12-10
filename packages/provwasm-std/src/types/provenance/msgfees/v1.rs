@@ -2,7 +2,6 @@ use provwasm_proc_macro::CosmwasmExt;
 /// Params defines the set of params for the msgfees module.
 /// Deprecated: The msgfees module is deprecated in favor of flatfees.
 /// This type is no longer used.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.msgfees.v1.Params")]
 #[deprecated]
@@ -27,7 +26,6 @@ pub struct Params {
 }
 /// MsgFee is the core of what gets stored on the blockchain to define a msg-based fee.
 /// Deprecated: The msgfees module is deprecated in favor of flatfees.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.msgfees.v1.MsgFee")]
 #[deprecated]
@@ -54,7 +52,6 @@ pub struct MsgFee {
 }
 /// EventMsgFee final event property for msg fee on type
 /// Deprecated: The msgfees module is deprecated in favor of flatfees.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.msgfees.v1.EventMsgFee")]
 #[deprecated]
@@ -70,7 +67,6 @@ pub struct EventMsgFee {
 }
 /// EventMsgFees event emitted with summary of msg fees
 /// Deprecated: The msgfees module is deprecated in favor of flatfees.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.msgfees.v1.EventMsgFees")]
 #[deprecated]
@@ -81,7 +77,6 @@ pub struct EventMsgFees {
 /// GenesisState contains a set of msg fees, persisted from the store
 /// Deprecated: The msgfees module is deprecated in favor of the flatfees module.
 /// The msgfees module no longer stores any data, so there's no need for a genesis state.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.msgfees.v1.GenesisState")]
 #[deprecated]
@@ -97,7 +92,6 @@ pub struct GenesisState {
 /// Deprecated: This message is no longer usable. It is only still included for
 /// backwards compatibility (e.g. looking up old governance proposals).
 /// It is replaced by providing a MsgAddMsgFeeProposalRequest in a governance proposal.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.msgfees.v1.AddMsgFeeProposal")]
 #[deprecated]
@@ -125,7 +119,6 @@ pub struct AddMsgFeeProposal {
 /// Deprecated: This message is no longer usable. It is only still included for
 /// backwards compatibility (e.g. looking up old governance proposals).
 /// It is replaced by providing a MsgUpdateMsgFeeProposalRequest in a governance proposal.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.msgfees.v1.UpdateMsgFeeProposal")]
 #[deprecated]
@@ -153,7 +146,6 @@ pub struct UpdateMsgFeeProposal {
 /// Deprecated: This message is no longer usable. It is only still included for
 /// backwards compatibility (e.g. looking up old governance proposals).
 /// It is replaced by providing a MsgRemoveMsgFeeProposalRequest in a governance proposal.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.msgfees.v1.RemoveMsgFeeProposal")]
 #[deprecated]
@@ -172,7 +164,6 @@ pub struct RemoveMsgFeeProposal {
 /// Deprecated: This message is no longer usable. It is only still included for
 /// backwards compatibility (e.g. looking up old governance proposals).
 /// It is replaced by providing a MsgUpdateNhashPerUsdMilProposalRequest in a governance proposal.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.msgfees.v1.UpdateNhashPerUsdMilProposal")]
 #[deprecated]
@@ -191,7 +182,6 @@ pub struct UpdateNhashPerUsdMilProposal {
 /// Deprecated: This message is no longer usable. It is only still included for
 /// backwards compatibility (e.g. looking up old governance proposals).
 /// It is replaced by providing a MsgUpdateConversionFeeDenomProposalRequest in a governance proposal.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.msgfees.v1.UpdateConversionFeeDenomProposal")]
 #[deprecated]
@@ -210,7 +200,6 @@ pub struct UpdateConversionFeeDenomProposal {
 /// Deprecated: This message is no longer usable. It is only still included for
 /// backwards compatibility (e.g. looking up old governance proposals).
 /// It is replaced by functionality in the flatfees module.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.msgfees.v1.MsgAssessCustomMsgFeeRequest")]
 #[deprecated]
@@ -232,7 +221,6 @@ pub struct MsgAssessCustomMsgFeeRequest {
     pub recipient_basis_points: ::prost::alloc::string::String,
 }
 /// MsgAssessCustomMsgFeeResponse defines the Msg/AssessCustomMsgFeee response type.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.msgfees.v1.MsgAssessCustomMsgFeeResponse")]
 pub struct MsgAssessCustomMsgFeeResponse {}
@@ -240,7 +228,6 @@ pub struct MsgAssessCustomMsgFeeResponse {}
 /// Deprecated: This message is no longer usable. It is only still included for
 /// backwards compatibility (e.g. looking up old governance proposals).
 /// It is replaced by functionality in the flatfees module.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.msgfees.v1.MsgAddMsgFeeProposalRequest")]
 #[deprecated]
@@ -262,7 +249,6 @@ pub struct MsgAddMsgFeeProposalRequest {
     pub authority: ::prost::alloc::string::String,
 }
 /// MsgAddMsgFeeProposalResponse defines the Msg/AddMsgFeeProposal response type
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.msgfees.v1.MsgAddMsgFeeProposalResponse")]
 pub struct MsgAddMsgFeeProposalResponse {}
@@ -270,7 +256,6 @@ pub struct MsgAddMsgFeeProposalResponse {}
 /// Deprecated: This message is no longer usable. It is only still included for
 /// backwards compatibility (e.g. looking up old governance proposals).
 /// It is replaced by functionality in the flatfees module.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.msgfees.v1.MsgUpdateMsgFeeProposalRequest")]
 #[deprecated]
@@ -292,7 +277,6 @@ pub struct MsgUpdateMsgFeeProposalRequest {
     pub authority: ::prost::alloc::string::String,
 }
 /// MsgUpdateMsgFeeProposalResponse defines the Msg/RemoveMsgFeeProposal response type
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.msgfees.v1.MsgUpdateMsgFeeProposalResponse")]
 pub struct MsgUpdateMsgFeeProposalResponse {}
@@ -300,7 +284,6 @@ pub struct MsgUpdateMsgFeeProposalResponse {}
 /// Deprecated: This message is no longer usable. It is only still included for
 /// backwards compatibility (e.g. looking up old governance proposals).
 /// It is replaced by functionality in the flatfees module.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.msgfees.v1.MsgRemoveMsgFeeProposalRequest")]
 #[deprecated]
@@ -315,7 +298,6 @@ pub struct MsgRemoveMsgFeeProposalRequest {
     pub authority: ::prost::alloc::string::String,
 }
 /// MsgRemoveMsgFeeProposalResponse defines the Msg/RemoveMsgFeeProposal response type
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.msgfees.v1.MsgRemoveMsgFeeProposalResponse")]
 pub struct MsgRemoveMsgFeeProposalResponse {}
@@ -323,7 +305,6 @@ pub struct MsgRemoveMsgFeeProposalResponse {}
 /// Deprecated: This message is no longer usable. It is only still included for
 /// backwards compatibility (e.g. looking up old governance proposals).
 /// It is replaced by functionality in the flatfees module.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.msgfees.v1.MsgUpdateNhashPerUsdMilProposalRequest")]
 #[deprecated]
@@ -338,7 +319,6 @@ pub struct MsgUpdateNhashPerUsdMilProposalRequest {
     pub authority: ::prost::alloc::string::String,
 }
 /// MsgUpdateNhashPerUsdMilProposalResponse defines the Msg/UpdateNhashPerUsdMilProposal response type
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.msgfees.v1.MsgUpdateNhashPerUsdMilProposalResponse")]
 pub struct MsgUpdateNhashPerUsdMilProposalResponse {}
@@ -346,7 +326,6 @@ pub struct MsgUpdateNhashPerUsdMilProposalResponse {}
 /// Deprecated: This message is no longer usable. It is only still included for
 /// backwards compatibility (e.g. looking up old governance proposals).
 /// It is replaced by functionality in the flatfees module.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.msgfees.v1.MsgUpdateConversionFeeDenomProposalRequest")]
 #[deprecated]
@@ -361,7 +340,6 @@ pub struct MsgUpdateConversionFeeDenomProposalRequest {
     pub authority: ::prost::alloc::string::String,
 }
 /// MsgUpdateConversionFeeDenomProposalResponse defines the Msg/UpdateConversionFeeDenomProposal response type
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.msgfees.v1.MsgUpdateConversionFeeDenomProposalResponse")]
 pub struct MsgUpdateConversionFeeDenomProposalResponse {}

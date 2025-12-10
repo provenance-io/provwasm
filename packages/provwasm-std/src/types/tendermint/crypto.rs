@@ -1,5 +1,4 @@
 use provwasm_proc_macro::CosmwasmExt;
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.crypto.Proof")]
 pub struct Proof {
@@ -12,7 +11,6 @@ pub struct Proof {
     #[prost(bytes = "vec", repeated, tag = "4")]
     pub aunts: ::prost::alloc::vec::Vec<::prost::alloc::vec::Vec<u8>>,
 }
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.crypto.ValueOp")]
 pub struct ValueOp {
@@ -23,7 +21,6 @@ pub struct ValueOp {
     #[prost(message, optional, tag = "2")]
     pub proof: ::core::option::Option<Proof>,
 }
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.crypto.DominoOp")]
 pub struct DominoOp {
@@ -37,7 +34,6 @@ pub struct DominoOp {
 /// ProofOp defines an operation used for calculating Merkle root
 /// The data could be arbitrary format, providing nessecary data
 /// for example neighbouring node hash
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.crypto.ProofOp")]
 pub struct ProofOp {
@@ -49,7 +45,6 @@ pub struct ProofOp {
     pub data: ::prost::alloc::vec::Vec<u8>,
 }
 /// ProofOps is Merkle proof defined by the list of ProofOps
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.crypto.ProofOps")]
 pub struct ProofOps {
@@ -57,7 +52,6 @@ pub struct ProofOps {
     pub ops: ::prost::alloc::vec::Vec<ProofOp>,
 }
 /// PublicKey defines the keys available for use with Validators
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.crypto.PublicKey")]
 pub struct PublicKey {
@@ -67,7 +61,6 @@ pub struct PublicKey {
 /// Nested message and enum types in `PublicKey`.
 pub mod public_key {
     use provwasm_proc_macro::CosmwasmExt;
-    #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, Eq, ::prost::Oneof, ::schemars::JsonSchema)]
     pub enum Sum {
         #[prost(bytes, tag = "1")]

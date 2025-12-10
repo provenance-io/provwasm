@@ -1,6 +1,5 @@
 use provwasm_proc_macro::CosmwasmExt;
 /// Commitment contains information on committed funds.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.Commitment")]
 pub struct Commitment {
@@ -15,7 +14,6 @@ pub struct Commitment {
     pub amount: ::prost::alloc::vec::Vec<super::super::super::cosmos::base::v1beta1::Coin>,
 }
 /// AccountAmount associates an account with a coins amount.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.AccountAmount")]
 pub struct AccountAmount {
@@ -27,7 +25,6 @@ pub struct AccountAmount {
     pub amount: ::prost::alloc::vec::Vec<super::super::super::cosmos::base::v1beta1::Coin>,
 }
 /// MarketAmount associates a market with a coins amount.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MarketAmount")]
 pub struct MarketAmount {
@@ -40,7 +37,6 @@ pub struct MarketAmount {
 }
 /// NetAssetPrice is an association of assets and price used to record the value of things.
 /// It is related to the NetAssetValue message from the x/marker module, and is therefore often referred to as "a NAV".
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.NetAssetPrice")]
 pub struct NetAssetPrice {
@@ -52,7 +48,6 @@ pub struct NetAssetPrice {
     pub price: ::core::option::Option<super::super::super::cosmos::base::v1beta1::Coin>,
 }
 /// EventOrderCreated is an event emitted when an order is created.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.EventOrderCreated")]
 pub struct EventOrderCreated {
@@ -70,7 +65,6 @@ pub struct EventOrderCreated {
     pub external_id: ::prost::alloc::string::String,
 }
 /// EventOrderCancelled is an event emitted when an order is cancelled.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.EventOrderCancelled")]
 pub struct EventOrderCancelled {
@@ -89,7 +83,6 @@ pub struct EventOrderCancelled {
 }
 /// EventOrderFilled is an event emitted when an order has been filled in full.
 /// This event is also used for orders that were previously partially filled, but have now been filled in full.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.EventOrderFilled")]
 pub struct EventOrderFilled {
@@ -113,7 +106,6 @@ pub struct EventOrderFilled {
     pub external_id: ::prost::alloc::string::String,
 }
 /// EventOrderPartiallyFilled is an event emitted when an order filled in part and still has more left to fill.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.EventOrderPartiallyFilled")]
 pub struct EventOrderPartiallyFilled {
@@ -139,7 +131,6 @@ pub struct EventOrderPartiallyFilled {
     pub external_id: ::prost::alloc::string::String,
 }
 /// EventOrderExternalIDUpdated is an event emitted when an order's external id is updated.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.EventOrderExternalIDUpdated")]
 pub struct EventOrderExternalIdUpdated {
@@ -154,7 +145,6 @@ pub struct EventOrderExternalIdUpdated {
     pub external_id: ::prost::alloc::string::String,
 }
 /// EventFundsCommitted is an event emitted when funds are committed to a market.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.EventFundsCommitted")]
 pub struct EventFundsCommitted {
@@ -172,7 +162,6 @@ pub struct EventFundsCommitted {
     pub tag: ::prost::alloc::string::String,
 }
 /// EventCommitmentReleased is an event emitted when funds are released from their commitment.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.EventCommitmentReleased")]
 pub struct EventCommitmentReleased {
@@ -190,7 +179,6 @@ pub struct EventCommitmentReleased {
     pub tag: ::prost::alloc::string::String,
 }
 /// EventMarketWithdraw is an event emitted when a withdrawal of a market's collected fees is made.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.EventMarketWithdraw")]
 pub struct EventMarketWithdraw {
@@ -208,7 +196,6 @@ pub struct EventMarketWithdraw {
     pub withdrawn_by: ::prost::alloc::string::String,
 }
 /// EventMarketDetailsUpdated is an event emitted when a market's details are updated.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.EventMarketDetailsUpdated")]
 pub struct EventMarketDetailsUpdated {
@@ -221,7 +208,6 @@ pub struct EventMarketDetailsUpdated {
 }
 /// EventMarketEnabled is an event emitted when a market is enabled.
 /// Deprecated: This event is no longer used. It is replaced with EventMarketOrdersEnabled.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.EventMarketEnabled")]
 #[deprecated]
@@ -235,7 +221,6 @@ pub struct EventMarketEnabled {
 }
 /// EventMarketDisabled is an event emitted when a market is disabled.
 /// Deprecated: This event is no longer used. It is replaced with EventMarketOrdersDisabled.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.EventMarketDisabled")]
 #[deprecated]
@@ -248,7 +233,6 @@ pub struct EventMarketDisabled {
     pub updated_by: ::prost::alloc::string::String,
 }
 /// EventMarketOrdersEnabled is an event emitted when a market enables order creation.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.EventMarketOrdersEnabled")]
 pub struct EventMarketOrdersEnabled {
@@ -260,7 +244,6 @@ pub struct EventMarketOrdersEnabled {
     pub updated_by: ::prost::alloc::string::String,
 }
 /// EventMarketOrdersEnabled is an event emitted when a market disables order creation.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.EventMarketOrdersDisabled")]
 pub struct EventMarketOrdersDisabled {
@@ -272,7 +255,6 @@ pub struct EventMarketOrdersDisabled {
     pub updated_by: ::prost::alloc::string::String,
 }
 /// EventMarketUserSettleEnabled is an event emitted when a market's user_settle option is enabled.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.EventMarketUserSettleEnabled")]
 pub struct EventMarketUserSettleEnabled {
@@ -284,7 +266,6 @@ pub struct EventMarketUserSettleEnabled {
     pub updated_by: ::prost::alloc::string::String,
 }
 /// EventMarketUserSettleDisabled is an event emitted when a market's user_settle option is disabled.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.EventMarketUserSettleDisabled")]
 pub struct EventMarketUserSettleDisabled {
@@ -296,7 +277,6 @@ pub struct EventMarketUserSettleDisabled {
     pub updated_by: ::prost::alloc::string::String,
 }
 /// EventMarketCommitmentsEnabled is an event emitted when a market's accepting_commitments option is enabled.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.EventMarketCommitmentsEnabled")]
 pub struct EventMarketCommitmentsEnabled {
@@ -308,7 +288,6 @@ pub struct EventMarketCommitmentsEnabled {
     pub updated_by: ::prost::alloc::string::String,
 }
 /// EventMarketCommitmentsDisabled is an event emitted when a market's accepting_commitments option is disabled.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.EventMarketCommitmentsDisabled")]
 pub struct EventMarketCommitmentsDisabled {
@@ -321,7 +300,6 @@ pub struct EventMarketCommitmentsDisabled {
 }
 /// EventMarketIntermediaryDenomUpdated is an event emitted when a market updates its
 /// commitment_settlement_intermediary_denom field.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.EventMarketIntermediaryDenomUpdated")]
 pub struct EventMarketIntermediaryDenomUpdated {
@@ -333,7 +311,6 @@ pub struct EventMarketIntermediaryDenomUpdated {
     pub updated_by: ::prost::alloc::string::String,
 }
 /// EventMarketPermissionsUpdated is an event emitted when a market's permissions are updated.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.EventMarketPermissionsUpdated")]
 pub struct EventMarketPermissionsUpdated {
@@ -345,7 +322,6 @@ pub struct EventMarketPermissionsUpdated {
     pub updated_by: ::prost::alloc::string::String,
 }
 /// EventMarketReqAttrUpdated is an event emitted when a market's required attributes are updated.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.EventMarketReqAttrUpdated")]
 pub struct EventMarketReqAttrUpdated {
@@ -357,7 +333,6 @@ pub struct EventMarketReqAttrUpdated {
     pub updated_by: ::prost::alloc::string::String,
 }
 /// EventMarketCreated is an event emitted when a market has been created.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.EventMarketCreated")]
 pub struct EventMarketCreated {
@@ -366,7 +341,6 @@ pub struct EventMarketCreated {
     pub market_id: u32,
 }
 /// EventMarketFeesUpdated is an event emitted when a market's fees have been updated.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.EventMarketFeesUpdated")]
 pub struct EventMarketFeesUpdated {
@@ -375,12 +349,10 @@ pub struct EventMarketFeesUpdated {
     pub market_id: u32,
 }
 /// EventParamsUpdated is an event emitted when the exchange module's params have been updated.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.EventParamsUpdated")]
 pub struct EventParamsUpdated {}
 /// EventPaymentCreated is an event emitted when a payment is created.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.EventPaymentCreated")]
 pub struct EventPaymentCreated {
@@ -401,7 +373,6 @@ pub struct EventPaymentCreated {
     pub external_id: ::prost::alloc::string::String,
 }
 /// EventPaymentUpdated is an event emitted when a payment is updated.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.EventPaymentUpdated")]
 pub struct EventPaymentUpdated {
@@ -425,7 +396,6 @@ pub struct EventPaymentUpdated {
     pub external_id: ::prost::alloc::string::String,
 }
 /// EventPaymentAccepted is an event emitted when a payment is accepted.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.EventPaymentAccepted")]
 pub struct EventPaymentAccepted {
@@ -446,7 +416,6 @@ pub struct EventPaymentAccepted {
     pub external_id: ::prost::alloc::string::String,
 }
 /// EventPaymentRejected is an event emitted when a payment is rejected (by the target).
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.EventPaymentRejected")]
 pub struct EventPaymentRejected {
@@ -461,7 +430,6 @@ pub struct EventPaymentRejected {
     pub external_id: ::prost::alloc::string::String,
 }
 /// EventPaymentCancelled is an event emitted when a payment is cancelled (by the source).
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.EventPaymentCancelled")]
 pub struct EventPaymentCancelled {
@@ -476,7 +444,6 @@ pub struct EventPaymentCancelled {
     pub external_id: ::prost::alloc::string::String,
 }
 /// MarketAccount is an account type for use with the accounts module to hold some basic information about a market.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MarketAccount")]
 pub struct MarketAccount {
@@ -492,7 +459,6 @@ pub struct MarketAccount {
     pub market_details: ::core::option::Option<MarketDetails>,
 }
 /// MarketDetails contains information about a market.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MarketDetails")]
 pub struct MarketDetails {
@@ -510,7 +476,6 @@ pub struct MarketDetails {
     pub icon_uri: ::prost::alloc::string::String,
 }
 /// MarketBrief is a message containing brief, superficial information about a market.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MarketBrief")]
 pub struct MarketBrief {
@@ -525,7 +490,6 @@ pub struct MarketBrief {
     pub market_details: ::core::option::Option<MarketDetails>,
 }
 /// Market contains all information about a market.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.Market")]
 pub struct Market {
@@ -633,7 +597,6 @@ pub struct Market {
 }
 /// FeeRatio defines a ratio of price amount to fee amount.
 /// For an order to be valid, its price must be evenly divisible by a FeeRatio's price.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.FeeRatio")]
 pub struct FeeRatio {
@@ -645,7 +608,6 @@ pub struct FeeRatio {
     pub fee: ::core::option::Option<super::super::super::cosmos::base::v1beta1::Coin>,
 }
 /// AddrPermissions associates an address with a list of permissions available for that address.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.AccessGrant")]
 pub struct AccessGrant {
@@ -658,16 +620,7 @@ pub struct AccessGrant {
 }
 /// Permission defines the different types of permission that can be given to an account for a market.
 #[derive(
-    Clone,
-    Copy,
-    Debug,
-    PartialEq,
-    Eq,
-    Hash,
-    PartialOrd,
-    Ord,
-    ::prost::Enumeration,
-    ::schemars::JsonSchema,
+    Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, ::prost::Enumeration, ::schemars::JsonSchema,
 )]
 #[repr(i32)]
 pub enum Permission {
@@ -695,14 +648,14 @@ impl Permission {
     /// (if the ProtoBuf definition does not change) and safe for programmatic use.
     pub fn as_str_name(&self) -> &'static str {
         match self {
-            Permission::Unspecified => "PERMISSION_UNSPECIFIED",
-            Permission::Settle => "PERMISSION_SETTLE",
-            Permission::SetIds => "PERMISSION_SET_IDS",
-            Permission::Cancel => "PERMISSION_CANCEL",
-            Permission::Withdraw => "PERMISSION_WITHDRAW",
-            Permission::Update => "PERMISSION_UPDATE",
-            Permission::Permissions => "PERMISSION_PERMISSIONS",
-            Permission::Attributes => "PERMISSION_ATTRIBUTES",
+            Self::Unspecified => "PERMISSION_UNSPECIFIED",
+            Self::Settle => "PERMISSION_SETTLE",
+            Self::SetIds => "PERMISSION_SET_IDS",
+            Self::Cancel => "PERMISSION_CANCEL",
+            Self::Withdraw => "PERMISSION_WITHDRAW",
+            Self::Update => "PERMISSION_UPDATE",
+            Self::Permissions => "PERMISSION_PERMISSIONS",
+            Self::Attributes => "PERMISSION_ATTRIBUTES",
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.
@@ -721,7 +674,6 @@ impl Permission {
     }
 }
 /// Order associates an order id with one of the order types.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.Order")]
 pub struct Order {
@@ -736,7 +688,6 @@ pub struct Order {
 pub mod order {
     use provwasm_proc_macro::CosmwasmExt;
     /// order is the specifics of this order.
-    #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, Eq, ::prost::Oneof, ::schemars::JsonSchema)]
     pub enum Order {
         /// ask_order is the information about this order if it represents an ask order.
@@ -748,7 +699,6 @@ pub mod order {
     }
 }
 /// AskOrder represents someone's desire to sell something at a minimum price.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.AskOrder")]
 pub struct AskOrder {
@@ -783,7 +733,6 @@ pub struct AskOrder {
     pub external_id: ::prost::alloc::string::String,
 }
 /// BidOrder represents someone's desire to buy something at a specific price.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.BidOrder")]
 pub struct BidOrder {
@@ -815,7 +764,6 @@ pub struct BidOrder {
     pub external_id: ::prost::alloc::string::String,
 }
 /// Params is a representation of the exchange module parameters.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.Params")]
 pub struct Params {
@@ -841,7 +789,6 @@ pub struct Params {
         ::prost::alloc::vec::Vec<super::super::super::cosmos::base::v1beta1::Coin>,
 }
 /// DenomSplit associates a coin denomination with an amount the exchange receives for that denom.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.DenomSplit")]
 pub struct DenomSplit {
@@ -854,7 +801,6 @@ pub struct DenomSplit {
     pub split: u32,
 }
 /// Payment represents one account's desire to trade funds with another account.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.Payment")]
 pub struct Payment {
@@ -889,7 +835,6 @@ pub struct Payment {
     pub external_id: ::prost::alloc::string::String,
 }
 /// GenesisState is the data that should be loaded into the exchange module during genesis.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.GenesisState")]
 pub struct GenesisState {
@@ -916,7 +861,6 @@ pub struct GenesisState {
     pub payments: ::prost::alloc::vec::Vec<Payment>,
 }
 /// MsgCreateAskRequest is a request message for the CreateAsk endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgCreateAskRequest")]
 pub struct MsgCreateAskRequest {
@@ -929,7 +873,6 @@ pub struct MsgCreateAskRequest {
         ::core::option::Option<super::super::super::cosmos::base::v1beta1::Coin>,
 }
 /// MsgCreateAskResponse is a response message for the CreateAsk endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgCreateAskResponse")]
 pub struct MsgCreateAskResponse {
@@ -938,7 +881,6 @@ pub struct MsgCreateAskResponse {
     pub order_id: u64,
 }
 /// MsgCreateBidRequest is a request message for the CreateBid endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgCreateBidRequest")]
 pub struct MsgCreateBidRequest {
@@ -951,7 +893,6 @@ pub struct MsgCreateBidRequest {
         ::core::option::Option<super::super::super::cosmos::base::v1beta1::Coin>,
 }
 /// MsgCreateBidResponse is a response message for the CreateBid endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgCreateBidResponse")]
 pub struct MsgCreateBidResponse {
@@ -960,7 +901,6 @@ pub struct MsgCreateBidResponse {
     pub order_id: u64,
 }
 /// MsgCommitFundsRequest is a request message for the CommitFunds endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgCommitFundsRequest")]
 pub struct MsgCommitFundsRequest {
@@ -981,12 +921,10 @@ pub struct MsgCommitFundsRequest {
     pub event_tag: ::prost::alloc::string::String,
 }
 /// MsgCommitFundsResponse is a response message for the CommitFunds endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgCommitFundsResponse")]
 pub struct MsgCommitFundsResponse {}
 /// MsgCancelOrderRequest is a request message for the CancelOrder endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgCancelOrderRequest")]
 pub struct MsgCancelOrderRequest {
@@ -1000,12 +938,10 @@ pub struct MsgCancelOrderRequest {
     pub order_id: u64,
 }
 /// MsgCancelOrderResponse is a response message for the CancelOrder endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgCancelOrderResponse")]
 pub struct MsgCancelOrderResponse {}
 /// MsgFillBidsRequest is a request message for the FillBids endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgFillBidsRequest")]
 pub struct MsgFillBidsRequest {
@@ -1034,12 +970,10 @@ pub struct MsgFillBidsRequest {
         ::core::option::Option<super::super::super::cosmos::base::v1beta1::Coin>,
 }
 /// MsgFillBidsResponse is a response message for the FillBids endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgFillBidsResponse")]
 pub struct MsgFillBidsResponse {}
 /// MsgFillAsksRequest is a request message for the FillAsks endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgFillAsksRequest")]
 pub struct MsgFillAsksRequest {
@@ -1069,12 +1003,10 @@ pub struct MsgFillAsksRequest {
         ::core::option::Option<super::super::super::cosmos::base::v1beta1::Coin>,
 }
 /// MsgFillAsksResponse is a response message for the FillAsks endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgFillAsksResponse")]
 pub struct MsgFillAsksResponse {}
 /// MsgMarketSettleRequest is a request message for the MarketSettle endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgMarketSettleRequest")]
 pub struct MsgMarketSettleRequest {
@@ -1097,12 +1029,10 @@ pub struct MsgMarketSettleRequest {
     pub expect_partial: bool,
 }
 /// MsgMarketSettleResponse is a response message for the MarketSettle endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgMarketSettleResponse")]
 pub struct MsgMarketSettleResponse {}
 /// MsgMarketCommitmentSettleRequest is a request message for the MarketCommitmentSettle endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgMarketCommitmentSettleRequest")]
 pub struct MsgMarketCommitmentSettleRequest {
@@ -1130,12 +1060,10 @@ pub struct MsgMarketCommitmentSettleRequest {
     pub event_tag: ::prost::alloc::string::String,
 }
 /// MsgMarketCommitmentSettleResponse is a response message for the MarketCommitmentSettle endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgMarketCommitmentSettleResponse")]
 pub struct MsgMarketCommitmentSettleResponse {}
 /// MsgMarketReleaseCommitmentsRequest is a request message for the MarketReleaseCommitments endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgMarketReleaseCommitmentsRequest")]
 pub struct MsgMarketReleaseCommitmentsRequest {
@@ -1154,12 +1082,10 @@ pub struct MsgMarketReleaseCommitmentsRequest {
     pub event_tag: ::prost::alloc::string::String,
 }
 /// MsgMarketReleaseCommitmentsResponse is a response message for the MarketReleaseCommitments endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgMarketReleaseCommitmentsResponse")]
 pub struct MsgMarketReleaseCommitmentsResponse {}
 /// MsgMarketTransferCommitmentRequest is a request message for the MarketTransferCommitment endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgMarketTransferCommitmentRequest")]
 pub struct MsgMarketTransferCommitmentRequest {
@@ -1184,12 +1110,10 @@ pub struct MsgMarketTransferCommitmentRequest {
     pub event_tag: ::prost::alloc::string::String,
 }
 /// MsgMarketTransferCommitmentResponse is a response message for the MarketTransferCommitment endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgMarketTransferCommitmentResponse")]
 pub struct MsgMarketTransferCommitmentResponse {}
 /// MsgMarketSetOrderExternalIDRequest is a request message for the MarketSetOrderExternalID endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgMarketSetOrderExternalIDRequest")]
 pub struct MsgMarketSetOrderExternalIdRequest {
@@ -1208,12 +1132,10 @@ pub struct MsgMarketSetOrderExternalIdRequest {
     pub external_id: ::prost::alloc::string::String,
 }
 /// MsgMarketSetOrderExternalIDResponse is a response message for the MarketSetOrderExternalID endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgMarketSetOrderExternalIDResponse")]
 pub struct MsgMarketSetOrderExternalIdResponse {}
 /// MsgMarketWithdrawRequest is a request message for the MarketWithdraw endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgMarketWithdrawRequest")]
 pub struct MsgMarketWithdrawRequest {
@@ -1231,12 +1153,10 @@ pub struct MsgMarketWithdrawRequest {
     pub amount: ::prost::alloc::vec::Vec<super::super::super::cosmos::base::v1beta1::Coin>,
 }
 /// MsgMarketWithdrawResponse is a response message for the MarketWithdraw endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgMarketWithdrawResponse")]
 pub struct MsgMarketWithdrawResponse {}
 /// MsgMarketUpdateDetailsRequest is a request message for the MarketUpdateDetails endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgMarketUpdateDetailsRequest")]
 pub struct MsgMarketUpdateDetailsRequest {
@@ -1251,13 +1171,11 @@ pub struct MsgMarketUpdateDetailsRequest {
     pub market_details: ::core::option::Option<MarketDetails>,
 }
 /// MsgMarketUpdateDetailsResponse is a response message for the MarketUpdateDetails endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgMarketUpdateDetailsResponse")]
 pub struct MsgMarketUpdateDetailsResponse {}
 /// MsgMarketUpdateEnabledRequest is a request message for the MarketUpdateEnabled endpoint.
 /// Deprecated: This endpoint is no longer usable. It is replaced by MarketUpdateAcceptingOrders.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgMarketUpdateEnabledRequest")]
 #[deprecated]
@@ -1280,13 +1198,11 @@ pub struct MsgMarketUpdateEnabledRequest {
 }
 /// MsgMarketUpdateEnabledResponse is a response message for the MarketUpdateEnabled endpoint.
 /// Deprecated: This endpoint is no longer usable. It is replaced by MarketUpdateAcceptingOrders.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgMarketUpdateEnabledResponse")]
 #[deprecated]
 pub struct MsgMarketUpdateEnabledResponse {}
 /// MsgMarketUpdateAcceptingOrdersRequest is a request message for the MarketUpdateAcceptingOrders endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgMarketUpdateAcceptingOrdersRequest")]
 pub struct MsgMarketUpdateAcceptingOrdersRequest {
@@ -1301,12 +1217,10 @@ pub struct MsgMarketUpdateAcceptingOrdersRequest {
     pub accepting_orders: bool,
 }
 /// MsgMarketUpdateAcceptingOrdersResponse is a response message for the MarketUpdateAcceptingOrders endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgMarketUpdateAcceptingOrdersResponse")]
 pub struct MsgMarketUpdateAcceptingOrdersResponse {}
 /// MsgMarketUpdateUserSettleRequest is a request message for the MarketUpdateUserSettle endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgMarketUpdateUserSettleRequest")]
 pub struct MsgMarketUpdateUserSettleRequest {
@@ -1323,12 +1237,10 @@ pub struct MsgMarketUpdateUserSettleRequest {
     pub allow_user_settlement: bool,
 }
 /// MsgMarketUpdateUserSettleResponse is a response message for the MarketUpdateUserSettle endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgMarketUpdateUserSettleResponse")]
 pub struct MsgMarketUpdateUserSettleResponse {}
 /// MsgMarketUpdateAcceptingCommitmentsRequest is a request message for the MarketUpdateAcceptingCommitments endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgMarketUpdateAcceptingCommitmentsRequest")]
 pub struct MsgMarketUpdateAcceptingCommitmentsRequest {
@@ -1345,12 +1257,10 @@ pub struct MsgMarketUpdateAcceptingCommitmentsRequest {
     pub accepting_commitments: bool,
 }
 /// MsgMarketUpdateAcceptingCommitmentsResponse is a response message for the MarketUpdateAcceptingCommitments endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgMarketUpdateAcceptingCommitmentsResponse")]
 pub struct MsgMarketUpdateAcceptingCommitmentsResponse {}
 /// MsgMarketUpdateIntermediaryDenomRequest is a request message for the MarketUpdateIntermediaryDenom endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgMarketUpdateIntermediaryDenomRequest")]
 pub struct MsgMarketUpdateIntermediaryDenomRequest {
@@ -1365,12 +1275,10 @@ pub struct MsgMarketUpdateIntermediaryDenomRequest {
     pub intermediary_denom: ::prost::alloc::string::String,
 }
 /// MsgMarketUpdateIntermediaryDenomResponse is a response message for the MarketUpdateIntermediaryDenom endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgMarketUpdateIntermediaryDenomResponse")]
 pub struct MsgMarketUpdateIntermediaryDenomResponse {}
 /// MsgMarketManagePermissionsRequest is a request message for the MarketManagePermissions endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgMarketManagePermissionsRequest")]
 pub struct MsgMarketManagePermissionsRequest {
@@ -1391,12 +1299,10 @@ pub struct MsgMarketManagePermissionsRequest {
     pub to_grant: ::prost::alloc::vec::Vec<AccessGrant>,
 }
 /// MsgMarketManagePermissionsResponse is a response message for the MarketManagePermissions endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgMarketManagePermissionsResponse")]
 pub struct MsgMarketManagePermissionsResponse {}
 /// MsgMarketManageReqAttrsRequest is a request message for the MarketManageReqAttrs endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgMarketManageReqAttrsRequest")]
 pub struct MsgMarketManageReqAttrsRequest {
@@ -1426,7 +1332,6 @@ pub struct MsgMarketManageReqAttrsRequest {
     pub create_commitment_to_remove: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// MsgMarketManageReqAttrsResponse is a response message for the MarketManageReqAttrs endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgMarketManageReqAttrsResponse")]
 pub struct MsgMarketManageReqAttrsResponse {}
@@ -1434,7 +1339,6 @@ pub struct MsgMarketManageReqAttrsResponse {}
 ///
 /// The signer is the payment.source, but we can't define that using the cosmos.msg.v1.signer option.
 /// So signers for this msg are defined in code using a custom get-signers function.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgCreatePaymentRequest")]
 pub struct MsgCreatePaymentRequest {
@@ -1443,7 +1347,6 @@ pub struct MsgCreatePaymentRequest {
     pub payment: ::core::option::Option<Payment>,
 }
 /// MsgCreatePaymentResponse is a response message for the CreatePayment endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgCreatePaymentResponse")]
 pub struct MsgCreatePaymentResponse {}
@@ -1451,7 +1354,6 @@ pub struct MsgCreatePaymentResponse {}
 ///
 /// The signer is the payment.target, but we can't define that using the cosmos.msg.v1.signer option.
 /// So signers for this msg are defined in code using a custom get-signers function.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgAcceptPaymentRequest")]
 pub struct MsgAcceptPaymentRequest {
@@ -1460,12 +1362,10 @@ pub struct MsgAcceptPaymentRequest {
     pub payment: ::core::option::Option<Payment>,
 }
 /// MsgAcceptPaymentResponse is a response message for the AcceptPayment endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgAcceptPaymentResponse")]
 pub struct MsgAcceptPaymentResponse {}
 /// MsgRejectPaymentRequest is a request message for the RejectPayment endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgRejectPaymentRequest")]
 pub struct MsgRejectPaymentRequest {
@@ -1480,12 +1380,10 @@ pub struct MsgRejectPaymentRequest {
     pub external_id: ::prost::alloc::string::String,
 }
 /// MsgRejectPaymentResponse is a response message for the RejectPayment endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgRejectPaymentResponse")]
 pub struct MsgRejectPaymentResponse {}
 /// MsgRejectPaymentsRequest is a request message for the RejectPayments endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgRejectPaymentsRequest")]
 pub struct MsgRejectPaymentsRequest {
@@ -1497,12 +1395,10 @@ pub struct MsgRejectPaymentsRequest {
     pub sources: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// MsgRejectPaymentsResponse is a response message for the RejectPayments endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgRejectPaymentsResponse")]
 pub struct MsgRejectPaymentsResponse {}
 /// MsgCancelPaymentsRequest is a request message for the CancelPayments endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgCancelPaymentsRequest")]
 pub struct MsgCancelPaymentsRequest {
@@ -1514,12 +1410,10 @@ pub struct MsgCancelPaymentsRequest {
     pub external_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// MsgCancelPaymentsResponse is a response message for the CancelPayments endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgCancelPaymentsResponse")]
 pub struct MsgCancelPaymentsResponse {}
 /// MsgChangePaymentTargetRequest is a request message for the ChangePaymentTarget endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgChangePaymentTargetRequest")]
 pub struct MsgChangePaymentTargetRequest {
@@ -1534,12 +1428,10 @@ pub struct MsgChangePaymentTargetRequest {
     pub new_target: ::prost::alloc::string::String,
 }
 /// MsgChangePaymentTargetResponse is a response message for the ChangePaymentTarget endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgChangePaymentTargetResponse")]
 pub struct MsgChangePaymentTargetResponse {}
 /// MsgGovCreateMarketRequest is a request message for the GovCreateMarket endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgGovCreateMarketRequest")]
 pub struct MsgGovCreateMarketRequest {
@@ -1553,12 +1445,10 @@ pub struct MsgGovCreateMarketRequest {
     pub market: ::core::option::Option<Market>,
 }
 /// MsgGovCreateMarketResponse is a response message for the GovCreateMarket endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgGovCreateMarketResponse")]
 pub struct MsgGovCreateMarketResponse {}
 /// MsgGovManageFeesRequest is a request message for the GovManageFees endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgGovManageFeesRequest")]
 pub struct MsgGovManageFeesRequest {
@@ -1630,12 +1520,10 @@ pub struct MsgGovManageFeesRequest {
     pub unset_fee_commitment_settlement_bips: bool,
 }
 /// MsgGovManageFeesResponse is a response message for the GovManageFees endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgGovManageFeesResponse")]
 pub struct MsgGovManageFeesResponse {}
 /// MsgGovCloseMarketRequest is a request message for the GovCloseMarket endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgGovCloseMarketRequest")]
 pub struct MsgGovCloseMarketRequest {
@@ -1647,13 +1535,11 @@ pub struct MsgGovCloseMarketRequest {
     pub market_id: u32,
 }
 /// MsgGovCloseMarketResponse is a response message for the GovCloseMarket endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgGovCloseMarketResponse")]
 pub struct MsgGovCloseMarketResponse {}
 /// MsgGovUpdateParamsRequest is a request message for the GovUpdateParams endpoint.
 /// Deprecated: Use MsgUpdateParamsRequest instead.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgGovUpdateParamsRequest")]
 #[deprecated]
@@ -1667,13 +1553,11 @@ pub struct MsgGovUpdateParamsRequest {
 }
 /// MsgGovUpdateParamsResponse is a response message for the GovUpdateParams endpoint.
 /// Deprecated: Use MsgUpdateParamsResponse instead.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgGovUpdateParamsResponse")]
 #[deprecated]
 pub struct MsgGovUpdateParamsResponse {}
 /// MsgGovUpdateParamsRequest is a request message for the GovUpdateParams endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgUpdateParamsRequest")]
 pub struct MsgUpdateParamsRequest {
@@ -1685,13 +1569,11 @@ pub struct MsgUpdateParamsRequest {
     pub params: ::core::option::Option<Params>,
 }
 /// MsgUpdateParamsResponse is a response message for the GovUpdateParams endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgUpdateParamsResponse")]
 pub struct MsgUpdateParamsResponse {}
 /// QueryOrderFeeCalcRequest is a request message for the OrderFeeCalc query.
 /// Exactly one of ask_order or bid_order must be provided.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryOrderFeeCalcRequest")]
 #[proto_query(
@@ -1707,7 +1589,6 @@ pub struct QueryOrderFeeCalcRequest {
     pub bid_order: ::core::option::Option<BidOrder>,
 }
 /// QueryOrderFeeCalcResponse is a response message for the OrderFeeCalc query.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryOrderFeeCalcResponse")]
 pub struct QueryOrderFeeCalcResponse {
@@ -1736,7 +1617,6 @@ pub struct QueryOrderFeeCalcResponse {
         ::prost::alloc::vec::Vec<super::super::super::cosmos::base::v1beta1::Coin>,
 }
 /// QueryGetOrderRequest is a request message for the GetOrder query.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryGetOrderRequest")]
 #[proto_query(
@@ -1749,7 +1629,6 @@ pub struct QueryGetOrderRequest {
     pub order_id: u64,
 }
 /// QueryGetOrderResponse is a response message for the GetOrder query.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryGetOrderResponse")]
 pub struct QueryGetOrderResponse {
@@ -1758,7 +1637,6 @@ pub struct QueryGetOrderResponse {
     pub order: ::core::option::Option<Order>,
 }
 /// QueryGetOrderByExternalIDRequest is a request message for the GetOrderByExternalID query.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryGetOrderByExternalIDRequest")]
 #[proto_query(
@@ -1774,7 +1652,6 @@ pub struct QueryGetOrderByExternalIdRequest {
     pub external_id: ::prost::alloc::string::String,
 }
 /// QueryGetOrderByExternalIDResponse is a response message for the GetOrderByExternalID query.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryGetOrderByExternalIDResponse")]
 pub struct QueryGetOrderByExternalIdResponse {
@@ -1783,7 +1660,6 @@ pub struct QueryGetOrderByExternalIdResponse {
     pub order: ::core::option::Option<Order>,
 }
 /// QueryGetMarketOrdersRequest is a request message for the GetMarketOrders query.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryGetMarketOrdersRequest")]
 #[proto_query(
@@ -1806,7 +1682,6 @@ pub struct QueryGetMarketOrdersRequest {
         ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageRequest>,
 }
 /// QueryGetMarketOrdersResponse is a response message for the GetMarketOrders query.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryGetMarketOrdersResponse")]
 pub struct QueryGetMarketOrdersResponse {
@@ -1819,7 +1694,6 @@ pub struct QueryGetMarketOrdersResponse {
         ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageResponse>,
 }
 /// QueryGetOwnerOrdersRequest is a request message for the GetOwnerOrders query.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryGetOwnerOrdersRequest")]
 #[proto_query(
@@ -1842,7 +1716,6 @@ pub struct QueryGetOwnerOrdersRequest {
         ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageRequest>,
 }
 /// QueryGetOwnerOrdersResponse is a response message for the GetOwnerOrders query.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryGetOwnerOrdersResponse")]
 pub struct QueryGetOwnerOrdersResponse {
@@ -1855,7 +1728,6 @@ pub struct QueryGetOwnerOrdersResponse {
         ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageResponse>,
 }
 /// QueryGetAssetOrdersRequest is a request message for the GetAssetOrders query.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryGetAssetOrdersRequest")]
 #[proto_query(
@@ -1878,7 +1750,6 @@ pub struct QueryGetAssetOrdersRequest {
         ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageRequest>,
 }
 /// QueryGetAssetOrdersResponse is a response message for the GetAssetOrders query.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryGetAssetOrdersResponse")]
 pub struct QueryGetAssetOrdersResponse {
@@ -1891,7 +1762,6 @@ pub struct QueryGetAssetOrdersResponse {
         ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageResponse>,
 }
 /// QueryGetAllOrdersRequest is a request message for the GetAllOrders query.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryGetAllOrdersRequest")]
 #[proto_query(
@@ -1905,7 +1775,6 @@ pub struct QueryGetAllOrdersRequest {
         ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageRequest>,
 }
 /// QueryGetAllOrdersResponse is a response message for the GetAllOrders query.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryGetAllOrdersResponse")]
 pub struct QueryGetAllOrdersResponse {
@@ -1918,7 +1787,6 @@ pub struct QueryGetAllOrdersResponse {
         ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageResponse>,
 }
 /// QueryGetCommitmentRequest is a request message for the GetCommitment query.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryGetCommitmentRequest")]
 #[proto_query(
@@ -1934,7 +1802,6 @@ pub struct QueryGetCommitmentRequest {
     pub market_id: u32,
 }
 /// QueryGetCommitmentResponse is a response message for the GetCommitment query.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryGetCommitmentResponse")]
 pub struct QueryGetCommitmentResponse {
@@ -1943,7 +1810,6 @@ pub struct QueryGetCommitmentResponse {
     pub amount: ::prost::alloc::vec::Vec<super::super::super::cosmos::base::v1beta1::Coin>,
 }
 /// QueryGetAccountCommitmentsRequest is a request message for the GetAccountCommitments query.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryGetAccountCommitmentsRequest")]
 #[proto_query(
@@ -1959,7 +1825,6 @@ pub struct QueryGetAccountCommitmentsRequest {
     pub denom: ::prost::alloc::string::String,
 }
 /// QueryGetAccountCommitmentsResponse is a response message for the GetAccountCommitments query.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryGetAccountCommitmentsResponse")]
 pub struct QueryGetAccountCommitmentsResponse {
@@ -1968,7 +1833,6 @@ pub struct QueryGetAccountCommitmentsResponse {
     pub commitments: ::prost::alloc::vec::Vec<MarketAmount>,
 }
 /// QueryGetMarketCommitmentsRequest is a request message for the GetMarketCommitments query.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryGetMarketCommitmentsRequest")]
 #[proto_query(
@@ -1985,7 +1849,6 @@ pub struct QueryGetMarketCommitmentsRequest {
         ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageRequest>,
 }
 /// QueryGetMarketCommitmentsResponse is a response message for the GetMarketCommitments query.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryGetMarketCommitmentsResponse")]
 pub struct QueryGetMarketCommitmentsResponse {
@@ -1998,7 +1861,6 @@ pub struct QueryGetMarketCommitmentsResponse {
         ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageResponse>,
 }
 /// QueryGetAllCommitmentsRequest is a request message for the GetAllCommitments query.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryGetAllCommitmentsRequest")]
 #[proto_query(
@@ -2012,7 +1874,6 @@ pub struct QueryGetAllCommitmentsRequest {
         ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageRequest>,
 }
 /// QueryGetAllCommitmentsResponse is a response message for the GetAllCommitments query.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryGetAllCommitmentsResponse")]
 pub struct QueryGetAllCommitmentsResponse {
@@ -2025,7 +1886,6 @@ pub struct QueryGetAllCommitmentsResponse {
         ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageResponse>,
 }
 /// QueryGetMarketRequest is a request message for the GetMarket query.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryGetMarketRequest")]
 #[proto_query(
@@ -2038,7 +1898,6 @@ pub struct QueryGetMarketRequest {
     pub market_id: u32,
 }
 /// QueryGetMarketResponse is a response message for the GetMarket query.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryGetMarketResponse")]
 pub struct QueryGetMarketResponse {
@@ -2050,7 +1909,6 @@ pub struct QueryGetMarketResponse {
     pub market: ::core::option::Option<Market>,
 }
 /// QueryGetAllMarketsRequest is a request message for the GetAllMarkets query.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryGetAllMarketsRequest")]
 #[proto_query(
@@ -2064,7 +1922,6 @@ pub struct QueryGetAllMarketsRequest {
         ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageRequest>,
 }
 /// QueryGetAllMarketsResponse is a response message for the GetAllMarkets query.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryGetAllMarketsResponse")]
 pub struct QueryGetAllMarketsResponse {
@@ -2077,7 +1934,6 @@ pub struct QueryGetAllMarketsResponse {
         ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageResponse>,
 }
 /// QueryParamsRequest is a request message for the Params query.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryParamsRequest")]
 #[proto_query(
@@ -2086,7 +1942,6 @@ pub struct QueryGetAllMarketsResponse {
 )]
 pub struct QueryParamsRequest {}
 /// QueryParamsResponse is a response message for the Params query.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryParamsResponse")]
 pub struct QueryParamsResponse {
@@ -2095,7 +1950,6 @@ pub struct QueryParamsResponse {
     pub params: ::core::option::Option<Params>,
 }
 /// QueryCommitmentSettlementFeeCalcRequest is a request message for the CommitmentSettlementFeeCalc query.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryCommitmentSettlementFeeCalcRequest")]
 #[proto_query(
@@ -2115,7 +1969,6 @@ pub struct QueryCommitmentSettlementFeeCalcRequest {
     pub include_breakdown_fields: bool,
 }
 /// QueryCommitmentSettlementFeeCalcResponse is a response message for the CommitmentSettlementFeeCalc query.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryCommitmentSettlementFeeCalcResponse")]
 pub struct QueryCommitmentSettlementFeeCalcResponse {
@@ -2136,7 +1989,6 @@ pub struct QueryCommitmentSettlementFeeCalcResponse {
     pub to_fee_nav: ::core::option::Option<NetAssetPrice>,
 }
 /// QueryValidateCreateMarketRequest is a request message for the ValidateCreateMarket query.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryValidateCreateMarketRequest")]
 #[proto_query(
@@ -2149,7 +2001,6 @@ pub struct QueryValidateCreateMarketRequest {
     pub create_market_request: ::core::option::Option<MsgGovCreateMarketRequest>,
 }
 /// QueryValidateCreateMarketResponse is a response message for the ValidateCreateMarket query.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryValidateCreateMarketResponse")]
 pub struct QueryValidateCreateMarketResponse {
@@ -2165,7 +2016,6 @@ pub struct QueryValidateCreateMarketResponse {
     pub gov_prop_will_pass: bool,
 }
 /// QueryValidateMarketRequest is a request message for the ValidateMarket query.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryValidateMarketRequest")]
 #[proto_query(
@@ -2178,7 +2028,6 @@ pub struct QueryValidateMarketRequest {
     pub market_id: u32,
 }
 /// QueryValidateMarketResponse is a response message for the ValidateMarket query.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryValidateMarketResponse")]
 pub struct QueryValidateMarketResponse {
@@ -2187,7 +2036,6 @@ pub struct QueryValidateMarketResponse {
     pub error: ::prost::alloc::string::String,
 }
 /// QueryValidateManageFeesRequest is a request message for the ValidateManageFees query.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryValidateManageFeesRequest")]
 #[proto_query(
@@ -2200,7 +2048,6 @@ pub struct QueryValidateManageFeesRequest {
     pub manage_fees_request: ::core::option::Option<MsgGovManageFeesRequest>,
 }
 /// QueryValidateManageFeesResponse is a response message for the ValidateManageFees query.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryValidateManageFeesResponse")]
 pub struct QueryValidateManageFeesResponse {
@@ -2216,7 +2063,6 @@ pub struct QueryValidateManageFeesResponse {
     pub gov_prop_will_pass: bool,
 }
 /// QueryGetPaymentRequest is a request message for the GetPayment query.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryGetPaymentRequest")]
 #[proto_query(
@@ -2232,7 +2078,6 @@ pub struct QueryGetPaymentRequest {
     pub external_id: ::prost::alloc::string::String,
 }
 /// QueryGetPaymentResponse is a response message for the GetPayment query.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryGetPaymentResponse")]
 pub struct QueryGetPaymentResponse {
@@ -2241,7 +2086,6 @@ pub struct QueryGetPaymentResponse {
     pub payment: ::core::option::Option<Payment>,
 }
 /// QueryGetPaymentsWithSourceRequest is a request message for the GetPaymentsWithSource query.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryGetPaymentsWithSourceRequest")]
 #[proto_query(
@@ -2258,7 +2102,6 @@ pub struct QueryGetPaymentsWithSourceRequest {
         ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageRequest>,
 }
 /// QueryGetPaymentsWithSourceResponse is a response message for the GetPaymentsWithSource query.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryGetPaymentsWithSourceResponse")]
 pub struct QueryGetPaymentsWithSourceResponse {
@@ -2271,7 +2114,6 @@ pub struct QueryGetPaymentsWithSourceResponse {
         ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageResponse>,
 }
 /// QueryGetPaymentsWithTargetRequest is a request message for the GetPaymentsWithTarget query.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryGetPaymentsWithTargetRequest")]
 #[proto_query(
@@ -2288,7 +2130,6 @@ pub struct QueryGetPaymentsWithTargetRequest {
         ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageRequest>,
 }
 /// QueryGetPaymentsWithTargetResponse is a response message for the GetPaymentsWithTarget query.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryGetPaymentsWithTargetResponse")]
 pub struct QueryGetPaymentsWithTargetResponse {
@@ -2301,7 +2142,6 @@ pub struct QueryGetPaymentsWithTargetResponse {
         ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageResponse>,
 }
 /// QueryGetAllPaymentsRequest is a request message for the GetAllPayments query.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryGetAllPaymentsRequest")]
 #[proto_query(
@@ -2315,7 +2155,6 @@ pub struct QueryGetAllPaymentsRequest {
         ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageRequest>,
 }
 /// QueryGetAllPaymentsResponse is a response message for the GetAllPayments query.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryGetAllPaymentsResponse")]
 pub struct QueryGetAllPaymentsResponse {
@@ -2328,7 +2167,6 @@ pub struct QueryGetAllPaymentsResponse {
         ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageResponse>,
 }
 /// QueryPaymentFeeCalcRequest is a request message for the PaymentFeeCalc query.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryPaymentFeeCalcRequest")]
 #[proto_query(
@@ -2341,7 +2179,6 @@ pub struct QueryPaymentFeeCalcRequest {
     pub payment: ::core::option::Option<Payment>,
 }
 /// QueryPaymentFeeCalcResponse is a response message for the PaymentFeeCalc query.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.QueryPaymentFeeCalcResponse")]
 pub struct QueryPaymentFeeCalcResponse {

@@ -2,7 +2,6 @@ use provwasm_proc_macro::CosmwasmExt;
 /// BaseAccount defines a base account type. It contains all the necessary fields
 /// for basic account functionality. Any custom account type should extend this
 /// type for additional functionality (e.g. vesting).
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.auth.v1beta1.BaseAccount")]
 pub struct BaseAccount {
@@ -16,7 +15,6 @@ pub struct BaseAccount {
     pub sequence: u64,
 }
 /// ModuleAccount defines an account for modules that holds coins on a pool.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.auth.v1beta1.ModuleAccount")]
 pub struct ModuleAccount {
@@ -30,7 +28,6 @@ pub struct ModuleAccount {
 /// ModuleCredential represents a unclaimable pubkey for base accounts controlled by modules.
 ///
 /// Since: cosmos-sdk 0.47
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.auth.v1beta1.ModuleCredential")]
 pub struct ModuleCredential {
@@ -43,7 +40,6 @@ pub struct ModuleCredential {
     pub derivation_keys: ::prost::alloc::vec::Vec<::prost::alloc::vec::Vec<u8>>,
 }
 /// Params defines the parameters for the auth module.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.auth.v1beta1.Params")]
 pub struct Params {
@@ -59,7 +55,6 @@ pub struct Params {
     pub sig_verify_cost_secp256k1: u64,
 }
 /// GenesisState defines the auth module's genesis state.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.auth.v1beta1.GenesisState")]
 pub struct GenesisState {
@@ -73,7 +68,6 @@ pub struct GenesisState {
 /// QueryAccountsRequest is the request type for the Query/Accounts RPC method.
 ///
 /// Since: cosmos-sdk 0.43
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.auth.v1beta1.QueryAccountsRequest")]
 #[proto_query(
@@ -88,7 +82,6 @@ pub struct QueryAccountsRequest {
 /// QueryAccountsResponse is the response type for the Query/Accounts RPC method.
 ///
 /// Since: cosmos-sdk 0.43
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.auth.v1beta1.QueryAccountsResponse")]
 pub struct QueryAccountsResponse {
@@ -100,7 +93,6 @@ pub struct QueryAccountsResponse {
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageResponse>,
 }
 /// QueryAccountRequest is the request type for the Query/Account RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.auth.v1beta1.QueryAccountRequest")]
 #[proto_query(
@@ -113,7 +105,6 @@ pub struct QueryAccountRequest {
     pub address: ::prost::alloc::string::String,
 }
 /// QueryAccountResponse is the response type for the Query/Account RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.auth.v1beta1.QueryAccountResponse")]
 pub struct QueryAccountResponse {
@@ -122,7 +113,6 @@ pub struct QueryAccountResponse {
     pub account: ::core::option::Option<crate::shim::Any>,
 }
 /// QueryParamsRequest is the request type for the Query/Params RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.auth.v1beta1.QueryParamsRequest")]
 #[proto_query(
@@ -131,7 +121,6 @@ pub struct QueryAccountResponse {
 )]
 pub struct QueryParamsRequest {}
 /// QueryParamsResponse is the response type for the Query/Params RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.auth.v1beta1.QueryParamsResponse")]
 pub struct QueryParamsResponse {
@@ -142,7 +131,6 @@ pub struct QueryParamsResponse {
 /// QueryModuleAccountsRequest is the request type for the Query/ModuleAccounts RPC method.
 ///
 /// Since: cosmos-sdk 0.46
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.auth.v1beta1.QueryModuleAccountsRequest")]
 #[proto_query(
@@ -153,7 +141,6 @@ pub struct QueryModuleAccountsRequest {}
 /// QueryModuleAccountsResponse is the response type for the Query/ModuleAccounts RPC method.
 ///
 /// Since: cosmos-sdk 0.46
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.auth.v1beta1.QueryModuleAccountsResponse")]
 pub struct QueryModuleAccountsResponse {
@@ -161,7 +148,6 @@ pub struct QueryModuleAccountsResponse {
     pub accounts: ::prost::alloc::vec::Vec<crate::shim::Any>,
 }
 /// QueryModuleAccountByNameRequest is the request type for the Query/ModuleAccountByName RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.auth.v1beta1.QueryModuleAccountByNameRequest")]
 #[proto_query(
@@ -173,7 +159,6 @@ pub struct QueryModuleAccountByNameRequest {
     pub name: ::prost::alloc::string::String,
 }
 /// QueryModuleAccountByNameResponse is the response type for the Query/ModuleAccountByName RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.auth.v1beta1.QueryModuleAccountByNameResponse")]
 pub struct QueryModuleAccountByNameResponse {
@@ -183,7 +168,6 @@ pub struct QueryModuleAccountByNameResponse {
 /// Bech32PrefixRequest is the request type for Bech32Prefix rpc method.
 ///
 /// Since: cosmos-sdk 0.46
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.auth.v1beta1.Bech32PrefixRequest")]
 #[proto_query(
@@ -194,7 +178,6 @@ pub struct Bech32PrefixRequest {}
 /// Bech32PrefixResponse is the response type for Bech32Prefix rpc method.
 ///
 /// Since: cosmos-sdk 0.46
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.auth.v1beta1.Bech32PrefixResponse")]
 pub struct Bech32PrefixResponse {
@@ -204,7 +187,6 @@ pub struct Bech32PrefixResponse {
 /// AddressBytesToStringRequest is the request type for AddressString rpc method.
 ///
 /// Since: cosmos-sdk 0.46
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.auth.v1beta1.AddressBytesToStringRequest")]
 #[proto_query(
@@ -218,7 +200,6 @@ pub struct AddressBytesToStringRequest {
 /// AddressBytesToStringResponse is the response type for AddressString rpc method.
 ///
 /// Since: cosmos-sdk 0.46
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.auth.v1beta1.AddressBytesToStringResponse")]
 pub struct AddressBytesToStringResponse {
@@ -228,7 +209,6 @@ pub struct AddressBytesToStringResponse {
 /// AddressStringToBytesRequest is the request type for AccountBytes rpc method.
 ///
 /// Since: cosmos-sdk 0.46
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.auth.v1beta1.AddressStringToBytesRequest")]
 #[proto_query(
@@ -242,7 +222,6 @@ pub struct AddressStringToBytesRequest {
 /// AddressStringToBytesResponse is the response type for AddressBytes rpc method.
 ///
 /// Since: cosmos-sdk 0.46
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.auth.v1beta1.AddressStringToBytesResponse")]
 pub struct AddressStringToBytesResponse {
@@ -252,7 +231,6 @@ pub struct AddressStringToBytesResponse {
 /// QueryAccountAddressByIDRequest is the request type for AccountAddressByID rpc method
 ///
 /// Since: cosmos-sdk 0.46.2
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.auth.v1beta1.QueryAccountAddressByIDRequest")]
 #[proto_query(
@@ -277,7 +255,6 @@ pub struct QueryAccountAddressByIdRequest {
 /// QueryAccountAddressByIDResponse is the response type for AccountAddressByID rpc method
 ///
 /// Since: cosmos-sdk 0.46.2
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.auth.v1beta1.QueryAccountAddressByIDResponse")]
 pub struct QueryAccountAddressByIdResponse {
@@ -287,7 +264,6 @@ pub struct QueryAccountAddressByIdResponse {
 /// QueryAccountInfoRequest is the Query/AccountInfo request type.
 ///
 /// Since: cosmos-sdk 0.47
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.auth.v1beta1.QueryAccountInfoRequest")]
 #[proto_query(
@@ -302,7 +278,6 @@ pub struct QueryAccountInfoRequest {
 /// QueryAccountInfoResponse is the Query/AccountInfo response type.
 ///
 /// Since: cosmos-sdk 0.47
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.auth.v1beta1.QueryAccountInfoResponse")]
 pub struct QueryAccountInfoResponse {
@@ -313,7 +288,6 @@ pub struct QueryAccountInfoResponse {
 /// MsgUpdateParams is the Msg/UpdateParams request type.
 ///
 /// Since: cosmos-sdk 0.47
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.auth.v1beta1.MsgUpdateParams")]
 pub struct MsgUpdateParams {
@@ -330,7 +304,6 @@ pub struct MsgUpdateParams {
 /// MsgUpdateParams message.
 ///
 /// Since: cosmos-sdk 0.47
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.auth.v1beta1.MsgUpdateParamsResponse")]
 pub struct MsgUpdateParamsResponse {}

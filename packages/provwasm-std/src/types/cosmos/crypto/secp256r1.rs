@@ -1,6 +1,5 @@
 use provwasm_proc_macro::CosmwasmExt;
 /// PubKey defines a secp256r1 ECDSA public key.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.crypto.secp256r1.PubKey")]
 pub struct PubKey {
@@ -10,7 +9,6 @@ pub struct PubKey {
     pub key: ::prost::alloc::vec::Vec<u8>,
 }
 /// PrivKey defines a secp256r1 ECDSA private key.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.crypto.secp256r1.PrivKey")]
 pub struct PrivKey {

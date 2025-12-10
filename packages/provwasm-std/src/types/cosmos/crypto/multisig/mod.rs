@@ -3,7 +3,6 @@ use provwasm_proc_macro::CosmwasmExt;
 /// LegacyAminoPubKey specifies a public key type
 /// which nests multiple public keys and a threshold,
 /// it uses legacy amino address rules.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.crypto.multisig.LegacyAminoPubKey")]
 pub struct LegacyAminoPubKey {

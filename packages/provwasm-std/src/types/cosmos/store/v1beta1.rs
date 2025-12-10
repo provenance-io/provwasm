@@ -4,7 +4,6 @@ use provwasm_proc_macro::CosmwasmExt;
 /// Deletes
 ///
 /// Since: cosmos-sdk 0.43
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.store.v1beta1.StoreKVPair")]
 pub struct StoreKvPair {
@@ -21,7 +20,6 @@ pub struct StoreKvPair {
 }
 /// BlockMetadata contains all the abci event data of a block
 /// the file streamer dump them into files together with the state changes.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.store.v1beta1.BlockMetadata")]
 pub struct BlockMetadata {
@@ -38,7 +36,6 @@ pub struct BlockMetadata {
 }
 /// CommitInfo defines commit information used by the multi-store when committing
 /// a version/height.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.store.v1beta1.CommitInfo")]
 pub struct CommitInfo {
@@ -51,7 +48,6 @@ pub struct CommitInfo {
 }
 /// StoreInfo defines store-specific commit information. It contains a reference
 /// between a store name and the commit ID.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.store.v1beta1.StoreInfo")]
 pub struct StoreInfo {
@@ -62,7 +58,6 @@ pub struct StoreInfo {
 }
 /// CommitID defines the commitment information when a specific store is
 /// committed.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.store.v1beta1.CommitID")]
 pub struct CommitId {

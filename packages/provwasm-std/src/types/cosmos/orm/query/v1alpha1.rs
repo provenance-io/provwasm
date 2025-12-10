@@ -1,6 +1,5 @@
 use provwasm_proc_macro::CosmwasmExt;
 /// GetRequest is the Query/Get request type.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.orm.query.v1alpha1.GetRequest")]
 #[proto_query(
@@ -23,7 +22,6 @@ pub struct GetRequest {
     pub values: ::prost::alloc::vec::Vec<IndexValue>,
 }
 /// GetResponse is the Query/Get response type.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.orm.query.v1alpha1.GetResponse")]
 pub struct GetResponse {
@@ -33,7 +31,6 @@ pub struct GetResponse {
     pub result: ::core::option::Option<crate::shim::Any>,
 }
 /// ListRequest is the Query/List request type.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.orm.query.v1alpha1.ListRequest")]
 #[proto_query(
@@ -61,7 +58,6 @@ pub struct ListRequest {
 pub mod list_request {
     use provwasm_proc_macro::CosmwasmExt;
     /// Prefix specifies the arguments to a prefix query.
-    #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
     #[proto_message(type_url = "/cosmos.orm.query.v1alpha1.ListRequest.Prefix")]
     pub struct Prefix {
@@ -72,7 +68,6 @@ pub mod list_request {
         pub values: ::prost::alloc::vec::Vec<super::IndexValue>,
     }
     /// Range specifies the arguments to a range query.
-    #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
     #[proto_message(type_url = "/cosmos.orm.query.v1alpha1.ListRequest.Range")]
     pub struct Range {
@@ -90,7 +85,6 @@ pub mod list_request {
     /// query is the query expression corresponding to the provided index. If
     /// neither prefix nor range is specified, the query will list all the fields
     /// in the index.
-    #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, Eq, ::prost::Oneof, ::schemars::JsonSchema)]
     pub enum Query {
         /// prefix defines a prefix query.
@@ -102,7 +96,6 @@ pub mod list_request {
     }
 }
 /// ListResponse is the Query/List response type.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.orm.query.v1alpha1.ListResponse")]
 pub struct ListResponse {
@@ -114,7 +107,6 @@ pub struct ListResponse {
     pub pagination: ::core::option::Option<super::super::super::base::query::v1beta1::PageResponse>,
 }
 /// IndexValue represents the value of a field in an ORM index expression.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.orm.query.v1alpha1.IndexValue")]
 pub struct IndexValue {
@@ -126,7 +118,6 @@ pub struct IndexValue {
 pub mod index_value {
     use provwasm_proc_macro::CosmwasmExt;
     /// value specifies the index value
-    #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, Eq, ::prost::Oneof, ::schemars::JsonSchema)]
     pub enum Value {
         /// uint specifies a value for an uint32, fixed32, uint64, or fixed64

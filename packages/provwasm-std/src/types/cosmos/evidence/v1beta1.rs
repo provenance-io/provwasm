@@ -1,7 +1,6 @@
 use provwasm_proc_macro::CosmwasmExt;
 /// Equivocation implements the Evidence interface and defines evidence of double
 /// signing misbehavior.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.evidence.v1beta1.Equivocation")]
 pub struct Equivocation {
@@ -19,7 +18,6 @@ pub struct Equivocation {
     pub consensus_address: ::prost::alloc::string::String,
 }
 /// GenesisState defines the evidence module's genesis state.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.evidence.v1beta1.GenesisState")]
 pub struct GenesisState {
@@ -28,7 +26,6 @@ pub struct GenesisState {
     pub evidence: ::prost::alloc::vec::Vec<crate::shim::Any>,
 }
 /// QueryEvidenceRequest is the request type for the Query/Evidence RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.evidence.v1beta1.QueryEvidenceRequest")]
 #[proto_query(
@@ -48,7 +45,6 @@ pub struct QueryEvidenceRequest {
     pub hash: ::prost::alloc::string::String,
 }
 /// QueryEvidenceResponse is the response type for the Query/Evidence RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.evidence.v1beta1.QueryEvidenceResponse")]
 pub struct QueryEvidenceResponse {
@@ -58,7 +54,6 @@ pub struct QueryEvidenceResponse {
 }
 /// QueryEvidenceRequest is the request type for the Query/AllEvidence RPC
 /// method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.evidence.v1beta1.QueryAllEvidenceRequest")]
 #[proto_query(
@@ -72,7 +67,6 @@ pub struct QueryAllEvidenceRequest {
 }
 /// QueryAllEvidenceResponse is the response type for the Query/AllEvidence RPC
 /// method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.evidence.v1beta1.QueryAllEvidenceResponse")]
 pub struct QueryAllEvidenceResponse {
@@ -85,7 +79,6 @@ pub struct QueryAllEvidenceResponse {
 }
 /// MsgSubmitEvidence represents a message that supports submitting arbitrary
 /// Evidence of misbehavior such as equivocation or counterfactual signing.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.evidence.v1beta1.MsgSubmitEvidence")]
 pub struct MsgSubmitEvidence {
@@ -97,7 +90,6 @@ pub struct MsgSubmitEvidence {
     pub evidence: ::core::option::Option<crate::shim::Any>,
 }
 /// MsgSubmitEvidenceResponse defines the Msg/SubmitEvidence response type.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.evidence.v1beta1.MsgSubmitEvidenceResponse")]
 pub struct MsgSubmitEvidenceResponse {

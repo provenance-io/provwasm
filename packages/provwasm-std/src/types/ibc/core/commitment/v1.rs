@@ -1,7 +1,6 @@
 use provwasm_proc_macro::CosmwasmExt;
 /// MerkleRoot defines a merkle root hash.
 /// In the Cosmos SDK, the AppHash of a block header becomes the root.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.commitment.v1.MerkleRoot")]
 pub struct MerkleRoot {
@@ -11,7 +10,6 @@ pub struct MerkleRoot {
 /// MerklePrefix is merkle path prefixed to the key.
 /// The constructed key from the Path and the key will be append(Path.KeyPath,
 /// append(Path.KeyPrefix, key...))
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.commitment.v1.MerklePrefix")]
 pub struct MerklePrefix {
@@ -21,7 +19,6 @@ pub struct MerklePrefix {
 /// MerklePath is the path used to verify commitment proofs, which can be an
 /// arbitrary structured object (defined by a commitment type).
 /// MerklePath is represented from root-to-leaf
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.commitment.v1.MerklePath")]
 pub struct MerklePath {
@@ -33,7 +30,6 @@ pub struct MerklePath {
 /// elements, verifiable in conjunction with a known commitment root. Proofs
 /// should be succinct.
 /// MerkleProofs are ordered from leaf-to-root
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.commitment.v1.MerkleProof")]
 pub struct MerkleProof {

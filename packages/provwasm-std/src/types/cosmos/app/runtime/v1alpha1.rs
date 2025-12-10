@@ -1,6 +1,5 @@
 use provwasm_proc_macro::CosmwasmExt;
 /// Module is the config object for the runtime module.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.app.runtime.v1alpha1.Module")]
 pub struct Module {
@@ -49,7 +48,6 @@ pub struct Module {
 }
 /// StoreKeyConfig may be supplied to override the default module store key, which
 /// is the module name.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.app.runtime.v1alpha1.StoreKeyConfig")]
 pub struct StoreKeyConfig {

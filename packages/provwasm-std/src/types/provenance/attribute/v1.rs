@@ -1,6 +1,5 @@
 use provwasm_proc_macro::CosmwasmExt;
 /// Params defines the set of params for the attribute module.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.attribute.v1.Params")]
 pub struct Params {
@@ -9,7 +8,6 @@ pub struct Params {
     pub max_value_length: u32,
 }
 /// Attribute holds a typed key/value structure for data associated with an account
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.attribute.v1.Attribute")]
 pub struct Attribute {
@@ -34,7 +32,6 @@ pub struct Attribute {
     pub concrete_type: ::prost::alloc::string::String,
 }
 /// EventAttributeAdd event emitted when attribute is added
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.attribute.v1.EventAttributeAdd")]
 pub struct EventAttributeAdd {
@@ -52,7 +49,6 @@ pub struct EventAttributeAdd {
     pub expiration: ::prost::alloc::string::String,
 }
 /// EventAttributeUpdate event emitted when attribute is updated
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.attribute.v1.EventAttributeUpdate")]
 pub struct EventAttributeUpdate {
@@ -72,7 +68,6 @@ pub struct EventAttributeUpdate {
     pub owner: ::prost::alloc::string::String,
 }
 /// EventAttributeExpirationUpdate event emitted when attribute expiration is updated
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.attribute.v1.EventAttributeExpirationUpdate")]
 pub struct EventAttributeExpirationUpdate {
@@ -90,7 +85,6 @@ pub struct EventAttributeExpirationUpdate {
     pub updated_expiration: ::prost::alloc::string::String,
 }
 /// EventAttributeDelete event emitted when attribute is deleted
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.attribute.v1.EventAttributeDelete")]
 pub struct EventAttributeDelete {
@@ -102,7 +96,6 @@ pub struct EventAttributeDelete {
     pub owner: ::prost::alloc::string::String,
 }
 /// EventAttributeDistinctDelete event emitted when attribute is deleted with matching value
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.attribute.v1.EventAttributeDistinctDelete")]
 pub struct EventAttributeDistinctDelete {
@@ -118,7 +111,6 @@ pub struct EventAttributeDistinctDelete {
     pub owner: ::prost::alloc::string::String,
 }
 /// EventAttributeExpired event emitted when attribute has expired and been deleted in BeginBlocker
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.attribute.v1.EventAttributeExpired")]
 pub struct EventAttributeExpired {
@@ -134,7 +126,6 @@ pub struct EventAttributeExpired {
     pub expiration: ::prost::alloc::string::String,
 }
 /// EventAccountDataUpdated event emitted when accountdata is set, updated, or deleted.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.attribute.v1.EventAccountDataUpdated")]
 pub struct EventAccountDataUpdated {
@@ -142,7 +133,6 @@ pub struct EventAccountDataUpdated {
     pub account: ::prost::alloc::string::String,
 }
 /// EventAttributeParamsUpdated event emitted when attribute params are updated.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.attribute.v1.EventAttributeParamsUpdated")]
 pub struct EventAttributeParamsUpdated {
@@ -151,16 +141,7 @@ pub struct EventAttributeParamsUpdated {
 }
 /// AttributeType defines the type of the data stored in the attribute value
 #[derive(
-    Clone,
-    Copy,
-    Debug,
-    PartialEq,
-    Eq,
-    Hash,
-    PartialOrd,
-    Ord,
-    ::prost::Enumeration,
-    ::schemars::JsonSchema,
+    Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, ::prost::Enumeration, ::schemars::JsonSchema,
 )]
 #[repr(i32)]
 pub enum AttributeType {
@@ -190,15 +171,15 @@ impl AttributeType {
     /// (if the ProtoBuf definition does not change) and safe for programmatic use.
     pub fn as_str_name(&self) -> &'static str {
         match self {
-            AttributeType::Unspecified => "ATTRIBUTE_TYPE_UNSPECIFIED",
-            AttributeType::Uuid => "ATTRIBUTE_TYPE_UUID",
-            AttributeType::Json => "ATTRIBUTE_TYPE_JSON",
-            AttributeType::String => "ATTRIBUTE_TYPE_STRING",
-            AttributeType::Uri => "ATTRIBUTE_TYPE_URI",
-            AttributeType::Int => "ATTRIBUTE_TYPE_INT",
-            AttributeType::Float => "ATTRIBUTE_TYPE_FLOAT",
-            AttributeType::Proto => "ATTRIBUTE_TYPE_PROTO",
-            AttributeType::Bytes => "ATTRIBUTE_TYPE_BYTES",
+            Self::Unspecified => "ATTRIBUTE_TYPE_UNSPECIFIED",
+            Self::Uuid => "ATTRIBUTE_TYPE_UUID",
+            Self::Json => "ATTRIBUTE_TYPE_JSON",
+            Self::String => "ATTRIBUTE_TYPE_STRING",
+            Self::Uri => "ATTRIBUTE_TYPE_URI",
+            Self::Int => "ATTRIBUTE_TYPE_INT",
+            Self::Float => "ATTRIBUTE_TYPE_FLOAT",
+            Self::Proto => "ATTRIBUTE_TYPE_PROTO",
+            Self::Bytes => "ATTRIBUTE_TYPE_BYTES",
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.
@@ -218,7 +199,6 @@ impl AttributeType {
     }
 }
 /// GenesisState defines the attribute module's genesis state.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.attribute.v1.GenesisState")]
 pub struct GenesisState {
@@ -230,7 +210,6 @@ pub struct GenesisState {
     pub attributes: ::prost::alloc::vec::Vec<Attribute>,
 }
 /// QueryParamsRequest is the request type for the Query/Params RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.attribute.v1.QueryParamsRequest")]
 #[proto_query(
@@ -239,7 +218,6 @@ pub struct GenesisState {
 )]
 pub struct QueryParamsRequest {}
 /// QueryParamsResponse is the response type for the Query/Params RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.attribute.v1.QueryParamsResponse")]
 pub struct QueryParamsResponse {
@@ -248,7 +226,6 @@ pub struct QueryParamsResponse {
     pub params: ::core::option::Option<Params>,
 }
 /// QueryAttributeRequest is the request type for the Query/Attribute method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.attribute.v1.QueryAttributeRequest")]
 #[proto_query(
@@ -268,7 +245,6 @@ pub struct QueryAttributeRequest {
         ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageRequest>,
 }
 /// QueryAttributeResponse is the response type for the Query/Attribute method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.attribute.v1.QueryAttributeResponse")]
 pub struct QueryAttributeResponse {
@@ -284,7 +260,6 @@ pub struct QueryAttributeResponse {
         ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageResponse>,
 }
 /// QueryAttributesRequest is the request type for the Query/Attributes method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.attribute.v1.QueryAttributesRequest")]
 #[proto_query(
@@ -301,7 +276,6 @@ pub struct QueryAttributesRequest {
         ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageRequest>,
 }
 /// QueryAttributesResponse is the response type for the Query/Attributes method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.attribute.v1.QueryAttributesResponse")]
 pub struct QueryAttributesResponse {
@@ -317,7 +291,6 @@ pub struct QueryAttributesResponse {
         ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageResponse>,
 }
 /// QueryScanRequest is the request type for the Query/Scan method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.attribute.v1.QueryScanRequest")]
 #[proto_query(
@@ -337,7 +310,6 @@ pub struct QueryScanRequest {
         ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageRequest>,
 }
 /// QueryScanResponse is the response type for the Query/Scan method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.attribute.v1.QueryScanResponse")]
 pub struct QueryScanResponse {
@@ -353,7 +325,6 @@ pub struct QueryScanResponse {
         ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageResponse>,
 }
 /// QueryAttributeAccountsRequest is the request type for the Query/AttributeAccounts method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.attribute.v1.QueryAttributeAccountsRequest")]
 #[proto_query(
@@ -370,7 +341,6 @@ pub struct QueryAttributeAccountsRequest {
         ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageRequest>,
 }
 /// QueryAttributeAccountsResponse is the response type for the Query/AttributeAccounts method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.attribute.v1.QueryAttributeAccountsResponse")]
 pub struct QueryAttributeAccountsResponse {
@@ -383,7 +353,6 @@ pub struct QueryAttributeAccountsResponse {
         ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageResponse>,
 }
 /// QueryAccountDataRequest is the request type for the Query/AccountData method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.attribute.v1.QueryAccountDataRequest")]
 #[proto_query(
@@ -396,7 +365,6 @@ pub struct QueryAccountDataRequest {
     pub account: ::prost::alloc::string::String,
 }
 /// QueryAccountDataResponse is the response type for the Query/AccountData method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.attribute.v1.QueryAccountDataResponse")]
 pub struct QueryAccountDataResponse {
@@ -406,7 +374,6 @@ pub struct QueryAccountDataResponse {
 }
 /// MsgAddAttributeRequest defines an sdk.Msg type that is used to add a new attribute to an account.
 /// Attributes may only be set in an account by the account that the attribute name resolves to.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.attribute.v1.MsgAddAttributeRequest")]
 pub struct MsgAddAttributeRequest {
@@ -434,13 +401,11 @@ pub struct MsgAddAttributeRequest {
     pub concrete_type: ::prost::alloc::string::String,
 }
 /// MsgAddAttributeResponse defines the Msg/AddAttribute response type.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.attribute.v1.MsgAddAttributeResponse")]
 pub struct MsgAddAttributeResponse {}
 /// MsgUpdateAttributeRequest defines an sdk.Msg type that is used to update an existing attribute to an account.
 /// Attributes may only be set in an account by the account that the attribute name resolves to.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.attribute.v1.MsgUpdateAttributeRequest")]
 pub struct MsgUpdateAttributeRequest {
@@ -471,13 +436,11 @@ pub struct MsgUpdateAttributeRequest {
     pub concrete_type: ::prost::alloc::string::String,
 }
 /// MsgUpdateAttributeResponse defines the Msg/UpdateAttribute response type.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.attribute.v1.MsgUpdateAttributeResponse")]
 pub struct MsgUpdateAttributeResponse {}
 /// MsgUpdateAttributeExpirationRequest defines an sdk.Msg type that is used to update an existing attribute's expiration
 /// date
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.attribute.v1.MsgUpdateAttributeExpirationRequest")]
 pub struct MsgUpdateAttributeExpirationRequest {
@@ -498,13 +461,11 @@ pub struct MsgUpdateAttributeExpirationRequest {
     pub owner: ::prost::alloc::string::String,
 }
 /// MsgUpdateAttributeExpirationResponse defines the Msg/Vote response type.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.attribute.v1.MsgUpdateAttributeExpirationResponse")]
 pub struct MsgUpdateAttributeExpirationResponse {}
 /// MsgDeleteAttributeRequest defines a message to delete an attribute from an account
 /// Attributes may only be removed from an account by the account that the attribute name resolves to.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.attribute.v1.MsgDeleteAttributeRequest")]
 pub struct MsgDeleteAttributeRequest {
@@ -519,13 +480,11 @@ pub struct MsgDeleteAttributeRequest {
     pub owner: ::prost::alloc::string::String,
 }
 /// MsgDeleteAttributeResponse defines the Msg/DeleteAttribute response type.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.attribute.v1.MsgDeleteAttributeResponse")]
 pub struct MsgDeleteAttributeResponse {}
 /// MsgDeleteDistinctAttributeRequest defines a message to delete an attribute with matching name, value, and type from
 /// an account. Attributes may only be removed from an account by the account that the attribute name resolves to.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.attribute.v1.MsgDeleteDistinctAttributeRequest")]
 pub struct MsgDeleteDistinctAttributeRequest {
@@ -543,12 +502,10 @@ pub struct MsgDeleteDistinctAttributeRequest {
     pub owner: ::prost::alloc::string::String,
 }
 /// MsgDeleteDistinctAttributeResponse defines the Msg/DeleteDistinctAttribute response type.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.attribute.v1.MsgDeleteDistinctAttributeResponse")]
 pub struct MsgDeleteDistinctAttributeResponse {}
 /// MsgSetAccountDataRequest defines a message to set an account's accountdata attribute.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.attribute.v1.MsgSetAccountDataRequest")]
 pub struct MsgSetAccountDataRequest {
@@ -558,12 +515,10 @@ pub struct MsgSetAccountDataRequest {
     pub account: ::prost::alloc::string::String,
 }
 /// MsgSetAccountDataResponse defines the Msg/SetAccountData response type.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.attribute.v1.MsgSetAccountDataResponse")]
 pub struct MsgSetAccountDataResponse {}
 /// MsgUpdateParamsRequest is a request message for the UpdateParams endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.attribute.v1.MsgUpdateParamsRequest")]
 pub struct MsgUpdateParamsRequest {
@@ -575,7 +530,6 @@ pub struct MsgUpdateParamsRequest {
     pub params: ::core::option::Option<Params>,
 }
 /// MsgUpdateParamsResponse is a response message for the UpdateParams endpoint.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.attribute.v1.MsgUpdateParamsResponse")]
 pub struct MsgUpdateParamsResponse {}

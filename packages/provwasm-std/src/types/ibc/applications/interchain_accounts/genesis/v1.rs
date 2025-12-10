@@ -1,6 +1,5 @@
 use provwasm_proc_macro::CosmwasmExt;
 /// GenesisState defines the interchain accounts genesis state
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.interchain_accounts.genesis.v1.GenesisState")]
 pub struct GenesisState {
@@ -10,7 +9,6 @@ pub struct GenesisState {
     pub host_genesis_state: ::core::option::Option<HostGenesisState>,
 }
 /// ControllerGenesisState defines the interchain accounts controller genesis state
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(
     type_url = "/ibc.applications.interchain_accounts.genesis.v1.ControllerGenesisState"
@@ -26,7 +24,6 @@ pub struct ControllerGenesisState {
     pub params: ::core::option::Option<super::super::controller::v1::Params>,
 }
 /// HostGenesisState defines the interchain accounts host genesis state
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.interchain_accounts.genesis.v1.HostGenesisState")]
 pub struct HostGenesisState {
@@ -41,7 +38,6 @@ pub struct HostGenesisState {
 }
 /// ActiveChannel contains a connection ID, port ID and associated active channel ID, as well as a boolean flag to
 /// indicate if the channel is middleware enabled
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.interchain_accounts.genesis.v1.ActiveChannel")]
 pub struct ActiveChannel {
@@ -55,7 +51,6 @@ pub struct ActiveChannel {
     pub is_middleware_enabled: bool,
 }
 /// RegisteredInterchainAccount contains a connection ID, port ID and associated interchain account address
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(
     type_url = "/ibc.applications.interchain_accounts.genesis.v1.RegisteredInterchainAccount"

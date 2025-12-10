@@ -1,6 +1,5 @@
 use provwasm_proc_macro::CosmwasmExt;
 /// EventHoldAdded is an event indicating that some funds were placed on hold in an account.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.hold.v1.EventHoldAdded")]
 pub struct EventHoldAdded {
@@ -15,7 +14,6 @@ pub struct EventHoldAdded {
     pub reason: ::prost::alloc::string::String,
 }
 /// EventHoldReleased is an event indicating that some funds were released from hold for an account.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.hold.v1.EventHoldReleased")]
 pub struct EventHoldReleased {
@@ -27,7 +25,6 @@ pub struct EventHoldReleased {
     pub amount: ::prost::alloc::string::String,
 }
 /// EventUnlockVestingAccounts is an event indicating that a vesting account has been unlocked.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.hold.v1.EventVestingAccountUnlocked")]
 pub struct EventVestingAccountUnlocked {
@@ -35,7 +32,6 @@ pub struct EventVestingAccountUnlocked {
     pub address: ::prost::alloc::string::String,
 }
 /// AccountHold associates an address with an amount on hold for that address.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.hold.v1.AccountHold")]
 pub struct AccountHold {
@@ -47,7 +43,6 @@ pub struct AccountHold {
     pub amount: ::prost::alloc::vec::Vec<super::super::super::cosmos::base::v1beta1::Coin>,
 }
 /// GenesisState defines the attribute module's genesis state.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.hold.v1.GenesisState")]
 pub struct GenesisState {
@@ -56,7 +51,6 @@ pub struct GenesisState {
     pub holds: ::prost::alloc::vec::Vec<AccountHold>,
 }
 /// GetHoldsRequest is the request type for the Query/GetHolds query.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.hold.v1.GetHoldsRequest")]
 #[proto_query(
@@ -69,7 +63,6 @@ pub struct GetHoldsRequest {
     pub address: ::prost::alloc::string::String,
 }
 /// GetHoldsResponse is the response type for the Query/GetHolds query.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.hold.v1.GetHoldsResponse")]
 pub struct GetHoldsResponse {
@@ -78,7 +71,6 @@ pub struct GetHoldsResponse {
     pub amount: ::prost::alloc::vec::Vec<super::super::super::cosmos::base::v1beta1::Coin>,
 }
 /// GetAllHoldsRequest is the request type for the Query/GetAllHolds query.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.hold.v1.GetAllHoldsRequest")]
 #[proto_query(
@@ -92,7 +84,6 @@ pub struct GetAllHoldsRequest {
         ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageRequest>,
 }
 /// GetAllHoldsResponse is the response type for the Query/GetAllHolds query.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.hold.v1.GetAllHoldsResponse")]
 pub struct GetAllHoldsResponse {
@@ -105,7 +96,6 @@ pub struct GetAllHoldsResponse {
         ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageResponse>,
 }
 /// MsgUnlockVestingAccountsRequest defines the request for unlocking vesting accounts
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.hold.v1.MsgUnlockVestingAccountsRequest")]
 pub struct MsgUnlockVestingAccountsRequest {
@@ -117,7 +107,6 @@ pub struct MsgUnlockVestingAccountsRequest {
     pub addresses: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// MsgUnlockVestingAccountsResponse defines the response for unlocking vesting accounts
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.hold.v1.MsgUnlockVestingAccountsResponse")]
 pub struct MsgUnlockVestingAccountsResponse {}

@@ -1,6 +1,5 @@
 use provwasm_proc_macro::CosmwasmExt;
 /// SignatureDescriptors wraps multiple SignatureDescriptor's.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.tx.signing.v1beta1.SignatureDescriptors")]
 pub struct SignatureDescriptors {
@@ -12,7 +11,6 @@ pub struct SignatureDescriptors {
 /// a signature including the public key of the signer, signing modes and the
 /// signature itself. It is primarily used for coordinating signatures between
 /// clients.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.tx.signing.v1beta1.SignatureDescriptor")]
 pub struct SignatureDescriptor {
@@ -31,7 +29,6 @@ pub struct SignatureDescriptor {
 pub mod signature_descriptor {
     use provwasm_proc_macro::CosmwasmExt;
     /// Data represents signature data
-    #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
     #[proto_message(type_url = "/cosmos.tx.signing.v1beta1.SignatureDescriptor.Data")]
     pub struct Data {
@@ -43,7 +40,6 @@ pub mod signature_descriptor {
     pub mod data {
         use provwasm_proc_macro::CosmwasmExt;
         /// Single is the signature data for a single signer
-        #[allow(clippy::derive_partial_eq_without_eq)]
         #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
         #[proto_message(type_url = "/cosmos.tx.signing.v1beta1.SignatureDescriptor.Data.Single")]
         pub struct Single {
@@ -55,7 +51,6 @@ pub mod signature_descriptor {
             pub signature: ::prost::alloc::vec::Vec<u8>,
         }
         /// Multi is the signature data for a multisig public key
-        #[allow(clippy::derive_partial_eq_without_eq)]
         #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
         #[proto_message(type_url = "/cosmos.tx.signing.v1beta1.SignatureDescriptor.Data.Multi")]
         pub struct Multi {
@@ -69,7 +64,6 @@ pub mod signature_descriptor {
             pub signatures: ::prost::alloc::vec::Vec<super::Data>,
         }
         /// sum is the oneof that specifies whether this represents single or multi-signature data
-        #[allow(clippy::derive_partial_eq_without_eq)]
         #[derive(Clone, PartialEq, Eq, ::prost::Oneof, ::schemars::JsonSchema)]
         pub enum Sum {
             /// single represents a single signer
@@ -90,16 +84,7 @@ pub mod signature_descriptor {
 /// to this SignMode enum describing their sign mode so that different
 /// apps have a consistent version of this enum.
 #[derive(
-    Clone,
-    Copy,
-    Debug,
-    PartialEq,
-    Eq,
-    Hash,
-    PartialOrd,
-    Ord,
-    ::prost::Enumeration,
-    ::schemars::JsonSchema,
+    Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, ::prost::Enumeration, ::schemars::JsonSchema,
 )]
 #[repr(i32)]
 pub enum SignMode {
@@ -143,12 +128,12 @@ impl SignMode {
     /// (if the ProtoBuf definition does not change) and safe for programmatic use.
     pub fn as_str_name(&self) -> &'static str {
         match self {
-            SignMode::Unspecified => "SIGN_MODE_UNSPECIFIED",
-            SignMode::Direct => "SIGN_MODE_DIRECT",
-            SignMode::Textual => "SIGN_MODE_TEXTUAL",
-            SignMode::DirectAux => "SIGN_MODE_DIRECT_AUX",
-            SignMode::LegacyAminoJson => "SIGN_MODE_LEGACY_AMINO_JSON",
-            SignMode::Eip191 => "SIGN_MODE_EIP_191",
+            Self::Unspecified => "SIGN_MODE_UNSPECIFIED",
+            Self::Direct => "SIGN_MODE_DIRECT",
+            Self::Textual => "SIGN_MODE_TEXTUAL",
+            Self::DirectAux => "SIGN_MODE_DIRECT_AUX",
+            Self::LegacyAminoJson => "SIGN_MODE_LEGACY_AMINO_JSON",
+            Self::Eip191 => "SIGN_MODE_EIP_191",
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.

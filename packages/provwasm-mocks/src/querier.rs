@@ -20,7 +20,8 @@ pub struct MockProvenanceQuerier<C: DeserializeOwned = Empty> {
 
 impl MockProvenanceQuerier {
     /// Initialize a new [`MockProvenanceQuerier`].
-    /// * `balances` - Slice of balances passed to the `bank` module, where the first element
+    ///
+    /// `balances` - Slice of balances passed to the `bank` module, where the first element
     /// is the user address and the second element is the user's balance.
     pub fn new(balances: &[(&str, &[Coin])]) -> Self {
         MockProvenanceQuerier {
@@ -66,7 +67,7 @@ impl Querier for MockProvenanceQuerier {
             Ok(v) => v,
             Err(e) => {
                 return SystemResult::Err(SystemError::InvalidRequest {
-                    error: format!("Parsing query request: {}", e),
+                    error: format!("Parsing query request: {e}"),
                     request: bin_request.into(),
                 });
             }

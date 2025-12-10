@@ -1,7 +1,6 @@
 use provwasm_proc_macro::CosmwasmExt;
 /// ValidatorSigningInfo defines a validator's signing info for monitoring their
 /// liveness activity.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.slashing.v1beta1.ValidatorSigningInfo")]
 pub struct ValidatorSigningInfo {
@@ -29,7 +28,6 @@ pub struct ValidatorSigningInfo {
     pub missed_blocks_counter: i64,
 }
 /// Params represents the parameters used for by the slashing module.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.slashing.v1beta1.Params")]
 pub struct Params {
@@ -45,7 +43,6 @@ pub struct Params {
     pub slash_fraction_downtime: ::prost::alloc::vec::Vec<u8>,
 }
 /// GenesisState defines the slashing module's genesis state.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.slashing.v1beta1.GenesisState")]
 pub struct GenesisState {
@@ -62,7 +59,6 @@ pub struct GenesisState {
     pub missed_blocks: ::prost::alloc::vec::Vec<ValidatorMissedBlocks>,
 }
 /// SigningInfo stores validator signing info of corresponding address.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.slashing.v1beta1.SigningInfo")]
 pub struct SigningInfo {
@@ -75,7 +71,6 @@ pub struct SigningInfo {
 }
 /// ValidatorMissedBlocks contains array of missed blocks of corresponding
 /// address.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.slashing.v1beta1.ValidatorMissedBlocks")]
 pub struct ValidatorMissedBlocks {
@@ -87,7 +82,6 @@ pub struct ValidatorMissedBlocks {
     pub missed_blocks: ::prost::alloc::vec::Vec<MissedBlock>,
 }
 /// MissedBlock contains height and missed status as boolean.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.slashing.v1beta1.MissedBlock")]
 pub struct MissedBlock {
@@ -99,7 +93,6 @@ pub struct MissedBlock {
     pub missed: bool,
 }
 /// QueryParamsRequest is the request type for the Query/Params RPC method
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.slashing.v1beta1.QueryParamsRequest")]
 #[proto_query(
@@ -108,7 +101,6 @@ pub struct MissedBlock {
 )]
 pub struct QueryParamsRequest {}
 /// QueryParamsResponse is the response type for the Query/Params RPC method
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.slashing.v1beta1.QueryParamsResponse")]
 pub struct QueryParamsResponse {
@@ -117,7 +109,6 @@ pub struct QueryParamsResponse {
 }
 /// QuerySigningInfoRequest is the request type for the Query/SigningInfo RPC
 /// method
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.slashing.v1beta1.QuerySigningInfoRequest")]
 #[proto_query(
@@ -131,7 +122,6 @@ pub struct QuerySigningInfoRequest {
 }
 /// QuerySigningInfoResponse is the response type for the Query/SigningInfo RPC
 /// method
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.slashing.v1beta1.QuerySigningInfoResponse")]
 pub struct QuerySigningInfoResponse {
@@ -141,7 +131,6 @@ pub struct QuerySigningInfoResponse {
 }
 /// QuerySigningInfosRequest is the request type for the Query/SigningInfos RPC
 /// method
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.slashing.v1beta1.QuerySigningInfosRequest")]
 #[proto_query(
@@ -154,7 +143,6 @@ pub struct QuerySigningInfosRequest {
 }
 /// QuerySigningInfosResponse is the response type for the Query/SigningInfos RPC
 /// method
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.slashing.v1beta1.QuerySigningInfosResponse")]
 pub struct QuerySigningInfosResponse {
@@ -165,7 +153,6 @@ pub struct QuerySigningInfosResponse {
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageResponse>,
 }
 /// MsgUnjail defines the Msg/Unjail request type
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.slashing.v1beta1.MsgUnjail")]
 pub struct MsgUnjail {
@@ -173,14 +160,12 @@ pub struct MsgUnjail {
     pub validator_addr: ::prost::alloc::string::String,
 }
 /// MsgUnjailResponse defines the Msg/Unjail response type
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.slashing.v1beta1.MsgUnjailResponse")]
 pub struct MsgUnjailResponse {}
 /// MsgUpdateParams is the Msg/UpdateParams request type.
 ///
 /// Since: cosmos-sdk 0.47
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.slashing.v1beta1.MsgUpdateParams")]
 pub struct MsgUpdateParams {
@@ -197,7 +182,6 @@ pub struct MsgUpdateParams {
 /// MsgUpdateParams message.
 ///
 /// Since: cosmos-sdk 0.47
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.slashing.v1beta1.MsgUpdateParamsResponse")]
 pub struct MsgUpdateParamsResponse {}

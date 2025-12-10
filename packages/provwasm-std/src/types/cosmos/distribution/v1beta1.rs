@@ -1,6 +1,5 @@
 use provwasm_proc_macro::CosmwasmExt;
 /// Params defines the set of params for the distribution module.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.Params")]
 pub struct Params {
@@ -31,7 +30,6 @@ pub struct Params {
 ///   + number of slashes which ended the associated period (and might need to
 ///   read that record)
 ///   + one per validator for the zeroeth period, set on initialization
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.ValidatorHistoricalRewards")]
 pub struct ValidatorHistoricalRewards {
@@ -43,7 +41,6 @@ pub struct ValidatorHistoricalRewards {
 /// ValidatorCurrentRewards represents current rewards and current
 /// period for a validator kept as a running counter and incremented
 /// each block as long as the validator's tokens remain constant.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.ValidatorCurrentRewards")]
 pub struct ValidatorCurrentRewards {
@@ -54,7 +51,6 @@ pub struct ValidatorCurrentRewards {
 }
 /// ValidatorAccumulatedCommission represents accumulated commission
 /// for a validator kept as a running counter, can be withdrawn at any time.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.ValidatorAccumulatedCommission")]
 pub struct ValidatorAccumulatedCommission {
@@ -63,7 +59,6 @@ pub struct ValidatorAccumulatedCommission {
 }
 /// ValidatorOutstandingRewards represents outstanding (un-withdrawn) rewards
 /// for a validator inexpensive to track, allows simple sanity checks.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.ValidatorOutstandingRewards")]
 pub struct ValidatorOutstandingRewards {
@@ -74,7 +69,6 @@ pub struct ValidatorOutstandingRewards {
 /// Height is implicit within the store key.
 /// This is needed to calculate appropriate amount of staking tokens
 /// for delegations which are withdrawn after a slash has occurred.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.ValidatorSlashEvent")]
 pub struct ValidatorSlashEvent {
@@ -84,7 +78,6 @@ pub struct ValidatorSlashEvent {
     pub fraction: ::prost::alloc::string::String,
 }
 /// ValidatorSlashEvents is a collection of ValidatorSlashEvent messages.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.ValidatorSlashEvents")]
 pub struct ValidatorSlashEvents {
@@ -92,7 +85,6 @@ pub struct ValidatorSlashEvents {
     pub validator_slash_events: ::prost::alloc::vec::Vec<ValidatorSlashEvent>,
 }
 /// FeePool is the global fee pool for distribution.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.FeePool")]
 pub struct FeePool {
@@ -107,7 +99,6 @@ pub struct FeePool {
 /// longer a need for an explicit CommunityPoolSpendProposal. To spend community
 /// pool funds, a simple MsgCommunityPoolSpend can be invoked from the x/gov
 /// module via a v1 governance proposal.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.CommunityPoolSpendProposal")]
 #[deprecated]
@@ -127,7 +118,6 @@ pub struct CommunityPoolSpendProposal {
 /// occurred). NOTE: Even though validators are slashed to whole staking tokens,
 /// the delegators within the validator may be left with less than a full token,
 /// thus sdk.Dec is used.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.DelegatorStartingInfo")]
 pub struct DelegatorStartingInfo {
@@ -140,7 +130,6 @@ pub struct DelegatorStartingInfo {
 }
 /// DelegationDelegatorReward represents the properties
 /// of a delegator's delegation reward.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.DelegationDelegatorReward")]
 pub struct DelegationDelegatorReward {
@@ -151,7 +140,6 @@ pub struct DelegationDelegatorReward {
 }
 /// CommunityPoolSpendProposalWithDeposit defines a CommunityPoolSpendProposal
 /// with a deposit
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.CommunityPoolSpendProposalWithDeposit")]
 pub struct CommunityPoolSpendProposalWithDeposit {
@@ -169,7 +157,6 @@ pub struct CommunityPoolSpendProposalWithDeposit {
 /// DelegatorWithdrawInfo is the address for where distributions rewards are
 /// withdrawn to by default this struct is only used at genesis to feed in
 /// default withdraw addresses.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.DelegatorWithdrawInfo")]
 pub struct DelegatorWithdrawInfo {
@@ -181,7 +168,6 @@ pub struct DelegatorWithdrawInfo {
     pub withdraw_address: ::prost::alloc::string::String,
 }
 /// ValidatorOutstandingRewardsRecord is used for import/export via genesis json.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.ValidatorOutstandingRewardsRecord")]
 pub struct ValidatorOutstandingRewardsRecord {
@@ -194,7 +180,6 @@ pub struct ValidatorOutstandingRewardsRecord {
 }
 /// ValidatorAccumulatedCommissionRecord is used for import / export via genesis
 /// json.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.ValidatorAccumulatedCommissionRecord")]
 pub struct ValidatorAccumulatedCommissionRecord {
@@ -207,7 +192,6 @@ pub struct ValidatorAccumulatedCommissionRecord {
 }
 /// ValidatorHistoricalRewardsRecord is used for import / export via genesis
 /// json.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.ValidatorHistoricalRewardsRecord")]
 pub struct ValidatorHistoricalRewardsRecord {
@@ -222,7 +206,6 @@ pub struct ValidatorHistoricalRewardsRecord {
     pub rewards: ::core::option::Option<ValidatorHistoricalRewards>,
 }
 /// ValidatorCurrentRewardsRecord is used for import / export via genesis json.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.ValidatorCurrentRewardsRecord")]
 pub struct ValidatorCurrentRewardsRecord {
@@ -234,7 +217,6 @@ pub struct ValidatorCurrentRewardsRecord {
     pub rewards: ::core::option::Option<ValidatorCurrentRewards>,
 }
 /// DelegatorStartingInfoRecord used for import / export via genesis json.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.DelegatorStartingInfoRecord")]
 pub struct DelegatorStartingInfoRecord {
@@ -249,7 +231,6 @@ pub struct DelegatorStartingInfoRecord {
     pub starting_info: ::core::option::Option<DelegatorStartingInfo>,
 }
 /// ValidatorSlashEventRecord is used for import / export via genesis json.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.ValidatorSlashEventRecord")]
 pub struct ValidatorSlashEventRecord {
@@ -267,7 +248,6 @@ pub struct ValidatorSlashEventRecord {
     pub validator_slash_event: ::core::option::Option<ValidatorSlashEvent>,
 }
 /// GenesisState defines the distribution module's genesis state.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.GenesisState")]
 pub struct GenesisState {
@@ -304,7 +284,6 @@ pub struct GenesisState {
     pub validator_slash_events: ::prost::alloc::vec::Vec<ValidatorSlashEventRecord>,
 }
 /// QueryParamsRequest is the request type for the Query/Params RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.QueryParamsRequest")]
 #[proto_query(
@@ -313,7 +292,6 @@ pub struct GenesisState {
 )]
 pub struct QueryParamsRequest {}
 /// QueryParamsResponse is the response type for the Query/Params RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.QueryParamsResponse")]
 pub struct QueryParamsResponse {
@@ -322,7 +300,6 @@ pub struct QueryParamsResponse {
     pub params: ::core::option::Option<Params>,
 }
 /// QueryValidatorDistributionInfoRequest is the request type for the Query/ValidatorDistributionInfo RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.QueryValidatorDistributionInfoRequest")]
 #[proto_query(
@@ -335,7 +312,6 @@ pub struct QueryValidatorDistributionInfoRequest {
     pub validator_address: ::prost::alloc::string::String,
 }
 /// QueryValidatorDistributionInfoResponse is the response type for the Query/ValidatorDistributionInfo RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.QueryValidatorDistributionInfoResponse")]
 pub struct QueryValidatorDistributionInfoResponse {
@@ -351,7 +327,6 @@ pub struct QueryValidatorDistributionInfoResponse {
 }
 /// QueryValidatorOutstandingRewardsRequest is the request type for the
 /// Query/ValidatorOutstandingRewards RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.QueryValidatorOutstandingRewardsRequest")]
 #[proto_query(
@@ -365,7 +340,6 @@ pub struct QueryValidatorOutstandingRewardsRequest {
 }
 /// QueryValidatorOutstandingRewardsResponse is the response type for the
 /// Query/ValidatorOutstandingRewards RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.QueryValidatorOutstandingRewardsResponse")]
 pub struct QueryValidatorOutstandingRewardsResponse {
@@ -374,7 +348,6 @@ pub struct QueryValidatorOutstandingRewardsResponse {
 }
 /// QueryValidatorCommissionRequest is the request type for the
 /// Query/ValidatorCommission RPC method
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.QueryValidatorCommissionRequest")]
 #[proto_query(
@@ -388,7 +361,6 @@ pub struct QueryValidatorCommissionRequest {
 }
 /// QueryValidatorCommissionResponse is the response type for the
 /// Query/ValidatorCommission RPC method
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.QueryValidatorCommissionResponse")]
 pub struct QueryValidatorCommissionResponse {
@@ -398,7 +370,6 @@ pub struct QueryValidatorCommissionResponse {
 }
 /// QueryValidatorSlashesRequest is the request type for the
 /// Query/ValidatorSlashes RPC method
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.QueryValidatorSlashesRequest")]
 #[proto_query(
@@ -421,7 +392,6 @@ pub struct QueryValidatorSlashesRequest {
 }
 /// QueryValidatorSlashesResponse is the response type for the
 /// Query/ValidatorSlashes RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.QueryValidatorSlashesResponse")]
 pub struct QueryValidatorSlashesResponse {
@@ -434,7 +404,6 @@ pub struct QueryValidatorSlashesResponse {
 }
 /// QueryDelegationRewardsRequest is the request type for the
 /// Query/DelegationRewards RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.QueryDelegationRewardsRequest")]
 #[proto_query(
@@ -451,7 +420,6 @@ pub struct QueryDelegationRewardsRequest {
 }
 /// QueryDelegationRewardsResponse is the response type for the
 /// Query/DelegationRewards RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.QueryDelegationRewardsResponse")]
 pub struct QueryDelegationRewardsResponse {
@@ -461,7 +429,6 @@ pub struct QueryDelegationRewardsResponse {
 }
 /// QueryDelegationTotalRewardsRequest is the request type for the
 /// Query/DelegationTotalRewards RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.QueryDelegationTotalRewardsRequest")]
 #[proto_query(
@@ -475,7 +442,6 @@ pub struct QueryDelegationTotalRewardsRequest {
 }
 /// QueryDelegationTotalRewardsResponse is the response type for the
 /// Query/DelegationTotalRewards RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.QueryDelegationTotalRewardsResponse")]
 pub struct QueryDelegationTotalRewardsResponse {
@@ -488,7 +454,6 @@ pub struct QueryDelegationTotalRewardsResponse {
 }
 /// QueryDelegatorValidatorsRequest is the request type for the
 /// Query/DelegatorValidators RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.QueryDelegatorValidatorsRequest")]
 #[proto_query(
@@ -502,7 +467,6 @@ pub struct QueryDelegatorValidatorsRequest {
 }
 /// QueryDelegatorValidatorsResponse is the response type for the
 /// Query/DelegatorValidators RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.QueryDelegatorValidatorsResponse")]
 pub struct QueryDelegatorValidatorsResponse {
@@ -512,7 +476,6 @@ pub struct QueryDelegatorValidatorsResponse {
 }
 /// QueryDelegatorWithdrawAddressRequest is the request type for the
 /// Query/DelegatorWithdrawAddress RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.QueryDelegatorWithdrawAddressRequest")]
 #[proto_query(
@@ -526,7 +489,6 @@ pub struct QueryDelegatorWithdrawAddressRequest {
 }
 /// QueryDelegatorWithdrawAddressResponse is the response type for the
 /// Query/DelegatorWithdrawAddress RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.QueryDelegatorWithdrawAddressResponse")]
 pub struct QueryDelegatorWithdrawAddressResponse {
@@ -536,7 +498,6 @@ pub struct QueryDelegatorWithdrawAddressResponse {
 }
 /// QueryCommunityPoolRequest is the request type for the Query/CommunityPool RPC
 /// method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.QueryCommunityPoolRequest")]
 #[proto_query(
@@ -546,7 +507,6 @@ pub struct QueryDelegatorWithdrawAddressResponse {
 pub struct QueryCommunityPoolRequest {}
 /// QueryCommunityPoolResponse is the response type for the Query/CommunityPool
 /// RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.QueryCommunityPoolResponse")]
 pub struct QueryCommunityPoolResponse {
@@ -556,7 +516,6 @@ pub struct QueryCommunityPoolResponse {
 }
 /// MsgSetWithdrawAddress sets the withdraw address for
 /// a delegator (or validator self-delegation).
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.MsgSetWithdrawAddress")]
 pub struct MsgSetWithdrawAddress {
@@ -567,13 +526,11 @@ pub struct MsgSetWithdrawAddress {
 }
 /// MsgSetWithdrawAddressResponse defines the Msg/SetWithdrawAddress response
 /// type.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.MsgSetWithdrawAddressResponse")]
 pub struct MsgSetWithdrawAddressResponse {}
 /// MsgWithdrawDelegatorReward represents delegation withdrawal to a delegator
 /// from a single validator.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward")]
 pub struct MsgWithdrawDelegatorReward {
@@ -584,7 +541,6 @@ pub struct MsgWithdrawDelegatorReward {
 }
 /// MsgWithdrawDelegatorRewardResponse defines the Msg/WithdrawDelegatorReward
 /// response type.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorRewardResponse")]
 pub struct MsgWithdrawDelegatorRewardResponse {
@@ -594,7 +550,6 @@ pub struct MsgWithdrawDelegatorRewardResponse {
 }
 /// MsgWithdrawValidatorCommission withdraws the full commission to the validator
 /// address.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.MsgWithdrawValidatorCommission")]
 pub struct MsgWithdrawValidatorCommission {
@@ -603,7 +558,6 @@ pub struct MsgWithdrawValidatorCommission {
 }
 /// MsgWithdrawValidatorCommissionResponse defines the
 /// Msg/WithdrawValidatorCommission response type.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.MsgWithdrawValidatorCommissionResponse")]
 pub struct MsgWithdrawValidatorCommissionResponse {
@@ -613,7 +567,6 @@ pub struct MsgWithdrawValidatorCommissionResponse {
 }
 /// MsgFundCommunityPool allows an account to directly
 /// fund the community pool.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.MsgFundCommunityPool")]
 pub struct MsgFundCommunityPool {
@@ -623,14 +576,12 @@ pub struct MsgFundCommunityPool {
     pub depositor: ::prost::alloc::string::String,
 }
 /// MsgFundCommunityPoolResponse defines the Msg/FundCommunityPool response type.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.MsgFundCommunityPoolResponse")]
 pub struct MsgFundCommunityPoolResponse {}
 /// MsgUpdateParams is the Msg/UpdateParams request type.
 ///
 /// Since: cosmos-sdk 0.47
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.MsgUpdateParams")]
 pub struct MsgUpdateParams {
@@ -647,7 +598,6 @@ pub struct MsgUpdateParams {
 /// MsgUpdateParams message.
 ///
 /// Since: cosmos-sdk 0.47
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.MsgUpdateParamsResponse")]
 pub struct MsgUpdateParamsResponse {}
@@ -656,7 +606,6 @@ pub struct MsgUpdateParamsResponse {}
 /// proposal with the governance module being the executing authority.
 ///
 /// Since: cosmos-sdk 0.47
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.MsgCommunityPoolSpend")]
 pub struct MsgCommunityPoolSpend {
@@ -672,7 +621,6 @@ pub struct MsgCommunityPoolSpend {
 /// MsgCommunityPoolSpend message.
 ///
 /// Since: cosmos-sdk 0.47
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.MsgCommunityPoolSpendResponse")]
 pub struct MsgCommunityPoolSpendResponse {}
@@ -680,7 +628,6 @@ pub struct MsgCommunityPoolSpendResponse {}
 /// additional rewards to delegators from a specific validator.
 ///
 /// Since: cosmos-sdk 0.50
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.MsgDepositValidatorRewardsPool")]
 pub struct MsgDepositValidatorRewardsPool {
@@ -695,7 +642,6 @@ pub struct MsgDepositValidatorRewardsPool {
 /// MsgDepositValidatorRewardsPool message.
 ///
 /// Since: cosmos-sdk 0.50
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.MsgDepositValidatorRewardsPoolResponse")]
 pub struct MsgDepositValidatorRewardsPoolResponse {}

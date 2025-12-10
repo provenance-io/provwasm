@@ -1,6 +1,5 @@
 use provwasm_proc_macro::CosmwasmExt;
 /// Tx is the standard type used for broadcasting transactions.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.tx.v1beta1.Tx")]
 pub struct Tx {
@@ -22,7 +21,6 @@ pub struct Tx {
 /// verification. The binary `serialize(tx: TxRaw)` is stored in Tendermint and
 /// the hash `sha256(serialize(tx: TxRaw))` becomes the "txhash", commonly used
 /// as the transaction ID.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.tx.v1beta1.TxRaw")]
 pub struct TxRaw {
@@ -41,7 +39,6 @@ pub struct TxRaw {
     pub signatures: ::prost::alloc::vec::Vec<::prost::alloc::vec::Vec<u8>>,
 }
 /// SignDoc is the type used for generating sign bytes for SIGN_MODE_DIRECT.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.tx.v1beta1.SignDoc")]
 pub struct SignDoc {
@@ -66,7 +63,6 @@ pub struct SignDoc {
 /// SIGN_MODE_DIRECT_AUX.
 ///
 /// Since: cosmos-sdk 0.46
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.tx.v1beta1.SignDocDirectAux")]
 pub struct SignDocDirectAux {
@@ -94,7 +90,6 @@ pub struct SignDocDirectAux {
     pub tip: ::core::option::Option<Tip>,
 }
 /// TxBody is the body of a transaction that all signers sign over.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.tx.v1beta1.TxBody")]
 pub struct TxBody {
@@ -129,7 +124,6 @@ pub struct TxBody {
 }
 /// AuthInfo describes the fee and signer modes that are used to sign a
 /// transaction.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.tx.v1beta1.AuthInfo")]
 pub struct AuthInfo {
@@ -157,7 +151,6 @@ pub struct AuthInfo {
 }
 /// SignerInfo describes the public key and signing mode of a single top-level
 /// signer.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.tx.v1beta1.SignerInfo")]
 pub struct SignerInfo {
@@ -177,7 +170,6 @@ pub struct SignerInfo {
     pub sequence: u64,
 }
 /// ModeInfo describes the signing mode of a single or nested multisig signer.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.tx.v1beta1.ModeInfo")]
 pub struct ModeInfo {
@@ -192,7 +184,6 @@ pub mod mode_info {
     /// Single is the mode info for a single signer. It is structured as a message
     /// to allow for additional fields such as locale for SIGN_MODE_TEXTUAL in the
     /// future
-    #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
     #[proto_message(type_url = "/cosmos.tx.v1beta1.ModeInfo.Single")]
     pub struct Single {
@@ -201,7 +192,6 @@ pub mod mode_info {
         pub mode: i32,
     }
     /// Multi is the mode info for a multisig public key
-    #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
     #[proto_message(type_url = "/cosmos.tx.v1beta1.ModeInfo.Multi")]
     pub struct Multi {
@@ -216,7 +206,6 @@ pub mod mode_info {
     }
     /// sum is the oneof that specifies whether this represents a single or nested
     /// multisig signer
-    #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, Eq, ::prost::Oneof, ::schemars::JsonSchema)]
     pub enum Sum {
         /// single represents a single signer
@@ -230,7 +219,6 @@ pub mod mode_info {
 /// Fee includes the amount of coins paid in fees and the maximum
 /// gas to be used by the transaction. The ratio yields an effective "gasprice",
 /// which must be above some miminum to be accepted into the mempool.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.tx.v1beta1.Fee")]
 pub struct Fee {
@@ -255,7 +243,6 @@ pub struct Fee {
 /// Tip is the tip used for meta-transactions.
 ///
 /// Since: cosmos-sdk 0.46
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.tx.v1beta1.Tip")]
 #[deprecated]
@@ -273,7 +260,6 @@ pub struct Tip {
 /// by the node if sent directly as-is.
 ///
 /// Since: cosmos-sdk 0.46
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.tx.v1beta1.AuxSignerData")]
 pub struct AuxSignerData {
@@ -296,7 +282,6 @@ pub struct AuxSignerData {
 }
 /// GetTxsEventRequest is the request type for the Service.TxsByEvents
 /// RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.tx.v1beta1.GetTxsEventRequest")]
 pub struct GetTxsEventRequest {
@@ -330,7 +315,6 @@ pub struct GetTxsEventRequest {
 }
 /// GetTxsEventResponse is the response type for the Service.TxsByEvents
 /// RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.tx.v1beta1.GetTxsEventResponse")]
 pub struct GetTxsEventResponse {
@@ -351,7 +335,6 @@ pub struct GetTxsEventResponse {
 }
 /// BroadcastTxRequest is the request type for the Service.BroadcastTxRequest
 /// RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.tx.v1beta1.BroadcastTxRequest")]
 pub struct BroadcastTxRequest {
@@ -363,7 +346,6 @@ pub struct BroadcastTxRequest {
 }
 /// BroadcastTxResponse is the response type for the
 /// Service.BroadcastTx method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.tx.v1beta1.BroadcastTxResponse")]
 pub struct BroadcastTxResponse {
@@ -373,7 +355,6 @@ pub struct BroadcastTxResponse {
 }
 /// SimulateRequest is the request type for the Service.Simulate
 /// RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.tx.v1beta1.SimulateRequest")]
 pub struct SimulateRequest {
@@ -390,7 +371,6 @@ pub struct SimulateRequest {
 }
 /// SimulateResponse is the response type for the
 /// Service.SimulateRPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.tx.v1beta1.SimulateResponse")]
 pub struct SimulateResponse {
@@ -403,7 +383,6 @@ pub struct SimulateResponse {
 }
 /// GetTxRequest is the request type for the Service.GetTx
 /// RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.tx.v1beta1.GetTxRequest")]
 pub struct GetTxRequest {
@@ -412,7 +391,6 @@ pub struct GetTxRequest {
     pub hash: ::prost::alloc::string::String,
 }
 /// GetTxResponse is the response type for the Service.GetTx method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.tx.v1beta1.GetTxResponse")]
 pub struct GetTxResponse {
@@ -427,7 +405,6 @@ pub struct GetTxResponse {
 /// RPC method.
 ///
 /// Since: cosmos-sdk 0.45.2
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.tx.v1beta1.GetBlockWithTxsRequest")]
 pub struct GetBlockWithTxsRequest {
@@ -442,7 +419,6 @@ pub struct GetBlockWithTxsRequest {
 /// method.
 ///
 /// Since: cosmos-sdk 0.45.2
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.tx.v1beta1.GetBlockWithTxsResponse")]
 pub struct GetBlockWithTxsResponse {
@@ -461,7 +437,6 @@ pub struct GetBlockWithTxsResponse {
 /// RPC method.
 ///
 /// Since: cosmos-sdk 0.47
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.tx.v1beta1.TxDecodeRequest")]
 pub struct TxDecodeRequest {
@@ -473,7 +448,6 @@ pub struct TxDecodeRequest {
 /// Service.TxDecode method.
 ///
 /// Since: cosmos-sdk 0.47
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.tx.v1beta1.TxDecodeResponse")]
 pub struct TxDecodeResponse {
@@ -485,7 +459,6 @@ pub struct TxDecodeResponse {
 /// RPC method.
 ///
 /// Since: cosmos-sdk 0.47
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.tx.v1beta1.TxEncodeRequest")]
 pub struct TxEncodeRequest {
@@ -497,7 +470,6 @@ pub struct TxEncodeRequest {
 /// Service.TxEncode method.
 ///
 /// Since: cosmos-sdk 0.47
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.tx.v1beta1.TxEncodeResponse")]
 pub struct TxEncodeResponse {
@@ -509,7 +481,6 @@ pub struct TxEncodeResponse {
 /// RPC method.
 ///
 /// Since: cosmos-sdk 0.47
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.tx.v1beta1.TxEncodeAminoRequest")]
 pub struct TxEncodeAminoRequest {
@@ -520,7 +491,6 @@ pub struct TxEncodeAminoRequest {
 /// RPC method.
 ///
 /// Since: cosmos-sdk 0.47
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.tx.v1beta1.TxEncodeAminoResponse")]
 pub struct TxEncodeAminoResponse {
@@ -531,7 +501,6 @@ pub struct TxEncodeAminoResponse {
 /// RPC method.
 ///
 /// Since: cosmos-sdk 0.47
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.tx.v1beta1.TxDecodeAminoRequest")]
 pub struct TxDecodeAminoRequest {
@@ -542,7 +511,6 @@ pub struct TxDecodeAminoRequest {
 /// RPC method.
 ///
 /// Since: cosmos-sdk 0.47
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.tx.v1beta1.TxDecodeAminoResponse")]
 pub struct TxDecodeAminoResponse {
@@ -551,16 +519,7 @@ pub struct TxDecodeAminoResponse {
 }
 /// OrderBy defines the sorting order
 #[derive(
-    Clone,
-    Copy,
-    Debug,
-    PartialEq,
-    Eq,
-    Hash,
-    PartialOrd,
-    Ord,
-    ::prost::Enumeration,
-    ::schemars::JsonSchema,
+    Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, ::prost::Enumeration, ::schemars::JsonSchema,
 )]
 #[repr(i32)]
 pub enum OrderBy {
@@ -579,9 +538,9 @@ impl OrderBy {
     /// (if the ProtoBuf definition does not change) and safe for programmatic use.
     pub fn as_str_name(&self) -> &'static str {
         match self {
-            OrderBy::Unspecified => "ORDER_BY_UNSPECIFIED",
-            OrderBy::Asc => "ORDER_BY_ASC",
-            OrderBy::Desc => "ORDER_BY_DESC",
+            Self::Unspecified => "ORDER_BY_UNSPECIFIED",
+            Self::Asc => "ORDER_BY_ASC",
+            Self::Desc => "ORDER_BY_DESC",
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.
@@ -597,16 +556,7 @@ impl OrderBy {
 /// BroadcastMode specifies the broadcast mode for the TxService.Broadcast RPC
 /// method.
 #[derive(
-    Clone,
-    Copy,
-    Debug,
-    PartialEq,
-    Eq,
-    Hash,
-    PartialOrd,
-    Ord,
-    ::prost::Enumeration,
-    ::schemars::JsonSchema,
+    Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, ::prost::Enumeration, ::schemars::JsonSchema,
 )]
 #[repr(i32)]
 pub enum BroadcastMode {
@@ -629,10 +579,10 @@ impl BroadcastMode {
     /// (if the ProtoBuf definition does not change) and safe for programmatic use.
     pub fn as_str_name(&self) -> &'static str {
         match self {
-            BroadcastMode::Unspecified => "BROADCAST_MODE_UNSPECIFIED",
-            BroadcastMode::Block => "BROADCAST_MODE_BLOCK",
-            BroadcastMode::Sync => "BROADCAST_MODE_SYNC",
-            BroadcastMode::Async => "BROADCAST_MODE_ASYNC",
+            Self::Unspecified => "BROADCAST_MODE_UNSPECIFIED",
+            Self::Block => "BROADCAST_MODE_BLOCK",
+            Self::Sync => "BROADCAST_MODE_SYNC",
+            Self::Async => "BROADCAST_MODE_ASYNC",
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.

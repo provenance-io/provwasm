@@ -1,6 +1,5 @@
 use provwasm_proc_macro::CosmwasmExt;
 /// QueryAppVersionRequest is the request type for the Query/AppVersion RPC method
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.port.v1.QueryAppVersionRequest")]
 #[proto_query(
@@ -25,7 +24,6 @@ pub struct QueryAppVersionRequest {
     pub proposed_version: ::prost::alloc::string::String,
 }
 /// QueryAppVersionResponse is the response type for the Query/AppVersion RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.core.port.v1.QueryAppVersionResponse")]
 pub struct QueryAppVersionResponse {

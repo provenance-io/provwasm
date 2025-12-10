@@ -1,6 +1,5 @@
 use provwasm_proc_macro::CosmwasmExt;
 /// Config is the config object of the x/auth/tx package.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.tx.config.v1.Config")]
 pub struct Config {

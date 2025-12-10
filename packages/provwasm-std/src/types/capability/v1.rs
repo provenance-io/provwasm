@@ -1,7 +1,6 @@
 use provwasm_proc_macro::CosmwasmExt;
 /// Capability defines an implementation of an object capability. The index
 /// provided to a Capability must be globally unique.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/capability.v1.Capability")]
 pub struct Capability {
@@ -10,7 +9,6 @@ pub struct Capability {
 }
 /// Owner defines a single capability owner. An owner is defined by the name of
 /// capability and the module name.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/capability.v1.Owner")]
 pub struct Owner {
@@ -21,7 +19,6 @@ pub struct Owner {
 }
 /// CapabilityOwners defines a set of owners of a single Capability. The set of
 /// owners must be unique.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/capability.v1.CapabilityOwners")]
 pub struct CapabilityOwners {
@@ -29,7 +26,6 @@ pub struct CapabilityOwners {
     pub owners: ::prost::alloc::vec::Vec<Owner>,
 }
 /// GenesisOwners defines the capability owners with their corresponding index.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/capability.v1.GenesisOwners")]
 pub struct GenesisOwners {
@@ -41,7 +37,6 @@ pub struct GenesisOwners {
     pub index_owners: ::core::option::Option<CapabilityOwners>,
 }
 /// GenesisState defines the capability module's genesis state.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/capability.v1.GenesisState")]
 pub struct GenesisState {

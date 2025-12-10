@@ -1,7 +1,6 @@
 use provwasm_proc_macro::CosmwasmExt;
 /// Permissions are the permissions that an account has to trip
 /// or reset the circuit breaker.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.circuit.v1.Permissions")]
 pub struct Permissions {
@@ -24,7 +23,6 @@ pub mod permissions {
         Debug,
         PartialEq,
         Eq,
-        Hash,
         PartialOrd,
         Ord,
         ::prost::Enumeration,
@@ -54,10 +52,10 @@ pub mod permissions {
         /// (if the ProtoBuf definition does not change) and safe for programmatic use.
         pub fn as_str_name(&self) -> &'static str {
             match self {
-                Level::NoneUnspecified => "LEVEL_NONE_UNSPECIFIED",
-                Level::SomeMsgs => "LEVEL_SOME_MSGS",
-                Level::AllMsgs => "LEVEL_ALL_MSGS",
-                Level::SuperAdmin => "LEVEL_SUPER_ADMIN",
+                Self::NoneUnspecified => "LEVEL_NONE_UNSPECIFIED",
+                Self::SomeMsgs => "LEVEL_SOME_MSGS",
+                Self::AllMsgs => "LEVEL_ALL_MSGS",
+                Self::SuperAdmin => "LEVEL_SUPER_ADMIN",
             }
         }
         /// Creates an enum from field names used in the ProtoBuf definition.
@@ -73,7 +71,6 @@ pub mod permissions {
     }
 }
 /// GenesisAccountPermissions is the account permissions for the circuit breaker in genesis
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.circuit.v1.GenesisAccountPermissions")]
 pub struct GenesisAccountPermissions {
@@ -83,7 +80,6 @@ pub struct GenesisAccountPermissions {
     pub permissions: ::core::option::Option<Permissions>,
 }
 /// GenesisState is the state that must be provided at genesis.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.circuit.v1.GenesisState")]
 pub struct GenesisState {
@@ -93,7 +89,6 @@ pub struct GenesisState {
     pub disabled_type_urls: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// QueryAccountRequest is the request type for the Query/Account RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.circuit.v1.QueryAccountRequest")]
 #[proto_query(
@@ -105,7 +100,6 @@ pub struct QueryAccountRequest {
     pub address: ::prost::alloc::string::String,
 }
 /// AccountResponse is the response type for the Query/Account RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.circuit.v1.AccountResponse")]
 pub struct AccountResponse {
@@ -113,7 +107,6 @@ pub struct AccountResponse {
     pub permission: ::core::option::Option<Permissions>,
 }
 /// QueryAccountsRequest is the request type for the Query/Accounts RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.circuit.v1.QueryAccountsRequest")]
 #[proto_query(
@@ -126,7 +119,6 @@ pub struct QueryAccountsRequest {
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageRequest>,
 }
 /// AccountsResponse is the response type for the Query/Accounts RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.circuit.v1.AccountsResponse")]
 pub struct AccountsResponse {
@@ -137,7 +129,6 @@ pub struct AccountsResponse {
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageResponse>,
 }
 /// QueryDisableListRequest is the request type for the Query/DisabledList RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.circuit.v1.QueryDisabledListRequest")]
 #[proto_query(
@@ -146,7 +137,6 @@ pub struct AccountsResponse {
 )]
 pub struct QueryDisabledListRequest {}
 /// DisabledListResponse is the response type for the Query/DisabledList RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.circuit.v1.DisabledListResponse")]
 pub struct DisabledListResponse {
@@ -154,7 +144,6 @@ pub struct DisabledListResponse {
     pub disabled_list: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// MsgAuthorizeCircuitBreaker defines the Msg/AuthorizeCircuitBreaker request type.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.circuit.v1.MsgAuthorizeCircuitBreaker")]
 pub struct MsgAuthorizeCircuitBreaker {
@@ -172,7 +161,6 @@ pub struct MsgAuthorizeCircuitBreaker {
     pub permissions: ::core::option::Option<Permissions>,
 }
 /// MsgAuthorizeCircuitBreakerResponse defines the Msg/AuthorizeCircuitBreaker response type.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.circuit.v1.MsgAuthorizeCircuitBreakerResponse")]
 pub struct MsgAuthorizeCircuitBreakerResponse {
@@ -180,7 +168,6 @@ pub struct MsgAuthorizeCircuitBreakerResponse {
     pub success: bool,
 }
 /// MsgTripCircuitBreaker defines the Msg/TripCircuitBreaker request type.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.circuit.v1.MsgTripCircuitBreaker")]
 pub struct MsgTripCircuitBreaker {
@@ -196,7 +183,6 @@ pub struct MsgTripCircuitBreaker {
     pub msg_type_urls: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// MsgTripCircuitBreakerResponse defines the Msg/TripCircuitBreaker response type.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.circuit.v1.MsgTripCircuitBreakerResponse")]
 pub struct MsgTripCircuitBreakerResponse {
@@ -204,7 +190,6 @@ pub struct MsgTripCircuitBreakerResponse {
     pub success: bool,
 }
 /// MsgResetCircuitBreaker defines the Msg/ResetCircuitBreaker request type.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.circuit.v1.MsgResetCircuitBreaker")]
 pub struct MsgResetCircuitBreaker {
@@ -218,7 +203,6 @@ pub struct MsgResetCircuitBreaker {
     pub msg_type_urls: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// MsgResetCircuitBreakerResponse defines the Msg/ResetCircuitBreaker response type.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.circuit.v1.MsgResetCircuitBreakerResponse")]
 pub struct MsgResetCircuitBreakerResponse {

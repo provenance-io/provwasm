@@ -1,6 +1,5 @@
 use provwasm_proc_macro::CosmwasmExt;
 /// GenesisState defines 08-wasm's keeper genesis state
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.lightclients.wasm.v1.GenesisState")]
 pub struct GenesisState {
@@ -9,7 +8,6 @@ pub struct GenesisState {
     pub contracts: ::prost::alloc::vec::Vec<Contract>,
 }
 /// Contract stores contract code
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.lightclients.wasm.v1.Contract")]
 pub struct Contract {
@@ -18,7 +16,6 @@ pub struct Contract {
     pub code_bytes: ::prost::alloc::vec::Vec<u8>,
 }
 /// QueryChecksumsRequest is the request type for the Query/Checksums RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.lightclients.wasm.v1.QueryChecksumsRequest")]
 #[proto_query(
@@ -33,7 +30,6 @@ pub struct QueryChecksumsRequest {
     >,
 }
 /// QueryChecksumsResponse is the response type for the Query/Checksums RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.lightclients.wasm.v1.QueryChecksumsResponse")]
 pub struct QueryChecksumsResponse {
@@ -47,7 +43,6 @@ pub struct QueryChecksumsResponse {
     >,
 }
 /// QueryCodeRequest is the request type for the Query/Code RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.lightclients.wasm.v1.QueryCodeRequest")]
 #[proto_query(
@@ -60,7 +55,6 @@ pub struct QueryCodeRequest {
     pub checksum: ::prost::alloc::string::String,
 }
 /// QueryCodeResponse is the response type for the Query/Code RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.lightclients.wasm.v1.QueryCodeResponse")]
 pub struct QueryCodeResponse {
@@ -68,7 +62,6 @@ pub struct QueryCodeResponse {
     pub data: ::prost::alloc::vec::Vec<u8>,
 }
 /// MsgStoreCode defines the request type for the StoreCode rpc.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.lightclients.wasm.v1.MsgStoreCode")]
 pub struct MsgStoreCode {
@@ -80,7 +73,6 @@ pub struct MsgStoreCode {
     pub wasm_byte_code: ::prost::alloc::vec::Vec<u8>,
 }
 /// MsgStoreCodeResponse defines the response type for the StoreCode rpc
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.lightclients.wasm.v1.MsgStoreCodeResponse")]
 pub struct MsgStoreCodeResponse {
@@ -89,7 +81,6 @@ pub struct MsgStoreCodeResponse {
     pub checksum: ::prost::alloc::vec::Vec<u8>,
 }
 /// MsgRemoveChecksum defines the request type for the MsgRemoveChecksum rpc.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.lightclients.wasm.v1.MsgRemoveChecksum")]
 pub struct MsgRemoveChecksum {
@@ -101,12 +92,10 @@ pub struct MsgRemoveChecksum {
     pub checksum: ::prost::alloc::vec::Vec<u8>,
 }
 /// MsgStoreChecksumResponse defines the response type for the StoreCode rpc
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.lightclients.wasm.v1.MsgRemoveChecksumResponse")]
 pub struct MsgRemoveChecksumResponse {}
 /// MsgMigrateContract defines the request type for the MigrateContract rpc.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.lightclients.wasm.v1.MsgMigrateContract")]
 pub struct MsgMigrateContract {
@@ -124,12 +113,10 @@ pub struct MsgMigrateContract {
     pub msg: ::prost::alloc::vec::Vec<u8>,
 }
 /// MsgMigrateContractResponse defines the response type for the MigrateContract rpc
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.lightclients.wasm.v1.MsgMigrateContractResponse")]
 pub struct MsgMigrateContractResponse {}
 /// Wasm light client's Client state
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.lightclients.wasm.v1.ClientState")]
 pub struct ClientState {
@@ -143,7 +130,6 @@ pub struct ClientState {
     pub latest_height: ::core::option::Option<super::super::super::core::client::v1::Height>,
 }
 /// Wasm light client's ConsensusState
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.lightclients.wasm.v1.ConsensusState")]
 pub struct ConsensusState {
@@ -153,7 +139,6 @@ pub struct ConsensusState {
     pub data: ::prost::alloc::vec::Vec<u8>,
 }
 /// Wasm light client message (either header(s) or misbehaviour)
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.lightclients.wasm.v1.ClientMessage")]
 pub struct ClientMessage {
@@ -164,7 +149,6 @@ pub struct ClientMessage {
 ///
 /// Deprecated: This message is deprecated in favor of storing the checksums
 /// using a Collections.KeySet.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.lightclients.wasm.v1.Checksums")]
 #[deprecated]

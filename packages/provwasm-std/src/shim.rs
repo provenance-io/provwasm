@@ -39,7 +39,7 @@ impl Serialize for Timestamp {
                 self.seconds, self.nanos
             ))
         })?;
-        serializer.serialize_str(format!("{:?}", dt).as_str())
+        serializer.serialize_str(format!("{dt:?}").as_str())
     }
 }
 
@@ -50,7 +50,7 @@ impl<'de> Deserialize<'de> for Timestamp {
     {
         struct TimestampVisitor;
 
-        impl<'de> Visitor<'de> for TimestampVisitor {
+        impl Visitor<'_> for TimestampVisitor {
             type Value = Timestamp;
 
             fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
@@ -63,8 +63,7 @@ impl<'de> Deserialize<'de> for Timestamp {
             {
                 let utc: DateTime<Utc> = chrono::DateTime::from_str(value).map_err(|err| {
                     serde::de::Error::custom(format!(
-                        "Failed to parse {} as datetime: {:?}",
-                        value, err
+                        "Failed to parse {value} as datetime: {err:?}",
                     ))
                 })?;
                 let ts = Timestamp::from(utc);
@@ -119,7 +118,7 @@ impl<'de> Deserialize<'de> for Duration {
     {
         struct DurationVisitor;
 
-        impl<'de> Visitor<'de> for DurationVisitor {
+        impl Visitor<'_> for DurationVisitor {
             type Value = Duration;
 
             fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {

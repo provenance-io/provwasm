@@ -3,7 +3,6 @@ use provwasm_proc_macro::CosmwasmExt;
 /// of the legacy ABCI calls during block processing.
 /// Note ReponseDeliverTx is renamed to ExecTxResult but they are semantically the same
 /// Kept for backwards compatibility for versions prior to v0.38
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.state.LegacyABCIResponses")]
 pub struct LegacyAbciResponses {
@@ -15,7 +14,6 @@ pub struct LegacyAbciResponses {
     pub begin_block: ::core::option::Option<ResponseBeginBlock>,
 }
 /// ResponseBeginBlock is kept for backwards compatibility for versions prior to v0.38
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.state.ResponseBeginBlock")]
 pub struct ResponseBeginBlock {
@@ -23,7 +21,6 @@ pub struct ResponseBeginBlock {
     pub events: ::prost::alloc::vec::Vec<super::abci::Event>,
 }
 /// ResponseEndBlock is kept for backwards compatibility for versions prior to v0.38
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.state.ResponseEndBlock")]
 pub struct ResponseEndBlock {
@@ -35,7 +32,6 @@ pub struct ResponseEndBlock {
     pub events: ::prost::alloc::vec::Vec<super::abci::Event>,
 }
 /// ValidatorsInfo represents the latest validator set, or the last height it changed
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.state.ValidatorsInfo")]
 pub struct ValidatorsInfo {
@@ -45,7 +41,6 @@ pub struct ValidatorsInfo {
     pub last_height_changed: i64,
 }
 /// ConsensusParamsInfo represents the latest consensus params, or the last height it changed
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.state.ConsensusParamsInfo")]
 pub struct ConsensusParamsInfo {
@@ -54,7 +49,6 @@ pub struct ConsensusParamsInfo {
     #[prost(int64, tag = "2")]
     pub last_height_changed: i64,
 }
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.state.ABCIResponsesInfo")]
 pub struct AbciResponsesInfo {
@@ -65,7 +59,6 @@ pub struct AbciResponsesInfo {
     #[prost(message, optional, tag = "3")]
     pub response_finalize_block: ::core::option::Option<super::abci::ResponseFinalizeBlock>,
 }
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.state.Version")]
 pub struct Version {
@@ -74,7 +67,6 @@ pub struct Version {
     #[prost(string, tag = "2")]
     pub software: ::prost::alloc::string::String,
 }
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/tendermint.state.State")]
 pub struct State {

@@ -1,6 +1,5 @@
 use provwasm_proc_macro::CosmwasmExt;
 /// QueryParamsRequest defines the request type for querying x/consensus parameters.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.consensus.v1.QueryParamsRequest")]
 #[proto_query(
@@ -9,7 +8,6 @@ use provwasm_proc_macro::CosmwasmExt;
 )]
 pub struct QueryParamsRequest {}
 /// QueryParamsResponse defines the response type for querying x/consensus parameters.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.consensus.v1.QueryParamsResponse")]
 pub struct QueryParamsResponse {
@@ -20,7 +18,6 @@ pub struct QueryParamsResponse {
     pub params: ::core::option::Option<super::super::super::tendermint::types::ConsensusParams>,
 }
 /// MsgUpdateParams is the Msg/UpdateParams request type.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.consensus.v1.MsgUpdateParams")]
 pub struct MsgUpdateParams {
@@ -44,7 +41,6 @@ pub struct MsgUpdateParams {
 }
 /// MsgUpdateParamsResponse defines the response structure for executing a
 /// MsgUpdateParams message.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.consensus.v1.MsgUpdateParamsResponse")]
 pub struct MsgUpdateParamsResponse {}

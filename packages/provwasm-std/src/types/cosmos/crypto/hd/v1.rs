@@ -1,6 +1,5 @@
 use provwasm_proc_macro::CosmwasmExt;
 /// BIP44Params is used as path field in ledger item in Record.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.crypto.hd.v1.BIP44Params")]
 pub struct Bip44Params {
