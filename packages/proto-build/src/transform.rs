@@ -157,6 +157,7 @@ fn transform_items(
                     if EXCLUDED_STRUCTURES.contains(&full_path.as_str()) {
                         return None;
                     }
+                    let s = transformers::remove_derive_hash_struct(&s);
                     let s = transformers::add_derive_eq_struct(&s);
                     let s = transformers::append_attrs_struct(src, &s, descriptor);
                     // A hack to make Pagination::next_key optional.
@@ -175,6 +176,7 @@ fn transform_items(
                 })),
 
                 Item::Enum(e) => Some(Item::Enum({
+                    let e = transformers::remove_derive_hash_enum(&e);
                     let e = transformers::add_derive_eq_enum(&e);
                     transformers::add_derive_json_enum(&e)
                     // transformers::append_attrs_enum(src, &e, descriptor)

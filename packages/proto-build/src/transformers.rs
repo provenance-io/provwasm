@@ -2,7 +2,7 @@ use std::collections::HashMap;
 use std::path::Path;
 
 use convert_case::{Case, Casing};
-use proc_macro2::{TokenStream as TokenStream2, TokenTree};
+use proc_macro2::{Punct, Spacing, TokenStream as TokenStream2, TokenTree};
 use prost_types::{
     DescriptorProto, EnumDescriptorProto, FileDescriptorSet, ServiceDescriptorProto,
 };
@@ -97,6 +97,95 @@ pub fn add_derive_json(mut attr: Attribute) -> Attribute {
     attr
 }
 
+/// Removes `Hash` from derive attributes to avoid compilation errors
+/// when types contain fields that don't implement Hash.
+pub fn remove_derive_hash(mut attr: Attribute) -> Attribute {
+    if attr.path().is_ident("derive") {
+        let tokens = match &attr.meta {
+            Meta::List(list) => list.tokens.clone(),
+            _ => return attr,
+        };
+
+        // Check if Hash is present
+        let has_hash = tokens.clone().into_iter().any(|token| match token {
+            TokenTree::Ident(ref ident) => *ident == format_ident!("Hash"),
+            _ => false,
+        });
+
+        if has_hash {
+            // Filter out Hash and handle surrounding commas properly
+            let mut new_tokens: Vec<TokenTree> = Vec::new();
+            let tokens_vec: Vec<TokenTree> = tokens.into_iter().collect();
+            let hash_ident = format_ident!("Hash");
+            let mut i = 0;
+            while i < tokens_vec.len() {
+                let token = &tokens_vec[i];
+
+                // Check if this is the Hash identifier
+                if let TokenTree::Ident(ident) = token {
+                    if *ident == hash_ident {
+                        // Check if there are tokens before Hash
+                        let has_tokens_before = !new_tokens.is_empty();
+
+                        // Remove trailing comma from previous token if present
+                        if has_tokens_before {
+                            if let Some(TokenTree::Punct(punct)) = new_tokens.last() {
+                                if punct.as_char() == ',' {
+                                    new_tokens.pop();
+                                }
+                            }
+                        }
+
+                        // Skip Hash
+                        i += 1;
+
+                        // Skip comma after Hash if present
+                        let mut has_tokens_after = false;
+                        if i < tokens_vec.len() {
+                            if let TokenTree::Punct(punct) = &tokens_vec[i] {
+                                if punct.as_char() == ',' {
+                                    i += 1;
+                                }
+                            }
+                            // Check if there are still tokens after Hash (after skipping comma)
+                            has_tokens_after = i < tokens_vec.len();
+                        }
+
+                        // If there were tokens before AND after Hash, we need a comma between them
+                        if has_tokens_before && has_tokens_after {
+                            // Add a comma to separate the tokens before and after Hash
+                            new_tokens.push(TokenTree::Punct(Punct::new(',', Spacing::Alone)));
+                        }
+
+                        continue;
+                    }
+                }
+                // Keep this token, but handle comma before Hash
+                if let TokenTree::Punct(punct) = token {
+                    if punct.as_char() == ',' && i + 1 < tokens_vec.len() {
+                        if let TokenTree::Ident(ident) = &tokens_vec[i + 1] {
+                            if *ident == hash_ident {
+                                // Skip this comma since it's before Hash
+                                // We'll add it back later if needed
+                                i += 1;
+                                continue;
+                            }
+                        }
+                    }
+                }
+
+                new_tokens.push(token.clone());
+                i += 1;
+            }
+
+            // Reconstruct the attribute with Hash removed
+            let new_token_stream: TokenStream2 = new_tokens.into_iter().collect();
+            attr.meta = parse_quote! { derive(#new_token_stream) };
+        }
+    }
+    attr
+}
+
 pub fn add_derive_eq_struct(s: &ItemStruct) -> ItemStruct {
     let mut item_struct = s.clone();
     item_struct.attrs = item_struct.attrs.into_iter().map(add_derive_eq).collect();
@@ -107,6 +196,31 @@ pub fn add_derive_eq_struct(s: &ItemStruct) -> ItemStruct {
 pub fn add_derive_eq_enum(s: &ItemEnum) -> ItemEnum {
     let mut item_enum = s.clone();
     item_enum.attrs = item_enum.attrs.into_iter().map(add_derive_eq).collect();
+
+    item_enum
+}
+
+/// Removes Hash from struct derive attributes
+pub fn remove_derive_hash_struct(s: &ItemStruct) -> ItemStruct {
+    let mut item_struct = s.clone();
+    item_struct.attrs = item_struct
+        .attrs
+        .into_iter()
+        .filter(|attr| !attr.path().is_ident("derive"))
+        .map(remove_derive_hash)
+        .collect();
+
+    item_struct
+}
+
+/// Removes Hash from enum derive attributes
+pub fn remove_derive_hash_enum(s: &ItemEnum) -> ItemEnum {
+    let mut item_enum = s.clone();
+    item_enum.attrs = item_enum
+        .attrs
+        .into_iter()
+        .map(remove_derive_hash)
+        .collect();
 
     item_enum
 }
