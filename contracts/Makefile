@@ -34,7 +34,6 @@ build:
 	@make -C attrs build
 	@make -C ibc build
 	@make -C marker build
-	@make -C msgfees build
 	@make -C name build
 	@make -C scope build
 	@make -C trigger build
@@ -45,7 +44,6 @@ optimize:
 	@make -C attrs optimize
 	@make -C ibc optimize
 	@make -C marker optimize
-	@make -C msgfees optimize
 	@make -C name optimize
 	@make -C scope optimize
 	@make -C trigger optimize
@@ -56,7 +54,6 @@ clean:
 	@make -C attrs clean
 	@make -C ibc clean
 	@make -C marker clean
-	@make -C msgfees clean
 	@make -C name clean
 	@make -C scope clean
 	@make -C trigger clean

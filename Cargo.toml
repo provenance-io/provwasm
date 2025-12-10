@@ -38,7 +38,7 @@ provwasm-common = { version = "0.3.1", path = "packages/provwasm-common" }
 provwasm-mocks = { version = "2.7.1", path = "packages/provwasm-mocks" }
 provwasm-proc-macro = { version = "0.3.1", path = "packages/provwasm-proc-macro" }
 provwasm-proto-build = { version = "0.1.0", path = "packages/proto-build" }
-provwasm-std = { version = "2.7.1", path = "packages/provwasm-std" }
+provwasm-std = { version = "2.7.1", path = "packages/provwasm-std", default-features = false }
 
 chrono = { version = "0.4.37", default-features = false }
 prost = { version = "0.13.2", default-features = false, features = [
