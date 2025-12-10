@@ -39,7 +39,7 @@ impl Serialize for Timestamp {
                 self.seconds, self.nanos
             ))
         })?;
-        serializer.serialize_str(format!("{:?}", dt).as_str())
+        serializer.serialize_str(format!("{dt:?}").as_str())
     }
 }
 
@@ -63,8 +63,7 @@ impl<'de> Deserialize<'de> for Timestamp {
             {
                 let utc: DateTime<Utc> = chrono::DateTime::from_str(value).map_err(|err| {
                     serde::de::Error::custom(format!(
-                        "Failed to parse {} as datetime: {:?}",
-                        value, err
+                        "Failed to parse {value} as datetime: {err:?}",
                     ))
                 })?;
                 let ts = Timestamp::from(utc);
