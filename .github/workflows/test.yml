@@ -142,3 +142,17 @@ jobs:
           provenance_version: "v1.26.0-rc2"
           smart_contract_action_version: "latest"
           test_script: "./scripts/gh-action-test/trigger_test.sh"
+
+  test_provwasm_std_features:
+    runs-on: ubuntu-latest
+    name: Test Provwasm Std Features
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Add cargo-all-features plugin
+        run: |
+          cargo install cargo-all-features
+      - name: Test all features
+        run: |
+          cd ./packages/provwasm-std
+          cargo all-features check
