@@ -13,6 +13,8 @@ pub mod shim;
 )]
 pub mod types;
 
+// Coin conversion functions are only available when cosmos-base feature is enabled
+#[cfg(feature = "cosmos-base")]
 pub use shim::{cosmwasm_to_proto_coins, try_proto_to_cosmwasm_coins};
 
 // Indicate that smart contracts that use this lib can only be run on the Provenance Blockchain.

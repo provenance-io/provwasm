@@ -3,7 +3,9 @@ use std::str::FromStr;
 
 use ::serde::{ser, Deserialize, Deserializer, Serialize, Serializer};
 use chrono::{DateTime, Utc};
-use cosmwasm_std::{Binary, StdResult};
+use cosmwasm_std::Binary;
+#[cfg(feature = "cosmos-base")]
+use cosmwasm_std::StdResult;
 use serde::de;
 use serde::de::Visitor;
 use serde::ser::SerializeMap;
@@ -269,6 +271,8 @@ impl_prost_types_exact_conversion! { Timestamp | seconds, nanos }
 impl_prost_types_exact_conversion! { Duration | seconds, nanos }
 impl_prost_types_exact_conversion! { Any | type_url, value }
 
+// Coin conversion functions are only available when cosmos-base feature is enabled
+#[cfg(feature = "cosmos-base")]
 impl From<cosmwasm_std::Coin> for crate::types::cosmos::base::v1beta1::Coin {
     fn from(cosmwasm_std::Coin { denom, amount }: cosmwasm_std::Coin) -> Self {
         crate::types::cosmos::base::v1beta1::Coin {
@@ -278,6 +282,7 @@ impl From<cosmwasm_std::Coin> for crate::types::cosmos::base::v1beta1::Coin {
     }
 }
 
+#[cfg(feature = "cosmos-base")]
 impl TryFrom<crate::types::cosmos::base::v1beta1::Coin> for cosmwasm_std::Coin {
     type Error = cosmwasm_std::StdError;
 
@@ -292,6 +297,9 @@ impl TryFrom<crate::types::cosmos::base::v1beta1::Coin> for cosmwasm_std::Coin {
 }
 
 /// Convert a list of `Coin` from provenance proto generated `Coin` type to cosmwasm `Coin` type
+///
+/// Requires the `cosmos-base` feature to be enabled.
+#[cfg(feature = "cosmos-base")]
 pub fn try_proto_to_cosmwasm_coins(
     coins: impl IntoIterator<Item = crate::types::cosmos::base::v1beta1::Coin>,
 ) -> StdResult<Vec<cosmwasm_std::Coin>> {
@@ -299,6 +307,9 @@ pub fn try_proto_to_cosmwasm_coins(
 }
 
 /// Convert a list of `Coin` from cosmwasm `Coin` type to proto generated `Coin` type
+///
+/// Requires the `cosmos-base` feature to be enabled.
+#[cfg(feature = "cosmos-base")]
 pub fn cosmwasm_to_proto_coins(
     coins: impl IntoIterator<Item = cosmwasm_std::Coin>,
 ) -> Vec<crate::types::cosmos::base::v1beta1::Coin> {
@@ -311,6 +322,7 @@ mod tests {
 
     use super::*;
 
+    #[cfg(feature = "cosmos-base")]
     #[test]
     fn test_coins_conversion() {
         let coins = vec![
