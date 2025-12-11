@@ -145,8 +145,22 @@ jobs:
           smart_contract_action_version: "latest"
           test_script: "./scripts/gh-action-test/trigger_test.sh"
 
+  test_provwasm_std_features:
+    runs-on: ubuntu-latest
+    name: Test Provwasm Std Features
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Add cargo-all-features plugin
+        run: |
+          cargo install cargo-all-features
+      - name: Test all features
+        run: |
+          cd ./packages/provwasm-std
+          cargo all-features check
+
   create_release:
-    needs: [ test_attrs_smart_contract, test_marker_smart_contract, test_name_smart_contract, test_scope_smart_contract, test_trigger_smart_contract, test_tutorial_smart_contract ]
+    needs: [ test_attrs_smart_contract, test_marker_smart_contract, test_name_smart_contract, test_scope_smart_contract, test_trigger_smart_contract, test_tutorial_smart_contract, test_provwasm_std_features ]
     runs-on: ubuntu-latest
     name: Create Release
     steps:
