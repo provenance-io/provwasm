@@ -34,6 +34,19 @@ The following table shows provwasm version compatibility for smart contract deve
 Start with the [tutorial](docs/tutorial/01-overview.md) for a complete guide to developing smart
 contracts for the Provenance Blockchain.
 
+## Feature Flags
+
+`provwasm-std` uses feature flags to allow you to include only the blockchain modules your contract needs. This significantly reduces compile times and binary sizes. By default, `provwasm-std` includes all Provenance modules and core Cosmos modules, but you can disable default features and enable only what you need.
+
+For example, a minimal contract using only the name service:
+
+```toml
+[dependencies]
+provwasm-std = { workspace = true, default-features = false, features = ["provenance-name"] }
+```
+
+See [FEATURES.md](./FEATURES.md) for a complete guide to available features, dependencies, usage examples, and optimization tips.
+
 ## IBC
 
 Once the tutorial has been completed and you are ready for a more advanced topic, checkout the

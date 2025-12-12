@@ -9,9 +9,163 @@ description = "Rust bindings that enable CosmWasm smart contracts to interact wi
 keywords = ["provenance", "blockchain", "smart-contracts", "defi", "finance"]
 categories = ["api-bindings", "cryptography::cryptocurrencies", "wasm"]
 
+[package.metadata.cargo-all-features]
+max_combination_size = 1
+
+[features]
+# Default includes the most commonly used modules for typical Provenance smart contracts
+# Note: cosmos-base is included by default for coin conversion utilities, but can be disabled
+# if you don't need coin conversion functions and want a minimal build
+default = ["provenance-all", "cosmos-core", "cosmos-base"]
+
+# Full includes all modules (current behavior, for backward compatibility)
+full = [
+    "provenance-all",
+    "cosmos-all",
+    "ibc-all",
+    "cosmwasm-all",
+    "tendermint-all",
+    "capability",
+    "provlabs-all",
+]
+
+# Provenance module feature groups
+provenance-all = [
+    "provenance-attribute",
+    "provenance-marker",
+    "provenance-name",
+    "provenance-metadata",
+    "provenance-msgfees",
+    "provenance-trigger",
+    "provenance-asset",
+    "provenance-exchange",
+    "provenance-hold",
+    "provenance-oracle",
+    "provenance-registry",
+    "provenance-ledger",
+    "provenance-ibchooks",
+    "provenance-ibcratelimit",
+    "provenance-flatfees",
+]
+
+# Individual Provenance module features
+# Note: Provenance modules depend on tendermint and cosmos-base types (for pagination)
+provenance-attribute = ["tendermint-all", "cosmos-base"]
+provenance-marker = [
+    "tendermint-all",
+    "cosmos-base",
+    "cosmos-bank",
+    "ibc-applications",
+]
+provenance-name = ["tendermint-all", "cosmos-base"]
+provenance-metadata = ["tendermint-all", "cosmos-base"]
+provenance-msgfees = ["tendermint-all", "cosmos-base"]
+provenance-trigger = ["tendermint-all", "cosmos-base"]
+provenance-asset = ["tendermint-all", "cosmos-base"]
+provenance-exchange = ["tendermint-all", "cosmos-base", "cosmos-auth"]
+provenance-hold = ["tendermint-all", "cosmos-base"]
+provenance-oracle = ["tendermint-all", "cosmos-base"]
+provenance-registry = ["tendermint-all", "cosmos-base"]
+provenance-ledger = ["tendermint-all", "cosmos-base"]
+provenance-ibchooks = ["tendermint-all", "cosmos-base"]
+provenance-ibcratelimit = ["tendermint-all", "cosmos-base"]
+provenance-flatfees = ["tendermint-all", "cosmos-base"]
+
+# Cosmos module feature groups
+# Note: Cosmos modules have dependencies on tendermint types in generated code
+cosmos-core = [
+    "cosmos-auth",
+    "cosmos-bank",
+    "cosmos-base",
+    "cosmos-tx",
+    "tendermint-all",
+]
+cosmos-all = [
+    "cosmos-app",
+    "cosmos-auth",
+    "cosmos-authz",
+    "cosmos-bank",
+    "cosmos-base",
+    "cosmos-circuit",
+    "cosmos-consensus",
+    "cosmos-crisis",
+    "cosmos-crypto",
+    "cosmos-distribution",
+    "cosmos-evidence",
+    "cosmos-feegrant",
+    "cosmos-genutil",
+    "cosmos-gov",
+    "cosmos-group",
+    "cosmos-ics23",
+    "cosmos-mint",
+    "cosmos-msg",
+    "cosmos-nft",
+    "cosmos-orm",
+    "cosmos-params",
+    "cosmos-quarantine",
+    "cosmos-query",
+    "cosmos-sanction",
+    "cosmos-slashing",
+    "cosmos-staking",
+    "cosmos-store",
+    "cosmos-tx",
+    "cosmos-upgrade",
+    "cosmos-vesting",
+    "tendermint-all",
+]
+
+# Individual Cosmos module features
+# Note: All cosmos modules depend on tendermint types
+cosmos-app = ["tendermint-all", "cosmos-base"]
+cosmos-auth = ["tendermint-all", "cosmos-base"]
+cosmos-authz = ["tendermint-all", "cosmos-base"]
+cosmos-bank = ["tendermint-all", "cosmos-base"]
+cosmos-base = ["tendermint-all"]
+cosmos-circuit = ["tendermint-all", "cosmos-base"]
+cosmos-consensus = ["tendermint-all"]
+cosmos-crisis = ["tendermint-all", "cosmos-base"]
+cosmos-crypto = ["tendermint-all"]
+cosmos-distribution = ["tendermint-all", "cosmos-base"]
+cosmos-evidence = ["tendermint-all", "cosmos-base"]
+cosmos-feegrant = ["tendermint-all", "cosmos-base"]
+cosmos-genutil = ["tendermint-all"]
+cosmos-gov = ["tendermint-all", "cosmos-base"]
+cosmos-group = ["tendermint-all", "cosmos-base"]
+cosmos-ics23 = ["tendermint-all"]
+cosmos-mint = ["tendermint-all"]
+cosmos-msg = ["tendermint-all"]
+cosmos-nft = ["tendermint-all", "cosmos-base"]
+cosmos-orm = ["tendermint-all", "cosmos-base"]
+cosmos-params = ["tendermint-all"]
+cosmos-quarantine = ["tendermint-all", "cosmos-base"]
+cosmos-query = ["tendermint-all"]
+cosmos-sanction = ["tendermint-all", "cosmos-base"]
+cosmos-slashing = ["tendermint-all", "cosmos-base"]
+cosmos-staking = ["tendermint-all", "cosmos-base"]
+cosmos-store = ["tendermint-all"]
+cosmos-tx = ["tendermint-all", "cosmos-crypto", "cosmos-base"]
+cosmos-upgrade = ["tendermint-all"]
+cosmos-vesting = ["tendermint-all", "cosmos-auth"]
+
+# IBC feature groups
+ibc-all = ["ibc-core", "ibc-applications", "ibc-lightclients"]
+ibc-core = ["cosmos-ics23", "cosmos-upgrade", "cosmos-base"]
+ibc-applications = ["ibc-core", "cosmos-auth"]
+ibc-lightclients = ["ibc-core"]
+
+# CosmWasm features
+cosmwasm-all = ["cosmos-base"]
+
+# Tendermint features
+tendermint-all = []
+
+# Other features
+capability = []
+provlabs-all = ["cosmos-base", "cosmos-bank", "cosmos-auth"]
+
 [dependencies]
 bech32 = { version = "0.11.0", default-features = false, features = ["alloc"] }
-chrono = { version = "0.4.24", default-features = false }
+chrono = { version = "0.4.42", default-features = false }
 cosmwasm-std = { workspace = true }
 ed25519-zebra = { version = "4.1.0", default-features = false, features = [
     "alloc",

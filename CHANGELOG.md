@@ -4,6 +4,10 @@
 
 ## Releases
 
+### [v2.8.0](https://github.com/provenance-io/provwasm/tree/v2.8.0)
+
+* Add feature flags to gate modules [[#171]]([#171](https://github.com/provenance-io/provwasm/pull/171))
+
 ### [v2.7.1](https://github.com/provenance-io/provwasm/tree/v2.7.1)
 
 * Update to Provenance v1.26.0-rc2 [[#169]]([#167](https://github.com/provenance-io/provwasm/pull/169))

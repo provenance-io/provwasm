@@ -20,7 +20,7 @@ backtraces = []
 [dependencies]
 cosmwasm-schema = { workspace = true }
 cosmwasm-std = { workspace = true }
-provwasm-std = { workspace = true }
+provwasm-std = { workspace = true, default-features = false, features = ["provenance-trigger", "cosmos-bank"] }
 schemars = { workspace = true }
 serde = { workspace = true }
 thiserror = { workspace = true }
