@@ -4,6 +4,39 @@ This guide provides information to assist in migrating contracts over major rele
 
 ___There are also example [contracts](./contracts) that provide concrete examples using the current release.___
 
+## v2.7.1 -> 2.8.0
+
+### Feature Flags
+
+`provwasm-std` now supports feature flags to optimize compile times and binary sizes. This is new functionality that allows you to include only the blockchain modules your contract needs.
+
+**For existing contracts:**
+- **Most contracts will continue to work without changes** - The default features include all Provenance modules (`provenance-all`) and core Cosmos modules, so existing contracts using default features will compile and run as before.
+- **Some contracts may fail to compile** - If your contract uses types from modules that are now conditionally compiled, you may see compilation errors. This is most likely if:
+  - You're using `default-features = false` in your `Cargo.toml`
+  - You're using types from less common Cosmos modules (e.g., `cosmos-vesting`, `cosmos-group`, etc.)
+  - You're using coin conversion utilities (`cosmwasm_to_proto_coins`, `try_proto_to_cosmwasm_coins`) without `cosmos-base` enabled
+
+**If you encounter compilation errors:**
+1. Identify which module types are missing from the error messages
+2. Enable the corresponding feature flag (e.g., `provenance-marker`, `cosmos-vesting`, etc.)
+3. Ensure `cosmos-base` is enabled if you use coin conversion utilities
+
+**Example fix:**
+```toml
+[dependencies]
+provwasm-std = { workspace = true, default-features = false, features = [
+    "provenance-marker",
+    "provenance-name",
+    "cosmos-base",  # Required for coin conversions
+    "cosmos-vesting",  # If using vesting account types
+]}
+```
+
+**Optimizing new contracts:**
+If you're starting a new contract or want to reduce compile times, you can disable default features and enable only what you need. See [FEATURES.md](./FEATURES.md) for complete documentation on available features, dependencies, and usage examples.
+
+
 ## v2.3.0 -> 2.4.0
 
 Cosmwasm is upgraded to v2.1.3 and Provenance to v1.19.1
