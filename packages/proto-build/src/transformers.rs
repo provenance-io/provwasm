@@ -206,7 +206,6 @@ pub fn remove_derive_hash_struct(s: &ItemStruct) -> ItemStruct {
     item_struct.attrs = item_struct
         .attrs
         .into_iter()
-        .filter(|attr| !attr.path().is_ident("derive"))
         .map(remove_derive_hash)
         .collect();
 
