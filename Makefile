@@ -53,7 +53,3 @@ scope:
 .PHONY: trigger
 trigger:
 	@make -C contracts/trigger
-
-.PHONY: integration
-integration:
-	@make -C integration_tests
