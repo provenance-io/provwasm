@@ -25,13 +25,13 @@ license = "Apache-2.0"
 [workspace.dependencies]
 ### CosmWasm
 
-cosmwasm-schema = { version = "2.2.2" }
-cosmwasm-std = { version = "2.2.2", default-features = false, features = [
-    "cosmwasm_2_1",
+cosmwasm-schema = { version = "3.0.10" }
+cosmwasm-std = { version = "3.0.10", default-features = false, features = [
+    "cosmwasm_3_0",
     "stargate",
     "std",
 ] }
-cw-storage-plus = { version = "2.0.0" }
+cw-storage-plus = { version = "3.0.1" }
 
 ### ProvWasm
 provwasm-common = { version = "0.3.1", path = "packages/provwasm-common" }

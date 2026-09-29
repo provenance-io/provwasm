@@ -177,12 +177,8 @@ impl MetadataAddress {
     }
 
     fn encode_bech32(key_type: KeyType, bytes: &[u8]) -> Result<String, StdError> {
-        let hrp =
-            Hrp::parse(key_type.to_str()).map_err(|e| StdError::parse_err("Hrp", e.to_string()))?;
-        let encoded = bech32::encode::<Bech32>(hrp, bytes)
-            .map_err(|e| StdError::generic_err(e.to_string()))?;
-
-        Ok(encoded)
+        let hrp = Hrp::parse(key_type.to_str())?;
+        Ok(bech32::encode::<Bech32>(hrp, bytes)?)
     }
 
     pub fn hash_bytes(data: String) -> Vec<u8> {
