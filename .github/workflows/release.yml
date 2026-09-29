@@ -37,7 +37,7 @@ jobs:
         uses: provenance-io/provenance-testing-action@v1.3.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          provenance_version: "release/v1.31.x"
+          provenance_version: "release/v1.31.0"
           test_script: "./scripts/gh-action-test/tutorial_test.sh"
 
   test_attrs_smart_contract:
