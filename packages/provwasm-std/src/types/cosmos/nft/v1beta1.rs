@@ -183,9 +183,9 @@ pub struct QuerySupplyResponse {
 #[proto_message(type_url = "/cosmos.nft.v1beta1.QueryNFTsRequest")]
 #[proto_query(
     path = "/cosmos.nft.v1beta1.Query/NFTs",
-    response_type = QueryNftsResponse
+    response_type = QueryNfTsResponse
 )]
-pub struct QueryNftsRequest {
+pub struct QueryNfTsRequest {
     /// class_id associated with the nft
     #[prost(string, tag = "1")]
     pub class_id: ::prost::alloc::string::String,
@@ -199,7 +199,7 @@ pub struct QueryNftsRequest {
 /// QueryNFTsResponse is the response type for the Query/NFTs RPC methods
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.nft.v1beta1.QueryNFTsResponse")]
-pub struct QueryNftsResponse {
+pub struct QueryNfTsResponse {
     /// NFT defines the NFT
     #[prost(message, repeated, tag = "1")]
     pub nfts: ::prost::alloc::vec::Vec<Nft>,
@@ -318,13 +318,13 @@ impl<'a, Q: cosmwasm_std::CustomQuery> NftQuerier<'a, Q> {
     ) -> Result<QuerySupplyResponse, cosmwasm_std::StdError> {
         QuerySupplyRequest { class_id }.query(self.querier)
     }
-    pub fn nfts(
+    pub fn nf_ts(
         &self,
         class_id: ::prost::alloc::string::String,
         owner: ::prost::alloc::string::String,
         pagination: ::core::option::Option<super::super::base::query::v1beta1::PageRequest>,
-    ) -> Result<QueryNftsResponse, cosmwasm_std::StdError> {
-        QueryNftsRequest {
+    ) -> Result<QueryNfTsResponse, cosmwasm_std::StdError> {
+        QueryNfTsRequest {
             class_id,
             owner,
             pagination,

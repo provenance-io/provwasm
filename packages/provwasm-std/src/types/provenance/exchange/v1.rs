@@ -1572,6 +1572,31 @@ pub struct MsgUpdateParamsRequest {
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.exchange.v1.MsgUpdateParamsResponse")]
 pub struct MsgUpdateParamsResponse {}
+/// MsgSendAndCommitRequest is a request message for the SendAndCommit endpoint.
+/// It sends coins from the sender to the to_address, then commits those coins to the specified market.
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provenance.exchange.v1.MsgSendAndCommitRequest")]
+pub struct MsgSendAndCommitRequest {
+    /// sender is the address of the account sending the coins.
+    #[prost(string, tag = "1")]
+    pub sender: ::prost::alloc::string::String,
+    /// to_address is the address receiving the coins and on whose behalf they will be committed.
+    #[prost(string, tag = "2")]
+    pub to_address: ::prost::alloc::string::String,
+    /// amount is the coins being sent and then committed.
+    #[prost(message, repeated, tag = "3")]
+    pub amount: ::prost::alloc::vec::Vec<super::super::super::cosmos::base::v1beta1::Coin>,
+    /// market_id is the market to commit the funds to.
+    #[prost(uint32, tag = "4")]
+    pub market_id: u32,
+    /// event_tag is a string that is included in the funds-committed events. Max length is 100 characters.
+    #[prost(string, tag = "5")]
+    pub event_tag: ::prost::alloc::string::String,
+}
+/// MsgSendAndCommitResponse is a response message for the SendAndCommit endpoint.
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provenance.exchange.v1.MsgSendAndCommitResponse")]
+pub struct MsgSendAndCommitResponse {}
 /// QueryOrderFeeCalcRequest is a request message for the OrderFeeCalc query.
 /// Exactly one of ask_order or bid_order must be provided.
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
