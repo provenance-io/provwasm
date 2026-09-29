@@ -23,9 +23,10 @@ pub enum ExecuteMsg {
 #[cw_serde]
 #[derive(QueryResponses)]
 pub enum QueryMsg {
-    #[returns(provwasm_std::types::provenance::trigger::v1::QueryTriggerByIdResponse)]
-    #[returns(provwasm_std::types::provenance::trigger::v1::QueryTriggersResponse)]
-    GetTrigger { id: Option<Uint64> },
+    #[returns(TriggersByIdResp)]
+    GetTriggerById { id: Uint64 },
+    #[returns(TriggersResp)]
+    GetTriggers {},
 }
 
 #[cw_serde]

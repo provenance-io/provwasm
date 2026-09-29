@@ -19,6 +19,6 @@ backtraces = []
 
 [dependencies]
 cosmwasm-schema = { workspace = true }
-cosmwasm-std = { workspace = true }
+cosmwasm-std = { workspace = true, features = ["exports"] }
 schemars = { workspace = true }
 serde = { workspace = true }
