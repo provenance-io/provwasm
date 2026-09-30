@@ -11,6 +11,11 @@ exclude = ["attrs.wasm", "checksums.txt"]
 [lib]
 crate-type = ["cdylib", "rlib"]
 
+# Unique example name so a workspace build does not collide on target/debug/examples/schema.
+[[example]]
+name = "attrs-schema"
+path = "examples/schema.rs"
+
 [features]
 backtraces = []
 

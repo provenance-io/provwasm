@@ -50,6 +50,8 @@ pub fn generate() {
             "cosmos/autocli".to_string(),
             "cosmos/base/reflection".to_string(),
             "cosmos/reflection".to_string(),
+            // Cosmos SDK load-test tool. Its protos contain float fields, which CosmWasm rejects.
+            "cosmos/benchmark".to_string(),
             "gogoproto".to_string(),
         ],
     };

@@ -42,6 +42,8 @@ pub fn bind_name(
     .into())
 }
 
+/// Builds an add-marker message. `usd_cents` stays zero because Provenance replaced it with `usd_mills`.
+#[allow(deprecated)]
 pub fn create_marker<S: Into<String>>(
     amount: u128,
     denom: S,
@@ -68,6 +70,8 @@ pub fn create_marker<S: Into<String>>(
         usd_cents: 0,
         volume: 0,
         usd_mills: 0,
+        // Incoming coins stay unrestricted; this example does not require deposit access.
+        require_deposit_access: false,
     }
     .into())
 }
@@ -120,6 +124,9 @@ pub fn withdraw_coins<S: Into<String>, H: Into<Addr>>(
         administrator: validate_address(contract_address)?.to_string(),
         to_address: validate_address(recipient)?.to_string(),
         amount: vec![coin],
+        // Zero market id sends the coins to the recipient without committing them to an exchange.
+        market_id: 0,
+        event_tag: String::new(),
     }
     .into())
 }

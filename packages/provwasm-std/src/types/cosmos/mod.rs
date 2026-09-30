@@ -3,7 +3,6 @@ pub mod auth;
 pub mod authz;
 pub mod bank;
 pub mod base;
-pub mod benchmark;
 pub mod circuit;
 pub mod consensus;
 pub mod crisis;
