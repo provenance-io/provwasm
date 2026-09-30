@@ -1,4 +1,51 @@
 use provwasm_proc_macro::CosmwasmExt;
+/// EventParamsUpdated is emitted when UpdateParams successfully updates the flatfees params.
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provenance.flatfees.v1.EventParamsUpdated")]
+pub struct EventParamsUpdated {}
+/// EventConversionFactorUpdated is emitted when ConversionFactor successfully updated.
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provenance.flatfees.v1.EventConversionFactorUpdated")]
+pub struct EventConversionFactorUpdated {
+    /// definition_amount is the new definition_amount of the conversion factor as coin string, e.g. "1musd".
+    #[prost(string, tag = "1")]
+    pub definition_amount: ::prost::alloc::string::String,
+    /// converted_amount is the new converted_amount of the conversion factor as a coin string, e.g. "2000nhash".
+    #[prost(string, tag = "2")]
+    pub converted_amount: ::prost::alloc::string::String,
+}
+/// EventMsgFeeSet is emitted when a msg fee is created or updated (from the SetMsgFee keeper helper).
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provenance.flatfees.v1.EventMsgFeeSet")]
+pub struct EventMsgFeeSet {
+    /// msg_type_url is the type-url of the message that had its fee set.
+    #[prost(string, tag = "1")]
+    pub msg_type_url: ::prost::alloc::string::String,
+}
+/// EventMsgFeeUnset is emitted when a msg fee is removed (from the RemoveMsgFee keeper helper).
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provenance.flatfees.v1.EventMsgFeeUnset")]
+pub struct EventMsgFeeUnset {
+    /// msg_type_url is the type-url of the message that had its fee removed.
+    #[prost(string, tag = "1")]
+    pub msg_type_url: ::prost::alloc::string::String,
+}
+/// EventOracleAddressAdded is emitted when AddOracleAddress successfully adds an oracle address.
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provenance.flatfees.v1.EventOracleAddressAdded")]
+pub struct EventOracleAddressAdded {
+    /// oracle_address is the address that was added to the oracle list.
+    #[prost(string, tag = "1")]
+    pub oracle_address: ::prost::alloc::string::String,
+}
+/// EventOracleAddressRemoved is emitted when RemoveOracleAddress successfully removes an oracle address.
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provenance.flatfees.v1.EventOracleAddressRemoved")]
+pub struct EventOracleAddressRemoved {
+    /// oracle_address is the address that was removed from the oracle list.
+    #[prost(string, tag = "1")]
+    pub oracle_address: ::prost::alloc::string::String,
+}
 /// Params defines the set of params for the flatfees module.
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.flatfees.v1.Params")]
@@ -13,6 +60,9 @@ pub struct Params {
     /// The denom of the converted amount should be the denom that fees are paid in, e.g. nhash.
     #[prost(message, optional, tag = "3")]
     pub conversion_factor: ::core::option::Option<ConversionFactor>,
+    /// oracle_addresses is the list of addresses allowed to update the conversion factor without governance.
+    #[prost(string, repeated, tag = "4")]
+    pub oracle_addresses: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// ConversionFactor equates the values of two coins in different denominations.
 /// It is used to determine how much of the fee denomination is due.
@@ -146,7 +196,7 @@ pub struct MsgUpdateParamsResponse {}
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.flatfees.v1.MsgUpdateConversionFactorRequest")]
 pub struct MsgUpdateConversionFactorRequest {
-    /// authority should be the governance module account address.
+    /// authority should be either the governance module account address or an oracle address.
     #[prost(string, tag = "1")]
     pub authority: ::prost::alloc::string::String,
     /// conversion_factor is the new conversion factor that should be used.
@@ -176,6 +226,36 @@ pub struct MsgUpdateMsgFeesRequest {
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.flatfees.v1.MsgUpdateMsgFeesResponse")]
 pub struct MsgUpdateMsgFeesResponse {}
+/// MsgAddOracleAddressRequest is the request for the AddOracleAddress governance endpoint.
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provenance.flatfees.v1.MsgAddOracleAddressRequest")]
+pub struct MsgAddOracleAddressRequest {
+    /// authority should be the governance module account address.
+    #[prost(string, tag = "1")]
+    pub authority: ::prost::alloc::string::String,
+    /// oracle_address is the address to be added to the oracle list.
+    #[prost(string, tag = "2")]
+    pub oracle_address: ::prost::alloc::string::String,
+}
+/// MsgAddOracleAddressResponse is the response for the AddOracleAddress governance endpoint.
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provenance.flatfees.v1.MsgAddOracleAddressResponse")]
+pub struct MsgAddOracleAddressResponse {}
+/// MsgRemoveOracleAddressRequest is the request for the RemoveOracleAddress governance endpoint.
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provenance.flatfees.v1.MsgRemoveOracleAddressRequest")]
+pub struct MsgRemoveOracleAddressRequest {
+    /// authority should be the governance module account address.
+    #[prost(string, tag = "1")]
+    pub authority: ::prost::alloc::string::String,
+    /// oracle_address is the address to be removed from the oracle list.
+    #[prost(string, tag = "2")]
+    pub oracle_address: ::prost::alloc::string::String,
+}
+/// MsgRemoveOracleAddressResponse is the response for the RemoveOracleAddress governance endpoint.
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provenance.flatfees.v1.MsgRemoveOracleAddressResponse")]
+pub struct MsgRemoveOracleAddressResponse {}
 pub struct FlatfeesQuerier<'a, Q: cosmwasm_std::CustomQuery> {
     querier: &'a cosmwasm_std::QuerierWrapper<'a, Q>,
 }

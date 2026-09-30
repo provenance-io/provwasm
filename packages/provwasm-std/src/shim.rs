@@ -10,7 +10,9 @@ use serde::de;
 use serde::de::Visitor;
 use serde::ser::SerializeMap;
 
-#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, schemars::JsonSchema)]
+#[derive(
+    Clone, Copy, PartialEq, Eq, ::prost::Message, schemars::JsonSchema, cw_schema::Schemaifier,
+)]
 pub struct Timestamp {
     /// Represents seconds of UTC time since Unix epoch
     /// 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to
@@ -84,7 +86,9 @@ impl From<DateTime<Utc>> for Timestamp {
         }
     }
 }
-#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, schemars::JsonSchema)]
+#[derive(
+    Clone, Copy, PartialEq, Eq, ::prost::Message, schemars::JsonSchema, cw_schema::Schemaifier,
+)]
 pub struct Duration {
     /// Signed seconds of the span of time. Must be from -315,576,000,000
     /// to +315,576,000,000 inclusive. Note: these bounds are computed from:
@@ -141,7 +145,7 @@ impl<'de> Deserialize<'de> for Duration {
     }
 }
 
-#[derive(Clone, PartialEq, Eq, ::prost::Message, schemars::JsonSchema)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message, schemars::JsonSchema, cw_schema::Schemaifier)]
 pub struct Any {
     /// A URL/resource name that uniquely identifies the type of the serialized
     /// protocol buffer message. This string must contain at least
@@ -318,7 +322,7 @@ pub fn cosmwasm_to_proto_coins(
 
 #[cfg(test)]
 mod tests {
-    use cosmwasm_std::Uint128;
+    use cosmwasm_std::Uint256;
 
     use super::*;
 
@@ -328,11 +332,11 @@ mod tests {
         let coins = vec![
             cosmwasm_std::Coin {
                 denom: "uatom".to_string(),
-                amount: Uint128::new(100),
+                amount: Uint256::new(100),
             },
             cosmwasm_std::Coin {
                 denom: "nhash".to_string(),
-                amount: Uint128::new(200),
+                amount: Uint256::new(200),
             },
         ];
 

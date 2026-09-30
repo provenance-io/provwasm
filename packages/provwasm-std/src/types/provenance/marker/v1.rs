@@ -144,6 +144,8 @@ pub struct MarkerAccount {
     #[prost(string, tag = "5")]
     pub denom: ::prost::alloc::string::String,
     /// the total supply expected for a marker.  This is the amount that is minted when a marker is created.
+    /// Note: This is a static configuration value, not the current circulating supply.
+    /// To query the current circulating supply, use the bank module's SupplyOf query.
     #[prost(string, tag = "6")]
     pub supply: ::prost::alloc::string::String,
     /// Marker type information
@@ -163,6 +165,10 @@ pub struct MarkerAccount {
     /// transfer authority
     #[prost(string, repeated, tag = "11")]
     pub required_attributes: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// requires that an address have deposit access in order to send coins into this marker account, regardless of marker
+    /// type. When false (default), only restricted markers enforce deposit access.
+    #[prost(bool, tag = "12")]
+    pub require_deposit_access: bool,
 }
 /// NetAssetValue defines a marker's net asset value
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
@@ -727,20 +733,24 @@ pub struct QueryHoldingResponse {
         ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageResponse>,
 }
 /// QuerySupplyRequest is the request type for the Query/MarkerSupply method.
+/// Deprecated: This returns initial/target supply. Use the bank module's SupplyOf query for actual circulating supply.
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.QuerySupplyRequest")]
 #[proto_query(
     path = "/provenance.marker.v1.Query/Supply",
     response_type = QuerySupplyResponse
 )]
+#[deprecated]
 pub struct QuerySupplyRequest {
     /// address or denom for the marker
     #[prost(string, tag = "1")]
     pub id: ::prost::alloc::string::String,
 }
 /// QuerySupplyResponse is the response type for the Query/MarkerSupply method.
+/// Deprecated: This returns initial/target supply. Use the bank module's SupplyOf query for actual circulating supply.
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.QuerySupplyResponse")]
+#[deprecated]
 pub struct QuerySupplyResponse {
     /// amount is the supply of the marker.
     #[prost(message, optional, tag = "1")]
@@ -1012,6 +1022,8 @@ pub struct MsgAddMarkerRequest {
     pub volume: u64,
     #[prost(uint64, tag = "14")]
     pub usd_mills: u64,
+    #[prost(bool, tag = "15")]
+    pub require_deposit_access: bool,
 }
 /// MsgAddMarkerResponse defines the Msg/AddMarker response type
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
@@ -1140,6 +1152,14 @@ pub struct MsgWithdrawRequest {
     pub to_address: ::prost::alloc::string::String,
     #[prost(message, repeated, tag = "4")]
     pub amount: ::prost::alloc::vec::Vec<super::super::super::cosmos::base::v1beta1::Coin>,
+    /// market_id is an optional exchange market id. If non-zero, the withdrawn funds will be committed
+    /// to that market on behalf of the to_address after the withdrawal completes.
+    #[prost(uint32, tag = "5")]
+    pub market_id: u32,
+    /// event_tag is an optional string included in commitment events when market_id is non-zero. Max length is 100
+    /// characters.
+    #[prost(string, tag = "6")]
+    pub event_tag: ::prost::alloc::string::String,
 }
 /// MsgWithdrawResponse defines the Msg/Withdraw response type
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
@@ -1218,6 +1238,9 @@ pub struct MsgAddFinalizeActivateMarkerRequest {
     pub volume: u64,
     #[prost(uint64, tag = "13")]
     pub usd_mills: u64,
+    /// require_deposit_access enforces deposit-access control on coins sent into this marker regardless of marker type.
+    #[prost(bool, tag = "14")]
+    pub require_deposit_access: bool,
 }
 /// MsgAddFinalizeActivateMarkerResponse defines the Msg/AddFinalizeActivateMarker response type
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
@@ -1297,6 +1320,25 @@ pub struct MsgUpdateForcedTransferRequest {
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.marker.v1.MsgUpdateForcedTransferResponse")]
 pub struct MsgUpdateForcedTransferResponse {}
+/// MsgUpdateRequireDepositAccessRequest defines a msg to update the require_deposit_access field of a marker.
+/// Signer must have admin access on the marker or be a governance proposal.
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provenance.marker.v1.MsgUpdateRequireDepositAccessRequest")]
+pub struct MsgUpdateRequireDepositAccessRequest {
+    /// The denomination of the marker to update.
+    #[prost(string, tag = "1")]
+    pub denom: ::prost::alloc::string::String,
+    /// Whether deposit access is required to send coins into this marker regardless of marker type.
+    #[prost(bool, tag = "2")]
+    pub require_deposit_access: bool,
+    /// The signer of this message. Must have admin access on the marker or be the governance module account address.
+    #[prost(string, tag = "3")]
+    pub signer: ::prost::alloc::string::String,
+}
+/// MsgUpdateRequireDepositAccessResponse defines the Msg/UpdateRequireDepositAccess response type
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provenance.marker.v1.MsgUpdateRequireDepositAccessResponse")]
+pub struct MsgUpdateRequireDepositAccessResponse {}
 /// MsgSetAccountDataRequest defines a msg to set/update/delete the account data for a marker.
 /// Signer must have deposit authority or be a gov proposal.
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
@@ -1500,6 +1542,7 @@ impl<'a, Q: cosmwasm_std::CustomQuery> MarkerQuerier<'a, Q> {
     ) -> Result<QueryHoldingResponse, cosmwasm_std::StdError> {
         QueryHoldingRequest { id, pagination }.query(self.querier)
     }
+    #[deprecated]
     pub fn supply(
         &self,
         id: ::prost::alloc::string::String,

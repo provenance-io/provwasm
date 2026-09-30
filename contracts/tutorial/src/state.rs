@@ -1,3 +1,4 @@
+use cosmwasm_schema::cw_schema::Schemaifier;
 use cosmwasm_std::{Addr, Decimal};
 use cw_storage_plus::Item;
 use schemars::JsonSchema;
@@ -6,7 +7,8 @@ use serde::{Deserialize, Serialize};
 pub const CONFIG: Item<State> = Item::new("config");
 
 /// Fields that comprise the smart contract state
-#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema, Schemaifier)]
+#[schemaifier(crate = "::cosmwasm_schema::cw_schema")]
 pub struct State {
     // The required purchase denomination
     pub purchase_denom: String,
