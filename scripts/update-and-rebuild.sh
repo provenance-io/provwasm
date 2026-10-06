@@ -3,7 +3,7 @@
 set -euxo pipefail
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-LATEST_PROVENANCE_VERSION="release/v1.31.x"
+LATEST_PROVENANCE_VERSION="v1.31.0"
 PROVENANCE_REV=${1:-$LATEST_PROVENANCE_VERSION}
 COMMIT=${2:-"skip"}
 
