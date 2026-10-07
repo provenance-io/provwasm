@@ -32,6 +32,7 @@ pub struct EventFundsReleased {
     pub coins: ::prost::alloc::vec::Vec<super::super::base::v1beta1::Coin>,
 }
 /// QuarantinedFunds defines structure that represents coins that have been quarantined.
+/// Deprecated: The quarantine module has been removed.
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.quarantine.v1beta1.QuarantinedFunds")]
 pub struct QuarantinedFunds {
@@ -49,6 +50,7 @@ pub struct QuarantinedFunds {
     pub declined: bool,
 }
 /// AutoResponseEntry defines the auto response to one address from another.
+/// Deprecated: The quarantine module has been removed.
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.quarantine.v1beta1.AutoResponseEntry")]
 pub struct AutoResponseEntry {
@@ -63,6 +65,7 @@ pub struct AutoResponseEntry {
     pub response: i32,
 }
 /// AutoResponseUpdate defines a quarantine auto response update that should be applied.
+/// Deprecated: The quarantine module has been removed.
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.quarantine.v1beta1.AutoResponseUpdate")]
 pub struct AutoResponseUpdate {
@@ -75,6 +78,7 @@ pub struct AutoResponseUpdate {
     pub response: i32,
 }
 /// QuarantineRecord defines information regarding quarantined funds that is stored in state.
+/// Deprecated: The quarantine module has been removed.
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.quarantine.v1beta1.QuarantineRecord")]
 pub struct QuarantineRecord {
@@ -92,6 +96,7 @@ pub struct QuarantineRecord {
     pub declined: bool,
 }
 /// QuarantineRecordSuffixIndex defines a list of record suffixes that can be stored in state and used as an index.
+/// Deprecated: The quarantine module has been removed.
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.quarantine.v1beta1.QuarantineRecordSuffixIndex")]
 pub struct QuarantineRecordSuffixIndex {
@@ -99,6 +104,7 @@ pub struct QuarantineRecordSuffixIndex {
     pub record_suffixes: ::prost::alloc::vec::Vec<::prost::alloc::vec::Vec<u8>>,
 }
 /// AutoResponse enumerates the quarantine auto-response options.
+/// Deprecated: The quarantine module has been removed.
 #[derive(
     Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, ::prost::Enumeration, ::schemars::JsonSchema,
 )]
@@ -136,6 +142,7 @@ impl AutoResponse {
     }
 }
 /// GenesisState defines the quarantine module's genesis state.
+/// Deprecated: The quarantine module has been removed.
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.quarantine.v1beta1.GenesisState")]
 pub struct GenesisState {
@@ -149,85 +156,80 @@ pub struct GenesisState {
     #[prost(message, repeated, tag = "3")]
     pub quarantined_funds: ::prost::alloc::vec::Vec<QuarantinedFunds>,
 }
-/// QueryIsQuarantinedRequest defines the RPC request for checking if an account has opted into quarantine.
+/// Deprecated: The quarantine module has been removed.
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.quarantine.v1beta1.QueryIsQuarantinedRequest")]
 #[proto_query(
     path = "/cosmos.quarantine.v1beta1.Query/IsQuarantined",
     response_type = QueryIsQuarantinedResponse
 )]
+#[deprecated]
 pub struct QueryIsQuarantinedRequest {
-    /// to_address is the address to check.
     #[prost(string, tag = "1")]
     pub to_address: ::prost::alloc::string::String,
 }
-/// QueryIsQuarantinedResponse defines the RPC response of an IsQuarantined query.
+/// Deprecated: The quarantine module has been removed.
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.quarantine.v1beta1.QueryIsQuarantinedResponse")]
+#[deprecated]
 pub struct QueryIsQuarantinedResponse {
-    /// is_quarantined is true if the to_address has opted into quarantine.
     #[prost(bool, tag = "1")]
     pub is_quarantined: bool,
 }
-/// QueryQuarantinedFundsRequest defines the RPC request for looking up quarantined funds.
+/// Deprecated: The quarantine module has been removed.
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.quarantine.v1beta1.QueryQuarantinedFundsRequest")]
 #[proto_query(
     path = "/cosmos.quarantine.v1beta1.Query/QuarantinedFunds",
     response_type = QueryQuarantinedFundsResponse
 )]
+#[deprecated]
 pub struct QueryQuarantinedFundsRequest {
-    /// to_address is the intended recipient of the coins that have been quarantined.
     #[prost(string, tag = "1")]
     pub to_address: ::prost::alloc::string::String,
-    /// from_address is the sender of the coins. If provided, a to_address must also be provided.
     #[prost(string, tag = "2")]
     pub from_address: ::prost::alloc::string::String,
-    /// pagination defines optional pagination parameters for the request.
     #[prost(message, optional, tag = "99")]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageRequest>,
 }
-/// QueryQuarantinedFundsResponse defines the RPC response of a QuarantinedFunds query.
+/// Deprecated: The quarantine module has been removed.
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.quarantine.v1beta1.QueryQuarantinedFundsResponse")]
+#[deprecated]
 pub struct QueryQuarantinedFundsResponse {
-    /// quarantinedFunds is info about coins sitting in quarantine.
     #[prost(message, repeated, tag = "1")]
     pub quarantined_funds: ::prost::alloc::vec::Vec<QuarantinedFunds>,
-    /// pagination defines the pagination parameters of the response.
     #[prost(message, optional, tag = "99")]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageResponse>,
 }
-/// QueryAutoResponsesRequest defines the RPC request for getting auto-response settings for an address.
+/// Deprecated: The quarantine module has been removed.
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.quarantine.v1beta1.QueryAutoResponsesRequest")]
 #[proto_query(
     path = "/cosmos.quarantine.v1beta1.Query/AutoResponses",
     response_type = QueryAutoResponsesResponse
 )]
+#[deprecated]
 pub struct QueryAutoResponsesRequest {
-    /// to_address is the quarantined account to get info on.
     #[prost(string, tag = "1")]
     pub to_address: ::prost::alloc::string::String,
-    /// from_address is an optional sender address to limit results.
     #[prost(string, tag = "2")]
     pub from_address: ::prost::alloc::string::String,
-    /// pagination defines optional pagination parameters for the request.
     #[prost(message, optional, tag = "99")]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageRequest>,
 }
-/// QueryAutoResponsesResponse defines the RPC response of a AutoResponses query.
+/// Deprecated: The quarantine module has been removed.
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.quarantine.v1beta1.QueryAutoResponsesResponse")]
+#[deprecated]
 pub struct QueryAutoResponsesResponse {
-    /// auto_responses are the auto-response entries from the provided query.
     #[prost(message, repeated, tag = "1")]
     pub auto_responses: ::prost::alloc::vec::Vec<AutoResponseEntry>,
-    /// pagination defines the pagination parameters of the response.
     #[prost(message, optional, tag = "99")]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageResponse>,
 }
 /// MsgOptIn represents a message for opting in to account quarantine.
+/// Deprecated: The quarantine module has been removed.
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.quarantine.v1beta1.MsgOptIn")]
 pub struct MsgOptIn {
@@ -239,6 +241,7 @@ pub struct MsgOptIn {
 #[proto_message(type_url = "/cosmos.quarantine.v1beta1.MsgOptInResponse")]
 pub struct MsgOptInResponse {}
 /// MsgOptOut represents a message for opting in to account quarantine.
+/// Deprecated: The quarantine module has been removed.
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.quarantine.v1beta1.MsgOptOut")]
 pub struct MsgOptOut {
@@ -250,6 +253,7 @@ pub struct MsgOptOut {
 #[proto_message(type_url = "/cosmos.quarantine.v1beta1.MsgOptOutResponse")]
 pub struct MsgOptOutResponse {}
 /// MsgAccept represents a message for accepting quarantined funds.
+/// Deprecated: The quarantine module has been removed.
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.quarantine.v1beta1.MsgAccept")]
 pub struct MsgAccept {
@@ -275,6 +279,7 @@ pub struct MsgAcceptResponse {
     pub funds_released: ::prost::alloc::vec::Vec<super::super::base::v1beta1::Coin>,
 }
 /// MsgDecline represents a message for declining quarantined funds.
+/// Deprecated: The quarantine module has been removed.
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.quarantine.v1beta1.MsgDecline")]
 pub struct MsgDecline {
@@ -296,6 +301,7 @@ pub struct MsgDecline {
 #[proto_message(type_url = "/cosmos.quarantine.v1beta1.MsgDeclineResponse")]
 pub struct MsgDeclineResponse {}
 /// MsgUpdateAutoResponses represents a message for updating quarantine auto-responses for a receiving address.
+/// Deprecated: The quarantine module has been removed.
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.quarantine.v1beta1.MsgUpdateAutoResponses")]
 pub struct MsgUpdateAutoResponses {
@@ -317,12 +323,14 @@ impl<'a, Q: cosmwasm_std::CustomQuery> QuarantineQuerier<'a, Q> {
     pub fn new(querier: &'a cosmwasm_std::QuerierWrapper<'a, Q>) -> Self {
         Self { querier }
     }
+    #[deprecated]
     pub fn is_quarantined(
         &self,
         to_address: ::prost::alloc::string::String,
     ) -> Result<QueryIsQuarantinedResponse, cosmwasm_std::StdError> {
         QueryIsQuarantinedRequest { to_address }.query(self.querier)
     }
+    #[deprecated]
     pub fn quarantined_funds(
         &self,
         to_address: ::prost::alloc::string::String,
@@ -336,6 +344,7 @@ impl<'a, Q: cosmwasm_std::CustomQuery> QuarantineQuerier<'a, Q> {
         }
         .query(self.querier)
     }
+    #[deprecated]
     pub fn auto_responses(
         &self,
         to_address: ::prost::alloc::string::String,

@@ -544,7 +544,6 @@ pub struct MsgWithdrawDelegatorReward {
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorRewardResponse")]
 pub struct MsgWithdrawDelegatorRewardResponse {
-    /// Since: cosmos-sdk 0.46
     #[prost(message, repeated, tag = "1")]
     pub amount: ::prost::alloc::vec::Vec<super::super::base::v1beta1::Coin>,
 }
@@ -561,7 +560,6 @@ pub struct MsgWithdrawValidatorCommission {
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.MsgWithdrawValidatorCommissionResponse")]
 pub struct MsgWithdrawValidatorCommissionResponse {
-    /// Since: cosmos-sdk 0.46
     #[prost(message, repeated, tag = "1")]
     pub amount: ::prost::alloc::vec::Vec<super::super::base::v1beta1::Coin>,
 }
@@ -580,8 +578,6 @@ pub struct MsgFundCommunityPool {
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.MsgFundCommunityPoolResponse")]
 pub struct MsgFundCommunityPoolResponse {}
 /// MsgUpdateParams is the Msg/UpdateParams request type.
-///
-/// Since: cosmos-sdk 0.47
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.MsgUpdateParams")]
 pub struct MsgUpdateParams {
@@ -596,16 +592,12 @@ pub struct MsgUpdateParams {
 }
 /// MsgUpdateParamsResponse defines the response structure for executing a
 /// MsgUpdateParams message.
-///
-/// Since: cosmos-sdk 0.47
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.MsgUpdateParamsResponse")]
 pub struct MsgUpdateParamsResponse {}
 /// MsgCommunityPoolSpend defines a message for sending tokens from the community
 /// pool to another account. This message is typically executed via a governance
 /// proposal with the governance module being the executing authority.
-///
-/// Since: cosmos-sdk 0.47
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.MsgCommunityPoolSpend")]
 pub struct MsgCommunityPoolSpend {
@@ -619,15 +611,11 @@ pub struct MsgCommunityPoolSpend {
 }
 /// MsgCommunityPoolSpendResponse defines the response to executing a
 /// MsgCommunityPoolSpend message.
-///
-/// Since: cosmos-sdk 0.47
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.MsgCommunityPoolSpendResponse")]
 pub struct MsgCommunityPoolSpendResponse {}
 /// DepositValidatorRewardsPool defines the request structure to provide
 /// additional rewards to delegators from a specific validator.
-///
-/// Since: cosmos-sdk 0.50
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.MsgDepositValidatorRewardsPool")]
 pub struct MsgDepositValidatorRewardsPool {
@@ -640,8 +628,6 @@ pub struct MsgDepositValidatorRewardsPool {
 }
 /// MsgDepositValidatorRewardsPoolResponse defines the response to executing a
 /// MsgDepositValidatorRewardsPool message.
-///
-/// Since: cosmos-sdk 0.50
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.MsgDepositValidatorRewardsPoolResponse")]
 pub struct MsgDepositValidatorRewardsPoolResponse {}

@@ -21,18 +21,19 @@ Edit Cargo.toml to have the following contract dependencies
 
 ```toml
 [dependencies]
-cosmwasm-schema = "2.1.4"
-cosmwasm-std = "2.1.4"
-cw-storage-plus = "2.0.0"
-cw2 = "1.0.1"
-provwasm-std = "2.5.0"
+cosmwasm-schema = "3.0.10"
+cosmwasm-std = { version = "3.0.10", features = ["exports"] }
+cw-storage-plus = "3.0.1"
+provwasm-std = { version = "2.8.0", default-features = false, features = ["provenance-name"] }
 schemars = "0.8.16"
 serde = { version = "1.0.197", default-features = false, features = ["derive"] }
 thiserror = { version = "1.0.58" }
 
 [dev-dependencies]
-provwasm-mocks = "2.5.0"
+provwasm-mocks = "2.8.0"
 ```
+
+The CosmWasm 3 build of `provwasm-std` and `provwasm-mocks` is not published yet. Until that release, point both crates at this repository with `path` instead of the version above.
 
 Reset the README and clear out the current JSON schema artifacts.
 

@@ -10,7 +10,7 @@ use proto_build::{
 };
 
 /// The provenance commit or tag to be cloned and used to build the proto files
-const PROVENANCE_REV: &str = "v1.27.0";
+const PROVENANCE_REV: &str = "v1.31.0";
 
 // All paths must end with a / and either be absolute or include a ./ to reference the current
 // working directory.
@@ -50,6 +50,8 @@ pub fn generate() {
             "cosmos/autocli".to_string(),
             "cosmos/base/reflection".to_string(),
             "cosmos/reflection".to_string(),
+            // Cosmos SDK load-test tool. Its protos contain float fields, which CosmWasm rejects.
+            "cosmos/benchmark".to_string(),
             "gogoproto".to_string(),
         ],
     };

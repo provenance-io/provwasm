@@ -34,6 +34,7 @@ pub struct TransferAuthorization {
 /// source tracing information path.
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.transfer.v1.DenomTrace")]
+#[deprecated]
 pub struct DenomTrace {
     /// path defines the chain of port/channel identifiers used for tracing the
     /// source of the fungible token.
@@ -59,6 +60,37 @@ pub struct Params {
     #[prost(bool, tag = "2")]
     pub receive_enabled: bool,
 }
+/// Token defines a struct which represents a token to be transferred.
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/ibc.applications.transfer.v1.Token")]
+pub struct Token {
+    /// the token denomination
+    #[prost(message, optional, tag = "1")]
+    pub denom: ::core::option::Option<Denom>,
+    /// the token amount to be transferred
+    #[prost(string, tag = "2")]
+    pub amount: ::prost::alloc::string::String,
+}
+/// Denom holds the base denom of a Token and a trace of the chains it was sent through.
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/ibc.applications.transfer.v1.Denom")]
+pub struct Denom {
+    /// the base token denomination
+    #[prost(string, tag = "1")]
+    pub base: ::prost::alloc::string::String,
+    /// the trace of the token
+    #[prost(message, repeated, tag = "3")]
+    pub trace: ::prost::alloc::vec::Vec<Hop>,
+}
+/// Hop defines a port ID, channel ID pair specifying a unique "hop" in a trace
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/ibc.applications.transfer.v1.Hop")]
+pub struct Hop {
+    #[prost(string, tag = "1")]
+    pub port_id: ::prost::alloc::string::String,
+    #[prost(string, tag = "2")]
+    pub channel_id: ::prost::alloc::string::String,
+}
 /// GenesisState defines the ibc-transfer genesis state
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/ibc.applications.transfer.v1.GenesisState")]
@@ -66,7 +98,7 @@ pub struct GenesisState {
     #[prost(string, tag = "1")]
     pub port_id: ::prost::alloc::string::String,
     #[prost(message, repeated, tag = "2")]
-    pub denom_traces: ::prost::alloc::vec::Vec<DenomTrace>,
+    pub denoms: ::prost::alloc::vec::Vec<Denom>,
     #[prost(message, optional, tag = "3")]
     pub params: ::core::option::Option<Params>,
     /// total_escrowed contains the total amount of tokens escrowed
@@ -75,56 +107,27 @@ pub struct GenesisState {
     pub total_escrowed:
         ::prost::alloc::vec::Vec<super::super::super::super::cosmos::base::v1beta1::Coin>,
 }
-/// QueryDenomTraceRequest is the request type for the Query/DenomTrace RPC
-/// method
+/// FungibleTokenPacketData defines a struct for the packet payload
+/// See FungibleTokenPacketData spec:
+/// <https://github.com/cosmos/ibc/tree/master/spec/app/ics-020-fungible-token-transfer#data-structures>
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
-#[proto_message(type_url = "/ibc.applications.transfer.v1.QueryDenomTraceRequest")]
-#[proto_query(
-    path = "/ibc.applications.transfer.v1.Query/DenomTrace",
-    response_type = QueryDenomTraceResponse
-)]
-pub struct QueryDenomTraceRequest {
-    /// hash (in hex format) or denom (full denom with ibc prefix) of the denomination trace information.
+#[proto_message(type_url = "/ibc.applications.transfer.v1.FungibleTokenPacketData")]
+pub struct FungibleTokenPacketData {
+    /// the token denomination to be transferred
     #[prost(string, tag = "1")]
-    pub hash: ::prost::alloc::string::String,
-}
-/// QueryDenomTraceResponse is the response type for the Query/DenomTrace RPC
-/// method.
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
-#[proto_message(type_url = "/ibc.applications.transfer.v1.QueryDenomTraceResponse")]
-pub struct QueryDenomTraceResponse {
-    /// denom_trace returns the requested denomination trace information.
-    #[prost(message, optional, tag = "1")]
-    pub denom_trace: ::core::option::Option<DenomTrace>,
-}
-/// QueryConnectionsRequest is the request type for the Query/DenomTraces RPC
-/// method
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
-#[proto_message(type_url = "/ibc.applications.transfer.v1.QueryDenomTracesRequest")]
-#[proto_query(
-    path = "/ibc.applications.transfer.v1.Query/DenomTraces",
-    response_type = QueryDenomTracesResponse
-)]
-pub struct QueryDenomTracesRequest {
-    /// pagination defines an optional pagination for the request.
-    #[prost(message, optional, tag = "1")]
-    pub pagination: ::core::option::Option<
-        super::super::super::super::cosmos::base::query::v1beta1::PageRequest,
-    >,
-}
-/// QueryConnectionsResponse is the response type for the Query/DenomTraces RPC
-/// method.
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
-#[proto_message(type_url = "/ibc.applications.transfer.v1.QueryDenomTracesResponse")]
-pub struct QueryDenomTracesResponse {
-    /// denom_traces returns all denominations trace information.
-    #[prost(message, repeated, tag = "1")]
-    pub denom_traces: ::prost::alloc::vec::Vec<DenomTrace>,
-    /// pagination defines the pagination in the response.
-    #[prost(message, optional, tag = "2")]
-    pub pagination: ::core::option::Option<
-        super::super::super::super::cosmos::base::query::v1beta1::PageResponse,
-    >,
+    pub denom: ::prost::alloc::string::String,
+    /// the token amount to be transferred
+    #[prost(string, tag = "2")]
+    pub amount: ::prost::alloc::string::String,
+    /// the sender address
+    #[prost(string, tag = "3")]
+    pub sender: ::prost::alloc::string::String,
+    /// the recipient address on the destination chain
+    #[prost(string, tag = "4")]
+    pub receiver: ::prost::alloc::string::String,
+    /// optional memo
+    #[prost(string, tag = "5")]
+    pub memo: ::prost::alloc::string::String,
 }
 /// QueryParamsRequest is the request type for the Query/Params RPC method.
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
@@ -141,6 +144,57 @@ pub struct QueryParamsResponse {
     /// params defines the parameters of the module.
     #[prost(message, optional, tag = "1")]
     pub params: ::core::option::Option<Params>,
+}
+/// QueryDenomRequest is the request type for the Query/Denom RPC
+/// method
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/ibc.applications.transfer.v1.QueryDenomRequest")]
+#[proto_query(
+    path = "/ibc.applications.transfer.v1.Query/Denom",
+    response_type = QueryDenomResponse
+)]
+pub struct QueryDenomRequest {
+    /// hash (in hex format) or denom (full denom with ibc prefix) of the on chain denomination.
+    #[prost(string, tag = "1")]
+    pub hash: ::prost::alloc::string::String,
+}
+/// QueryDenomResponse is the response type for the Query/Denom RPC
+/// method.
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/ibc.applications.transfer.v1.QueryDenomResponse")]
+pub struct QueryDenomResponse {
+    /// denom returns the requested denomination.
+    #[prost(message, optional, tag = "1")]
+    pub denom: ::core::option::Option<Denom>,
+}
+/// QueryDenomsRequest is the request type for the Query/Denoms RPC
+/// method
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/ibc.applications.transfer.v1.QueryDenomsRequest")]
+#[proto_query(
+    path = "/ibc.applications.transfer.v1.Query/Denoms",
+    response_type = QueryDenomsResponse
+)]
+pub struct QueryDenomsRequest {
+    /// pagination defines an optional pagination for the request.
+    #[prost(message, optional, tag = "1")]
+    pub pagination: ::core::option::Option<
+        super::super::super::super::cosmos::base::query::v1beta1::PageRequest,
+    >,
+}
+/// QueryDenomsResponse is the response type for the Query/Denoms RPC
+/// method.
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/ibc.applications.transfer.v1.QueryDenomsResponse")]
+pub struct QueryDenomsResponse {
+    /// denoms returns all denominations.
+    #[prost(message, repeated, tag = "1")]
+    pub denoms: ::prost::alloc::vec::Vec<Denom>,
+    /// pagination defines the pagination in the response.
+    #[prost(message, optional, tag = "2")]
+    pub pagination: ::core::option::Option<
+        super::super::super::super::cosmos::base::query::v1beta1::PageResponse,
+    >,
 }
 /// QueryDenomHashRequest is the request type for the Query/DenomHash RPC
 /// method
@@ -217,7 +271,7 @@ pub struct MsgTransfer {
     /// the channel by which the packet will be sent
     #[prost(string, tag = "2")]
     pub source_channel: ::prost::alloc::string::String,
-    /// the tokens to be transferred
+    /// token to be transferred
     #[prost(message, optional, tag = "3")]
     pub token: ::core::option::Option<super::super::super::super::cosmos::base::v1beta1::Coin>,
     /// the sender address
@@ -227,16 +281,21 @@ pub struct MsgTransfer {
     #[prost(string, tag = "5")]
     pub receiver: ::prost::alloc::string::String,
     /// Timeout height relative to the current block height.
-    /// The timeout is disabled when set to 0.
+    /// If you are sending with IBC v1 protocol, either timeout_height or timeout_timestamp must be set.
+    /// If you are sending with IBC v2 protocol, timeout_timestamp must be set, and timeout_height must be omitted.
     #[prost(message, optional, tag = "6")]
     pub timeout_height: ::core::option::Option<super::super::super::core::client::v1::Height>,
     /// Timeout timestamp in absolute nanoseconds since unix epoch.
-    /// The timeout is disabled when set to 0.
+    /// If you are sending with IBC v1 protocol, either timeout_height or timeout_timestamp must be set.
+    /// If you are sending with IBC v2 protocol, timeout_timestamp must be set.
     #[prost(uint64, tag = "7")]
     pub timeout_timestamp: u64,
     /// optional memo
     #[prost(string, tag = "8")]
     pub memo: ::prost::alloc::string::String,
+    /// optional encoding
+    #[prost(string, tag = "9")]
+    pub encoding: ::prost::alloc::string::String,
 }
 /// MsgTransferResponse defines the Msg/Transfer response type.
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
@@ -271,22 +330,22 @@ impl<'a, Q: cosmwasm_std::CustomQuery> TransferQuerier<'a, Q> {
     pub fn new(querier: &'a cosmwasm_std::QuerierWrapper<'a, Q>) -> Self {
         Self { querier }
     }
-    pub fn denom_traces(
+    pub fn params(&self) -> Result<QueryParamsResponse, cosmwasm_std::StdError> {
+        QueryParamsRequest {}.query(self.querier)
+    }
+    pub fn denoms(
         &self,
         pagination: ::core::option::Option<
             super::super::super::super::cosmos::base::query::v1beta1::PageRequest,
         >,
-    ) -> Result<QueryDenomTracesResponse, cosmwasm_std::StdError> {
-        QueryDenomTracesRequest { pagination }.query(self.querier)
+    ) -> Result<QueryDenomsResponse, cosmwasm_std::StdError> {
+        QueryDenomsRequest { pagination }.query(self.querier)
     }
-    pub fn denom_trace(
+    pub fn denom(
         &self,
         hash: ::prost::alloc::string::String,
-    ) -> Result<QueryDenomTraceResponse, cosmwasm_std::StdError> {
-        QueryDenomTraceRequest { hash }.query(self.querier)
-    }
-    pub fn params(&self) -> Result<QueryParamsResponse, cosmwasm_std::StdError> {
-        QueryParamsRequest {}.query(self.querier)
+    ) -> Result<QueryDenomResponse, cosmwasm_std::StdError> {
+        QueryDenomRequest { hash }.query(self.querier)
     }
     pub fn denom_hash(
         &self,

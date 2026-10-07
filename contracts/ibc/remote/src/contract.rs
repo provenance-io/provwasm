@@ -29,14 +29,14 @@ pub fn ibc_channel_open(
     let channel = msg.channel();
 
     if channel.order != IbcOrder::Ordered {
-        return Err(StdError::generic_err("Only supports ordered channels"));
+        return Err(StdError::msg("Only supports ordered channels"));
     }
 
     // In ibc v3 we don't check the version string passed in the message
     // and only check the counterparty version.
     if let Some(counter_version) = msg.counterparty_version() {
         if counter_version != IBC_APP_VERSION {
-            return Err(StdError::generic_err(format!(
+            return Err(StdError::msg(format!(
                 "Counterparty version must be `{}`",
                 IBC_APP_VERSION
             )));

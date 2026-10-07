@@ -41,7 +41,7 @@ pub fn handle_update_admin(
     // auth check
     let mut cfg = CONFIG.load(deps.storage)?;
     if info.sender != cfg.admin {
-        return Err(StdError::generic_err("Only admin may set new admin"));
+        return Err(StdError::msg("Only admin may set new admin"));
     }
     cfg.admin = deps.api.addr_validate(&new_admin)?;
     CONFIG.save(deps.storage, &cfg)?;
@@ -60,7 +60,7 @@ pub fn handle_who_am_i(
     // auth check
     let cfg = CONFIG.load(deps.storage)?;
     if info.sender != cfg.admin {
-        return Err(StdError::generic_err("Only admin may send messages"));
+        return Err(StdError::msg("Only admin may send messages"));
     }
     // ensure the channel exists (not found if not registered)
     ACCOUNTS.load(deps.storage, &channel_id)?;
