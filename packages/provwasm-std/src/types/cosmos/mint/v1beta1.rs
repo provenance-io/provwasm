@@ -96,8 +96,6 @@ pub struct QueryAnnualProvisionsResponse {
     pub annual_provisions: ::prost::alloc::vec::Vec<u8>,
 }
 /// MsgUpdateParams is the Msg/UpdateParams request type.
-///
-/// Since: cosmos-sdk 0.47
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.mint.v1beta1.MsgUpdateParams")]
 pub struct MsgUpdateParams {
@@ -112,8 +110,6 @@ pub struct MsgUpdateParams {
 }
 /// MsgUpdateParamsResponse defines the response structure for executing a
 /// MsgUpdateParams message.
-///
-/// Since: cosmos-sdk 0.47
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.mint.v1beta1.MsgUpdateParamsResponse")]
 pub struct MsgUpdateParamsResponse {}

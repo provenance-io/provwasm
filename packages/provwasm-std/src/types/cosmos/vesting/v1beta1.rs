@@ -61,8 +61,6 @@ pub struct PeriodicVestingAccount {
 /// PermanentLockedAccount implements the VestingAccount interface. It does
 /// not ever release coins, locking them indefinitely. Coins in this account can
 /// still be used for delegating and for governance votes even while locked.
-///
-/// Since: cosmos-sdk 0.43
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.vesting.v1beta1.PermanentLockedAccount")]
 pub struct PermanentLockedAccount {
@@ -92,8 +90,6 @@ pub struct MsgCreateVestingAccount {
 pub struct MsgCreateVestingAccountResponse {}
 /// MsgCreatePermanentLockedAccount defines a message that enables creating a permanent
 /// locked account.
-///
-/// Since: cosmos-sdk 0.46
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.vesting.v1beta1.MsgCreatePermanentLockedAccount")]
 pub struct MsgCreatePermanentLockedAccount {
@@ -105,15 +101,11 @@ pub struct MsgCreatePermanentLockedAccount {
     pub amount: ::prost::alloc::vec::Vec<super::super::base::v1beta1::Coin>,
 }
 /// MsgCreatePermanentLockedAccountResponse defines the Msg/CreatePermanentLockedAccount response type.
-///
-/// Since: cosmos-sdk 0.46
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.vesting.v1beta1.MsgCreatePermanentLockedAccountResponse")]
 pub struct MsgCreatePermanentLockedAccountResponse {}
 /// MsgCreateVestingAccount defines a message that enables creating a vesting
 /// account.
-///
-/// Since: cosmos-sdk 0.46
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.vesting.v1beta1.MsgCreatePeriodicVestingAccount")]
 pub struct MsgCreatePeriodicVestingAccount {
@@ -129,8 +121,6 @@ pub struct MsgCreatePeriodicVestingAccount {
 }
 /// MsgCreateVestingAccountResponse defines the Msg/CreatePeriodicVestingAccount
 /// response type.
-///
-/// Since: cosmos-sdk 0.46
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.vesting.v1beta1.MsgCreatePeriodicVestingAccountResponse")]
 pub struct MsgCreatePeriodicVestingAccountResponse {}

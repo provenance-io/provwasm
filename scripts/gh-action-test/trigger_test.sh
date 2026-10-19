@@ -117,7 +117,7 @@ echo "target block height: $target_height"
   --yes \
   --testnet | "$PROV_CMD" q wait-tx
 
-triggers=$("$PROV_CMD" query wasm contract-state smart "$contract" "{\"get_trigger\":{}}" -t -o json)
+triggers=$("$PROV_CMD" query wasm contract-state smart "$contract" "{\"get_triggers\":{}}" -t -o json)
 echo "stored triggers:"
 echo "$triggers"
 

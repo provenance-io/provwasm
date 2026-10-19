@@ -302,6 +302,7 @@ mod tests {
     }
 
     #[test]
+    #[allow(deprecated)] // `usd_cents` is retained at zero; net asset value uses `usd_mills`.
     fn create_marker() {
         // Create default provenance mocks.
         let mut deps = mock_provenance_dependencies();
@@ -327,6 +328,7 @@ mod tests {
             usd_cents: 0,
             volume: 0,
             usd_mills: 0,
+            require_deposit_access: false,
         }
         .into();
 
@@ -353,6 +355,7 @@ mod tests {
     }
 
     #[test]
+    #[allow(deprecated)] // `usd_cents` is retained at zero; net asset value uses `usd_mills`.
     fn create_forced_transfer_marker() {
         // Create default provenance mocks.
         let mut deps = mock_provenance_dependencies();
@@ -378,6 +381,7 @@ mod tests {
             usd_cents: 0,
             volume: 0,
             usd_mills: 0,
+            require_deposit_access: false,
         }
         .into();
 
@@ -517,6 +521,8 @@ mod tests {
                 denom: "budz".to_string(),
                 amount: "20".to_string(),
             }],
+            market_id: 0,
+            event_tag: String::new(),
         }
         .into();
 
@@ -742,6 +748,7 @@ mod tests {
             allow_governance_control: false,
             allow_forced_transfer: false,
             required_attributes: vec![],
+            require_deposit_access: false,
         };
 
         let mock_marker_response = QueryMarkerResponse {

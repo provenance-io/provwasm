@@ -25,7 +25,7 @@ pub fn bind_name(
 ) -> StdResult<CosmosMsg> {
     let addresses = name.split_once('.');
     if addresses.is_none() {
-        return Err(StdError::generic_err("invalid bind name"));
+        return Err(StdError::msg("invalid bind name"));
     }
     Ok(MsgBindNameRequest {
         parent: Some(NameRecord {
@@ -42,6 +42,8 @@ pub fn bind_name(
     .into())
 }
 
+/// Builds an add-marker message. `usd_cents` stays zero because Provenance replaced it with `usd_mills`.
+#[allow(deprecated)]
 pub fn create_marker<S: Into<String>>(
     amount: u128,
     denom: S,
@@ -68,6 +70,8 @@ pub fn create_marker<S: Into<String>>(
         usd_cents: 0,
         volume: 0,
         usd_mills: 0,
+        // Incoming coins stay unrestricted; this example does not require deposit access.
+        require_deposit_access: false,
     }
     .into())
 }
@@ -109,7 +113,7 @@ pub fn withdraw_coins<S: Into<String>, H: Into<Addr>>(
     contract_address: Addr,
 ) -> StdResult<CosmosMsg> {
     if amount == 0 {
-        return Err(StdError::generic_err("withdraw amount must be > 0"));
+        return Err(StdError::msg("withdraw amount must be > 0"));
     }
     let coin = Coin {
         denom: validate_string(denom, "denom")?,
@@ -120,6 +124,9 @@ pub fn withdraw_coins<S: Into<String>, H: Into<Addr>>(
         administrator: validate_address(contract_address)?.to_string(),
         to_address: validate_address(recipient)?.to_string(),
         amount: vec![coin],
+        // Zero market id sends the coins to the recipient without committing them to an exchange.
+        market_id: 0,
+        event_tag: String::new(),
     }
     .into())
 }
@@ -130,7 +137,7 @@ pub fn mint_marker_supply<S: Into<String>>(
     contract_address: Addr,
 ) -> StdResult<CosmosMsg> {
     if amount == 0 {
-        return Err(StdError::generic_err("mint amount must be > 0"));
+        return Err(StdError::msg("mint amount must be > 0"));
     }
     let coin = Coin {
         denom: validate_string(denom, "denom")?,
@@ -151,7 +158,7 @@ pub fn burn_marker_supply<S: Into<String>>(
     contract_address: Addr,
 ) -> StdResult<CosmosMsg> {
     if amount == 0 {
-        return Err(StdError::generic_err("burn amount must be > 0"));
+        return Err(StdError::msg("burn amount must be > 0"));
     }
     let coin = Coin {
         denom: validate_string(denom, "denom")?,
@@ -188,7 +195,7 @@ pub fn transfer_marker_coins<S: Into<String>, H: Into<Addr>>(
     contract_address: H,
 ) -> StdResult<CosmosMsg> {
     if amount == 0 {
-        return Err(StdError::generic_err("transfer amount must be > 0"));
+        return Err(StdError::msg("transfer amount must be > 0"));
     }
     let coin = Coin {
         denom: validate_string(denom, "denom")?,
@@ -227,10 +234,10 @@ pub fn get_marker(id: String, querier: &MarkerQuerier<Empty>) -> StdResult<Marke
                 coins: try_proto_to_cosmwasm_coins(escrow.escrow)?,
             })
         } else {
-            Err(StdError::generic_err("unable to type-cast marker account"))
+            Err(StdError::msg("unable to type-cast marker account"))
         };
     }
-    Err(StdError::generic_err(format!(
+    Err(StdError::msg(format!(
         "no marker found for id: response: {:?}",
         response
     )))
@@ -256,7 +263,7 @@ pub fn validate_string<S: Into<String>>(input: S, param_name: &str) -> StdResult
     let s: String = input.into();
     if s.trim().is_empty() {
         let err = format!("{} must not be empty", param_name);
-        Err(StdError::generic_err(err))
+        Err(StdError::msg(err))
     } else {
         Ok(s)
     }
@@ -266,7 +273,7 @@ pub fn validate_string<S: Into<String>>(input: S, param_name: &str) -> StdResult
 pub fn validate_address<H: Into<Addr>>(input: H) -> StdResult<Addr> {
     let h: Addr = input.into();
     if h.to_string().trim().is_empty() {
-        Err(StdError::generic_err("address must not be empty"))
+        Err(StdError::msg("address must not be empty"))
     } else {
         Ok(h)
     }

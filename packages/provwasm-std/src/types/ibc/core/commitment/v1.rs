@@ -16,15 +16,6 @@ pub struct MerklePrefix {
     #[prost(bytes = "vec", tag = "1")]
     pub key_prefix: ::prost::alloc::vec::Vec<u8>,
 }
-/// MerklePath is the path used to verify commitment proofs, which can be an
-/// arbitrary structured object (defined by a commitment type).
-/// MerklePath is represented from root-to-leaf
-#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
-#[proto_message(type_url = "/ibc.core.commitment.v1.MerklePath")]
-pub struct MerklePath {
-    #[prost(string, repeated, tag = "1")]
-    pub key_path: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
 /// MerkleProof is a wrapper type over a chain of CommitmentProofs.
 /// It demonstrates membership or non-membership for an element or set of
 /// elements, verifiable in conjunction with a known commitment root. Proofs

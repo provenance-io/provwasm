@@ -59,9 +59,7 @@ pub fn instantiate(
                 .add_attribute("contract_owner", info.sender);
             Ok(res)
         }
-        (_, _) => Err(ContractError::Std(StdError::generic_err(
-            "Invalid contract name",
-        ))),
+        (_, _) => Err(ContractError::Std(StdError::msg("Invalid contract name"))),
     }
 }
 

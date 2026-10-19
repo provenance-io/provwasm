@@ -18,6 +18,11 @@ exclude = [
 [lib]
 crate-type = ["cdylib", "rlib"]
 
+# Unique example name so a workspace build does not collide on target/debug/examples/schema.
+[[example]]
+name = "provwasm-tutorial-schema"
+path = "examples/schema.rs"
+
 [features]
 backtraces = []
 # for more explicit tests, cargo test --features=backtraces
@@ -27,7 +32,7 @@ backtraces = []
 
 [dependencies]
 cosmwasm-schema = { workspace = true }
-cosmwasm-std = { workspace = true }
+cosmwasm-std = { workspace = true, features = ["exports"] }
 cw-storage-plus = { workspace = true }
 provwasm-std = { workspace = true, default-features = false, features = ["provenance-name"] }
 schemars = { workspace = true }

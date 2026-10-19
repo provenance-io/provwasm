@@ -167,9 +167,8 @@ provlabs-all = ["cosmos-base", "cosmos-bank", "cosmos-auth"]
 bech32 = { version = "0.11.0", default-features = false, features = ["alloc"] }
 chrono = { version = "0.4.42", default-features = false }
 cosmwasm-std = { workspace = true }
-ed25519-zebra = { version = "4.1.0", default-features = false, features = [
-    "alloc",
-] }
+cw-schema = "3.0.10"
+ed25519-zebra = { version = "4.0.3", default-features = false }
 hex = { version = "0.4.3", default-features = false }
 prost = { workspace = true, default-features = false, features = [
     "prost-derive",
