@@ -262,7 +262,7 @@ if [ "$trigger_count" != "0" ]; then
   exit 1
 fi
 
-triggers=$("$PROV_CMD" query wasm contract-state smart "$contract" "{\"get_trigger\":{}}" -t -o json)
+triggers=$("$PROV_CMD" query wasm contract-state smart "$contract" "{\"get_triggers\":{}}" -t -o json)
 echo "stored triggers:"
 echo "$triggers"
 
