@@ -26,8 +26,6 @@ pub struct ModuleAccount {
     pub permissions: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// ModuleCredential represents a unclaimable pubkey for base accounts controlled by modules.
-///
-/// Since: cosmos-sdk 0.47
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.auth.v1beta1.ModuleCredential")]
 pub struct ModuleCredential {
@@ -66,8 +64,6 @@ pub struct GenesisState {
     pub accounts: ::prost::alloc::vec::Vec<crate::shim::Any>,
 }
 /// QueryAccountsRequest is the request type for the Query/Accounts RPC method.
-///
-/// Since: cosmos-sdk 0.43
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.auth.v1beta1.QueryAccountsRequest")]
 #[proto_query(
@@ -80,8 +76,6 @@ pub struct QueryAccountsRequest {
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageRequest>,
 }
 /// QueryAccountsResponse is the response type for the Query/Accounts RPC method.
-///
-/// Since: cosmos-sdk 0.43
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.auth.v1beta1.QueryAccountsResponse")]
 pub struct QueryAccountsResponse {
@@ -129,8 +123,6 @@ pub struct QueryParamsResponse {
     pub params: ::core::option::Option<Params>,
 }
 /// QueryModuleAccountsRequest is the request type for the Query/ModuleAccounts RPC method.
-///
-/// Since: cosmos-sdk 0.46
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.auth.v1beta1.QueryModuleAccountsRequest")]
 #[proto_query(
@@ -139,8 +131,6 @@ pub struct QueryParamsResponse {
 )]
 pub struct QueryModuleAccountsRequest {}
 /// QueryModuleAccountsResponse is the response type for the Query/ModuleAccounts RPC method.
-///
-/// Since: cosmos-sdk 0.46
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.auth.v1beta1.QueryModuleAccountsResponse")]
 pub struct QueryModuleAccountsResponse {
@@ -166,8 +156,6 @@ pub struct QueryModuleAccountByNameResponse {
     pub account: ::core::option::Option<crate::shim::Any>,
 }
 /// Bech32PrefixRequest is the request type for Bech32Prefix rpc method.
-///
-/// Since: cosmos-sdk 0.46
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.auth.v1beta1.Bech32PrefixRequest")]
 #[proto_query(
@@ -176,8 +164,6 @@ pub struct QueryModuleAccountByNameResponse {
 )]
 pub struct Bech32PrefixRequest {}
 /// Bech32PrefixResponse is the response type for Bech32Prefix rpc method.
-///
-/// Since: cosmos-sdk 0.46
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.auth.v1beta1.Bech32PrefixResponse")]
 pub struct Bech32PrefixResponse {
@@ -185,8 +171,6 @@ pub struct Bech32PrefixResponse {
     pub bech32_prefix: ::prost::alloc::string::String,
 }
 /// AddressBytesToStringRequest is the request type for AddressString rpc method.
-///
-/// Since: cosmos-sdk 0.46
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.auth.v1beta1.AddressBytesToStringRequest")]
 #[proto_query(
@@ -198,8 +182,6 @@ pub struct AddressBytesToStringRequest {
     pub address_bytes: ::prost::alloc::vec::Vec<u8>,
 }
 /// AddressBytesToStringResponse is the response type for AddressString rpc method.
-///
-/// Since: cosmos-sdk 0.46
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.auth.v1beta1.AddressBytesToStringResponse")]
 pub struct AddressBytesToStringResponse {
@@ -207,8 +189,6 @@ pub struct AddressBytesToStringResponse {
     pub address_string: ::prost::alloc::string::String,
 }
 /// AddressStringToBytesRequest is the request type for AccountBytes rpc method.
-///
-/// Since: cosmos-sdk 0.46
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.auth.v1beta1.AddressStringToBytesRequest")]
 #[proto_query(
@@ -220,8 +200,6 @@ pub struct AddressStringToBytesRequest {
     pub address_string: ::prost::alloc::string::String,
 }
 /// AddressStringToBytesResponse is the response type for AddressBytes rpc method.
-///
-/// Since: cosmos-sdk 0.46
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.auth.v1beta1.AddressStringToBytesResponse")]
 pub struct AddressStringToBytesResponse {
@@ -229,8 +207,6 @@ pub struct AddressStringToBytesResponse {
     pub address_bytes: ::prost::alloc::vec::Vec<u8>,
 }
 /// QueryAccountAddressByIDRequest is the request type for AccountAddressByID rpc method
-///
-/// Since: cosmos-sdk 0.46.2
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.auth.v1beta1.QueryAccountAddressByIDRequest")]
 #[proto_query(
@@ -247,14 +223,10 @@ pub struct QueryAccountAddressByIdRequest {
     #[prost(int64, tag = "1")]
     pub id: i64,
     /// account_id is the account number of the address to be queried.
-    ///
-    /// Since: cosmos-sdk 0.47
     #[prost(uint64, tag = "2")]
     pub account_id: u64,
 }
 /// QueryAccountAddressByIDResponse is the response type for AccountAddressByID rpc method
-///
-/// Since: cosmos-sdk 0.46.2
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.auth.v1beta1.QueryAccountAddressByIDResponse")]
 pub struct QueryAccountAddressByIdResponse {
@@ -262,8 +234,6 @@ pub struct QueryAccountAddressByIdResponse {
     pub account_address: ::prost::alloc::string::String,
 }
 /// QueryAccountInfoRequest is the Query/AccountInfo request type.
-///
-/// Since: cosmos-sdk 0.47
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.auth.v1beta1.QueryAccountInfoRequest")]
 #[proto_query(
@@ -276,8 +246,6 @@ pub struct QueryAccountInfoRequest {
     pub address: ::prost::alloc::string::String,
 }
 /// QueryAccountInfoResponse is the Query/AccountInfo response type.
-///
-/// Since: cosmos-sdk 0.47
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.auth.v1beta1.QueryAccountInfoResponse")]
 pub struct QueryAccountInfoResponse {
@@ -286,8 +254,6 @@ pub struct QueryAccountInfoResponse {
     pub info: ::core::option::Option<BaseAccount>,
 }
 /// MsgUpdateParams is the Msg/UpdateParams request type.
-///
-/// Since: cosmos-sdk 0.47
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.auth.v1beta1.MsgUpdateParams")]
 pub struct MsgUpdateParams {
@@ -302,8 +268,6 @@ pub struct MsgUpdateParams {
 }
 /// MsgUpdateParamsResponse defines the response structure for executing a
 /// MsgUpdateParams message.
-///
-/// Since: cosmos-sdk 0.47
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.auth.v1beta1.MsgUpdateParamsResponse")]
 pub struct MsgUpdateParamsResponse {}

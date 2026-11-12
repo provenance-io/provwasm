@@ -10,6 +10,8 @@ pub struct EventIbcHooksParamsUpdated {
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provenance.ibchooks.v1.Params")]
 pub struct Params {
+    /// Deprecated: This field has been deprecated and is ignored.
+    /// Async ack contracts are no longer possible in IBC v10.
     #[prost(string, repeated, tag = "1")]
     pub allowed_async_ack_contracts: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }

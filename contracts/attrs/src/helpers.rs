@@ -18,7 +18,7 @@ pub fn bind_name(
 ) -> StdResult<CosmosMsg> {
     let addresses = name.split_once('.');
     if addresses.is_none() {
-        return Err(StdError::generic_err("invalid bind name"));
+        return Err(StdError::msg("invalid bind name"));
     }
     Ok(MsgBindNameRequest {
         parent: Some(NameRecord {
@@ -43,7 +43,7 @@ pub fn add_attribute<H: Into<Addr>, S: Into<String>, B: Into<Binary>>(
     value_type: AttributeType,
 ) -> StdResult<CosmosMsg> {
     if value_type == AttributeType::Unspecified {
-        return Err(StdError::generic_err(
+        return Err(StdError::msg(
             "cannot add attribute with unspecified value type",
         ));
     }
@@ -115,12 +115,12 @@ pub fn update_attribute<H: Into<Addr>, S: Into<String>, B: Into<Binary>>(
     update_value_type: AttributeType,
 ) -> StdResult<CosmosMsg> {
     if original_value_type == AttributeType::Unspecified {
-        return Err(StdError::generic_err(
+        return Err(StdError::msg(
             "cannot update attribute with unspecified original value type",
         ));
     }
     if update_value_type == AttributeType::Unspecified {
-        return Err(StdError::generic_err(
+        return Err(StdError::msg(
             "cannot update attribute with unspecified update value type",
         ));
     }
@@ -163,7 +163,7 @@ pub fn validate_string<S: Into<String>>(input: S, param_name: &str) -> StdResult
     let s: String = input.into();
     if s.trim().is_empty() {
         let errm = format!("{} must not be empty", param_name);
-        Err(StdError::generic_err(errm))
+        Err(StdError::msg(errm))
     } else {
         Ok(s)
     }
@@ -173,7 +173,7 @@ pub fn validate_string<S: Into<String>>(input: S, param_name: &str) -> StdResult
 pub fn validate_address<H: Into<Addr>>(input: H) -> StdResult<Addr> {
     let h: Addr = input.into();
     if h.to_string().trim().is_empty() {
-        Err(StdError::generic_err("address must not be empty"))
+        Err(StdError::msg("address must not be empty"))
     } else {
         Ok(h)
     }

@@ -1113,8 +1113,8 @@ mod tests {
                 pub address: ::prost::alloc::string::String,
                 #[prost(enumeration = "PartyType", tag = "2")]
                 #[serde(
-                    serialize_with = "crate::serde::enum_as_i32::serialize",
-                    deserialize_with = "crate::serde::enum_as_i32::deserialize"
+                    serialize_with = "PartyType::serialize",
+                    deserialize_with = "PartyType::deserialize"
                 )]
                 pub role: i32,
                 #[prost(bool, tag = "3")]

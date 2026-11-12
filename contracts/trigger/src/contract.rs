@@ -101,19 +101,13 @@ pub fn delete_trigger(
 
 #[entry_point]
 pub fn query(deps: Deps, _env: Env, msg: QueryMsg) -> Result<QueryResponse, ContractError> {
-    match msg {
-        QueryMsg::GetTrigger { id } => get_trigger(deps, id),
-    }
-}
-
-pub fn get_trigger(deps: Deps, id: Option<Uint64>) -> Result<QueryResponse, ContractError> {
     let trigger_querier = TriggerQuerier::new(&deps.querier);
 
-    match id {
-        Some(id) => Ok(to_json_binary(&TriggersByIdResp::from(
+    match msg {
+        QueryMsg::GetTriggerById { id } => Ok(to_json_binary(&TriggersByIdResp::from(
             trigger_querier.trigger_by_id(id.u64())?,
         ))?),
-        None => Ok(to_json_binary(&TriggersResp::from(
+        QueryMsg::GetTriggers {} => Ok(to_json_binary(&TriggersResp::from(
             trigger_querier.triggers(None)?,
         ))?),
     }

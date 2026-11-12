@@ -66,8 +66,6 @@ pub struct CancelSoftwareUpgradeProposal {
     pub description: ::prost::alloc::string::String,
 }
 /// ModuleVersion specifies a module and its consensus version.
-///
-/// Since: cosmos-sdk 0.43
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.upgrade.v1beta1.ModuleVersion")]
 pub struct ModuleVersion {
@@ -139,14 +137,11 @@ pub struct QueryUpgradedConsensusStateRequest {
 #[proto_message(type_url = "/cosmos.upgrade.v1beta1.QueryUpgradedConsensusStateResponse")]
 #[deprecated]
 pub struct QueryUpgradedConsensusStateResponse {
-    /// Since: cosmos-sdk 0.43
     #[prost(bytes = "vec", tag = "2")]
     pub upgraded_consensus_state: ::prost::alloc::vec::Vec<u8>,
 }
 /// QueryModuleVersionsRequest is the request type for the Query/ModuleVersions
 /// RPC method.
-///
-/// Since: cosmos-sdk 0.43
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.upgrade.v1beta1.QueryModuleVersionsRequest")]
 #[proto_query(
@@ -162,8 +157,6 @@ pub struct QueryModuleVersionsRequest {
 }
 /// QueryModuleVersionsResponse is the response type for the Query/ModuleVersions
 /// RPC method.
-///
-/// Since: cosmos-sdk 0.43
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.upgrade.v1beta1.QueryModuleVersionsResponse")]
 pub struct QueryModuleVersionsResponse {
@@ -172,8 +165,6 @@ pub struct QueryModuleVersionsResponse {
     pub module_versions: ::prost::alloc::vec::Vec<ModuleVersion>,
 }
 /// QueryAuthorityRequest is the request type for Query/Authority
-///
-/// Since: cosmos-sdk 0.46
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.upgrade.v1beta1.QueryAuthorityRequest")]
 #[proto_query(
@@ -182,8 +173,6 @@ pub struct QueryModuleVersionsResponse {
 )]
 pub struct QueryAuthorityRequest {}
 /// QueryAuthorityResponse is the response type for Query/Authority
-///
-/// Since: cosmos-sdk 0.46
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.upgrade.v1beta1.QueryAuthorityResponse")]
 pub struct QueryAuthorityResponse {
@@ -191,8 +180,6 @@ pub struct QueryAuthorityResponse {
     pub address: ::prost::alloc::string::String,
 }
 /// MsgSoftwareUpgrade is the Msg/SoftwareUpgrade request type.
-///
-/// Since: cosmos-sdk 0.46
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.upgrade.v1beta1.MsgSoftwareUpgrade")]
 pub struct MsgSoftwareUpgrade {
@@ -204,14 +191,10 @@ pub struct MsgSoftwareUpgrade {
     pub plan: ::core::option::Option<Plan>,
 }
 /// MsgSoftwareUpgradeResponse is the Msg/SoftwareUpgrade response type.
-///
-/// Since: cosmos-sdk 0.46
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.upgrade.v1beta1.MsgSoftwareUpgradeResponse")]
 pub struct MsgSoftwareUpgradeResponse {}
 /// MsgCancelUpgrade is the Msg/CancelUpgrade request type.
-///
-/// Since: cosmos-sdk 0.46
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.upgrade.v1beta1.MsgCancelUpgrade")]
 pub struct MsgCancelUpgrade {
@@ -220,8 +203,6 @@ pub struct MsgCancelUpgrade {
     pub authority: ::prost::alloc::string::String,
 }
 /// MsgCancelUpgradeResponse is the Msg/CancelUpgrade response type.
-///
-/// Since: cosmos-sdk 0.46
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.upgrade.v1beta1.MsgCancelUpgradeResponse")]
 pub struct MsgCancelUpgradeResponse {}

@@ -104,7 +104,7 @@ pub fn mock_provenance_dependencies(
 
 #[cfg(test)]
 mod test {
-    use cosmwasm_std::{coin, from_binary, BalanceResponse, BankQuery};
+    use cosmwasm_std::{coin, from_json, BalanceResponse, BankQuery};
 
     use super::*;
 
@@ -125,7 +125,7 @@ mod test {
             .unwrap()
             .unwrap();
 
-        let res: BalanceResponse = from_binary(&bin).unwrap();
+        let res: BalanceResponse = from_json(&bin).unwrap();
         assert_eq!(res.amount, amount);
     }
 }

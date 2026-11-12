@@ -292,8 +292,6 @@ pub struct MsgRemoveMsgFeeProposalRequest {
     #[prost(string, tag = "1")]
     pub msg_type_url: ::prost::alloc::string::String,
     /// the signing authority for the proposal
-    ///
-    ///
     #[prost(string, tag = "2")]
     pub authority: ::prost::alloc::string::String,
 }
@@ -313,8 +311,6 @@ pub struct MsgUpdateNhashPerUsdMilProposalRequest {
     #[prost(uint64, tag = "1")]
     pub nhash_per_usd_mil: u64,
     /// the signing authority for the proposal
-    ///
-    ///
     #[prost(string, tag = "2")]
     pub authority: ::prost::alloc::string::String,
 }
@@ -334,8 +330,6 @@ pub struct MsgUpdateConversionFeeDenomProposalRequest {
     #[prost(string, tag = "1")]
     pub conversion_fee_denom: ::prost::alloc::string::String,
     /// the signing authority for the proposal
-    ///
-    ///
     #[prost(string, tag = "2")]
     pub authority: ::prost::alloc::string::String,
 }

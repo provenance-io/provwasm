@@ -20,10 +20,10 @@ pub fn ibc_channel_open(
     let channel = msg.channel();
 
     if channel.order != IbcOrder::Ordered {
-        return Err(StdError::generic_err("Expected channel to be ordered"));
+        return Err(StdError::msg("Expected channel to be ordered"));
     }
     if channel.version.as_str() != IBC_APP_VERSION {
-        return Err(StdError::generic_err(format!(
+        return Err(StdError::msg(format!(
             "Expected channel version to be: `{}`",
             IBC_APP_VERSION
         )));
@@ -31,7 +31,7 @@ pub fn ibc_channel_open(
 
     if let Some(counter_version) = msg.counterparty_version() {
         if counter_version != IBC_APP_VERSION {
-            return Err(StdError::generic_err(format!(
+            return Err(StdError::msg(format!(
                 "Expected counterparty version to be `{}`",
                 IBC_APP_VERSION
             )));
@@ -148,7 +148,7 @@ fn acknowledge_who_am_i(
                 acct.height = block_info.height;
                 Ok(acct)
             }
-            None => Err(StdError::generic_err("no account to update")),
+            None => Err(StdError::msg("no account to update")),
         }
     })?;
 

@@ -23,8 +23,6 @@ pub struct Metadata {
     pub chunk_hashes: ::prost::alloc::vec::Vec<::prost::alloc::vec::Vec<u8>>,
 }
 /// SnapshotItem is an item contained in a rootmulti.Store snapshot.
-///
-/// Since: cosmos-sdk 0.46
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.store.snapshots.v1.SnapshotItem")]
 pub struct SnapshotItem {
@@ -49,8 +47,6 @@ pub mod snapshot_item {
     }
 }
 /// SnapshotStoreItem contains metadata about a snapshotted store.
-///
-/// Since: cosmos-sdk 0.46
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.store.snapshots.v1.SnapshotStoreItem")]
 pub struct SnapshotStoreItem {
@@ -58,8 +54,6 @@ pub struct SnapshotStoreItem {
     pub name: ::prost::alloc::string::String,
 }
 /// SnapshotIAVLItem is an exported IAVL node.
-///
-/// Since: cosmos-sdk 0.46
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.store.snapshots.v1.SnapshotIAVLItem")]
 pub struct SnapshotIavlItem {
@@ -75,8 +69,6 @@ pub struct SnapshotIavlItem {
     pub height: i32,
 }
 /// SnapshotExtensionMeta contains metadata about an external snapshotter.
-///
-/// Since: cosmos-sdk 0.46
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.store.snapshots.v1.SnapshotExtensionMeta")]
 pub struct SnapshotExtensionMeta {
@@ -86,8 +78,6 @@ pub struct SnapshotExtensionMeta {
     pub format: u32,
 }
 /// SnapshotExtensionPayload contains payloads of an external snapshotter.
-///
-/// Since: cosmos-sdk 0.46
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.store.snapshots.v1.SnapshotExtensionPayload")]
 pub struct SnapshotExtensionPayload {

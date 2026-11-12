@@ -14,11 +14,16 @@ exclude = [
 [lib]
 crate-type = ["cdylib", "rlib"]
 
+# Unique example name so a workspace build does not collide on target/debug/examples/schema.
+[[example]]
+name = "ibc-remote-schema"
+path = "examples/schema.rs"
+
 [features]
 backtraces = []
 
 [dependencies]
 cosmwasm-schema = { workspace = true }
-cosmwasm-std = { workspace = true }
+cosmwasm-std = { workspace = true, features = ["exports"] }
 schemars = { workspace = true }
 serde = { workspace = true }

@@ -2,6 +2,8 @@
 
 ## Unreleased changes
 
+* Upgrade CosmWasm to 3.0.10 and `cw-storage-plus` to 3.0.1.
+
 ## Releases
 
 ### [v2.8.0](https://github.com/provenance-io/provwasm/tree/v2.8.0)

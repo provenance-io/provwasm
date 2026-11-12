@@ -1,7 +1,5 @@
 use provwasm_proc_macro::CosmwasmExt;
 /// WeightedVoteOption defines a unit of vote for vote split.
-///
-/// Since: cosmos-sdk 0.43
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.gov.v1beta1.WeightedVoteOption")]
 pub struct WeightedVoteOption {
@@ -108,8 +106,6 @@ pub struct Vote {
     #[prost(enumeration = "VoteOption", tag = "3")]
     pub option: i32,
     /// options is the weighted vote options.
-    ///
-    /// Since: cosmos-sdk 0.43
     #[prost(message, repeated, tag = "4")]
     pub options: ::prost::alloc::vec::Vec<WeightedVoteOption>,
 }
@@ -509,8 +505,6 @@ pub struct MsgVote {
 #[proto_message(type_url = "/cosmos.gov.v1beta1.MsgVoteResponse")]
 pub struct MsgVoteResponse {}
 /// MsgVoteWeighted defines a message to cast a vote.
-///
-/// Since: cosmos-sdk 0.43
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.gov.v1beta1.MsgVoteWeighted")]
 pub struct MsgVoteWeighted {
@@ -525,8 +519,6 @@ pub struct MsgVoteWeighted {
     pub options: ::prost::alloc::vec::Vec<WeightedVoteOption>,
 }
 /// MsgVoteWeightedResponse defines the Msg/VoteWeighted response type.
-///
-/// Since: cosmos-sdk 0.43
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.gov.v1beta1.MsgVoteWeightedResponse")]
 pub struct MsgVoteWeightedResponse {}
