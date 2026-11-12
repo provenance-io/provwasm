@@ -34,7 +34,7 @@ jobs:
           cd ./contracts/tutorial
           make all
       - name: Smart Contract Test setup
-        uses: provenance-io/provenance-testing-action@v1.3.0
+        uses: provenance-io/provenance-testing-action@v1.4.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           provenance_version: "main"
@@ -54,7 +54,7 @@ jobs:
           cd ./contracts/attrs
           make all
       - name: Smart Contract Test setup
-        uses: provenance-io/provenance-testing-action@v1.3.0
+        uses: provenance-io/provenance-testing-action@v1.4.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           provenance_version: "main"
@@ -75,7 +75,7 @@ jobs:
           cd ./contracts/marker
           make all
       - name: Provenance Test
-        uses: provenance-io/provenance-testing-action@v1.3.0
+        uses: provenance-io/provenance-testing-action@v1.4.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           provenance_version: "main"
@@ -96,7 +96,7 @@ jobs:
           cd ./contracts/name
           make all
       - name: Smart Contract Test setup
-        uses: provenance-io/provenance-testing-action@v1.3.0
+        uses: provenance-io/provenance-testing-action@v1.4.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           provenance_version: "main"
@@ -117,7 +117,7 @@ jobs:
           cd ./contracts/scope
           make all
   #      - name: Smart Contract Test setup
-  #        uses: provenance-io/provenance-testing-action@v1.3.0
+  #        uses: provenance-io/provenance-testing-action@v1.4.0
   #        with:
   #          github_token: ${{ secrets.GITHUB_TOKEN }}
   #          provenance_version: "main"
@@ -138,7 +138,7 @@ jobs:
           cd ./contracts/trigger
           make all
       - name: Smart Contract Test setup
-        uses: provenance-io/provenance-testing-action@v1.3.0
+        uses: provenance-io/provenance-testing-action@v1.4.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           provenance_version: "main"
