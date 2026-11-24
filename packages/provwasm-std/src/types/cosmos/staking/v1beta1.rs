@@ -1,7 +1,5 @@
 use provwasm_proc_macro::CosmwasmExt;
 /// StakeAuthorization defines authorization for delegate/undelegate/redelegate.
-///
-/// Since: cosmos-sdk 0.43
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.staking.v1beta1.StakeAuthorization")]
 pub struct StakeAuthorization {
@@ -39,8 +37,6 @@ pub mod stake_authorization {
     }
 }
 /// AuthorizationType defines the type of staking module authorization type
-///
-/// Since: cosmos-sdk 0.43
 #[derive(
     Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, ::prost::Enumeration, ::schemars::JsonSchema,
 )]
@@ -185,8 +181,6 @@ pub struct Validator {
     #[prost(message, optional, tag = "10")]
     pub commission: ::core::option::Option<Commission>,
     /// min_self_delegation is the validator's self declared minimum self delegation.
-    ///
-    /// Since: cosmos-sdk 0.46
     #[prost(string, tag = "11")]
     pub min_self_delegation: ::prost::alloc::string::String,
     /// strictly positive if this validator's unbonding has been stopped by external modules
@@ -977,14 +971,10 @@ pub struct MsgUndelegateResponse {
     #[prost(message, optional, tag = "1")]
     pub completion_time: ::core::option::Option<crate::shim::Timestamp>,
     /// amount returns the amount of undelegated coins
-    ///
-    /// Since: cosmos-sdk 0.50
     #[prost(message, optional, tag = "2")]
     pub amount: ::core::option::Option<super::super::base::v1beta1::Coin>,
 }
 /// MsgCancelUnbondingDelegation defines the SDK message for performing a cancel unbonding delegation for delegator
-///
-/// Since: cosmos-sdk 0.46
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.staking.v1beta1.MsgCancelUnbondingDelegation")]
 pub struct MsgCancelUnbondingDelegation {
@@ -1000,14 +990,10 @@ pub struct MsgCancelUnbondingDelegation {
     pub creation_height: i64,
 }
 /// MsgCancelUnbondingDelegationResponse
-///
-/// Since: cosmos-sdk 0.46
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.staking.v1beta1.MsgCancelUnbondingDelegationResponse")]
 pub struct MsgCancelUnbondingDelegationResponse {}
 /// MsgUpdateParams is the Msg/UpdateParams request type.
-///
-/// Since: cosmos-sdk 0.47
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.staking.v1beta1.MsgUpdateParams")]
 pub struct MsgUpdateParams {
@@ -1022,8 +1008,6 @@ pub struct MsgUpdateParams {
 }
 /// MsgUpdateParamsResponse defines the response structure for executing a
 /// MsgUpdateParams message.
-///
-/// Since: cosmos-sdk 0.47
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.staking.v1beta1.MsgUpdateParamsResponse")]
 pub struct MsgUpdateParamsResponse {}

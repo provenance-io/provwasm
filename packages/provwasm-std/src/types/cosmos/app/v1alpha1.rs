@@ -143,7 +143,7 @@ pub struct GolangBinding {
     response_type = QueryConfigResponse
 )]
 pub struct QueryConfigRequest {}
-/// QueryConfigRequest is the Query/Config response type.
+/// QueryConfigResponse is the Query/Config response type.
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.app.v1alpha1.QueryConfigResponse")]
 pub struct QueryConfigResponse {
@@ -158,6 +158,7 @@ impl<'a, Q: cosmwasm_std::CustomQuery> V1Alpha1Querier<'a, Q> {
     pub fn new(querier: &'a cosmwasm_std::QuerierWrapper<'a, Q>) -> Self {
         Self { querier }
     }
+    #[deprecated]
     pub fn config(&self) -> Result<QueryConfigResponse, cosmwasm_std::StdError> {
         QueryConfigRequest {}.query(self.querier)
     }

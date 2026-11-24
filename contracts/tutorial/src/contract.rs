@@ -1,6 +1,6 @@
 use cosmwasm_std::{
     coin, entry_point, to_json_binary, BankMsg, Binary, CosmosMsg, Decimal, Deps, DepsMut, Env,
-    MessageInfo, Response, StdError, StdResult,
+    MessageInfo, Response, StdError, StdResult, Uint128,
 };
 use provwasm_std::types::provenance::name::v1::{MsgBindNameRequest, NameRecord};
 
@@ -19,19 +19,17 @@ pub fn instantiate(
     // Ensure no funds were sent with the message
     if !info.funds.is_empty() {
         let err = "purchase funds are not allowed to be sent during init";
-        return Err(StdError::generic_err(err));
+        return Err(StdError::msg(err));
     }
 
     // Ensure there are limits on fees.
     if msg.fee_percent.is_zero() || msg.fee_percent > Decimal::percent(25) {
-        return Err(StdError::generic_err(
-            "fee percent must be > 0.0 and <= 0.25",
-        ));
+        return Err(StdError::msg("fee percent must be > 0.0 and <= 0.25"));
     }
 
     // Ensure the merchant address is not also the fee collection address
     if msg.merchant_address.eq(&info.sender.to_string()) {
-        return Err(StdError::generic_err(
+        return Err(StdError::msg(
             "merchant address can't be the fee collection address",
         ));
     }
@@ -76,7 +74,7 @@ pub fn instantiate(
                 .add_attribute("action", "init");
             Ok(res)
         }
-        (_, _) => Err(StdError::generic_err("Invalid contract name")),
+        (_, _) => Err(StdError::msg("Invalid contract name")),
     }
 }
 
@@ -126,7 +124,7 @@ fn try_purchase(
     // Ensure funds were sent with the message
     if info.funds.is_empty() {
         let err = "no purchase funds sent";
-        return Err(ContractError::Std(StdError::generic_err(err)));
+        return Err(ContractError::Std(StdError::msg(err)));
     }
 
     // Load state
@@ -137,7 +135,7 @@ fn try_purchase(
     for funds in info.funds.iter() {
         if funds.amount.is_zero() || funds.denom != state.purchase_denom {
             let err = format!("invalid purchase funds: {}{}", funds.amount, funds.denom);
-            return Err(ContractError::Std(StdError::generic_err(err)));
+            return Err(ContractError::Std(StdError::msg(err)));
         }
     }
 
@@ -147,11 +145,12 @@ fn try_purchase(
         amount: info
             .funds
             .iter()
-            .map(|sent| {
-                let fees = sent.amount.mul_floor(fee_pct).u128();
-                coin(sent.amount.u128() - fees, sent.denom.clone())
+            .map(|sent| -> StdResult<_> {
+                let fees = Uint128::try_from(sent.amount.mul_floor(fee_pct))?;
+                let gross = Uint128::try_from(sent.amount)?;
+                Ok(coin(gross.u128() - fees.u128(), sent.denom.clone()))
             })
-            .collect(),
+            .collect::<StdResult<Vec<_>>>()?,
     });
 
     // Calculate fees and create bank transfers to the fee collection account
@@ -160,8 +159,11 @@ fn try_purchase(
         amount: info
             .funds
             .iter()
-            .map(|sent| coin(sent.amount.mul_floor(fee_pct).u128(), sent.denom.clone()))
-            .collect(),
+            .map(|sent| -> StdResult<_> {
+                let fees = Uint128::try_from(sent.amount.mul_floor(fee_pct))?;
+                Ok(coin(fees.u128(), sent.denom.clone()))
+            })
+            .collect::<StdResult<Vec<_>>>()?,
     });
 
     // Return a response that will dispatch the transfers to the bank module and emit events.
@@ -248,12 +250,10 @@ mod tests {
         .unwrap_err();
 
         // Ensure the expected error was returned.
-        match err {
-            StdError::GenericErr { msg, .. } => {
-                assert_eq!(msg, "merchant address can't be the fee collection address")
-            }
-            _ => panic!("unexpected init error"),
-        }
+        assert_eq!(
+            err.to_string(),
+            "kind: Other, error: merchant address can't be the fee collection address"
+        );
     }
 
     #[test]
@@ -276,12 +276,10 @@ mod tests {
         .unwrap_err();
 
         // Ensure the expected error was returned
-        match err {
-            StdError::GenericErr { msg, .. } => {
-                assert_eq!(msg, "fee percent must be > 0.0 and <= 0.25")
-            }
-            _ => panic!("unexpected init error"),
-        }
+        assert_eq!(
+            err.to_string(),
+            "kind: Other, error: fee percent must be > 0.0 and <= 0.25"
+        );
     }
 
     #[test]
@@ -414,8 +412,11 @@ mod tests {
 
         // Ensure the expected error was returned.
         match err {
-            ContractError::Std(StdError::GenericErr { msg, .. }) => {
-                assert_eq!(msg, "no purchase funds sent")
+            ContractError::Std(err) => {
+                assert_eq!(
+                    err.to_string(),
+                    "kind: Other, error: no purchase funds sent"
+                )
             }
             _ => panic!("unexpected handle error"),
         }
@@ -433,8 +434,11 @@ mod tests {
 
         // Ensure the expected error was returned.
         match err {
-            ContractError::Std(StdError::GenericErr { msg, .. }) => {
-                assert_eq!(msg, "invalid purchase funds: 0purchasecoin")
+            ContractError::Std(err) => {
+                assert_eq!(
+                    err.to_string(),
+                    "kind: Other, error: invalid purchase funds: 0purchasecoin"
+                )
             }
             _ => panic!("unexpected handle error"),
         }
@@ -452,8 +456,11 @@ mod tests {
 
         // Ensure the expected error was returned.
         match err {
-            ContractError::Std(StdError::GenericErr { msg, .. }) => {
-                assert_eq!(msg, "invalid purchase funds: 100fakecoin")
+            ContractError::Std(err) => {
+                assert_eq!(
+                    err.to_string(),
+                    "kind: Other, error: invalid purchase funds: 100fakecoin"
+                )
             }
             _ => panic!("unexpected handle error"),
         }

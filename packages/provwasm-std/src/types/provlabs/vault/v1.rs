@@ -1,4 +1,22 @@
 use provwasm_proc_macro::CosmwasmExt;
+/// Params defines the set of module parameters.
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provlabs.vault.v1.Params")]
+pub struct Params {
+    /// tech_fee_address is the address where all AUM fees are collected and which holds
+    /// the authority to update per-vault bips.
+    #[prost(string, tag = "1")]
+    pub tech_fee_address: ::prost::alloc::string::String,
+    /// default_aum_fee_bips is the default fee rate (in basis points) applied to new vaults upon creation.
+    #[prost(uint32, tag = "2")]
+    pub default_aum_fee_bips: u32,
+    /// gov_only_vault_creation restricts CreateVault to the governance module account.
+    /// When true, a vault can only come into existence through a passed governance proposal.
+    /// When false (the default), any account may sign CreateVault directly, which is how
+    /// development, docker, and testnet chains are expected to run.
+    #[prost(bool, tag = "3")]
+    pub gov_only_vault_creation: bool,
+}
 /// EventDeposit is an event emitted when assets are deposited into a vault.
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provlabs.vault.v1.EventDeposit")]
@@ -300,7 +318,8 @@ pub struct EventSwapOutRequested {
     /// owner is the bech32 address of the user who initiated the swap out.
     #[prost(string, tag = "2")]
     pub owner: ::prost::alloc::string::String,
-    /// redeem_denom is the denomination of the asset to be redeemed.
+    /// redeem_denom is the denomination of the asset to be redeemed. Always the
+    /// vault's underlying_asset; retained for event-schema compatibility.
     #[prost(string, tag = "3")]
     pub redeem_denom: ::prost::alloc::string::String,
     /// shares is the amount of vault shares the user escrowed for this request.
@@ -348,6 +367,34 @@ pub struct EventSwapOutRefunded {
     #[prost(string, tag = "5")]
     pub reason: ::prost::alloc::string::String,
 }
+/// EventSwapOutRetryScheduled is emitted when a pending swap out could not be
+/// settled or refunded and was re-keyed to a later retry time. The shares stay
+/// escrowed, so a rising failure_count signals escrow needing operator attention.
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provlabs.vault.v1.EventSwapOutRetryScheduled")]
+pub struct EventSwapOutRetryScheduled {
+    /// vault_address is the bech32 address of the vault.
+    #[prost(string, tag = "1")]
+    pub vault_address: ::prost::alloc::string::String,
+    /// owner is the bech32 address of the user whose shares remain escrowed.
+    #[prost(string, tag = "2")]
+    pub owner: ::prost::alloc::string::String,
+    /// shares is the amount of vault shares still escrowed by the vault.
+    #[prost(string, tag = "3")]
+    pub shares: ::prost::alloc::string::String,
+    /// request_id is the unique identifier of the swap out request that failed.
+    #[prost(uint64, tag = "4")]
+    pub request_id: u64,
+    /// reason is a string detailing why the attempt failed.
+    #[prost(string, tag = "5")]
+    pub reason: ::prost::alloc::string::String,
+    /// failure_count is the number of consecutive failed attempts, including this one.
+    #[prost(uint32, tag = "6")]
+    pub failure_count: u32,
+    /// retry_time is the UNIX timestamp (in seconds) at which the request becomes due again.
+    #[prost(int64, tag = "7")]
+    pub retry_time: i64,
+}
 /// EventPendingSwapOutExpedited is an event emitted when a pending swap-out is expedited by the authority.
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provlabs.vault.v1.EventPendingSwapOutExpedited")]
@@ -372,12 +419,27 @@ pub struct EventVaultPaused {
     /// authority is the address (admin or asset manager) that paused the vault.
     #[prost(string, tag = "2")]
     pub authority: ::prost::alloc::string::String,
-    /// reason is the reason for pausing the vault.
+    /// reason is the reason for pausing the vault. For a manual pause (PauseVault
+    /// tx) this is the user-supplied reason. For an automated auto-pause triggered
+    /// in the begin/end blocker, this carries the hard-coded reason describing the
+    /// critical error that forced the pause.
     #[prost(string, tag = "3")]
     pub reason: ::prost::alloc::string::String,
     /// total_vault_value is the total value of the vault's assets at the time of pausing.
     #[prost(string, tag = "4")]
     pub total_vault_value: ::prost::alloc::string::String,
+    /// forced indicates the pause used the force path, waiving the strict
+    /// reconcile/valuation gate. False for a normal strict pause; true for a
+    /// forced manual pause and for automated auto-pauses.
+    #[prost(bool, tag = "5")]
+    pub forced: bool,
+    /// forced_error records the reconcile and/or valuation error tolerated by a
+    /// manual force pause (PauseVault tx). Empty when nothing failed. When
+    /// non-empty, total_vault_value may be stale or zero. Only the tx path sets
+    /// this; automated auto-pauses leave it empty and instead encode their error
+    /// in reason.
+    #[prost(string, tag = "6")]
+    pub forced_error: ::prost::alloc::string::String,
 }
 /// EventVaultUnpaused is emitted when a vault is unpaused.
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
@@ -463,6 +525,233 @@ pub struct EventAssetManagerSet {
     #[prost(string, tag = "3")]
     pub asset_manager: ::prost::alloc::string::String,
 }
+/// EventWithdrawalDelayUpdated is an event emitted when a vault's withdrawal delay is updated.
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provlabs.vault.v1.EventWithdrawalDelayUpdated")]
+pub struct EventWithdrawalDelayUpdated {
+    /// vault_address is the bech32 address of the vault.
+    #[prost(string, tag = "1")]
+    pub vault_address: ::prost::alloc::string::String,
+    /// authority is the address (admin or asset manager) that updated the withdrawal delay.
+    #[prost(string, tag = "2")]
+    pub authority: ::prost::alloc::string::String,
+    /// withdrawal_delay_seconds is the newly set withdrawal delay in seconds.
+    #[prost(uint64, tag = "3")]
+    pub withdrawal_delay_seconds: u64,
+}
+/// EventVaultFeeCollected is an event emitted when a vault's AUM fee is collected.
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provlabs.vault.v1.EventVaultFeeCollected")]
+pub struct EventVaultFeeCollected {
+    /// vault_address is the bech32 address of the vault.
+    #[prost(string, tag = "1")]
+    pub vault_address: ::prost::alloc::string::String,
+    /// collected_amount is the amount of the technology fee that was actually collected (e.g., "100nhash").
+    #[prost(string, tag = "2")]
+    pub collected_amount: ::prost::alloc::string::String,
+    /// requested_amount is the amount of the technology fee that was calculated for the period (e.g., "120nhash").
+    #[prost(string, tag = "3")]
+    pub requested_amount: ::prost::alloc::string::String,
+    /// aum_snapshot is the total vault value at the time of fee calculation (e.g., "1000000underlying").
+    #[prost(string, tag = "4")]
+    pub aum_snapshot: ::prost::alloc::string::String,
+    /// duration_seconds is the duration for which the fee was calculated.
+    #[prost(int64, tag = "5")]
+    pub duration_seconds: i64,
+    /// outstanding_amount is the amount of AUM fee that remains unpaid after this collection (e.g., "20nhash").
+    #[prost(string, tag = "6")]
+    pub outstanding_amount: ::prost::alloc::string::String,
+}
+/// EventParamsUpdated is an event emitted when the module parameters are updated.
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provlabs.vault.v1.EventParamsUpdated")]
+pub struct EventParamsUpdated {
+    /// params are the newly updated module parameters.
+    #[prost(message, optional, tag = "1")]
+    pub params: ::core::option::Option<Params>,
+}
+/// EventVaultAUMFeeBipsUpdated is an event emitted when a vault's AUM fee bips are updated.
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provlabs.vault.v1.EventVaultAUMFeeBipsUpdated")]
+pub struct EventVaultAumFeeBipsUpdated {
+    /// vault_address is the bech32 address of the vault.
+    #[prost(string, tag = "1")]
+    pub vault_address: ::prost::alloc::string::String,
+    /// authority is the address (tech fee address) that updated the fee bips.
+    #[prost(string, tag = "2")]
+    pub authority: ::prost::alloc::string::String,
+    /// aum_fee_bips is the newly set AUM fee bips for the vault.
+    #[prost(uint32, tag = "3")]
+    pub aum_fee_bips: u32,
+}
+/// EventMinSwapInValueUpdated is an event emitted when a vault's minimum swap-in value is updated.
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provlabs.vault.v1.EventMinSwapInValueUpdated")]
+pub struct EventMinSwapInValueUpdated {
+    /// vault_address is the bech32 address of the vault.
+    #[prost(string, tag = "1")]
+    pub vault_address: ::prost::alloc::string::String,
+    /// authority is the address (admin or asset manager) that updated the limit.
+    #[prost(string, tag = "2")]
+    pub authority: ::prost::alloc::string::String,
+    /// min_swap_in is the newly set minimum swap-in value, measured in the underlying_asset.
+    /// - Values must be non-negative (>= 0).
+    /// - An empty string "" or "0" indicates the minimum was cleared / no configured minimum.
+    #[prost(string, tag = "3")]
+    pub min_swap_in: ::prost::alloc::string::String,
+}
+/// EventMinSwapOutValueUpdated is an event emitted when a vault's minimum swap-out value is updated.
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provlabs.vault.v1.EventMinSwapOutValueUpdated")]
+pub struct EventMinSwapOutValueUpdated {
+    /// vault_address is the bech32 address of the vault.
+    #[prost(string, tag = "1")]
+    pub vault_address: ::prost::alloc::string::String,
+    /// authority is the address (admin or asset manager) that updated the limit.
+    #[prost(string, tag = "2")]
+    pub authority: ::prost::alloc::string::String,
+    /// min_swap_out is the newly set minimum swap-out value, measured in the underlying_asset.
+    /// - Values must be non-negative (>= 0).
+    /// - An empty string "" or "0" indicates the minimum was cleared / no configured minimum.
+    #[prost(string, tag = "3")]
+    pub min_swap_out: ::prost::alloc::string::String,
+}
+/// EventMaxSwapInValueUpdated is an event emitted when a vault's maximum swap-in value is updated.
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provlabs.vault.v1.EventMaxSwapInValueUpdated")]
+pub struct EventMaxSwapInValueUpdated {
+    /// vault_address is the bech32 address of the vault.
+    #[prost(string, tag = "1")]
+    pub vault_address: ::prost::alloc::string::String,
+    /// authority is the address (admin or asset manager) that updated the limit.
+    #[prost(string, tag = "2")]
+    pub authority: ::prost::alloc::string::String,
+    /// max_swap_in is the newly set maximum swap-in value, measured in the underlying_asset.
+    /// - Values must be positive (> 0).
+    /// - An empty string "" indicates no maximum limit.
+    #[prost(string, tag = "3")]
+    pub max_swap_in: ::prost::alloc::string::String,
+}
+/// EventMaxSwapOutValueUpdated is an event emitted when a vault's maximum swap-out value is updated.
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provlabs.vault.v1.EventMaxSwapOutValueUpdated")]
+pub struct EventMaxSwapOutValueUpdated {
+    /// vault_address is the bech32 address of the vault.
+    #[prost(string, tag = "1")]
+    pub vault_address: ::prost::alloc::string::String,
+    /// authority is the address (admin or asset manager) that updated the limit.
+    #[prost(string, tag = "2")]
+    pub authority: ::prost::alloc::string::String,
+    /// max_swap_out is the newly set maximum swap-out value, measured in the underlying_asset.
+    /// - Values must be positive (> 0).
+    /// - An empty string "" indicates no maximum limit.
+    #[prost(string, tag = "3")]
+    pub max_swap_out: ::prost::alloc::string::String,
+}
+/// EventNAVUpdated is emitted when a vault's internal NAV entry for a denom is created or updated.
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provlabs.vault.v1.EventNAVUpdated")]
+pub struct EventNavUpdated {
+    /// vault_address is the bech32 address of the vault.
+    #[prost(string, tag = "1")]
+    pub vault_address: ::prost::alloc::string::String,
+    /// denom is the asset denomination whose NAV entry was updated.
+    #[prost(string, tag = "2")]
+    pub denom: ::prost::alloc::string::String,
+    /// price is the total value of volume units of the denom, denominated in the vault's underlying asset.
+    #[prost(string, tag = "3")]
+    pub price: ::prost::alloc::string::String,
+    /// volume is the number of units of the denom that price covers.
+    #[prost(string, tag = "4")]
+    pub volume: ::prost::alloc::string::String,
+    /// source identifies the origin of this NAV update.
+    #[prost(string, tag = "5")]
+    pub source: ::prost::alloc::string::String,
+    /// signer is the NAV authority address that performed the update.
+    #[prost(string, tag = "6")]
+    pub signer: ::prost::alloc::string::String,
+    /// updated_block_height is the block height at which the NAV entry was updated.
+    #[prost(int64, tag = "7")]
+    pub updated_block_height: i64,
+}
+/// EventNAVRemoved is emitted when a vault's internal NAV entry for a denom is removed,
+/// such as when an outbound settlement leaves the vault holding zero of the denom.
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provlabs.vault.v1.EventNAVRemoved")]
+pub struct EventNavRemoved {
+    /// vault_address is the bech32 address of the vault.
+    #[prost(string, tag = "1")]
+    pub vault_address: ::prost::alloc::string::String,
+    /// denom is the asset denomination whose NAV entry was removed.
+    #[prost(string, tag = "2")]
+    pub denom: ::prost::alloc::string::String,
+    /// last_price is the total value of last_volume units of the denom recorded
+    /// before removal, rendered as a coin string.
+    #[prost(string, tag = "3")]
+    pub last_price: ::prost::alloc::string::String,
+    /// last_volume is the number of units of the denom that last_price covered.
+    #[prost(string, tag = "4")]
+    pub last_volume: ::prost::alloc::string::String,
+    /// signer is the NAV authority address that removed the entry. It is empty when
+    /// the protocol removed the entry itself, such as an outbound settlement draining
+    /// the denom.
+    #[prost(string, tag = "5")]
+    pub signer: ::prost::alloc::string::String,
+}
+/// EventNAVAuthorityUpdated is emitted when a vault's NAV authority is rotated.
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provlabs.vault.v1.EventNAVAuthorityUpdated")]
+pub struct EventNavAuthorityUpdated {
+    /// vault_address is the bech32 address of the vault.
+    #[prost(string, tag = "1")]
+    pub vault_address: ::prost::alloc::string::String,
+    /// admin is the address of the vault administrator that performed the rotation.
+    #[prost(string, tag = "2")]
+    pub admin: ::prost::alloc::string::String,
+    /// new_authority is the address that is now authorized to mutate the vault's internal NAV table.
+    #[prost(string, tag = "3")]
+    pub new_authority: ::prost::alloc::string::String,
+}
+/// EventAssetAccepted is emitted when the asset manager settles a pending
+/// exchange-module payment whose target is the vault.
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provlabs.vault.v1.EventAssetAccepted")]
+pub struct EventAssetAccepted {
+    /// vault_address is the bech32 address of the vault that settled the payment.
+    #[prost(string, tag = "1")]
+    pub vault_address: ::prost::alloc::string::String,
+    /// source is the bech32 address of the account that created the settled payment.
+    #[prost(string, tag = "2")]
+    pub source: ::prost::alloc::string::String,
+    /// external_id, together with source, identifies the settled payment.
+    #[prost(string, tag = "3")]
+    pub external_id: ::prost::alloc::string::String,
+    /// source_amount is the funds the source paid the vault, rendered as a coins string.
+    #[prost(string, tag = "4")]
+    pub source_amount: ::prost::alloc::string::String,
+    /// target_amount is the funds the vault paid the source, rendered as a coins string.
+    #[prost(string, tag = "5")]
+    pub target_amount: ::prost::alloc::string::String,
+    /// direction indicates whether the asset moved into the vault ("inbound") or
+    /// out of the vault ("outbound") relative to the vault's underlying asset.
+    #[prost(string, tag = "6")]
+    pub direction: ::prost::alloc::string::String,
+}
+/// EventAssetRejected is emitted when the asset manager declines a pending
+/// exchange-module payment whose target is the vault.
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provlabs.vault.v1.EventAssetRejected")]
+pub struct EventAssetRejected {
+    /// vault_address is the bech32 address of the vault that rejected the payment.
+    #[prost(string, tag = "1")]
+    pub vault_address: ::prost::alloc::string::String,
+    /// source is the bech32 address of the account that created the rejected payment.
+    #[prost(string, tag = "2")]
+    pub source: ::prost::alloc::string::String,
+    /// external_id, together with source, identifies the rejected payment.
+    #[prost(string, tag = "3")]
+    pub external_id: ::prost::alloc::string::String,
+}
 /// VaultAccount represents a central holding place for assets, governed by a set of rules.
 /// It is based on the ERC-4626 standard and builds upon the Provenance Marker module.
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
@@ -480,17 +769,16 @@ pub struct VaultAccount {
     /// underlying_asset is the vault’s single principal collateral AND valuation/base unit.
     /// - Exactly one denom.
     /// - Total Vault Value (TVV) and NAV-per-share are computed and reported in this denom.
-    /// - Interest accrual and internal accounting are measured in this denom.
-    /// - Any other coin accepted for I/O must have a NAV record priced INTO this denom.
+    /// - Interest accrual, fees, and internal accounting are measured in this denom.
+    /// - Held assets acquired via settlement must have an internal NAV record priced INTO this denom.
     #[prost(string, tag = "3")]
     pub underlying_asset: ::prost::alloc::string::String,
-    /// payment_denom is the single optional external payment coin supported for user I/O
-    /// alongside the underlying_asset.
-    /// - If unset, the vault operates single-denom: deposits/withdrawals only in underlying_asset.
-    /// - If set, swap-in/out accept either underlying_asset OR payment_denom (one denom per call).
-    /// - Must differ from share_denom and underlying_asset.
-    /// - Requires an on-chain NAV record mapping payment_denom -> underlying_asset to value deposits
-    ///    and redemptions.
+    /// payment_denom always equals underlying_asset. Vaults are single-denom; the
+    /// field is inert and retained only for wire compatibility.
+    ///
+    /// Deprecated: The mixed-denom vault concept has been flattened into a single
+    /// underlying denom. Deletion of this field is deferred to a future major release.
+    #[deprecated]
     #[prost(string, tag = "4")]
     pub payment_denom: ::prost::alloc::string::String,
     /// admin is the address that has administrative privileges over the vault.
@@ -533,11 +821,23 @@ pub struct VaultAccount {
     /// paused_balance is the total vault value snapshot taken at the moment of pausing.
     /// This value is used for all NAV calculations while the vault is paused to prevent
     /// apparent devaluation during collateral rebalancing. It is cleared upon unpausing.
+    /// Nothing done during the pause moves it, neither a principal deposit or withdrawal
+    /// nor a NAV repricing; those all take effect together when the vault is unpaused.
     #[prost(message, optional, tag = "16")]
     pub paused_balance: ::core::option::Option<super::super::super::cosmos::base::v1beta1::Coin>,
     /// paused_reason is a human-readable string explaining why the vault was paused, particularly for automatic pauses.
     #[prost(string, tag = "17")]
     pub paused_reason: ::prost::alloc::string::String,
+    /// paused_by is the address that initiated the current pause, empty for an automatic
+    /// pause and cleared on unpause. MsgRepriceVault consults it so the NAV authority
+    /// can only resume a pause it took itself.
+    #[prost(string, tag = "30")]
+    pub paused_by: ::prost::alloc::string::String,
+    /// paused_forced reports whether the current pause waived the strict reconcile and
+    /// valuation gate, true for a forced MsgPauseVault and every automatic pause. A forced
+    /// pause records a tolerated failure, so MsgRepriceVault refuses to resume one.
+    #[prost(bool, tag = "31")]
+    pub paused_forced: bool,
     /// bridge_address is the single external address allowed to mint or burn shares on behalf
     /// of this vault (e.g., for bridging to another chain). All mint/burn must flow through the
     /// vault keeper, which enforces that marker supply never exceeds total_shares.
@@ -552,6 +852,86 @@ pub struct VaultAccount {
     /// principal or interest funds). If unset (empty string), only the admin may perform those actions.
     #[prost(string, tag = "20")]
     pub asset_manager: ::prost::alloc::string::String,
+    /// fee_period_start is the start time (in Unix seconds) of the current AUM fee collection period.
+    /// This is a module-managed timestamp kept in sync with the fee timeout queue machinery.
+    #[prost(int64, tag = "21")]
+    pub fee_period_start: i64,
+    /// fee_period_timeout is the end time (in Unix seconds) of the current AUM fee collection period.
+    /// This is a module-managed timestamp kept in sync with the fee timeout queue machinery.
+    #[prost(int64, tag = "22")]
+    pub fee_period_timeout: i64,
+    /// outstanding_aum_fee is the amount of AUM fee that has been calculated but not yet collected
+    /// due to insufficient liquidity in the principal marker. This amount is always denominated
+    /// in the vault's underlying_asset, must be preserved, and is carried into valuation computations.
+    #[prost(message, optional, tag = "23")]
+    pub outstanding_aum_fee:
+        ::core::option::Option<super::super::super::cosmos::base::v1beta1::Coin>,
+    /// aum_fee_bips is the AUM fee rate (in basis points) for this specific vault.
+    /// Units: Basis Points (1 bps = 0.01%).
+    /// Valid Range: 0 to 10000 (0% to 100%).
+    /// A value of 0 disables AUM fee collection for this vault.
+    /// Negative values are not supported (uint32).
+    #[prost(uint32, tag = "24")]
+    pub aum_fee_bips: u32,
+    /// min_swap_in_value is a string representing the minimum value required for a deposit.
+    /// - The value is measured in the underlying_asset.
+    /// - Values must be non-negative (>= 0).
+    /// - If empty ("") or "0", there is no minimum limit.
+    #[prost(string, tag = "25")]
+    pub min_swap_in_value: ::prost::alloc::string::String,
+    /// min_swap_out_value is a string representing the minimum value required for a withdrawal.
+    /// - The value is measured in the underlying_asset.
+    /// - Outgoing redemptions are converted to this unit before checking.
+    /// - Values must be non-negative (>= 0).
+    /// - If empty ("") or "0", there is no minimum limit.
+    #[prost(string, tag = "26")]
+    pub min_swap_out_value: ::prost::alloc::string::String,
+    /// max_swap_in_value is a string representing the maximum value allowed for a deposit.
+    /// - The value is measured in the underlying_asset.
+    /// - Values must be positive (> 0).
+    /// - An empty string "" indicates no maximum limit.
+    #[prost(string, tag = "27")]
+    pub max_swap_in_value: ::prost::alloc::string::String,
+    /// max_swap_out_value is a string representing the maximum value allowed for a withdrawal.
+    /// - The value is measured in the underlying_asset.
+    /// - Outgoing redemptions are converted to this unit before checking.
+    /// - Values must be positive (> 0).
+    /// - An empty string "" indicates no maximum limit.
+    #[prost(string, tag = "28")]
+    pub max_swap_out_value: ::prost::alloc::string::String,
+    /// nav_authority is the address authorized to mutate this vault's internal NAV
+    /// table via MsgUpdateVaultNAV. If empty, the vault admin is treated as the NAV
+    /// authority. It is rotated only via MsgUpdateNAVAuthority.
+    #[prost(string, tag = "29")]
+    pub nav_authority: ::prost::alloc::string::String,
+}
+/// VaultNAV is a single internal net asset value entry recording the price of one
+/// asset denom held by a vault. The vault module is the sole source of truth for
+/// these values; the NAV authority maintains them via MsgUpdateVaultNAV.
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provlabs.vault.v1.VaultNAV")]
+pub struct VaultNav {
+    /// denom is the asset denomination this entry prices.
+    #[prost(string, tag = "1")]
+    pub denom: ::prost::alloc::string::String,
+    /// price is the total value of `volume` units of the denom, denominated in the
+    /// vault's underlying asset. The per-unit value is price divided by volume.
+    #[prost(message, optional, tag = "2")]
+    pub price: ::core::option::Option<super::super::super::cosmos::base::v1beta1::Coin>,
+    /// volume is the number of units of the denom that price covers. It must be
+    /// positive; the per-unit value of the denom is price divided by volume.
+    #[prost(string, tag = "3")]
+    pub volume: ::prost::alloc::string::String,
+    /// source identifies the origin of this NAV entry (for example an oracle name
+    /// or the settlement path), mirroring the Marker module's NAV source attribution.
+    #[prost(string, tag = "4")]
+    pub source: ::prost::alloc::string::String,
+    /// updated_block_height is the block height at which this entry was last updated.
+    #[prost(int64, tag = "5")]
+    pub updated_block_height: i64,
+    /// updated_time is the block time at which this entry was last updated.
+    #[prost(message, optional, tag = "6")]
+    pub updated_time: ::core::option::Option<crate::shim::Timestamp>,
 }
 /// AccountBalance represents the coin balance of a single account.
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
@@ -577,11 +957,47 @@ pub struct PendingSwapOut {
     /// shares are the shares that were escrowed by the user.
     #[prost(message, optional, tag = "3")]
     pub shares: ::core::option::Option<super::super::super::cosmos::base::v1beta1::Coin>,
-    /// redeem_denom is the denomination of the asset to be redeemed.
+    /// redeem_denom is the denomination of the asset to be redeemed. Always the
+    /// vault's underlying_asset; retained for wire compatibility.
+    #[deprecated]
     #[prost(string, tag = "4")]
     pub redeem_denom: ::prost::alloc::string::String,
+    /// failure_count is the number of consecutive failed processing attempts that
+    /// left this request queued. Each failure re-keys the request to a later retry
+    /// time so it cannot hold the front of the queue. Reset when expedited.
+    #[prost(uint32, tag = "5")]
+    pub failure_count: u32,
 }
-/// QueueEntry is a (time, addr) pair used by the vault payout deferral queue.
+/// Payment is the vault module's view of a Provenance exchange-module payment. It
+/// mirrors the exchange Payment, exposing only the fields relevant to the vault's
+/// asset settlement workflow.
+///
+/// It serves two roles. As a query result it reports a pending payment targeting the
+/// vault. In MsgAcceptAssetRequest it carries the terms the asset manager reviewed, and
+/// settlement proceeds only if they still match the stored payment exactly.
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provlabs.vault.v1.Payment")]
+pub struct Payment {
+    /// source is the account that created the payment and owns the escrowed source_amount.
+    #[prost(string, tag = "1")]
+    pub source: ::prost::alloc::string::String,
+    /// source_amount is the funds the source pays the target. A hold is placed on this
+    /// amount in the source account until the payment is accepted, rejected, or cancelled.
+    #[prost(message, repeated, tag = "2")]
+    pub source_amount: ::prost::alloc::vec::Vec<super::super::super::cosmos::base::v1beta1::Coin>,
+    /// target is the account that can accept the payment; for the vault's settlement
+    /// workflow it is the vault.
+    #[prost(string, tag = "3")]
+    pub target: ::prost::alloc::string::String,
+    /// target_amount is the funds the target pays the source in exchange for source_amount.
+    #[prost(message, repeated, tag = "4")]
+    pub target_amount: ::prost::alloc::vec::Vec<super::super::super::cosmos::base::v1beta1::Coin>,
+    /// external_id, together with source, uniquely identifies the payment.
+    #[prost(string, tag = "5")]
+    pub external_id: ::prost::alloc::string::String,
+}
+/// QueueEntry is a (time, addr) pair used by various vault timeout queues
+/// (e.g., payout deferral and fee collection).
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provlabs.vault.v1.QueueEntry")]
 pub struct QueueEntry {
@@ -617,8 +1033,19 @@ pub struct PendingSwapOutQueue {
     #[prost(message, repeated, tag = "2")]
     pub entries: ::prost::alloc::vec::Vec<PendingSwapOutQueueEntry>,
 }
+/// VaultNAVEntry pairs a vault address with one of its internal NAV records for
+/// genesis import and export.
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provlabs.vault.v1.VaultNAVEntry")]
+pub struct VaultNavEntry {
+    /// vault_address is the bech32 address of the vault that owns this NAV record.
+    #[prost(string, tag = "1")]
+    pub vault_address: ::prost::alloc::string::String,
+    /// nav is the internal NAV record held by the vault.
+    #[prost(message, optional, tag = "2")]
+    pub nav: ::core::option::Option<VaultNav>,
+}
 /// GenesisState defines the vault module's genesis state.
-/// NOTE: payout verification queue is not imported or exported.  It will always be empty after endblocker processes it.
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provlabs.vault.v1.GenesisState")]
 pub struct GenesisState {
@@ -633,6 +1060,20 @@ pub struct GenesisState {
     /// pending_swap_out_queue contains entries for pending swap outs.
     #[prost(message, optional, tag = "3")]
     pub pending_swap_out_queue: ::core::option::Option<PendingSwapOutQueue>,
+    /// fee_timeout_queue contains (time, addr) entries for vaults that are
+    /// temporarily deferred from automatic AUM fee collection until the
+    /// given UNIX timestamp (seconds). These entries are re-enqueued on InitGenesis.
+    #[prost(message, repeated, tag = "4")]
+    pub fee_timeout_queue: ::prost::alloc::vec::Vec<QueueEntry>,
+    /// params defines the module parameters.
+    #[prost(message, optional, tag = "5")]
+    pub params: ::core::option::Option<Params>,
+    /// navs contains the internal NAV table entries for all vaults at genesis.
+    #[prost(message, repeated, tag = "6")]
+    pub navs: ::prost::alloc::vec::Vec<VaultNavEntry>,
+    /// payout_verification_set contains bech32 addresses of vaults awaiting their next interest affordability check.
+    #[prost(string, repeated, tag = "7")]
+    pub payout_verification_set: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// QueryVaultPendingSwapOutsRequest is the request message for the Query/VaultPendingSwapOuts endpoint.
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
@@ -769,7 +1210,7 @@ pub struct QueryEstimateSwapInRequest {
     /// vault_address is the bech32 address of the vault to query.
     #[prost(string, tag = "1")]
     pub vault_address: ::prost::alloc::string::String,
-    /// assets is the amount of underlying or payment denom to swap in.
+    /// assets is the amount of the underlying asset to swap in.
     #[prost(message, optional, tag = "2")]
     pub assets: ::core::option::Option<super::super::super::cosmos::base::v1beta1::Coin>,
 }
@@ -798,10 +1239,13 @@ pub struct QueryEstimateSwapOutRequest {
     /// vault_address is the bech32 address of the vault to query.
     #[prost(string, tag = "1")]
     pub vault_address: ::prost::alloc::string::String,
-    /// shares is the amount of shares to swap out.
+    /// shares is the amount of shares to swap out, as a non-negative integer of at most 80 characters.
     #[prost(string, tag = "2")]
     pub shares: ::prost::alloc::string::String,
-    /// redeem_denom is the payout denom to estimate; if empty, the underlying asset is used.
+    /// redeem_denom previously selected the payout denom to estimate. The estimate
+    /// is always in the vault's underlying_asset; if set, this must equal
+    /// underlying_asset. Retained for wire compatibility with released clients.
+    #[deprecated]
     #[prost(string, tag = "3")]
     pub redeem_denom: ::prost::alloc::string::String,
 }
@@ -819,11 +1263,137 @@ pub struct QueryEstimateSwapOutResponse {
     #[prost(message, optional, tag = "3")]
     pub time: ::core::option::Option<crate::shim::Timestamp>,
 }
+/// QueryParamsRequest is the request message for the Query/Params endpoint.
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provlabs.vault.v1.QueryParamsRequest")]
+#[proto_query(
+    path = "/provlabs.vault.v1.Query/Params",
+    response_type = QueryParamsResponse
+)]
+pub struct QueryParamsRequest {}
+/// QueryParamsResponse is the response message for the Query/Params endpoint.
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provlabs.vault.v1.QueryParamsResponse")]
+pub struct QueryParamsResponse {
+    /// params defines the vault module parameters.
+    #[prost(message, optional, tag = "1")]
+    pub params: ::core::option::Option<Params>,
+}
+/// QueryVaultNavsRequest is the request message for the Query/VaultNavs endpoint.
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provlabs.vault.v1.QueryVaultNavsRequest")]
+#[proto_query(
+    path = "/provlabs.vault.v1.Query/VaultNavs",
+    response_type = QueryVaultNavsResponse
+)]
+pub struct QueryVaultNavsRequest {
+    /// id is the bech32 address of the vault or the vault's share denom to query.
+    #[prost(string, tag = "1")]
+    pub id: ::prost::alloc::string::String,
+    /// pagination defines an optional pagination for the request.
+    #[prost(message, optional, tag = "2")]
+    pub pagination:
+        ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageRequest>,
+}
+/// QueryVaultNavsResponse is the response message for the Query/VaultNavs endpoint.
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provlabs.vault.v1.QueryVaultNavsResponse")]
+pub struct QueryVaultNavsResponse {
+    /// navs is the list of internal NAV entries held by the vault.
+    #[prost(message, repeated, tag = "1")]
+    pub navs: ::prost::alloc::vec::Vec<VaultNav>,
+    /// pagination defines the pagination in the response.
+    #[prost(message, optional, tag = "2")]
+    pub pagination:
+        ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageResponse>,
+}
+/// QueryNavValueRequest is the request message for the Query/NavValue endpoint.
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provlabs.vault.v1.QueryNavValueRequest")]
+#[proto_query(
+    path = "/provlabs.vault.v1.Query/NavValue",
+    response_type = QueryNavValueResponse
+)]
+pub struct QueryNavValueRequest {
+    /// id is the bech32 address of the vault or the vault's share denom to query.
+    #[prost(string, tag = "1")]
+    pub id: ::prost::alloc::string::String,
+    /// denom is the asset denomination whose NAV entry is being queried.
+    #[prost(string, tag = "2")]
+    pub denom: ::prost::alloc::string::String,
+}
+/// QueryNavValueResponse is the response message for the Query/NavValue endpoint.
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provlabs.vault.v1.QueryNavValueResponse")]
+pub struct QueryNavValueResponse {
+    /// nav is the internal NAV entry for the requested vault and denom.
+    #[prost(message, optional, tag = "1")]
+    pub nav: ::core::option::Option<VaultNav>,
+}
+/// QueryVaultPaymentRequest is the request message for the Query/VaultPayment endpoint.
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provlabs.vault.v1.QueryVaultPaymentRequest")]
+#[proto_query(
+    path = "/provlabs.vault.v1.Query/VaultPayment",
+    response_type = QueryVaultPaymentResponse
+)]
+pub struct QueryVaultPaymentRequest {
+    /// id is the bech32 address of the vault or the vault's share denom to query.
+    #[prost(string, tag = "1")]
+    pub id: ::prost::alloc::string::String,
+    /// source is the bech32 address of the account that created the payment.
+    #[prost(string, tag = "2")]
+    pub source: ::prost::alloc::string::String,
+    /// external_id, together with source, uniquely identifies the payment.
+    #[prost(string, tag = "3")]
+    pub external_id: ::prost::alloc::string::String,
+}
+/// QueryVaultPaymentResponse is the response message for the Query/VaultPayment endpoint.
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provlabs.vault.v1.QueryVaultPaymentResponse")]
+pub struct QueryVaultPaymentResponse {
+    /// payment is the pending exchange-module payment targeting the vault.
+    #[prost(message, optional, tag = "1")]
+    pub payment: ::core::option::Option<Payment>,
+}
+/// QueryVaultPaymentsRequest is the request message for the Query/VaultPayments endpoint.
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provlabs.vault.v1.QueryVaultPaymentsRequest")]
+#[proto_query(
+    path = "/provlabs.vault.v1.Query/VaultPayments",
+    response_type = QueryVaultPaymentsResponse
+)]
+pub struct QueryVaultPaymentsRequest {
+    /// id is the bech32 address of the vault or the vault's share denom to query.
+    #[prost(string, tag = "1")]
+    pub id: ::prost::alloc::string::String,
+    /// pagination defines an optional pagination for the request.
+    #[prost(message, optional, tag = "2")]
+    pub pagination:
+        ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageRequest>,
+}
+/// QueryVaultPaymentsResponse is the response message for the Query/VaultPayments endpoint.
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provlabs.vault.v1.QueryVaultPaymentsResponse")]
+pub struct QueryVaultPaymentsResponse {
+    /// payments is the list of pending exchange-module payments targeting the vault.
+    #[prost(message, repeated, tag = "1")]
+    pub payments: ::prost::alloc::vec::Vec<Payment>,
+    /// pagination defines the pagination in the response.
+    #[prost(message, optional, tag = "2")]
+    pub pagination:
+        ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageResponse>,
+}
 /// MsgCreateVaultRequest is the request message for the CreateVault endpoint.
+/// Who may sign depends on the module's gov_only_vault_creation param: when it is
+/// enabled only the governance module account may sign, so a vault can only come
+/// into existence through a passed proposal; when it is disabled any account may
+/// sign and create a vault directly.
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provlabs.vault.v1.MsgCreateVaultRequest")]
 pub struct MsgCreateVaultRequest {
-    /// admin is the creator and initial administrator of the vault.
+    /// admin is the initial administrator of the vault. It is designated by the
+    /// signer and is not required to be the signer itself.
     #[prost(string, tag = "1")]
     pub admin: ::prost::alloc::string::String,
     /// share_denom is the name of the assets created by the vault used for distribution.
@@ -832,13 +1402,41 @@ pub struct MsgCreateVaultRequest {
     /// underlying_asset is the denomination of the asset supported by the vault.
     #[prost(string, tag = "3")]
     pub underlying_asset: ::prost::alloc::string::String,
-    /// payment_denom is an optional secondary denomination the vault can accept.
+    /// payment_denom previously configured a secondary accepted denomination.
+    /// Vaults are single-denom on underlying_asset; if set, this must equal
+    /// underlying_asset. Retained for wire compatibility with released clients.
+    #[deprecated]
     #[prost(string, tag = "4")]
     pub payment_denom: ::prost::alloc::string::String,
     /// withdrawal_delay_seconds is the time period (in seconds) that a withdrawal
     /// must wait in the pending queue before being processed.
     #[prost(uint64, tag = "5")]
     pub withdrawal_delay_seconds: u64,
+    /// min_swap_in_value is the minimum value required for a deposit, measured in the underlying_asset.
+    /// - Values must be non-negative (>= 0).
+    /// - An empty string "" or "0" indicates no minimum.
+    #[prost(string, tag = "6")]
+    pub min_swap_in_value: ::prost::alloc::string::String,
+    /// min_swap_out_value is the minimum value required for a withdrawal, measured in the underlying_asset.
+    /// - Values must be non-negative (>= 0).
+    /// - An empty string "" or "0" indicates no minimum.
+    #[prost(string, tag = "7")]
+    pub min_swap_out_value: ::prost::alloc::string::String,
+    /// max_swap_in_value is the maximum value allowed for a deposit, measured in the underlying_asset.
+    /// - Values must be positive (> 0).
+    /// - An empty string "" clears the maximum / represents no maximum.
+    #[prost(string, tag = "8")]
+    pub max_swap_in_value: ::prost::alloc::string::String,
+    /// max_swap_out_value is the maximum value allowed for a withdrawal, measured in the underlying_asset.
+    /// - Values must be positive (> 0).
+    /// - An empty string "" indicates no maximum limit.
+    #[prost(string, tag = "9")]
+    pub max_swap_out_value: ::prost::alloc::string::String,
+    /// authority is the address signing the message. It must be the governance module
+    /// account while the gov_only_vault_creation param is enabled; otherwise it may be
+    /// any account.
+    #[prost(string, tag = "10")]
+    pub authority: ::prost::alloc::string::String,
 }
 /// MsgCreateVaultResponse is the response message for the CreateVault endpoint.
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
@@ -902,9 +1500,10 @@ pub struct MsgSwapOutRequest {
     /// assets is the amount of underlying assets to withdraw.
     #[prost(message, optional, tag = "3")]
     pub assets: ::core::option::Option<super::super::super::cosmos::base::v1beta1::Coin>,
-    /// redeem_denom selects the payout coin.
-    /// - If empty, defaults to the vault’s underlying_asset.
-    /// - Must be either the vault’s underlying_asset or its payment_denom.
+    /// redeem_denom previously selected the payout coin. The payout is always the
+    /// vault's underlying_asset; if set, this must equal underlying_asset.
+    /// Retained for wire compatibility with released clients.
+    #[deprecated]
     #[prost(string, tag = "4")]
     pub redeem_denom: ::prost::alloc::string::String,
 }
@@ -972,6 +1571,105 @@ pub struct MsgUpdateInterestRateRequest {
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provlabs.vault.v1.MsgUpdateInterestRateResponse")]
 pub struct MsgUpdateInterestRateResponse {}
+/// MsgUpdateWithdrawalDelayRequest is the request message for updating the withdrawal delay of a vault.
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provlabs.vault.v1.MsgUpdateWithdrawalDelayRequest")]
+pub struct MsgUpdateWithdrawalDelayRequest {
+    /// authority is the address of the vault admin or asset manager.
+    #[prost(string, tag = "1")]
+    pub authority: ::prost::alloc::string::String,
+    /// vault_address is the bech32 address of the vault.
+    #[prost(string, tag = "2")]
+    pub vault_address: ::prost::alloc::string::String,
+    /// withdrawal_delay_seconds is the time period (in seconds) that a withdrawal
+    /// must wait in the pending queue before being processed.
+    #[prost(uint64, tag = "3")]
+    pub withdrawal_delay_seconds: u64,
+}
+/// MsgUpdateWithdrawalDelayResponse is the response message for the UpdateWithdrawalDelay endpoint.
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provlabs.vault.v1.MsgUpdateWithdrawalDelayResponse")]
+pub struct MsgUpdateWithdrawalDelayResponse {}
+/// MsgUpdateMinSwapInValueRequest is the request message for updating the minimum swap-in value of a vault.
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provlabs.vault.v1.MsgUpdateMinSwapInValueRequest")]
+pub struct MsgUpdateMinSwapInValueRequest {
+    /// authority is the bech32 address of the vault administrator or asset manager.
+    #[prost(string, tag = "1")]
+    pub authority: ::prost::alloc::string::String,
+    /// vault_address is the bech32 address of the vault.
+    #[prost(string, tag = "2")]
+    pub vault_address: ::prost::alloc::string::String,
+    /// min_swap_in_value is the minimum value required for a deposit, measured in the underlying_asset.
+    /// - Values must be non-negative (>= 0).
+    /// - An empty string "" or "0" clears the minimum / represents no minimum.
+    #[prost(string, tag = "3")]
+    pub min_swap_in_value: ::prost::alloc::string::String,
+}
+/// MsgUpdateMinSwapInValueResponse is the response message for the UpdateMinSwapInValue endpoint.
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provlabs.vault.v1.MsgUpdateMinSwapInValueResponse")]
+pub struct MsgUpdateMinSwapInValueResponse {}
+/// MsgUpdateMinSwapOutValueRequest is the request message for updating the minimum swap-out value of a vault.
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provlabs.vault.v1.MsgUpdateMinSwapOutValueRequest")]
+pub struct MsgUpdateMinSwapOutValueRequest {
+    /// authority is the bech32 address of the vault administrator or asset manager.
+    #[prost(string, tag = "1")]
+    pub authority: ::prost::alloc::string::String,
+    /// vault_address is the bech32 address of the vault.
+    #[prost(string, tag = "2")]
+    pub vault_address: ::prost::alloc::string::String,
+    /// min_swap_out_value is the minimum value required for a withdrawal, measured in the underlying_asset.
+    /// - Values must be non-negative (>= 0).
+    /// - An empty string "" or "0" clears the minimum / represents no minimum.
+    #[prost(string, tag = "3")]
+    pub min_swap_out_value: ::prost::alloc::string::String,
+}
+/// MsgUpdateMinSwapOutValueResponse is the response message for the UpdateMinSwapOutValue endpoint.
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provlabs.vault.v1.MsgUpdateMinSwapOutValueResponse")]
+pub struct MsgUpdateMinSwapOutValueResponse {}
+/// MsgUpdateMaxSwapInValueRequest is the request message for updating the maximum swap-in value of a vault.
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provlabs.vault.v1.MsgUpdateMaxSwapInValueRequest")]
+pub struct MsgUpdateMaxSwapInValueRequest {
+    /// authority is the bech32 address of the vault administrator or asset manager.
+    #[prost(string, tag = "1")]
+    pub authority: ::prost::alloc::string::String,
+    /// vault_address is the bech32 address of the vault.
+    #[prost(string, tag = "2")]
+    pub vault_address: ::prost::alloc::string::String,
+    /// max_swap_in_value is the maximum value allowed for a deposit, measured in the underlying_asset.
+    /// - Values must be positive (> 0).
+    /// - An empty string "" clears the maximum / represents no maximum.
+    #[prost(string, tag = "3")]
+    pub max_swap_in_value: ::prost::alloc::string::String,
+}
+/// MsgUpdateMaxSwapInValueResponse is the response message for the UpdateMaxSwapInValue endpoint.
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provlabs.vault.v1.MsgUpdateMaxSwapInValueResponse")]
+pub struct MsgUpdateMaxSwapInValueResponse {}
+/// MsgUpdateMaxSwapOutValueRequest is the request message for updating the maximum swap-out value of a vault.
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provlabs.vault.v1.MsgUpdateMaxSwapOutValueRequest")]
+pub struct MsgUpdateMaxSwapOutValueRequest {
+    /// authority is the bech32 address of the vault administrator or asset manager.
+    #[prost(string, tag = "1")]
+    pub authority: ::prost::alloc::string::String,
+    /// vault_address is the bech32 address of the vault.
+    #[prost(string, tag = "2")]
+    pub vault_address: ::prost::alloc::string::String,
+    /// max_swap_out_value is the maximum value allowed for a withdrawal, measured in the underlying_asset.
+    /// - Values must be positive (> 0).
+    /// - An empty string "" clears the maximum / represents no maximum.
+    #[prost(string, tag = "3")]
+    pub max_swap_out_value: ::prost::alloc::string::String,
+}
+/// MsgUpdateMaxSwapOutValueResponse is the response message for the UpdateMaxSwapOutValue endpoint.
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provlabs.vault.v1.MsgUpdateMaxSwapOutValueResponse")]
+pub struct MsgUpdateMaxSwapOutValueResponse {}
 /// MsgToggleSwapInRequest is the request message for enabling or disabling swap-in operations for a vault.
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provlabs.vault.v1.MsgToggleSwapInRequest")]
@@ -1102,7 +1800,9 @@ pub struct MsgExpeditePendingSwapOutResponse {}
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provlabs.vault.v1.MsgPauseVaultRequest")]
 pub struct MsgPauseVaultRequest {
-    /// authority is the address of the vault administrator or asset manager initiating the pause.
+    /// authority is the address initiating the pause: the vault administrator, the asset
+    /// manager, or the NAV authority. The NAV authority gets no matching unpause; it can
+    /// only resume its own pause via RepriceVault.
     #[prost(string, tag = "1")]
     pub authority: ::prost::alloc::string::String,
     /// vault_address is the bech32 address of the vault to pause.
@@ -1112,6 +1812,14 @@ pub struct MsgPauseVaultRequest {
     /// for operators and clients to understand the context (e.g., maintenance or anomaly).
     #[prost(string, tag = "3")]
     pub reason: ::prost::alloc::string::String,
+    /// force, when true, allows the pause to proceed even if the pre-pause
+    /// reconcile or vault valuation fails. The pause is applied best-effort:
+    /// tolerated failures are logged and surfaced on EventVaultPaused, and
+    /// PausedBalance may be the net TVV, zero (when valuation itself failed), or
+    /// otherwise approximate. When false (default), any reconcile or valuation
+    /// failure aborts the pause and the vault remains unpaused.
+    #[prost(bool, tag = "4")]
+    pub force: bool,
 }
 /// MsgPauseVaultResponse is the response message for the PauseVault endpoint.
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
@@ -1134,6 +1842,9 @@ pub struct MsgUnpauseVaultRequest {
 #[proto_message(type_url = "/provlabs.vault.v1.MsgUnpauseVaultResponse")]
 pub struct MsgUnpauseVaultResponse {}
 /// MsgSetBridgeAddressRequest is the request message for configuring the bridge address for a vault.
+///
+/// Rotation leaves any share balance on the outgoing bridge in place, reducing mint capacity by that amount
+/// until it is transferred to the new bridge and burned. Drain the outgoing bridge before rotating.
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provlabs.vault.v1.MsgSetBridgeAddressRequest")]
 pub struct MsgSetBridgeAddressRequest {
@@ -1224,6 +1935,218 @@ pub struct MsgSetAssetManagerRequest {
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/provlabs.vault.v1.MsgSetAssetManagerResponse")]
 pub struct MsgSetAssetManagerResponse {}
+/// MsgUpdateParamsRequest is the request message for updating the module parameters.
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provlabs.vault.v1.MsgUpdateParamsRequest")]
+pub struct MsgUpdateParamsRequest {
+    /// authority is the address of the governance module account.
+    #[prost(string, tag = "1")]
+    pub authority: ::prost::alloc::string::String,
+    /// params defines the vault module parameters to update.
+    #[prost(message, optional, tag = "2")]
+    pub params: ::core::option::Option<Params>,
+}
+/// MsgUpdateParamsResponse is the response message for the UpdateParams endpoint.
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provlabs.vault.v1.MsgUpdateParamsResponse")]
+pub struct MsgUpdateParamsResponse {}
+/// MsgUpdateVaultAUMFeeBipsRequest is the request message for updating the AUM fee bips for a specific vault.
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provlabs.vault.v1.MsgUpdateVaultAUMFeeBipsRequest")]
+pub struct MsgUpdateVaultAumFeeBipsRequest {
+    /// authority is the tech fee address authorized to update per-vault bips.
+    #[prost(string, tag = "1")]
+    pub authority: ::prost::alloc::string::String,
+    /// vault_address is the bech32 address of the vault to update.
+    #[prost(string, tag = "2")]
+    pub vault_address: ::prost::alloc::string::String,
+    /// aum_fee_bips is the new fee rate (in basis points) for the vault.
+    /// The value must be between 0 and 10,000 (inclusive), where 10,000 represents 100%.
+    #[prost(uint32, tag = "3")]
+    pub aum_fee_bips: u32,
+}
+/// MsgUpdateVaultAUMFeeBipsResponse is the response message for the UpdateVaultAUMFeeBips endpoint.
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provlabs.vault.v1.MsgUpdateVaultAUMFeeBipsResponse")]
+pub struct MsgUpdateVaultAumFeeBipsResponse {}
+/// MsgUpdateVaultNAVRequest is the request message for creating or updating a vault's internal NAV entry.
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provlabs.vault.v1.MsgUpdateVaultNAVRequest")]
+pub struct MsgUpdateVaultNavRequest {
+    /// signer is the address of the vault's NAV authority authorizing this update.
+    #[prost(string, tag = "1")]
+    pub signer: ::prost::alloc::string::String,
+    /// vault_address is the bech32 address of the vault whose NAV entry is being updated.
+    #[prost(string, tag = "2")]
+    pub vault_address: ::prost::alloc::string::String,
+    /// denom is the asset denomination being priced. It must not be the vault's
+    /// share denom.
+    #[prost(string, tag = "3")]
+    pub denom: ::prost::alloc::string::String,
+    /// price is the total value of `volume` units of the denom, denominated in
+    /// the vault's underlying asset.
+    #[prost(message, optional, tag = "4")]
+    pub price: ::core::option::Option<super::super::super::cosmos::base::v1beta1::Coin>,
+    /// volume is the number of units of the denom that price covers. It must be positive.
+    #[prost(string, tag = "5")]
+    pub volume: ::prost::alloc::string::String,
+    /// source identifies the origin of this NAV update (for example an oracle name).
+    /// It is optional.
+    #[prost(string, tag = "6")]
+    pub source: ::prost::alloc::string::String,
+}
+/// MsgUpdateVaultNAVResponse is the response message for the UpdateVaultNAV endpoint.
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provlabs.vault.v1.MsgUpdateVaultNAVResponse")]
+pub struct MsgUpdateVaultNavResponse {}
+/// NAVUpdate is one denom's price restatement within a RepriceVault batch. It carries
+/// only the operator-supplied fields of a VaultNAV; the module stamps the update height
+/// and time itself.
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provlabs.vault.v1.NAVUpdate")]
+pub struct NavUpdate {
+    /// denom is the asset denomination being priced. It must not be the vault's share denom.
+    #[prost(string, tag = "1")]
+    pub denom: ::prost::alloc::string::String,
+    /// price is the total value of `volume` units of the denom, denominated in
+    /// the vault's underlying asset.
+    #[prost(message, optional, tag = "2")]
+    pub price: ::core::option::Option<super::super::super::cosmos::base::v1beta1::Coin>,
+    /// volume is the number of units of the denom that price covers. It must be positive.
+    #[prost(string, tag = "3")]
+    pub volume: ::prost::alloc::string::String,
+    /// source identifies the origin of this NAV update (for example an oracle name).
+    /// It is optional.
+    #[prost(string, tag = "4")]
+    pub source: ::prost::alloc::string::String,
+}
+/// MsgRepriceVaultRequest applies a batch of internal NAV updates and, when resume is set,
+/// unpauses the vault in the same state transition. It is the batched form of
+/// MsgUpdateVaultNAV, carrying the identical per-entry rules, plus an optional resume.
+///
+/// The updates are a batch because a vault holding many priced positions, such as a book of
+/// loans, restates them on one cadence. A book too large for one transaction is repriced by
+/// sending several of these with resume unset and a final one with resume set, so the vault
+/// stays frozen for the whole restatement and reopens once, on the last message.
+///
+/// With resume set, the whole batch and the unpause commit together, so there is never a
+/// block in which the vault is live, a new price is public, and the share price step has not
+/// yet landed. It resumes only a strict pause the current NAV authority took itself;
+/// operator, forced, and automatic pauses still require a management unpause.
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provlabs.vault.v1.MsgRepriceVaultRequest")]
+pub struct MsgRepriceVaultRequest {
+    /// signer is the address of the vault's NAV authority authorizing these updates.
+    #[prost(string, tag = "1")]
+    pub signer: ::prost::alloc::string::String,
+    /// vault_address is the bech32 address of the vault being repriced.
+    #[prost(string, tag = "2")]
+    pub vault_address: ::prost::alloc::string::String,
+    /// navs are the price restatements to apply. At least one is required, each denom may
+    /// appear only once, and the batch is capped at MaxRepriceBatchSize.
+    #[prost(message, repeated, tag = "3")]
+    pub navs: ::prost::alloc::vec::Vec<NavUpdate>,
+    /// resume, when true, unpauses the vault after applying the batch. Leave it false to
+    /// apply a batch and keep the vault frozen, which is how a restatement too large for one
+    /// transaction is continued across several. Setting it requires the vault to be under a
+    /// strict pause this same NAV authority took.
+    #[prost(bool, tag = "4")]
+    pub resume: bool,
+}
+/// MsgRepriceVaultResponse is the response message for the RepriceVault endpoint.
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provlabs.vault.v1.MsgRepriceVaultResponse")]
+pub struct MsgRepriceVaultResponse {}
+/// MsgRemoveVaultNAVRequest is the request message for deleting a vault's internal NAV
+/// entry for a denom. Only entries for denoms the vault does not hold may be removed; a
+/// held asset is written down through UpdateVaultNAV instead, so that its value stays
+/// accounted for.
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provlabs.vault.v1.MsgRemoveVaultNAVRequest")]
+pub struct MsgRemoveVaultNavRequest {
+    /// signer is the address of the vault's NAV authority authorizing this removal.
+    #[prost(string, tag = "1")]
+    pub signer: ::prost::alloc::string::String,
+    /// vault_address is the bech32 address of the vault whose NAV entry is being removed.
+    #[prost(string, tag = "2")]
+    pub vault_address: ::prost::alloc::string::String,
+    /// denom is the asset denomination whose NAV entry is being removed.
+    #[prost(string, tag = "3")]
+    pub denom: ::prost::alloc::string::String,
+}
+/// MsgRemoveVaultNAVResponse is the response message for the RemoveVaultNAV endpoint.
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provlabs.vault.v1.MsgRemoveVaultNAVResponse")]
+pub struct MsgRemoveVaultNavResponse {}
+/// MsgUpdateNAVAuthorityRequest is the request message for rotating a vault's NAV authority.
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provlabs.vault.v1.MsgUpdateNAVAuthorityRequest")]
+pub struct MsgUpdateNavAuthorityRequest {
+    /// signer is the address of the vault administrator authorizing this rotation.
+    #[prost(string, tag = "1")]
+    pub signer: ::prost::alloc::string::String,
+    /// vault_address is the bech32 address of the vault whose NAV authority is being rotated.
+    #[prost(string, tag = "2")]
+    pub vault_address: ::prost::alloc::string::String,
+    /// new_authority is the address that will be authorized to mutate the vault's internal NAV table.
+    #[prost(string, tag = "3")]
+    pub new_authority: ::prost::alloc::string::String,
+}
+/// MsgUpdateNAVAuthorityResponse is the response message for the UpdateNAVAuthority endpoint.
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provlabs.vault.v1.MsgUpdateNAVAuthorityResponse")]
+pub struct MsgUpdateNavAuthorityResponse {}
+/// MsgAcceptAssetRequest is the request message for settling a pending exchange-module
+/// payment whose target is the vault. The vault settles only payments where one leg is the
+/// vault's underlying asset; the settlement direction (inbound or outbound) is derived from
+/// which leg that is.
+///
+/// The message carries the complete payment, so the asset manager's signature commits to the
+/// economic terms of the deal. Settlement requires the payment held by the exchange module to
+/// match those terms exactly.
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provlabs.vault.v1.MsgAcceptAssetRequest")]
+pub struct MsgAcceptAssetRequest {
+    /// authority is the address of the vault's asset manager authorizing the settlement.
+    #[prost(string, tag = "1")]
+    pub authority: ::prost::alloc::string::String,
+    /// vault_address is the bech32 address of the vault, which must be the payment's target.
+    #[prost(string, tag = "2")]
+    pub vault_address: ::prost::alloc::string::String,
+    /// payment is the full set of terms the asset manager reviewed and is approving. It
+    /// identifies the pending payment by its source and external_id, and binds the approval
+    /// to that payment's exact legs. Settlement fails if any field does not match the
+    /// payment held by the exchange module.
+    #[prost(message, optional, tag = "5")]
+    pub payment: ::core::option::Option<Payment>,
+}
+/// MsgAcceptAssetResponse is the response message for the AcceptAsset endpoint.
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provlabs.vault.v1.MsgAcceptAssetResponse")]
+pub struct MsgAcceptAssetResponse {}
+/// MsgRejectAssetRequest is the request message for declining a pending exchange-module
+/// payment whose target is the vault. The exchange module cancels the payment and refunds
+/// the source's escrow. The payment is identified by its source account and external_id.
+#[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provlabs.vault.v1.MsgRejectAssetRequest")]
+pub struct MsgRejectAssetRequest {
+    /// authority is the address of the vault's asset manager authorizing the rejection.
+    #[prost(string, tag = "1")]
+    pub authority: ::prost::alloc::string::String,
+    /// vault_address is the bech32 address of the vault, which must be the payment's target.
+    #[prost(string, tag = "2")]
+    pub vault_address: ::prost::alloc::string::String,
+    /// source is the bech32 address of the account that created the pending payment.
+    #[prost(string, tag = "3")]
+    pub source: ::prost::alloc::string::String,
+    /// external_id, together with source, uniquely identifies the pending payment to reject.
+    #[prost(string, tag = "4")]
+    pub external_id: ::prost::alloc::string::String,
+}
+/// MsgRejectAssetResponse is the response message for the RejectAsset endpoint.
+#[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
+#[proto_message(type_url = "/provlabs.vault.v1.MsgRejectAssetResponse")]
+pub struct MsgRejectAssetResponse {}
 pub struct VaultQuerier<'a, Q: cosmwasm_std::CustomQuery> {
     querier: &'a cosmwasm_std::QuerierWrapper<'a, Q>,
 }
@@ -1285,5 +2208,46 @@ impl<'a, Q: cosmwasm_std::CustomQuery> VaultQuerier<'a, Q> {
         >,
     ) -> Result<QueryVaultPendingSwapOutsResponse, cosmwasm_std::StdError> {
         QueryVaultPendingSwapOutsRequest { id, pagination }.query(self.querier)
+    }
+    pub fn params(&self) -> Result<QueryParamsResponse, cosmwasm_std::StdError> {
+        QueryParamsRequest {}.query(self.querier)
+    }
+    pub fn vault_navs(
+        &self,
+        id: ::prost::alloc::string::String,
+        pagination: ::core::option::Option<
+            super::super::super::cosmos::base::query::v1beta1::PageRequest,
+        >,
+    ) -> Result<QueryVaultNavsResponse, cosmwasm_std::StdError> {
+        QueryVaultNavsRequest { id, pagination }.query(self.querier)
+    }
+    pub fn nav_value(
+        &self,
+        id: ::prost::alloc::string::String,
+        denom: ::prost::alloc::string::String,
+    ) -> Result<QueryNavValueResponse, cosmwasm_std::StdError> {
+        QueryNavValueRequest { id, denom }.query(self.querier)
+    }
+    pub fn vault_payment(
+        &self,
+        id: ::prost::alloc::string::String,
+        source: ::prost::alloc::string::String,
+        external_id: ::prost::alloc::string::String,
+    ) -> Result<QueryVaultPaymentResponse, cosmwasm_std::StdError> {
+        QueryVaultPaymentRequest {
+            id,
+            source,
+            external_id,
+        }
+        .query(self.querier)
+    }
+    pub fn vault_payments(
+        &self,
+        id: ::prost::alloc::string::String,
+        pagination: ::core::option::Option<
+            super::super::super::cosmos::base::query::v1beta1::PageRequest,
+        >,
+    ) -> Result<QueryVaultPaymentsResponse, cosmwasm_std::StdError> {
+        QueryVaultPaymentsRequest { id, pagination }.query(self.querier)
     }
 }

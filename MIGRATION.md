@@ -4,6 +4,24 @@ This guide provides information to assist in migrating contracts over major rele
 
 ___There are also example [contracts](./contracts) that provide concrete examples using the current release.___
 
+## v2.8.0 -> CosmWasm 3
+
+CosmWasm is upgraded to 3.0.10. `cw-storage-plus` is upgraded to 3.0.1. The workspace `cosmwasm-std` feature is `cosmwasm_3_0`.
+
+Contract crates that depend on `cosmwasm-std` with `default-features = false` must enable the `exports` feature, or the wasm entry points are not emitted:
+
+```toml
+cosmwasm-std = { workspace = true, features = ["exports"] }
+```
+
+`StdError` is no longer an enum and no longer implements `std::error::Error`. Replace `generic_err`, `parse_err`, and `not_found` with `StdError::msg`. Drop `#[from]` on `StdError` and implement `From<StdError>` yourself. Error display text is `kind: Other, error: ...`.
+
+`Coin::amount` is `Uint256`. Proto coin amounts are still decimal strings, so `try_proto_to_cosmwasm_coins` and `cosmwasm_to_proto_coins` keep the same shape. Contract fields that store `Uint128` can stay `Uint128`. Narrow a coin amount with `Uint128::try_from(amount)?` before calling `.u128()`.
+
+`#[cw_serde]` and `#[returns(...)]` now require `cw_schema::Schemaifier`. Query responses must be your own message types, not generated proto types. `provwasm_std::shim::{Any, Timestamp, Duration}` implement `Schemaifier`.
+
+Existing `cw_serde` state is unchanged. Coin JSON is still a decimal string.
+
 ## v2.7.1 -> 2.8.0
 
 ### Feature Flags

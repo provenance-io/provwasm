@@ -85,10 +85,17 @@ use thiserror::Error;
 #[derive(Error, Debug)]
 pub enum ContractError {
     #[error("{0}")]
-    Std(#[from] StdError),
+    Std(StdError),
 
     #[error("Unauthorized")]
     Unauthorized {},
+}
+
+/// `StdError` no longer implements `std::error::Error`, so this conversion is manual.
+impl From<StdError> for ContractError {
+    fn from(err: StdError) -> Self {
+        ContractError::Std(err)
+    }
 }
 ```
 
@@ -99,6 +106,7 @@ File: `src/state.rs`
 Defines a singleton (one key, one value) configuration state for the smart contract.
 
 ```rust
+use cosmwasm_schema::cw_schema::Schemaifier;
 use cosmwasm_std::{Addr, Decimal};
 use cw_storage_plus::Item;
 use schemars::JsonSchema;
@@ -107,7 +115,8 @@ use serde::{Deserialize, Serialize};
 pub const CONFIG: Item<State> = Item::new("config");
 
 /// Fields that comprise the smart contract state
-#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema, Schemaifier)]
+#[schemaifier(crate = "::cosmwasm_schema::cw_schema")]
 pub struct State {
     // The required purchase denomination
     pub purchase_denom: String,
@@ -169,7 +178,7 @@ The following imports are required for the init, query and handle functions.
 ```rust
 use cosmwasm_std::{
     coin, entry_point, to_json_binary, BankMsg, Binary, CosmosMsg, Decimal, Deps, DepsMut, Env,
-    MessageInfo, Response, StdError, StdResult,
+    MessageInfo, Response, StdError, StdResult, Uint128,
 };
 use provwasm_std::types::provenance::name::v1::{MsgBindNameRequest, NameRecord};
 
@@ -193,19 +202,17 @@ pub fn instantiate(
     // Ensure no funds were sent with the message
     if !info.funds.is_empty() {
         let err = "purchase funds are not allowed to be sent during init";
-        return Err(StdError::generic_err(err));
+        return Err(StdError::msg(err));
     }
 
     // Ensure there are limits on fees.
     if msg.fee_percent.is_zero() || msg.fee_percent > Decimal::percent(25) {
-        return Err(StdError::generic_err(
-            "fee percent must be > 0.0 and <= 0.25",
-        ));
+        return Err(StdError::msg("fee percent must be > 0.0 and <= 0.25"));
     }
 
     // Ensure the merchant address is not also the fee collection address
     if msg.merchant_address.eq(&info.sender.to_string()) {
-        return Err(StdError::generic_err(
+        return Err(StdError::msg(
             "merchant address can't be the fee collection address",
         ));
     }
@@ -250,7 +257,7 @@ pub fn instantiate(
                 .add_attribute("action", "init");
             Ok(res)
         }
-        (_, _) => Err(StdError::generic_err("Invalid contract name")),
+        (_, _) => Err(StdError::msg("Invalid contract name")),
     }
 }
 ```
@@ -302,7 +309,7 @@ fn try_purchase(
     // Ensure funds were sent with the message
     if info.funds.is_empty() {
         let err = "no purchase funds sent";
-        return Err(ContractError::Std(StdError::generic_err(err)));
+        return Err(ContractError::Std(StdError::msg(err)));
     }
 
     // Load state
@@ -313,7 +320,7 @@ fn try_purchase(
     for funds in info.funds.iter() {
         if funds.amount.is_zero() || funds.denom != state.purchase_denom {
             let err = format!("invalid purchase funds: {}{}", funds.amount, funds.denom);
-            return Err(ContractError::Std(StdError::generic_err(err)));
+            return Err(ContractError::Std(StdError::msg(err)));
         }
     }
 
@@ -323,11 +330,12 @@ fn try_purchase(
         amount: info
             .funds
             .iter()
-            .map(|sent| {
-                let fees = sent.amount.mul_floor(fee_pct).u128();
-                coin(sent.amount.u128() - fees, sent.denom.clone())
+            .map(|sent| -> StdResult<_> {
+                let fees = Uint128::try_from(sent.amount.mul_floor(fee_pct))?;
+                let gross = Uint128::try_from(sent.amount)?;
+                Ok(coin(gross.u128() - fees.u128(), sent.denom.clone()))
             })
-            .collect(),
+            .collect::<StdResult<Vec<_>>>()?,
     });
 
     // Calculate fees and create bank transfers to the fee collection account
@@ -336,8 +344,11 @@ fn try_purchase(
         amount: info
             .funds
             .iter()
-            .map(|sent| coin(sent.amount.mul_floor(fee_pct).u128(), sent.denom.clone()))
-            .collect(),
+            .map(|sent| -> StdResult<_> {
+                let fees = Uint128::try_from(sent.amount.mul_floor(fee_pct))?;
+                Ok(coin(fees.u128(), sent.denom.clone()))
+            })
+            .collect::<StdResult<Vec<_>>>()?,
     });
 
     // Return a response that will dispatch the transfers to the bank module and emit events.

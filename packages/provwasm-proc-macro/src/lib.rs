@@ -131,15 +131,13 @@ pub fn derive_cosmwasm_ext(input: TokenStream) -> TokenStream {
             fn try_from(binary: cosmwasm_std::Binary) -> ::std::result::Result<Self, Self::Error> {
                 use ::prost::Message;
                 Self::decode(&binary[..]).map_err(|e| {
-                    cosmwasm_std::StdError::parse_err(
+                    cosmwasm_std::StdError::msg(format!(
+                        "Unable to decode {}: \n  - base64: {}\n  - bytes array: {:?}\n\n{:?}",
                         stringify!(#ident),
-                        format!(
-                            "Unable to decode binary: \n  - base64: {}\n  - bytes array: {:?}\n\n{:?}",
-                            binary,
-                            binary.to_vec(),
-                            e
-                        )
-                    )
+                        binary,
+                        binary.to_vec(),
+                        e
+                    ))
                 })
             }
         }
@@ -150,14 +148,12 @@ pub fn derive_cosmwasm_ext(input: TokenStream) -> TokenStream {
             fn try_from(binary: Vec<u8>) -> ::std::result::Result<Self, Self::Error> {
                 use ::prost::Message;
                 Self::decode(&binary[..]).map_err(|e| {
-                    cosmwasm_std::StdError::parse_err(
+                    cosmwasm_std::StdError::msg(format!(
+                        "Unable to decode {}:\n  - bytes array: {:?}\n\n{:?}",
                         stringify!(#ident),
-                        format!(
-                            "Unable to decode binary:\n  - bytes array: {:?}\n\n{:?}",
-                            binary,
-                            e
-                        )
-                    )
+                        binary,
+                        e
+                    ))
                 })
             }
         }
@@ -168,9 +164,9 @@ pub fn derive_cosmwasm_ext(input: TokenStream) -> TokenStream {
             fn try_from(result: cosmwasm_std::SubMsgResult) -> ::std::result::Result<Self, Self::Error> {
                 result
                     .into_result()
-                    .map_err(|e| cosmwasm_std::StdError::generic_err(e))?
+                    .map_err(cosmwasm_std::StdError::msg)?
                     .data
-                    .ok_or_else(|| cosmwasm_std::StdError::not_found("cosmwasm_std::SubMsgResult::<T>"))?
+                    .ok_or_else(|| cosmwasm_std::StdError::msg("cosmwasm_std::SubMsgResult data not found"))?
                     .try_into()
             }
         }

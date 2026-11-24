@@ -2,8 +2,6 @@ use provwasm_proc_macro::CosmwasmExt;
 /// StoreKVPair is a KVStore KVPair used for listening to state changes (Sets and Deletes)
 /// It optionally includes the StoreKey for the originating KVStore and a Boolean flag to distinguish between Sets and
 /// Deletes
-///
-/// Since: cosmos-sdk 0.43
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.store.v1beta1.StoreKVPair")]
 pub struct StoreKvPair {

@@ -119,8 +119,6 @@ pub struct QueryAllowancesResponse {
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageResponse>,
 }
 /// QueryAllowancesByGranterRequest is the request type for the Query/AllowancesByGranter RPC method.
-///
-/// Since: cosmos-sdk 0.46
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.feegrant.v1beta1.QueryAllowancesByGranterRequest")]
 #[proto_query(
@@ -135,8 +133,6 @@ pub struct QueryAllowancesByGranterRequest {
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageRequest>,
 }
 /// QueryAllowancesByGranterResponse is the response type for the Query/AllowancesByGranter RPC method.
-///
-/// Since: cosmos-sdk 0.46
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.feegrant.v1beta1.QueryAllowancesByGranterResponse")]
 pub struct QueryAllowancesByGranterResponse {
@@ -182,8 +178,6 @@ pub struct MsgRevokeAllowance {
 #[proto_message(type_url = "/cosmos.feegrant.v1beta1.MsgRevokeAllowanceResponse")]
 pub struct MsgRevokeAllowanceResponse {}
 /// MsgPruneAllowances prunes expired fee allowances.
-///
-/// Since cosmos-sdk 0.50
 #[derive(Clone, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.feegrant.v1beta1.MsgPruneAllowances")]
 pub struct MsgPruneAllowances {
@@ -192,8 +186,6 @@ pub struct MsgPruneAllowances {
     pub pruner: ::prost::alloc::string::String,
 }
 /// MsgPruneAllowancesResponse defines the Msg/PruneAllowancesResponse response type.
-///
-/// Since cosmos-sdk 0.50
 #[derive(Clone, Copy, PartialEq, Eq, ::prost::Message, ::schemars::JsonSchema, CosmwasmExt)]
 #[proto_message(type_url = "/cosmos.feegrant.v1beta1.MsgPruneAllowancesResponse")]
 pub struct MsgPruneAllowancesResponse {}
